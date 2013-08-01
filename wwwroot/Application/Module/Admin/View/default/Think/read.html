@@ -71,12 +71,12 @@ function delPicComplete (data,status)
 function selectColumn(){
 var isMSIE= (navigator.appName == "Microsoft Internet Explorer");
     if (isMSIE){
-	 var result= PopModalWindow('__APP__/Admin/Column/treeSelect/',268,365);
+	 var result= PopModalWindow('__MODULE__/Admin/Column/treeSelect/',268,365);
 	 if(typeof(result) == "undefined") return;
 		$('columnName').value=result[0][0];
 		$('column_id').value=result[0][1];
     }else{
-		window.open('__APP__/Admin/Column/treeSelect/', "pop", "scrollbars=no,dialog=yes,modal=yes,width=268,height=355,resizable=no" );
+		window.open('__MODULE__/Admin/Column/treeSelect/', "pop", "scrollbars=no,dialog=yes,modal=yes,width=268,height=355,resizable=no" );
     }
 }
 
@@ -116,7 +116,7 @@ function delPic(name){
 <eq name="model.name" value="auth">
 function resetPwd(){
 var pass	 =	 $('resetPwd').value;
-ThinkAjax.send('__APP__/User/resetPwd/','ajax=1&id={$vo.id}&password='+encodeURIComponent(pass));
+ThinkAjax.send('__MODULE__/User/resetPwd/','ajax=1&id={$vo.id}&password='+encodeURIComponent(pass));
 }
 </eq>
 //-->

@@ -5,7 +5,7 @@
 //-->
 </SCRIPT>
 <div class="content">
-<div class="title">编辑模型 <span class="normal">[ <A HREF="__URL__">返回列表</A> <eq name="vo.model_type" value="0"><a href="__APP__/Think/add/_module/{$vo.name}/preview/1">表单预览</a> <a href="__APP__/Event/index/model_id/{$vo.id}" target="_blank">事件管理</a> <a href="__APP__/Flow/index/model_id/{$vo.id}" target="_blank">流程管理</a></eq> <a href="__APP__/Think/index/_module/{$vo.name}" target="_blank">数据管理</a> ]</span></div>
+<div class="title">编辑模型 <span class="normal">[ <A HREF="__URL__">返回列表</A> <eq name="vo.model_type" value="0"><a href="__MODULE__/Think/add/_module/{$vo.name}/preview/1">表单预览</a> <a href="__MODULE__/Event/index/model_id/{$vo.id}" target="_blank">事件管理</a> <a href="__MODULE__/Flow/index/model_id/{$vo.id}" target="_blank">流程管理</a></eq> <a href="__MODULE__/Think/index/_module/{$vo.name}" target="_blank">数据管理</a> ]</span></div>
 <form METHOD=POST id="form1" action="__URL__/update/" >
 <table cellpadding=3 cellspacing=3>
 <tr>
@@ -123,7 +123,7 @@
 <div class="fLeft hMargin">
 	<table class="select" style="width:265px" id="attr" >
 <tr><td height="3" colspan="1" class="topTd" ></td></tr>
-<tr><th class="tCenter">属性列表 <span class="normal">[ <a href="__APP__/Attribute/add/model_id/{$vo.id}" target="_blank">新 增</a> | <a href="__APP__/Attribute/index/model_id/{$vo.id}" target="_blank">管 理</a> ]</span>
+<tr><th class="tCenter">属性列表 <span class="normal">[ <a href="__MODULE__/Attribute/add/model_id/{$vo.id}" target="_blank">新 增</a> | <a href="__MODULE__/Attribute/index/model_id/{$vo.id}" target="_blank">管 理</a> ]</span>
 </th></tr>
 <tr><td >
 <select  name="attribute_list[]" class="hMargin medium multiSelect" multiple="multiple" size="12">

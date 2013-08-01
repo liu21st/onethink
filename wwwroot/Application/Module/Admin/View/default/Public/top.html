@@ -16,7 +16,7 @@
 <ul>
 <li class="space"><span><a href="#" onclick="sethighlight(0); parent.menu.location='__MODULE__/Public/menu/title/首页';parent.main.location='__MODULE__/Public/main/';return false;">首页</a></span></li>
 <volist name="nodeGroupList" id="node">
-<li class="space"><span><a href="#" onclick="sethighlight({$i}); parent.menu.location='<neq name="node.url" value="">__APP__/{$node.url}/title/{$node.title}<else/>__MODULE__/Public/menu/tag/{$node.id}/title/{$node.title}</neq>';return false;">{$node.title}</a></span></li>
+<li class="space"><span><a href="#" onclick="sethighlight({$i}); parent.menu.location='<neq name="node.url" value="">__MODULE__/{$node.url}/title/{$node.title}<else/>__MODULE__/Public/menu/tag/{$node.id}/title/{$node.title}</neq>';return false;">{$node.title}</a></span></li>
 </volist>
 </ul>
 </div>

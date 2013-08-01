@@ -187,7 +187,7 @@ class PublicController extends CommonController {
             $login->login_ip	=	get_client_ip();
             $loginId    =   $login->add();
             $_SESSION['loginId']		=	$loginId;
-			$this->success('登录成功！',__APP__.'/');
+			$this->success('登录成功！',__MODULE__.'/');
 		}
 	}
 
@@ -235,7 +235,7 @@ class PublicController extends CommonController {
         }else {
 			$User->password	=	pwdHash($_POST['password']);
 			$User->save();
-			$this->success('密码修改成功！',__APP__.'/Public/main');
+			$this->success('密码修改成功！',__MODULE__.'/Public/main');
          }
     }
 
