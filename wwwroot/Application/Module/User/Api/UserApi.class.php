@@ -14,7 +14,7 @@ class UserApi extends Api{
 	 * 构造方法，实例化操作模型
 	 */
 	protected function _init(){
-		$this->model = D('Uc/UcenterMember', UC_API_TYPE);
+		$this->model = D('User/UcenterMember', UC_API_TYPE);
 	}
 
 	/**
