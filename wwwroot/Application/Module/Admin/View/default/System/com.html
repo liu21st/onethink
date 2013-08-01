@@ -1,0 +1,49 @@
+<include file="Public:header" />
+
+<div id="main" class="main" >
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+function buildCom(){
+	ThinkAjax.sendForm('form1','__URL__/buildCom',saveComplete);
+}
+function saveComplete(data,status){
+	if (status==1)
+	{
+		$('form1').reset();
+	}
+}
+//-->
+</SCRIPT>
+<div class="content">
+<div class="title">组件生成器 [ <A HREF="__URL__">返回</A> ] 	</div>
+<FORM METHOD=POST id="form1" >
+<input type="hidden" name="ajax" value="1">
+<TABLE cellpadding=0 cellspacing=0 class="list" id="modelBase">
+<tr><td height="5" colspan="10" class="topTd" ></td></tr>
+<TR class="row" >
+	<Th class="tRight" style="width:100px" >项目选择</Th>
+	<Td class="" ><SELECT  name="appName" class="hMargin medium">
+	<option >选择项目</option>
+	<volist name="apps" id="app" >
+	<option value="{$app.name},{$app.id}" >{$app.title}</option>
+	</volist>
+	</SELECT></Td>
+</TR>
+<TR class="row" >
+	<Th class="tRight" style="width:100px" >组件名称</Th>
+	<Td class="" ><INPUT TYPE="text" class="medium bLeftRequire"  NAME="name"> 必须是英文</Td>
+</TR>
+<TR class="row" >
+	<Th class="tRight" >组件描述</Th>
+	<Td class=""><textarea name="title" class="large bLeftRequire" rows="5" cols=""></textarea></Td>
+	</TR>
+<TR class="row" >
+	<Th class="tRight"  ></Th>
+	<Td class="" ><input type="hidden" name="status" value="1"><INPUT TYPE="button" value="保 存" onclick="buildCom()" class="button">
+	<INPUT TYPE="reset" class="button" value="重 置" ></Td>
+</TR>
+<tr><td height="5" colspan="10" class="bottomTd"></td></tr>
+</TABLE>
+</FORM>
+</div>
+</div>

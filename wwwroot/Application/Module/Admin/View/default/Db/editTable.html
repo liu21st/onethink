@@ -1,0 +1,90 @@
+<div class="content">
+<div class="title">修改数据表 <span style="font-weight:normal">[ <a href="__URL__/adv">{$Think.session.useDb}</a> ]  [ <a href="__URL__">返回列表</a> ]</span></div>
+<div id="result" class="result none"></div>
+<form id="upload" METHOD=POST action="__URL__/updateTable/" onsubmit="return CheckForm(this);" >
+<table cellpadding=0 cellspacing=0  class="list" width="100%">
+<tr><td height="5" colspan="10" class="topTd" ></td></tr>
+<tr class="row">
+	<th class="tRight" style="width:100px" >数据表名：</th>
+	<td  class="tLeft"><input type="text" class="medium"  name="Name" value="{$vo.Name}"><input type="hidden" name="old_name" value="{$vo.Name}" /> </td>
+</tr>
+<tr class="row">
+	<th class="tRight" >类型：</th>
+	<td  class="tLeft"><select name="Engine">
+    <option value="MyISAM" <eq name="vo.Engine" value="MyISAM">selected</eq> title="Default engine as of MySQL 3.23 with great performance">
+        MyISAM
+    </option>
+    <option value="MEMORY" <eq name="vo.Engine" value="MEMORY">selected</eq> title="Hash based, stored in memory, useful for temporary tables">
+        MEMORY
+    </option>
+    <option value="InnoDB" <eq name="vo.Engine" value="InnoDB">selected</eq> title="Supports transactions, row-level locking, and foreign keys" >
+        InnoDB
+    </option>
+    <option value="BLACKHOLE" <eq name="vo.Engine" value="BLACKHOLE">selected</eq> title="/dev/null storage engine (anything you write to it disappears)">
+        BLACKHOLE
+    </option>
+    <option value="EXAMPLE" <eq name="vo.Engine" value="EXAMPLE">selected</eq> title="Example storage engine">
+        EXAMPLE
+    </option>
+    <option value="ARCHIVE" <eq name="vo.Engine" value="ARCHIVE">selected</eq> title="Archive storage engine">
+        ARCHIVE
+    </option>
+    <option value="FEDERATED" <eq name="vo.Engine" value="FEDERATED">selected</eq> title="Federated MySQL storage engine">
+        FEDERATED
+    </option>
+    <option value="MRG_MYISAM"<eq name="vo.Engine" value="MRG_MYISAM">selected</eq>  title="Collection of identical MyISAM tables">
+        MRG_MYISAM
+    </option>
+</select></td>
+</tr>
+<tr class="row">
+	<th class="tRight" style="width:100px" >表注释：</th>
+	<td  class="tLeft"><input type="text" class="large"  name="Comment" value="{$vo.Comment}"> </td>
+</tr>
+<tr class="row">
+	<th class="tRight" style="width:100px" >整理：</th>
+	<td class="tLeft tTop">
+	<select name="Charset">
+    <option value="utf8" > UTF8 </option>
+    <option value="gb2312" > GB2312 </option>
+    <option value="gbk" > GBK </option>
+   </select>
+<select name="Collation">
+                        <option value="">整理</option>
+                        <option value="">&nbsp;</option>
+                        <optgroup label="binary" title="Binary pseudo charset">
+                            <option value="binary" title="二进制">binary</option>
+                        </optgroup>
+                        <optgroup label="gb2312" title="GB2312 Simplified Chinese">
+                            <option value="gb2312_bin" title="简体中文, 二进制">gb2312_bin</option>
+                            <option value="gb2312_chinese_ci" title="简体中文, 不区分大小写">gb2312_chinese_ci</option>
+                        </optgroup>
+                        <optgroup label="gbk" title="GBK Simplified Chinese">
+                            <option value="gbk_bin" title="简体中文, 二进制">gbk_bin</option>
+                            <option value="gbk_chinese_ci" title="简体中文, 不区分大小写">gbk_chinese_ci</option>
+                        </optgroup>
+                        <optgroup label="latin1" title="cp1252 West European">
+                            <option value="latin1_bin" title="西欧 (多语言), 二进制">latin1_bin</option>
+                            <option value="latin1_danish_ci" title="丹麦语, 不区分大小写">latin1_danish_ci</option>
+                            <option value="latin1_general_ci" title="西欧 (多语言), 不区分大小写">latin1_general_ci</option>
+                            <option value="latin1_general_cs" title="西欧 (多语言), 区分大小写">latin1_general_cs</option>
+                            <option value="latin1_german1_ci" title="德语 (字典), 不区分大小写">latin1_german1_ci</option>
+                            <option value="latin1_german2_ci" title="德语 (电话本), 不区分大小写">latin1_german2_ci</option>
+                            <option value="latin1_spanish_ci" title="西班牙语, 不区分大小写">latin1_spanish_ci</option>
+                            <option value="latin1_swedish_ci" title="瑞典语, 不区分大小写">latin1_swedish_ci</option>
+                        </optgroup>
+                        <optgroup label="utf8" title="UTF-8 Unicode">
+                            <option value="utf8_bin" title="Unicode (多语言), 二进制">utf8_bin</option>
+                            <option value="utf8_unicode_ci" title="Unicode (多语言), 不区分大小写">utf8_unicode_ci</option>
+                        </optgroup>
+                    </select>
+</td>
+<tr>
+<th class="tRight" style="width:100px" ></th>
+<td><input type="submit" value="修 改" class="small button "></td>
+</tr>
+</tr>
+<tr><td height="5" colspan="10" class="bottomTd"></td></tr>
+</table>
+</form>
+</div>

@@ -1,0 +1,127 @@
+<tagLib name="html" />
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<TITLE>类别挑选</title>
+<load href ="../Public/css/style.css" />
+<import file="Js.Util.JTree" /> 
+<script language="JavaScript">
+<!--
+function ok(){
+	var isMSIE= (navigator.appName == "Microsoft Internet Explorer");  
+		var result = new Array();
+		result[0]	= new Array();
+		result[0][0]	=	document.getElementById('Name').value;
+		result[0][1]	=	document.getElementById('Id').value;
+		result[0][2]	=	document.getElementById('Level').value;
+    if (isMSIE){  
+		returnValue=result;
+	}else{
+		window.opener.document.form1.columnName.value	=	result[0][0];
+		window.opener.document.form1.column_id.value	=	result[0][1];	
+	}
+	top.close(); 
+}
+
+//-->
+</script>
+<base target="self" />
+</head>
+
+<body style="margin:0;overflow:hidden">
+<div id="menu" class="menu">
+<table class="list shadow" width="90%" cellpadding=0 cellspacing=0 >
+<tr>
+	<td height='5' colspan=7 class="topTd" ></td>
+</tr>
+<tr class="row" >
+	<th class="tCenter space"><img src="../Public/images/home.gif" width="16" height="16" border="0" alt="" align="absmiddle"> 内容  </th>
+</tr>
+<tr class="row " >
+	<td>
+	<div id="showTree"></div></td>
+</tr>
+<tr><td height="5" colspan="2" class="bottomTd" ></td></tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript">
+<!--
+	function setValueById(pObjID,pValue){
+		var obj=document.getElementById(pObjID);
+		try{
+			obj.value=pValue;
+		}catch(e){
+			alert("控件："+pObjID+"　不存在，或没有value属性")
+		}
+	}
+	
+	function $(pID){
+		return document.getElementById(pID);
+	}
+	
+	function getNodeAtt(pNode,pAtt){
+		try{
+			return pNode.attributes.getNamedItem(pAtt).nodeValue;
+		}catch(e){
+			//alert("前台调试错误：\n"+e.message+"\n当前节点不存在: "+pAtt+"这个属性");
+		}
+	}
+	parm	=	location.href.replace('http://'+location.hostname+'__ACTION__','');
+	var myTree=new JTree("showTree","__URL__/tree/title/{:urlencode('选择分类')}/caption/title/"+parm,false);
+	myTree.setPicPath("__ROOT__/Public/Images/JTreePic/")
+	myTree.onclick=function(){
+		if(getNodeAtt(myTree.selectNode,"id")==undefined){
+			if (myTree.EXPANDALL == false)
+			{
+				myTree.expand(true);
+			}else {
+				myTree.expand(false);
+			}
+			
+		}else {
+		parent.main.document.location = '__APP__/Article/index/module/'+getNodeAtt(myTree.selectNode,"id");
+		}
+	}
+	myTree.ondblclick=function(){
+	if(getNodeAtt(myTree.selectNode,"id")!=undefined){
+		ok();
+		}
+	}
+	myTree.CAPTIONATT="caption";
+	myTree.create();
+
+	function vControl(pChoice,pParm){
+	switch(pChoice){
+		case "REPLACE":
+			var pattern=/\([0-9]+\)$/;
+				return pParm.replace(pattern,"");
+			break;
+		case "FINDNODE":
+			var obj;
+			for(var i=0;obj=pParm[i];i++){
+				alert(obj.caption);
+				if(obj.caption==$("nodeCaption").value)
+					obj.click();
+			}
+			break;
+	}
+}
+
+function findNode(pTree){
+	var obj;
+	for(var i=0;obj=pTree[i];i++){
+		str = $("nodeCaption").value;
+		if(obj.caption.indexOf(str)!='-1'){
+			obj.click();
+			//obj.parentTreeNode.expand(true)
+			myTree.clickItem.parentTreeNode.expand(true);
+			return true;
+		}
+		findNode(obj.treeNodes)
+	}
+}
+
+-->
+</script>
+</html>

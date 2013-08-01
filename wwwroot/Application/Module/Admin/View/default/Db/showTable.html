@@ -1,0 +1,228 @@
+<load  file="Js.PHP.php" />
+<script language="JavaScript">
+<!--
+function deleteRow(e){
+	var event = e || event;
+     var Elm  =  event.target || event.srcElement; 
+        while(Elm  &&  Elm.tagName  !=  "TR")   
+        {   
+            Elm  =  Elm.parentElement;   
+        } 
+        var intThisIndex = Elm.rowIndex; 
+        Elm.parentElement.deleteRow(intThisIndex);  
+}
+
+function addField(){
+    var row=$('tbl').insertRow(-1);
+	var cell = document.createElement("td");
+	cell.innerHTML	=	'<input type="text" class="small"  name="name[]">';
+	cell.align="center";
+	row.appendChild(cell); 
+	var cell = document.createElement("td");
+	cell.innerHTML	=	'<select class="medium" name="type[]"><option value="VARCHAR" selected="selected">VARCHAR</option><option value="TINYINT">TINYINT</option><option value="TEXT">TEXT</option><option value="DATE">DATE</option><option value="SMALLINT">SMALLINT</option>       <option value="MEDIUMINT">MEDIUMINT</option><option value="INT">INT</option><option value="BIGINT">BIGINT</option><option value="FLOAT">FLOAT</option><option value="DOUBLE">DOUBLE</option><option value="DECIMAL">DECIMAL</option><option value="DATETIME">DATETIME</option><option value="TIMESTAMP">TIMESTAMP</option><option value="TIME">TIME</option><option value="YEAR">YEAR</option><option value="CHAR">CHAR</option><option value="TINYBLOB">TINYBLOB</option><option value="TINYTEXT">TINYTEXT</option>   <option value="BLOB">BLOB</option><option value="MEDIUMBLOB">MEDIUMBLOB</option><option value="MEDIUMTEXT">MEDIUMTEXT</option><option value="LONGBLOB">LONGBLOB</option><option value="LONGTEXT">LONGTEXT</option><option value="ENUM">ENUM</option><option value="SET">SET</option>     <option value="BOOL">BOOL</option><option value="BINARY">BINARY</option><option value="VARBINARY">VARBINARY</option></select>';
+	cell.align="center";
+	row.appendChild(cell); 
+	var cell = document.createElement("td");
+	cell.innerHTML	=	'<input type="text" class="small"  name="length[]">';
+	cell.align="center";
+	row.appendChild(cell); 
+	var cell = document.createElement("td");
+	cell.innerHTML	=	'<select class="medium" name="attribute[]"><option value="" selected="selected"></option><option value="UNSIGNED">UNSIGNED</option>            <option value="UNSIGNED ZEROFILL">UNSIGNED ZEROFILL</option><option value="ON UPDATE CURRENT_TIMESTAMP">ON UPDATE CURRENT_TIMESTAMP</option></select>';
+	cell.align="center";
+	row.appendChild(cell); 
+	var cell = document.createElement("td");
+	cell.innerHTML	=	'<select class="small" name="null[]"><option value="NULL">允许</option><option value="NOT NULL">不允许</option></select>';
+	cell.align="center";
+	row.appendChild(cell); 
+	var cell = document.createElement("td");
+	cell.innerHTML	=	'<input type="text" class="small"  name="default[]">';
+	cell.align="center";
+	row.appendChild(cell); 
+	var cell = document.createElement("td");
+	cell.innerHTML	=	'<select class="small" name="autoinc[]"><option value=""></option><option value="AUTO_INCREMENT">自动增长</option></select>';
+	cell.align="center";
+	row.appendChild(cell); 
+	var cell = document.createElement("td");
+	cell.innerHTML	=	'<select class="small" name="extra[]"><option value=""></option><option value="PRIMARY KEY">主键</option><option value="INDEX">索引</option><option value="UNIQUE">唯一</option></select>';
+	cell.align="center";
+	row.appendChild(cell); 
+	var cell = document.createElement("td");
+	cell.innerHTML	=	'<input type="text" class="small"  name="comment[]">';
+	cell.align="center";
+	row.appendChild(cell); 
+	var cell = document.createElement("td");
+	cell.innerHTML	=	'<input type="text" class="small"  name="after[]">';
+	cell.align="center";
+	row.appendChild(cell); 
+	var cell = document.createElement("td");
+	cell.innerHTML	=	'<img src="../Public/images/del.gif"  style="cursor:hand"  onclick="deleteRow(event);" width="20" height="20" border="0" alt="删除" align="absmiddle">';
+	cell.align="center";
+	row.appendChild(cell); 
+}
+function editField(field){
+	var data = list[field];
+    var row=$('modifyTable').insertRow(-1);
+	var cell = document.createElement("td");
+	cell.innerHTML	=	'<input type="hidden" name="change[]" value="'+data['Field']+'"><input type="text" class="small"  name="name[]" value="'+data['Field']+'">';
+	cell.align="center";
+	row.appendChild(cell); 
+	var cell = document.createElement("td");
+	cell.innerHTML	=	'<select class="medium" name="type[]"><option value="VARCHAR" '+(data['Type']=='VARCHAR'?'selected':'')+' >VARCHAR</option><option value="TINYINT" '+(data['Type']=='TINYINT'?'selected':'')+' >TINYINT</option><option value="TEXT" '+(data['Type']=='TEXT'?'selected':'')+' >TEXT</option><option value="DATE" '+(data['Type']=='DATE'?'selected':'')+' >DATE</option><option value="SMALLINT" '+(data['Type']=='SMALLINT'?'selected':'')+' >SMALLINT</option>       <option value="MEDIUMINT" '+(data['Type']=='MEDIUMINT'?'selected':'')+' >MEDIUMINT</option><option value="INT" '+(data['Type']=='INT'?'selected':'')+' >INT</option><option value="BIGINT" '+(data['Type']=='BIGINT'?'selected':'')+' >BIGINT</option><option value="FLOAT" '+(data['Type']=='FLOAT'?'selected':'')+' >FLOAT</option><option value="DOUBLE" '+(data['Type']=='DOUBLE'?'selected':'')+' >DOUBLE</option><option value="DECIMAL" '+(data['Type']=='DECIMAL'?'selected':'')+' >DECIMAL</option><option value="DATETIME" '+(data['Type']=='DATETIME'?'selected':'')+' >DATETIME</option><option value="TIMESTAMP" '+(data['Type']=='TIMESTAMP'?'selected':'')+' >TIMESTAMP</option><option value="TIME" '+(data['Type']=='TIME'?'selected':'')+' >TIME</option><option value="YEAR" '+(data['Type']=='YEAR'?'selected':'')+' >YEAR</option><option value="CHAR" '+(data['Type']=='CHAR'?'selected':'')+' >CHAR</option><option value="TINYBLOB" '+(data['Type']=='TINYBLOB'?'selected':'')+' >TINYBLOB</option><option value="TINYTEXT" '+(data['Type']=='TINYTEXT'?'selected':'')+' >TINYTEXT</option>   <option value="BLOB" '+(data['Type']=='BLOB'?'selected':'')+' >BLOB</option><option value="MEDIUMBLOB" '+(data['Type']=='MEDIUMBLOB'?'selected':'')+' >MEDIUMBLOB</option><option value="MEDIUMTEXT" '+(data['Type']=='MEDIUMTEXT'?'selected':'')+' >MEDIUMTEXT</option><option value="LONGBLOB" '+(data['Type']=='LONGBLOB'?'selected':'')+' >LONGBLOB</option><option value="LONGTEXT" '+(data['Type']=='LONGTEXT'?'selected':'')+' >LONGTEXT</option><option value="ENUM" '+(data['Type']=='ENUM'?'selected':'')+' >ENUM</option><option value="SET" '+(data['Type']=='SET'?'selected':'')+' >SET</option>     <option value="BOOL" '+(data['Type']=='BOOL'?'selected':'')+' >BOOL</option><option value="BINARY" '+(data['Type']=='BINARY'?'selected':'')+' >BINARY</option><option value="VARBINARY" '+(data['Type']=='VARBINARY'?'selected':'')+' >VARBINARY</option></select>';
+	cell.align="center";
+	row.appendChild(cell); 
+	var cell = document.createElement("td");
+	cell.innerHTML	=	'<input type="text" class="small"  name="length[]" value="'+data['Length']+'">';
+	cell.align="center";
+	row.appendChild(cell); 
+	var cell = document.createElement("td");
+	cell.innerHTML	=	'<select class="medium" name="attribute[]"><option value="" ></option><option '+(data['Sign']=='UNSIGNED'?'selected':'')+' value="UNSIGNED">UNSIGNED</option>            <option '+(data['Sign']=='UNSIGNED ZEROFILL'?'selected':'')+' value="UNSIGNED ZEROFILL">UNSIGNED ZEROFILL</option><option '+(data['Sign']=='ON UPDATE CURRENT_TIMESTAMP'?'selected':'')+'  value="ON UPDATE CURRENT_TIMESTAMP">ON UPDATE CURRENT_TIMESTAMP</option></select>';
+	cell.align="center";
+	row.appendChild(cell); 
+	var cell = document.createElement("td");
+	cell.innerHTML	=	'<select class="small" name="null[]"><option '+(data['Null']=='YES'?'selected':'')+' value="NULL">允许</option><option '+(data['Null']=='NO'?'selected':'')+' value="NOT NULL">不允许</option></select>';
+	cell.align="center";
+	row.appendChild(cell); 
+	var cell = document.createElement("td");
+	cell.innerHTML	=	'<input type="text" class="small"  name="default[]" value="'+data['Default']+'">';
+	cell.align="center";
+	row.appendChild(cell); 
+	var cell = document.createElement("td");
+	cell.innerHTML	=	'<select class="small" name="autoinc[]"><option value=""></option><option value="AUTO_INCREMENT">自动增长</option></select>';
+	cell.align="center";
+	row.appendChild(cell); 
+	var cell = document.createElement("td");
+	cell.innerHTML	=	'<select class="small" name="extra[]"><option value=""></option><option '+(data['Key']=='PRI'?'selected':'')+' value="PRIMARY KEY">主键</option><option '+(data['Key']=='MUL'?'selected':'')+'  value="INDEX">索引</option><option '+(data['Key']=='UNI'?'selected':'')+' value="UNIQUE">唯一</option></select>';
+	cell.align="center";
+	row.appendChild(cell); 
+	var cell = document.createElement("td");
+	cell.innerHTML	=	'<input type="text" class="small"  name="comment[]" value="'+data['Comment']+'">';
+	cell.align="center";
+	row.appendChild(cell); 
+	var cell = document.createElement("td");
+	cell.innerHTML	=	'<img src="../Public/images/del.gif"  style="cursor:hand"  onclick="deleteRow(event);" width="20" height="20" border="0" alt="删除" align="absmiddle">';
+	cell.align="center";
+	row.appendChild(cell); 
+}
+function clearTable(){
+	$('form1').reset();
+}
+function dealField(type){
+	field = getSelectCheckboxValues();
+	if (!field)
+	{ alert('请选择项目！');return false;
+	}
+	ThinkAjax.send('__URL__/dealField/','ajax=1&table={$Think.get.table}&type='+type+'&field='+field);
+}
+
+function saveField(){
+	ThinkAjax.sendForm('form1','__URL__/addField',SetComplete);
+}
+function modifyField(){
+	ThinkAjax.sendForm('form2','__URL__/updateField',SetComplete);
+}
+function saveComplete(data,status){
+	if (status==1)
+	{
+		clearTable();
+	}
+}
+function setPri(name){
+ThinkAjax.send('__URL__/addPrimary','ajax=1&table={$Think.get.table}&name='+name,SetComplete);
+}
+function setUnique(name){
+ThinkAjax.send('__URL__/addUnique','ajax=1&table={$Think.get.table}&name='+name,SetComplete);
+}
+function setIndex(name){
+ThinkAjax.send('__URL__/addIndex','ajax=1&table={$Think.get.table}&name='+name,SetComplete);
+}
+function setFulltext(name){
+ThinkAjax.send('__URL__/addFulltext','ajax=1&table={$Think.get.table}&name='+name,SetComplete);
+}
+function dropField(name){
+	ThinkAjax.send('__URL__/dropField','ajax=1&table={$Think.get.table}&name='+name,SetComplete);
+}
+function dropIndex(name){
+	ThinkAjax.send('__URL__/dealField','ajax=1&table={$Think.get.table}&type=drop&field='+name,SetComplete);
+}
+function SetComplete(data,status){
+	if (status==1)
+	{
+	window.setTimeout(function (){	window.location.reload();},2000);
+	}
+}
+//-->
+</script>
+<div class="content">
+<div class="title">查看数据表结构：<span style="font-weight:normal">[ <a href="__URL__/adv/">{$Think.session.useDb}</a>.<a href="__URL__/selectTable/table/{$Think.get.table}">{$Think.get.table}</a> ]  [ <a href="__URL__">返回列表</a> ]</span></div>
+<div id="result" class="result none"></div>
+<!--  功能操作区域  -->
+
+<div class="cBoth">
+<fieldset  id="queryBox" class="cBoth none" >
+<legend style="color:gray">执行结果 <span class="blue" id="resultNum"></span> </legend>
+<div id="SqlBench" style="overflow:auto;width:100%;height:100%">
+<table cellpadding=0 cellspacing=0 id='table1' class="list" >
+</table>
+</fieldset>
+</div>
+<div><input type="button" value="删除" onclick="dealField('del')" class="button"> <input type="button" value="唯一" onclick="dealField('unique')" class="button"> <input type="button" class="button" value="索引" onclick="dealField('index')"> <input type="button" class="button" value="全文" onclick="dealField('fulltext')"></div>
+<html:list id="checkList" name="data" style="list" checkbox="true" datasource="list" action="true" pk="Field" show="Field:字段,Type:类型,Length:长度,Sign:属性,Null:Null,Key:主键,Default:默认,Extra:额外,Comment:注释" actionlist="editField:修改,dropField:删除,setPri:主键,setUnique:唯一,setIndex:索引,setFulltext:全文" /> 
+
+<form method=post id="form_index" >
+<input type="hidden" name="ajax" value="1">
+<input type="hidden" name="table" value="{$Think.get.table}">
+<div class="title">索引信息 </div>
+<html:list id="chList" name="data" style="list" checkbox="0" datasource="indexList" action="true" pk="Key_name" show="Key_name:键名,Index_type:类型,Non_unique:唯一,Packed:紧凑,Column_name:字段,Cardinality:基数,Comment:注释" actionlist="dropIndex:删除" /> 
+</form>
+
+<form method=post id="form1" >
+<input type="hidden" name="ajax" value="1">
+<input type="hidden" name="table" value="{$Think.get.table}">
+<div class="title">增加字段 <input type="button" value="增 加" onclick="addField()" class="button"> <input type="button" value="保 存" onclick="saveField()" class="button">
+	<input type="button" class="button" value="重 置" onclick="clearTable()"></div>
+<table cellpadding=0 cellspacing=0 class="list"id="tbl">
+<tr><td height="5" colspan="12" class="topTd" ></td></tr>
+<tr class="row"  >
+	<th class="tCenter" >字 段</th>
+	<th class="tCenter" >类 型</th>
+	<th class="tCenter" >长 度</th>
+	<th class="tCenter" >属 性</th>
+	<th class="tCenter" >为 空</th>
+	<th class="tCenter" >默 认</th>
+	<th class="tCenter" >额 外</th>
+	<th class="tCenter" >其 他</th>
+	<th class="tCenter" >注 释</th>
+	<th class="tCenter" >位 置</th>
+	<th class="tCenter"  >操 作</th>
+</tr>
+<tr><td height="5" colspan="12" class="bottomTd"></td></tr>
+</table>
+</form>
+<form method=post id="form2" >
+<input type="hidden" name="ajax" value="1">
+<input type="hidden" name="table" value="{$Think.get.table}">
+<div class="title">修改字段 <input type="button" value="保 存" onclick="modifyField()" class="button"></div>
+<table cellpadding=0 cellspacing=0 class="list"id="modifyTable">
+<tr><td height="5" colspan="12" class="topTd" ></td></tr>
+<tr class="row"  >
+	<th class="tCenter" >字 段</th>
+	<th class="tCenter" >类 型</th>
+	<th class="tCenter" >长 度</th>
+	<th class="tCenter" >属 性</th>
+	<th class="tCenter" >为 空</th>
+	<th class="tCenter" >默 认</th>
+	<th class="tCenter" >额 外</th>
+	<th class="tCenter" >其 他</th>
+	<th class="tCenter" >注 释</th>
+	<th class="tCenter"  >操 作</th>
+</tr>
+<tr><td height="5" colspan="12" class="bottomTd"></td></tr>
+</table>
+</form>
+</div>
+<script language="JavaScript">
+<!--
+addField();
+var list = {$json};
+//-->
+</script>

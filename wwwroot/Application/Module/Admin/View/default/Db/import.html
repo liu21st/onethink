@@ -1,0 +1,43 @@
+<div class="content">
+<div class="title">数据导入 [ <a href="__URL__">返回列表</a> ]</div>
+<div id="result" class="result none"></div>
+<form id="upload" METHOD=POST action="__URL__/importSql/" onsubmit="return CheckForm(this);" enctype="multipart/form-data" >
+<table cellpadding=0 cellspacing=0  class="list" width="100%">
+<tr><td height="5" colspan="2" class="topTd" ></td></tr>
+<tr class="row">
+	<th class="tRight" style="width:100px" >选择文件：</th>
+	<td  class="tLeft"><div class="impBtn  fLeft" ><input type="file"  name="sqlFile" class="file  huge"></div> </td>
+</tr>
+<tr class="row">
+	<th class="tRight" style="width:100px" >SQL内容：</th>
+	<td  class="tLeft"><TEXTAREA id="execSql" name="sql" style="width:480px;height:200px;overflow:auto;line-height:155%" ></TEXTAREA></td>
+</tr>
+<tr class="row">
+	<th class="tRight" style="width:100px" >数据库：</th>
+	<td  class="tLeft">	<select name="database" class="fLeft hMargin">
+<volist name="dbs" id="db">
+<neq name="db.Database" value="information_schema">
+<option value="{$db.Database}" <eq name="db.Database" value="$useDb">selected</eq>> {$db.Database} </option>
+</neq>
+</volist>
+   </select></td>
+</tr>
+<tr class="row">
+	<th class="tRight" style="width:100px" >字符集：</th>
+	<td class="tLeft tTop">
+
+	<select name="charset">
+    <option value="utf-8" > UTF8 </option>
+    <option value="gb2312" > GB2312 </option>
+    <option value="gbk" > GBK </option>
+   </select>
+</td>
+<tr>
+<th class="tRight" style="width:100px" ></th>
+<td><input type="submit" value="导 入" class="small button "></td>
+</tr>
+</tr>
+<tr><td height="5" colspan="2" class="bottomTd"></td></tr>
+</table>
+</form>
+</div>

@@ -1,0 +1,54 @@
+{__NOLAYOUT__}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<TITLE>『{$Think.config.web_name}管理平台』By ThinkPHP {$Think.version}</title>
+<load  file="__PUBLIC__/css/blue.css" />
+<style>
+html{overflow-x : hidden;}
+html, body, p, table{font:normal normal normal 15px "微软雅黑",Tahoma; line-height:150%}
+</style>
+<base target="main" />
+</head>
+
+<body >
+<div id="menu" class="menu">
+<table class="list" cellpadding=0 cellspacing=0 >
+<tr>
+	<td height='3' class="topTd" ></td>
+</tr>
+<tr class="row" >
+	<th class="tCenter space"><img src="__PUBLIC__/images/home.gif" width="16" height="16" border="0" alt="" align="absmiddle"> <present name="Think.get.title"> {$Think.get.title}</present><notpresent name="Think.get.title">首页</notpresent> </th>
+</tr>
+<volist id="item" name="menu" >
+<eq name="item['pid']" value="$menuTag">
+<tr class="row " >
+	<td><div style="margin:0px 5px">
+	<eq name="item.is_show" value="1"><div style="margin:0px 8px">
+	<img src="__PUBLIC__/images/comment.gif" width="9" height="9" border="0" align="absmiddle" alt=""> <a href="<neq name="item.url" value="">__MODULE__/{$item.url}<else/>__MODULE__/Think/index/_module/{$item['name']}</neq>" id="{$key}">{$item['title']}</a></div>
+	<else/><img src="__PUBLIC__/images/adv.gif" border="0" align="absmiddle" alt=""> <span class="bold gray">{$item['title']}</span>
+	</eq></div></td>
+</tr>
+</eq>
+</volist>
+<tr>
+	<td height='3'  class="bottomTd"></td>   
+</tr>
+</table>
+</div>
+<script language="JavaScript">
+<!--
+	function refreshMainFrame(url)
+	{
+		parent.main.document.location = url;
+	}
+
+	if (document.getElementsByTagName("a")[0].href)
+	{
+refreshMainFrame(document.getElementsByTagName("a")[0].href);		
+	}
+//-->
+</script>
+</body>
+</html>

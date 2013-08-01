@@ -1,0 +1,52 @@
+<div class="content">
+<div class="title">编辑<notempty name="vo.model_id" >[{$vo.model_id|getModelById}] </notempty>事件 <span class="normal">[ <a href="__URL__/index/model_id/{$vo.model_id|default=0}">返回列表</a> ]</span></div>
+<form method=post id="form1" action="__URL__/update">
+<table cellpadding=3 cellspacing=3>
+<tr>
+	<td class="tRight tTop">事件名称：</td>
+	<td class="tLeft"><input type="text" class="medium bLeftRequire"  NAME="title" value="{$vo.title}"></td>
+</tr>
+<tr>
+	<td class="tRight">触发时间：</td>
+	<td class="tLeft"><select class="medium bLeft" name="name">
+	<option <eq name="vo.name" value="insert" >selected</eq> value="insert">新增</option>
+	<option <eq name="vo.name" value="update" >selected</eq> value="update">更新</option>
+	<option <eq name="vo.name" value="del" >selected</eq> value="del">删除</option>
+    <option <eq name="vo.name" value="get" >selected</eq> value="get">获取</option>
+	</select></td>
+</tr>
+<tr>
+	<td class="tRight">触发类型：</td>
+	<td class="tLeft"><select class="medium bLeft" name="type">
+	<option <eq name="vo.type" value="express" >selected</eq> value="express">表达式</option>
+	<option <eq name="vo.type" value="fun" >selected</eq> value="fun">函数</option>
+	<option <eq name="vo.type" value="class" >selected</eq> value="class">行为</option>
+	<option <eq name="vo.type" value="task" >selected</eq> value="task">任务</option>
+	</select></td>
+</tr>
+<tr>
+	<td class="tRight tTop">参 数：</td>
+	<td class="tLeft"><TEXTAREA class="bLeft large" name="extra" ROWS="5" COLS="35">{$vo.extra}</TEXTAREA></td>
+</tr>
+<tr>
+	<td class="tRight tTop">备  注：</td>
+	<td class="tLeft"><TEXTAREA class="bLeft large" name="remark" ROWS="5" COLS="35">{$vo.remark}</TEXTAREA></td>
+</tr>
+<tr>
+	<td class="tRight">状 态：</td>
+	<td class="tLeft"><select class="small bLeft"  name="status">
+	<option <eq name="vo.status" value="1" >selected</eq> value="1">启用</option>
+	<option <eq name="vo.status" value="0" >selected</eq> value="0">禁用</option>
+	</select></td>
+</tr>
+<tr>
+	<td ></td>
+	<td class="center">
+	<input type="hidden" name="id" value="{$vo.id}">
+	<input type="submit" value="保 存"  class="button">
+	<input type="reset" class="button" value="清 空" >
+	</td>
+</tr>
+</table>
+</form>
+</div>
