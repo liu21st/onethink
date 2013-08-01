@@ -1,0 +1,70 @@
+<import  file="Js.Form.MultiSelect" />
+<script language="JavaScript">
+<!--
+	function refleshDb(db){
+		$('useDb').innerHTML = db;
+		ThinkAjax.send('__URL__/getTables','ajax=1&db='+db,fleshTable);
+	}
+	function fleshTable(data,status){
+		if (status==1)
+		{
+			$('tableName').options.length = 0;
+			// 动态增加
+			for (j=0;j<data.length;j++) 
+			{
+			$('tableName').options.add( new Option(data[j],data[j]) );
+			}
+		}
+	}
+function refleshApp(app_id){
+ThinkAjax.send('__URL__/getTables','ajax=1&app_id='+app_id,fleshTable);
+}
+function build(){
+ThinkAjax.sendForm('cacheForm','__URL__/buildCache');
+}
+//-->
+</script>
+<!-- 菜单区域  -->
+
+<!-- 主体内容  -->
+<div class="content" >
+<div class="title">自动生成模型 <span style="font-weight:normal;">[ <A HREF="__URL__">返回列表</A> ]</span></div>
+<!--  功能操作区域  -->
+<div class="cBoth">
+选择数据库中的数据表后，点击生成按钮完成模型的自动生成。
+<!-- SQL执行器 -->
+<form method=post name="Form" id="Form" action="__URL__/createModel">
+<table class="select" style="width:245px" id="attr">
+<tr><td height="3" class="topTd" ></td></tr>
+<tr><th class=""><select name="dbName" class="medium bLeft" onchange="refleshDb(this.options[this.options.selectedIndex].value)">
+<option value="" > -选择数据库- </option>
+<volist name="dbs" id="db">
+<neq name="db.Database" value="information_schema">
+<option value="{$db.Database}" <eq name="db.Database" value="$useDb">selected</eq>> {$db.Database} </option>
+</neq>
+</volist>
+   </select>
+</th></tr>
+<tr><td >
+<select name="tableName[]" id="tableName" style="width:100%" size="12" multiple >
+<iterate name="tables" id="table" >
+<option value="{$table}">{$table}</option>
+</iterate>
+</select>
+</td>
+</tr>
+<tr>
+<th  class="row tCenter" >
+<html:imageBtn type="submit" name="ok" value="生成"  click="build()" style="impBtn hMargin fLeft shadow" />
+</th>
+</tr>
+<tr>
+<td height="3" class="bottomTd" >
+</td>
+</tr>
+</table>
+</form>
+
+</div>
+<!-- 列表显示区域结束 -->
+</div>

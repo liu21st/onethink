@@ -1,0 +1,343 @@
+<import  file="Js.Form.MultiSelect" />
+<SCRIPT type="text/javascript">
+<!--
+	function readRecord()
+//-->
+</SCRIPT>
+<div class="content">
+<div class="title">编辑模型 <span class="normal">[ <A HREF="__URL__">返回列表</A> <eq name="vo.model_type" value="0"><a href="__APP__/Think/add/_module/{$vo.name}/preview/1">表单预览</a> <a href="__APP__/Event/index/model_id/{$vo.id}" target="_blank">事件管理</a> <a href="__APP__/Flow/index/model_id/{$vo.id}" target="_blank">流程管理</a></eq> <a href="__APP__/Think/index/_module/{$vo.name}" target="_blank">数据管理</a> ]</span></div>
+<form METHOD=POST id="form1" action="__URL__/update/" >
+<table cellpadding=3 cellspacing=3>
+<tr>
+	<td class="tRight tTop">模型名称：</td>
+	<td class="tLeft"><input type="text" class="medium bLeftRequire"  NAME="title" value="{$vo.title}" /></td>
+</tr>
+<tr>
+	<td class="tRight" >英文标识：</td>
+	<td class="tLeft" ><input type="text" class="medium bLeftRequire" NAME="name" value="{$vo.name}" /></td>
+</tr>
+<tr>
+	<td class="tRight">模型类型：</td>
+	<td class="tLeft"><select class="medium bLeft"  NAME="model_type">
+	<option <eq name="vo.model_type" value="0" >selected</eq> value="0">系统模型</option>
+	<option <eq name="vo.model_type" value="2" >selected</eq> value="2">文档模型</option>
+	<option <eq name="vo.model_type" value="1" >selected</eq> value="1">视图模型</option>
+	</select></td>
+</tr> 
+<tr>
+	<td class="tRight tTop">模型描述：</td>
+	<td class="tLeft"><TEXTAREA class="bLeft huge" name="remark" ROWS="2" COLS="35">{$vo.remark}</TEXTAREA></td>
+</tr>
+<tr>
+	<td class="tRight" >所属应用：</td>
+	<td class="tLeft" >
+	<select class="medium bLeft" name="app_id">
+	<option value="0" <eq name="vo.app_id" value="0">selected</eq>>全局</option>
+	<volist name=":getApps()" id="site">
+	<option value="{$key}" <eq name="vo.app_id" value="$key">selected</eq>>{$site}</option>
+	</volist>
+	</select>
+	</td>
+</tr>
+<eq name="vo.model_type" value="1">
+<tr>
+	<td class="tRight tTop">关联定义：</td>
+	<td class="tLeft"><TEXTAREA class="bLeft huge" name="relation_list" ROWS="2" COLS="35">{$vo.relation_list}</TEXTAREA></td>
+</tr>
+</eq>
+<eq name="vo.model_type" value="0" >
+<tr>
+	<td class="tRight">时间支持：</td>
+	<td class="tLeft"><select class="small bLeft"   NAME="support_time">
+	<option <eq name="vo.support_time" value="0" >selected</eq> value="0">否</option>
+	<option <eq name="vo.support_time" value="1" >selected</eq> value="1">是</option>
+	</select></td>
+</tr> 
+<tr>
+	<td class="tRight">状态支持：</td>
+	<td class="tLeft"><select class="small bLeft"   NAME="support_status">
+	<option <eq name="vo.support_status" value="0" >selected</eq> value="0">否</option>
+	<option <eq name="vo.support_status" value="1" >selected</eq> value="1">是</option>
+	</select></td>
+</tr> 
+<tr>
+	<td class="tRight">分类支持：</td>
+	<td class="tLeft"><select class="small bLeft"   NAME="support_cate">
+	<option <eq name="vo.support_cate" value="0" >selected</eq> value="0">否</option>
+	<option <eq name="vo.support_cate" value="1" >selected</eq> value="1">是</option>
+	</select></td>
+</tr> 
+<tr>
+	<td class="tRight">层级支持：</td>
+	<td class="tLeft"><select class="small bLeft"   NAME="support_level">
+	<option <eq name="vo.support_level" value="0" >selected</eq> value="0">否</option>
+	<option <eq name="vo.support_level" value="1" >selected</eq> value="1">是</option>
+	</select></td>
+</tr> 
+<tr>
+	<td class="tRight">映射支持：</td>
+	<td class="tLeft"><select class="small bLeft"   NAME="support_link">
+	<option <eq name="vo.support_link" value="0" >selected</eq> value="0">否</option>
+	<option <eq name="vo.support_link" value="1" >selected</eq> value="1">是</option>
+	</select></td>
+</tr> 
+<tr>
+	<td class="tRight">排序支持：</td>
+	<td class="tLeft"><select class="small bLeft"   NAME="support_sort">
+	<option <eq name="vo.support_sort" value="0" >selected</eq> value="0">否</option>
+	<option <eq name="vo.support_sort" value="1" >selected</eq> value="1">是</option>
+	</select></td>
+</tr> 
+<tr>
+	<td class="tRight">标签支持：</td>
+	<td class="tLeft"><select class="small bLeft"   NAME="support_tags">
+	<option <eq name="vo.support_tags" value="0" >selected</eq> value="0">否</option>
+	<option <eq name="vo.support_tags" value="1" >selected</eq> value="1">是</option>
+	</select></td>
+</tr> 
+<tr>
+	<td class="tRight">工作流支持：</td>
+	<td class="tLeft"><select class="small bLeft"   NAME="support_flow">
+	<option <eq name="vo.support_flow" value="0" >selected</eq> value="0">否</option>
+	<option <eq name="vo.support_flow" value="1" >selected</eq> value="1">是</option>
+	</select></td>
+</tr> 
+<tr>
+	<td class="tRight">附件支持：</td>
+	<td class="tLeft"><select class="small bLeft"   NAME="support_attach">
+	<option <eq name="vo.support_attach" value="0" >selected</eq> value="0">否</option>
+	<option <eq name="vo.support_attach" value="1" >selected</eq> value="1">是</option>
+	</select></td>
+</tr>
+<tr>
+	<td class="tRight">作为子模型：</td>
+	<td class="tLeft"><select class="small bLeft"   NAME="allow_as_sub">
+	<option <eq name="vo.allow_as_sub" value="0" >selected</eq> value="0">不允许</option>
+	<option <eq name="vo.allow_as_sub" value="1" >selected</eq> value="1">允许</option>
+	</select></td>
+</tr> 
+</eq>
+<tr class="row" >
+	<td class="tRight tTop" >属性定义：</td>
+	<Td class="">
+<div class="fLeft hMargin">
+	<table class="select" style="width:265px" id="attr" >
+<tr><td height="3" colspan="1" class="topTd" ></td></tr>
+<tr><th class="tCenter">属性列表 <span class="normal">[ <a href="__APP__/Attribute/add/model_id/{$vo.id}" target="_blank">新 增</a> | <a href="__APP__/Attribute/index/model_id/{$vo.id}" target="_blank">管 理</a> ]</span>
+</th></tr>
+<tr><td >
+<select  name="attribute_list[]" class="hMargin medium multiSelect" multiple="multiple" size="12">
+<volist name="attrList" id="attr">
+	<option value="{$attr.id}" <in name="attr.id" value="$vo['attribute_list']">selected</in>>{$attr.title} <eq name="attr.is_common" value="1">*</eq> [{$attr.name}]</option>
+	</volist>
+	</select>
+</td>
+</tr>
+<tr><th class="tCenter"><input type="button" onclick="allSelect('attr')" value="全 选" class="submit  ">
+<input type="button" onclick="InverSelect('attr')" value="反 选" class="submit  ">
+<input type="button" onclick="allUnSelect('attr')" value="全 否" class="submit ">
+</th></tr>
+<tr>
+<td height="3" class="bottomTd" >
+</td>
+</tr>
+</table>
+注：带 * 为公共属性
+</div>
+<notempty name="vo.support_link">
+<div class="fLeft hMargin">
+<table class="select" style="width:250px" id="link">
+<tr><td height="3" colspan="1" class="topTd" ></td></tr>
+<tr><th class="tCenter">映射列表</th></tr>
+<tr><td >
+<select  name="link_list[]" class="hMargin medium multiSelect" multiple="multiple" size="12">
+<volist name="mapList" id="base">
+<option value="{$key}" <in name="key" value="$vo['link_list']">selected</in>>{$base}</option>
+</volist>
+</select>
+</td>
+</tr>
+<tr><th class="tCenter"><input type="button" onclick="allSelect('link')" value="全 选" class="submit  ">
+<input type="button" onclick="InverSelect('link')" value="反 选" class="submit  ">
+<input type="button" onclick="allUnSelect('link')" value="全 否" class="submit ">
+</th></tr>
+<tr>
+<td height="3" class="bottomTd" >
+</td>
+</tr>
+</table>
+</div>
+</notempty>
+	</Td>
+	</tr>
+	<eq name="vo.model_type" value="0" >
+	<tr class="row" >
+	<td class="tRight tTop" >子模型定义：</td>
+	<Td class="">
+
+	<div class="fLeft hMargin">
+	<table class="select" style="width:250px" id="module" >
+<tr><td height="3" colspan="1" class="topTd" ></td></tr>
+<tr><th class="tCenter">选择模型</th></tr>
+<tr><td > 
+<select  name="module_list[]" class="hMargin medium multiSelect" multiple="multiple" size="12">
+<volist name=":getModels($vo['app_id'])" id="mo">
+	<option value="{$key}" <in name="key" value="$vo['module_list']">selected</in>>{$mo}</option>
+	</volist>
+	</select>
+</td>
+</tr>
+<tr><th class="tCenter"><input type="button" onclick="allSelect('module')" value="全 选" class="submit  ">
+<input type="button" onclick="InverSelect('module')" value="反 选" class="submit  ">
+<input type="button" onclick="allUnSelect('module')" value="全 否" class="submit ">
+</th></tr>
+<tr>
+<td height="3" class="bottomTd" >
+</td>
+</tr>
+</table>
+</div>
+</Td>
+</tr>
+</eq>
+<tr>
+	<td class="tRight" >数据库：</td>
+	<td class="tLeft" ><input type="text" class="medium bLeft" name="db_name" value="{$vo.db_name}"> </td>
+</tr>
+<tr>
+	<td class="tRight" >数据表：</td>
+	<td class="tLeft" ><input type="text" class="medium bLeft" name="table_name" value="{$vo.table_name}"> </td>
+</tr>
+<eq name="vo.model_type" value="0" >
+<tr>
+	<td class="tRight" >表前缀：</td>
+	<td class="tLeft" ><input type="text" class="medium bLeft" name="table_prefix" value="{$vo.table_prefix}"> 可单独定义在数据库中的表前缀</td>
+</tr>
+<tr>
+	<td class="tRight" >数据长度：</td>
+	<td class="tLeft" ><input type="text" class="small bLeft" name="data_length" value="{$vo.data_length}"> 预计的数据量长度</td>
+</tr>
+</eq>
+<tr>
+	<td class="tRight" >连接信息：</td>
+	<td class="tLeft" ><input type="text" class="huge bLeft" name="connection" value="{$vo.connection}" ></td>
+</tr>
+<tr>
+	<td class="tRight" >外键名称：</td>
+	<td class="tLeft" ><input type="text" class="medium bLeft" name="foreign_key" value="{$vo.foreign_key}" > 默认是record_id</td>
+</tr>
+<tr>
+	<td class="tRight tTop">列表定义：</td>
+	<td class="tLeft"><TEXTAREA class="bLeft huge" name="list_grid" ROWS="2" COLS="35">{$vo.list_grid}</TEXTAREA></td>
+</tr>
+<tr>
+	<td class="tRight tTop">操作定义：</td>
+	<td class="tLeft"><TEXTAREA class="bLeft huge" name="action_list" ROWS="2" COLS="35">{$vo.action_list}</TEXTAREA></td>
+</tr>
+<tr>
+	<td class="tRight tTop">状态定义：</td>
+	<td class="tLeft"><TEXTAREA class="bLeft huge" name="status_list" ROWS="2" COLS="35">{$vo.status_list}</TEXTAREA></td>
+</tr>
+<tr>
+	<td class="tRight" >列表模板：</td>
+	<td class="tLeft" ><input type="text" class="large bLeft" NAME="template_list" value="{$vo.template_list}"> </td>
+</tr>
+<eq name="vo.model_type" value="0" >
+<tr>
+	<td class="tRight" >搜索模板：</td>
+	<td class="tLeft" ><input type="text" class="large bLeft" NAME="template_search" value="{$vo.template_search}"> </td>
+</tr>
+<tr>
+	<td class="tRight" >新增模板：</td>
+	<td class="tLeft" ><input type="text" class="large bLeft" NAME="template_add" value="{$vo.template_add}"> </td>
+</tr>
+<tr>
+	<td class="tRight" >编辑模板：</td>
+	<td class="tLeft" ><input type="text" class="large bLeft" NAME="template_edit" value="{$vo.template_edit}"> </td>
+</tr>
+<tr>
+	<td class="tRight" >上传路径：</td>
+	<td class="tLeft" ><input type="text" class="huge bLeft" NAME="upload_path" value="{$vo.upload_path}"> </td>
+</tr>
+</eq>
+<tr>
+	<td class="tRight" >脚本加载：</td>
+	<td class="tLeft" ><input type="text" class="large bLeft" NAME="js_path" value="{$vo.js_path}"> </td>
+</tr>
+<tr>
+	<td class="tRight" >默认排序字段：</td>
+	<td class="tLeft" ><input type="text" class="medium bLeft" NAME="sort_key" value="{$vo.sort_key}">
+	</td>
+</tr>
+<tr>
+	<td class="tRight" >默认查询字段：</td>
+	<td class="tLeft" ><input type="text" class="medium bLeft" NAME="search_key" value="{$vo.search_key}">
+	</td>
+</tr>
+<tr>
+	<td class="tRight  tTop" >高级搜索：</td>
+	<td class="tLeft" ><div class="fLeft hMargin">
+<table class="select" style="width:250px" id="map">
+<tr><td height="3" colspan="1" class="topTd" ></td></tr>
+<tr><th class="tCenter">可搜索字段</th></tr>
+<tr><td >
+<select  name="search_list[]" class="hMargin medium multiSelect" multiple="multiple" size="12">
+<volist name="searchList" id="base">
+<option value="{$key}" <in name="key" value="$vo['search_list']">selected</in>>{$base}</option>
+</volist>
+</select>
+</td>
+</tr>
+<tr><th class="tCenter"><input type="button" onclick="allSelect('map')" value="全 选" class="submit  ">
+<input type="button" onclick="InverSelect('map')" value="反 选" class="submit  ">
+<input type="button" onclick="allUnSelect('map')" value="全 否" class="submit ">
+</th></tr>
+<tr>
+<td height="3" class="bottomTd" >
+</td>
+</tr>
+</table>
+</div></td>
+</tr>
+<tr>
+	<td class="tRight">是否可见：</td>
+	<td class="tLeft"><select class="small bLeft"   NAME="is_show">
+	<option <eq name="vo.is_show" value="1" >selected</eq> value="1">可见</option>
+	<option <eq name="vo.is_show" value="0" >selected</eq> value="0">隐藏</option>
+	</select></td>
+</tr>
+<eq name="vo.model_type" value="0" >
+<tr>
+	<td class="tRight" colspan="2"><HR></td>
+</tr>
+<tr>
+	<td class="tRight" >继承模型：</td>
+	<td class="tLeft" ><input type="text" class="medium bLeft" name="belongs_to" value="{$vo.belongs_to}" /> BELONG_TO</td>
+</tr>
+<tr>
+	<td class="tRight" >包含模型：</td>
+	<td class="tLeft" ><input type="text" class="medium bLeft" name="include_model" value="{$vo.include_model}" /> INCLUDE</td>
+</tr>
+<tr>
+	<td class="tRight" >附属模型：</td>
+	<td class="tLeft" ><input type="text" class="medium bLeft" name="has_one" value="{$vo.has_one}" /> HAS_ONE</td>
+</tr>
+<tr>
+	<td class="tRight" >从属模型：</td>
+	<td class="tLeft" ><input type="text" class="medium bLeft" name="has_many" value="{$vo.has_many}" /> HAS_MANY</td>
+</tr>
+<tr>
+	<td class="tRight" >独立模型：</td>
+	<td class="tLeft" ><input type="text" class="medium bLeft" name="action_name" value="{$vo.action_name}" /> 独立模型需要单独定义Action和Model类</td>
+</tr>
+</eq>
+<tr>
+	<td ></td>
+	<td class="center"><input type="hidden" name="id" value="{$vo.id}">
+	<input type="submit" value="保存" class="button medium">
+	<input type="reset" class="button shadow" value="清空" >
+	</td>
+</tr>
+</table>
+</form>
+</div>

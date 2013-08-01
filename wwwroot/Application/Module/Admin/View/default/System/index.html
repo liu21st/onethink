@@ -1,0 +1,189 @@
+<!-- 主页面开始 -->
+<div id="main" class="main" >
+<load  type="js" file="Js.Ajax.SmartAjax" /> 
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+function getLabel(data){
+	$('command').value = data;
+}
+function addLabel(){
+	ThinkAjax.send('__URL__/getLabel','ajax=1&id='+$F('labelPhp'),getLabel);
+}
+
+function runphp(){
+	var command	 =	 $('execSql').value;
+	ThinkAjax.send('__URL__/runphp','ajax=1&command='+command,runComplete);
+}
+function highlight(){
+ThinkAjax.send('__URL__/highlight','ajax=1&content='+encodeURIComponent($F('command')),runComplete);
+}
+function runComplete(data,status){
+	if (status==1)
+	{
+	$('phpResult').innerHTML	 =	 data;
+	}
+}
+function clearCache(){
+	if ($F('clearAppName') != '')
+	{
+		ThinkAjax.sendForm('cacheForm','__URL__/clearCache');
+	}else {
+		alert('选择项目');
+	}
+}
+function codeSwitch(){
+	$('phpResult').innerHTML = '';
+	ThinkAjax.send('__URL__/codeSwitch','ajax=1&charset='+$('appCharset').value+'&app='+$('switchAppName').value,codeComplete);
+}
+function codeEncode(){
+	ThinkAjax.send('__URL__/codeEncode','ajax=1&path='+$('path').value+'&app='+$('encodeAppName').value);	
+}
+function codeComplete(data,status,info){
+	$('phpResult').innerHTML	 =	 '<strong>'+$('switchAppName').value+'应用'+info+'</strong><br/>'+data;
+}
+function delLabel(){
+	if ($F('labelPhp') != '')
+	{
+		ThinkAjax.send('__URL__/delLabel','ajax=1&id='+$F('labelPhp'));
+	}else {
+		alert('选择标签');
+	}
+}
+	function labelSearch(){
+		var obj	=	$('labelPhp');
+		var length = obj.options.length;
+		for (i =0 ;i<length; i++){
+			if (obj.options[i].text.indexOf($('searchLabel').value)!=-1)
+			{
+				obj.item(i).selected = true;
+				break;
+			}
+		}
+	}
+
+	function model(){
+		window.location.href = '__URL__/model';
+	}
+	function action(){
+		window.location.href = '__URL__/action';
+	}
+	function view(){
+		window.location.href = '__URL__/form';
+	}
+
+	function app(){
+		window.location.href = '__URL__/app';
+	}
+	function config(){
+		window.location.href = '__URL__/config';
+		}
+	function com(){
+		window.location.href = '__URL__/com';
+	}
+	function module(){
+		window.location.href = '__URL__/module';
+	}
+//-->
+</SCRIPT>
+<!-- 主体内容  -->
+<div class="content" >
+<div class="title">系统操作</div>
+<!--  功能操作区域  -->
+<div class="cBoth" >
+<TABLE cellpadding=0 cellspacing=0 class="list" id="modelBase">
+<tr><td height="5" colspan="10" class="topTd" ></td></tr>
+</TR>
+<!-- <TR class="row" >
+	<Th class="tRight" >自动生成：</Th>
+	<Td class="" >
+	<html:imageBtn name="ok" value="项目"  click="app()" style="impBtn hMargin fLeft shadow" />
+<html:imageBtn name="ok" value="模块"  click="module()" style="impBtn hMargin fLeft shadow" />
+<html:imageBtn name="edit" value="配置"  click="config()" style="impBtn hMargin fLeft shadow" />
+<html:imageBtn name="ok" value="表单"  click="view()" style="impBtn hMargin fLeft shadow" />
+<html:imageBtn name="ok" value="控制"  click="action()" style="impBtn hMargin fLeft shadow" />
+<html:imageBtn name="ok" value="模型"  click="model()" style="impBtn hMargin fLeft shadow" />
+</Td>
+</TR> -->
+<!-- <TR class="row" >
+	<Th class="tRight" style="width:100px">清空缓存：</Th>
+	<Td class="" >
+		<div class="fLeft hMargin">
+	<form method=post name="cacheForm" id="cacheForm" action="__URL__/clearCache">
+		<SELECT id="clearAppName" name="clearAppName" class="hMargin medium">
+	<volist name="apps" id="app" >
+	<option value="{$app.name}">{$app.title}</option>
+	</volist>
+	</SELECT><select name="clearType" class="small">
+		<option value="All" >全部
+		<option value="Cache" >模板缓存
+		<option value="Temp">临时目录
+		<option value="Data">数据缓存
+		<option value="Logs">日志数据
+	</select></div>
+<input type="hidden" name="ajax" value="1">
+	<html:imageBtn name="clear" value="清除"  click="clearCache()" style="impBtn hMargin fLeft shadow" />
+	</form>
+</Td>
+</TR> -->
+<TR class="row" >
+	<Th class="tRight" >编码转换：</Th>
+	<Td class="" >
+		<div class="fLeft hMargin"><select name="appCharset" id="appCharset" class="small">
+		<option value="UTF-8" selected>UTF-8
+		<option value="GB2312">GB2312
+	</select></div>
+	<html:imageBtn name="sort" value="转换"  click="codeSwitch()" style="impBtn hMargin fLeft shadow" /> 自动检查编码并转换
+</Td>
+</TR>
+<TR class="row" >
+	<Th class="tRight" >文件加密：</Th>
+	<Td class="" >
+		<div class="fLeft hMargin"><SELECT id="encodeAppName" name="app" class="hMargin medium">
+	<volist name=":getAppNames()" id="app" >
+	<option value="{$app.name}">{$app.title}</option>
+	</volist>
+	</SELECT><select id="path" name="path" class="small">
+		<option value="Lib" >应用类库
+		<option value="Common" >公共文件
+		<option value="Runtime" >编译缓存
+	</select></div>
+	<html:imageBtn name="access" value="加密" click="codeEncode()" style="impBtn hMargin fLeft shadow" /> 加密前请注意备份
+</Td>
+</TR>
+<tr><td height="5" colspan="10" class="bottomTd"></td></tr>
+</TABLE>
+<p class="cBoth" />
+<FORM METHOD=POST ACTION="">
+<fieldset id="querybox" >
+<legend style="color:gray">执行PHP命令（<span style="color:orange">请慎用</span>）</legend>
+<div id="dbSql" class="vMargin"><TEXTAREA id="execSql" NAME="command" check="Require" warning="输入要执行的PHP语句！" style="width:480px;height:158px;overflow:auto;background:#EEEEFF" ></TEXTAREA><SELECT id="labelPhp" class="hMargin medium" NAME="labelName" size="10" ondblclick="addLabel()">
+<volist name="labels" id="label" >
+<option value="{$label.id}" >{$label.label}</option>
+</volist>
+</SELECT>
+</div>
+<html:imageBtn name="ok" value="执行"  click="runphp()" style="impBtn hMargin fLeft shadow" />
+<html:imageBtn name="sort" type="reset" value="重置"  style="impBtn hMargin fLeft shadow" />
+<div class="fLeft">保存为标签：<INPUT TYPE="text" class="medium" NAME="label"></div>
+<html:imageBtn name="delete" value="删除"  click="delLabel()" style="impBtn hMargin fLeft shadow" />
+<div class="fLeft"><INPUT TYPE="text" id="searchLabel" style="width:120px" NAME="label"></div>
+<html:imgLink name="search" alt="搜索"  click="labelSearch()" style=" hMargin fLeft shadow" />
+</fieldset>
+</FORM>
+<fieldset id="querybox" >
+<legend style="color:gray">执行结果<span class="blue" id="resultNum"></span> </legend>
+<div id="phpResult" style="overflow:auto;width:100%;height:100%"></div>
+</fieldset>
+
+<fieldset id="querybox" >
+<legend style="color:gray">系统信息 [ <A HREF="http://thinkphp.cn" target="_blank">官方网站</A> ]</legend>
+<div class="vMargin hMargin">
+<B>当前ThinkPHP版本</B>：{$Think.version}<BR>
+</div>
+</fieldset>
+</div>
+<!-- 列表显示区域结束 -->
+</div>
+<!-- 主体内容结束 -->
+</div>
+<!-- 主页面结束 -->

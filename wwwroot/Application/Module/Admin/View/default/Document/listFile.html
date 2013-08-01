@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<TITLE>ThinkCMS 系统管理平台 By FCS {$FCS.version}</TITLE>
+<load type="css" href ="../Public/css/style.css" />
+<load type="js" href ="../Public/js/Common.js" />
+<load  type="js" file="Js.Base" /> 
+<load  type="js" file="Js.prototype" /> 
+<load  type="js" file="Js.mootools" /> 
+<load  type="js" file="Js.Ajax.ThinkAjax" /> 
+<load  type="js" file="Js.Form.CheckForm" /> 
+<load  file="Js.Form.MultiSelect" />
+<body style="margin:0">
+<div id="result" class="result none"></div>
+<FORM METHOD=POST id="form1">
+<TABLE class="select" style="width:245px;word-break:break-all;word-wrap:break-word;"><tr><td height="5" colspan="3" class="topTd" ></td></tr>
+<TR><Th class="tCenter"> 目录（文件）列表</TR>
+<TR></Th></TR>
+	<TR><TD >
+	<div style="overflow:auto;height:250px;margin:0;">
+	<div  style="border-bottom:1pt solid silver;margin:5px 0px;line-height:165%"><A HREF="__URL__/upDir/"><IMG SRC="../Public/images/return.gif" WIDTH="23" HEIGHT="20" BORDER="0" ALT="返回上级" align="absmiddle"></a></div>
+	<volist name="list" id="file">
+	<div  style="border-bottom:1pt solid silver;margin:5px 0px;line-height:165%">
+	<equal name="file" property="type" value="dir"><IMG SRC="../Public/images/folder.gif" WIDTH="18" HEIGHT="18" BORDER="0" ALT="" align="absmiddle"></equal><equal name="file" property="type" value="file"><IMG SRC="../Public/images/page.gif" WIDTH="18" HEIGHT="18" BORDER="0" ALT="" align="absmiddle"></equal><equal name="file" property="type" value="link"><IMG SRC="../Public/images/folder.gif" WIDTH="18" HEIGHT="18" BORDER="0" ALT="" align="absmiddle"></equal>{$file.pathname|readFileList}</div>
+	</volist>
+	</div>
+	</td>
+</tr>
+</td>
+</tr>
+<tr>
+<td height="5" class="bottomTd" >
+</td>
+</tr>
+</TABLE>
+</FORM>

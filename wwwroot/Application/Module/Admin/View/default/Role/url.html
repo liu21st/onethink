@@ -1,0 +1,68 @@
+<load  type="js" file="Js.Util.JTree" /> 
+<!-- 主体内容  -->
+<div class="content" >
+<div class="title"> 访问授权  [ <a href="__URL__">返 回</a> ] <span class="normal">[ <A href="__URL__/app/groupId/{$Think.get.groupId}">应用授权</A> <A href="__URL__/url/groupId/{$Think.get.groupId}">访问授权</A> <A href="__URL__/menu/groupId/{$Think.get.groupId}">菜单授权</A> <A href="__URL__/model/groupId/{$Think.get.groupId}">模型授权</A> <A href="__URL__/cate/groupId/{$Think.get.groupId}">分类授权</A> ] </span></div>
+<!--  功能组区域  -->
+<script language="JavaScript">
+<!--
+function saveAccess(){
+ThinkAjax.sendForm('form1','__URL__/setUrl/');
+}
+//-->
+</script>
+<div id="result" class="result none"></div>
+<import  file="Js.Form.MultiSelect" />
+<div class="fLeft " style="width:45%;">
+<form method=post id="form1">
+<table class="select" style="width:265px" align="center">
+<tr><td height="5" class="topTd" ></td></tr>
+<tr><th class="tCenter">当前组：<html:select name="groupId" style="medium" change="location.href = '?groupId='+this.options[this.selectedIndex].value;" first="选择组" options="groupList" selected="selectGroupId" />
+</th></tr>
+<tr><td >
+<select  name="groupUrlId[]" class="hMargin medium multiSelect" multiple="multiple" size="15">
+<volist name="urlList" id="attr">
+	<option value="{$attr.id}" <in name="attr.id" value="$groupUrlList">selected</in>>{$attr.title} [ {$attr.url} ]</option>
+	</volist>
+</select>
+</td>
+</tr>
+<tr>
+<th  class="row tCenter" >
+<input type="button" onclick="allSelect()" value="全 选" class="submit  ">
+<input type="button" onclick="InverSelect()" value="反 选" class="submit  ">
+<input type="button" onclick="allUnSelect()" value="全 否" class="submit ">
+<input type="hidden" name="ajax" VALUE="1">
+</th>
+</tr>
+<tr>
+<td height="5" class="bottomTd" >
+</td>
+</tr>
+</table>
+<input type="button" onclick="saveAccess()" value="保 存" class="button medium  ">
+</form>
+</div>
+<div class="fLeft">
+<div class="title"> 添加单独的访问规则 </div>
+<form method=post id="form1" action="__URL__/addUrl">
+<table cellpadding=3 cellspacing=3>
+<tr>
+	<td class="tRight tTop">访问规则：</td>
+	<td class="tLeft"><input type="text" class="large bLeftRequire"  NAME="url"></td>
+</tr>
+<tr>
+	<td class="tRight" >访问说明：</td>
+	<td class="tLeft" ><input type="text" class="medium bLeftRequire" NAME="title"></td>
+</tr>
+<tr>
+	<td ></td>
+	<td class="center">
+	<input type="hidden" name="groupId" value="{$Think.get.groupId}">
+	<input type="submit" value="保 存" class="button">
+	<input type="reset" class="button" value="清 空" >
+	</td>
+</tr>
+</table>
+</form>
+</div>
+</div>

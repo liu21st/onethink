@@ -1,0 +1,101 @@
+<import  file="Js.PHP.php" />
+<script language="JavaScript">
+<!--
+
+	function searchTable(){
+		bench	 =	 $F('bench');
+		if (undefined == bench)
+		{bench = 0;
+		}
+		map	 =	 $F('map');
+		if ('' == map)
+		{map = '';
+		}else{
+			map = base64_encode(map);
+		}
+		field = $F('field');
+		if ('' == field) field = '*';
+		window.location.href = '__URL__/selectTable/table/{$Think.get.table}/bench/'+bench+'/field/'+field+'/map/'+map;
+	}
+	function executeSql(sql){
+		sql	 =	 sql.replace('$table','{$Think.get.table}');
+		ThinkAjax.send('__URL__/execute','ajax=1&sql='+sql);
+	}
+	function clearTable(){
+		if (window.confirm('确实清空表{$Think.get.table}吗？'))
+		{
+		executeSql('TRUNCATE TABLE $table');
+		}
+	}
+	function outputTable(){
+		window.location.href = '__URL__/output/table/{$Think.get.table}';
+	}
+	function showTable(){
+		window.location.href = '__URL__/showTable/table/{$Think.get.table}';
+	}
+	function delData(id){
+		if (id)
+		{
+			keyValue = id;
+		}else {
+			keyValue = getSelectCheckboxValues();
+		}
+		if (!keyValue)
+		{
+			alert('请选择删除项！');
+			return false;
+		}
+
+		if (window.confirm('确实要删除选择项吗？'))
+		{
+			location.href =  URL+"/deleteData/id/"+keyValue+'/table/{$Think.get.table}';
+			//ThinkAjax.send(URL+"/deleteData/","id="+keyValue+'&table={$Think.get.table}&ajax=1',doDelete);
+		}
+	}
+//-->
+</script>
+<div class="content">
+<div class="title">查看数据表:<span style="font-weight:normal">[ <a href="__URL__/adv/">{$Think.session.useDb}</a>.{$Think.get.table}  ]  [ <a href="__URL__">返回列表</a> ]</div></div>
+<div id="result" class="result none"></div>
+<!--  功能操作区域  -->
+<form method=post action="">
+	<div class="operate" >
+<div class="fLeft hMargin">字段：<input type="text" name="field" class="medium" > 过滤条件：<input type="text" name="map" class="large" > <input type="checkbox" name="bench" id="bench" value="1" > 性能分析</div>
+<html:imageBtn value="查询" click="searchTable()" style="  fLeft shadow" />
+<html:imageBtn value="结构" click="showTable()" style="  fLeft shadow" />
+<html:imageBtn value="导出"  click="outputTable()" style=" fLeft shadow" />
+<html:imageBtn value="清空"  click="clearTable()" style=" fLeft shadow" />
+<html:imageBtn value="删除"  click="delData()" style=" fLeft shadow" />
+</div>
+</form>
+<present name="bench">
+<fieldset id="benchbox" class="cBoth">
+<legend style="color:gray">数据库性能分析 </legend>
+<div id="SqlBench" style="overflow:auto;width:100%;height:100%">
+<table cellpadding=0 cellspacing=0 class="list" style="width:450px">
+<tr><td height="5" colspan="2" class="topTd" ></td></tr>
+<volist name="bench" id="b">
+<tr><td>{$b[0]}</td><td>{$b[1]}</td></tr>
+</volist>
+<tr><td height="5" colspan="2" class="topTd" ></td></tr>
+</table>
+</div>
+</fieldset>
+</present>
+
+<table id="checkList" cellpadding=0 cellspacing=0 class="list">
+<tr><td height="5" colspan="{$fieldCount}" class="topTd" ></td></tr>
+<volist name="list" id="vo">
+<tr class="row" >
+	<switch name="key">
+	<case value="0"><th width="8"><input type="checkbox" id="check" onclick="CheckAll('checkList')"></th><th>操作</th><iterate name="vo" id="sub"><th ><a href="javascript:sortBy('{$sub}','{$sort}','selectTable')" title="按照{$sub}{$sortType} ">{$sub} <eq name="order" value="$sub" ><img src="../Public/images/{$sortImg}.gif" width="12" height="17" border="0" align="absmiddle"></eq></a></th></iterate></case>
+	<default />
+	<td><input type="checkbox" name="key"	value="{$vo.id}"></td><td><a href="__URL__/editData/id/{$vo.id}/table/{$Think.get.table}">编辑</a> <a href="javascript:delData({$vo.id})">删除</a> </td><iterate name="vo" id="sub"><td>{$sub|msubstr=0,150}</td></iterate>
+	</switch>
+</tr>
+</volist>
+<tr><td height="5" colspan="{$fieldCount}" class="topTd" ></td></tr>
+</table>
+<!--  分页显示区域 -->
+<div class="tRight page">{$page}</div>
+</div>

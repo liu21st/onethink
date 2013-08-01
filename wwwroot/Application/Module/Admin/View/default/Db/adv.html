@@ -1,0 +1,139 @@
+<script language="JavaScript">
+<!--
+ 	function runSql(sql){
+		window.location.href = '__URL__/index/sql/'+sql;
+	}
+	function searchTable(table){
+		window.location.href = '__URL__/selectTable/table/'+table;
+	}
+
+	function refleshDb(db){
+		window.location.href = '__ACTION__/dbName/'+db;
+	}
+	function executeSql(sql){
+		var tableName = getSelectCheckboxValues();
+		if (tableName == '')
+		{
+		alert('没有选择数据表');return ;
+		}
+		sql	 =	 sql.replace('$table',tableName);
+		ThinkAjax.send('__URL__/execute','ajax=1&sql='+sql,handleSql);
+	}
+	function buildTable(tableId,data) { 
+		
+		for (i=0;i<data.length;i++){ 
+		  var row =$(tableId).insertRow(-1);
+		  if (i==0)
+		  {row.className = 'over';
+		  }
+		  for (j=0;j<data[i].length;j++) { 
+			var cell = document.createElement("td");
+			cell.innerHTML = data[i][j];
+			row.appendChild(cell); 
+		   }
+		 }
+	 }
+	function deleteTable(tableId){
+		var Table	=	$(tableId);
+			while (Table.rows.length > 0) {
+				Table.deleteRow(0);
+			}
+	}
+	function handleSql(data){
+		$('resultNum').innerHTML=	 '';
+		$('querybox').style.display = 'block';
+		deleteTable('table1');
+		var time = data.splice(0,1);
+		$('resultNum').innerHTML	=	'[ 执行耗时:'+time+' ] ';
+		if(data.length>=1) {
+			buildTable('table1',data);
+		}
+	}
+	function showTable(){
+		executeSql('SHOW COLUMNS FROM $table');
+	}
+	function checkTable(){
+		executeSql('CHECK TABLE $table');
+	}
+function optimzeTable(){
+		executeSql('OPTIMIZE TABLE $table');
+	}
+	function analyzeTable(){
+		executeSql('ANALYZE TABLE $table');
+	}
+	function repairTable(){
+		executeSql('REPAIR TABLE $table');
+	}
+	function statusTable(){
+		executeSql('SHOW TABLE STATUS LIKE  \'$table\'');
+	}
+	function delTable(){
+		var tableName = getSelectCheckboxValues();
+		if (window.confirm('确实删除表'+tableName+'吗？'))
+		{
+		executeSql('DROP TABLE  $table');
+		}
+	}
+	function createTable(){
+		window.location.href = '__URL__/add';
+		}
+	function clearTable(){
+		var tableName = getSelectCheckboxValues();
+		if (window.confirm('确实清空表'+tableName+'吗？'))
+		{
+		executeSql('TRUNCATE TABLE $table');
+		}
+	}
+	function outputTable(){
+		var tableName = getSelectCheckboxValues();
+		window.location.href = '__URL__/output/table/'+tableName;
+	}
+	function editTable(table){
+		window.location.href = '__URL__/editTable/table/'+table;
+	}
+
+	function copyTable(table){
+		window.location.href = '__URL__/copyTable/table/'+table;
+	}
+	function moveTable(table){
+		window.location.href = '__URL__/moveTable/table/'+table;
+	}
+//-->
+</script>
+<div class="content">
+<div class="title">查看数据库：<span style="font-weight:normal">[ {$useDb} ]  [ <a href="__URL__">返回列表</a> ]</span></div>
+<div id="result" class="result none"></div>
+<!--  功能操作区域  -->
+<div class="operate" >
+<div class="fLeft">切换数据库：<select name="database" class=" hMargin" onchange="refleshDb(this.options[this.options.selectedIndex].value)">
+<volist name="dbs" id="db">
+<neq name="db.Database" value="information_schema">
+<option value="{$db.Database}" <eq name="db.Database" value="$useDb">selected</eq>> {$db.Database} </option>
+</neq>
+</volist>
+   </select>
+   </div>
+   <html:imageBtn value="创建" click="createTable()" style=" fLeft shadow" />
+<html:imageBtn value="结构" click="showTable()" style=" fLeft shadow" />
+<html:imageBtn value="优化" click="optimzeTable()" style="  fLeft shadow" />
+<html:imageBtn value="检查" click="checkTable()" style="  fLeft shadow" />
+<html:imageBtn value="分析" click="analyzeTable()" style="  fLeft shadow" />
+<html:imageBtn value="修复" click="repairTable()" style="  fLeft shadow" />
+<html:imageBtn value="状态" click="statusTable()" style="  fLeft shadow" />
+<html:imageBtn value="导出"  click="outputTable()" style=" fLeft shadow" />
+<html:imageBtn value="清空"  click="clearTable()" style=" fLeft shadow" />
+<html:imageBtn value="删除"  click="delTable()" style=" fLeft shadow" />
+</div>
+<div class="cBoth">
+<fieldset  id="queryBox" class="cBoth none" >
+<legend style="color:gray">执行结果 <span class="blue" id="resultNum"></span> </legend>
+<div id="SqlBench" style="overflow:auto;width:100%;height:100%">
+<table cellpadding=0 cellspacing=0 id='table1' class="list" >
+</table>
+</fieldset>
+</div>
+<html:list id="checkList" name="data" style="list" checkbox="true" datasource="list" action="true" pk="Name" show="Name:名称:searchTable,Engine:类型,Rows:记录数,Data_length|getTabeSize=$data['Index_length']:大小,Data_free|byte_format:多余,Collation:整理,Create_time:创建时间,Comment:注释" actionlist="copyTable:复制,moveTable:移动,editTable:编辑" /> 
+
+<!--  分页显示区域 -->
+<div class="tRight page">{$page}</div>
+</div>

@@ -1,0 +1,246 @@
+<!-- 菜单区域  -->
+<load  type="js" file="Js.String.base64" /> 
+<!-- 主页面开始 -->
+<div id="main" class="main" >
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+	function read(filename){
+		window.location.href = '?f='+id;
+	}
+	function upList(){
+		window.location.href= '?a=upDir';
+	}
+	function download(id){
+		window.location.href = '__URL__/download/id/'+id;
+	}
+	function folder(){
+		window.location.href = '__URL__/add/';
+	}
+	function version(id){
+		window.location.href = '__URL__/history/id/'+id;
+	}
+	function paste(){
+		ThinkAjax.send('__URL__/pasteFile','ajax=1&path='+$F('filename'),pasteComplete);
+	}
+	function pasteComplete(data,status){
+		if (status==1)
+		{
+			//window.location.href = '__SELF__';
+			// 插入新增的数据行
+			for (i=0;i<data.length ;i++ )
+			{
+			
+			var row = $('checkList').insertRow(2);
+			var cell = document.createElement("td");
+			cell.innerHTML	=	'<input type="checkbox" name="key"	value="'+data[i].id+'">';
+			row.appendChild(cell); 
+			var cell = document.createElement("td");
+			cell.innerHTML	=	data[i].name;
+			row.appendChild(cell); 
+			var cell = document.createElement("td");
+			cell.innerHTML	=	data[i].size;
+			row.appendChild(cell); 
+			var cell = document.createElement("td");
+			cell.innerHTML	=	data[i].extension;
+			row.appendChild(cell); 
+			var cell = document.createElement("td");
+			cell.innerHTML	=	data[i].ctime;
+			row.appendChild(cell); 
+			var cell = document.createElement("td");
+			cell.innerHTML	=	data[i].mtime;
+			row.appendChild(cell); 
+			var cell = document.createElement("td");
+			cell.innerHTML	=	data[i].isReadable;
+			row.appendChild(cell); 
+			var cell = document.createElement("td");
+			cell.innerHTML	=	data[i].isWritable;
+			row.appendChild(cell); 
+			}
+		}
+	}
+
+	function copy(id){
+		var keyValue;
+		if (id)
+		{
+			keyValue = id;
+		}else {
+			keyValue = getSelectCheckboxValues();
+		}
+		if (!keyValue)
+		{
+			alert('请选择要复制的文档！');
+			return false;
+		}
+		ThinkAjax.send("__URL__/copyFile/","ajax=1&id="+keyValue);
+	}
+
+	function zip(id){
+		var keyValue;
+		if (id)
+		{
+			keyValue = id;
+		}else {
+			keyValue = getSelectCheckboxValues();
+		}
+		if (!keyValue)
+		{
+			alert('请选择要压缩的文档！');
+			return false;
+		}
+		ThinkAjax.send("__URL__/zipFile/","ajax=1&id="+keyValue);
+	}
+	
+	function cut(id){
+		var keyValue;
+		if (id)
+		{
+			keyValue = id;
+		}else {
+			keyValue = getSelectCheckboxValues();
+		}
+		if (!keyValue)
+		{
+			alert('请选择要剪切的文档！');
+			return false;
+		}
+		ThinkAjax.send("__URL__/cutFile/","ajax=1&id="+keyValue,doDelete);
+	}
+
+	function readFile(filename){
+		window.location.href = '__URL__/index/f/'+filename;
+	}
+
+	function operation(){
+		if ($('oper').value == '编辑') editFile();
+		else sourceFile();
+	}
+
+	function sourceFile(){
+		$('filecontent').style.display = 'none';
+		$('filesource').style.display = 'block';
+		$('oper').value = '编辑';
+	}
+	function editFile(){
+		$('filecontent').style.display = 'block';
+		$('filesource').style.display = 'none';
+		$('oper').value = '查看';
+	}
+
+	function save(){
+	var content	 =	 $('filecontent').value;
+	ThinkAjax.send('__URL__/SaveFile','ajax=1&filename='+$F('filename')+'&content='+encodeURIComponent(content),'result');
+	}
+
+	function lookFile(){
+		readFile(base64encode($('currFile').value))
+	}
+
+
+function edit(id){
+		var keyValue;
+		if (id)
+		{
+			keyValue = id;
+		}else {
+			keyValue = getSelectCheckboxValue();
+		}
+		if (!keyValue)
+		{
+			alert('请选择要重命名的文档！');
+			return false;
+		}
+		window.location.href = '__URL__/edit/f/'+keyValue;
+}
+function download(filename){
+	window.location.href	=	'__URL__/download/f/'+filename;
+}
+function upload(){
+	window.location.href = '__URL__/uploadFile/';
+}
+//-->
+</SCRIPT>
+<!-- 主体内容  -->
+<div class="content" >
+<div class="title"><eq name="type" value="file">查看文件 </eq><eq name="type" value="dir">文件列表  [ <A HREF="__URL__">返回顶部</A> <A HREF="javascript:upList()">返回上级</A> <A HREF="?showType=2">平铺模式</A> <A HREF="?showType=1">缩略图</A>  <A HREF="?showType=0">列表模式</A>]  </eq></div>
+<!--  功能操作区域  -->
+<div class="operate" >
+<switch name="type">
+<case value="dir">
+<html:imageBtn name="dir" value="创建" click="folder()" style="impBtn fLeft shadow" />
+<html:imageBtn name="edit" value="更名" click="edit()" style="impBtn fLeft shadow" />
+<html:imageBtn name="upload" value="上传" click="upload()" style="impBtn fLeft shadow" />
+<html:imageBtn name="copy" value="复制" click="copy()" style="impBtn hMargin fLeft shadow" />
+<html:imageBtn name="cut" value="剪切" click="cut()" style="impBtn hMargin fLeft shadow" />
+<html:imageBtn name="paste" value="粘贴" click="paste()" style="impBtn hMargin fLeft shadow" />
+<html:imageBtn name="delete" value="删除" click="del()" style="impBtn hMargin fLeft shadow" />
+</case>
+<case value="file">
+<html:imageBtn name="download" value="下载" click="download('{$filename}')" style="impBtn hMargin fLeft shadow" />
+<?php if ($writable):?>
+<html:imageBtn name="edit" id="oper" value="编辑" click="operation()" style="impBtn hMargin fLeft shadow" />
+<html:imageBtn name="save" value="保存" click="save()" style="impBtn hMargin fLeft shadow" />
+<?php endif;?>
+<html:imageBtn name="sort" value="返回" click="upList()" style="impBtn hMargin fLeft shadow" />
+</case>
+</switch>
+
+<!-- 查询区域 -->
+<div class="fRig">
+<FORM METHOD=POST ACTION="" onsubmit="return CheckForm(this)">
+<div class="fLeft"><span id="key"><INPUT TYPE="text" check="Require" warning="输入要搜索的模式" NAME="keywords" title="模式查询" class="medium " ></span></div>
+<html:imageBtn type="submit" name="search" value="查询" style="impBtn hMargin fLeft shadow" />
+</form>
+</div>
+<!-- 高级查询区域 -->
+<div  id="searchM" class="  search cBoth" >
+<TABLE cellpadding="1" cellspacing="1" width="100%">
+<tr>
+	<TD class="tCenter"><IMG SRC="../Public/images/dir.gif" WIDTH="16" HEIGHT="16" BORDER="0" ALT="" align="absmiddle"> 当前<notpresent name='search'><eq name="type" value="file">文件：</eq><eq name="type" value="dir">位置：</eq></notpresent><present name='search'>搜索：</present> </TD>
+	<TD class="tLeft"><div class="fLeft"><A HREF="javascript:upList()"><IMG SRC="../Public/images/return.gif" WIDTH="23" HEIGHT="20" BORDER="0" ALT="返回上级" align="absmiddle"></A> <INPUT TYPE="text"  NAME="currFile" style="padding:3pt;width:285px;font:normal normal normal 14px Tahoma;"  value="<present name='search'>搜索文件</present><notpresent name='search'>{$filename|base64_decode|auto_charset='gbk','utf-8'|realpath}</notpresent>"></div> <A HREF="javascript:lookFile()"><IMG SRC="../Public/images/search.gif" WIDTH="21" HEIGHT="21" style="margin:0px 3px" BORDER="0" ALT="" align="absmiddle"></A></TD>
+	<TD class="tRight gray" ><eq name="type" value="dir"> [ 当前磁盘总大小：{$diskTotalSpace|byte_format} 可用空间：{$diskFreeSpace|byte_format} ] </eq><eq name="type" value="file">[ 文件大小：{$truename|filesize|byte_format}]</eq></TD>
+</TR>
+</TABLE>
+</div>
+</div>
+</div>
+<!-- 功能操作区域结束 -->
+
+<!-- 列表显示区域  -->
+<div class="list" >
+<div id="result"  style="margin:0px 10px;padding:3px;color:blue"></div>
+<?php if ( $type=='dir'):?>
+<?php if ( empty($showType)):?>
+<!-- 详细列表 -->
+<?php if (empty($search)):?>
+<html:list id="checkList" name="file" style="list" checkbox="true" datasource="list"  show="pathname|readFileList:名称,size|byte_format:大小,ext|showExt=0:类型,ctime|toDate='m-d H#i#s':创建时间,mtime|toDate='m-d H#i#s':更新时间,isReadable|getRecommend:可读,isWritable|getRecommend:可写"  />  
+<INPUT TYPE="hidden" name="filename" id="filename" value="{$filename}">
+<?php else:?>
+<html:list id="checkList" name="file" style="list" checkbox="true" datasource="list"  show="pathname|readFileList:名称,pathname|showFileDir:所在目录,size|byte_format:大小,ext|showExt=0:类型,ctime|toDate='m-d H#i#s':创建时间,mtime|toDate='m-d H#i#s':更新时间,isReadable|getRecommend:可读,isWritable|getRecommend:可写"  />  
+<INPUT TYPE="hidden" name="filename"  value="{$filename}">
+<?php endif;?>
+<?php elseif($showType==1):?>
+<!-- 缩略图 -->
+<volist name="list" id="vo">
+<div class="folder">{$vo.pathname|showFileThumb}</div>
+</volist>
+<?php elseif($showType==2):?>
+<!-- 图标 -->
+<volist name="list" id="vo">
+<div style="float:left;width:200px;height:55px;font-size:14px;margin:5px;"><img src="" width="45px" height="45px" align="left" style="margin:3px"><A HREF="?f={$vo.pathname|urlsafe_b64encode}">{$vo.filename|auto_charset='gbk','utf-8'}</A><BR><span style="color:gray">{$vo.size|byte_format}</span></div>
+</volist>
+<?php endif;?>
+<!--  分页显示区域 -->
+<?php elseif($type=='file'):?>
+<INPUT TYPE="hidden" name="filename"  value="{$filename}">
+<TEXTAREA id="filecontent" NAME="content" style="display:none;padding:3px;background:#F4F4FF;width:97%;margin:0px 10px;border:1pt solid silver;overflow:auto;font: normal normal normal 14px Tahoma,Verdana;height:650px;line-height:150%;">{$content}</TEXTAREA>
+<div id="filesource" style="display:block;scroll:auto;padding:0px;overflow:auto;width:98%;margin:0px 10px;height:650px;background:#F4F4FF;border:1pt solid silver">{$content|highlight_code|}</div>
+<?php endif;?>
+</div>
+<!-- 列表显示区域结束 -->
+<!--  分页显示区域 -->
+<present name="page"><div class="tRight page">{$page}</div></present>
+</div>
+<!-- 主体内容结束 -->
+</div>
+<!-- 主页面结束 -->

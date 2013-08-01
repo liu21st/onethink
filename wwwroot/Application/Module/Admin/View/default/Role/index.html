@@ -1,0 +1,67 @@
+<script language="JavaScript">
+<!--
+function getGroupUser(groupId){
+location.href='__URL__/userList/id/'+groupId;
+}
+function model(groupId){
+location.href='__URL__/model/groupId/'+groupId;
+}
+function url(groupId){
+location.href='__URL__/url/groupId/'+groupId;
+}
+function menu(groupId){
+location.href='__URL__/menu/groupId/'+groupId;
+}
+function cate(groupId){
+location.href='__URL__/cate/groupId/'+groupId;
+}
+function user(id){
+location.href='__URL__/user/id/'+id;
+}
+//-->
+</script>
+<!-- 主体内容  -->
+<div class="content" >
+<div class="title">角色组列表</div>
+<!--  功能组区域  -->
+<div class="operate" >
+<html:imageBtn name="add" value="新增" click="add()" style="impBtn hMargin fLeft shadow" />
+<html:imageBtn name="edit" value="编辑" click="edit()" style="impBtn hMargin fLeft shadow" />
+<html:imageBtn name="delete" value="删除" click="del()" style="impBtn hMargin fLeft shadow" />
+<html:imageBtn name="sort" value="缓存" click="cache()" style="impBtn hMargin fLeft shadow" />
+<!-- 查询区域 -->
+<div class="fRig">
+<form method=post action="__URL__">
+<div class="fLeft"><span id="key"><input type="text" title="组名查询" name="name" class="medium" ></span></div>
+<html:imageBtn name="search" type="submit" value="查询" style="impBtn hMargin fLeft shadow" />
+<html:imageBtn name="adv" value="高级" id="showText" click="showHideSearch()" style="impBtn hMargin fLeft shadow" />
+</div>
+<!-- 高级查询区域 -->
+<div  id="searchM" class=" none search cBoth" >
+<table cellpadding="1" cellspacing="3" width="100%">
+<tr>
+	<td class="tRight">状态：</td>
+	<td><select class="small bLeft" name="status_sign">
+	<option value="">选择</option>
+	<option value="1">正常</option>
+	<option value="0">禁止</option>
+	</select></td>
+	<td class="tRight">描述：</td>
+	<td ><input type="text" name="remark" class="large "></td>
+</tr>
+</table>
+</div>
+
+</form>
+</div>
+<!-- 功能组区域结束 -->
+
+<!-- 列表显示区域  -->
+<div class="list" >
+<div id="result" class="result none"></div><html:list id="checkList" style="list" name="action" checkbox="true" action="true" datasource="list" show="id:编号|10%,name:组名:edit,pid|getGroupName:上级组,status|getStatus:状态,remark:描述" actionlist="status|showStatus=$action['id'],id|url|访问授权,id|model|模型授权,id|cate|分类授权,id|menu|菜单授权,id|user|用户列表" /> 
+</div>
+<!--  分页显示区域 -->
+<div class="page">{$page}</div>
+<!-- 列表显示区域结束 -->
+</div>
+<!-- 主体内容结束 -->

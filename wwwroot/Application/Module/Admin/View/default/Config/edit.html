@@ -1,0 +1,76 @@
+<div class="content">
+<div class="title">编辑配置 <span class="normal">[ <a href="__URL__">返回列表</a> ]</span></div>
+<form method=post id="form1" action="__URL__/update">
+<table cellpadding=3 cellspacing=3>
+<tr>
+	<td class="tRight" >变 量：</td>
+	<td class="tLeft" ><input type="text" class="large bLeftRequire" check='^\S+$' warning="配置名不能为空,且不能含有空格" name="name" value="{$vo.name}"></td>
+</tr>
+<tr>
+	<td class="tRight" >名 称：</td>
+	<td class="tLeft" ><input type="text" class="large bLeft"  name="title" value="{$vo.title}"></td>
+</tr>
+<tr>
+	<td class="tRight tTop">配 置：</td>
+	<td class="tLeft">
+	<TEXTAREA style="overflow:auto" class="large " name="value" ROWS="5" COLS="35">{$vo.value}</TEXTAREA>
+	</td>
+</tr>
+<tr>
+	<td class="tRight">类 型：</td> 
+	<td class="tLeft"><select class="medium bLeft" name="type">
+	<option <equal name="vo.type" value="0" >selected</equal> value="0">字符型</option>
+	<option <equal name="vo.type" value="1" >selected</equal> value="1">数字型</option>
+	<option <equal name="vo.type" value="2" >selected</equal> value="2">布尔型</option>
+	<option <equal name="vo.type" value="3" >selected</equal> value="3">文本型</option>
+	<option <equal name="vo.type" value="4" >selected</equal> value="4">枚举型</option>
+	</select></td>
+</tr>
+<tr>
+	<td class="tRight" >归 类：</td>
+	<td class="tLeft" >
+	<select class="medium bLeft" name="tag">
+	<option value="">默认</option>
+	<volist name=":parseAttr(C('CONF_TYPE_LIST'))" id="tag">
+	<option value="{$key}" <eq name="key" value="$vo['tag']">selected</eq>>{$tag}</option>
+	</volist>
+	</select>
+	</td>
+</tr>
+<tr>
+	<td class="tRight" >应 用：</td>
+	<td class="tLeft" >
+	<select class="medium bLeft" name="app_id">
+	<option <eq name="vo.app_id" value="0">selected</eq> value="0">全局</option>
+	<volist name=":getApps()" id="app">
+	<option value="{$key}" <eq name="vo.app_id" value="$key">selected</eq>>{$app}</option>
+	</volist>
+	</select>
+	</td>
+</tr>
+<tr>
+	<td class="tRight tTop">参 数：</td>
+	<td class="tLeft">布尔型、枚举型请输入参数（用,分割多个参数 用:分割值和显示）<BR><TEXTAREA class="bLeft large" name="extra" ROWS="5" COLS="35">{$vo.extra}</TEXTAREA><BR>布尔型采用两个参数，前面的表示否</td>
+</tr>
+<tr>
+	<td class="tRight tTop">备  注：</td>
+	<td class="tLeft"><TEXTAREA class="bLeft large" name="remark" ROWS="5" COLS="35">{$vo.remark}</TEXTAREA></td>
+</tr>
+<tr>
+	<td class="tRight">显 示：</td>
+	<td class="tLeft"><select class="small bLeft"  name="is_show">
+	<option <eq name="vo.is_show" value="1" >selected</eq> value="1">显示</option>
+	<option <eq name="vo.is_show" value="0" >selected</eq> value="0">不显示</option>
+	</select></td>
+</tr>
+<tr>
+	<td ></td>
+	<td class="center">
+	<input type="hidden" name="id" value="{$vo.id}">
+	<input type="submit" value="保存" class="button">
+	<input type="reset" class="button" value="清空" >
+	</td>
+</tr>
+</table>
+</form>
+</div>

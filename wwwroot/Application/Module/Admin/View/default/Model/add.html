@@ -1,0 +1,60 @@
+<div class="content">
+<import  file="Js.Form.MultiSelect" />
+<div class="title">新增模型 <span class="normal">[ <A HREF="__URL__">返回列表</A> ]</span></div>
+<form METHOD=POST id="form1" action="__URL__/insert">
+<table cellpadding=3 cellspacing=3>
+<tr>
+	<td class="tRight tTop">模型名称：</td>
+	<td class="tLeft"><input type="text" class="medium bLeftRequire"  NAME="title"></td>
+</tr>
+<tr>
+	<td class="tRight" >英文标识：</td>
+	<td class="tLeft" ><input type="text" class="medium bLeftRequire" NAME="name"></td>
+</tr>
+<tr>
+	<td class="tRight">模型类型：</td>
+	<td class="tLeft"><select class="medium bLeft"   NAME="model_type">
+	<option value="0">系统模型</option>
+	<option value="2">文档模型</option>
+	<option value="1">视图模型</option>
+	</select></td>
+</tr>
+<tr>
+	<td class="tRight tTop">模型描述：</td>
+	<td class="tLeft"><TEXTAREA class="bLeft huge" name="remark" ROWS="2" COLS="35"></TEXTAREA></td>
+</tr>
+<tr>
+	<td class="tRight" >所属应用：</td>
+	<td class="tLeft" >
+	<select class="medium bLeft" name="app_id">
+	<option value="0">全局</option>
+	<volist name=":getApps()" id="site">
+	<option value="{$key}">{$site}</option>
+	</volist>
+	</select>
+	</td>
+</tr>
+<tr>
+	<td class="tRight">是否可见：</td>
+	<td class="tLeft"><select class="small bLeft" NAME="is_show">
+	<option value="1">可见</option>
+	<option value="0">隐藏</option>
+	</select></td>
+</tr>
+<tr>
+	<td class="tRight">状 态：</td>
+	<td class="tLeft"><select class="small bLeft" NAME="status">
+	<option value="1">启用</option>
+	<option value="0">禁用</option>
+	</select></td>
+</tr>
+<tr>
+	<td ></td>
+	<td class="center">
+	<input type="submit" value="保存" class="button medium">
+	<input type="reset" class="button shadow" value="清空" >
+	</td>
+</tr>
+</table>
+</form>
+</div>

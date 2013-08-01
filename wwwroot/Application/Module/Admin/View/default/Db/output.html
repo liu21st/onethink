@@ -1,0 +1,42 @@
+<div class="content">
+<div class="title">数据导出 [ <a href="__URL__">返回列表</a> ]</div>
+<div id="result" class="result none"></div>
+<form id="upload" METHOD=POST action="__URL__/outputData/" onsubmit="return CheckForm(this);" >
+<table cellpadding=0 cellspacing=0  class="list" width="100%">
+<tr><td height="5" colspan="10" class="topTd" ></td></tr>
+<tr class="row">
+	<th class="tRight" style="width:100px" >数据表：</th>
+	<td class="tLeft tTop">
+<select name="tableName" id="tableName" class="medium" size="12" multiple >
+<iterate name="tables" id="table" >
+<option value="{$table}" <in name="table|strtolower" value="$Think.get.table">selected</in>>{$table}</option>  
+</iterate>
+</select>
+</td>
+<tr>
+<tr class="row">
+	<th class="tRight" >导出格式：</th>
+	<td class="tLeft tTop">
+	<select name="type" class="small" >
+    <option value="SQL" > SQL </option>
+    <option value="CSV" > CSV </option>
+   </select>
+</td>
+<tr>
+<tr class="row">
+	<th class="tRight" >是否压缩：</th>
+	<td class="tLeft tTop">
+	<select name="zip" class="small">
+    <option value="0" >无压缩 </option>
+    <option value="1" >压缩 </option>
+   </select>
+</td>
+<tr>
+<th class="tRight" style="width:100px" ></th>
+<td><input type="hidden" name="table" value="{$Think.get.table}"><input type="submit" value="导 出" class="small button "></td>
+</tr>
+</tr>
+<tr><td height="5" colspan="10" class="bottomTd"></td></tr>
+</table>
+</form>
+</div>

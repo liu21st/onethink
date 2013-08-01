@@ -1,0 +1,21 @@
+<script language="JavaScript">
+<!--
+ 	function runSql(sql){
+		window.location.href = '__URL__/index/run/1/sql/'+sql;
+	}
+
+//-->
+</script>
+<div class="content">
+<div class="title">SQL记录 [ <a href="__URL__">返回列表</a> ]</div>
+<div id="result" class="result none"></div>
+<!--  功能操作区域  -->
+<div class="operate" >
+<html:imageBtn name="delete" value="删除" click="del()" style="impBtn hMargin fLeft shadow" />
+<html:imageBtn name="clear" value="清空" click="clearData()" style="impBtn hMargin fLeft shadow" />
+</div>
+<html:list id="checkList" name="attach" style="list" checkbox="true" datasource="list" show="id:编号|5%,sql_str:SQL语句:runSql|sql_str,create_time|toDate='m-d H#i#s':执行时间,run_time:运行消耗(s)"   /> 
+
+<!--  分页显示区域 -->
+<div class="tRight page">{$page}</div>
+</div>

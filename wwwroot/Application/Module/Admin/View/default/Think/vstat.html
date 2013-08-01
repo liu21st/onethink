@@ -1,0 +1,26 @@
+<div class="content">
+<div class="title">查看[{$model.title|default='文档'}]统计信息 <span class="normal">[ <a href="{$Think.cookie.__forward__}">返回列表</a> ]</span> <present name="models">
+<span class="normal"><iterate name="models" id="model">|<A href="javascript:readSubModule('{$model[name]}')">查看{$model.title}列表</A></iterate></span>
+</present></div>
+<div class="fLeft ">
+<FORM METHOD=GET name="search" ACTION="">
+按照：<select id="" name="type" class="small" ><option <eq name="Think.get.type" value="d">selected</eq> value="d" >日</option><option <eq name="Think.get.type" value="m">selected</eq> value="m">月</option><option <eq name="Think.get.type" value="y">selected</eq>  value="y">年</option><option <eq name="Think.get.type" value="h">selected</eq>  value="h">小时</option></select> 
+<span id="key">统计区间大小（年、月、日数目）<INPUT type="text" name="t"   class="small "></span><INPUT type="submit" class="submit hMargin small" value="查 询"  />
+</FORM>
+<import type="js" file="Js.Util.SwfObject" /> 
+<div id="chartSwf" style="width:670px;margin:5px"></div>
+<script type="text/javascript">
+// <![CDATA[
+
+var so = new SWFObject("__PUBLIC__/FCharts3/Column3D.swf?chartWidth={$chartWidth}&ChartHeight={$chartHeight}", "chat", "650", "{$chartHeight}", "8", "");
+so.addVariable("dataXML", "{$chartXML}");
+so.addParam("scale", "noscale");
+so.addParam("wmode","transparent");
+so.write("chartSwf");
+
+// ]]>
+</script>
+</div>
+<br class="cBoth" />
+</div>
+</div>
