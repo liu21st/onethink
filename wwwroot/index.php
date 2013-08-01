@@ -9,7 +9,7 @@
 
 // 系统调试设置
 define ( 'APP_DEBUG', true );
-
+ 
 // 应用目录设置
 define ( 'APP_PATH', './Application/' );
 
