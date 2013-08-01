@@ -15,9 +15,9 @@ class UserController extends HomeController {
 
 	/* 用户中心首页 */
 	public function index(){
-		//$login = A('Uc/User', 'Api')->login('麦当苗儿ss', 'aoiujz');
-		//$login = A('Uc/User', 'Api')->register('麦当苗儿ss', 'aoiujz', 'xiaoxiaoxiao@qq.com');
-		//$login = A('Uc/User', 'Api')->checkEmail('zuojiazi@vip.qq.com');
+		//$login = A('User/User', 'Api')->login('麦当苗儿ss', 'aoiujz');
+		//$login = A('User/User', 'Api')->register('麦当苗儿ss', 'aoiujz', 'xiaoxiaoxiao@qq.com');
+		//$login = A('User/User', 'Api')->checkEmail('zuojiazi@vip.qq.com');
 
 
 		// dump($login);
@@ -38,7 +38,7 @@ class UserController extends HomeController {
 			}			
 
 			/* 调用注册接口注册用户 */
-			$uid = A('Uc/User', 'Api')->register($username, $password, $email);
+			$uid = A('User/User', 'Api')->register($username, $password, $email);
 			if(0 < $uid){ //注册成功
 				//TODO: 发送验证邮件
 				echo '注册成功';
@@ -60,7 +60,7 @@ class UserController extends HomeController {
 			}
 
 			/* 调用UC登录接口登录 */
-			$uid = A('Uc/User', 'Api')->login($username, $password);
+			$uid = A('User/User', 'Api')->login($username, $password);
 			if(0 < $uid){ //UC登录成功
 				/* 登录用户 */
 				$Member = D('Member');

@@ -15,26 +15,28 @@ return array(
     /* 模块相关配置 */
     'EXTEND_MODULE'  => array('Addons' => MODULE_PATH . 'Addons/'), //扩展模块列表
     
-	/* 模板相关配置 */
-	'TMPL_PARSE_STRING' => array(
-		'__IMG__' => __ROOT__ . '/Public/Home/images',
-		'__CSS__' => __ROOT__ . '/Public/Home/css',
-		'__JS__'  => __ROOT__ . '/Public/Home/js',
-	),
+    /* 模板相关配置 */
+    'TMPL_PARSE_STRING' => array(
+        '__COMMON__' => __ROOT__ . '/Public/common',
+        '__ADDONS__' => __ROOT__ . '/Public/Cms/Addons',
+        '__IMG__'    => __ROOT__ . '/Public/Cms/images',
+        '__CSS__'    => __ROOT__ . '/Public/Cms/css',
+        '__JS__'     => __ROOT__ . '/Public/Cms/js',
+    ),
 
-	/* SESSION配置 */
+    /* SESSION配置 */
     'SESSION_PREFIX' => 'thinkcms_home', //session前缀
 
     /* 默认插件定义 */
     'ADDONS_HOOKS_WIDGET' => array(
         'page_header'            => array('Attachment'),
-    	'document_edit_form'     => array('Attachment'),
+        'document_edit_form'     => array('Attachment'),
         'document_detail_before' => array(),
         'document_detail_after'  => array('Attachment'),
         'page_footer'            => array('Attachment'),
     ),
     'ADDONS_HOOKS_CONTROLLER' => array(
-    	'document_save_complete' => array('Attachment'),
+        'document_save_complete' => array('Attachment'),
     ),
 
 );
