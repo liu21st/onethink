@@ -1,0 +1,59 @@
+<div class="footer">
+	<div class="ft-main cf">
+		<div class="ft-col">
+			<h3>我们</h3>
+			<ul>
+				<li><a href="{:U('/about/index')}">关于我们</a></li>
+				<li><a href="{:U('/7year')}">公司动态</a></li>
+				<li><a href="{:U('/about/contact')}">联系我们</a></li>
+				<li><a href="{:U('/about/disclaimer')}">免责声明</a></li>
+				<li><a href="{:U('/about/join_us')}">加入我们</a></li>
+				<li><a href="{:U('/about/donate')}">捐赠我们</a></li>
+			</ul>
+		</div>
+		<div class="ft-col">
+			<h3>合作</h3>
+			<ul>
+				<li><a href="{:U('/cooperation/training')}">技术培训</a></li>
+				<li><a href="{:U('/cooperation/adcoop')}">广告合作</a></li>
+				<li><a href="{:U('/cooperation/projectcoop')}">项目合作</a></li>
+				<li><a href="{:U('/cooperation/investcoop')}">投资合作</a></li>
+				<li><a href="{:U('/cooperation/partner')}">合作伙伴</a></li>
+				<li><a href="{:U('link/index')}">友情链接</a></li>
+			</ul>
+		</div>
+		<div class="ft-col">
+			<h3>网站</h3>
+			<ul>
+				<li><a href="{:U('/rss')}">RSS订阅</a></li>
+				<li><a href="{:U('help/contribute')}">投稿指南</a></li>
+				<li><a href="{:U('help/sitehelp')}">网站帮助</a></li>
+			</ul>
+		</div>
+		<div class="ft-col">
+			<h3>信息</h3>
+			<ul>
+				<li><a href="{:U('update/index')}">更新列表</a></li>
+				<li><a href="{:U('bug/index')}">BUG反馈</a></li>
+				<li><a href="{:U('topic/index')}">技术讨论</a></li>
+				<li><a href="{:U('info/index')}">教程资讯</a></li>
+			</ul>
+		</div>
+		<div class="ft-intro">
+			<div class="btm-logo">
+				<p>ThinkPHP 是一个免费开源的，快速、简单的面向对象的 轻量级PHP开发框架 ，创立于2006年初，遵循Apache2开源协议发布，是为了敏捷WEB应用开发和简化企业应用开发而诞生的。ThinkPHP从诞生以来一直秉承简洁实用的设计原则，在保持出色的性能和至简的代码的同时，也注重易用性。并且拥有众多的原创功能和特性，在社区团队的积极参与下，在易用性、扩展性和性能方面不断优化和改进，已经成长为国内最领先和最具影响力的WEB应用开发框架，众多的典型案例确保可以稳定用于商业以及门户级的开发。</p>
+				<div class="copyright">沪ICP备12007941号-2</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<include file="Public/var"/>
+<script type="text/javascript" src="__PUBLIC__/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/think.js"></script>
+<script type="text/javascript" src="__JS__/common.js"></script>
+<block name="script"></block> <!-- 用于加载js代码 -->
+{:hooks('page_footer', 'widget')} <!-- 页面footer钩子，一般用于加载插件JS文件和JS代码 -->
+<div class="hidden"><!-- 用于加载统计代码等隐藏元素 -->
+	<block name="hidden"></block>
+</div> 

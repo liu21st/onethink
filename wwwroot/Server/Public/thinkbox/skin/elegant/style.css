@@ -1,0 +1,197 @@
+/* 锁屏层样式 */ 
+.thinkbox-modal-blackout-elegant{
+    background-color: #fff;
+    opacity: 0;
+    filter:alpha(opacity=0);
+}
+/*弹出层样式*/
+.thinkbox-elegant{
+	border: 1px solid #C8ECFA;
+}
+/*弹出层边框*/
+.thinkbox-elegant .thinkbox-top-left,.thinkbox-elegant .thinkbox-top-right,
+.thinkbox-elegant .thinkbox-left,.thinkbox-elegant .thinkbox-right,
+.thinkbox-elegant .thinkbox-bottom-left,.thinkbox-elegant .thinkbox-bottom-right,
+.thinkbox-elegant .thinkbox-top-left,.thinkbox-elegant .thinkbox-top,.thinkbox-elegant .thinkbox-top-right,
+.thinkbox-elegant .thinkbox-bottom-left,.thinkbox-elegant .thinkbox-bottom,.thinkbox-elegant .thinkbox-bottom-right{
+	background-color: #EBEBEB;
+}
+.thinkbox-elegant .thinkbox-top-left,.thinkbox-elegant .thinkbox-top-right,
+.thinkbox-elegant .thinkbox-left,.thinkbox-elegant .thinkbox-right,
+.thinkbox-elegant .thinkbox-bottom-left,.thinkbox-elegant .thinkbox-bottom-right{
+	width: 7px;
+}
+.thinkbox-elegant .thinkbox-top-left,.thinkbox-elegant .thinkbox-top,.thinkbox-elegant .thinkbox-top-right,
+.thinkbox-elegant .thinkbox-bottom-left,.thinkbox-elegant .thinkbox-bottom,.thinkbox-elegant .thinkbox-bottom-right{
+	height: 7px;
+}
+/*弹出层内部*/
+.thinkbox-elegant .thinkbox-inner{
+	border: 1px solid #C6D3DF;
+	background-color: #FFFFFF;
+}
+/*弹出层头部*/
+.thinkbox-elegant .thinkbox-title{
+	height: 36px;
+	line-height: 36px;
+	background-color: #F9FAFB;
+	border-bottom: 1px solid #E7EDF1;
+	padding: 0 12px;
+}
+/*弹出层标题*/
+.thinkbox-elegant .thinkbox-title span{
+	font-size: 14px;
+	color: #5E667B;
+}
+/*弹出层内容*/
+.thinkbox-elegant .thinkbox-body{
+	padding: 12px;
+}
+/*关闭按钮*/
+.thinkbox-elegant .thinkbox-close{
+	position: absolute;
+	top: 9px; 
+	right: 20px;
+	color: #5E667B;
+	cursor: pointer;
+}
+.thinkbox-elegant .thinkbox-close:hover{
+	color: #c00;
+}
+/*弹出层拖拽*/
+.thinkbox-elegant .thinkbox-draging{ 
+	cursor: move;
+}
+/*弹出层工具*/
+.thinkbox-elegant .thinkbox-tools{
+	padding: 6px;
+	background-color: #fafafa;
+	border-top: 1px solid #EBEBEB;
+	text-align: right;
+}
+.thinkbox-elegant .thinkbox-tools button{
+	font-size: 12px;
+	display: inline-block; 
+	height: 22px;
+	line-height: 22px;
+	padding: 0 12px;
+	cursor: pointer;
+	margin: 0 6px;
+}
+/*工具确定按钮*/
+.thinkbox-elegant .thinkbox-button-ok{
+	border: 1px solid #DB7900;
+	color: #fff;
+	background: #ffa94d; /* Old browsers */
+	background: -moz-linear-gradient(top,  #ffa94d 0%, #ff8a28 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffa94d), color-stop(100%,#ff8a28)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #ffa94d 0%,#ff8a28 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #ffa94d 0%,#ff8a28 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #ffa94d 0%,#ff8a28 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #ffa94d 0%,#ff8a28 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffa94d', endColorstr='#ff8a28',GradientType=0 ); /* IE6-9 */
+}
+.thinkbox-elegant .thinkbox-button-ok:hover{
+	background: #ffbb4d; /* Old browsers */
+	background: -moz-linear-gradient(top,  #ffbb4d 0%, #ffa21f 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffbb4d), color-stop(100%,#ffa21f)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #ffbb4d 0%,#ffa21f 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #ffbb4d 0%,#ffa21f 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #ffbb4d 0%,#ffa21f 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #ffbb4d 0%,#ffa21f 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffbb4d', endColorstr='#ffa21f',GradientType=0 ); /* IE6-9 */
+}
+/*工具取消按钮*/
+.thinkbox-elegant .thinkbox-button-cancel{
+	border: 1px solid #AEAEAE;
+	color: #333;
+	background: #f3f3f3; /* Old browsers */
+	background: -moz-linear-gradient(top,  #f3f3f3 0%, #e3e3e3 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f3f3f3), color-stop(100%,#e3e3e3)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #f3f3f3 0%,#e3e3e3 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #f3f3f3 0%,#e3e3e3 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #f3f3f3 0%,#e3e3e3 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #f3f3f3 0%,#e3e3e3 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3f3f3', endColorstr='#e3e3e3',GradientType=0 ); /* IE6-9 */
+}
+.thinkbox-elegant .thinkbox-button-cancel:hover{
+	background: #ededed; /* Old browsers */
+	background: -moz-linear-gradient(top,  #ededed 0%, #d5d5d5 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ededed), color-stop(100%,#d5d5d5)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #ededed 0%,#d5d5d5 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #ededed 0%,#d5d5d5 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #ededed 0%,#d5d5d5 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #ededed 0%,#d5d5d5 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededed', endColorstr='#d5d5d5',GradientType=0 ); /* IE6-9 */
+}
+/*工具提交按钮*/
+.thinkbox-elegant .thinkbox-button-submit{
+	border: 1px solid #DB7900;
+	color: #fff;
+	background: #ffa94d; /* Old browsers */
+	background: -moz-linear-gradient(top,  #ffa94d 0%, #ff8a28 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffa94d), color-stop(100%,#ff8a28)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #ffa94d 0%,#ff8a28 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #ffa94d 0%,#ff8a28 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #ffa94d 0%,#ff8a28 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #ffa94d 0%,#ff8a28 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffa94d', endColorstr='#ff8a28',GradientType=0 ); /* IE6-9 */
+}
+.thinkbox-elegant .thinkbox-button-submit:hover{
+	background: #ffbb4d; /* Old browsers */
+	background: -moz-linear-gradient(top,  #ffbb4d 0%, #ffa21f 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffbb4d), color-stop(100%,#ffa21f)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #ffbb4d 0%,#ffa21f 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #ffbb4d 0%,#ffa21f 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #ffbb4d 0%,#ffa21f 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #ffbb4d 0%,#ffa21f 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffbb4d', endColorstr='#ffa21f',GradientType=0 ); /* IE6-9 */
+}
+/**********************************************
+ ************** thinkbox 插件样式 **************
+ **********************************************/
+/* 加载外部内容loading样式 */
+.thinkbox-elegant .thinkbox-load-loading{
+    line-height: 30px;
+    padding: 20px 10px;
+    text-align: center;
+    width: 220px;
+    border-radius: 5px;
+}
+/* 提示框样式 */
+.thinkbox-elegant .thinkbox-tips{
+    height: 36px;
+    background-image: url(tips-bg.gif);
+    padding: 0 20px 0 70px;;
+    background-repeat: no-repeat;
+    line-height: 36px;
+    font-size: 14px;
+    font-weight: 700;
+    width: auto;
+    border-radius: 5px;
+}
+/* 弹出成功框样式 */
+.thinkbox-elegant .thinkbox-tips-success{
+    color: green;
+}
+/* 弹出错误框样式 */
+.thinkbox-elegant .thinkbox-tips-error{
+    color: red;
+    background-position: 0 -62px;
+}
+/* 弹出加载框样式 */
+.thinkbox-elegant .thinkbox-tips-loading{
+    color: black;
+    background-image: url(tips_loading.gif);
+    background-position: 20px 3px;
+}
+/*警告提示信息*/
+/*确认提示信息*/
+.thinkbox-elegant .thinkbox-alert,
+.thinkbox-elegant .thinkbox-confirm{
+    width: 200px; 
+    padding: 10px;
+    line-height: 20px;
+    height: auto!important;
+    height: 40px;
+}

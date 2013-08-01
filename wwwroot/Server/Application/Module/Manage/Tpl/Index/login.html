@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>ThinkUCenter 后台管理登录</title>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/style.css" media="all">
+</head>
+<body>
+	<div class="login-container">
+		<div class="login-main">
+			<div class="login">
+				<h1 class="login-header"><i></i></h1>
+				<a class="login-img" href="javascript:;"><img src="__PUBLIC__/login_img.png"></a>
+				
+				<div class="login-wrap">
+					<!-- 登录表单项 -->
+					<form action="{:U('index/doLogin')}" method="post" class="login-form">
+						<div id="error-msg" class="error-msg"></div>
+						<div class="form-item">
+							<input type="text" name="username" class="txt-input" placeholder="请填写用户名" />
+						</div>
+						<div class="form-item">
+							<input type="password" name="password" class="txt-input" placeholder="请填写密码" />
+						</div>
+						<div class="form-item">
+							<input type="submit" class="login-btn" value="登 录">
+						</div>
+					</form>
+					<!-- 登录表单项 -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="__PUBLIC__/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript">
+		$("form").submit(function(){
+			var $form = $(this), $error = $("#error-msg");
+			$.post(
+				$form.attr("action"),
+				$form.serialize(),
+				function(data){
+					if(data.status){ //登录成功
+						window.document.location = data.url;
+					} else { //登录失败
+						$error.text(data.info).fadeIn();
+					}
+				},
+				"json"
+			);
+			return false;
+		});
+	</script>
+</body>
+</html>

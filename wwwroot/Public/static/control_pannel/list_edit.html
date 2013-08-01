@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>管理面板 -  待审核列表</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/control-pannel.css">
+</head>
+<body>
+	<!-- 头部 -->
+	<div class="container">
+		<div class="top-banner"></div>
+
+		<div class="navbar">
+			<div class="navbar-inner">
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
+
+				<a href="javascript:;" class="brand">ThinkPHP</a>
+
+				<div class="nav-collapse collapse">
+					<ul class="nav">
+						<li class="active"><a href="javascript:;">首页</a></li>
+						<li><a href="javascript:;">下载</a></li>
+						<li><a href="javascript:;">扩展</a></li>
+						<li><a href="javascript:;">资讯</a></li>
+						<li><a href="javascript:;">讨论</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /头部 -->
+
+	<div class="container">
+		<div class="row">
+			<!-- 侧栏 -->
+			<div class="span3">
+				<ul class="nav nav-list ctr-pal-sidenav">
+					<li class="active"><a href="javascript:;">站点设置</a></li>
+					<li><a href="javascript:;">频道管理</a></li>
+					<li><a href="javascript:;">分类管理</a></li>
+					<li><a href="javascript:;">待审核</a></li>
+				</ul>
+			</div>
+			<!-- /侧栏 -->
+			
+			<div class="span9">
+				<h4 class="cnt-sub-title">待审核文章</h4>
+
+				<!-- 表格列表 -->
+				<div class="tb-unit posr">
+					<div class="tb-unit-bar">
+						<label class="checkbox inline"><input type="checkbox">全选</label>
+						<a class="btn btn-small" href="#"><i class="icon-ok-sign"></i> 通过</a>
+						<a class="btn btn-small" data-toggle="modal" data-target="#myModal" title="删除" href="#">
+							<i class="icon-remove"></i>删除
+						</a>
+					</div>
+					<table class="tblist">
+						<thead>
+							<tr>
+								<th class="check"></th>
+								<th>标题</th>
+								<th class="author">作者</th>
+								<th class="time">发布时间</th>
+								<th class="opt">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="check"> <input type="checkbox" name="" id=""> </td>
+								<td class="title"><a href="javascript:;">TP如何连接ACCESS？</a></td>
+								<td class="author">ruby熊</td>
+								<td class="time">2013-6-17</td>
+								<td class="opt">
+									<div class="btn-toolbar">
+										<div class="btn-group">
+											<a class="btn" title="点击查看" href="#">
+												<i class="icon-eye-open"></i>
+											</a>
+											<a class="btn active" title="已通过" href="#">
+												<i class="icon-ok-sign"></i>
+											</a>
+											<a class="btn" data-toggle="modal" data-target="#myModal" title="删除" href="#">
+												<i class="icon-remove"></i>
+											</a>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="tb-unit-bar">
+						<label class="checkbox inline"><input type="checkbox">全选</label>
+						<a class="btn btn-small" href="#"> <i class="icon-ok-sign"></i>通过 </a>
+						<a class="btn btn-small" data-toggle="modal" data-target="#myModal" title="删除" href="#">
+							<i class="icon-remove"></i>删除
+						</a>
+					</div>
+
+					<!-- 删除弹框 -->
+					<div id="myModal" class="modal fade hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h3>删除</h3>
+						</div>
+						<div class="modal-body"> 删除后不能恢复，确定删除吗？ </div>
+						<div class="modal-footer">
+							<input type="submit" value="确定" class="btn btn-primary">
+							<input type="reset" value="取消" data-dismiss="modal" aria-hidden="true" class="btn">
+						</div>
+					</div>
+					<!-- /删除弹框 -->
+				</div>
+				<!-- /表格列表 -->
+			</div>
+		</div>
+	</div>
+
+	<div id="script">
+		<script type="text/javascript" src="../../jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	</div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+/**
+ * 对bootstrap.css的重置及补充
+ */
+
+body {
+	font-family: "microsoft yahei";
+}
+th,td {
+	margin: 0;
+	padding: 0;
+}
+.posr {
+	position: relative;
+}
+.tc {
+	text-align: center;
+}
+.ml0 {
+	margin-left: 0;
+}
+
+.form-horizontal .control-label {
+    width: 90px;
+    cursor: default;
+}
+.form-horizontal .controls {
+    margin-left: 100px;
+}
+.radio+.help-inline {
+	padding-top: 5px;
+}
+.controls textarea+.help-inline {
+	vertical-align: top;
+}
+.btn [class^="icon-"],.btn [class*="icon-"] {
+	margin-right: 2px;
+	vertical-align: middle;
+}
+.btn-small .icon-plus {
+	vertical-align: -2px;
+}

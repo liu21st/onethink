@@ -1,0 +1,28 @@
+<volist name="tree" id="list">
+	<dl class="cate-item">
+		<dt class="clearfix">
+			<form action="{:U('categoryEdit')}" method="post">
+				<div class="btn-toolbar pull-right opt-btn">
+					<div class="btn-group">
+						<a class="btn btn-mini add-sub" title="添加子分类" href="{:U('categoryEdit?pid='.$list['id'])}"><i class="icon-plus-sign"></i></a>
+						<a class="btn btn-mini" title="查看" href="{:U('categoryEdit?id='.$list['id'])}"><i class="icon-eye-open"></i></a>
+						<a class="btn btn-mini" title="删除" href="javascript:;"><i class="icon-remove"></i></a>
+					</div>
+				</div>
+				<div class="fold"><i></i></div>
+				<div class="order"><input type="text" name="sort" class="input-mini" value="{$list.sort}"></div>
+				<div class="name">
+					<span class="tab-sign"></span>
+					<input type="hidden" name="id" value="{$list.id}">
+					<input type="text" name="title" class="input-medium" value="{$list.title}">
+					<span class="help-inline msg"></span>
+				</div>
+			</form>
+		</dt>
+		<notempty name="list['_']">
+			<dd>
+				{:R('Control/categorytree', array($list['_']))}
+			</dd>
+		</notempty>
+	</dl>
+</volist>

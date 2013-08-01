@@ -1,0 +1,317 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>ThinkCMS</title>
+	<link rel="stylesheet" type="text/css" href="../css/base.css" media="all">
+	<link rel="stylesheet" type="text/css" href="../css/common.css" media="all">
+	<link rel="stylesheet" type="text/css" href="../css/module.css" media="all">
+	<script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+</head>
+<body>
+	<!-- 头部 -->
+	<div class="header">
+		<div class="hd-main cf">
+			<h3 class="logo"><a href="/" title="返回首页"></a></h3>
+
+			<ul class="main-nav">
+				<li class="current"><a href="#">首页</a></li>
+				<li><a href="#">下载</a></li>
+				<li><a href="#">扩展</a></li>
+				<li><a href="#">应用</a></li>
+				<li><a href="#">教程</a></li>
+				<li><a href="#">代码</a></li>
+				<li><a href="#">案例</a></li>
+				<li><a href="#">资讯</a></li>
+				<li><a href="#">讨论</a></li>
+			</ul>
+
+			<div class="header-bar">
+				<form action="#" method="post" class="search cf">
+					<div id="header-search" class="search-sort">
+						<span class="search-sort-txt">资讯</span><em></em>
+						<input type="hidden" name="type" id="search" value="10"/>
+						<ul id="search-sort-list" class="search-sort-list">
+							<li value="10">全部</li>
+							<li value="0">资讯</li>
+    						<li value="1">下载</li>
+    						<li value="2">讨论</li>
+    						<li value="6">代码</li>
+    						<li value="3">BUG</li>
+    						<li value="4">建议</li>
+    						<li value="5">更新</li>
+                            <li value="7">应用</li>
+						</ul>
+					</div>
+					<input type="hidden" name="time" value="0">
+					<input type="text" name="name" class="search-input">
+					<a class="search-btn" onclick="$(this).parent().submit();">搜索</a>
+				</form>
+
+				<!-- 登陆前 -->
+				<div class="entrance hidden">
+					<a class="unlogin" href="#">
+						<b class="unlogin-ic"></b>
+						<i class="entr-icon"></i>
+					</a>
+					<ul class="user-menu set-l">
+						<li><a href="#">登录</a></li>
+						<li><a href="#">注册</a></li>
+					</ul>
+				</div>
+				<!-- /登陆前 -->
+
+			 	<!-- 登陆后 -->
+		 		<div class="entrance" id="notify_div">
+					<a class="msg-ic" href="#"><em>99</em></a>
+				</div>
+
+				<div class="entrance">
+					<a class="set-ic" href="#">
+						<img src="../images/temp/36_36.png" alt="" />
+						<i class="entr-icon"></i>
+					</a>
+					<ul class="user-menu set-m">
+						<li><a href="#">个人设置</a></li>
+						<li><a href="#">我的文章</a></li>
+						<li><a href="#">我的消息</a></li>
+						<li><a href="#">我的收藏</a></li>
+						<li><a href="#">退出</a></li>
+					</ul>
+				</div>
+			 	<!-- /登陆后 -->
+			</div>
+		</div>
+		<script type="text/javascript">
+			$(function(){
+				//搜索选项选择
+				$("#header-search").hover(function(){
+					$("#search-sort-list").show();
+				},function(){
+					$("#search-sort-list").hide();
+				});
+				$("#search-sort-list li").click(function(){
+					var curTxt = $(this).text();
+					var type = $(this).val();
+					$('#search').val(type);
+					$(this).addClass("current").siblings().removeClass("current");
+					$(this).parent().siblings(".search-sort-txt").text(curTxt);
+					$(this).parent().hide();
+				});
+
+				//图标隐藏菜单
+				$(".entrance").hover(function(){
+					$(this).children(".user-menu").show();
+				},function(){
+					$(this).children(".user-menu").hide();
+				});
+			})
+		</script>
+	</div>
+	<!-- /头部 -->
+
+	<!-- 主体 -->
+	<div class="main cf">
+		<!-- 分类选择框 -->
+		<div class="box sort-box">
+			<span class="sort-labs"><i></i></span>
+			<a href="#" class="item current">框架&nbsp;&nbsp;<em class="st-num">145</em></a>
+			<a href="#" class="item">框架&nbsp;&nbsp;<em class="st-num">145</em></a>
+			<a href="#" class="item">框架&nbsp;&nbsp;<em class="st-num">145</em></a>
+		</div>
+		<!-- /分类选择框 -->
+
+		<!-- 左边 -->
+		<div class="wrapper">
+			<!-- 置顶 -->
+			<div class="box toplist">
+				<ul>
+					<li>
+						<span class="fr">05-12</span>
+						<a href="#">基于ThinkPHP3.1.3的视频教程出炉（更新第13集）</a>
+					</li>
+				</ul>
+				<span class="tips tips-ding"></span>
+			</div>
+			<!-- /置顶 -->
+
+			<div class="contentbox">
+				<ul class="singlelist">
+					<li class="cf">
+						<div class="fl">
+							<a class="editlink" href="#">编辑</a>
+							<a href="#">ThinkPHP2.1带扩展、示例和文档完整包</a>
+						</div>
+						<div class="related-info">
+							<span>1.68MB</span>
+							<span class="ri-1"><a href="#">下载123456次</if></a></span>
+							<span>05-12</span>
+						</div>
+					</li>
+					<li class="cf">
+						<div class="fl">
+							<a class="editlink" href="#">编辑</a>
+							<a href="#">ThinkPHP2.1带扩展、示例和文档完整包</a>
+						</div>
+						<div class="related-info">
+							<span>1.68MB</span>
+							<span class="ri-1"><a href="#">下载123456次</if></a></span>
+							<span>05-12</span>
+						</div>
+					</li>
+					<li class="cf">
+						<div class="fl">
+							<a class="editlink" href="#">编辑</a>
+							<a href="#">ThinkPHP2.1带扩展、示例和文档完整包</a>
+						</div>
+						<div class="related-info">
+							<span>1.68MB</span>
+							<span class="ri-1"><a href="#">下载123456次</if></a></span>
+							<span>05-12</span>
+						</div>
+					</li>
+					<li class="cf">
+						<div class="fl">
+							<a class="editlink" href="#">编辑</a>
+							<a href="#">ThinkPHP2.1带扩展、示例和文档完整包</a>
+						</div>
+						<div class="related-info">
+							<span>1.68MB</span>
+							<span class="ri-1"><a href="#">下载123456次</if></a></span>
+							<span>05-12</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!-- /左边 -->
+
+		<!-- 右边 -->
+		<div class="sidebar">
+			<a href="#" class="release-link"><i></i>发布应用</a>
+
+			<!-- 分享到 -->
+			<div class="box share">
+				<span>分享到：</span>
+				<a href="javascript:;" class="sina" title="新浪微博"></a>
+				<a href="javascript:;" class="tencent" title="腾讯微博"></a>
+				<a href="#" class="rss" title="RSS订阅"></a>
+			</div>
+			<!-- /分享到 -->
+
+			<!-- a7图片链接 -->
+			<div class="a7-wrap">
+				<a href="#"><img src="../images/temp/img_1.jpg" alt=""></a>
+				<a href="#"><img src="../images/temp/img_2.jpg" alt=""></a>
+			</div>
+			<!-- /a7图片链接 -->
+
+			<!-- 热门推荐 -->
+			<div class="box">
+				<div class="index-hd cf">
+					<div class="title"><i class="t-icon"></i><em>热门推荐</em></div>
+					<a href="#" class="more" target="_blank">更多>></a>
+				</div>
+
+				<div class="index-bd">
+					<ul class=" ranking ellipsis">
+						<li class="top3"><a href="#" target="_blank"><i>1</i>基于TP3.1.2的通用网站后台</a></li>
+						<li class="top3"><a href="#" target="_blank"><i>2</i>3gcms+手机web建站系统</a></li>
+						<li class="top3"><a href="#" target="_blank"><i>3</i>Easytalk微博客</a></li>
+						<li><a href="#" target="_blank"><i>4</i>方维购物分享系统</a></li>
+						<li><a href="#" target="_blank"><i>5</i>ThinkPHP3.0仿家具网整站源码</a></li>
+						<li><a href="#" target="_blank"><i>6</i>方维购物分享系统</a></li>
+						<li><a href="#" target="_blank"><i>7</i>ThinkPHP3.0仿家具网整站源码</a></li>
+						<li><a href="#" target="_blank"><i>8</i>方维购物分享系统</a></li>
+						<li><a href="#" target="_blank"><i>9</i>ThinkPHP3.0仿家具网整站源码</a></li>
+						<li><a href="#" target="_blank"><i>10</i>方维购物分享系统</a></li>
+					</ul>
+				</div>
+			</div>
+			<!-- /热门推荐 -->
+
+			<!-- 最新更新 -->
+			<div class="box">
+				<div class="index-hd cf">
+					<div class="title"><i class="t-icon"></i><em>最新更新</em></div>
+					<a href="#" class="more" target="_blank">更多&gt;&gt;</a>
+				</div>
+
+				<div class="index-bd">
+					<ul class=" ranking ellipsis">
+						<li class="top3"><a href="#" target="_blank"><i>1</i>基于TP3.1.2的通用网站后台</a></li>
+						<li class="top3"><a href="#" target="_blank"><i>2</i>3gcms+手机web建站系统</a></li>
+						<li class="top3"><a href="#" target="_blank"><i>3</i>Easytalk微博客</a></li>
+						<li><a href="#" target="_blank"><i>4</i>方维购物分享系统</a></li>
+						<li><a href="#" target="_blank"><i>5</i>ThinkPHP3.0仿家具网整站源码</a></li>
+						<li><a href="#" target="_blank"><i>6</i>方维购物分享系统</a></li>
+						<li><a href="#" target="_blank"><i>7</i>ThinkPHP3.0仿家具网整站源码</a></li>
+						<li><a href="#" target="_blank"><i>8</i>方维购物分享系统</a></li>
+						<li><a href="#" target="_blank"><i>9</i>ThinkPHP3.0仿家具网整站源码</a></li>
+						<li><a href="#" target="_blank"><i>10</i>方维购物分享系统</a></li>
+					</ul>
+				</div>
+			</div>
+			<!-- /最新更新 -->
+		</div>
+		<!-- /右边 -->
+	</div>
+	<!-- /主体 -->
+
+	<!-- 底部 -->
+	<div class="footer">
+		<div class="ft-main cf">
+			<div class="ft-col">
+				<h3>我们</h3>
+				<ul>
+					<li><a href="{:U('/about/index')}">关于我们</a></li>
+					<li><a href="{:U('/7year')}">公司动态</a></li>
+					<li><a href="{:U('/about/contact')}">联系我们</a></li>
+					<li><a href="{:U('/about/disclaimer')}">免责声明</a></li>
+					<li><a href="{:U('/about/join_us')}">加入我们</a></li>
+					<li><a href="{:U('/about/donate')}">捐赠我们</a></li>
+				</ul>
+			</div>
+			<div class="ft-col">
+				<h3>合作</h3>
+				<ul>
+					<li><a href="{:U('/cooperation/training')}">技术培训</a></li>
+					<li><a href="{:U('/cooperation/adcoop')}">广告合作</a></li>
+					<li><a href="{:U('/cooperation/projectcoop')}">项目合作</a></li>
+					<li><a href="{:U('/cooperation/investcoop')}">投资合作</a></li>
+					<li><a href="{:U('/cooperation/partner')}">合作伙伴</a></li>
+					<li><a href="{:U('link/index')}">友情链接</a></li>
+				</ul>
+			</div>
+			<div class="ft-col">
+				<h3>网站</h3>
+				<ul>
+					<li><a href="{:U('/rss')}">RSS订阅</a></li>
+					<li><a href="{:U('help/contribute')}">投稿指南</a></li>
+					<li><a href="{:U('help/sitehelp')}">网站帮助</a></li>
+				</ul>
+			</div>
+			<div class="ft-col">
+				<h3>信息</h3>
+				<ul>
+					<li><a href="{:U('update/index')}">更新列表</a></li>
+					<li><a href="{:U('bug/index')}">BUG反馈</a></li>
+					<li><a href="{:U('topic/index')}">技术讨论</a></li>
+					<li><a href="{:U('info/index')}">教程资讯</a></li>
+				</ul>
+			</div>
+			<div class="ft-intro">
+				<div class="btm-logo">
+					<p>ThinkPHP 是一个免费开源的，快速、简单的面向对象的 轻量级PHP开发框架 ，创立于2006年初，遵循Apache2开源协议发布，是为了敏捷WEB应用开发和简化企业应用开发而诞生的。ThinkPHP从诞生以来一直秉承简洁实用的设计原则，在保持出色的性能和至简的代码的同时，也注重易用性。并且拥有众多的原创功能和特性，在社区团队的积极参与下，在易用性、扩展性和性能方面不断优化和改进，已经成长为国内最领先和最具影响力的WEB应用开发框架，众多的典型案例确保可以稳定用于商业以及门户级的开发。</p>
+					<div class="copyright">沪ICP备12007941号-2</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /底部 -->
+
+	<div class="hidden">
+	    <script charset="UTF-8" src="http://tajs.qq.com/stats?sId=8801910" type="text/javascript"></script>
+	</div>
+</body>
+</html>

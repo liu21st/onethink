@@ -1,0 +1,84 @@
+<div class="think-editor">
+    <div class="tool">
+        <a class="fullscreen fr" href="javascript:;">全屏</a>
+        <a class="bold" href="javascript:;" title="加粗">加粗</a>
+        <a class="link" href="javascript:;" title="链接">链接</a>
+        <a class="code" href="javascript:;" title="代码">代码</a>
+        <a class="upload" href="javascript:;" title="图片"><input id="editor_img" type="file" name="editor_img" /></a>
+    </div>
+    <div class="enter">
+        <textarea name="content" datatype="*" nullmsg="描述/内容不能为空">{$data.content|default=''}</textarea>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        $('.think-editor .bold').click(function(){
+            $(this).closest('.think-editor').find('textarea').insertContent('[b]'+ $(this).closest('.think-editor').find('textarea').selectionRange() +'[/b]'); 
+        });
+        $('.think-editor .italic').click(function(){
+            $(this).closest('.think-editor').find('textarea').insertContent('[i]'+ $(this).closest('.think-editor').find('textarea').selectionRange() +'[/i]'); 
+        });
+        $('.think-editor .underline').click(function(){
+            $(this).closest('.think-editor').find('textarea').insertContent('[u]'+ $(this).closest('.think-editor').find('textarea').selectionRange() +'[/u]'); 
+        });
+        $('.think-editor .link').click(function(){
+            $(this).closest('.think-editor').find('textarea').insertContent('[url]'+ $(this).closest('.think-editor').find('textarea').selectionRange() +'[/url]'); 
+        });
+        $('.think-editor .code').click(function(){
+            $(this).closest('.think-editor').find('textarea').insertContent('[code]'+ $(this).closest('.think-editor').find('textarea').selectionRange() +'[/code]'); 
+        });
+        $('.think-editor .fullscreen').click(function(){
+            var self = $(this).closest('.think-editor');
+            if(self.data('fullscreen')){ //取消全屏
+                self.removeAttr("style").find('textarea').removeAttr("style");
+                $('body').css("overflow", "auto");
+                self.data("fullscreen", 0);
+            } else {
+                $('body').css("overflow", "hidden");
+                self.css({
+                    "position": "fixed",
+                    "left"    : 0,
+                    "top"     : 0,
+                    "background-color":"#FFF",
+                    "width"   : $(window).width()-2,
+                    "height"  : $(window).height()-2,
+                    "z-index" : 999999
+                });
+                self.find('textarea').height($(window).height()-36);
+                self.data("fullscreen", 1);
+            }
+        });
+
+        $(window).resize(function(){
+            var self = $('.think-editor');
+            if(self.data('fullscreen')){
+                self.css({
+                    "position": "fixed",
+                    "left"    : 0,
+                    "top"     : 0,
+                    "background-color":"#FFF",
+                    "width"   : $(window).width()-2,
+                    "height"  : $(window).height()-2,
+                    "z-index" : 999999
+                });
+                self.find('textarea').height($(window).height()-36);
+            }
+        });
+
+        $('#editor_img').uploadify({
+            'swf'             : '__COMMON__/uploadify-v3.1/uploadify.swf',
+            'uploader'        : '{:U("public/editorUpload")}',
+            'fileObjName'     : $('#editor_img').attr('name'),
+            'buttonClass'     : 'upload-image',
+            'fileTypeExts'    : '*.gif; *.jpg; *.png',
+            'width'           : 28,
+            'height'          : 28,
+            'onUploadSuccess' : function(file, data, response) {
+                data = $.parseJSON(data);
+                data.status ? $('.think-editor textarea').insertContent('[img]' + data.data + '[/img]') : $.ThinkBox.error(data.error);
+            }
+
+        });
+        $('textarea').shortcuts();
+    });
+</script>

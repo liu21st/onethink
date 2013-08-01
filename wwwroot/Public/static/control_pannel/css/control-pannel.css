@@ -1,0 +1,262 @@
+/**
+ * 管理面板样式文件
+ */
+
+/* =侧栏导航 
+--------------------------------------------------------*/
+.ctr-pal-sidenav {
+	border-radius: 6px;
+	box-shadow: 0 1px 4px rgba(0,0,0,.067);
+	background-color: #fff;
+}
+.ctr-pal-sidenav li a {
+	display: block;
+	margin-bottom: -1px;
+	padding: 8px 14px;
+	border: 1px solid #e5e5e5;
+}
+.ctr-pal-sidenav > li:first-child > a {
+	border-radius: 6px 6px 0 0;
+}
+.ctr-pal-sidenav > li:last-child > a {
+	border-radius: 0 0 6px 6px;
+}
+
+/* =主体 
+------------------------------------------------------------*/
+
+/* 各级标题栏 */
+.cnt-title,.cnt-sub-title {
+	margin: 0 0 10px;
+	font-weight: normal;
+	color: #345;
+}
+.cnt-title {
+	padding-bottom: 10px;
+	font-size: 30px;
+	border-bottom: 1px solid #d4d4d4;
+}
+
+/* 管理面板首页 */
+.unit-box {
+	padding: 20px;
+	font-size: 16px;
+}
+.unit-num {
+	font-style: normal;
+	color: #9966FF;
+}
+.show-info th {
+	font-weight: normal;
+	text-align: left;
+}
+.show-info td {
+	padding: 0 10px;
+}
+
+.tb-unit {
+	margin-top: 20px;
+}
+/* 表格列表的全选工具栏 */
+.tb-unit-bar {
+	margin-left: 14px;
+}
+.tb-unit-bar .checkbox {
+	margin-right: 20px;
+	padding-top: 0;
+}
+
+/* 表格列表(公共) */
+.tb-unit .tblist {
+	margin: 10px 0;
+	width: 100%;
+	border: 1px solid #d4d4d4;
+	border-bottom: 0 none;
+}
+.tblist thead th,
+.tblist tbody td {
+	height: 35px;
+	font-size: 14px;
+	text-align: center;
+	border-bottom: 1px solid #d4d4d4;
+}
+.tblist thead th {
+	background-image: -moz-linear-gradient(top, #fafafa, #f3f3f3);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fafafa), to(#f3f3f3));
+	background-image: -linear-gradient(top, #fafafa, #f3f3f3);
+}
+
+/* 文章列表 */
+.tblist .check {
+	width: 40px;
+}
+.tblist .check > input {
+	margin-top: 0;
+}
+.tblist .title {
+	padding-left: 5px;
+	text-align: left;
+}
+.tblist .author {
+	width: 13%;
+}
+.tblist .time {
+	width: 80px;
+}
+.tblist .opt {
+	width: 18%;
+}
+
+/* 频道列表 */
+.tblist .id-num {
+	width: 40px;
+}
+.tblist .chl-name {
+	width: 80px;
+}
+.tblist .chl-type {
+	width: 80px;
+}
+
+/* 分类管理 */
+/*.category .fold {
+	width: 5%;
+}
+.category .order {
+	width: 12%;
+}
+.category .name {
+	text-align: left;
+}
+.category input {
+	margin-bottom: 0;
+}
+.category .fold {
+	font-style: normal;
+	cursor: pointer;
+}
+.category .input-mini {
+	width: 50px;
+	text-align: center;
+}
+.category .root input {
+	font-weight: bold;
+}*/
+.category {
+	margin: 10px 0;
+	border: 1px solid #d4d4d4;
+	border-bottom-width: 0; 
+}
+.category .hd {
+	font-weight: bold;
+	border-bottom: 1px solid #d4d4d4;
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#FAFAFA), to(#F3F3F3));
+	background-image: -moz-linear-gradient(top, #FAFAFA, #F3F3F3);
+	background-image: -o-linear-gradient(top, #FAFAFA, #F3F3F3);
+	background-image: linear-gradient(top, #FAFAFA, #F3F3F3);
+	background-color: #F8F8F8;
+}
+.category .cate-item dt {
+	border-bottom: 1px solid #d4d4d4;
+}
+.category dl,
+.category dd,
+.category input {
+	margin: 0;
+}
+.category .check,
+.category .fold,
+.category .order,
+.category .name {
+	float: left;
+	height: 35px;
+	line-height: 35px;
+}
+.category .opt {
+	float: right;
+	width: 120px;
+	height: 35px;
+	line-height: 35px;
+	text-align: center;
+}
+.category .check {
+	width: 40px;
+	text-align: center;
+}
+.category .fold {
+	width: 50px;
+	text-align: center;
+}
+.category .fold i {
+	vertical-align: middle;
+}
+.category .order,
+.category .order input {
+	text-align: center;
+}
+.category .order {
+	width: 90px;
+}
+.category .order input {
+	margin-bottom: 2px;
+	width: 40px;
+}
+.category .name input {
+	margin-bottom: 2px;
+}
+.category .btn-mod {
+	margin-left: 15px;
+}
+.category .root {
+	font-weight: bold;
+}
+.category .tab-sign {
+	display: inline-block;
+	margin-left: 15px;
+	height: 21px;
+	vertical-align: middle;
+	background-image: url(../images/tab_sign.png);
+	background-repeat: no-repeat;
+}
+
+/* 顶级分类 */
+.category > dl > dt .tab-sign {
+	display: none;
+}
+
+/* 二级分类 */
+.category > dl > dd > dl > dt .tab-sign {
+	width: 55px;
+	background-position: 0 0;
+}
+.category > dl > dd > dl:last-child > dt .tab-sign {
+	background-position: -55px 0;
+}
+
+/* 三级分类 */
+.category > dl > dd > dl > dd > dl > dt  .tab-sign {
+	width: 110px;
+	background-position: 0 -30px;
+}
+.category > dl > dd > dl > dd > dl:last-child > dt .tab-sign {
+	background-position: 0 -60px;
+}
+
+.category > dl > dd > dl:last-child > dd > dl > dt .tab-sign {
+	background-position: 0 -90px;
+}
+.category > dl > dd > dl:last-child > dd > dl:last-child > dt .tab-sign {
+	background-position: 0 -120px;
+}
+
+.must {
+	margin-right: 3px;
+	color: red;
+	font-style: normal;
+}
+.from-mt {
+	margin-top: 20px;
+}
+.btn-toolbar.opt-btn {
+	margin: 7px 10px 0 0;
+}

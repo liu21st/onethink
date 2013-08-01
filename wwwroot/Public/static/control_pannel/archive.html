@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>管理面板 -  分类管理</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/control-pannel.css">
+</head>
+<body>
+	<!-- 头部 -->
+	<div class="container">
+		<div class="top-banner"></div>
+
+		<div class="navbar">
+			<div class="navbar-inner">
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
+
+				<a href="javascript:;" class="brand">ThinkPHP</a>
+
+				<div class="nav-collapse collapse">
+					<ul class="nav">
+						<li class="active"><a href="javascript:;">首页</a></li>
+						<li><a href="javascript:;">下载</a></li>
+						<li><a href="javascript:;">扩展</a></li>
+						<li><a href="javascript:;">资讯</a></li>
+						<li><a href="javascript:;">讨论</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /头部 -->
+
+	<div class="container">
+		<div class="row">
+			<!-- 侧栏 -->
+			<div class="span3">
+				<ul class="nav nav-list ctr-pal-sidenav">
+					<li class="active"><a href="javascript:;">站点设置</a></li>
+					<li><a href="javascript:;">频道管理</a></li>
+					<li><a href="javascript:;">分类管理</a></li>
+					<li><a href="javascript:;">待审核</a></li>
+				</ul>
+			</div>
+			<!-- /侧栏 -->
+			
+			<div class="span9">
+				<h4 class="cnt-sub-title">分类管理</h4>
+
+				<!-- 表格列表 -->
+				<div class="tb-unit posr">
+					<div class="tb-unit-bar">
+						<label class="checkbox inline"><input type="checkbox">全选</label>
+						<a class="btn btn-small" data-toggle="modal" data-target="#delModal" href="#">
+							<i class="icon-remove"></i>删除
+						</a>
+					</div>
+
+					
+
+					<div class="tb-unit-bar">
+						<label class="checkbox inline"><input type="checkbox">全选</label>
+						<a class="btn btn-small" data-toggle="modal" data-target="#delModal" href="#">
+							<i class="icon-remove"></i>删除
+						</a>
+					</div>
+
+					<!-- 编辑及新建频道弹出框 -->
+					<div id="editModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelleby="myModalLabel" aria-hidden="true">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h3>编辑频道</h3>
+						</div>
+						<div class="modal-body">
+							<form action="javascript:;" method="post" class="form-horizontal">
+								<div class="control-group">
+									<label class="control-label">频道ID：</label>
+									<div class="controls">
+										<input type="text" class="input-large" value="1" disabled>
+									</div>
+								</div>
+								<div class="control-group">
+									<label class="control-label">频道名称：</label>
+									<div class="controls">
+										<input type="text" name="" class="input-large" value="">
+									</div>
+								</div>
+								<div class="control-group">
+									<label class="control-label">频道类型：</label>
+									<div class="controls">
+										<select>
+											<option value="">文档</option>
+											<option value="">视频</option>
+										</select>
+									</div>
+								</div>
+								<div class="control-group">
+									<label class="control-label">频道地址：</label>
+									<div class="controls">
+										<input type="text" name="" class="input-large" value="wwww.thinkphp.cn">
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<input type="submit" class="btn btn-primary" value="确定">
+							<input type="reset" class="btn" data-dismiss="modal" aria-hidden="true" value="取消">
+						</div>
+					</div>
+					<!-- /编辑及新建频道弹出框 -->
+
+					<!-- 删除弹框 -->
+					<div id="delModal" class="modal fade hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h3>删除</h3>
+						</div>
+						<div class="modal-body"> 删除后不能恢复，确定删除吗？ </div>
+						<div class="modal-footer">
+							<input type="submit" value="确定" class="btn btn-primary">
+							<input type="reset" value="取消" data-dismiss="modal" aria-hidden="true" class="btn">
+						</div>
+					</div>
+					<!-- /删除弹框 -->
+				</div>
+				<!-- /表格列表 -->
+			</div>
+		</div>
+	</div>
+
+	<div id="script">
+		<script type="text/javascript" src="../../jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	</div>
+</body>
+</html>
