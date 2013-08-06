@@ -20,17 +20,17 @@
 </block>
 
 <block name="style">
-	<link rel="stylesheet" type="text/css" href="__COMMON__/uploadify/uploadify.css" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/uploadify/uploadify.css" />
 </block>
 
 <block name="script">
-	<script type="text/javascript" src="__COMMON__/uploadify/jquery.uploadify.min.js"></script>>
+	<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>>
 	<script type="text/javascript">
 	(function($){
 		/* 初始化上传插件 */
 		$("#download-file").uploadify({
 	        "height"          : 30,
-	        "swf"             : "__COMMON__/uploadify/uploadify.swf",
+	        "swf"             : "__STATIC__/uploadify/uploadify.swf",
 	        "fileObjName"     : "download",
 	        "uploader"        : "{:U('File/upload')}",
 	        "width"           : 120,
