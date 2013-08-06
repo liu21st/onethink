@@ -11,7 +11,7 @@
  * 用户控制器
  * 包括用户中心，用户登录及注册
  */
-class UserController extends HomeController {
+class UserController extends CmsController {
 
 	/* 用户中心首页 */
 	public function index(){
