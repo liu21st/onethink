@@ -1,0 +1,7 @@
+# 忽略idea项目文件
+.idea
+# 忽略ctags文件
+tags
+.tags
+# 忽略缓存目录
+Runtime
