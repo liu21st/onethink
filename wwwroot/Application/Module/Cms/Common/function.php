@@ -92,7 +92,7 @@ function get_username($uid = 0){
  */
 function hooks($tag, $type, $params = array()) {
     $hooks = C("addons_hooks_{$type}.{$tag}");
-    
+
     if(!empty($hooks)) {
         if(APP_DEBUG) {
             G($tag.'Start');
@@ -101,6 +101,14 @@ function hooks($tag, $type, $params = array()) {
         // 执行插件
         $hook = parse_name($tag, 1);
         foreach ($hooks as $key => $name) {
+            $url = "Addons://{$name}/{$name}/{$hook}";
+            $info   =   pathinfo($url);
+            $action =   $info['basename'];
+            $module =   $info['dirname'];
+            $class  =   A($module,$layer);
+            if(is_string($vars)) {
+                parse_str($vars,$vars);
+            }
             R("Addons://{$name}/{$name}/{$hook}", $params, ucfirst($type));
         }
         if(APP_DEBUG) { // 记录钩子的执行日志
@@ -127,7 +135,7 @@ function get_category($id, $field = null){
 
     /* 读取缓存数据 */
     if(empty($list)){
-        $list = S('sys_category_list'); 
+        $list = S('sys_category_list');
     }
 
     /* 获取分类名称 */
@@ -155,7 +163,7 @@ function get_category_title($id){
  * 获取文档模型信息
  * @param  integer $id    模型ID
  * @param  string  $field 模型字段
- * @return array        
+ * @return array
  */
 function get_document_model($id = null, $field = null){
     static $list;
@@ -202,7 +210,7 @@ function addons_url($url, $param = array()){
         parse_str($url['query'], $query);
         $param = array_merge($query, $param);
     }
-    
+
     /* 基础参数 */
     $params = array(
         'addons'     => $addons,
@@ -211,7 +219,7 @@ function addons_url($url, $param = array()){
     );
     $params = array_merge($params, $param); //添加额外参数
 
-    return U('Addons/start', $params); 
+    return U('Addons/start', $params);
 }
 
 /**
