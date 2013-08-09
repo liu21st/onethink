@@ -18,10 +18,11 @@ class AttachmentController {
 	 * @param  array  $data     文档数据
 	 * @param  array  $catecory 分类数据
 	 */
-	public function documentSaveComplete($data, $catecory){
+	public function documentSaveComplete($param){
+		list($data, $catecory) = $param;
 		/* 附件默认配置项 */
 		$default  = C('ATTACHMENT_DEFAULT');
-		
+
 		/* 合并当前配置 */
 		$config = $category['extend']['attachment'];
 		$config = empty($config) ? $default : array_merge($default, $config);
@@ -46,6 +47,6 @@ class AttachmentController {
 				}
 				break;
 		}
-		
+
 	}
 }

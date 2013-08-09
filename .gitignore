@@ -5,3 +5,4 @@ tags
 .tags
 # 忽略缓存目录
 Runtime
+nbproject

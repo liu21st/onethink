@@ -12,7 +12,7 @@
  * 文档模型列表和详情
  */
 class ArticleController extends CmsController {
-    
+
     /* 文档模型频道页 */
 	public function index(){
 		/* 分类信息 */
@@ -20,7 +20,7 @@ class ArticleController extends CmsController {
 
 		//频道页只显示模板，默认不读取任何内容
 		//内容可以通过模板标签自行定制
-		
+
 		/* 获取模板 */
 		$tmpl = $category['template_index'];
 
@@ -35,7 +35,7 @@ class ArticleController extends CmsController {
 		$category = $this->category();
 
 		/* 获取当前分类列表 */
-		$Document = D('Document'); 
+		$Document = D('Document');
 		$list = $Document->page($page, $category['list_row'])->lists($category['id']);
 		if(false === $list){
 			$this->error('获取列表数据失败！');
@@ -89,7 +89,7 @@ class ArticleController extends CmsController {
 
 	/* 搜索文章 */
 	public function search(){
-		
+
 	}
 
 	/* 编辑或新增内容 */
@@ -104,7 +104,7 @@ class ArticleController extends CmsController {
 
 		/* 获取被编辑的数据 */
 		$info = array();
-		if($id){ 
+		if($id){
 			/* 获取详细信息 */
 			$Document = D('Document');
 			$info = $Document->detail($id);
@@ -156,7 +156,7 @@ class ArticleController extends CmsController {
 		} elseif(!in_array($type, array(1,3))) {
 			$this->error('没有指定分类！');
 		}
-		
+
 
 		/* 保存文档内容 */
 		$Document = D('Document');
@@ -164,7 +164,8 @@ class ArticleController extends CmsController {
 
 		if($status){
 			/* 保存成功，处理插件数据 */
-			hooks('document_save_complete', 'controller', array($status, $category));
+			$param = array($status, $category);
+			hooks('document_save_complete', 'controller', $param);
 
 			$this->success('保存成功！');
 		} else {

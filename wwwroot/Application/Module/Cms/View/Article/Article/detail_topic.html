@@ -26,9 +26,9 @@
 			</div>
 		</div>
 		<div class="detail-bd">
-			{:hooks('document_detail_before', 'widget', array($info))}
+			{:hooks('document_detail_before', 'widget', $info)}
 			<div class="content">{$info.content}</div>
-			{:hooks('document_detail_after', 'widget', array($info))}
+			{:hooks('document_detail_after', 'widget', $info)}
 		</div>
 	</div>
 
@@ -58,11 +58,11 @@
 			</div>
 		</div>
 	</article:partlist>
-	
+
 	<div class="page mt">
 		<article:partpage id="$info['id']" listrow="10" />
 	</div>
-	
+
 	<form action="{:U('save')}" method="post" class="postform cf">
 		<div class="avatar"><img src="__IMG__/temp/36_36.png" alt=""></div>
 		<div class="bd">

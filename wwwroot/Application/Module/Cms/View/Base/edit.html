@@ -8,7 +8,7 @@
 	<!-- 头部 -->
 	<include file="Public/header"/>
 	<!-- /头部 -->
-	
+
 	<!-- 主体 -->
 	<div class="main cf">
         <!-- 左边 -->
@@ -21,7 +21,7 @@
                         <div class="title">发布{$category.title}</div>
                     </div>
                 </div>
-                
+
                 <!-- 基础内容 -->
                 <div class="base-info">
                     <div class="cols">
@@ -48,7 +48,7 @@
                 <!-- 插件 -->
                 <block name="addons">
                     <div class="plugin-info">
-                        {:hooks('document_edit_form', 'widget', array($info))}
+                        {:hooks('document_edit_form', 'widget', $info)}
                     </div>
                 </block>
 
@@ -64,7 +64,7 @@
             </form>
         </div>
         <!-- /左边 -->
-        
+
         <!-- 右边 -->
         <div class="sidebar">
             <!-- 快捷键小贴士 -->
