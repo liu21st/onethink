@@ -105,11 +105,11 @@ function hooks($tag, $type, $params = array()) {
             $info   =   pathinfo($url);
             $action =   $info['basename'];
             $module =   $info['dirname'];
-            $class  =   A($module,$layer);
-            if(is_string($vars)) {
-                parse_str($vars,$vars);
+            $class  =   A($module,ucfirst($type));
+            if(is_string($params)) {
+                parse_str($params,$params);
             }
-            R("Addons://{$name}/{$name}/{$hook}", $params, ucfirst($type));
+            $class->$action($params);
         }
         if(APP_DEBUG) { // 记录钩子的执行日志
             trace('[ '.$tag.' ] --END-- [ RunTime:'.G($tag.'Start',$tag.'End',6).'s ]','','INFO');
