@@ -18,7 +18,7 @@ class AddonsController extends Action{
 	public function __construct(){
 		parent::__construct();
 		$class = get_class($this);
-		if(substr($class, -10) == 'Controller'){ 
+		if(substr($class, -10) == 'Controller'){
 			$this->addons = substr($class, 0, -10);
 		} elseif(substr($class, -6) == 'Widget') {
 			$this->addons = substr($class, 0, -6);
@@ -56,5 +56,12 @@ class AddonsController extends Action{
     private function setName($name){
     	$this->addons = $name;
     	return $this;
+    }
+
+    /**
+     * 获取所有钩子列表
+     */
+    static public function getHooks($field='', $order=''){
+    	return D('Hooks')->field($field)->order($order)->select();
     }
 }
