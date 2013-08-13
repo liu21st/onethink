@@ -120,6 +120,35 @@ function hooks($tag, $type, $params = array()) {
 }
 
 /**
+ * widget里生成访问插件的url
+ * @param string $url url
+ * @param array $param 参数
+ */
+function addons_url($url, $param = array()){
+    $url        = parse_url($url);
+    $case       = C('URL_CASE_INSENSITIVE');
+    $addons     = $case ? strtolower($url['scheme']) : $url['scheme'];
+    $controller = $case ? parse_name($url['host']) : $url['host'];
+    $action     = trim($case ? strtolower($url['path']) : $url['path'], '/');
+
+    /* 解析URL带的参数 */
+    if(isset($url['query'])){
+        parse_str($url['query'], $query);
+        $param = array_merge($query, $param);
+    }
+
+    /* 基础参数 */
+    $params = array(
+        'addons'     => $addons,
+        'controller' => $controller,
+        'action'     => $action,
+    );
+    $params = array_merge($params, $param); //添加额外参数
+
+    return U('Addons/execute', $params);
+}
+
+/**
  * 获取分类信息并缓存分类
  * @param  integer $id    分类ID
  * @param  string  $field 要获取的字段名
@@ -198,29 +227,6 @@ function get_document_model($id = null, $field = null){
     }
 }
 
-function addons_url($url, $param = array()){
-    $url        = parse_url($url);
-    $case       = C('URL_CASE_INSENSITIVE');
-    $addons     = $case ? strtolower($url['scheme']) : $url['scheme'];
-    $controller = $case ? parse_name($url['host']) : $url['host'];
-    $action     = trim($case ? strtolower($url['path']) : $url['path'], '/');
-
-    /* 解析URL带的参数 */
-    if(isset($url['query'])){
-        parse_str($url['query'], $query);
-        $param = array_merge($query, $param);
-    }
-
-    /* 基础参数 */
-    $params = array(
-        'addons'     => $addons,
-        'controller' => $controller,
-        'action'     => $action,
-    );
-    $params = array_merge($params, $param); //添加额外参数
-
-    return U('Addons/start', $params);
-}
 
 /**
  * 获取列表总行数

@@ -18,14 +18,14 @@ class AddonsController extends Action{
 	public function __construct(){
 		parent::__construct();
 		$class = get_class($this);
-		if(substr($class, -10) == 'Controller'){ 
+		if(substr($class, -10) == 'Controller'){
 			$this->addons = substr($class, 0, -10);
 		} elseif(substr($class, -6) == 'Widget') {
 			$this->addons = substr($class, 0, -6);
 		}
 	}
 
-	public function start($addons = null, $controller = null, $action = null){
+	public function execute($addons = null, $controller = null, $action = null){
 		if(C('URL_CASE_INSENSITIVE')){
 			$addons = ucfirst(strtolower($addons));
 			$controller = parse_name($controller,1);
@@ -56,5 +56,12 @@ class AddonsController extends Action{
     private function setName($name){
     	$this->addons = $name;
     	return $this;
+    }
+
+    /**
+     * 获取所有钩子列表
+     */
+    static public function getHooks($field='', $order=''){
+    	return D('Hooks')->field($field)->order($order)->select();
     }
 }
