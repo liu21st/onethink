@@ -17,7 +17,7 @@ class IndexController extends Action {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function index(){
-        if(is_login()){
+        if(is_administrator()){
             $this->display();
         } else {
             $this->redirect('login');
@@ -29,7 +29,7 @@ class IndexController extends Action {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function welcome(){
-        if(is_login()){
+        if(is_administrator()){
             $this->display();
         } else {
             $this->redirect('login');

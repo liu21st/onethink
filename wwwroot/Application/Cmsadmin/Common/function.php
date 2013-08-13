@@ -12,6 +12,26 @@
  * 主要定义后台公共函数库
  */
 
+/**
+ * 检测用户是否登录
+ * @return integer 0-未登录，大于0-当前登录用户ID
+ * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ */
 function is_login(){
-	return true;
+	$user = session('user_auth');
+    if (empty($user)) {
+        return 0;
+    } else {
+        return session('user_auth_sign') == data_auth_sign($user) ? $user['uid'] : 0;
+    }
+}
+
+/**
+ * 检测当前用户是否为管理员
+ * @return boolean true-管理员，false-非管理员
+ * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ */
+function is_administrator(){
+    $uid = is_login();
+    return $uid && (intval($uid) === C('USER_ADMINISTRATOR'));
 }
