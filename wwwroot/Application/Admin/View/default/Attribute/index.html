@@ -1,0 +1,110 @@
+<!-- 菜单区域  -->
+<script language="JavaScript">
+<!--
+	function cache(){
+		ThinkAjax.send('__URL__/cache','ajax=1');
+	}
+	function add(){
+		window.location.href = '__URL__/add/model_id/{$Think.get.model_id|default=0}/model_type/{$modelType}';
+	}
+	function edit(id){
+	var keyValue;
+	if (id)
+	{
+		keyValue = id;
+	}else {
+		keyValue = getSelectCheckboxValue();
+	}
+	if (!keyValue)
+	{
+		alert('请选择编辑项！');
+		return false;
+	}
+	location.href =  URL+"/edit/id/"+keyValue;
+}
+function del(id){
+	var keyValue;
+	if (id)
+	{
+		keyValue = id;
+	}else {
+		keyValue = getSelectCheckboxValues();
+	}
+	if (!keyValue)
+	{
+		alert('请选择要删除的项目！');
+		return false;
+	}
+	if (window.confirm('确实要删除吗？'))
+	{
+	window.location.href = '__URL__/delete/id/'+keyValue;
+	}
+}
+	function sort(){
+		var keyValue = getSelectCheckboxValues();
+		window.location.href = '__URL__/sort/model_id/{$Think.get.model_id|default=0}/sortId/'+keyValue;
+	}
+//-->
+</script>
+<!-- 主体内容  -->
+<div class="content" >
+<div class="title"><present name="Think.get.model_id" >[{$Think.get.model_id|getModelById}] 可用</present>属性列表 <span class="normal">[ 不含公共属性 ] </span></div> 
+<!--  功能操作区域  -->
+<div class="operate" >
+<html:imageBtn name="add" value="新增" click="add()" style="impBtn hMargin fLeft shadow" />
+<html:imageBtn name="delete" value="删除" click="del()" style="impBtn hMargin fLeft shadow" />
+<html:imageBtn name="sort" value="排序" click="sort()" style="impBtn hMargin fLeft shadow" />
+<!-- 查询区域 -->
+<div class="fRig">
+<form method=post action="__URL__">
+<div class="fLeft"><span id="key"><input type="text" name="name" title="变量查询" class="medium" ></span></div>
+<html:imageBtn type="submit" name="search" value="查询" style="impBtn hMargin fLeft shadow" />
+<html:imageBtn name="adv" value="高级" id="showText" click="showHideSearch()" style="impBtn hMargin fLeft shadow" />
+</div>
+<!-- 高级查询区域 -->
+<div  id="searchM" class=" none search cBoth" >
+<table cellpadding="1" cellspacing="2" width="100%">
+<tr>
+	<td class="tRight">名称：</td>
+	<td><input type="text" name="title" class="medium " ></td>
+	<td class="tRight">备注：</td>
+	<td><input type="text" name="remark" class="medium " ></td>
+	<td class="tRight">类型：</td>
+	<td><select class="medium bLeft" name="type">
+	<option value="">选择变量类型</option>
+	<option value="0">字符型</option>
+	<option value="1">数字型</option>
+	<option value="2">布尔型</option>
+	<option value="3">文本型</option>
+	<option value="4">枚举型</option>
+	<option value="5">固定值</option>
+	<option value="6">文件型</option>
+	<option value="17">图片型</option>
+	<option value="11">单选型</option>
+	<option value="12">多选型</option>
+	<option value="16">日期型</option>
+	</select></td>
+<td class="tRight">模型：</td>
+	<td><select class="medium bLeft" name="model_id">
+	<option value="">选择模型</option>
+	<volist name="models" id="model">
+	<option value="{$model.id}">{$model.title}</option>
+	</volist>
+	</select></td>
+</tr>
+</table>
+</div>
+
+</form>
+</div>
+<!-- 功能操作区域结束 -->
+
+<!-- 列表显示区域  -->
+<div class="list" >
+<html:list id="checkList" name="config" style="list" checkbox="true" action="true" datasource="list" show="id:编号|10%,name:变量:edit,title:名称,type|getAttrType:类型,value:默认值,sort:排序,status|getStatus:状态|8%" actionlist="status|showStatus=$config['id'],del:删除" />  
+</div>
+<!--  分页显示区域 -->
+<div class="page">{$page}</div>
+<!-- 列表显示区域结束 -->
+</div>
+<!-- 主体内容结束 -->

@@ -1,0 +1,58 @@
+<div class="content">
+<div class="title"> 分类排序  [ <a href="__URL__">返回列表</a> ]</div>
+<script language="JavaScript">
+<!--
+function saveSort(){
+sl.ok();
+ThinkAjax.sendForm('form1','__URL__/saveSort/','result');
+}
+//-->
+</script>
+<div id="result" class="result none"></div>
+<import file="Js.Form.SortSelect" />
+<form method=post name = 'form1' id="form1">
+<div align="center">
+<table class="order" cellpadding=0 cellspacing=0 width="350">
+<tr><td height="5" colspan="2" class="topTd" ></td></tr>
+<tr>
+	<th colspan=2 align="right"><div class="fLeft"><input name="search" type="text"></div>
+<input type="button" value="查 询" onclick="sl.Search()" class="submit hMargin small " /></th>
+</tr>
+<tr >
+	<td width="75%" align="right">
+	<div class="solid">
+	<select class="multiSelect" name="sort" size="15">
+<voList name="sortList" id="node" >
+<option value="{$node.id}">{$i}.{$node.title}</option>
+</voList>
+</select></div></td>
+	<td width="20" valign="top">
+	<div style="margin-top:20px">
+	<input type="button" value="第 一" onclick="sl.fnFirst()" class="submit vMargin small " />
+<input type="button" value="上 移" onclick="sl.sortUp()" class="submit vMargin small " />
+<input type="button" value="下 移" onclick="sl.sortDown()" class="submit vMargin small " />
+<input type="button" value="最 后" onclick="sl.fnEnd()" class="submit vMargin small " />
+<div class="fLeft vMargin"><input type="text" name="jumpNum" size="4"></div>
+<input type="button" value="跳 转" onclick="sl.jump()" class="submit vMargin small " />
+</div>
+</td>
+</tr>
+<tr>
+	<td colspan=2 align="center">
+	<div style="width:85%"><input type="hidden" name="seqNoList">
+	<input type="hidden" name="ajax" VALUE="1">
+<input type="button" value="确 定" onclick="saveSort()" class="submit hMargin small " /> 
+<input type="reset" value="取 消" onclick="history.back()" class="submit hMargin small " />
+</div>
+</td>
+</tr>
+<tr><td height="5" colspan="2" class="topTd" ></td></tr>
+</table>
+</div>
+</form>
+<script language="JavaScript">
+<!--
+var sl = new SortSelect('form1','sort','search','jumpNum');
+//-->
+</script>
+</div>

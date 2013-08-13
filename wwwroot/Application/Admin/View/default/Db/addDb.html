@@ -1,0 +1,57 @@
+<div class="content">
+<div class="title">创建数据库 [ <a href="__URL__">返回列表</a> ]</div>
+<div id="result" class="result none"></div>
+<form id="upload" METHOD=POST action="__URL__/createDb/" onsubmit="return CheckForm(this);" enctype="multipart/form-data" >
+<table cellpadding=0 cellspacing=0  class="list" width="100%">
+<tr><td height="5" colspan="2" class="topTd" ></td></tr>
+<tr class="row">
+	<th class="tRight" style="width:100px" >数据库名：</th>
+	<td  class="tLeft"><input type="text" class="medium"  name="dbName"> </td>
+</tr>
+<tr class="row">
+	<th class="tRight" style="width:100px" >字符集：</th>
+	<td class="tLeft tTop">
+	<select name="charset">
+    <option value="utf8" > UTF8 </option>
+    <option value="gb2312" > GB2312 </option>
+    <option value="gbk" > GBK </option>
+   </select>
+<select name="db_collation">
+                        <option value="">整理</option>
+                        <option value="">&nbsp;</option>
+                        <optgroup label="binary" title="Binary pseudo charset">
+                            <option value="binary" title="二进制">binary</option>
+                        </optgroup>
+                        <optgroup label="gb2312" title="GB2312 Simplified Chinese">
+                            <option value="gb2312_bin" title="简体中文, 二进制">gb2312_bin</option>
+                            <option value="gb2312_chinese_ci" title="简体中文, 不区分大小写">gb2312_chinese_ci</option>
+                        </optgroup>
+                        <optgroup label="gbk" title="GBK Simplified Chinese">
+                            <option value="gbk_bin" title="简体中文, 二进制">gbk_bin</option>
+                            <option value="gbk_chinese_ci" title="简体中文, 不区分大小写">gbk_chinese_ci</option>
+                        </optgroup>
+                        <optgroup label="latin1" title="cp1252 West European">
+                            <option value="latin1_bin" title="西欧 (多语言), 二进制">latin1_bin</option>
+                            <option value="latin1_danish_ci" title="丹麦语, 不区分大小写">latin1_danish_ci</option>
+                            <option value="latin1_general_ci" title="西欧 (多语言), 不区分大小写">latin1_general_ci</option>
+                            <option value="latin1_general_cs" title="西欧 (多语言), 区分大小写">latin1_general_cs</option>
+                            <option value="latin1_german1_ci" title="德语 (字典), 不区分大小写">latin1_german1_ci</option>
+                            <option value="latin1_german2_ci" title="德语 (电话本), 不区分大小写">latin1_german2_ci</option>
+                            <option value="latin1_spanish_ci" title="西班牙语, 不区分大小写">latin1_spanish_ci</option>
+                            <option value="latin1_swedish_ci" title="瑞典语, 不区分大小写">latin1_swedish_ci</option>
+                        </optgroup>
+                        <optgroup label="utf8" title="UTF-8 Unicode">
+                            <option value="utf8_bin" title="Unicode (多语言), 二进制">utf8_bin</option>
+                            <option value="utf8_unicode_ci" title="Unicode (多语言), 不区分大小写">utf8_unicode_ci</option>
+                        </optgroup>
+                    </select>
+</td>
+<tr>
+<th class="tRight" style="width:100px" ></th>
+<td><input type="submit" value="创 建" class="small button "></td>
+</tr>
+</tr>
+<tr><td height="5" colspan="2" class="bottomTd"></td></tr>
+</table>
+</form>
+</div>

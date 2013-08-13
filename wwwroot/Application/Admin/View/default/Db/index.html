@@ -1,0 +1,274 @@
+<script language="JavaScript">
+<!--
+	function getLabel(data){
+		$('execSql').value = data;
+	}
+	function addLabel(){
+		ThinkAjax.send('__URL__/getLabel','ajax=1&id='+$('labelSql').value,getLabel);
+	}
+	function delLabel(){
+		if ($('labelSql').value != '')
+		{
+			ThinkAjax.send('__URL__/delLabel','ajax=1&id='+$('labelSql').value);
+		}else {
+			alert('选择标签');
+		}
+	}
+	function buildTable(tableId,data) { 
+	for (i=0;i<data.length;i++){ 
+	  var row =$(tableId).insertRow(-1);
+	  if (i==0)
+	  {row.className = 'over';
+	  }
+	  for (j=0;j<data[i].length;j++) { 
+		var cell = document.createElement("td");
+		cell.innerHTML = data[i][j];
+		row.appendChild(cell); 
+		//var cell=row.insertCell(-1);
+		//cell.innerText=data[i][j];
+	   }
+	 }
+	 }
+	function deleteTable(tableId){
+		var Table	=	$(tableId);
+			while (Table.rows.length > 0) {
+				Table.deleteRow(0);
+			}
+	}
+
+	function handleSql(data,status){
+		$('resultNum').innerHTML=	'';
+		deleteTable('table1');
+		deleteTable('table2');
+		if (status==0)	{
+			$('benchbox').style.display = 'block';
+			$('benchbox').innerHTML = data;
+			return ;
+		}
+		var time = data.splice(0,1);
+		var bench = data.splice(0,1);
+		if (bench[0])
+		{		
+			$('benchbox').style.display = 'block';
+			buildTable('table2',bench[0]);
+		}else{
+			$('benchbox').style.display = 'none';
+		}
+		if(data.length<=1) {
+			$('resultNum').innerHTML	=	'[ 返回0条查询记录 耗时:'+time+' ] ';
+		}else {
+			$('resultNum').innerHTML	=	'[ 返回'+(data.length-1)+'条查询记录 耗时:'+time+' ] ';
+			buildTable('table1',data);
+		}
+	}
+	function runSql(){
+	//executeSql($('execSql').value);
+		ThinkAjax.send('__URL__/execute','ajax=1&sql='+$('execSql').value+'&label='+$('label').value,handleSql);
+	}
+	function labelSearch(){
+		var obj	=	$('labelSql');
+		var length = obj.options.length;
+		for (i =0 ;i<length; i++){
+			if (obj.options[i].text.indexOf($('searchLabel').value)!=-1)
+			{
+				obj.item(i).selected = true;
+				break;
+			}
+		}
+	}
+	function executeSql(sql){
+		var tableName	=	$('tableName').value;	
+		if (tableName == '')
+		{
+		alert('没有选择数据表');return ;
+		}
+		sql	 =	 sql.replace('$table',tableName);
+		if (document.getElementById('explain').checked)
+		{
+			sql = 'EXPLAIN '+sql;
+		}
+		$('execSql').value	=	sql;
+		if (document.getElementById('bench').checked){
+			bench = 1;
+		}else{
+			bench = 0;
+		}
+		ThinkAjax.send('__URL__/execute','ajax=1&bench='+bench+'&sql='+sql,handleSql);
+	}
+	function showTable(){
+			if ($('explain').value)
+		{alert('只有查询才支持EXPALIN');return ;
+		}
+		executeSql('SHOW COLUMNS FROM $table');
+	}
+	function clearTable(){
+		var tableName	=	$('tableName').value;	
+		if (tableName == '')
+		{
+		alert('没有选择数据表');return ;
+		}
+		if (window.confirm('确实清空表'+tableName+'吗？'))
+		{
+		executeSql('TRUNCATE TABLE $table');
+		}
+	}
+	function checkTable(){
+		if ($('explain').value)
+		{alert('只有查询才支持EXPALIN');return ;
+		}
+		executeSql('CHECK TABLE $table');
+	}
+	function searchTable(){
+		executeSql('SELECT * FROM $table LIMIT 0,30');
+	}
+	function optimzeTable(){
+		if ($('explain').value)
+		{alert('只有查询才支持EXPALIN');return ;
+		}
+		executeSql('OPTIMIZE TABLE $table');
+	}
+	function analyzeTable(){
+		if ($('explain').value)
+		{alert('只有查询才支持EXPALIN');return ;
+		}
+		executeSql('ANALYZE TABLE $table');
+	}
+	function repairTable(){
+		if ($('explain').value)
+		{alert('只有查询才支持EXPALIN');return ;
+		}
+		executeSql('REPAIR TABLE $table');
+	}
+	function statusTable(){
+		if ($('explain').value)
+		{alert('只有查询才支持EXPALIN');return ;
+		}
+		executeSql('SHOW TABLE STATUS LIKE  \'$table\'');
+	}
+	function delTable(){
+		var tableName	=	$('tableName').value;	
+		if (tableName == '')
+		{
+		alert('没有选择数据表');return ;
+		}
+		if (window.confirm('确实删除表'+tableName+'吗？'))
+		{
+		executeSql('DROP TABLE  $table');
+		}
+	}
+	function outputTable(){
+		var tableName	=	$('tableName').value;
+		window.location.href = '__URL__/output/table/'+tableName;
+	}
+	function importSql(){
+		window.location.href = '__URL__/import';
+	}
+	function refleshDb(db){
+		$('useDb').innerHTML = db;
+		ThinkAjax.send('__URL__/getTables','ajax=1&db='+db,fleshTable);
+	}
+function refleshApp(app_id){
+ThinkAjax.send('__URL__/getTables','ajax=1&app_id='+app_id,fleshTable);
+}
+	function fleshTable(data,status){
+		if (status==1)
+		{
+			$('tableName').options.length = 0;
+			// 动态增加
+			for (j=0;j<data.length;j++) 
+			{
+			$('tableName').options.add( new Option(data[j],data[j]) );
+			}
+		}
+
+	}
+//-->
+</script>
+<!-- 菜单区域  -->
+
+<!-- 主体内容  -->
+<div class="content" >
+<div class="title">数据库管理 <span style="font-weight:normal;">[当前数据库:<span style="color:blue" id="useDb">{$Think.session.useDb}</span>]</span></div>
+<div class="operate" >
+<html:imageBtn name="add" value="建库"  click="window.location.href='__URL__/addDb'" style="impBtn hMargin fLeft shadow" />
+<html:imageBtn name="add" value="建表"  click="add()" style="impBtn hMargin fLeft shadow" />
+<html:imageBtn name="ok" value="导入" click="importSql()" style="impBtn hMargin fLeft shadow" />
+<html:imageBtn name="sort" value="导出"  click="outputTable()" style="impBtn hMargin fLeft shadow" />
+<html:imageBtn name="clear" value="清空"  click="clearTable()" style="impBtn hMargin fLeft shadow" />
+<html:imageBtn name="delete" value="删除"  click="delTable()" style="impBtn hMargin fLeft shadow" />
+<html:imageBtn name="adv" value="高级"  click="window.location.href='__URL__/adv'" style="impBtn hMargin fLeft shadow" />
+<!-- <select name="outType" class="fLeft">
+    <option value="sql" > SQL </option>
+    <option value="xml" > XML </option>
+    <option value="excel" > Excel </option>
+	 <option value="word" > Word </option>
+   </select> -->
+</div>
+<!--  功能操作区域  -->
+<div class="cBoth">
+<!-- SQL执行器 -->
+<form method=post action="">
+	<fieldset id="querybox" >
+<legend style="color:gray">
+<div class="fLeft">在数据库</div>
+<select name="database" class="fLeft hMargin" onchange="refleshDb(this.options[this.options.selectedIndex].value)">
+<volist name="dbs" id="db">
+<neq name="db.Database" value="information_schema">
+<option value="{$db.Database}" <eq name="db.Database" value="$useDb">selected</eq>> {$db.Database} </option>
+</neq>
+</volist>
+   </select>
+<div class="fLeft">中执行SQL语句（<span style="color:orange">请慎用</span>） <input type="checkbox" name="bench" id="bench" > 性能分析 <input type="checkbox" name="explain" id="explain" > 查询解释 </div></legend>
+<div class="cBoth"></div>
+<div id="dbSql" class="cBoth vMargin">
+<div class="fLeft"><textarea id="execSql" name="sql" check="Require" warning="输入要执行的SQL语句！" style="width:480px;height:230px;overflow:auto;line-height:150%" >{$Think.get.sql}</textarea></div>
+<div id="dbSql" >
+<div class="fLeft hMargin">
+<select name="tableName" id="tableName" class="medium" size="12" multiple >
+<volist name="tables" id="table" >
+<option value="{$table}">{$table}</option>
+</volist>
+</select></div>
+<div class="fLeft" style="width:65px">
+<html:imageBtn value="查询" click="searchTable()" style=" fLeft shadow" />
+<html:imageBtn value="结构" click="showTable()" style=" fLeft shadow" />
+<html:imageBtn value="优化" click="optimzeTable()" style="  fLeft shadow" />
+<html:imageBtn value="检查" click="checkTable()" style="  fLeft shadow" />
+<html:imageBtn value="分析" click="analyzeTable()" style="  fLeft shadow" />
+<html:imageBtn value="修复" click="repairTable()" style="  fLeft shadow" />
+<html:imageBtn value="状态" click="statusTable()" style="  fLeft shadow" />
+</div>
+</div>
+</div>
+<BR class="cBoth">
+<div class="cBoth vMargin" >
+<html:imageBtn name="ok" value="执行"  click="runSql()" style="impBtn hMargin fLeft shadow" />
+<html:imageBtn name="sort" type="reset" value="重置"  style="impBtn hMargin fLeft shadow" />
+</div>
+</fieldset>
+</form>
+
+<!-- 表操作器 -->
+<fieldset id="benchbox" style="display:none">
+<legend style="color:gray">数据库性能分析 </legend>
+<div id="SqlBench" style="overflow:auto;width:100%;height:100%">
+<table id='table2' class="list" style="width:450px"></table>
+</div>
+</fieldset>
+<fieldset id="querybox" >
+<legend style="color:gray">数据库查询结果 <span class="blue" id="resultNum"></span> </legend>
+<div id="SqlResult" style="overflow:auto;width:100%;height:100%">
+<table id='table1' class="list" ></table>
+</div>
+</fieldset>
+</div>
+<!-- 列表显示区域结束 -->
+</div>
+<script language="JavaScript">
+<!--
+	if ({$Think.get.run|default=0})
+	{
+	runSql();
+	}
+//-->
+</script>

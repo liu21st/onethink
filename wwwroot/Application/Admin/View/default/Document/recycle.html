@@ -1,0 +1,74 @@
+<!-- 主页面开始 -->
+<div id="main" class="main" >
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+function del(id){
+	var keyValue;
+	if (id)
+	{
+		keyValue = id;
+	}else {
+		keyValue = getSelectCheckboxValues();
+	}
+	if (!keyValue)
+	{
+		alert('请选择删除项！');
+		return false;
+	}
+
+	if (window.confirm('确实要删除选择项吗？'))
+	{
+		ThinkAjax.send(URL+"/deleteRecycle/","id="+keyValue+'&ajax=1',doDelete);
+	}
+}
+
+
+	function readRecycleFile(id){
+		window.location.href = '__URL__/readRecycleFile/id/'+id;
+	}
+	function clearRecycle(){
+		ThinkAjax.send("__URL__/clear","ajax=1",clearComplete);
+	}
+
+	function clearComplete(data,status){
+		if (status==1)
+		{
+		var Table = $('checkList');
+		var len	=	Table.rows.length;
+		for (var i=len-2;i>=2;i-- )
+		{
+			//删除表格行
+			Table.deleteRow(i);
+		}
+		}
+	}
+//-->
+</SCRIPT>
+<!-- 主体内容  -->
+<div class="content" >
+<div class="title">回收站 [ <A HREF="__URL__/">返回列表</A> <A HREF="__URL__/favorite">我的收藏</A>  <A HREF="__URL__">返回顶部</A> ]  </div>
+<!--  功能操作区域  -->
+<div class="operate" >
+<html:imageBtn name="delete" value="删除" click="del()" style="impBtn hMargin fLeft shadow" />
+<html:imageBtn name="clear" value="清空" click="clearRecycle()" style="impBtn hMargin fLeft shadow" />
+<!-- 查询区域 -->
+<div class="fRig">
+</div>
+
+</div>
+<!-- 功能操作区域结束 -->
+
+<!-- 列表显示区域  -->
+<div class="list" >
+<div id="result" class="result none"></div>
+<!-- 详细列表 -->
+<html:list id="checkList" name="file" style="list" checkbox="true" datasource="list" show="pathname|readRecycleFile:名称,size|byte_format:大小,ext|showExt=0:类型,mtime|toDate='m-d H#i#s':删除时间,isReadable|getRecommend:可读,isWritable|getRecommend:可写"  />  
+</div>
+<!--  分页显示区域 -->
+<div class="tRight page">{$page}</div>
+<!-- 列表显示区域结束 -->
+</div>
+<!-- 主体内容结束 -->
+</div>
+<!-- 主页面结束 -->
+

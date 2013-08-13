@@ -1,0 +1,81 @@
+<import  file="Js.Form.MultiSelect" />
+<div class="content">
+<div class="title">新增<notempty name="Think.get.model_id" >[{$Think.get.model_id|getModelById}] </notempty>流程 <span class="normal">[ <a href="__URL__/index/model_id/{$Think.get.model_id|default=0}">返回列表</a> ]</span></div>
+<form method=post id="form1" action="__URL__/insert">
+<table cellpadding=3 cellspacing=3>
+<tr>
+	<td class="tRight" >名 称：</td>
+	<td class="tLeft" ><input type="text" class="large bLeftRequire"  name="title"></td>
+</tr>
+<tr>
+	<td class="tRight tTop">流程设置：</td>
+	<td class="tLeft">
+	<div class="fLeft hMargin">
+	<table class="select" style="width:245px" id="attr" >
+<tr><td height="5" colspan="3" class="topTd" ></td></tr>
+<tr><th class="tCenter">可写属性 </th></tr>
+<tr><td >
+<select  name="attribute_list[]" class="hMargin medium multiSelect" multiple="multiple" size="12">
+<volist name="attrList" id="attr">
+	<option value="{$key}">{$attr}</option>
+	</volist>
+	</select>
+</td>
+</tr>
+<tr><th class="tCenter"><input type="button" onclick="allSelect('attr')" value="全 选" class="submit  ">
+<input type="button" onclick="InverSelect('attr')" value="反 选" class="submit  ">
+<input type="button" onclick="allUnSelect('attr')" value="全 否" class="submit ">
+</th></tr>
+<tr>
+<td height="5" class="bottomTd" >
+</td>
+</tr>
+</table>
+</div>
+
+<div class="fLeft hMargin">
+	<table class="select" style="width:245px" id="role" >
+<tr><td height="5" colspan="3" class="topTd" ></td></tr>
+<tr><th class="tCenter">步骤角色 </th></tr>
+<tr><td >
+<select  name="role_list[]" class="hMargin medium multiSelect" multiple="multiple" size="12">
+<volist name="roleList" id="role">
+	<option value="{$key}">{$role}</option>
+	</volist>
+	</select>
+</td>
+</tr>
+<tr><th class="tCenter"><input type="button" onclick="allSelect('role')" value="全 选" class="submit  ">
+<input type="button" onclick="InverSelect('role')" value="反 选" class="submit  ">
+<input type="button" onclick="allUnSelect('role')" value="全 否" class="submit ">
+</th></tr>
+<tr>
+<td height="5" class="bottomTd" >
+</td>
+</tr>
+</table>
+</div>
+</td>
+</tr>
+<tr>
+	<td class="tRight tTop">备  注：</td>
+	<td class="tLeft"><TEXTAREA class="bLeft large" name="remark" ROWS="5" COLS="35"></TEXTAREA></td>
+</tr>
+<tr>
+	<td class="tRight">状 态：</td>
+	<td class="tLeft"><select class="small bLeft"  name="status">
+	<option value="1">启用</option>
+	<option value="0">禁用</option>
+	</select></td>
+</tr>
+<tr>
+	<td ></td>
+	<td class="center">
+	<input type="hidden" name="model_id" value="{$Think.get.model_id|default=0}">
+	<input type="submit" value="保 存" class="button medium">
+	<input type="reset" class="button" value="清 空" >
+	</td>
+</tr>
+</table>
+</form>
+</div>

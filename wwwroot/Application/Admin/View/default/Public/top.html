@@ -1,0 +1,37 @@
+{__NOLAYOUT__}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<TITLE>『{$Think.config.web_name}管理平台』By ThinkPHP {$Think.version}</title>
+<load file="__PUBLIC__/css/style.css" />
+<base target="main" />
+</head>
+<body>
+<!-- 头部区域 -->
+<div id="header" class="header">
+<div class="headTitle" style="margin:8pt 10pt"> {$Think.config.web_name} 管理平台 </div>
+	<!-- 功能导航区 -->
+	<div class="topmenu">
+<ul>
+<li class="space"><span><a href="#" onclick="sethighlight(0); parent.menu.location='__MODULE__/Public/menu/title/首页';parent.main.location='__MODULE__/Public/main/';return false;">首页</a></span></li>
+<volist name="nodeGroupList" id="node">
+<li class="space"><span><a href="#" onclick="sethighlight({$i}); parent.menu.location='<neq name="node.url" value="">__MODULE__/{$node.url}/title/{$node.title}<else/>__MODULE__/Public/menu/tag/{$node.id}/title/{$node.title}</neq>';return false;">{$node.title}</a></span></li>
+</volist>
+</ul>
+</div>
+	<div class="nav">
+	欢迎你！{$Think.session.loginUserName} <a href="__URL__/password/"><img src="__PUBLIC__/images/checked_out.png" width="16" height="16" border="0" alt="" align="absmiddle"> 修改密码</a> <a href="__URL__/profile/"><img src="__PUBLIC__/images/write.gif" width="17" height="16" border="0" alt="" align="absmiddle"> 修改资料</a> <a href="__URL__/logout/" target="_top"><img src="__PUBLIC__/images/error.gif" width="20" height="20" border="0" alt="" align="absmiddle"> 退 出</a></div>
+</div>
+<script>
+function sethighlight(n) {
+	var lis = document.getElementsByTagName('span');
+	for(var i = 0; i < lis.length; i++) {
+		lis[i].className = '';
+	}
+	lis[n].className = 'current';
+}
+sethighlight(0);
+</script>
+</body>
+</html>

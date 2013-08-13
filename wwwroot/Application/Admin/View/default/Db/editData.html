@@ -1,0 +1,33 @@
+<div class="content">
+<div class="title">修改数据 <span style="font-weight:normal">[ <a href="__URL__/adv">{$Think.session.useDb}</a>-><a href="__URL__/selectTable/table/{$Think.get.table}">{$Think.get.table}</a> ]</span></div>
+<div id="result" class="result none"></div>
+<form id="upload" METHOD=POST action="__URL__/updateData/" onsubmit="return CheckForm(this);" >
+<table cellpadding=0 cellspacing=0  class="list" width="100%">
+<tr><td height="5" colspan="10" class="topTd" ></td></tr>
+<tr><th class="tRight">字段</th><th class="tCenter">类型</th><th>值</th></tr>
+<iterate name="list" id="vo">
+<tr class="row">
+	<td class="tRight bold" style="width:15%" >{$vo.name}</td>
+	<td class="tCenter" style="width:20%" >{$vo.type}</td>
+	<td  class="tLeft">
+	<eq name="vo.type|substr=-4" value="text"><TEXTAREA class="huge" style="height:140px;width:450px" name="{$vo.name}" value="{$vo.value}" rows="45" cols="120"></TEXTAREA><else/>
+	<input type="text" class="<switch name="vo._type">
+	<case value="tinyint|smallint">mini</case>
+	<case value="mediumint">small</case>
+	<case value="int|bigint">medium</case>
+	<default />large
+	</switch>"  name="{$vo.name}" value="{$vo.value}">
+	</eq> </td>
+</tr>
+</iterate>
+<tr>
+<td colspan="2"></td>
+<td ><input type="hidden" name="__pk__" value="{$Think.get.id}" />
+<input type="hidden" name="__table__" value="{$Think.get.table}" />
+<input type="submit" value="修 改" class="button "></td>
+</tr>
+</tr>
+<tr><td height="5" colspan="10" class="bottomTd"></td></tr>
+</table>
+</form>
+</div>

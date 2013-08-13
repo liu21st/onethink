@@ -1,0 +1,71 @@
+<extend name="Base/control"/>
+<block name="body">
+	<h3 class="cnt-title">站点设置</h3>
+	<ul id="setTab" class="nav nav-tabs">
+		<li class="active"> <a data-toggle="tab" href="#setting">基本设置</a> </li>
+		<li><a data-toggle="tab" href="#static">静态化</a></li>
+		<li><a data-toggle="tab" href="#seo">SEO 优化</a></li>
+	</ul>
+	<div class="tab-content">
+		<!-- 站点设置 -->
+		<form  id="setting" action="{:U('setting')}" method="post" class="form-horizontal tab-pane fade in active">
+			<div class="control-group">
+				<label class="control-label">站点名称：</label>
+				<div class="controls">
+					<input type="text" name="web[title]" class="input-xlarge" value="{$list.title}">
+					<span class="help-inline"> 该名称显示在浏览器窗口标题等位置 </span>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">网站LOGO：</label>
+				<div class="controls">
+					<input type="file" name="web[logo]" class="input-xlarge">
+					<span class="help-inline"></span>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">网站备案号：</label>
+				<div class="controls">
+					<input type="text" name="web[icp]" class="input-xlarge" value="{$list.icp}">
+					<span class="help-inline"></span>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="controls">
+					<input type="submit" value="确认" class="btn btn-primary">
+				</div>
+			</div>
+		</form>
+		<!-- /站点设置 -->
+		
+		<!-- 静态化 -->
+		<form id="static" action="{:U('setting')}" method="post" class="form-horizontal tab-pane fade in">
+			
+		</form>
+		<!-- /静态化 -->
+		
+		<!-- seo优化 -->
+		<form id="seo" action="{:U('setting')}" method="post" class="form-horizontal tab-pane fade in">
+			<div class="control-group">
+				<label class="control-label">网站关键词：</label>
+				<div class="controls">
+					<textarea name="web[keywords]" class="input-xlarge">{$list.keywords}</textarea>
+					<span class="help-inline"> 该名称显示在浏览器窗口标题等位置 </span>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">网站描述：</label>
+				<div class="controls">
+					<textarea name="web[description]" class="input-xlarge">{$list.description}</textarea>
+					<span class="help-inline">输入站点URL(HTTP地址)</span>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="controls">
+					<input type="submit" value="确认" class="btn btn-primary">
+				</div>
+			</div>
+		</form>
+		<!-- /seo优化 -->
+	</div>
+</block>

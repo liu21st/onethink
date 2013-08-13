@@ -1,0 +1,144 @@
+<script language="JavaScript">
+<!--
+function deleteRow(e){
+	var event = e || event;
+     var Elm  =  event.target || event.srcElement; 
+        while(Elm  &&  Elm.tagName  !=  "TR")   
+        {   
+            Elm  =  Elm.parentElement;   
+        } 
+        var intThisIndex = Elm.rowIndex; 
+        Elm.parentElement.deleteRow(intThisIndex);  
+}
+
+function addField(){
+	rowsnum++;
+    var row=tbl.insertRow(-1);
+	var cell = document.createElement("td");
+	cell.innerHTML	=	'<input type="text" class="medium"  name="name[]">';
+	cell.align="center";
+	row.appendChild(cell); 
+	var cell = document.createElement("td");
+	cell.innerHTML	=	'<select class="medium" name="type[]"><option value="VARCHAR" selected="selected">VARCHAR</option><option value="TINYINT">TINYINT</option><option value="TEXT">TEXT</option><option value="DATE">DATE</option><option value="SMALLINT">SMALLINT</option>       <option value="MEDIUMINT">MEDIUMINT</option><option value="INT">INT</option><option value="BIGINT">BIGINT</option><option value="FLOAT">FLOAT</option><option value="DOUBLE">DOUBLE</option><option value="DECIMAL">DECIMAL</option><option value="DATETIME">DATETIME</option><option value="TIMESTAMP">TIMESTAMP</option><option value="TIME">TIME</option><option value="YEAR">YEAR</option><option value="CHAR">CHAR</option><option value="TINYBLOB">TINYBLOB</option><option value="TINYTEXT">TINYTEXT</option>   <option value="BLOB">BLOB</option><option value="MEDIUMBLOB">MEDIUMBLOB</option><option value="MEDIUMTEXT">MEDIUMTEXT</option><option value="LONGBLOB">LONGBLOB</option><option value="LONGTEXT">LONGTEXT</option><option value="ENUM">ENUM</option><option value="SET">SET</option>     <option value="BOOL">BOOL</option><option value="BINARY">BINARY</option><option value="VARBINARY">VARBINARY</option></select>';
+	cell.align="center";
+	row.appendChild(cell); 
+	var cell = document.createElement("td");
+	cell.innerHTML	=	'<input type="text" class="small"  name="length[]">';
+	cell.align="center";
+	row.appendChild(cell); 
+	var cell = document.createElement("td");
+	cell.innerHTML	=	'<select class="medium" name="attribute[]"><option value="" selected="selected"></option><option value="UNSIGNED">UNSIGNED</option>            <option value="UNSIGNED ZEROFILL">UNSIGNED ZEROFILL</option><option value="ON UPDATE CURRENT_TIMESTAMP">ON UPDATE CURRENT_TIMESTAMP</option></select>';
+	cell.align="center";
+	row.appendChild(cell); 
+	var cell = document.createElement("td");
+	cell.innerHTML	=	'<select class="small" name="null[]"><option value="NULL">允许</option><option value="NOT NULL">不允许</option></select>';
+	cell.align="center";
+	row.appendChild(cell); 
+	var cell = document.createElement("td");
+	cell.innerHTML	=	'<input type="text" class="small"  name="default[]">';
+	cell.align="center";
+	row.appendChild(cell); 
+	var cell = document.createElement("td");
+	cell.innerHTML	=	'<select class="small" name="autoinc[]"><option value=""></option><option value="AUTO_INCREMENT">自动增长</option></select>';
+	cell.align="center";
+	row.appendChild(cell); 
+	var cell = document.createElement("td");
+	cell.innerHTML	=	'<select class="small" name="extra[]"><option value=""></option><option value="PRIMARY KEY">主键</option><option value="INDEX">索引</option><option value="UNIQUE">唯一</option></select>';
+	cell.align="center";
+	row.appendChild(cell); 
+	var cell = document.createElement("td");
+	cell.innerHTML	=	'<input type="text" class="medium"  name="comment[]">';
+	cell.align="center";
+	row.appendChild(cell); 
+	var cell = document.createElement("td");
+	cell.innerHTML	=	'<img src="__PUBLIC__/images/del.gif"  style="cursor:hand"  onclick="deleteRow(event);" width="20" height="20" border="0" alt="删除" align="absmiddle">';
+	cell.align="center";
+	row.appendChild(cell); 
+}
+function clearTable(){
+	$('form1').reset();
+}
+function saveTable(){
+	ThinkAjax.sendForm('form1','__URL__/buildTable',saveComplete);
+}
+function saveComplete(data,status){
+	if (status==1)
+	{
+		window.setTimeout(function (){	window.location.reload();},3000);
+	}
+}
+//-->
+</script>
+<div class="content">
+<div class="title">新增数据表：<span class="normal">[ <a href="__URL__/adv/">返回{$Think.session.useDb}</a>   <a href="__URL__">返回列表</a> ] </span></div>
+<form method=post id="form1" >
+<table cellpadding=3 cellspacing=3>
+<tr>
+	<td class="tCenter" colspan="10">
+	<input type="hidden" name="ajax" value="1">
+	<div class="fLeft hMargin">表名：<input type="text" class="medium"  name="tableName"></div>
+	<div class="fLeft hMargin">类型：<select name="tableType">
+    <option value="MyISAM" title="Default engine as of MySQL 3.23 with great performance">
+        MyISAM
+    </option>
+    <option value="MEMORY" title="Hash based, stored in memory, useful for temporary tables">
+        MEMORY
+    </option>
+    <option value="InnoDB" title="Supports transactions, row-level locking, and foreign keys" >
+        InnoDB
+    </option>
+    <option value="BLACKHOLE" title="/dev/null storage engine (anything you write to it disappears)">
+        BLACKHOLE
+    </option>
+    <option value="EXAMPLE" title="Example storage engine">
+        EXAMPLE
+    </option>
+    <option value="ARCHIVE" title="Archive storage engine">
+        ARCHIVE
+    </option>
+    <option value="FEDERATED" title="Federated MySQL storage engine">
+        FEDERATED
+    </option>
+    <option value="MRG_MYISAM" title="Collection of identical MyISAM tables">
+        MRG_MYISAM
+    </option>
+</select></div>
+<div class="fLeft hMargin">编码：<select name="tableCharset">
+    <option value="utf8" > UTF8 </option>
+    <option value="gb2312" > GB2312 </option>
+    <option value="gbk" > GBK </option>
+   </select></div>
+	<div class="fLeft hMargin">注释：<input type="text" class="medium"  name="tableComment"></div>
+	<input type="button" value="保 存" onclick="saveTable()" class="button">
+	<input type="button" class="button" value="重 置" onclick="clearTable()">
+	<input type="button" value="增 加" onclick="addField()" class="button">
+	</td>
+</tr>
+</table>
+<table cellpadding=0 cellspacing=0 class="list" id="tbl">
+<tr><td height="5" colspan="10" class="topTd" ></td></tr>
+<tr class="row" onfocus="getObject(this)" >
+	<th class="tCenter" >字 段</th>
+	<th class="tCenter" >类 型</th>
+	<th class="tCenter" >长 度</th>
+	<th class="tCenter" >属 性</th>
+	<th class="tCenter" >为 空</th>
+	<th class="tCenter" >默 认</th>
+	<th class="tCenter" >额 外</th>
+	<th class="tCenter" >其 他</th>
+	<th class="tCenter" >注 释</th>
+	<th class="tCenter"  >操 作</th>
+</tr>
+<tr><td height="5" colspan="10" class="bottomTd"></td></tr>
+</table>
+</form>
+</div>
+
+<script language="JavaScript">
+<!--
+var rowsnum= 1;  //记录行数
+var rindex="";       //列索引
+var tbl	=	$('tbl');
+addField();
+//-->
+</script>

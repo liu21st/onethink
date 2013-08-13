@@ -1,0 +1,139 @@
+<script language="JavaScript">
+<!--
+function forbid(id){
+	var keyValue;
+	if (id)
+	{
+		keyValue = id;
+	}else {
+		keyValue = getSelectCheckboxValues();
+	}
+	if (!keyValue)
+	{
+		alert('请选择要禁用的项目！');
+		return false;
+	}
+	location.href = URL+"/forbid/_module/{$model.name}/id/"+keyValue;
+}
+
+function add(){
+	<notempty name="Think.request.cate_id">
+	window.location.href = '__URL__/add/cate_id/{$Think.request.cate_id}';
+	<else/>
+	window.location.href = '__URL__/add/_module/{$model.name}/<notempty name="foreign_key">{$foreign_key}/{$_GET[$foreign_key]|default=0}</notempty>';
+	</notempty>
+}
+
+function read(id){
+	window.location.href = '__APP__/Model/index/app_id/'+id;
+}
+
+function edit(id){
+	<notempty name="Think.request.cate_id">
+	window.location.href = '__URL__/edit/cate_id/{$Think.request.cate_id}/id/'+id;
+	<else/>
+	window.location.href = '__URL__/edit/_module/{$model.name}/id/'+id;
+	</notempty>
+}
+
+function child(id){
+	<notempty name="Think.get.cate_id">
+	window.location.href = '__URL__/index/cate_id/{$Think.get.cate_id}/pid/'+id;
+	<else/>
+	window.location.href = '__URL__/index/_module/{$model.name}/pid/'+id;
+	</notempty>
+}
+
+function del(id){
+	var keyValue;
+	if (id)
+	{
+		keyValue = id;
+	}else {
+		keyValue = getSelectCheckboxValues();
+	}
+	if (!keyValue)
+	{
+		alert('请选择要删除的项目！');
+		return false;
+	}
+	if (window.confirm('确实要删除吗？'))
+	{
+	window.location.href = '__URL__/delete/_module/{$model.name}/id/'+keyValue;
+	}
+}
+
+function resume(id){
+	window.location.href = '__URL__/resume/_module/{$model.name}/id/'+id;
+}
+
+function sort(){
+	var keyValue;
+	keyValue = getSelectCheckboxValues();
+	window.location.href = '__URL__/sort/<notempty name="Think.get.cate_id">cate_id/{$Think.get.cate_id}<else/>_module/{$model.name}</notempty>/<present name="Think.session.pid">pid/{$Think.session.pid}/</present>sortId/'+keyValue;
+}
+
+function pass(id){
+	var keyValue;
+	if (id)
+	{
+		keyValue = id;
+	}else {
+		keyValue = getSelectCheckboxValues();
+	}
+	if (!keyValue)
+	{
+		alert('请选择审核项！');
+		return false;
+	}
+
+	if (window.confirm('确实审核通过吗？'))
+	{
+		window.location.href = URL+	'/checkPass/id/'+keyValue+'/_module/{$model.name}';
+	}
+}
+//-->
+</script>
+<!-- 主体内容  -->
+<div class="content" >
+<div class="title"><notempty name="Think.get.record_id"><span class="normal"><a href="__URL__/edit/{$Think.get.record_id|parseRecordId}">{$Think.get.record_id|getArticleTitle}</a>:</span></notempty> [<notempty name="Think.get.cate_id">{$Think.get.cate_id|getCateTitle}<else/>{$model.name|getClassName}</notempty>]<present name="returnId"><span class="normal">>[<A href="?pid={$returnId}">{$_title}</a>]</span>子</present>列表  <span style="font-weight:normal"> [ 共{$count|default=0} <eq name="model.model_type" value="0">查看：<a href="?status=2">待审核</a> <a href="?">全部</a></eq>]  <eq name="model.model_type" value="0"><a href="__URL__/recycleBin/<notempty name="Think.get.cate_id">cate_id/{$Think.get.cate_id}<else/>_module/{$model.name}/</notempty>">回收站</a></span></eq></div>
+<!--  功能操作区域  -->
+
+<div class="operate" >
+<html:imageBtn name="add" value="新增" click="add()" style="impBtn hMargin fLeft shadow" />
+<html:imageBtn name="sort" value="排序" click="sort()" style="impBtn hMargin fLeft shadow" />
+<html:imageBtn name="delete" value="删除" click="del()" style="impBtn hMargin fLeft shadow" />
+<html:imageBtn name="delete" value="禁用" click="forbid()" style="impBtn hMargin fLeft shadow" />
+<html:imageBtn name="ok" value="审核" click="pass()" style="impBtn hMargin fLeft shadow" />
+
+<!-- 查询区域 -->
+<div class="fRig">
+<form method=post name="search" action="">
+<div class="fLeft"><span id="key"><input type="text" name="{$search_key}" title="关键字查询" class="medium" ></span></div>
+<html:imageBtn type="submit" name="search" value="查询" style="impBtn hMargin fLeft shadow" />
+<html:imageBtn name="adv" value="高级" id="showText" click="showHideSearch()" style="impBtn hMargin fLeft shadow" />
+</div>
+<!-- 高级查询区域 -->
+<div  id="searchM" class=" none search cBoth" >
+<table cellpadding="1" cellspacing="3" width="100%">
+<tr>
+<volist name="attrList" id="vo">
+	<td class="tRight tTop" >{$vo.title}：</td>
+	<td class="tLeft" ><attr var="vo" default="0" /> {$vo.remark}</td>
+</volist>
+</tr>
+</table>
+</div>
+</form>
+</div>
+
+<!-- 功能操作区域结束 -->
+<!-- 列表显示区域  -->
+<div class="list" >
+<html:list id="checkList" style="list" name="action" checkbox="true" action="true" datasource="list" show="$list_grid" actionlist="$action_list" />
+</div>
+<!--  分页显示区域 -->
+<div class="page">{$page}</div>
+<!-- 列表显示区域结束 -->
+</div>
+<!-- 主体内容结束 -->

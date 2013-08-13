@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<include file="Public/head"/>
+</head>
+<body>
+	<!-- 头部 -->
+	<include file="Public/header"/>
+	<!-- /头部 -->
+
+	<!-- 主体 -->
+	<div class="main cf">
+        <!-- 左边 -->
+        <div class="wrapper">
+            <form action="{:U('save')}" enctype="multipart/form-data" id="form" class="think-form" method="post">
+                <div class="hd cf">
+                    <div class="avatar"><img src="__IMG__/temp/36_36.png" alt=""></div>
+                    <div class="msgbox">
+                        <div><strong>ruby熊</strong><span class="time">2013-5-24 15：07</span></div>
+                        <div class="title">发布{$category.title}</div>
+                    </div>
+                </div>
+
+                <!-- 基础内容 -->
+                <div class="base-info">
+                    <div class="cols">
+                        <div class="infolabel"><i class="must">*</i>标&#12288;&#12288;识</div>
+                        <div class="item"><input name="name" type="text" class="text"></div>
+                    </div>
+                    <div class="cols">
+                        <div class="infolabel"><i class="must">*</i>标&#12288;&#12288;题</div>
+                        <div class="item"><input name="title" type="text" class="text"></div>
+                    </div>
+                    <div class="cols">
+                        <div class="infolabel"><i class="must">*</i>描&#12288;&#12288;述</div>
+                        <div class="item description">
+                            <textarea name="description" id=""></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 扩展内容 -->
+                <div class="extend-info" id="extend-info">
+                	<block name="content"></block>
+                </div>
+
+                <!-- 插件 -->
+                <block name="addons">
+                    <div class="plugin-info">
+                        {:hooks('document_edit_form', 'widget', $info)}
+                    </div>
+                </block>
+
+                <div class="ft">
+                    <div class="item">
+                        <input type="hidden" name="pid" value="0">
+                        <input type="hidden" name="type" value="2">
+                        <input type="hidden" name="category_id" value="{$category.id}">
+                        <input type="hidden" name="model_id" value="{$info.model_id}">
+                        <input type="submit" value="提交" class="submit">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- /左边 -->
+
+        <!-- 右边 -->
+        <div class="sidebar">
+            <!-- 快捷键小贴士 -->
+            <div class="box key">
+                <div class="hd">快捷键小贴士</div>
+                <div class="bd">
+                    <div class="remind">选中文字后使用键盘快捷键</div>
+                    <div>Ctrl+B：字体加粗</div>
+                    <div>Alt+U：添加超链接</div>
+                    <div>Alt+C：添加代码</div>
+                </div>
+            </div>
+            <!-- /快捷键小贴士 -->
+        </div>
+        <!-- /右边 -->
+    </div>
+	<!-- /主体 -->
+
+	<!-- 底部 -->
+	<include file="Public/footer"/>
+	<!-- /底部 -->
+</body>
+</html>

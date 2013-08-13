@@ -1,0 +1,25 @@
+<div class="content">
+<div class="title">移动数据表 [ <a href="__URL__">返回列表</a> ]</div>
+<div id="result" class="result none"></div>
+<form METHOD=POST action="__URL__/transfTable/" onsubmit="return CheckForm(this);" >
+<table cellpadding=0 cellspacing=0  class="list" width="100%">
+<tr><td height="5" colspan="10" class="topTd" ></td></tr>
+<tr class="row">
+	<th class="tRight" style="width:100px" >移动到：</th>
+	<td  class="tLeft"><select name="dbName" class="fLeft hMargin" >
+<volist name="dbs" id="db">
+<neq name="db.Database" value="information_schema">
+<option value="{$db.Database}" > {$db.Database} </option>
+</neq>
+</volist>
+   </select> <input type="text" name="tableName" class="medium fLeft" value="{$Think.get.table}"></td>
+</tr>
+<tr>
+<th class="tRight" style="width:100px" ></th>
+<td><input type="hidden" name="sourceTable" value="{$Think.get.table}"><input type="submit" value="移 动" class="small button "></td>
+</tr>
+</tr>
+<tr><td height="5" colspan="10" class="bottomTd"></td></tr>
+</table>
+</form>
+</div>

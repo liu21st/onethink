@@ -1,0 +1,52 @@
+<script language="JavaScript">
+<!--
+function selectGroup(){
+ var result= PopModalWindow('__URL__/select/pid/0',268,360);
+ if(typeof(result) == "undefined") return;
+	$('groupName').value=result[0][0];
+	$('pid').value=result[0][1];
+}
+//-->
+</script>
+<div class="content">
+<div class="title">编辑角色 [ <a href="__URL__">返回列表</a> ]</div>
+<div id="result" class="result none"></div>
+<form method=post  id="form1" >
+<table cellpadding=3 cellspacing=3 >
+<tr>
+	<td class="tRight" >角色名：</td>
+	<td class="tLeft" ><input type="text" class="medium bLeft" check='^\S+$'  warning="组名不能为空,且不能含有空格" name="name" value="{$vo.name}"></td>
+</tr>
+<tr>
+	<td class="tRight" >上级：</td>
+	<td class="tLeft" >
+	<select class="medium bLeft"  name="pid">
+	<option value="0">无上级</option>
+	<volist name=":getRoles()" id="role">
+	<option <eq name="role.id" value="$vo.pid">selected</eq> value="{$role.id}">{$role.name}</option>
+	</volist>
+	</select>
+</td>
+</tr>
+<tr>
+	<td class="tRight">状态：</td>
+	<td class="tLeft"><select class="small bLeft"   name="status">
+	<option <eq name="vo.status" value="1" >selected</eq> value="1">启用</option>
+	<option <eq name="vo.status" value="0" >selected</eq> value="0">禁用</option>
+	</select></td>
+</tr>
+<tr>
+	<td class="tRight tTop">描 述：</td>
+	<td class="tLeft"><TEXTAREA class="large bLeft" name="remark"  ROWS="5" COLS="57">{$vo.remark}</TEXTAREA></td>
+</tr>
+<tr>
+	<td ></td>
+	<td class="center"><div style="width:85%;margin:5px"><input type="hidden" name="id" value="{$vo.id}" >
+	<input type="hidden" name="ajax" value="1">
+	<div class="impBtn fLeft"><input type="button" value="保存" onclick="sendForm('form1','__URL__/update/','tips')" class="save imgButton"></div>
+	<div class="impBtn fRig"><input type="reset" onclick="history.back(-1)" class="reset imgButton" value="取消" ></div>
+	</div></td>
+</tr>
+</table>
+</form>
+</div>

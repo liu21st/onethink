@@ -1,0 +1,50 @@
+<div class="content">
+<div class="title">{$tagName} <span class="normal">[ 选择：<volist name=":parseAttr(C('CONF_TYPE_LIST'))" id="config"><a href="__URL__/tag/id/{$key}">{$config}</a><neq name="_result|count" value="$i">&nbsp;|&nbsp;</neq></volist> ]</span></div>
+<present name="list">
+<form method=post id="form1" >
+<table cellpadding=3 cellspacing=3>
+<volist name="list" id="vo">
+<tr>
+	<td class="tRight tTop" >{$vo.title}：</td>
+	<td class="tLeft" ><switch name="vo.type" >
+	<case value="0"><input type="text" class="bLeft large" name="{$vo.name}" value="{$vo.value}" ></case>
+	<case value="1"><input type="text" class="medium " check="Number" warning="{$vo.title}必须是数字" name="{$vo.name}" value="{$vo.value}"></case>
+	<case value="2">
+	<select name="{$vo.name}">
+	<option value="">选择</option>
+	<php> if (!empty($vo['extra'])) { $option	=	explode(',',$vo['extra']);</php>
+	<option <php> if ($vo['value']=='0'){ </php>selected<php> };</php> value="0"> {$option[0]} </option>
+	<option <php> if ($vo['value']=='1'){ </php>selected<php> };</php> value="1"> {$option[1]} </option>
+	<php> }; </php>
+	</select>
+	</case>
+	<case value="3"><TEXTAREA style="overflow:auto" class="large " name="{$vo.name}" ROWS="5" COLS="35">{$vo.value}</TEXTAREA></case>
+	<case value="4">
+	<select name="{$vo.name}" class="medium">
+	<php> if (!empty($vo['extra'])) { $option	=	explode(',',$vo['extra']);</php>
+	<iterate name="option" id="extra">
+	<php>$array	=	explode(':',$extra);$value	=	$array[0];$show	=	isset($array[1])?$array[1]:$array[0];</php>
+	<option <php> if ($vo['value']==$value){ </php>selected<php> };</php> value="{$value}"> {$show} </option>
+	</iterate>
+	<php> }; </php>
+	</select>
+	</case>
+	</switch></td>
+	<td >{$vo.remark}</td>
+</tr>
+</volist>
+<tr>
+	<td ></td>
+	<td class="center">
+	<input type="hidden" name="ajax" value="1">
+	<input type="button" value="保存" onclick="sendForm('form1','__URL__/saveConfig/','tips')" class="button shadow">
+	<input type="reset" class="button shadow" value="清空" >
+	</td>
+		<td ></td>
+</tr>
+</table>
+</form>
+<else/>
+<div style="padding:5px;text-align:center;border:1px solid gray;color:red;font-weight:bold;background:#FFFFCC;margin:12px 25%">提示：该配置分组下面还没有配置参数！</div>
+</present>
+</div>

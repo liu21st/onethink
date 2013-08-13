@@ -1,0 +1,210 @@
+<import  file="Js.Util.Calendar" />
+<import  file="Js.Form.MultiSelect" />
+<import  file="Js.KindEditor.kindeditor" />
+<notempty name="model.js_path">
+<script type="text/javascript" src="{$model.js_path}"></script>
+</notempty>
+<script language="JavaScript">
+<!--
+function addRow(){
+	curFileNum++;
+	rowsnum++;
+    var row=tbl.insertRow(-1);
+	//var td = arow.insertCell();
+	var cell = document.createElement("td");
+	cell.innerHTML='<div class="impBtn  fLeft" ><INPUT TYPE="file"  name="file'+ curFileNum +'" class="file  large"></div><div class="fLeft hMargin"><IMG SRC="../Public/images/del.gif"  style="cursor:hand" onfocus="javascript:getObject(this)" onclick="deleteRow();" WIDTH="20" HEIGHT="20" BORDER="0" ALT="删除" align="absmiddle"></div> ';
+	cell.align="center"
+	row.appendChild(cell);
+	//addFileForm.num.value=rowsnum;
+}
+function deleteRow(){
+	if(tbl.rows.length>0){
+		tbl.deleteRow(rindex); //删除当前行
+		rowsnum--;
+	}else{
+		return;
+	}
+	rindex="";
+}
+function getObject(obj){
+	rindex=obj.parentElement.parentElement.rowIndex;/*当前行对象*/
+}
+
+function addSubModule(module){
+	window.location.href = '__URL__/add/module/'+module+'/record_id/{$vo.module}_{$vo.id}';
+}
+function readSubModule(module){
+	window.location.href = '__URL__/index/record_id/{$vo.module}_{$vo.id}/module/'+module;
+}
+
+function uploading(msg){
+	document.getElementById('result').style.display = 'block';
+	document.getElementById('result').innerHTML	=	'<IMG SRC="../Public/images/ajaxloading.gif" WIDTH="16" HEIGHT="16" BORDER="0" ALT="" align="absmiddle"> 文件上传中～';
+	return true;
+}
+function uploadComplete(id,name,savename){
+    var _strId = new Array();
+    var _strName = new Array();
+    var _strSaveName= new Array();
+    _strId = id.split(",");
+    _strName= name.split(",");
+    _strSaveName= savename.split(",");
+    for(var i =0 ; i <_strId.length  ; i++)
+    {
+         document.getElementById('attachs_innerHtml').innerHTML+='<TR><TD><div id="id_'+_strId[i]+'" style="float:left;padding:5px;">'
+                               +'<img src="'+_strSaveName[i].substr(1,100)+'" class="pic" width="100px">'
+                               +'&nbsp;&nbsp;<IMG SRC="../Public/images/del.gif" WIDTH="20" HEIGHT="20"style="cursor:hand; 1px solid red" align="absmiddle"  BORDER="0" ALT="删除附件" onfocus="javascript:getObject(this)" onclick="delAttachePic('+_strId[i]+')"></div></TD></TR>';
+
+    }
+}
+function delAttachePic(id)
+{
+   ThinkAjax.send('__URL__/delAttach/id/'+id,'ajax=1',delPicComplete);
+}
+function delPicComplete (data,status)
+{
+    if(status==1)
+    {
+        document.getElementById('id_'+data).outerHTML = '';
+    }
+}
+function selectColumn(){
+var isMSIE= (navigator.appName == "Microsoft Internet Explorer");
+    if (isMSIE){
+	 var result= PopModalWindow('__MODULE__/Admin/Column/treeSelect/',268,365);
+	 if(typeof(result) == "undefined") return;
+		$('columnName').value=result[0][0];
+		$('column_id').value=result[0][1];
+    }else{
+		window.open('__MODULE__/Admin/Column/treeSelect/', "pop", "scrollbars=no,dialog=yes,modal=yes,width=268,height=355,resizable=no" );
+    }
+}
+
+function selectAttach(){
+	window.location.href = '__URL__/import/record_id/{$vo.id}';
+}
+
+function delComplete(data,status){
+	if (status==1)
+	{
+	$('attach_'+data).outerHTML = '';
+	}
+}
+
+function send(){
+	$('form1').submit();
+}
+function autoTipKeywords(){
+	var content	=	KE.util.getData('content');
+	ThinkAjax.send('__URL__/autoTipKeywords','ajax=1&content='+encodeURIComponent(content),'','tip');
+}
+
+function autoGetTags(){
+	var content	=	KE.util.getData('content');
+	ThinkAjax.send('__URL__/autoGetTags','ajax=1&content='+encodeURIComponent(content),getComplete);
+}
+function getComplete(data,status){
+	if (status==1)
+	{
+		document.getElementById('tags').value = data;
+	}
+}
+
+function delPic(name){
+	window.location.href='__URL__/delPic/module/{$vo.module}/id/{$vo.id}/name/'+name;
+}
+<eq name="model.name" value="auth">
+function resetPwd(){
+var pass	 =	 $('resetPwd').value;
+ThinkAjax.send('__MODULE__/User/resetPwd/','ajax=1&id={$vo.id}&password='+encodeURIComponent(pass));
+}
+</eq>
+//-->
+</script>
+<div class="content">
+<div class="title">查看[{$model.title|default='文档'}]详细信息 <span class="normal">[ <a href="{$Think.cookie.__forward__}">返回列表</a> ]</span> <present name="models">
+<span class="normal"><iterate name="models" id="model">|<A href="javascript:readSubModule('{$model[name]}')">查看{$model.title}列表</A></iterate></span>
+</present></div>
+<div class="fLeft " style="width:65%;">
+<table class="list" cellpadding=0 cellspacing=0 width="100%">
+<tr><td height="5" colspan="5" class="topTd" ></td></tr>
+<volist name="attr_list" id="v">
+<tr class="row">
+	<th class="tRight tTop" width="20%">{$v.title}：</th>
+	<td class="tLeft" ><attr var="v" complex="1" read="1" /></td>  
+</tr>
+</volist>
+<tr><td height="5" colspan="5" class="bottomTd"></td></tr>
+</table>
+</div>
+<div class="fLeft">
+<eq name="model.support_attach" value="1">
+<div id="result" class="result none"></div>
+<table cellpadding=1 cellspacing=1 width="85%" >
+<tr>
+	<td colspan="2" class="tLeft">附件：<hr style="width:95%"></td>
+</tr>
+<TR>
+	<TD class="tLeft tTop" colspan="2">
+	<form id="upload" METHOD=POST action="__URL__/upload/" onsubmit="return CheckForm(this);" enctype="multipart/form-data" target="iframeUpload">
+	<INPUT TYPE="hidden" name="ajax" value="1">
+	<iframe name="iframeUpload" src="" width="350" height="35" frameborder=0  SCROLLING="no" style="display:none"></iframe>
+	<INPUT TYPE="hidden" name="_uploadFileResult" value="result">
+	<INPUT TYPE="hidden" name="_uploadFormId" value="upload">
+	<INPUT TYPE="hidden" name="_uploadFileSize" value="-1">
+	<INPUT TYPE="hidden" name="_uploadRecordId" value="{$vo.id}">
+	<INPUT TYPE="hidden" name="_uploadFileTable" value="{$model.name}">
+	<INPUT TYPE="hidden" name="_uploadResponse" value="uploadComplete">
+	<INPUT TYPE="button" value="增 加" onclick="addRow();" class="button small">
+	<INPUT TYPE="submit" value="上 传" onclick="uploading();" class="small button ">
+	<TABLE id='tbl' style="clear:both"></TABLE>
+	<fieldset  style="float:left;width:85%">
+	<legend >附件列表</legend>
+    <table cellpadding=3 cellspacing=3 width="100%"  >
+    <div id="attachs_innerHtml" >
+	<volist name="attachs" id="attach" empty="还没有上传任何附件">
+         <div style="float:left;" id="id_{$attach.id}">
+            <switch name="attach.extension">
+                <case value='mp3'>
+                <object type="application/x-shockwave-flash" data="__PUBLIC__/Images/player.swf" width="290" height="24" id="audioplayer1"><param name="movie" value="__PUBLIC__/Images/player.swf" /><param name="FlashVars" value="playerID=1&amp;bg=0xf8f8f8&amp;leftbg=0xeeeeee&amp;lefticon=0x666666&amp;rightbg=0xcccccc&amp;rightbghover=0x999999&amp;righticon=0x666666&amp;righticonhover=0xffffff&amp;text=0x666666&amp;slider=0x666666&amp;track=0xFFFFFF&amp;border=0x666666&amp;loader=0x9FFFB8&amp;soundFile=/Uploads/Attach/{$attach.savename}" /><param name="quality" value="high" /><param name="menu" value="false" /><param name="bgcolor" value="#FFFFFF" /></object>
+                </case>
+                <case value= 'wav'>
+                <embed   src="/Uploads/Attach/{$attach.savename}"   width="290" height="24"  style="border:1px solid silver" autostart="false"></embed>.
+                </case>
+                <case value="gif|jpg|jpeg|png">
+                <img src="/Uploads/Attach/{$attach.savename}" class="pic" width="100px" />
+                </case>
+                <default />{$attach.extension|showExt} <A HREF="__URL__/download/id/{$attach.id}">{$attach.name}</A> {$attach.size|byte_format}
+            </switch>
+            <IMG SRC="../Public/images/del.gif" WIDTH="20" HEIGHT="20"  BORDER="0" ALT="删除附件" onclick="delAttachePic({$attach.id})"onfocus="javascript:getObject(this)" style="cursor:hand" align="absmiddle">
+     </div>
+	</volist>
+    </div>
+	</TABLE>
+	</fieldset>
+	</form>
+	</TD>
+</TR>
+</table>
+
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+var curFileNum = 0;
+var rowsnum=0;  //记录行数
+var rindex="";       //列索引
+var tbl	=	document.getElementById('tbl');
+addRow();
+function delComplete(data,status){
+	if (status==1)
+	{
+	    $('attachs').deleteRow(rindex);
+	}
+}
+//-->
+</SCRIPT>
+</eq>
+
+</div>
+<br class="cBoth" />
+</div>
+</div>

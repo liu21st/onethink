@@ -1,0 +1,99 @@
+<!-- 菜单区域  -->
+<load  type="js" file="Js.LightBox2.lightbox" /> 
+<load  type="css" file="Js.LightBox2.lightbox" /> 
+<!-- 主页面开始 -->
+<div id="main" class="main" >
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+	function read(id){
+		window.location.href = '?pid='+id;
+	}
+	function upList(){
+		window.location.href= '?up=1';
+	}
+	function download(id){
+		window.location.href = '__URL__/download/id/'+id;
+	}
+	function folder(){
+		window.location.href = '__URL__/folder/';
+	}
+	function version(id){
+		window.location.href = '__URL__/history/id/'+id;
+	}
+
+	function favorite(id){
+		var keyValue;
+		if (id)
+		{
+			keyValue = id;
+		}else {
+			keyValue = getSelectCheckboxValues();
+		}
+		if (!keyValue)
+		{
+			alert('请选择要收藏的文档！');
+			return false;
+		}
+		ThinkAjax.send("__URL__/favorite/","ajax=1&id="+keyValue);
+	}
+//-->
+</SCRIPT>
+<!-- 主体内容  -->
+<div class="content" >
+<div class="title">收藏列表 [ <A HREF="__URL__">返回列表</A> <A HREF="__URL__/recycle/">回收站</A> <A HREF="__URL__">返回顶部</A> <A HREF="javascript:upList()">返回上级</A> <A HREF="?showType=2">平铺模式</A> <A HREF="?showType=1">缩略图</A>  <A HREF="?showType=0">列表模式</A>]  </div>
+<!--  功能操作区域  -->
+<div class="operate" >
+<html:imageBtn name="sort" value="导出" click="WriteTo('checkList')" style="impBtn hMargin fLeft shadow" />
+<div class="fLeft"><SELECT class="small bLeft" NAME="outputType">
+	<option value="EXCEL">EXCEL</option>
+	<option value="WORD">WORD</option>
+	</SELECT></div>
+<!-- 查询区域 -->
+<div class="fRig">
+<FORM METHOD=POST ACTION="__URL__/" onsubmit="return CheckForm(this)">
+<div class="fLeft"><span id="key"><INPUT TYPE="text" check="Require" warning="输入要搜索的标题" NAME="name" title="标题查询" class="medium " ></span></div>
+<html:imageBtn type="submit" name="search" value="查询" style="impBtn hMargin fLeft shadow" />
+<!-- <html:imageBtn name="adv" value="高级" id="showText" click="showHideSearch()" style="impBtn hMargin fLeft shadow" /> -->
+<INPUT TYPE="hidden" NAME="search" value="1">
+</div>
+<!-- 高级查询区域 -->
+<div  id="searchM" class=" search cBoth" >
+<TABLE cellpadding="1" cellspacing="1" width="100%">
+<tr>
+	<TD ><div class="fLeft"><IMG SRC="../Public/images/dir.gif" WIDTH="16" HEIGHT="16" BORDER="0" ALT="" align="absmiddle"> 当前位置：{$truepath} <A HREF="javascript:upList()"><IMG SRC="../Public/images/return.gif" WIDTH="23" HEIGHT="20" BORDER="0" ALT="返回上级目录" align="absmiddle"></A> </div></TD>
+	<TD class="tRight gray" ><equal name="type" value="dir"> [ 当前磁盘总大小：{$diskTotalSpace|byte_format} 可用空间：{$diskFreeSpace|byte_format} ] </equal><equal name="type" value="file">[ 文件大小：{$truename|filesize|byte_format}]</equal></TD>
+</TR>
+</TABLE>
+</div>
+</FORM>
+</div>
+
+</div>
+<!-- 功能操作区域结束 -->
+
+<!-- 列表显示区域  -->
+<div class="list" >
+<div id="result" class="result none"></div>
+<?php if ( empty($showType)):?>
+<!-- 详细列表 -->
+<html:list id="checkList" name="attach" style="list" checkbox="true" datasource="list" action="true" show="name|showFileName=$attach['id']:名称,size|byte_format:大小,extension|showExt=0:类型,version:版本,remark|ubb:说明,create_time|toDate='m-d H#i#s':创建时间,update_time|toDate='m-d H#i#s':更新时间,download_count:下载次数,user_id|getUserName:所有者" actionlist="edit:更新,version:版本,favorite:收藏" /> 
+<?php elseif($showType==1):?>
+<!-- 缩略图 -->
+<volist name="list" id="vo">
+<div class="folder">{$vo.id|showThumb}</div>
+</volist>
+<?php elseif($showType==2):?>
+<!-- 图标 -->
+<volist name="list" id="vo">
+<div style="float:left;width:200px;height:55px;font-size:14px;margin:5px;"><img src="" width="45px" height="45px" align="left" style="margin:3px"><A HREF="?pid={$vo.id}">{$vo.name}</A><BR><span style="color:gray">{$vo.size|byte_format}</span></div>
+</volist>
+<?php endif;?>
+</div>
+<!--  分页显示区域 -->
+<div class="tRight page">{$page}</div>
+<!-- 列表显示区域结束 -->
+</div>
+<!-- 主体内容结束 -->
+</div>
+<!-- 主页面结束 -->
+
