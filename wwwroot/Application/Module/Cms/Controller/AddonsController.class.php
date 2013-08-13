@@ -25,7 +25,7 @@ class AddonsController extends Action{
 		}
 	}
 
-	public function start($addons = null, $controller = null, $action = null){
+	public function execute($addons = null, $controller = null, $action = null){
 		if(C('URL_CASE_INSENSITIVE')){
 			$addons = ucfirst(strtolower($addons));
 			$controller = parse_name($controller,1);
