@@ -6,10 +6,6 @@ html,body {
     margin: 0;
     padding: 0;
 }
-input {
-    outline: 0;
-    resize: none;
-}
 
 /* 登陆页样式
 ------------------------------------------ */
@@ -96,6 +92,8 @@ input {
     vertical-align: middle;
     border: 0 none;
     background-color: #fff;
+    outline: 0;
+    resize: none;
 }
 .login-form .verifycode input {
     width: 140px;
