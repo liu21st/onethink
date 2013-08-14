@@ -1,19 +1,8 @@
-<<<<<<< HEAD
-/* 登陆页
---------------------------------------*/
-=======
->>>>>>> 4e50758af06aa8afc01a001cc8345ab7c91a2449
 html,body {
     font-size: 14px;
     font-family: "微软雅黑", Helvetica, Tahoma, Arial, sans-serif;
     color: #000;
     background-color: #FFF;
-<<<<<<< HEAD
-}
-body,p,h1,h2,h3,h4,h5,h6,
-form,input,button,img {
-=======
->>>>>>> 4e50758af06aa8afc01a001cc8345ab7c91a2449
     margin: 0;
     padding: 0;
 }
@@ -42,7 +31,7 @@ form,input,button,img {
     position: absolute;
     right: 0;
     top: 50%;
-    margin-top: -165px;
+    margin: -165px 0 0;
     padding: 25px 35px 20px;
     border-radius: 5px 5px 5px 5px;
     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
