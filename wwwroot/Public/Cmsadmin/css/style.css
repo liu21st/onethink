@@ -1,12 +1,14 @@
 /**
  * 作    者 : yuwang
  * 创建时间 : 2013-3-14
- * 作    用 : 重置页面样式
- * 范    围 : 全局
+ * 涉及范围 : 后台主体框架及登陆页样式
  */
+
+/* 页面的重置及布局样式
+--------------------------------------*/
 html,body {
     font-size: 14px;
-    font-family: "微软雅黑";
+    font-family: "微软雅黑", Helvetica, Tahoma, Arial, sans-serif;
     color: #000;
     background-color: #FFF;
 }
@@ -26,6 +28,7 @@ table {
 }
 img {
     border: 0;
+    max-width: 100%;
 }
 a,a:hover,a:visited {
     text-decoration: none;
@@ -34,12 +37,10 @@ input,textarea,select {
     outline: 0;
     resize: none;
 }
-
-
-/**
- * 作    用 : 布局及基本样式
- * 范    围 : 公共
- */
+textarea {
+    outline: 0;
+    resize: none;
+}
 .fl {
     float:left;
     display:inline;
@@ -49,34 +50,29 @@ input,textarea,select {
     display:inline;
 }
 .cf {
-    zoom:1;
+    *zoom:1;
+}
+.cf:before, .cf:after {
+    display: table;
+    line-height: 0;
+    content:"";
 }
 .cf:after {
-    display:block;
-    visibility:hidden;
-    width:0;
-    height:0;
-    clear:both;
-    content:".";
+    clear: both;
 }
 .hidden {
-    display: none;
+    display: none!important;
 }
-.wrapper {
+.frame-wrapper {
     padding-top: 50px;
-    min-width:1000px;
-    min-height: 1000px;
     background: url(../images/overview_bg.png) repeat-y;
 }
 .main {
     padding-left: 200px;
 }
 
-
-/**
- * 作    用 : 公共模块样式
- * 涉及范围 : 头部Logo,主导航,登陆区域(暂无)
- */
+/* 头部Logo,主导航
+--------------------------------------*/
 .header {
     position: fixed;
     z-index: 10000;
@@ -130,10 +126,8 @@ input,textarea,select {
 }
 
 
-/**
- * 作    用 : 边栏导航样式
- * 涉及范围 : 子导航
- */
+/* 边栏导航样式
+------------------------------------------ */
 .sidebar {
     position: absolute;
     left: 0;
@@ -201,97 +195,9 @@ input,textarea,select {
 }
 
 
-/**
- * 作    用 : 登陆模块样式
- * 涉及范围 : 登陆页
- */
-.login-container {
-    position: relative;
-    width: 100%;
-    min-height: 600px;
-    background-position: bottom center;
-}
-.login-main {
-    position: absolute;
-    top: 10%;
-    width: 100%;
-}
-.login {
-    width: 750px;
-    margin: 0 auto;
-}
-.login .login-header {
-    margin-bottom: 50px;
-    width: 100%;
-    height: 50px;
-}
-.login .login-header i {
-    display: block;
-    width: 140px;
-    height: 50px;
-    background: url(../images/login_logo.png) no-repeat;
-}
-.login .login-img {
-    float: left;
-    width: 450px;
-    height: 235px;
-}
-.login .login-wrap {
-    float: right;
-    width: 265px;
-}
-.login .error-msg {
-    margin-bottom: 10px;
-    padding: 0 10px;
-    height: 25px;
-    line-height: 25px;
-    font-size: 12px;
-    color: #F8A812;
-    border: 1px solid #FCEFB7;
-    border-radius: 3px;
-    background-color: #FFFDE5;
-    display: none;
-}
-.login .form-item {
-    margin-bottom: 19px;
-}
-.login .form-item input {
-    padding: 12px 10px;
-    height: 18px;
-    line-height: 18px;
-    font-size: 16px;
-    font-family: "Arial","微软雅黑";
-    border: 1px solid #CBCBCB;
-    border-radius: 3px;
-    overflow: hidden;
-    color: #333;
-    vertical-align: top;
-}
-.login .form-item .txt-input {
-    width: 243px;
-    background-color: #fff;
-}
-.login .form-item .login-btn {
-    width: 118px;
-    height: 41px;
-    color: #FFF;
-    font-size: 20px;
-    font-weight: 400;
-    border: 1px solid #68B1E5;
-    border-radius: 3px;
-    background-color: #54B6EB;
-    cursor: pointer;
-    padding: 0;
-    line-height: 41px;
-}
-.login .form-item .login-btn::-moz-focus-inner{
-    padding: 0; border: 0;
-}
-
-/**
- * 作    用 : 主内容区样式
+/* 后台内页模块样式
  * 涉及范围 : 消息栏，数据表格，分页，编辑表单
- */
+------------------------------------------------- */
 .main .title{
     padding: 11px 18px;
 }
@@ -571,7 +477,6 @@ input,textarea,select {
     height:26px;
     *padding:9px 11px 0;
 }
-
 .member-form{
     display: none;
     width: 360px;
@@ -608,3 +513,89 @@ input,textarea,select {
     color: #666;
     padding-right: 6px;
 }
+
+
+/* 登陆页样式
+------------------------------------------ */
+/*.login-container {
+    position: relative;
+    width: 100%;
+    min-height: 600px;
+    background-position: bottom center;
+}
+.login-main {
+    position: absolute;
+    top: 10%;
+    width: 100%;
+}
+.login {
+    width: 750px;
+    margin: 0 auto;
+}
+.login .login-header {
+    margin-bottom: 50px;
+    width: 100%;
+    height: 50px;
+}
+.login .login-header i {
+    display: block;
+    width: 140px;
+    height: 50px;
+    background: url(../images/login_logo.png) no-repeat;
+}
+.login .login-img {
+    float: left;
+    width: 450px;
+    height: 235px;
+}
+.login .login-wrap {
+    float: right;
+    width: 265px;
+}
+.login .error-msg {
+    margin-bottom: 10px;
+    padding: 0 10px;
+    height: 25px;
+    line-height: 25px;
+    font-size: 12px;
+    color: #F8A812;
+    border: 1px solid #FCEFB7;
+    border-radius: 3px;
+    background-color: #FFFDE5;
+    display: none;
+}
+.login .form-item {
+    margin-bottom: 19px;
+}
+.login .form-item input {
+    padding: 12px 10px;
+    height: 18px;
+    line-height: 18px;
+    font-size: 16px;
+    font-family: "Arial","微软雅黑";
+    border: 1px solid #CBCBCB;
+    border-radius: 3px;
+    overflow: hidden;
+    color: #333;
+    vertical-align: top;
+}
+.login .form-item .txt-input {
+    width: 243px;
+    background-color: #fff;
+}
+.login .form-item .login-btn {
+    width: 118px;
+    height: 41px;
+    color: #FFF;
+    font-size: 20px;
+    font-weight: 400;
+    border: 1px solid #68B1E5;
+    border-radius: 3px;
+    background-color: #54B6EB;
+    cursor: pointer;
+    padding: 0;
+    line-height: 41px;
+}
+.login .form-item .login-btn::-moz-focus-inner{
+    padding: 0; border: 0;
+}*/

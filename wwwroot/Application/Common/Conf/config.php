@@ -13,7 +13,7 @@
  */
 return array(
     /* 模块相关配置 */
-    'DEFAULT_MODULE' => 'Cms',
+    'DEFAULT_MODULE' => 'Cmsadmin',
 
     /* 调试配置 */
     'SHOW_PAGE_TRACE' => true,
