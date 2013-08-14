@@ -61,7 +61,11 @@
     <script type="text/javascript" src="__STATIC__/jquery-2.0.3.min.js"></script>
     <!--<![endif]-->
     <script type="text/javascript">
-    	$(".login-form").on("input")
+    	/* 登陆表单获取焦点变色 */
+    	$(".login-form").on("focus blur", "input", function(){
+    		var elem = $(this);
+    		elem.toggleClass("focus", elem.is(":focus"));
+    	})
     </script>
 </body>
 </html>
