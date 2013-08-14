@@ -23,6 +23,7 @@ class ArticleLogic extends BaseLogic{
 	 * 新增或添加一条文章详情
 	 * @param  number $id 文章ID
 	 * @return boolean    true-操作成功，false-操作失败
+	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function update($id){
 		/* 获取文章数据 */ //TODO: 根据不同用户获取允许更改或添加的字段
