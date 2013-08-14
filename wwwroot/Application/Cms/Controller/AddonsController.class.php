@@ -64,4 +64,25 @@ class AddonsController extends Action{
     static public function getHooks($field='', $order=''){
     	return D('Hooks')->field($field)->order($order)->select();
     }
+
+    /**
+     * 读取配置页
+     */
+    public function config(){
+    	$config = D('Addons')->where(array('id'=>I('get.id')))->getField('config');
+    	$this->assign('config', $config);
+    	$this->display('Config/config');
+    }
+
+    /**
+     * 保存插件配置
+     */
+    public function saveConfig(){
+    	$id = (int)I('post.id');
+    	if(!$id)
+    		$this->error('错误的主键');
+    	if(!$table)
+    		$this->error("写入的配置表{$model},初始化失败");
+    	return D('Addons')->where("id={$id}")setField('config',I('post.addons'));
+    }
 }

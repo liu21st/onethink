@@ -1,0 +1,72 @@
+<h1>保存配置</h1>
+<form action="{:addons_url('Attachment://Attachment/saveConfig?id='.$_GET['id'])}">
+	<fieldset>
+		<legend>全局配置</legend>
+		<label>是否上传</label>
+		<input type="radio" name="addons[ATTACHMENT_DEFAULT][is_upload]" <eq name="config[ATTACHMENT_DEFAULT][is_upload]" value="1"> checked</eq> value="1">是
+		<input type="radio" name="addons[ATTACHMENT_DEFAULT][is_upload]" <eq name="config[ATTACHMENT_DEFAULT][is_upload]" value="0"> checked</eq>value="0">否
+		<br>
+		<label>允许的附件类型</label>
+		<input type="text" name="addons[ATTACHMENT_DEFAULT][is_upload]" value="{$config[ATTACHMENT_DEFAULT][is_upload]|default='1,2,3'}">
+		<br>
+		<label>驱动</label>
+		<input type="text" name="addons[ATTACHMENT_DEFAULT][driver_config]" value="{$config[ATTACHMENT_DEFAULT][driver_config]|default=''}">
+		<br>
+	</fieldset>
+	<fieldset>
+		<legend>上传配置</legend>
+		<label>文件mime类型</label>
+		<input type="text" name="addons[ATTACHMENT_UPLOAD][mimes]" value="{$config[ATTACHMENT_UPLOAD][mimes]|default=''}">
+		<div class="tip">不填无限制， 填写了多个以‘,’分割</div>
+		<br>
+		<label>文件大小上限</label>
+		<input type="text" name="addons[ATTACHMENT_UPLOAD][maxSize]" value="{$config[ATTACHMENT_UPLOAD][maxSize]|default=(5*1024*1024)}">
+		<div class="tip">不填无限制， 填写了以字节byte为单位</div>
+		<br>
+		<label>允许上传的文件后缀</label>
+		<input type="text" name="addons[ATTACHMENT_UPLOAD][exts]" value="{$config[ATTACHMENT_UPLOAD][exts]|default=''}">
+		<br>
+		<label>自动子目录保存文件</label>
+		<input type="radio" name="addons[ATTACHMENT_UPLOAD][autoSub]" <eq name="config[ATTACHMENT_UPLOAD][autoSub]" value="1"> checked</eq> value="1">是
+		<input type="radio" name="addons[ATTACHMENT_UPLOAD][autoSub]" <eq name="config[ATTACHMENT_UPLOAD][autoSub]" value="0"> checked</eq>value="0">否
+		<br>
+		<label>子目录创建方式</label>
+		函数名：
+		<input type="text" name="addons[ATTACHMENT_UPLOAD][subName][fun]" value="{$config[ATTACHMENT_UPLOAD][subName][fun]|default='date'}">
+		参数：
+		<input type="text" name="addons[ATTACHMENT_UPLOAD][subName][param]" value="{$config[ATTACH
+		MENT_UPLOAD][subName][param]|default='Y-m-d'}">
+		<br>
+		<label>保存根路径</label>
+		<input type="text" name="addons[ATTACHMENT_UPLOAD][rootPath]" value="{$config[ATTACHMENT_UPLOAD][rootPath]|default='./Uploads/Attachment/'}">
+		<br>
+		<label>保存路径</label>
+		<input type="text" name="addons[ATTACHMENT_UPLOAD][savePath]" value="{$config[ATTACHMENT_UPLOAD][savePath]}">
+		<br>
+		<label>上传文件命名规则</label>
+		函数名：
+		<input type="text" name="addons[ATTACHMENT_UPLOAD][saveName][fun]" value="{$config[ATTACHMENT_UPLOAD][saveName][fun]|default='uniqid'}">
+		参数：
+		<input type="text" name="addons[ATTACHMENT_UPLOAD][saveName][param]" value="{$config[ATTACHMENT_UPLOAD][saveName][param]|default=''}">
+		<br>
+		<label>文件保存后缀</label>
+		<input type="text" name="addons[ATTACHMENT_UPLOAD][saveExt]" value="{$config[ATTACHMENT_UPLOAD][saveExt]|default=''}">
+		<div class="tip">空则使用原后缀</div>
+		<br>
+		<label>存在同名是否覆盖</label>
+		<input type="radio" name="addons[ATTACHMENT_UPLOAD][replace]" <eq name="config[ATTACHMENT_UPLOAD][replace]" value="1"> checked</eq> value="1">是
+		<input type="radio" name="addons[ATTACHMENT_UPLOAD][replace]" <eq name="config[ATTACHMENT_UPLOAD][replace]" value="0"> checked</eq>value="0">否
+		<br>
+		<label>是否生成hash编码</label>
+		<input type="radio" name="addons[ATTACHMENT_UPLOAD][hash]" <eq name="config[ATTACHMENT_UPLOAD][hash]" value="1"> checked</eq> value="1">是
+		<input type="radio" name="addons[ATTACHMENT_UPLOAD][hash]" <eq name="config[ATTACHMENT_UPLOAD][hash]" value="0"> checked</eq>value="0">否
+		<br>
+		<label>检测文件是否存在回调函数</label>
+		<input type="text" name="addons[ATTACHMENT_UPLOAD][callback]" value="{$config[ATTACHMENT_UPLOAD][callback]|default=''}">
+		<div class="tip">检测文件是否存在回调函数，如果存在返回文件信息数组</div>
+		<br>
+	</fieldset>
+	<button type="submit">提交</button>
+	<button type="reset">重置</button>
+	<button onclick="javascript:history.back(-1);">返回</button>
+</form>
