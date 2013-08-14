@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>用户管理中心 - 首页</title>
+	<link rel="stylesheet" type="text/css" href="__CSS__/style.css" media="all">
+	<block name="style"></block>
+</head>
+<body>
+	<!-- 头部 -->
+	<div class="header">
+		<!-- Logo -->
+		<a href="javascript:;" class="logo"></a>
+		<!-- /Logo -->
+		
+		<!-- 主导航 -->
+		<ul class="main-nav">
+			<li class="current"><a href="javascript:;">首页</a></li>
+			<li><a href="javascript:;">内容</a></li>
+			<li><a href="javascript:;">用户</a></li>
+			<li><a href="javascript:;">系统</a></li>
+		</ul>
+		<!-- /主导航 -->
+	</div>
+	<!-- /头部 -->
+
+	<!-- 主体 -->
+	<div class="frame-wrapper cf">
+		<!-- 边栏 -->
+		<div class="sidebar">
+			<!-- 子导航 -->
+			<div class="subnav">
+				<!-- 子导航-1 -->
+				<h3><i class="icon-s1"></i>数据管理</h3>
+				<ul>
+					<li class="current"><a href="{:U('Member/index')}">用户管理</a></li>
+					<li><a href="{:U('App/index')}">应用管理</a></li>
+				</ul>
+				<!-- /子导航-1 -->
+				<!-- 子导航-2 -->
+				<h3><i class="icon-s2"></i>数据库管理</h3>
+				<ul>
+					<li><a href="{:U('Database/index')}">备份数据库</a></li>
+					<li><a href="javascript:;">还原数据库</a></li>
+					<li><a href="javascript:;">更新数据缓存</a></li>
+				</ul>
+				<!-- /子导航-2 -->
+			</div>
+			<!-- /子导航 -->
+		</div>
+		<!-- /边栏 -->
+		
+		<!-- 内容区 -->
+		<div id="main" class="main">
+			<block name="body"></block>
+		</div>
+		<!-- /内容区 -->
+	</div>
+	<!-- wrapper 主体 -->
+	<!--[if lt IE 9]> 
+    <script type="text/javascript" src="__SATAIC__/jquery-1.10.2.min.js"></script>
+    <![endif]--><!--[if gte IE 9]><!-->
+    <script type="text/javascript" src="__SATAIC__/jquery-2.0.3.min.js"></script>
+    <!--<![endif]-->
+    <block name="script"></block>
+</body>
+</html>
