@@ -21,7 +21,7 @@ html,body {
 .login-body {
     margin-bottom: 10px;
     height: 448px;
-    background: url(../images/login_bg.png) no-repeat;
+    background: url(../images/login_bg.png) no-repeat center;
 }
 .login-body .pr {
     position: relative;
