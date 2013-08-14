@@ -1,4 +1,4 @@
-/* 页面的重置及布局样式
+/* 登陆页
 --------------------------------------*/
 html,body {
     font-size: 14px;
@@ -7,9 +7,7 @@ html,body {
     background-color: #FFF;
 }
 body,p,h1,h2,h3,h4,h5,h6,
-dl,dt,dd,ul,ol,li,
-form,input,textarea,button,
-pre,img {
+form,input,button,img {
     margin: 0;
     padding: 0;
 }
