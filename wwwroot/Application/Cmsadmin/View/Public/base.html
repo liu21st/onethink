@@ -45,7 +45,12 @@
     <script type="text/javascript" src="__STATIC__/jquery-2.0.3.min.js"></script>
     <!--<![endif]-->
     <script type="text/javascript">
-    	$("#main").css("min-height", $(window).height() - 50);
+    	+function(){
+    		var $window = $(window);
+    		$window.resize(function(){
+	    		$("#main").css("min-height", $window.height() - 50);
+	    	}).resize();
+    	}();
 	</script>
     <block name="script"></block>
 </body>
