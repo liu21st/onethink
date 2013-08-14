@@ -126,6 +126,7 @@ html,body {
 }
 .footer-link a {
     color: #2A72C5;
+    text-decoration: none;
 }
 .footer-link a:hover {
     text-decoration: underline;
