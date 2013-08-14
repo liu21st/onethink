@@ -1,30 +1,33 @@
-<h1>插件列表</h1>
-<table>
-	<tr>
-		<th>序号</th>
-		<th>名称</th>
-		<th>标识</th>
-		<th>描述</th>
-		<th>状态</th>
-		<th>操作</th>
-	</tr>
-	<volist name="list" id="vo">
-	<tr>
-		<td>{$vo.id}</td>
-		<td>{$vo.title}</td>
-		<td>{$vo.name}</td>
-		<td>{$vo.description}</td>
-		<td>{$vo.status_text}</td>
-		<td>
-			<a href="{:U('config',array('id'=>$vo['id']))}">设置</a>
-			<?php if ($vo['status'] >=0): ?>
-				<eq name="vo.status" value="0">
-					<a href="{:U('enable',array('id'=>$vo['id']))}">启用</a>
-				<else />
-					<a href="{:U('disable',array('id'=>$vo['id']))}">禁用</a>
-				</eq>
-			<?php endif ?>
-		</td>
-	</tr>
-	</volist>
-</table>
+<extend name="Public/base" />
+<block name="body">
+	<h1>插件列表</h1>
+	<table>
+		<tr>
+			<th>序号</th>
+			<th>名称</th>
+			<th>标识</th>
+			<th>描述</th>
+			<th>状态</th>
+			<th>操作</th>
+		</tr>
+		<volist name="list" id="vo">
+		<tr>
+			<td>{$vo.id}</td>
+			<td>{$vo.title}</td>
+			<td>{$vo.name}</td>
+			<td>{$vo.description}</td>
+			<td>{$vo.status_text}</td>
+			<td>
+				<a href="{:U('config',array('id'=>$vo['id']))}">设置</a>
+				<?php if ($vo['status'] >=0): ?>
+					<eq name="vo.status" value="0">
+						<a href="{:U('enable',array('id'=>$vo['id']))}">启用</a>
+					<else />
+						<a href="{:U('disable',array('id'=>$vo['id']))}">禁用</a>
+					</eq>
+				<?php endif ?>
+			</td>
+		</tr>
+		</volist>
+	</table>
+</block>
