@@ -65,8 +65,6 @@ textarea {
 }
 .frame-wrapper {
     padding-top: 50px;
-    min-width:1000px;
-    min-height: 1000px;
     background: url(../images/overview_bg.png) repeat-y;
 }
 .main {
