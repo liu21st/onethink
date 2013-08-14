@@ -58,13 +58,24 @@ html,body {
 .login-form .item {
     padding: 3px 10px 3px 12px;
     border: 1px solid #aeaeae;
-    transition: all .8s linear;
+    /*transition: all .4s linear;*/
+}
+.login-form .b0 {
+    border-top: transparent;
+    border-bottom: transparent;
+}
+.login-form .bdt0 {
+    border-top: transparent;
+}
+.login-form .bdb0 {
+    border-bottom: transparent;
 }
 .login-form .focus {
     border-color: #4A9BDF;
     border-bottom: 1px solid #4A9BDF; 
     box-shadow: 0 0 5px #AEDCFA;
 }
+
 .login-form .icon-login-user,
 .login-form .icon-login-pwd,
 .login-form .icon-login-verifycode {
