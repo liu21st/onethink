@@ -45,6 +45,19 @@ class AddonsController extends CmsadminController {
     }
 
     /**
+     * 设置插件页面
+     */
+    public function config(){
+        $id = (int)I('id');
+        $addon = D('Addons')->find($id);
+        if(!$addon)
+            $this->error('插件未安装');
+        $this->assign('data',$addon);
+        $config_tpl = APP_PATH."Cms/Addons/{$addon['name']}/View/Config/config.html";
+        $this->display($config_tpl);
+    }
+
+    /**
      * 钩子列表
      */
     public function hooks(){
