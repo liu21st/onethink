@@ -3,54 +3,12 @@ html,body {
     font-family: "微软雅黑", Helvetica, Tahoma, Arial, sans-serif;
     color: #000;
     background-color: #FFF;
-}
-body,p,h1,h2,h3,h4,h5,h6,
-dl,dt,dd,ul,ol,li,
-form,input,textarea,button,
-pre,img {
     margin: 0;
     padding: 0;
 }
-ul,li {
-    list-style: none;
-}
-table {
-    border-collapse:collapse;
-    border-spacing:0;
-}
-img {
-    border: 0;
-    max-width: 100%;
-}
-a,a:hover,a:visited {
-    text-decoration: none;
-}
-input,textarea,select {
+input {
     outline: 0;
     resize: none;
-}
-textarea {
-    outline: 0;
-    resize: none;
-}
-.fl {
-    float:left;
-    display:inline;
-}
-.fr {
-    float:right;
-    display:inline;
-}
-.cf {
-    *zoom:1;
-}
-.cf:before, .cf:after {
-    display: table;
-    line-height: 0;
-    content:"";
-}
-.cf:after {
-    clear: both;
 }
 
 /* 登陆页样式
@@ -89,6 +47,8 @@ textarea {
     font-size: 26px;
     font-weight: normal;
     margin-bottom: 10px;
+    margin: 0;
+    padding: 0;
 }
 .login-form .item-box {
     box-shadow: 0 1px 3px rgba(170, 170, 170, 0.8) inset;
