@@ -63,19 +63,20 @@ textarea {
 .hidden {
     display: none!important;
 }
-.frame-wrapper {
-    padding-top: 50px;
-    background: url(../images/overview_bg.png) repeat-y;
-}
 .main {
     padding-left: 200px;
 }
 
 /* 头部Logo,主导航
 --------------------------------------*/
+body{
+    padding: 50px 0 0 200px;
+    background: url(../images/overview_bg.png) repeat-y;
+}
 .header {
     position: fixed;
-    z-index: 10000;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 49px;
     line-height: 49px;
@@ -129,7 +130,7 @@ textarea {
 /* 边栏导航样式
 ------------------------------------------ */
 .sidebar {
-    position: absolute;
+    position: fixed;
     left: 0;
     z-index: 0;
     padding-top: 30px;

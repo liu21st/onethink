@@ -24,36 +24,26 @@
 	</div>
 	<!-- /头部 -->
 
-	<!-- 主体 -->
-	<div class="frame-wrapper cf">
-		<!-- 边栏 -->
-		<div class="sidebar">
-			<!-- 子导航 -->
-			<div class="subnav">
-				<!-- 子导航 -->
-				<h3><i class="icon-s1"></i>数据管理</h3>
-				<ul>
-					<li class="current"><a href="javascript:;">用户管理</a></li>
-					<li><a href="javascript:;">应用管理</a></li>
-				</ul>
-				<!-- /子导航 -->
-			</div>
-			<!-- /子导航 -->
-		</div>
-		<!-- /边栏 -->
-		
-		<!-- 内容区 -->
-		<div id="main" class="main">
-			<block name="body"></block>
-		</div>
-		<!-- /内容区 -->
+	<!-- 边栏 -->
+	<div class="sidebar">
+		<!-- 子导航 -->
+		<block name="sidebar"></block>
+		<!-- /子导航 -->
 	</div>
-	<!-- wrapper 主体 -->
+	<!-- /边栏 -->
+	
+	<!-- 内容区 -->
+	<div id="main" class="main">
+		<block name="body"></block>
+	</div>
+	<!-- /内容区 -->
+
 	<!--[if lt IE 9]> 
     <script type="text/javascript" src="__STATIC__/jquery-1.10.2.min.js"></script>
     <![endif]--><!--[if gte IE 9]><!-->
     <script type="text/javascript" src="__STATIC__/jquery-2.0.3.min.js"></script>
     <!--<![endif]-->
+    <script type="text/javascript">$("#main").css("min-height", $(window).height() - 50);</script>
     <block name="script"></block>
 </body>
 </html>
