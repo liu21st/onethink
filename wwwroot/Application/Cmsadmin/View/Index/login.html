@@ -18,12 +18,12 @@
 		<div class="login-main pr">
 			<form action="#" method="post" class="login-form">
 				<h3>登陆</h3>
-				<div class="item-box">
-					<div class="item focus">
+				<div id="itemBox" class="item-box">
+					<div class="item">
 						<i class="icon-login-user"></i>
 						<input type="text" name="" placeholder="请填写用户名">
 					</div>
-					<div class="item">
+					<div class="item b0">
 						<i class="icon-login-pwd"></i>
 						<input type="password" name="" placeholder="请填写密码">
 					</div>
@@ -63,9 +63,23 @@
     <script type="text/javascript">
     	/* 登陆表单获取焦点变色 */
     	$(".login-form").on("focus blur", "input", function(){
-    		var elem = $(this);
-    		elem.toggleClass("focus", elem.is(":focus"));
+    		var formInput = $(this);
+    		var formItem = formInput.parent(".item");
+    		formItem.toggleClass("focus", formInput.is(":focus"));
+
+    		var secItem = $("#itemBox").find(".item").eq(1);
+	    	if(secItem.hasClass("focus")) {
+	    		secItem.prev().addClass("bdb0");
+	    		secItem.next().addClass("bdt0");
+	    		secItem.removeClass("b0");
+	    	} else {
+	    		secItem.prev().removeClass("bdb0");
+	    		secItem.next().removeClass("bdt0");
+	    		secItem.addClass("b0");
+	    	}
     	})
+
+    	
     </script>
 </body>
 </html>
