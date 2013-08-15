@@ -37,7 +37,7 @@ class CmsadminController extends Action {
      * @param string $modelname  模型名称,供D函数使用,如果控制器设置了 public $modelname ,优先使用该属性
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    final protected function model($modelname=MODULE_NAME)
+    final protected function model($modelname=CONTOLLER_NAME)
     {
         static $models = array();
         if ( $this->modelname ) {
