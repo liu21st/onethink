@@ -20,6 +20,9 @@ class AddonsController extends CmsadminController {
         $this->display();
     }
 
+    /**
+     * 启用插件
+     */
     public function enable(){
         $id = I('id');
         $flag = D('Addons')->where("id={$id}")->setField('status', 1);
@@ -29,6 +32,9 @@ class AddonsController extends CmsadminController {
             $this->error('启用失败');
     }
 
+    /**
+     * 禁用插件
+     */
     public function disable(){
         $id = I('id');
         $flag = D('Addons')->where("id={$id}")->setField('status', 0);
@@ -36,5 +42,20 @@ class AddonsController extends CmsadminController {
             $this->success('禁用成功');
         else
             $this->error('禁用失败');
+    }
+
+    /**
+     * 钩子列表
+     */
+    public function hooks(){
+        $this->assign('list', D('Hooks')->field($field)->order($order)->select());
+        $this->display();
+    }
+
+    public function updateSort(){
+        $addons = trim(I('addons'));
+        $id = I('id');
+        D('Hooks')->where("id={$id}")->setField('addons', $addons);
+        $this->success('更新排序成功');
     }
 }

@@ -6,8 +6,8 @@
 		<h3><i class="icon-s1"></i>扩展</h3>
 		<ul>
 			<li><a href="javascript:;">模型管理</a></li>
-			<li class="current"><a href="javascript:;">插件管理</a></li>
-			<li><a href="{:U('hooks')}">钩子管理</a></li>
+			<li><a href="{:U('index')}">插件管理</a></li>
+			<li class="current"><a href="javascript:;">钩子管理</a></li>
 		</ul>
 		<!-- /子导航 -->
 	</div>
@@ -29,29 +29,26 @@
 				<tr>
 					<th>序号</th>
 					<th>名称</th>
-					<th>标识</th>
 					<th>描述</th>
-					<th>状态</th>
-					<th>操作</th>
+					<th>类型</th>
+					<th>插件</th>
 				</tr>
 			</thead>
 			<tbody>
 				<volist name="list" id="vo">
 				<tr>
 					<td>{$vo.id}</td>
-					<td>{$vo.title}</td>
 					<td>{$vo.name}</td>
 					<td>{$vo.description}</td>
-					<td>{$vo.status_text}</td>
+					<td>{$vo.type_text}</td>
 					<td>
-						<a href="{:U('config',array('id'=>$vo['id']))}">设置</a>
-						<?php if ($vo['status'] >=0): ?>
-							<eq name="vo.status" value="0">
-								<a href="{:U('enable',array('id'=>$vo['id']))}">启用</a>
-							<else />
-								<a href="{:U('disable',array('id'=>$vo['id']))}">禁用</a>
-							</eq>
-						<?php endif ?>
+						<notempty name="vo.addons">
+							<a title="排序" id="{$vo.id}">
+								{$vo.addons}
+							</a>
+						<else />
+							无
+						</notempty>
 					</td>
 				</tr>
 				</volist>
@@ -59,3 +56,5 @@
 		</table>
 	</div>
 </block>
+
+<block name="script"></block>
