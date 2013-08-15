@@ -42,10 +42,10 @@ return array(
     /* 模板相关配置 */
     'TMPL_PARSE_STRING' => array(
         '__STATIC__' => __ROOT__ . '/Public/static',
-        '__ADDONS__' => __ROOT__ . '/Public/Cmsadmin/Addons',
-        '__IMG__'    => __ROOT__ . '/Public/Cmsadmin/images',
-        '__CSS__'    => __ROOT__ . '/Public/Cmsadmin/css',
-        '__JS__'     => __ROOT__ . '/Public/Cmsadmin/js',
+        '__ADDONS__' => __ROOT__ . '/Public/Admin/Addons',
+        '__IMG__'    => __ROOT__ . '/Public/Admin/images',
+        '__CSS__'    => __ROOT__ . '/Public/Admin/css',
+        '__JS__'     => __ROOT__ . '/Public/Admin/js',
     ),
 
     /* SESSION 和 COOKIE 配置 */

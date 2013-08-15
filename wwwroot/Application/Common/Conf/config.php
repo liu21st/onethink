@@ -14,7 +14,7 @@
 return array(
     /* 模块相关配置 */
     'EXTEND_MODULE'  => array('Addons' => MODULE_PATH . 'Addons/'), //扩展模块列表
-    'DEFAULT_MODULE' => 'Home',
+    'DEFAULT_MODULE' => 'Admin',
 
     /* 调试配置 */
     'SHOW_PAGE_TRACE' => true,
