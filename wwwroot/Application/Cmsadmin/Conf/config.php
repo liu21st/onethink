@@ -57,7 +57,8 @@ return array(
         '__JS__'     => __ROOT__ . '/Public/Cmsadmin/js',
     ),
 
-    /* SESSION配置 */
-    'SESSION_PREFIX' => 'think_cms_admin', //session前缀
+    /* SESSION 和 COOKIE 配置 */
+    'SESSION_PREFIX' => 'think_cmsadmin', //session前缀
+    'COOKIE_PREFIX'  => 'think_cmsadmin_', // Cookie前缀 避免冲突
 
 );

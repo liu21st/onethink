@@ -17,6 +17,7 @@
  * @param  string $str  要分割的字符串
  * @param  string $glue 分割符
  * @return array
+ * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 function str2arr($str, $glue = ','){
     return explode($glue, $str);
@@ -27,6 +28,7 @@ function str2arr($str, $glue = ','){
  * @param  array  $arr  要连接的数组
  * @param  string $glue 分割符
  * @return string
+ * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 function arr2str($arr, $glue = ','){
     return implode($glue, $arr);
@@ -38,6 +40,7 @@ function arr2str($arr, $glue = ','){
  * @param string $key  加密密钥
  * @param int $expire  过期时间 单位 秒
  * @return string 
+ * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 function think_encrypt($data, $key = '', $expire = 0) {
     $key  = md5(empty($key) ? C('DATA_AUTH_KEY') : $key);
@@ -63,9 +66,10 @@ function think_encrypt($data, $key = '', $expire = 0) {
 
 /**
  * 系统解密方法
- * @param string $data 要解密的字符串 （必须是think_encrypt方法加密的字符串）
- * @param string $key  加密密钥
+ * @param  string $data 要解密的字符串 （必须是think_encrypt方法加密的字符串）
+ * @param  string $key  加密密钥
  * @return string 
+ * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 function think_decrypt($data, $key = ''){
     $key    = md5(empty($key) ? C('DATA_AUTH_KEY') : $key);
@@ -102,6 +106,7 @@ function think_decrypt($data, $key = ''){
  * 数据签名认证
  * @param  array  $data 被认证的数据
  * @return string       签名
+ * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 function data_auth_sign($data) {
 	//数据类型检测
@@ -120,6 +125,7 @@ function data_auth_sign($data) {
  * @param string $pid parent标记字段
  * @param string $level level标记字段
  * @return array
+ * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 function list_to_tree($list, $pk='id', $pid = 'pid', $child = '_child', $root = 0) {
     // 创建Tree
@@ -151,9 +157,29 @@ function list_to_tree($list, $pk='id', $pid = 'pid', $child = '_child', $root = 
  * @param  number $size      字节数
  * @param  string $delimiter 数字和单位分隔符
  * @return string            格式化后的带单位的大小
+ * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 function format_bytes($size, $delimiter = '') { 
     $units = array('B', 'KB', 'MB', 'GB', 'TB', 'PB'); 
     for ($i = 0; $size >= 1024 && $i < 5; $i++) $size /= 1024; 
     return round($size, 2) . $delimiter . $units[$i]; 
+}
+
+/**
+ * 设置跳转页面URL
+ * 使用函数再次封装，方便以后选择不同的存储方式（目前使用cookie存储）
+ * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ */
+function set_redirect_url($url){
+    cookie('redirect_url', $url);
+}
+
+/**
+ * 获取跳转页面URL
+ * @return string 跳转页URL
+ * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ */
+function get_redirect_url(){
+    $url = cookie('redirect_url');
+    return empty($url) ? __APP__ : $url;
 }

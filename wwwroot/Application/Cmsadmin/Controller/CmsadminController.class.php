@@ -22,7 +22,8 @@ class CmsadminController extends Action {
     /* 保存允许所有管理员访问的公共方法 */
     static private $allow = array();
     
-    /* 保存节点定义,默认情况下index方法自动视为父节点,除deny以外的其他方法视为index节点的子节点,如果需要明确指定,设置该属性 */
+    /* 保存节点定义,默认情况下index方法自动视为父节点,
+    除deny以外的其他方法视为index节点的子节点,如果需要明确指定,设置该属性 */
     static private $nodes = array();
 
     /**

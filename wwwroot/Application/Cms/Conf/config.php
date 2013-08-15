@@ -60,8 +60,9 @@ return array(
         '__JS__'     => __ROOT__ . '/Public/Cms/js',
     ),
 
-    /* SESSION配置 */
+    /* SESSION 和 COOKIE 配置 */
     'SESSION_PREFIX' => 'think_cms', //session前缀
+    'COOKIE_PREFIX'  => 'think_cms_', // Cookie前缀 避免冲突
 
     /* 默认插件定义 */
     'ADDONS_HOOKS_WIDGET' => array(
