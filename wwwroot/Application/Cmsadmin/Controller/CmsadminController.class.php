@@ -7,11 +7,14 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
+
 /**
  * 后台首页控制器
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 class CmsadminController extends Action {
+
+    public $modelName = CONTROLLER_NAME;
 	
     /* 保存禁止通过url访问的公共方法,例如定义在控制器中的工具方法 */
     static private $deny  = array();
@@ -19,37 +22,19 @@ class CmsadminController extends Action {
     /* 保存允许所有管理员访问的公共方法 */
     static private $allow = array();
     
+    /* 保存节点定义,默认情况下index方法自动视为父节点,除deny以外的其他方法视为index节点的子节点,如果需要明确指定,设置该属性 */
+    static private $nodes = array();
+
     /**
      * action访问控制,在登陆成功后执行的第一项权限检测任务
      */
     final protected function accessControl(){
         if ( !is_array(self::$deny)||!is_array(self::$allow) ){
-            $this->error('内部错误:deny属性必须为数组,即将返回首页',__APP__,IS_AJAX);
+            $this->error('内部错误:deny和allow属性必须为数组,即将返回首页',__APP__);
         }
         if ( !empty(self::$deny) && in_array(ACTION_NAME,self::$deny) ) {
-            $this->error('禁止访问,即将返回首页',__APP__,IS_AJAX);
+            $this->error('禁止访问,即将返回首页',__APP__);
         }
-    }
-
-    /**
-     * 获取模型实例,默认根据MODULE_NAME名称获取
-     * 
-     * @param string $modelname  模型名称,供D函数使用,如果控制器设置了 public $modelname ,优先使用该属性
-     * @author 朱亚杰  <zhuyajie@topthink.net>
-     */
-    final protected function model($modelname=CONTOLLER_NAME)
-    {
-        static $models = array();
-        if ( $this->modelname ) {
-            $name  = $this->modelname;
-        } else {
-            $name  = $modelname;
-        }
-
-        if ( empty($models[$name]) ) {
-            $models[$name] = D($name);
-        }
-        return $models[$name];
     }
 
     /**
@@ -64,7 +49,7 @@ class CmsadminController extends Action {
     {
 		$where   = array_merge( array('id' => array('in', $_GET['id'])),$where );
         $msg     = array_merge( array( 'success'=>'操作成功！', 'error'=>'操作失败！', 'url'=>'' ,'ajax'=>IS_AJAX) , $msg );
-        if( $this->model()->where($where)->save($data) ) {
+        if( D($this->modelName)->where($where)->save($data) ) {
             $this->success($msg['success'],$msg['url'],$msg['ajax']);
         }else{
             $this->error($msg['error'],$msg['url'],$msg['ajax']);
@@ -135,7 +120,7 @@ class CmsadminController extends Action {
            if ( is_numeric($key) ){
                self::$deny[] = $value;
            }else{
-               //todo: 功能扩展
+               //TODO: 功能扩展
            } 
         }
     }
@@ -163,8 +148,8 @@ class CmsadminController extends Action {
            if ( is_numeric($key) ){
                self::$allow[] = $value;
            }else{
-               //todo: 功能扩展
+               //TODO: 功能扩展
            } 
         }
     }
-
+}
