@@ -22,7 +22,7 @@ class ArticleController extends CmsadminController {
 		if(empty($cate_id)){
 			$this->error('文章分类不能为空');
 		}
-		$Document = D('Ducument');
+		$Document = D('Document');
 		
 		/*初始化分页类*/
 		import('COM.Page');
@@ -33,7 +33,7 @@ class ArticleController extends CmsadminController {
 		//列表数据获取
 		$list = $Document->lists($cate_id, 'id DESC', array('gt', -1), 'id,uid,title,create_time,status', $Page->firstRow. ',' . $Page->listRows);
 		
-		$this->diaplay();
+		$this->display();
 	}
 
 }
