@@ -31,18 +31,17 @@ class AdminController extends Action {
     static protected $nodes = array();
 
     /**
-     * 默认从当前控制器读取节点,指定controller元素可从其他控制器读取节点合并,用逗号分隔开的控制器名(不含Controller)
      * 主节点配置示例:  
      *   菜单节点必须配置title元素和url元素(供U函数作使用)
      *   array(
-     *       //值的元素  title:节点名字；url:链接; controller:其他控制器来源; tip:链接提示文字
+     *       //值的元素  title:节点名字；url:链接; controller:从哪些控制器查询节点,多个逗号分隔; tip:链接提示文字
      *       array( 'title'=>'节点标题', 'url'=>'Index/index?param=value','controllers'=>'', 'tip'=>''),
      *        ......
      *     )
      *   
      */ 
     static private $menus = array(
-        array( 'title'=>'首页','url'=>__APP__,'controller'=>'Index',),
+        array( 'title'=>'首页','url'=>'Index/index','controller'=>'Index',),
         array( 'title'=>'内容','url'=>'Article/index','controllers'=>'Article',),
         array( 'title'=>'用户','url'=>'User/index','controllers'=>'User,AuthManager'),
         array( 'title'=>'扩展','url'=>'Addons/index','controllers'=>'Addons',),
