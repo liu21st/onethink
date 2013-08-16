@@ -26,6 +26,7 @@ class AuthManagerController extends AdminController{
         array('title'=>'标题4','url'=>'index','group'=>'分组2'),
         array('title'=>'标题5','url'=>'index'),
     );
+
     /*
      * 更新节点信息
      */
@@ -52,6 +53,63 @@ class AuthManagerController extends AdminController{
     {
         $this->display();
     }
+
+    /*
+     * 返回分组列表
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
+    public static function getGroups()
+    {
+        
+    }
+    
+
+    /*
+     * 创建用户组
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
+    public function createGroup()
+    {
+        
+    }
+    
+    /*
+     * 编辑用户组
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
+    public function editGroup()
+    {
+        
+    }
+    
+    /*
+     * 删除用户组
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
+    public function deleteGroup()
+    {
+        $this->delete('AuthGroup');    
+    }
+
+    /*
+     * 恢复用户组
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
+    public function resumeGroup()
+    {
+        $this->resume('AuthGroup');    
+    }
+    
+    /*
+     * 禁用用户组
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
+    public function forbidGroup()
+    {
+        $this->forbid('AuthGroup');    
+    }
+
+
 
     /*
      * 创建规则
@@ -97,46 +155,6 @@ class AuthManagerController extends AdminController{
         $this->forbid();    
     }
     
-    public function createGroup()
-    {
-        
-    }
-    
-    public function editGroup()
-    {
-        
-    }
-    
-    /*
-     * 删除用户组
-     * @author 朱亚杰 <zhuyajie@topthink.net>
-     */
-    public function deleteGroup()
-    {
-        $this->modelname='AuthGroup';
-        $this->delete();    
-    }
-
-    /*
-     * 恢复用户组
-     * @author 朱亚杰 <zhuyajie@topthink.net>
-     */
-    public function resumeGroup()
-    {
-        $this->modelname='AuthGroup';
-        $this->resume();    
-    }
-    
-    /*
-     * 禁用用户组
-     * @author 朱亚杰 <zhuyajie@topthink.net>
-     */
-    public function forbidGroup()
-    {
-        $this->modelname='AuthGroup';
-        $this->forbid();    
-    }
-
     /*
      * 把用户添加到用户组,支持批量用户添加到多个用户组
      * @author 朱亚杰 <zhuyajie@topthink.net>

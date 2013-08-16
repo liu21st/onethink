@@ -1,0 +1,45 @@
+/** 
+ * 描述：定义数据表格样式
+ * 作用范围: 公共，表格模块
+ */
+
+.data-table {
+	margin: 10px 0;
+}
+.data-table caption {
+	height: 30px;
+	line-height: 30px;
+	font-weight: 700;	
+}
+.data-table table {
+    width: 100%;
+    font-size: 12px;
+    border-collapse: collapse;
+    border: 1px solid #E1E1E1;
+}
+.data-table thead th,
+.data-table tbody td {
+	 padding:8px;
+    height: 20px;
+    line-height: 20px;
+    font-weight: 400;
+    color:#444;
+    overfow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-bottom: 1px solid #e1e1e1;
+}
+.data-table thead th {
+    -webkit-box-shadow: 0px 1px 0 rgba(255, 255, 255, 1.0) inset;
+    -moz-box-shadow: 0px 1px 0 rgba(255, 255, 255, 1.0) inset;
+    box-shadow: 0px 1px 0 rgba(255, 255, 255, 1.0) inset;
+    background-color:#f5f5f5;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fafafa), to(#f3f3f3));
+    background-image: -moz-linear-gradient(top,#fafafa,#f3f3f3);
+    background-image: -ms-linear-gradient(top,#fafafa,#f3f3f3);
+    background-image: linear-gradient(top,#fafafa,#f3f3f3);
+}
+/* 隔行变色 */
+.table-striped tbody tr:nth-child(even) {
+	background-color: #f5f5f5;
+}

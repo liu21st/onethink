@@ -19,7 +19,7 @@ class SystemController extends AdminController {
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function index(){
-		$this->diaplay();
+		$this->display();
 	}
 
 }
