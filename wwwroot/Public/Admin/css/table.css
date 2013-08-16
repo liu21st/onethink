@@ -6,20 +6,19 @@
 .data-table {
 	margin: 10px 0;
 }
-.data-table caption {
-	height: 30px;
-	line-height: 30px;
-	font-weight: 700;	
-}
 .data-table table {
     width: 100%;
-    font-size: 12px;
     border-collapse: collapse;
     border: 1px solid #E1E1E1;
 }
+.data-table caption {
+    height: 30px;
+    line-height: 30px;
+    font-weight: 700;   
+}
 .data-table thead th,
 .data-table tbody td {
-	 padding:8px;
+	padding:8px;
     height: 20px;
     line-height: 20px;
     font-weight: 400;

@@ -1,142 +1,139 @@
 <extend name="Public/base" />
 
 <block name="body">
-	<div class="wrapper">
-		<!-- 表单 -->
-		<form action="#" method="post" class="form-horizontal">
-			<div class="form-item cf">
-				<label class="item-label">文本框：</label>
-				<div class="controls">
-					<input type="text" class="text" name="">
-					<span class="check-tips">请输入文本</span>
-				</div>
+	<!-- 表单 -->
+	<form action="#" method="post" class="form-horizontal">
+		<div class="form-item cf">
+			<label class="item-label">文本框：</label>
+			<div class="controls">
+				<input type="text" class="text" name="">
+				<span class="check-tips">请输入文本</span>
 			</div>
-			<div class="form-item cf">
-				<label class="item-label">下拉菜单：</label>
-				<div class="controls">
-					<select name="">
-						<option value="">请选择</option>
-						<option value="">选项一</option>
-						<option value="">选项二</option>
-					</select>
-					<span class="check-tips">下拉菜单必选</span>
-				</div>
-			</div>
-			<div class="form-item cf">
-				<label class="item-label">多选框：</label>
-				<div class="controls">
-					<label class="checkbox"><input type="checkbox" name="">check 1</label>
-					<label class="checkbox"><input type="checkbox" name="">check 2</label>
-					<label class="checkbox"><input type="checkbox" name="">check 3</label>
-					<span class="check-tips">多选框必选</span>
-				</div>
-			</div>
-			<div class="form-item cf">
-				<label class="item-label">单选框：</label>
-				<div class="controls">
-					<label class="radio"><input type="radio" name="test">radio 1</label>
-					<label class="radio"><input type="radio" name="test">radio 2</label>
-					<span class="check-tips">单选框必选</span>
-				</div>
-			</div>
-			<div class="form-item cf">
-				<label class="item-label">文本域：</label>
-				<div class="controls">
-					<label class="textarea"><textarea name=""></textarea></label>
-					<span class="check-tips">文本域必选</span>
-				</div>
-			</div>
-			<div class="form-item cf">
-				<label class="item-label">验证码：</label>
-				<div class="controls">
-					<input type="text" class="text input-mid" name="">
-					<span class="check-tips">验证码必填</span>
-				</div>
-			</div>
-		</form>
-
-		<!-- 数据表格 -->
-		<div class="data-table table-striped">
-			<table>
-				<caption>数据表格</caption>
-				<thead>
-					<tr>
-						<th>ID</th>
-						<th>名称</th>
-						<th width="40%">描述</th>
-						<th>操作</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>1</td>
-						<td>test_name</td>
-						<td>对表格数据的描述对表格数据的描述对表格数据的描述</td>
-						<td>
-							<a href="javascript:;">编辑</a>
-							<a href="javascript:;">删除</a>
-						</td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td>test_name</td>
-						<td>对表格数据的描述</td>
-						<td>
-							<a href="javascript:;">编辑</a>
-							<a href="javascript:;">删除</a>
-						</td>
-					</tr>
-					<tr>
-						<td>3</td>
-						<td>test_name</td>
-						<td>对表格数据的描述</td>
-						<td>
-							<a href="javascript:;">编辑</a>
-							<a href="javascript:;">删除</a>
-						</td>
-					</tr>
-					<tr>
-						<td>4</td>
-						<td>test_name</td>
-						<td>对表格数据的描述</td>
-						<td>
-							<a href="javascript:;">编辑</a>
-							<a href="javascript:;">删除</a>
-						</td>
-					</tr>
-				</tbody>
-			</table>
 		</div>
-
-		<!-- 按钮 -->
-		<!-- 单独按钮 -->
-		<button class="btn"> <i class="icon-add"></i><em>添加</em> </button> 
-		<button class="btn"> <i class="icon-remove"></i><em>移除</em> </button> 
-		<button class="btn"> <i class="icon-lock"></i><em>锁定</em> </button> 
-		<button class="btn"> <i class="icon-unlock"></i><em>解锁</em> </button> 
-		<button class="btn"> <i class="icon-denied"></i><em>禁用</em> </button> 
-		<button class="btn"> <i class="icon-attachment"></i><em>附件</em> </button> 
-		<button class="btn"> <i class="icon-settings"></i><em>设置</em> </button> 
-		<a class="btn" href="javascript:;"> <i class="icon-user"></i><em>用户</em> </a>
-		<a class="btn" href="javascript:;"> <i class="icon-tags"></i><em>标签</em> </a>
-		<a class="btn" href="javascript:;"> <i class="icon-home"></i><em>首页</em> </a>
-		<a class="btn" href="javascript:;"> <i class="icon-pic"></i><em>图片</em> </a>
-
-		<!-- 按钮组 -->
-		<div class="btn-toolbar cf">
-			<button class="btn active"> <i class="icon-delete"></i><em>删除</em> </button>
-			<a class="btn" href="javascript:;"> <i class="icon-edit"></i><em>编辑</em> </a>
-			<button class="btn"> <i class="icon-ok"></i><em>确定</em> </button> 
+		<div class="form-item cf">
+			<label class="item-label">下拉菜单：</label>
+			<div class="controls">
+				<select name="">
+					<option value="">请选择</option>
+					<option value="">选项一</option>
+					<option value="">选项二</option>
+				</select>
+				<span class="check-tips">下拉菜单必选</span>
+			</div>
 		</div>
-
-		<!-- 下拉按钮 -->
-		<div class="btn-group">
-			<button class="btn"> 
-				<em>按钮组</em> 
-				<b class="arrow arrow-down"></b>
-			</button> 
-			<div class="drop-pannel hidden"></div>
+		<div class="form-item cf">
+			<label class="item-label">多选框：</label>
+			<div class="controls">
+				<label class="checkbox"><input type="checkbox" name="">check 1</label>
+				<label class="checkbox"><input type="checkbox" name="">check 2</label>
+				<label class="checkbox"><input type="checkbox" name="">check 3</label>
+				<span class="check-tips">多选框必选</span>
+			</div>
 		</div>
-		
+		<div class="form-item cf">
+			<label class="item-label">单选框：</label>
+			<div class="controls">
+				<label class="radio"><input type="radio" name="test">radio 1</label>
+				<label class="radio"><input type="radio" name="test">radio 2</label>
+				<span class="check-tips">单选框必选</span>
+			</div>
+		</div>
+		<div class="form-item cf">
+			<label class="item-label">文本域：</label>
+			<div class="controls">
+				<label class="textarea"><textarea name=""></textarea></label>
+				<span class="check-tips">文本域必选</span>
+			</div>
+		</div>
+		<div class="form-item cf">
+			<label class="item-label">验证码：</label>
+			<div class="controls">
+				<input type="text" class="text input-mid" name="">
+				<span class="check-tips">验证码必填</span>
+			</div>
+		</div>
+	</form>
+
+	<!-- 数据表格 -->
+	<div class="data-table table-striped">
+		<table>
+			<caption>数据表格</caption>
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>名称</th>
+					<th width="40%">描述</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>1</td>
+					<td>test_name</td>
+					<td>对表格数据的描述对表格数据的描述对表格数据的描述</td>
+					<td>
+						<a href="javascript:;">编辑</a>
+						<a href="javascript:;">删除</a>
+					</td>
+				</tr>
+				<tr>
+					<td>2</td>
+					<td>test_name</td>
+					<td>对表格数据的描述</td>
+					<td>
+						<a href="javascript:;">编辑</a>
+						<a href="javascript:;">删除</a>
+					</td>
+				</tr>
+				<tr>
+					<td>3</td>
+					<td>test_name</td>
+					<td>对表格数据的描述</td>
+					<td>
+						<a href="javascript:;">编辑</a>
+						<a href="javascript:;">删除</a>
+					</td>
+				</tr>
+				<tr>
+					<td>4</td>
+					<td>test_name</td>
+					<td>对表格数据的描述</td>
+					<td>
+						<a href="javascript:;">编辑</a>
+						<a href="javascript:;">删除</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<!-- 按钮 -->
+	<!-- 单独按钮 -->
+	<button class="btn"> <i class="icon-add"></i><em>添加</em> </button> 
+	<button class="btn"> <i class="icon-remove"></i><em>移除</em> </button> 
+	<button class="btn"> <i class="icon-lock"></i><em>锁定</em> </button> 
+	<button class="btn"> <i class="icon-unlock"></i><em>解锁</em> </button> 
+	<button class="btn"> <i class="icon-denied"></i><em>禁用</em> </button> 
+	<button class="btn"> <i class="icon-attachment"></i><em>附件</em> </button> 
+	<button class="btn"> <i class="icon-settings"></i><em>设置</em> </button> 
+	<a class="btn" href="javascript:;"> <i class="icon-user"></i><em>用户</em> </a>
+	<a class="btn" href="javascript:;"> <i class="icon-tags"></i><em>标签</em> </a>
+	<a class="btn" href="javascript:;"> <i class="icon-home"></i><em>首页</em> </a>
+	<a class="btn" href="javascript:;"> <i class="icon-pic"></i><em>图片</em> </a>
+
+	<!-- 按钮组 -->
+	<div class="btn-toolbar">
+		<button class="btn active"> <i class="icon-delete"></i><em>删除</em> </button>
+		<a class="btn" href="javascript:;"> <i class="icon-edit"></i><em>编辑</em> </a>
+		<button class="btn"> <i class="icon-ok"></i><em>确定</em> </button> 
+	</div>
+
+	<!-- 下拉按钮 -->
+	<div class="btn-group">
+		<button class="btn"> 
+			<em>按钮组</em> 
+			<b class="arrow arrow-down"></b>
+		</button> 
+		<div class="drop-pannel hidden"></div>
 	</div>
 </block>

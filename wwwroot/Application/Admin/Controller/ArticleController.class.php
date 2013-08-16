@@ -15,13 +15,26 @@
 class ArticleController extends AdminController {
 	
 	/**
+     * 节点配置  
+     *   菜单节点必须配置title元素和url元素(供U函数作使用)
+     *   array(
+     *       //值的元素  title:节点名字；url:链接; group:链接组; tip:链接提示文字
+     *       array( 'title'=>'节点标题','url'=>'action?query=vaule', 'group'=>'扩展','tip'=>''),
+     *   )
+     */ 
+    static protected $nodes = array(
+    	array( 'title' => '讨论', 'url' => 'Article/index?cate_id=9', 'group' => '文档分类'),
+    	array( 'title' => '下载', 'url' => 'Article/index?cate_id=2', 'group' => '文档分类'),
+    );
+    
+	/**
 	 * 内容管理首页
 	 * @param $cate_id 分类id
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function index($cate_id = null){
 		if(empty($cate_id)){
-			$this->error('文章分类不能为空');
+			$cate_id = 9;	//TODO:动态获取第一个分类
 		}
 		$Document = D('Document');
 		
@@ -34,6 +47,7 @@ class ArticleController extends AdminController {
 		//列表数据获取
 		$list = $Document->lists($cate_id, 'id DESC', array('gt', -1), 'id,uid,title,create_time,status', $Page->firstRow. ',' . $Page->listRows);
 		
+		$this->assign('list', $list);
 		$this->display();
 	}
 	
@@ -43,9 +57,9 @@ class ArticleController extends AdminController {
 	 */
 	public function setStatus(){
 		/*参数过滤*/
-		$ids = I('post.ids', array());
-		$status = I('post.status', null);
-		if(empty($ids) || empty($status)){
+		$ids = I('get.ids');
+		$status = I('get.status');
+		if(empty($ids) || !isset($status)){
 			$this->error('请选择要操作的数据');
 		}
 		
@@ -54,7 +68,7 @@ class ArticleController extends AdminController {
 		$map = array();
 		if(is_array($ids)){
 			$map['id'] = array('in', implode(',', $ids));
-		}else{
+		}elseif (is_numeric($ids)){
 			$map['id'] = $ids;
 		}
 		switch ($status){

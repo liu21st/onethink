@@ -1,1 +1,51 @@
 <extend name="Public/base"/>
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="title cf">
+		<h2>文档列表</h2>
+		<div class="tools">
+			<button id="add-member"><i class="icon-add"></i>查询/button>
+		</div>
+	</div>
+
+	<!-- 数据列表 -->
+	<div class="data-table">
+		<table>
+			<thead>
+				<tr>
+					<th></th>
+					<th>标题</th>
+					<th>创建者</th>
+					<th>创建时间</th>
+					<th>状态</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist name="list" id="vo">
+				<tr>
+					<td><input type="checkbox" value="{$vo.id}"/></td>
+					<td>{$vo.title}</td>
+					<td>{$vo.uid}</td>
+					<td>{$vo.create_time|time_format}</td>
+					<td>{$vo.status|get_status_title}</td>
+					<td>
+						<a href="{:U('edit',array('id'=>$vo['id']))}">编辑</a>
+						<a href="{:U('setStatus',array('ids'=>$vo['id'],'status'=>-1))}">删除</a>
+						<eq name="vo['status']" value="0">
+							<a href="{:U('setStatus',array('ids'=>$vo['id'],'status'=>1))}">启用</a>
+						</eq>
+						<eq name="vo['status']" value="1">
+							<a href="{:U('setStatus',array('ids'=>$vo['id'],'status'=>0))}">禁用</a>
+						</eq>
+						<eq name="vo['status']" value="2">
+							<a href="{:U('setStatus',array('ids'=>$vo['id'],'status'=>1))}">审核</a>
+						</eq>
+					</td>
+				</tr>
+				</volist>
+			</tbody>
+		</table>
+	</div>
+</block>
