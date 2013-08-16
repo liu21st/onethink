@@ -18,7 +18,7 @@ class IndexController extends AdminController {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     static protected $nodes = array(
-        array( 'title'=>'管理首页', 'url'=>'Index/index', 'group'=>'常用菜单'),
+        array( 'title' => '管理首页', 'url' => 'Index/index', 'group' => '常用菜单'),
     );
 
     /**
