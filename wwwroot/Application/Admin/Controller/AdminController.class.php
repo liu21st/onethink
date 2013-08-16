@@ -262,7 +262,7 @@ class AdminController extends Action {
 						$child = $c.'Controller';
 						$child_nodes = $child::getNodes($child);      //其他控制器中的节点
 						foreach ( $child_nodes as $group => $value ) {
-							if ( $menus['child'][$group] ) {
+							if ( isset($menus['child'][$group]) ) {
 								//如果分组已存在,合并到分组中
 								$menus['child'][$group] = array_intersect_assoc($menus['child'][$group],$value);
 							}else{
