@@ -12,24 +12,20 @@
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 class IndexController extends AdminController {
+
+    /**
+     * 左侧导航节点定义
+     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+     */
+    static protected $nodes = array(
+        array( 'title'=>'管理首页', 'url'=>'Index/index', 'group'=>'常用菜单'),
+    );
+
     /**
      * 后台首页
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function index(){
-        
-        if(is_administrator()){
-            $this->display();
-        } else {
-            $this->redirect('login');
-        }
-    }
-
-    /**
-     * 后台默认页面（欢迎页面）
-     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
-     */
-    public function welcome(){
         if(is_administrator()){
             $this->display();
         } else {
