@@ -18,8 +18,11 @@ class IndexController extends AdminController {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     static protected $nodes = array(
-        array( 'title' => '管理首页', 'url' => 'Index/index', 'group' => '常用菜单'),
-        array( 'title' => '表单样式', 'url' => 'Index/form', 'group' => '常用菜单'),
+        array( 'title' => '基本设置', 'url' => 'System/index', 'group' => '系统设置'),
+        array( 'title' => '静态规则设置', 'url' => 'System/index', 'group' => '系统设置'),
+        array( 'title' => 'SEO优化设置', 'url' => 'System/index', 'group' => '系统设置'),
+        // array( 'title' => '导航栏目设置', 'url' => 'System/index', 'group' => '导航栏目设置'),
+        // array( 'title' => '其他设置', 'url' => 'System/index', 'group' => '其他设置'),
     );
 
     /**
@@ -36,7 +39,7 @@ class IndexController extends AdminController {
 
     //表单样式查看页面 TODO: 完成后会删除
     public function form(){
-        $this->display();
+        $this->display("static_form_tpl");
     }
 
     /**
