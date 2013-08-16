@@ -245,7 +245,6 @@ class AdminController extends Action {
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
     final static public function getMenus(){
-        $controller = CONTROLLER_NAME.'Controller';
 //        if ( S('menu'.$controller) ) {
 //            return S('menu'.$controller);
 //        }
@@ -275,7 +274,7 @@ class AdminController extends Action {
             }
         }
 //        S('menu'.CONTROLLER_NAME,$menus);
-        dump($menus);
+        // dump($menus);
         return $menus;
     }
 }
