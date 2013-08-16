@@ -42,7 +42,7 @@ class AddonsModel extends Model {
 	 */
 	public function getList($addon_dir = ''){
 		if(!$addon_dir)
-			$addon_dir = APP_PATH.'Cms/Addons';
+			$addon_dir = C('EXTEND_MODULE.Addons');
 		$dir = getcwd();
 		chdir($addon_dir);
 		$addons_names = glob('*', GLOB_ONLYDIR);

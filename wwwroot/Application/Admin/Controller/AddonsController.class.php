@@ -57,7 +57,7 @@ class AddonsController extends AdminController {
         if(!$addon)
             $this->error('插件未安装');
         $this->assign('data',$addon);
-        $config_tpl = APP_PATH."Cms/Addons/{$addon['name']}/View/Config/config.html";
+        $config_tpl = C('EXTEND_MODULE.Addons')."{$addon['name']}/View/Config/config.html";
         $this->display($config_tpl);
     }
 
@@ -65,6 +65,7 @@ class AddonsController extends AdminController {
      * 钩子列表
      */
     public function hooks(){
+        $order = $field = array();
         $this->assign('list', D('Hooks')->field($field)->order($order)->select());
         $this->display();
     }
