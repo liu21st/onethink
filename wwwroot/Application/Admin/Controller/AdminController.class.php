@@ -43,7 +43,7 @@ class AdminController extends Action {
      */ 
     static private $menus = array(
         array( 'title'=>'首页','url'=>__APP__,'controller'=>'Index',),
-        array( 'title'=>'内容','url'=>'Article/index','controller'=>'Article',),
+        array( 'title'=>'内容','url'=>'Article/index','controllers'=>'Article',),
         array( 'title'=>'用户','url'=>'User/index','controllers'=>'User,AuthManager'),
         array( 'title'=>'扩展','url'=>'Addons/index','controllers'=>'Addons',),
         array( 'title'=>'系统','url'=>'System/index','controllers'=>'System',),
@@ -256,7 +256,7 @@ class AdminController extends Action {
             // $menus['main'][$key]['url'] = U( $item['url'] );
             if( $item['controllers'] && is_string($item['controllers'])) {
                 $other_controller = explode(',',$item['controllers']);
-				if ( in_array( $controller, $other_controller ) ) {
+				if ( in_array( CONTROLLER_NAME, $other_controller ) ) {
 					foreach ($other_controller as $c){
 						//如果指定了从其他控制器中读取节点
 						$child = $c.'Controller';
