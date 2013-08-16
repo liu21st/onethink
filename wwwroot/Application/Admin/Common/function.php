@@ -36,3 +36,22 @@ function is_administrator(){
     //return $uid && (intval($uid) === C('USER_ADMINISTRATOR'));
     return true; //TODO: 登录功能完成后改回
 }
+
+/**
+ * 获取对应状态的文字信息
+ * @param int $status
+ * @return string 状态文字 ，false 未获取到
+ * @author huajie <banhuajie@163.com>
+ */
+function get_status_title($status = null){
+	if(empty($status)){
+		return false;
+	}
+	switch ($status){
+		case -1 : return '已删除';break;
+		case 0 : return '禁用';break;
+		case 1 : return '正常';break;
+		case 2 : return '待审核';break;
+		default : return false;break;
+	}
+}

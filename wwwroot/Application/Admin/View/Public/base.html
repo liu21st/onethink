@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>用户管理中心 - 首页</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/base.css" media="all">
+    <link rel="stylesheet" type="text/css" href="__CSS__/common.css" media="all">
+    <link rel="stylesheet" type="text/css" href="__CSS__/form.css" media="all">
+    <link rel="stylesheet" type="text/css" href="__CSS__/table.css" media="all">
+    <link rel="stylesheet" type="text/css" href="__CSS__/button.css" media="all">
     <link rel="stylesheet" type="text/css" href="__CSS__/style.css" media="all">
     <block name="style"></block>
 </head>
@@ -27,7 +32,7 @@
     <div class="sidebar">
         <!-- 子导航 -->
         <block name="sidebar">
-            <div class="subnav">
+            <div id="subnav" class="subnav">
                 <volist name="base_menu.child" id="sub_menu">
                     <!-- 子导航 -->
                     <notempty name="sub_menu">
@@ -59,10 +64,14 @@
     <!--<![endif]-->
     <script type="text/javascript">
         +function(){
-            var $window = $(window), $menuNav = $("#main-nav");
+            var $window = $(window), $subnav = $("#subnav"), url;
             $window.resize(function(){
                 $("#main").css("min-height", $window.height() - 50);
             }).resize();
+
+            /* 左边菜单高亮 */
+            url = window.location.pathname + window.location.search;
+            $subnav.find("a[href='" + url + "']").parent().addClass("current");
         }();
     </script>
     <block name="script"></block>
