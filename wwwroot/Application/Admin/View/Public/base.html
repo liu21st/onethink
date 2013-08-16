@@ -14,12 +14,10 @@
         <!-- /Logo -->
 
         <!-- 主导航 -->
-        <ul id="main-nav" class="main-nav" data-controller="{$Think.CONTROLLER_NAME}">
-            <li><a href="javascript:;">首页</a></li>
-            <li><a href="javascript:;">内容</a></li>
-            <li><a href="javascript:;">用户</a></li>
-            <li class="Addons"><a href="{:U('Addons/index')}">扩展</a></li>
-            <li><a href="javascript:;">系统</a></li>
+        <ul class="main-nav">
+            <volist name="base_menu.main" id="menu">
+                <li class="{$menu.class|default=''}"><a href="{$menu.url|U}">{$menu.title}</a></li>
+            </volist>
         </ul>
         <!-- /主导航 -->
     </div>
@@ -50,10 +48,6 @@
             $window.resize(function(){
                 $("#main").css("min-height", $window.height() - 50);
             }).resize();
-
-            /* 高亮头部导航 */
-            $menuNav.find(".current").removeClass("current");
-            $menuNav.find("." + $menuNav.data("controller")).addClass("current");
         }();
     </script>
     <block name="script"></block>

@@ -11,12 +11,13 @@
  * 后台首页控制器
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
-class IndexController extends Action {
+class IndexController extends AdminController {
     /**
      * 后台首页
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function index(){
+        
         if(is_administrator()){
             $this->display();
         } else {
