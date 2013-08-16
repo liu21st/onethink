@@ -273,7 +273,7 @@ class AdminController extends Action {
             }
         }
 //        S('menu'.CONTROLLER_NAME,$menus);
-        dump($menus);
+        // dump($menus);
         return $menus;
     }
 }
