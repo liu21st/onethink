@@ -32,16 +32,15 @@ class AuthManagerController extends AdminController{
      */
     public function updateNode()
     {
-        $iterator = new RecursiveDirectoryIterator(
+        $iterator = new DirectoryIterator(
             __DIR__, 
-            FilesystemIterator::UNIX_PATHS|FilesystemIterator::CURRENT_AS_SELF|FilesystemIterator::KEY_AS_PATHNAME
+            FilesystemIterator::UNIX_PATHS|FilesystemIterator::CURRENT_AS_SELF|FilesystemIterator::KEY_AS_FILENAME
         );
         $nodes = array();
-        //TODO:
-        foreach ( $iterator as $pathname => $obj ){
-            
+        $default_layer = C('DEFAULT_C_LAYER');
+        foreach ( $iterator as $filename => $obj ){
+            $class = rtrim($filename,$default_layer);
         }
-
     }
     
 
