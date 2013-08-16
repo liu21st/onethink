@@ -42,11 +42,11 @@ class AdminController extends Action {
      *   
      */ 
     static private $menus = array(
-        array( 'title'=>'首页','url'=>__APP__),
-        array( 'title'=>'内容','url'=>'Article/index'),
-        array( 'title'=>'用户','url'=>'User/index','controllers'=>'AuthManager'),
-        array( 'title'=>'扩展','url'=>'Addons/index'),
-        array( 'title'=>'系统','url'=>'System/index'),
+        array( 'title'=>'首页','url'=>__APP__,'controller'=>'Index',),
+        array( 'title'=>'内容','url'=>'Article/index','controller'=>'Article',),
+        array( 'title'=>'用户','url'=>'User/index','controllers'=>'User,AuthManager'),
+        array( 'title'=>'扩展','url'=>'Addons/index','controllers'=>'Addons',),
+        array( 'title'=>'系统','url'=>'System/index','controllers'=>'System',),
     );
 
     final protected function _initialize()
@@ -63,7 +63,8 @@ class AdminController extends Action {
                 // $this->error('你没有权限');
             // }
         }
-        $this->assign( 'base_menu', $this->getMenus() );
+        $controller = CONTROLLER_NAME.'Controller';
+        $this->assign( 'base_menu', $controller::getMenus() );
 
         $this->_init();
     }
@@ -225,10 +226,10 @@ class AdminController extends Action {
         if ( !$controller || !is_string($controller) || !is_array($controller::$nodes) ) {
             return false;
         }
-        $nodes = array();
+        $nodes = array('default'=>array());
         foreach ($controller::$nodes as $value){
             if ( is_array($value) ) {
-                $value['url'] = U($value['url']);
+                // $value['url'] = U($value['url']);
                 //为节点分组,默认分组为default
                 $group = empty($value['group']) ?'default': $value['group'];
                 unset($value['group']);
@@ -253,27 +254,29 @@ class AdminController extends Action {
 
         //处理其他控制器中的节点
         foreach ($menus['main'] as $key=>$item){
-            $menus['main'][$key]['url'] = U( $item['url'] );
+            // $menus['main'][$key]['url'] = U( $item['url'] );
             if( $item['controllers'] && is_string($item['controllers'])) {
                 $other_controller = explode(',',$item['controllers']);
-                foreach ($other_controller as $c){
-                    //如果指定了从其他控制器中读取节点
-                    $child = $c.'Controller';
-                    $child_nodes = $child::getNodes($child);      //其他控制器中的节点
-                    foreach ( $child_nodes as $group => $value ) {
-                        if ( $menus['child'][$group] ) {
-                            //如果分组已存在,合并到分组中
-                            $menus['child'][$group] = array_intersect_assoc($menus['child'][$group],$value);
-                        }else{
-                            //否则直接保存
-                            $menus['child'][$group]=$value;
-                        }
-                    }
-                }
+				if ( in_array( $controller, $other_controller ) ) {
+					foreach ($other_controller as $c){
+						//如果指定了从其他控制器中读取节点
+						$child = $c.'Controller';
+						$child_nodes = $child::getNodes($child);      //其他控制器中的节点
+						foreach ( $child_nodes as $group => $value ) {
+							if ( $menus['child'][$group] ) {
+								//如果分组已存在,合并到分组中
+								$menus['child'][$group] = array_intersect_assoc($menus['child'][$group],$value);
+							}else{
+								//否则直接保存
+								$menus['child'][$group]=$value;
+							}
+						}
+					}
+				}
             }
         }
 //        S('menu'.CONTROLLER_NAME,$menus);
-        // dump($menus);
+        dump($menus);
         return $menus;
     }
 }
