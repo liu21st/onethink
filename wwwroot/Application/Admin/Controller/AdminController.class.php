@@ -15,7 +15,7 @@
 class AdminController extends Action {
 
     /* 保存禁止通过url访问的公共方法,例如定义在控制器中的工具方法 ;deny优先级高于allow*/
-    static protected $deny  = array('getMenus','getNodes');
+    static protected $deny  = array();
 
     /* 保存允许所有管理员访问的公共方法 */
     static protected $allow = array();
@@ -49,7 +49,7 @@ class AdminController extends Action {
         array( 'title'=>'系统','url'=>'System/index'),
     );
 
-    public function _initialize()
+    final protected function _initialize()
     {
         //TODO:登陆检测
         
@@ -64,8 +64,14 @@ class AdminController extends Action {
             // }
         }
         $this->assign( 'menu', $this->getMenus() );
+
+        $this->_init();
     }
 
+    protected function _init()
+    {
+    }
+    
     /**
      * action访问控制,在 **登陆成功** 后执行的第一项权限检测任务
      * 
@@ -237,7 +243,7 @@ class AdminController extends Action {
      * 子类中 $this->getMenus() 调用
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    final static  function getMenus(){
+    final static public function getMenus(){
         $controller = CONTROLLER_NAME.'Controller';
 //        if ( S('menu'.$controller) ) {
 //            return S('menu'.$controller);
@@ -267,7 +273,7 @@ class AdminController extends Action {
             }
         }
 //        S('menu'.CONTROLLER_NAME,$menus);
-        // dump($menus);
+        dump($menus);
         return $menus;
     }
 }
