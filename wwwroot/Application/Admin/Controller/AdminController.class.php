@@ -56,11 +56,11 @@ class AdminController extends Action {
         if ( $ac===false ) {
             $this->error('403:禁止访问',__APP__);
         }elseif( $ac===null ){
-            // import('ORG.Util.Auth');
-            // $auth = new Auth();
-            // if(!$auth->check(MODULE_NAME.'-'.ACTION_NAME,session('uid'))){
-                // $this->error('你没有权限');
-            // }
+            import('ORG.Util.Auth');
+            $auth = new Auth();
+            if(!$auth->check(CONTROLLER_NAME.'-'.ACTION_NAME,1)){
+                $this->error('你没有权限');
+            }
         }
         $controller = CONTROLLER_NAME.'Controller';
         $this->assign( 'base_menu', $controller::getMenus() );
@@ -178,7 +178,7 @@ class AdminController extends Action {
      * 
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    final protected function getDeny( array $deny )
+    final protected function getDeny()
     {
         $controller = CONTROLLER_NAME.'Controller';
         $data = array();
