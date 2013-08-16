@@ -13,7 +13,7 @@
  * @date    2013-08-14 11:20:04
  */
 
-class AddonsController extends CmsadminController {
+class AddonsController extends AdminController {
 
     public function index(){
         $this->assign('list',D('Addons')->getList());

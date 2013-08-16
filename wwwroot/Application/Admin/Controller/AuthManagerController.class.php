@@ -12,7 +12,7 @@
  * Class AuthManagerController
  * @author 朱亚杰 <zhuyajie@topthink.net>
  */
-class AuthManagerController extends CmsadminController{
+class AuthManagerController extends AdminController{
 
     static protected $deny  = array('test');
 
