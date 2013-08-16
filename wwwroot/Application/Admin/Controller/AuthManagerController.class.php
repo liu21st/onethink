@@ -28,9 +28,9 @@ class AuthManagerController extends AdminController{
     );
 
     /*
-     * 更新节点信息
+     * 返回节点数据
      */
-    public function updateNode()
+    protected function returnNodes()
     {
         $iterator = new FilesystemIterator(
                             __DIR__,
@@ -55,7 +55,7 @@ class AuthManagerController extends AdminController{
             }
         }
 
-        dump($nodes);
+        return $nodes;
     }
     
 
