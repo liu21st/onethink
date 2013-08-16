@@ -36,6 +36,7 @@ function is_administrator(){
     //return $uid && (intval($uid) === C('USER_ADMINISTRATOR'));
     return true; //TODO: 登录功能完成后改回
 }
+<<<<<<< HEAD
 
 /**
  * widget里生成访问插件的url
@@ -65,3 +66,5 @@ function addons_url($url, $param = array()){
 
     return U('Addons/execute', $params);
 }
+=======
+>>>>>>> 286caedb178eb425d51f0a040294215d9c3936bb

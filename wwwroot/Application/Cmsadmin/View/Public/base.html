@@ -1,57 +1,61 @@
 <!doctype html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title>用户管理中心 - 首页</title>
-	<link rel="stylesheet" type="text/css" href="__CSS__/style.css" media="all">
-	<block name="style"></block>
+    <meta charset="UTF-8">
+    <title>用户管理中心 - 首页</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" media="all">
+    <block name="style"></block>
 </head>
 <body>
-	<!-- 头部 -->
-	<div class="header">
-		<!-- Logo -->
-		<a href="javascript:;" class="logo"></a>
-		<!-- /Logo -->
+    <!-- 头部 -->
+    <div class="header">
+        <!-- Logo -->
+        <a href="javascript:;" class="logo"></a>
+        <!-- /Logo -->
 
-		<!-- 主导航 -->
-		<ul class="main-nav">
-			<li class="current"><a href="javascript:;">首页</a></li>
-			<li><a href="javascript:;">内容</a></li>
-			<li><a href="javascript:;">用户</a></li>
-			<li><a href="{:U('Addons/index')}">扩展</a></li>
-			<li><a href="javascript:;">系统</a></li>
-		</ul>
-		<!-- /主导航 -->
-	</div>
-	<!-- /头部 -->
+        <!-- 主导航 -->
+        <ul id="main-nav" class="main-nav" data-controller="{$Think.CONTROLLER_NAME}">
+            <li><a href="javascript:;">首页</a></li>
+            <li><a href="javascript:;">内容</a></li>
+            <li><a href="javascript:;">用户</a></li>
+            <li class="Addons"><a href="{:U('Addons/index')}">扩展</a></li>
+            <li><a href="javascript:;">系统</a></li>
+        </ul>
+        <!-- /主导航 -->
+    </div>
+    <!-- /头部 -->
 
-	<!-- 边栏 -->
-	<div class="sidebar">
-		<!-- 子导航 -->
-		<block name="sidebar"></block>
-		<!-- /子导航 -->
-	</div>
-	<!-- /边栏 -->
+    <!-- 边栏 -->
+    <div class="sidebar">
+        <!-- 子导航 -->
+        <block name="sidebar"></block>
+        <!-- /子导航 -->
+    </div>
+    <!-- /边栏 -->
 
-	<!-- 内容区 -->
-	<div id="main" class="main">
-		<block name="body"></block>
-	</div>
-	<!-- /内容区 -->
+    <!-- 内容区 -->
+    <div id="main" class="main">
+        <block name="body"></block>
+    </div>
+    <!-- /内容区 -->
 
-	<!--[if lt IE 9]>
+    <!--[if lt IE 9]>
     <script type="text/javascript" src="__STATIC__/jquery-1.10.2.min.js"></script>
     <![endif]--><!--[if gte IE 9]><!-->
     <script type="text/javascript" src="__STATIC__/jquery-2.0.3.min.js"></script>
     <!--<![endif]-->
     <script type="text/javascript">
-    	+function(){
-    		var $window = $(window);
-    		$window.resize(function(){
-	    		$("#main").css("min-height", $window.height() - 50);
-	    	}).resize();
-    	}();
-	</script>
+        +function(){
+            var $window = $(window), $menuNav = $("#main-nav");
+            $window.resize(function(){
+                $("#main").css("min-height", $window.height() - 50);
+            }).resize();
+
+            /* 高亮头部导航 */
+            $menuNav.find(".current").removeClass("current");
+            $menuNav.find("." + $menuNav.data("controller")).addClass("current");
+        }();
+    </script>
     <block name="script"></block>
 </body>
 </html>
