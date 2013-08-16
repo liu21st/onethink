@@ -4,15 +4,32 @@
 
 	<div class="data-table">
 		<h1>保存配置</h1>
-		<form action="{:addons_url('Attachment://Attachment/saveConfig?id='.$_GET['id'])}">
+		<form action="{:addons_url('Attachment://Attachment/saveConfig?id='.$_GET['id'])}" class="form-horizontal">
 			<fieldset>
 				<legend>全局配置</legend>
-				<label>是否上传</label>
-				<input type="radio" name="addons[ATTACHMENT_DEFAULT][is_upload]" <eq name="data[ATTACHMENT_DEFAULT][is_upload]" value="1"> checked</eq> value="1">是
-				<input type="radio" name="addons[ATTACHMENT_DEFAULT][is_upload]" <eq name="data[ATTACHMENT_DEFAULT][is_upload]" value="0"> checked</eq>value="0">否
-				<br>
-				<label>允许的附件类型</label>
-				<input type="text" name="addons[ATTACHMENT_DEFAULT][is_upload]" value="{$data[ATTACHMENT_DEFAULT][is_upload]|default='1,2,3'}">
+				<div class="form-item">
+					<label class="item-label">是否上传：</label>
+					<div class="controls">
+						<label class="radio">
+							<input type="radio" name="addons[ATTACHMENT_DEFAULT][is_upload]" <eq name="data[ATTACHMENT_DEFAULT][is_upload]" value="1"> checked</eq> value="1">是
+						</label>
+						<label class="radio">
+							<input type="radio" name="addons[ATTACHMENT_DEFAULT][is_upload]" <eq name="data[ATTACHMENT_DEFAULT][is_upload]" value="0"> checked</eq>value="0">否
+						</label>
+					</div>
+				</div>
+				<div class="form-item">
+					<label class="item-label">允许的附件类型：</label>
+					<div class="controls">
+						<label class="radio">
+							<input type="text" name="addons[ATTACHMENT_DEFAULT][is_upload]" value="{$data[ATTACHMENT_DEFAULT][is_upload]|default='1,2,3'}">
+						</label>
+						<label class="radio">
+							<input type="radio" name="addons[ATTACHMENT_DEFAULT][is_upload]" <eq name="data[ATTACHMENT_DEFAULT][is_upload]" value="0"> checked</eq>value="0">否
+						</label>
+					</div>
+				</div>
+				
 				<br>
 				<label>驱动</label>
 				<input type="text" name="addons[ATTACHMENT_DEFAULT][driver_config]" value="{$data[ATTACHMENT_DEFAULT][driver_config]|default=''}">
