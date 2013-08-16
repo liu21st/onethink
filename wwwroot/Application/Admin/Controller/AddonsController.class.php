@@ -76,4 +76,26 @@ class AddonsController extends AdminController {
         D('Hooks')->where("id={$id}")->setField('addons', $addons);
         $this->success('更新排序成功');
     }
+
+    public function execute($_addons = null, $_controller = null, $_action = null){
+        if(C('URL_CASE_INSENSITIVE')){
+            $_addons = ucfirst(strtolower($_addons));
+            $_controller = parse_name($_controller,1);
+        }
+
+        if(!empty($_addons) && !empty($_controller) && !empty($_action)){
+            $Addons = A("Addons://{$_addons}/{$_controller}")->setName($_addons)->$_action();
+        } else {
+            $this->error('没有指定插件名称，控制器或操作！');
+        }
+    }
+
+    /**
+     * 设置当前插件名称
+     * @param string $name 插件名称
+     */
+    protected function setName($name){
+        $this->addons = $name;
+        return $this;
+    }
 }

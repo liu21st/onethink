@@ -2,9 +2,9 @@
 
 <block name="body">
 
-	<div class="data-table">
+	<div class="wrapper">
 		<h1>保存配置</h1>
-		<form action="{:addons_url('Attachment://Attachment/saveConfig?id='.$_GET['id'])}">
+		<form action="{:addons_url('Attachment://Attachment/saveConfig?id='.$_GET['id'])}" class="form-horizontal" method="post">
 			<fieldset>
 				<legend>全局配置</legend>
 				<label>是否上传</label>
