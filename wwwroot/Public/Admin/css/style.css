@@ -45,6 +45,7 @@ body{
     text-align: center;
 }
 .main-nav a:hover {
+    text-decoration: none;
     background: -webkit-gradient(linear, 0 0, 100% 100%, from(rgba(34,126,210,0.5)), to(rgba(53,144,227,0.5)));
     background: -moz-linear-gradient(top,rgba(34,126,210,0.5),rgba(53,144,227,0.5));
     background: -ms-linear-gradient(top,rgba(34,126,210,0.5),rgba(53,144,227,0.5));
