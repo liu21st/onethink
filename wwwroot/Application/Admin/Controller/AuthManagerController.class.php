@@ -33,17 +33,28 @@ class AuthManagerController extends AdminController{
     public function updateNode()
     {
         $iterator = new FilesystemIterator(
-            __DIR__,
-            FilesystemIterator::UNIX_PATHS|FilesystemIterator::CURRENT_AS_PATHNAME|FilesystemIterator::KEY_AS_FILENAME
-        );
-        $nodes = array();
+                            __DIR__,
+                            FilesystemIterator::UNIX_PATHS|FilesystemIterator::CURRENT_AS_PATHNAME|FilesystemIterator::KEY_AS_FILENAME
+                        );
+        $base     = get_parent_class(__CLASS__);
+        $menu     = $base::getMenus();
+        $nodes     = $menu['main']; //主菜单节点
+
+        //所有子菜单接单
+
         foreach ( $iterator as $filename => $obj ){
             $class = strtr($filename,array('.class.php'=>''));
             if( class_exists($class) && method_exists($class,'getNodes') ){
-                dump($class::getNodes($class));
-                $nodes= array_intersect_assoc($nodes,$class::getNodes($class));
+                $node = $class::getNodes($class);
+                foreach ($nodes as $key => $value){
+                    $controllers = explode(',',$value['controllers']);
+                    if ( in_array( strtr($class,array('Controller'=>'')),$controllers) ) {
+                        $nodes[$key]['child'] = array_merge((array)$nodes[$key]['child'],$node);
+                    }
+                }
             }
         }
+
         dump($nodes);
     }
     
