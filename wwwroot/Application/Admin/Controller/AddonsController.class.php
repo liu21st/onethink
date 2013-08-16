@@ -13,6 +13,11 @@
  */
 
 class AddonsController extends AdminController {
+    static protected $nodes = array(
+        array( 'title'=>'模型管理', 'url'=>'Addons/index', 'group'=>'扩展'),
+        array( 'title'=>'插件管理', 'url'=>'Addons/index', 'group'=>'扩展'),
+        array( 'title'=>'钩子管理', 'url'=>'Addons/hooks', 'group'=>'扩展'),
+    );
 
     public function index(){
         $this->assign('list',D('Addons')->getList());
