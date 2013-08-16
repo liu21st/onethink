@@ -190,6 +190,7 @@ function get_redirect_url(){
  * @param string $type  钩子类型
  * @param mixed $params 传入参数
  * @return mixed
+ * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 function hooks($tag, $type, $params = array()) {
     $hooks = C("addons_hooks_{$type}.{$tag}");
@@ -224,6 +225,7 @@ function hooks($tag, $type, $params = array()) {
  * widget里生成访问插件的url
  * @param string $url url
  * @param array $param 参数
+ * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 function addons_url($url, $param = array()){
     $url        = parse_url($url);

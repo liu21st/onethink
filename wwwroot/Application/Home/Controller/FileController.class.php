@@ -12,7 +12,7 @@
  * 主要用于下载模型的文件上传和下载
  */
 
-class FileController extends CmsController {
+class FileController extends HomeController {
 	/* 文件上传 */
 	public function upload(){
 		//TODO: 用户登录检测

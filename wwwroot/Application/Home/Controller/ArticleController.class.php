@@ -11,7 +11,7 @@
  * 文档模型控制器
  * 文档模型列表和详情
  */
-class ArticleController extends CmsController {
+class ArticleController extends HomeController {
 
     /* 文档模型频道页 */
 	public function index(){

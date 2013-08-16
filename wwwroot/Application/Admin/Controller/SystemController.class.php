@@ -12,14 +12,14 @@
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 
-class SystemController extends CmsadminController {
+class SystemController extends AdminController {
 	
 	/**
 	 * 系统管理首页
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function index(){
-		$this->diaplay();
+		$this->display();
 	}
 
 }

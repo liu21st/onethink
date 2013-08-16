@@ -12,7 +12,7 @@
  * @author huajie <banhuajie@163.com>
  */
 
-class ArticleController extends CmsadminController {
+class ArticleController extends AdminController {
 	
 	/**
 	 * 内容管理首页
