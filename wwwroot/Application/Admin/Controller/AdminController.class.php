@@ -250,7 +250,6 @@ class AdminController extends Action {
 //            return S('menu'.$controller);
 //        }
         $menus['main']  = self::$menus;                       //获取主节点
-        $menus['child'] = $controller::getNodes($controller); //获取自身控制器中的节点,已分组
 
         //处理其他控制器中的节点
         foreach ($menus['main'] as $key=>$item){
