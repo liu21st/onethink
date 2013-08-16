@@ -63,7 +63,7 @@ class AdminController extends Action {
                 // $this->error('你没有权限');
             // }
         }
-        $this->assign( 'menu', $this->getMenus() );
+        $this->assign( 'base_menu', $this->getMenus() );
 
         $this->_init();
     }
