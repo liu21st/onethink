@@ -12,7 +12,7 @@
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 
-class UserController extends CmsadminController {
+class UserController extends AdminController {
 	
 	/**
 	 * 用户管理首页

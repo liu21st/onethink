@@ -10,7 +10,7 @@
 /**
  * 控制面板，仅管理员使用
  */
-class ControlController extends CmsController {
+class ControlController extends HomeController {
 	/* 控制面板首页 */
 	public function index(){
 		$this->display();

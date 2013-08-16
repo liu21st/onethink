@@ -11,7 +11,7 @@
  * 前台首页控制器
  * 主要获取首页聚合数据
  */
-class IndexController extends CmsController {
+class IndexController extends HomeController {
 
 	//系统首页
     public function index(){

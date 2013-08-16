@@ -12,7 +12,7 @@
  * 后台首页控制器
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
-class CmsadminController extends Action {
+class AdminController extends Action {
 
     /* 保存禁止通过url访问的公共方法,例如定义在控制器中的工具方法 ;deny优先级高于allow*/
     static protected $deny  = array('getMenus','getNodes');

@@ -11,7 +11,7 @@
  * 前台公共控制器
  * 为防止多分组Action名称冲突，公共Action名称统一使用分组名称
  */
-class CmsController extends Action {
+class HomeController extends Action {
 	
 	/* 空操作，用于输出404页面 */
 	// public function _empty(){
