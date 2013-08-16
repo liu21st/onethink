@@ -20,8 +20,8 @@ class SystemController extends AdminController {
      */
     static protected $nodes = array(
         array( 'title' => '基本设置', 'url' => 'System/index', 'group' => '系统设置'),
-        array( 'title' => '静态规则设置', 'url' => 'System/index', 'group' => '系统设置'),
-        array( 'title' => 'SEO优化设置', 'url' => 'System/index', 'group' => '系统设置'),
+        array( 'title' => '静态规则设置', 'url' => 'System/index1', 'group' => '系统设置'),
+        array( 'title' => 'SEO优化设置', 'url' => 'System/index2', 'group' => '系统设置'),
         // array( 'title' => '导航栏目设置', 'url' => 'System/index', 'group' => '导航栏目设置'),
         // array( 'title' => '其他设置', 'url' => 'System/index', 'group' => '其他设置'),
     );
