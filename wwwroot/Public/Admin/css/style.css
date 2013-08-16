@@ -309,52 +309,6 @@ body{
     font-weight: 700;
 }
 
-/* 编辑表单 */
-.data-table .edit-form {
-    width: 100%;
-    border-top: 1px solid #F5F5F5;
-}
-.edit-form .edit-item {
-    padding: 10px 0;
-    border-bottom: 1px solid #F5F5F5;
-}
-.edit-form .edit-item .lab {
-    margin-bottom: 10px;
-    font-weight: bold;
-}
-.edit-form .edit-item .edit-cnt,
-.edit-form .edit-item .edit-radio {
-    float: left;
-    margin-right: 50px;
-    width: 280px;
-}
-.edit-form .edit-item .text,
-.edit-form .edit-item .textarea {
-    padding: 2px;
-    width: 270px;
-    border: 1px solid;
-    border-color: #666 #ccc #ccc #666;
-    background-color: #F9F9F9;
-}
-.edit-form .edit-item .textarea {
-    height: 80px;
-}
-.edit-form .edit-item .text:hover,
-.edit-form .edit-item .textarea:hover {
-    border-color: #09C;
-    background: #F5F9FD;
-}
-.edit-form .edit-item .tips {
-    float: left;
-    color: #999;
-}
-.edit-form .edit-item .edit-radio label {
-    margin-right: 20px;
-}
-.edit-form .edit-item .edit-radio input {
-    margin-right: 5px;
-}
-
 /* 分页 */
 .data-table .page {
     margin: 10px 0;
