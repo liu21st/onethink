@@ -20,11 +20,11 @@ class AuthManagerController extends AdminController{
     static protected $allow = array();
 
     static protected $nodes= array(
+		array('title'=>'标题5','url'=>'index'),
         array('title'=>'标题1','url'=>'index','group'=>'分组1'),
         array('title'=>'标题2','url'=>'index','group'=>'分组1'),
         array('title'=>'标题3','url'=>'index','group'=>'分组2'),
         array('title'=>'标题4','url'=>'index','group'=>'分组2'),
-        array('title'=>'标题5','url'=>'index'),
     );
 
     /*
@@ -37,7 +37,7 @@ class AuthManagerController extends AdminController{
             FilesystemIterator::UNIX_PATHS|FilesystemIterator::CURRENT_AS_SELF|FilesystemIterator::KEY_AS_PATHNAME
         );
         $nodes = array();
-        //todo:
+        //TODO:
         foreach ( $iterator as $pathname => $obj ){
             
         }
@@ -70,6 +70,7 @@ class AuthManagerController extends AdminController{
      */
     public function createGroup()
     {
+        $this->display();
         
     }
     
@@ -79,36 +80,27 @@ class AuthManagerController extends AdminController{
      */
     public function editGroup()
     {
+        $this->assign('nodes',$nodes);
+        $this->display('createGroup');
+    }
+    
+    /*
+     * 写入新增用户组
+     */
+    public function insertGroup()
+    {
+        
+    }
+
+    /*
+     * 更新用户组数据
+     */
+    public function updateGroup()
+    {
         
     }
     
-    /*
-     * 删除用户组
-     * @author 朱亚杰 <zhuyajie@topthink.net>
-     */
-    public function deleteGroup()
-    {
-        $this->delete('AuthGroup');    
-    }
-
-    /*
-     * 恢复用户组
-     * @author 朱亚杰 <zhuyajie@topthink.net>
-     */
-    public function resumeGroup()
-    {
-        $this->resume('AuthGroup');    
-    }
     
-    /*
-     * 禁用用户组
-     * @author 朱亚杰 <zhuyajie@topthink.net>
-     */
-    public function forbidGroup()
-    {
-        $this->forbid('AuthGroup');    
-    }
-
 
 
     /*
@@ -125,36 +117,6 @@ class AuthManagerController extends AdminController{
         
     }
 
-    /*
-     * 删除规则
-     * @author 朱亚杰 <zhuyajie@topthink.net>
-     */
-    public function deleteRule()
-    {
-        $this->modelname='AuthRule';
-        $this->delete();    
-    }
-
-    /*
-     * 恢复规则
-     * @author 朱亚杰 <zhuyajie@topthink.net>
-     */
-    public function resumeRule()
-    {
-        $this->modelname='AuthRule';
-        $this->resume();    
-    }
-    
-    /*
-     * 禁用规则
-     * @author 朱亚杰 <zhuyajie@topthink.net>
-     */
-    public function forbidRule()
-    {
-        $this->modelname='AuthRule';
-        $this->forbid();    
-    }
-    
     /*
      * 把用户添加到用户组,支持批量用户添加到多个用户组
      * @author 朱亚杰 <zhuyajie@topthink.net>
@@ -173,4 +135,31 @@ class AuthManagerController extends AdminController{
         $this->display();
     }
 
+    public function __call($method,$args)
+    {
+        switch ( $method ){
+            case 'forbidRule':
+                $this->forbid('AuthRule');    
+                break;
+            case 'resumeRule':
+                $this->resume('AuthRule');    
+                break;
+            case 'deleteRule':
+                $this->delete('AuthRule');    
+                break;
+            case 'forbidGroup':
+                $this->forbid('AuthGroup');    
+                break;
+            case 'resumeGroup':
+                $this->resume('AuthGroup');    
+                break;
+            case 'deleteGroup':
+                $this->delete('AuthGroup');    
+                break;
+            
+            default:
+        }
+        parent::__call($method,$args);
+    }
+    
 }
