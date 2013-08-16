@@ -13,7 +13,6 @@
  */
 return array(
     /* 模块相关配置 */
-    'EXTEND_MODULE'  => array('Addons' => MODULE_PATH . 'Addons/'), //扩展模块列表
     'DEFAULT_MODULE' => 'Admin',
 
     /* 调试配置 */
