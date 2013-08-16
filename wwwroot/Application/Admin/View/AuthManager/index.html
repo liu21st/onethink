@@ -2,5 +2,52 @@
 <block name="sidebar">
 </block>
 <block name="body">
-this is AuthManager body
+	<!-- 标题栏 -->
+	<div class="title cf">
+		<h2>用户组管理</h2>
+		<div class="tools">
+            <button id="add-member"><a href="{:U('createGroup')}"><i class="icon-add"></i>添加</a></button>
+			<button id="add-member"><i class="icon-add"></i>启用</button>
+			<button id="add-member"><i class="icon-add"></i>禁用</button>
+			<button id="add-member"><i class="icon-add"></i>删除</button>
+		</div>
+	</div>
+
+	<!-- 数据列表 -->
+	<div class="data-table">
+		<table>
+			<thead>
+				<tr>
+					<th></th>
+					<th>序号</th>
+					<th>用户组</th>
+					<th>描述</th>
+					<th>状态</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist name="list" id="vo">
+				<tr>
+                    <td><input type="checkbox" name="id" value="{$vo.id}" /></td>
+					<td>{$vo.id}</td>
+					<td>{$vo.title}</td>
+					<td>{$vo.description}</td>
+					<td>{$vo.status_text}</td>
+					<td>
+						<a href="{:U('editGroup',array('id'=>$vo['id']))}">编辑</a>
+                        <egt name="$vo['status']" value="0">
+							<eq name="vo.status" value="0">
+								<a href="{:U('resume',array('id'=>$vo['id']))}">启用</a>
+							<else />
+								<a href="{:U('forbid',array('id'=>$vo['id']))}">禁用</a>
+							</eq>
+                        </egt> 
+						<a href="{:U('delete',array('id'=>$vo['id']))}">删除</a>
+					</td>
+				</tr>
+				</volist>
+			</tbody>
+		</table>
+	</div>
 </block>
