@@ -12,18 +12,6 @@
  * 所有除开系统级别的前台配置
  */
 return array(
-    /* 模块相关配置 */
-    'EXTEND_MODULE'  => array('Addons' => MODULE_PATH . 'Addons/'), //扩展模块列表
-
-    /* 数据库配置 */
-    'DB_TYPE'   => 'mysqli', // 数据库类型
-    'DB_HOST'   => '192.168.1.200'/*'localhost'*/, // 服务器地址
-    'DB_NAME'   => 'thinkcms', // 数据库名
-    'DB_USER'   => 'root', // 用户名
-    'DB_PWD'    => '', // 密码
-    'DB_PORT'   => '3306', // 端口
-    'DB_PREFIX' => 'think_', // 数据库表前缀
-
     /* 数据缓存设置 */
     'DATA_CACHE_PREFIX' => 'think_cms_', // 缓存前缀
     'DATA_CACHE_TYPE'   => 'File', // 数据缓存类型
@@ -54,10 +42,10 @@ return array(
     /* 模板相关配置 */
     'TMPL_PARSE_STRING' => array(
         '__STATIC__' => __ROOT__ . '/Public/static',
-        '__ADDONS__' => __ROOT__ . '/Public/Cms/Addons',
-        '__IMG__'    => __ROOT__ . '/Public/Cms/images',
-        '__CSS__'    => __ROOT__ . '/Public/Cms/css',
-        '__JS__'     => __ROOT__ . '/Public/Cms/js',
+        '__ADDONS__' => __ROOT__ . '/Public/Home/Addons',
+        '__IMG__'    => __ROOT__ . '/Public/Home/images',
+        '__CSS__'    => __ROOT__ . '/Public/Home/css',
+        '__JS__'     => __ROOT__ . '/Public/Home/js',
     ),
 
     /* SESSION 和 COOKIE 配置 */
