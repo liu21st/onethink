@@ -178,7 +178,7 @@ class AdminController extends Action {
      * 
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    final protected function getDeny( array $deny )
+    final protected function getDeny( array $deny = array())
     {
         $controller = CONTROLLER_NAME.'Controller';
         $data = array();
