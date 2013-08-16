@@ -183,3 +183,68 @@ function get_redirect_url(){
     $url = cookie('redirect_url');
     return empty($url) ? __APP__ : $url;
 }
+
+/**
+ * 处理插件钩子
+ * @param string $tag   钩子名称
+ * @param string $type  钩子类型
+ * @param mixed $params 传入参数
+ * @return mixed
+ */
+function hooks($tag, $type, $params = array()) {
+    $hooks = C("addons_hooks_{$type}.{$tag}");
+
+    if(!empty($hooks)) {
+        if(APP_DEBUG) {
+            G($tag.'Start');
+            trace('[ '.$tag.' ] --START--','','INFO');
+        }
+        // 执行插件
+        $hook = parse_name($tag, 1);
+        foreach ($hooks as $key => $name) {
+            $url = "Addons://{$name}/{$name}/{$hook}";
+            $info   =   pathinfo($url);
+            $action =   $info['basename'];
+            $module =   $info['dirname'];
+            $class  =   A($module,ucfirst($type));
+            if(is_string($params)) {
+                parse_str($params,$params);
+            }
+            $class->$action($params);
+        }
+        if(APP_DEBUG) { // 记录钩子的执行日志
+            trace('[ '.$tag.' ] --END-- [ RunTime:'.G($tag.'Start',$tag.'End',6).'s ]','','INFO');
+        }
+    }else{ // 未注册任何钩子 返回false
+        return false;
+    }
+}
+
+/**
+ * widget里生成访问插件的url
+ * @param string $url url
+ * @param array $param 参数
+ */
+function addons_url($url, $param = array()){
+    $url        = parse_url($url);
+    $case       = C('URL_CASE_INSENSITIVE');
+    $addons     = $case ? strtolower($url['scheme']) : $url['scheme'];
+    $controller = $case ? parse_name($url['host']) : $url['host'];
+    $action     = trim($case ? strtolower($url['path']) : $url['path'], '/');
+
+    /* 解析URL带的参数 */
+    if(isset($url['query'])){
+        parse_str($url['query'], $query);
+        $param = array_merge($query, $param);
+    }
+
+    /* 基础参数 */
+    $params = array(
+        'addons'     => $addons,
+        'controller' => $controller,
+        'action'     => $action,
+    );
+    $params = array_merge($params, $param); //添加额外参数
+
+    return U('Addons/execute', $params);
+}
