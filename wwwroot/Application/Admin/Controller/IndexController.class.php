@@ -33,6 +33,11 @@ class IndexController extends AdminController {
         }
     }
 
+    //表单样式查看页面 TODO: 完成后会删除
+    public function form(){
+        $this->display();
+    }
+
     /**
      * 后台用户登录
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
