@@ -256,6 +256,7 @@ class AdminController extends Action {
             if( $item['controllers'] && is_string($item['controllers'])) {
                 $other_controller = explode(',',$item['controllers']);
 				if ( in_array( CONTROLLER_NAME, $other_controller ) ) {
+                    $menus['main'][$key]['class']='current';
 					foreach ($other_controller as $c){
 						//如果指定了从其他控制器中读取节点
 						$child = $c.'Controller';
