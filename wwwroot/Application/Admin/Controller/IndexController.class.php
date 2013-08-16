@@ -36,7 +36,7 @@ class IndexController extends AdminController {
 
     //表单样式查看页面 TODO: 完成后会删除
     public function form(){
-        $this->display();
+        $this->display("static_form_tpl");
     }
 
     /**

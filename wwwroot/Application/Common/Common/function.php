@@ -250,3 +250,15 @@ function addons_url($url, $param = array()){
 
     return U('Addons/execute', $params);
 }
+
+
+/**
+ * 时间戳格式化
+ * @param int $time
+ * @return string 完整的时间显示
+ * @author huajie <banhuajie@163.com>
+ */
+function time_format($time = NULL){
+	$time = $time === NULL || $time > NOW_TIME ? NOW_TIME : intval($time);
+	return date('Y-m-d H:i:s', $time);
+}
