@@ -18,7 +18,8 @@ class IndexController extends AdminController {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     static protected $nodes = array(
-        array( 'title'=>'管理首页', 'url'=>'Index/index', 'group'=>'常用菜单'),
+        array( 'title' => '管理首页', 'url' => 'Index/index', 'group' => '常用菜单'),
+        array( 'title' => '表单样式', 'url' => 'Index/form', 'group' => '常用菜单'),
     );
 
     /**
@@ -31,6 +32,11 @@ class IndexController extends AdminController {
         } else {
             $this->redirect('login');
         }
+    }
+
+    //表单样式查看页面 TODO: 完成后会删除
+    public function form(){
+        $this->display("static_form_tpl");
     }
 
     /**

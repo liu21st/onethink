@@ -178,7 +178,7 @@ class AdminController extends Action {
      * 
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    final protected function getDeny( array $deny )
+    final protected function getDeny()
     {
         $controller = CONTROLLER_NAME.'Controller';
         $data = array();
@@ -247,7 +247,8 @@ class AdminController extends Action {
 //        if ( S('menu'.$controller) ) {
 //            return S('menu'.$controller);
 //        }
-        $menus['main']  = self::$menus;                       //获取主节点
+        $menus['main']  = self::$menus; //获取主节点
+        $menus['child'] = array(); //设置子节点
 
         //处理其他控制器中的节点
         foreach ($menus['main'] as $key=>$item){
@@ -261,7 +262,7 @@ class AdminController extends Action {
 						$child = $c.'Controller';
 						$child_nodes = $child::getNodes($child);      //其他控制器中的节点
 						foreach ( $child_nodes as $group => $value ) {
-							if ( $menus['child'][$group] ) {
+							if ( isset($menus['child'][$group]) ) {
 								//如果分组已存在,合并到分组中
 								$menus['child'][$group] = array_intersect_assoc($menus['child'][$group],$value);
 							}else{
