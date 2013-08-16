@@ -264,7 +264,7 @@ class AdminController extends Action {
 						foreach ( $child_nodes as $group => $value ) {
 							if ( isset($menus['child'][$group]) ) {
 								//如果分组已存在,合并到分组中
-								$menus['child'][$group] = array_intersect_assoc($menus['child'][$group],$value);
+								$menus['child'][$group] = array_merge($menus['child'][$group],$value);
 							}else{
 								//否则直接保存
 								$menus['child'][$group]=$value;

@@ -12,9 +12,6 @@
  * 所有除开系统级别的前台配置
  */
 return array(
-    /* 模块相关配置 */
-    'EXTEND_MODULE'  => array('Addons' => MODULE_PATH . 'Addons/'), //扩展模块列表
-    
     /* 数据缓存设置 */
     'DATA_CACHE_PREFIX' => 'think_cms_', // 缓存前缀
     'DATA_CACHE_TYPE'   => 'File', // 数据缓存类型
