@@ -9,8 +9,7 @@
 
 /**
  * 扩展后台管理页面
- * @authors yangweijie <yangweijiester@gmail.com>
- * @date    2013-08-14 11:20:04
+ * @author yangweijie <yangweijiester@gmail.com>
  */
 
 class AddonsController extends CmsadminController {
