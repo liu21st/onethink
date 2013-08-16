@@ -36,3 +36,35 @@ function is_administrator(){
     //return $uid && (intval($uid) === C('USER_ADMINISTRATOR'));
     return true; //TODO: 登录功能完成后改回
 }
+<<<<<<< HEAD
+
+/**
+ * widget里生成访问插件的url
+ * @param string $url url
+ * @param array $param 参数
+ */
+function addons_url($url, $param = array()){
+    $url        = parse_url($url);
+    $case       = C('URL_CASE_INSENSITIVE');
+    $addons     = $case ? strtolower($url['scheme']) : $url['scheme'];
+    $controller = $case ? parse_name($url['host']) : $url['host'];
+    $action     = trim($case ? strtolower($url['path']) : $url['path'], '/');
+
+    /* 解析URL带的参数 */
+    if(isset($url['query'])){
+        parse_str($url['query'], $query);
+        $param = array_merge($query, $param);
+    }
+
+    /* 基础参数 */
+    $params = array(
+        'addons'     => $addons,
+        'controller' => $controller,
+        'action'     => $action,
+    );
+    $params = array_merge($params, $param); //添加额外参数
+
+    return U('Addons/execute', $params);
+}
+=======
+>>>>>>> 286caedb178eb425d51f0a040294215d9c3936bb
