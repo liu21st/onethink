@@ -6,3 +6,6 @@ tags
 # 忽略缓存目录
 Runtime
 nbproject
+# 忽略编辑器生成的临时文件
+*.swp
+*~
