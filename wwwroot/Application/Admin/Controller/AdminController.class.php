@@ -40,7 +40,7 @@ class AdminController extends Action {
      *     )
      *   
      */ 
-    static private $menus = array(
+    private $menus = array(
         array( 'title'=>'首页','url'=>'Index/index','controllers'=>'Index',),
         array( 'title'=>'内容','url'=>'Article/index','controllers'=>'Article',),
         array( 'title'=>'用户','url'=>'User/index','controllers'=>'User,AuthManager'),
@@ -268,7 +268,7 @@ class AdminController extends Action {
 //        if ( S('base_menu'.$controller) ) {
 //            return S('base_menu'.$controller);
 //        }
-        $menus['main']  = self::$menus; //获取主节点
+        $menus['main']  = $this->getVal('menus'); //获取主节点
         $menus['child'] = array(); //设置子节点
 
         //处理控制器中的节点
@@ -304,5 +304,14 @@ class AdminController extends Action {
 //        S('base_menu'.CONTROLLER_NAME,$menus);
         // dump($menus);
         return $menus;
+    }
+
+    /*
+     * 读取基类中的私有属性
+     * @param string $val  属性名
+     * @author 朱亚杰  <xcoolcc@gmail.com>
+     */
+    final protected function getVal($val){
+        return $this->$val;
     }
 }
