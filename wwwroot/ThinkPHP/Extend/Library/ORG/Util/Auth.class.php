@@ -77,7 +77,7 @@ class Auth{
         'AUTH_GROUP'        => 'think_auth_group',        // 用户组数据表名
         'AUTH_GROUP_ACCESS' => 'think_auth_group_access', // 用户组明细表
         'AUTH_RULE'         => 'think_auth_rule',         // 权限规则表
-        'AUTH_USER'         => 'think_members'            // 用户信息表
+        'AUTH_USER'         => 'think_member'             // 用户信息表
     );
 
     public function __construct() {
@@ -94,11 +94,12 @@ class Auth{
       * @param relation string    如果为 'or' 表示满足任一条规则即通过验证;如果为 'and'则表示需满足所有规则才能通过验证
       * @return boolean           通过验证返回true;失败返回false
      */
-    public function check($name, $uid, $relation='or') {
+    public function check($name, $uid, $type='url', $relation='or') {
         if (!$this->_config['AUTH_ON'])
             return true;
         $authList = $this->getAuthList($uid); //获取用户需要验证的所有有效规则列表
         if (is_string($name)) {
+            $name = strtolower($name);
             if (strpos($name, ',') !== false) {
                 $name = explode(',', $name);
             } else {
@@ -107,8 +108,16 @@ class Auth{
         }
         $list = array(); //保存验证通过的规则名
         foreach ( $authList as $auth ) {
-            if (in_array($auth , $name))
+            $query = preg_replace('/^.+\?/U','',$auth);
+            if ($type=='url' && $query!=$auth ) {
+                parse_str($query,$param); //解析规则中的param
+                $intersect = array_intersect_assoc($_GET,$param);
+                if ( in_array($auth,$name) && $intersect==$param ) {  //如果节点相符且url参数满足
+                    $list[] = $auth ;
+                }
+            }else if (in_array($auth , $name)){
                 $list[] = $auth ;
+            }
         }
         if ($relation == 'or' and !empty($list)) {
             return true;
@@ -183,11 +192,11 @@ class Auth{
                 //dump($command);//debug
                 @(eval('$condition=(' . $command . ');'));
                 if ($condition) {
-                    $authList[] = $rule['name'];
+                    $authList[] = strtolower($rule['name']);
                 }
             } else {
                 //只要存在就记录
-                $authList[] = $rule['name'];
+                $authList[] = strtolower($rule['name']);
             }
         }
         $_authList[$uid] = $authList;
@@ -195,7 +204,7 @@ class Auth{
             //规则列表结果保存到session
             $_SESSION['_AUTH_LIST_'.$uid]=$authList;
         }
-        return $authList;
+        return array_unique($authList);
     }
 
     /**
