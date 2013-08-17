@@ -14,17 +14,17 @@
  */
 class AuthManagerController extends AdminController{
 
-    static protected $deny  = array('test');
+    static protected $deny  = array();
 
     /* 保存允许所有管理员访问的公共方法 */
     static protected $allow = array();
 
     static protected $nodes= array(
-		array('title'=>'标题5','url'=>'index'),
-        array('title'=>'标题1','url'=>'index','group'=>'分组1'),
-        array('title'=>'标题2','url'=>'index','group'=>'分组1'),
-        array('title'=>'标题3','url'=>'index','group'=>'分组2'),
-        array('title'=>'标题4','url'=>'index','group'=>'分组2'),
+        // array('title'=>'标题5','url'=>'index'),
+        // array('title'=>'标题1','url'=>'index','group'=>'分组1'),
+        // array('title'=>'标题2','url'=>'index','group'=>'分组1'),
+        // array('title'=>'标题3','url'=>'index','group'=>'分组2'),
+        // array('title'=>'标题4','url'=>'index','group'=>'分组2'),
     );
 
     /*
@@ -38,7 +38,7 @@ class AuthManagerController extends AdminController{
                         );
         $base     = get_parent_class(__CLASS__);
         $menu     = $base::getMenus();
-        $nodes     = $menu['main']; //主菜单节点
+        $nodes    = $menu['main']; //主菜单节点
 
         //所有子菜单接单
 
@@ -58,6 +58,14 @@ class AuthManagerController extends AdminController{
         return $nodes;
     }
     
+    /*
+     * 节点配置的url作为规则存入auth_rule
+     */
+    public function updateRules()
+    {
+        
+    }
+    
 
     /*
      * 权限管理首页
@@ -65,6 +73,7 @@ class AuthManagerController extends AdminController{
      */
     public function index()
     {
+        $this->assign('auth_node',$this->returnNodes());
         $this->display();
     }
 
@@ -84,6 +93,7 @@ class AuthManagerController extends AdminController{
      */
     public function createGroup()
     {
+        //读取规则节点
         $this->display();
         
     }
@@ -103,7 +113,7 @@ class AuthManagerController extends AdminController{
      */
     public function insertGroup()
     {
-        
+        //将规则节点写入用户组表
     }
 
     /*
@@ -146,10 +156,11 @@ class AuthManagerController extends AdminController{
     
     public function test()
     {
-        $this->display();
+        // dump($method);
+        echo PHP_FILE;
     }
 
-    public function __call($method,$args)
+    public function changeStatus($method=null)
     {
         switch ( $method ){
             case 'forbidRule':
@@ -170,10 +181,9 @@ class AuthManagerController extends AdminController{
             case 'deleteGroup':
                 $this->delete('AuthGroup');    
                 break;
-            
             default:
+                $this->error('参数非法',__APP__);
         }
-        parent::__call($method,$args);
     }
     
 }
