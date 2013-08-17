@@ -295,8 +295,10 @@ class AdminController extends Action {
                             $this->error("内部错误:请检查{$child}控制器 nodes 属性");
                         }
 						foreach ( $child_nodes as $group => $value ) {
-                            if (!$this->checkRule($value['url'])) {   //检测节点权限
-                                break;
+                            foreach ($value as $v){
+                                if (!$this->checkRule($v['url'])) {   //检测节点权限
+                                    break;
+                                }
                             }
 							if ( isset($menus['child'][$group]) ) {
 								//如果分组已存在,合并到分组中
