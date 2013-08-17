@@ -56,11 +56,7 @@ class AdminController extends Action {
         if ( $ac===false ) {
             $this->error('403:禁止访问',__APP__);
         }elseif( $ac===null ){
-            // import('ORG.Util.Auth');
-            // $auth = new Auth();
-            // if(!$auth->check(CONTROLLER_NAME.'-'.ACTION_NAME,1)){
-                // $this->error('你没有权限');
-            // }
+            $this->checkRule( MODULE_NAME.'/'.CONTROLLER_NAME.'/'.ACTION_NAME );//检测权限
         }
         $controller = CONTROLLER_NAME.'Controller';
         $this->assign( 'base_menu', $controller::getMenus() );
@@ -71,13 +67,35 @@ class AdminController extends Action {
     protected function _init()
     {
     }
+
+    /**
+     * 权限检测
+     * @param string  $rule    检测的规则
+     * @param string  $type    规则类型
+     * @return boolean
+     * @author 朱亚杰  <xcoolcc@gmail.com>
+     */
+    protected function checkRule($rule,$type='url')
+    {
+        static $Auth = null;
+        import('ORG.Util.Auth');
+        if (!$Auth) {
+            $Auth  = new Auth();
+        }
+        $uid = 1;
+        if(!$Auth->check($rule,$uid,$type)){
+            // return false;
+        }
+        return true;
+    }
+    
     
     /**
      * action访问控制,在 **登陆成功** 后执行的第一项权限检测任务
      * 
      * @return true|false|null  返回值必须使用 `===` 进行判断
      * 
-     *   返回false,不允许任何人访问,子类自行决定错误处理方式
+     *   返回false,不允许任何人访问
      *   返回true, 允许任何管理员访问,无需执行权限检测
      *   返回null, 需要继续执行权限检测决定是否允许访问
      *   
@@ -92,7 +110,7 @@ class AdminController extends Action {
         $allow = $this->getAllow();
         // dump($deny);
         // dump($allow);
-        if ( !empty($deny) && in_array(ACTION_NAME,$deny) ) {
+        if ( !empty($deny)  && in_array(ACTION_NAME,$deny) ) {
             return false;
         }
         if ( !empty($allow) && in_array(ACTION_NAME,$allow) ) {
@@ -188,7 +206,7 @@ class AdminController extends Action {
                 if ( is_numeric($key) ){
                     $data[] = $value;
                 }else{
-                    //TODO: 功能扩展
+                    //可扩展
                 } 
             }
         }
@@ -210,7 +228,7 @@ class AdminController extends Action {
                 if ( is_numeric($key) ){
                     $data[] = $value;
                 }else{
-                    //TODO: 功能扩展
+                    //可扩展
                 } 
             }
         }
@@ -228,7 +246,6 @@ class AdminController extends Action {
         $nodes = array('default'=>array());
         foreach ($controller::$nodes as $value){
             if ( is_array($value) ) {
-                // $value['url'] = U($value['url']);
                 //为节点分组,默认分组为default
                 $group = empty($value['group']) ?'default': $value['group'];
                 unset($value['group']);
@@ -244,15 +261,18 @@ class AdminController extends Action {
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
     final static public function getMenus(){
-//        if ( S('menu'.$controller) ) {
-//            return S('menu'.$controller);
+//        if ( S('base_menu'.$controller) ) {
+//            return S('base_menu'.$controller);
 //        }
         $menus['main']  = self::$menus; //获取主节点
         $menus['child'] = array(); //设置子节点
 
-        //处理其他控制器中的节点
+        //处理控制器中的节点
         foreach ($menus['main'] as $key=>$item){
-            // $menus['main'][$key]['url'] = U( $item['url'] );
+            //判断节点权限
+            if (!$this->checkRule($item['url'])) {  //检测节点权限
+                break;
+            }
             if( $item['controllers'] && is_string($item['controllers'])) {
                 $other_controller = explode(',',$item['controllers']);
 				if ( in_array( CONTROLLER_NAME, $other_controller ) ) {
@@ -262,6 +282,9 @@ class AdminController extends Action {
 						$child = $c.'Controller';
 						$child_nodes = $child::getNodes($child);      //其他控制器中的节点
 						foreach ( $child_nodes as $group => $value ) {
+                            if (!$this->checkRule($value['url'])) {   //检测节点权限
+                                break;
+                            }
 							if ( isset($menus['child'][$group]) ) {
 								//如果分组已存在,合并到分组中
 								$menus['child'][$group] = array_merge( $menus['child'][$group], $value);
@@ -274,7 +297,7 @@ class AdminController extends Action {
 				}
             }
         }
-//        S('menu'.CONTROLLER_NAME,$menus);
+//        S('base_menu'.CONTROLLER_NAME,$menus);
         // dump($menus);
         return $menus;
     }
