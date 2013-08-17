@@ -43,7 +43,7 @@ class AuthManagerController extends AdminController{
         $nodes    = $this->getVal('menus'); //获取主节点
         //所有子菜单接单
 
-        $arr  = array();
+        $arr  = array(); //保存每个控制器中的节点
         foreach ( $iterator as $filename => $obj ){
             $class = strtr($filename,array('.class.php'=>''));
             if( class_exists($class) && method_exists($class,'getNodes') ){
@@ -51,7 +51,7 @@ class AuthManagerController extends AdminController{
             }
         }
 
-        $child = array();
+        $child = array();//$tree为false时,保存所有控制器中的节点
         foreach ($nodes as $key => $value){
             $nodes[$key]['child'] = array();
             $controllers = explode(',',$value['controllers']);
