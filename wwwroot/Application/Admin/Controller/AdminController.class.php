@@ -32,7 +32,7 @@ class AdminController extends Action {
 
     /**
      * 主节点配置示例:  
-     *   菜单节点必须配置title元素和url元素(供U函数作使用)
+     *   菜单节点必须配置title元素和url元素(供U函数作使用)和controllers元素
      *   array(
      *       //值的元素  title:节点名字；url:链接; controller:从哪些控制器查询节点,多个逗号分隔; tip:链接提示文字
      *       array( 'title'=>'节点标题', 'url'=>'Index/index?param=value','controllers'=>'', 'tip'=>''),
@@ -283,7 +283,7 @@ class AdminController extends Action {
             if (!$this->checkRule($item['url'])) {  //检测节点权限
                 break;
             }
-            if( $item['controllers'] && is_string($item['controllers'])) {
+            if( !empty($item['title']) && !empty($item['url']) && !empty($item['controllers']) ) {
                 $other_controller = explode(',',$item['controllers']);
 				if ( in_array( CONTROLLER_NAME, $other_controller ) ) {
                     $menus['main'][$key]['class']='current';
@@ -310,6 +310,8 @@ class AdminController extends Action {
 						}
 					}
 				}
+            }else{
+                $this->error('控制器基类$menus属性元素配置有误');
             }
         }
 //        S('base_menu'.CONTROLLER_NAME,$menus);
