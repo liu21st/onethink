@@ -58,8 +58,7 @@ class AdminController extends Action {
         }elseif( $ac===null ){
             $this->checkRule( MODULE_NAME.'/'.CONTROLLER_NAME.'/'.ACTION_NAME );//检测权限
         }
-        $controller = CONTROLLER_NAME.'Controller';
-        $this->assign( 'base_menu', $controller::getMenus() );
+        $this->assign( 'base_menu', $this->getMenus() );
 
         $this->_init();
     }
@@ -237,19 +236,23 @@ class AdminController extends Action {
 
     /**
      * 获取控制器的节点配置
+     * @param  string  $controller   控制器类名
+     * @param  boolean $group        是否分组
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    final static public function getNodes($controller){
+    final static public function getNodes($controller,$group=true){
         if ( !$controller || !is_string($controller) || !is_array($controller::$nodes) ) {
             return false;
         }
         $nodes = array('default'=>array());
         foreach ($controller::$nodes as $value){
-            if ( is_array($value) ) {
+            if ( is_array($value) && $group ) {
                 //为节点分组,默认分组为default
-                $group = empty($value['group']) ?'default': $value['group'];
+                $group_name = empty($value['group']) ?'default': $value['group'];
                 unset($value['group']);
-                $nodes[$group][] = $value;
+                $nodes[$group_name][] = $value;
+            }else{
+                $nodes[]=$value;
             }
         }
         return $nodes;
@@ -260,7 +263,7 @@ class AdminController extends Action {
      * 子类中 $this->getMenus() 调用
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    final static public function getMenus(){
+    final protected function getMenus(){
 //        if ( S('base_menu'.$controller) ) {
 //            return S('base_menu'.$controller);
 //        }
