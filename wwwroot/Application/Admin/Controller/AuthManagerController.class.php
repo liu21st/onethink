@@ -29,16 +29,18 @@ class AuthManagerController extends AdminController{
 
     /*
      * 返回节点数据
+     * @param boolean $tree    是否返回树形结构
+     * @retrun array
+     * 
+     * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    protected function returnNodes()
+    protected function returnNodes($tree = true)
     {
         $iterator = new FilesystemIterator(
                             __DIR__,
                             FilesystemIterator::UNIX_PATHS|FilesystemIterator::CURRENT_AS_PATHNAME|FilesystemIterator::KEY_AS_FILENAME
                         );
-        $menu     = $this->getMenus();
-        $nodes    = $menu['main']; //主菜单节点
-
+        $nodes    = $this->getVal('menus'); //获取主节点
         //所有子菜单接单
 
         $arr  = array();
@@ -49,16 +51,29 @@ class AuthManagerController extends AdminController{
             }
         }
 
+        $child = array();
         foreach ($nodes as $key => $value){
             $nodes[$key]['child'] = array();
             $controllers = explode(',',$value['controllers']);
             foreach ($controllers as $c){
-                $nodes[$key]['child'] = array_merge($nodes[$key]['child'],$arr[$c.'Controller']);
+                if($tree){
+                    $nodes[$key]['child'] = array_merge($nodes[$key]['child'],$arr[$c.'Controller']);
+                }else{
+                    $child = array_merge($child,$arr[$c.'Controller']);
+                }
             }
             unset($nodes[$key]['controllers']);
-            unset($nodes[$key]['child']['default']);
+            if (!$tree) {
+                unset($nodes[$key]['child']);
+            }else{
+                unset($nodes[$key]['child']['default']);
+            }
         }
 
+        if (!$tree) {
+            $nodes = array_merge($nodes,$child);
+            unset($nodes['default']);
+        }
         return $nodes;
     }
     
@@ -67,9 +82,7 @@ class AuthManagerController extends AdminController{
      */
     public function updateRules()
     {
-        $nodes = $this->returnNodes();
-        var_export($nodes);
-        
+        $nodes = $this->returnNodes(false);
     }
     
 
@@ -130,23 +143,6 @@ class AuthManagerController extends AdminController{
         
     }
     
-    
-
-
-    /*
-     * 创建规则
-     * 表单字段: 规则标识name,规则名称title
-     * @author 朱亚杰 <zhuyajie@topthink.net>
-     */
-    public function createRule()
-    {
-    }
-
-    public function editRule()
-    {
-        
-    }
-
     /*
      * 把用户添加到用户组,支持批量用户添加到多个用户组
      * @author 朱亚杰 <zhuyajie@topthink.net>
