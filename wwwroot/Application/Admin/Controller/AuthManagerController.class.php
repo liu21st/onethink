@@ -20,11 +20,11 @@ class AuthManagerController extends AdminController{
     static protected $allow = array();
 
     static protected $nodes= array(
-        // array('title'=>'标题5','url'=>'index'),
-        // array('title'=>'标题1','url'=>'index','group'=>'分组1'),
-        // array('title'=>'标题2','url'=>'index','group'=>'分组1'),
-        // array('title'=>'标题3','url'=>'index','group'=>'分组2'),
-        // array('title'=>'标题4','url'=>'index','group'=>'分组2'),
+        array('title'=>'标题5','url'=>'index'),
+        array('title'=>'标题1','url'=>'index','group'=>'分组1'),
+        array('title'=>'标题2','url'=>'index','group'=>'分组1'),
+        array('title'=>'标题3','url'=>'index','group'=>'分组2'),
+        array('title'=>'标题4','url'=>'index','group'=>'分组2'),
     );
 
     /*
@@ -36,25 +36,28 @@ class AuthManagerController extends AdminController{
                             __DIR__,
                             FilesystemIterator::UNIX_PATHS|FilesystemIterator::CURRENT_AS_PATHNAME|FilesystemIterator::KEY_AS_FILENAME
                         );
-        $base     = get_parent_class(__CLASS__);
-        $menu     = $base::getMenus();
+        $menu     = $this->getMenus();
         $nodes    = $menu['main']; //主菜单节点
 
         //所有子菜单接单
 
+        $arr  = array();
         foreach ( $iterator as $filename => $obj ){
             $class = strtr($filename,array('.class.php'=>''));
             if( class_exists($class) && method_exists($class,'getNodes') ){
-                $node = $class::getNodes($class);
+                $node = $class::getNodes($class,false);
+                $arr[$class] = $node;
                 foreach ($nodes as $key => $value){
                     $controllers = explode(',',$value['controllers']);
                     if ( in_array( strtr($class,array('Controller'=>'')),$controllers) ) {
                         $nodes[$key]['child'] = array_merge((array)$nodes[$key]['child'],$node);
                     }
+                    // unset($nodes[$key]['controllers']);
                 }
             }
         }
 
+        dump($arr);
         return $nodes;
     }
     
@@ -63,6 +66,8 @@ class AuthManagerController extends AdminController{
      */
     public function updateRules()
     {
+        $nodes = $this->returnNodes();
+        dump($nodes);
         
     }
     
