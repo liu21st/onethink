@@ -45,19 +45,20 @@ class AuthManagerController extends AdminController{
         foreach ( $iterator as $filename => $obj ){
             $class = strtr($filename,array('.class.php'=>''));
             if( class_exists($class) && method_exists($class,'getNodes') ){
-                $node = $class::getNodes($class,false);
-                $arr[$class] = $node;
-                foreach ($nodes as $key => $value){
-                    $controllers = explode(',',$value['controllers']);
-                    if ( in_array( strtr($class,array('Controller'=>'')),$controllers) ) {
-                        $nodes[$key]['child'] = array_merge((array)$nodes[$key]['child'],$node);
-                    }
-                    // unset($nodes[$key]['controllers']);
-                }
+                $arr[$class] = $class::getNodes($class,false);
             }
         }
 
-        dump($arr);
+        foreach ($nodes as $key => $value){
+            $nodes[$key]['child'] = array();
+            $controllers = explode(',',$value['controllers']);
+            foreach ($controllers as $c){
+                $nodes[$key]['child'] = array_merge($nodes[$key]['child'],$arr[$c.'Controller']);
+            }
+            unset($nodes[$key]['controllers']);
+            unset($nodes[$key]['child']['default']);
+        }
+
         return $nodes;
     }
     
@@ -67,7 +68,7 @@ class AuthManagerController extends AdminController{
     public function updateRules()
     {
         $nodes = $this->returnNodes();
-        dump($nodes);
+        var_export($nodes);
         
     }
     
