@@ -103,7 +103,7 @@ class AdminController extends Action {
     final protected function accessControl(){
         $controller = CONTROLLER_NAME.'Controller';
         if ( !is_array($controller::$deny)||!is_array($controller::$allow) ){
-            $this->error('内部错误:deny和allow属性必须为数组,即将返回首页',__APP__);
+            $this->error("内部错误:{$controller}控制器 deny和allow属性必须为数组,即将返回首页",__APP__);
         }
         $deny  = $this->getDeny();
         $allow = $this->getAllow();
@@ -246,7 +246,13 @@ class AdminController extends Action {
         }
         $nodes = array('default'=>array());
         foreach ($controller::$nodes as $value){
-            if ( is_array($value) && $group ) {
+            if (!is_array($value) || !isset($value['title'],$value['url'])) {
+                return false;
+            }
+            if(!strpos($value['url'],'/')){
+                $value['url'] = CONTROLLER_NAME.'/'.$value['url'];
+            }
+            if ( $group ) {
                 //为节点分组,默认分组为default
                 $group_name = empty($value['group']) ?'default': $value['group'];
                 unset($value['group']);
@@ -285,6 +291,9 @@ class AdminController extends Action {
 						//如果指定了从其他控制器中读取节点
 						$child = $c.'Controller';
 						$child_nodes = $child::getNodes($child);      //其他控制器中的节点
+                        if ($child_nodes===false) {
+                            $this->error("内部错误:请检查{$child}控制器 nodes 属性");
+                        }
 						foreach ( $child_nodes as $group => $value ) {
                             if (!$this->checkRule($value['url'])) {   //检测节点权限
                                 break;
