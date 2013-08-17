@@ -252,6 +252,7 @@ class AdminController extends Action {
                 unset($value['group']);
                 $nodes[$group_name][] = $value;
             }else{
+                unset($value['group']);
                 $nodes[]=$value;
             }
         }
