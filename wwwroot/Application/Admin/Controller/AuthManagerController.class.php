@@ -28,7 +28,7 @@ class AuthManagerController extends AdminController{
     );
 
     /*
-     * 返回节点数据
+     * 返回后台节点数据
      * @param boolean $tree    是否返回树形结构
      * @retrun array
      * 
@@ -53,6 +53,7 @@ class AuthManagerController extends AdminController{
 
         $child = array();//$tree为false时,保存所有控制器中的节点
         foreach ($nodes as $key => $value){
+            $nodes[$key]['url'] = strtolower($value['url']);
             $nodes[$key]['child'] = array();
             $controllers = explode(',',$value['controllers']);
             foreach ($controllers as $c){
@@ -78,11 +79,44 @@ class AuthManagerController extends AdminController{
     }
     
     /*
-     * 节点配置的url作为规则存入auth_rule
+     * 后台节点配置的url作为规则存入auth_rule
+     * 执行新节点的插入,已有节点的更新,无效规则的删除三项任务
+     * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     public function updateRules()
     {
-        $nodes = $this->returnNodes(false);
+        //需要新增的节点必然位于$nodes
+        $nodes    = $this->returnNodes(false);
+
+        $AuthRule = D('AuthRule');
+        $map      = array('module'=>'admin','type'=>AuthRuleModel::URL_RULE);//status全部取出,以进行更新
+        //需要更新和删除的节点必然位于$rules
+        $rules    = $AuthRule->where($map)->order('name')->select();
+
+        //构建insert数据
+        $data     = array();//保存需要插入和更新的新节点
+        foreach ($nodes as $value){
+            $value['name']   = $value['url'];
+            $value['module'] = 'admin';
+            $value['type']   = AuthRuleModel::URL_RULE;
+            $value['status'] = 1;
+            unset($value['url']);
+            $data[$value['name'].$value['module'].$value['type']] = $value;//去除重复项
+        }
+
+        $update = array();//保存需要更新的节点
+        foreach ($rules as $index=>$rule){
+            $key = strtolower($rule['name'].$rule['module'].$rule['type']);
+            if (isset($data[$key])) {
+                $update[] = $data[$key];
+                unset($data[$key]); //去除需要更新的节点,只留下需要插入的节点
+                unset($rules[$index]);//去除需要更新的节点,只留下需要删除的节点
+            }
+        }
+        
+        $AuthRule->addAll(array_values($data));
+        dump($update);
+        dump($rules);
     }
     
 
