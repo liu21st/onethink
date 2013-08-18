@@ -247,11 +247,12 @@ class AdminController extends Action {
         $nodes = array('default'=>array());
         foreach ($controller::$nodes as $value){
             if (!is_array($value) || !isset($value['title'],$value['url'])) {
-                return false;
+                $this->error("内部错误:{$controller}控制器 nodes属性配置有误 ,即将返回首页",__APP__);
             }
             if(!strpos($value['url'],'/')){
                 $value['url'] = CONTROLLER_NAME.'/'.$value['url'];
             }
+            $value['url'] = strtolower($value['url']);
             if ( $group ) {
                 //为节点分组,默认分组为default
                 $group_name = empty($value['group']) ?'default': $value['group'];
@@ -279,39 +280,40 @@ class AdminController extends Action {
 
         //处理控制器中的节点
         foreach ($menus['main'] as $key=>$item){
+            if (!is_array($item) || empty($item['title']) || empty($item['url']) || empty($item['controllers'])) {
+                $this->error('控制器基类$menus属性元素配置有误');
+            }
             //判断节点权限
             if (!$this->checkRule($item['url'])) {  //检测节点权限
-                break;
+                continue;//继续循环
             }
-            if( !empty($item['title']) && !empty($item['url']) && !empty($item['controllers']) ) {
-                $other_controller = explode(',',$item['controllers']);
-				if ( in_array( CONTROLLER_NAME, $other_controller ) ) {
-                    $menus['main'][$key]['class']='current';
-					foreach ($other_controller as $c){
-						//如果指定了从其他控制器中读取节点
-						$child = $c.'Controller';
-						$child_nodes = $child::getNodes($child);      //其他控制器中的节点
-                        if ($child_nodes===false) {
-                            $this->error("内部错误:请检查{$child}控制器 nodes 属性");
-                        }
-						foreach ( $child_nodes as $group => $value ) {
-                            foreach ($value as $v){
-                                if (!$this->checkRule($v['url'])) {   //检测节点权限
-                                    break;
-                                }
+            $other_controller = explode(',',$item['controllers']);
+            if ( in_array( CONTROLLER_NAME, $other_controller ) ) {
+                $menus['main'][$key]['class']='current';
+                foreach ($other_controller as $c){
+                    //如果指定了从其他控制器中读取节点
+                    $child = $c.'Controller';
+                    $child_nodes = $child::getNodes($child);      //其他控制器中的节点
+                    if ($child_nodes===false) {
+                        $this->error("内部错误:请检查{$child}控制器 nodes 属性");
+                    }
+                    foreach ( $child_nodes as $group => $value ) {
+                        //$value  分组数组
+                        foreach ($value as $k=>$v){
+                            //$v  节点配置
+                            if (!$this->checkRule($v['url'])) {   //检测节点权限
+                                unset($value[$k]);
                             }
-							if ( isset($menus['child'][$group]) ) {
-								//如果分组已存在,合并到分组中
-								$menus['child'][$group] = array_merge( $menus['child'][$group], $value);
-							}else{
-								//否则直接保存
-								$menus['child'][$group]=$value;
-							}
-						}
-					}
-				}
-            }else{
-                $this->error('控制器基类$menus属性元素配置有误');
+                        }
+                        if ( isset($menus['child'][$group]) ) {
+                            //如果分组已存在,合并到分组中
+                            $menus['child'][$group] = array_merge( $menus['child'][$group], $value);
+                        }else{
+                            //否则直接保存
+                            $menus['child'][$group] = $value;
+                        }
+                    }
+                }
             }
         }
 //        S('base_menu'.CONTROLLER_NAME,$menus);
