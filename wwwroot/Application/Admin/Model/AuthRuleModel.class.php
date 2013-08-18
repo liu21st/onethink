@@ -1,0 +1,18 @@
+<?php
+// +----------------------------------------------------------------------
+// | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2006-2012 http://thinkphp.cn All rights reserved.
+// +----------------------------------------------------------------------
+// | Author: huajie <banhuajie@163.com>
+// +----------------------------------------------------------------------
+
+/**
+ * 权限规则模型
+ * @author 朱亚杰 <zhuyajie@topthink.net>
+ */
+class AuthRuleModel extends CmsadminModel{
+    
+    const URL_RULE = 1;
+
+}
