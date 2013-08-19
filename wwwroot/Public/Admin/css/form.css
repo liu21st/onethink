@@ -53,6 +53,12 @@ select {
 .input-mid {
 	width: 150px
 }
+.input-small {
+	width: 100px
+}
+.input-mini {
+	width: 50px
+}
 
 /* 多行两列表单
 ------------------------------------------ */
@@ -70,6 +76,9 @@ select {
 	overflow: hidden;
 	padding: 5px;
 	*zoom: 1;
+}
+.form-horizontal .controls label + label {
+	margin-left: 15px;
 }
 .form-horizontal .check-tips {
 	margin-left: 20px;
