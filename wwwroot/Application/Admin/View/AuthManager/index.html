@@ -1,6 +1,4 @@
 <extend name="Public/base" />
-<block name="sidebar">
-</block>
 <block name="body">
 	<!-- 标题栏 -->
 	<div class="title cf">
@@ -18,7 +16,7 @@
 		<table>
 			<thead>
 				<tr>
-					<th></th>
+					<th><input type="checkbox" name="ids" value="all" /></th>
 					<th>序号</th>
 					<th>用户组</th>
 					<th>描述</th>
@@ -29,21 +27,21 @@
 			<tbody>
 				<volist name="list" id="vo">
 				<tr>
-                    <td><input type="checkbox" name="id" value="{$vo.id}" /></td>
+                    <td><input type="checkbox" name="id[]" value="{$vo.id}" /></td>
 					<td>{$vo.id}</td>
 					<td>{$vo.title}</td>
 					<td>{$vo.description}</td>
 					<td>{$vo.status_text}</td>
 					<td>
 						<a href="{:U('editGroup',array('id'=>$vo['id']))}">编辑</a>
-                        <egt name="$vo['status']" value="0">
+                        <egt name="vo.status" value="0">
 							<eq name="vo.status" value="0">
-								<a href="{:U('resume',array('id'=>$vo['id']))}">启用</a>
+								<a href="{:U('changeStatus',array('id'=>$vo['id'],'method'=>'resumeGroup'))}">启用</a>
 							<else />
-								<a href="{:U('forbid',array('id'=>$vo['id']))}">禁用</a>
+								<a href="{:U('changeStatus',array('id'=>$vo['id'],'method'=>'forbidGroup'))}">禁用</a>
 							</eq>
                         </egt> 
-						<a href="{:U('delete',array('id'=>$vo['id']))}">删除</a>
+                        <a href="{:U('changeStatus',array('id'=>$vo['id'],'method'=>'deleteGroup'))}">删除</a>
 					</td>
 				</tr>
 				</volist>
