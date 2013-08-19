@@ -1,0 +1,45 @@
+<textarea name="{$data.name}" id="{$data.name}" style="height:{$config.editor_height}">{$data.value}</textarea>
+	<switch name="config.editor_type">
+		<case value="1">
+			{// 纯文本 }
+			<input type="hidden" name="parse" value="0">
+		</case>
+		<case value="2">
+			{// 富文本 }
+			<link rel="stylesheet" href="__STATIC__/kindeditor/default/default.css" />
+			<script charset="utf-8" src="__STATIC__/kindeditor/kindeditor-min.js"></script>
+			<script charset="utf-8" src="__STATIC__/kindeditor/zh_CN.js"></script>
+			<input type="hidden" name="parse" value="0">
+			<script type="text/javascript">
+
+					var editor;
+					KindEditor.ready(function(K) {
+						editor = K.create('textarea[name="{$data.name}"]', {
+							allowFileManager : true,
+							themesPath: K.basePath,
+							width: '100%',
+							height: '{$config.editor_height}',
+							resizeType: 0,
+							pasteType : 2,
+							fileManagerJson : '{:U('fileManagerJson')}',
+							uploadJson : '{:U('uploadJson')}'
+						});
+					});
+
+			</script>
+		</case>
+		<case value="3">
+			{// UBB 官网http://www.ubbeditor.com/cn}
+			<script charset="utf-8" src="__STATIC__/ubbeditor/ubbeditor.js"></script>
+			<script type="text/javascript">
+				var nEditor = new ubbEditor('{$data.name}');
+				nEditor.tLang = 'zh-cn';
+				nEditor.tInit('nEditor', '__STATIC__/ubbeditor/');
+			</script>
+			<input type="hidden" name="parse" value="1">
+		</case>
+		<case value="4">
+			{// markdown }
+			<input type="hidden" name="parse" value="2">
+		</case>
+	</switch>

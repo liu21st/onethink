@@ -39,7 +39,7 @@ function arr2str($arr, $glue = ','){
  * @param string $data 要加密的字符串
  * @param string $key  加密密钥
  * @param int $expire  过期时间 单位 秒
- * @return string 
+ * @return string
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 function think_encrypt($data, $key = '', $expire = 0) {
@@ -49,15 +49,15 @@ function think_encrypt($data, $key = '', $expire = 0) {
     $len  = strlen($data);
     $l    = strlen($key);
     $char = '';
-    
+
     for ($i = 0; $i < $len; $i++) {
         if ($x == $l) $x = 0;
         $char .= substr($key, $x, 1);
         $x++;
     }
-    
+
     $str = sprintf('%010d', $expire ? $expire + time():0);
-    
+
     for ($i = 0; $i < $len; $i++) {
         $str .= chr(ord(substr($data, $i, 1)) + (ord(substr($char, $i, 1)))%256);
     }
@@ -68,7 +68,7 @@ function think_encrypt($data, $key = '', $expire = 0) {
  * 系统解密方法
  * @param  string $data 要解密的字符串 （必须是think_encrypt方法加密的字符串）
  * @param  string $key  加密密钥
- * @return string 
+ * @return string
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 function think_decrypt($data, $key = ''){
@@ -159,10 +159,10 @@ function list_to_tree($list, $pk='id', $pid = 'pid', $child = '_child', $root = 
  * @return string            格式化后的带单位的大小
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
-function format_bytes($size, $delimiter = '') { 
-    $units = array('B', 'KB', 'MB', 'GB', 'TB', 'PB'); 
-    for ($i = 0; $size >= 1024 && $i < 5; $i++) $size /= 1024; 
-    return round($size, 2) . $delimiter . $units[$i]; 
+function format_bytes($size, $delimiter = '') {
+    $units = array('B', 'KB', 'MB', 'GB', 'TB', 'PB');
+    for ($i = 0; $size >= 1024 && $i < 5; $i++) $size /= 1024;
+    return round($size, 2) . $delimiter . $units[$i];
 }
 
 /**
@@ -193,30 +193,44 @@ function get_redirect_url(){
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 function hooks($tag, $type, $params = array()) {
-    $hooks = C("addons_hooks_{$type}.{$tag}");
-
-    if(!empty($hooks)) {
+    $addons = D('Hooks')->where("name='{$tag}'")->getField('addons');
+    trace($addons);
+    $addons = split(',', $addons);
+    if(!empty($addons)) {
         if(APP_DEBUG) {
             G($tag.'Start');
             trace('[ '.$tag.' ] --START--','','INFO');
         }
         // 执行插件
         $hook = parse_name($tag, 1);
-        foreach ($hooks as $key => $name) {
-            $url = "Addons://{$name}/{$name}/{$hook}";
-            $info   =   pathinfo($url);
-            $action =   $info['basename'];
-            $module =   $info['dirname'];
-            $class  =   A($module,ucfirst($type));
-            if(is_string($params)) {
-                parse_str($params,$params);
-            }
-            $class->$action($params);
+        foreach ($addons as $key => $name) {
+            $addons_class = addons($name, 1);
+            if(method_exists($addons_class, $hook))
+                $addons_class::$hook($params);
         }
         if(APP_DEBUG) { // 记录钩子的执行日志
             trace('[ '.$tag.' ] --END-- [ RunTime:'.G($tag.'Start',$tag.'End',6).'s ]','','INFO');
         }
     }else{ // 未注册任何钩子 返回false
+        return false;
+    }
+}
+
+/**
+ * 获取插件类的实例
+ */
+function addons($name,$static = false){
+    static $_action = array();
+    if(isset($_action[$name]))  return $_action[$name];
+    $result = parse_res_name("Addons://{$name}/{$name}Addons",'');
+    $class = basename($result);
+    if($static)
+    	return "{$name}Addons";
+    if(class_exists($class,false)) {
+        $action = new $class();
+        $_action[$name] = $action;
+        return $action;
+    }else {
         return false;
     }
 }
@@ -242,9 +256,9 @@ function addons_url($url, $param = array()){
 
     /* 基础参数 */
     $params = array(
-        'addons'     => $addons,
-        'controller' => $controller,
-        'action'     => $action,
+        '_addons'     => $addons,
+        '_controller' => $controller,
+        '_action'     => $action,
     );
     $params = array_merge($params, $param); //添加额外参数
 

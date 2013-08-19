@@ -19,27 +19,27 @@ class AdminController extends Action {
 
     /* 保存允许所有管理员访问的公共方法 */
     static protected $allow = array();
-    
+
     /**
-     * 节点配置  
+     * 节点配置
      *   菜单节点必须配置title元素和url元素(供U函数作使用)
      *   array(
      *       //值的元素  title:节点名字；url:链接; group:链接组; tip:链接提示文字
      *       array( 'title'=>'节点标题','url'=>'action?query=vaule', 'group'=>'扩展','tip'=>''),
      *   )
-     */ 
+     */
     static protected $nodes = array();
 
     /**
-     * 主节点配置示例:  
+     * 主节点配置示例:
      *   菜单节点必须配置title元素和url元素(供U函数作使用)
      *   array(
      *       //值的元素  title:节点名字；url:链接; controller:从哪些控制器查询节点,多个逗号分隔; tip:链接提示文字
      *       array( 'title'=>'节点标题', 'url'=>'Index/index?param=value','controllers'=>'', 'tip'=>''),
      *        ......
      *     )
-     *   
-     */ 
+     *
+     */
     static private $menus = array(
         array( 'title'=>'首页','url'=>'Index/index','controllers'=>'Index',),
         array( 'title'=>'内容','url'=>'Article/index','controllers'=>'Article',),
@@ -51,7 +51,7 @@ class AdminController extends Action {
     final protected function _initialize()
     {
         //TODO:登陆检测
-        
+
         $ac = $this->accessControl();
         if ( $ac===false ) {
             $this->error('403:禁止访问',__APP__);
@@ -64,23 +64,22 @@ class AdminController extends Action {
         }
         $controller = CONTROLLER_NAME.'Controller';
         $this->assign( 'base_menu', $controller::getMenus() );
-
         $this->_init();
     }
 
     protected function _init()
     {
     }
-    
+
     /**
      * action访问控制,在 **登陆成功** 后执行的第一项权限检测任务
-     * 
+     *
      * @return true|false|null  返回值必须使用 `===` 进行判断
-     * 
+     *
      *   返回false,不允许任何人访问,子类自行决定错误处理方式
      *   返回true, 允许任何管理员访问,无需执行权限检测
      *   返回null, 需要继续执行权限检测决定是否允许访问
-     *   
+     *
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
     final protected function accessControl(){
@@ -123,7 +122,7 @@ class AdminController extends Action {
             $this->success($msg['success'],$msg['url'],$msg['ajax']);
         }else{
             $this->error($msg['error'],$msg['url'],$msg['ajax']);
-        } 
+        }
     }
 
     /**
@@ -175,7 +174,7 @@ class AdminController extends Action {
 
     /**
      * $deny属性的get方法
-     * 
+     *
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
     final protected function getDeny()
@@ -189,15 +188,15 @@ class AdminController extends Action {
                     $data[] = $value;
                 }else{
                     //TODO: 功能扩展
-                } 
+                }
             }
         }
         return $data;
     }
-    
+
     /**
      * 获取控制器中允许所有管理员通过url访问的方法
-     * 
+     *
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
     final protected function getAllow()
@@ -211,7 +210,7 @@ class AdminController extends Action {
                     $data[] = $value;
                 }else{
                     //TODO: 功能扩展
-                } 
+                }
             }
         }
         return $data;
@@ -236,7 +235,7 @@ class AdminController extends Action {
             }
         }
         return $nodes;
-    } 
+    }
 
     /*
      * 获取控制器菜单数组
