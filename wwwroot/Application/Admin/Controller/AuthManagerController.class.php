@@ -20,16 +20,13 @@ class AuthManagerController extends AdminController{
     static protected $allow = array();
 
     static protected $nodes= array(
-        array('title'=>'标题5','url'=>'index'),
 
-        array('title'=>'标题1','url'=>'index','group'=>'分组1'),
-
-        array('title'=>'标题4','url'=>'index','group'=>'分组2',
+        array('title'=>'管理员用户组','url'=>'AuthManager/index','group'=>'权限管理',
               'operator'=>array(
-                  array('title'=>'编辑','url'=>'edit'),
-                  array('title'=>'删除','url'=>'delete'),
-                  array('title'=>'禁用','url'=>'forbid'),
-                  array('title'=>'恢复','url'=>'resume'),
+                  array('title'=>'编辑','url'=>'AuthManager/edit'),
+                  array('title'=>'删除','url'=>'AuthManager/delete'),
+                  array('title'=>'禁用','url'=>'AuthManager/forbid'),
+                  array('title'=>'恢复','url'=>'AuthManager/resume'),
               ),
         ),
     );
@@ -165,20 +162,12 @@ class AuthManagerController extends AdminController{
      */
     public function index()
     {
-        $node_list = $this->returnNodes();
-        $this->assign('node_list',$node_list);
+        $AuthGroup = D('AuthGroup');
+        $groups    = $AuthGroup->where(array('status'=>array('egt',0),'module'=>'admin'))->select();
+        $groups    = intToString($groups);
+        $this->assign('list',$groups);
         $this->display();
     }
-
-    /*
-     * 返回分组列表
-     * @author 朱亚杰 <zhuyajie@topthink.net>
-     */
-    public static function getGroups()
-    {
-        
-    }
-    
 
     /*
      * 创建用户组
