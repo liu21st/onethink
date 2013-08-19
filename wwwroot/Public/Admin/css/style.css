@@ -137,22 +137,31 @@ body{
 .main {
     padding: 10px 20px 70px;
 }
-.main .title{
+.main-title {
     padding: 11px 18px;
+    *zoom: 1;
 }
-.main .title h2 {
+.main-title:before,
+.main-title:after {
+    display: table;
+    content: "";
+}
+.main-title:after {
+    clear: both;
+}
+.title h2 {
     float: left;
     font-size: 24px;
     font-weight: 400;
     color: #445566;   
 }
-.main .tools{
+.tools{
     float: right;
     margin-top: 3px;
     font-size: 0;
     line-height: 0;
 }
-.main .tools button{
+.tools button {
     display: inline-block;
     padding: 4px 10px 4px;
     _height: 21px;
@@ -183,7 +192,7 @@ body{
     *zoom: 1;
     outline:0;
 }
-.main .tools button:hover{
+.tools button:hover{
     color: #333333;
     text-decoration: none;
     background-color: #fefefe;
@@ -191,7 +200,7 @@ body{
     background-image:none;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
 }
-.main .tools button i{
+.tools button i{
     width: 16px;
     height: 16px;
     display: inline-block;
@@ -200,14 +209,8 @@ body{
     vertical-align: middle;
     font-size: 0;
 }
-.main .tools button:hover i{
+.tools button:hover i{
     background-position:0 -16px;
-}
-.main tfoot .tools{
-    float: none;
-}
-.main tfoot .tools button{
-    margin: 0 6px 0 0;
 }
 
 /* 消息栏 */
