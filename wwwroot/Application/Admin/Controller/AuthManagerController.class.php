@@ -179,7 +179,7 @@ class AuthManagerController extends AdminController{
     public function createGroup()
     {
         //读取规则节点
-        $this->display();
+        $this->display('managergroup');
         
     }
     
@@ -189,8 +189,17 @@ class AuthManagerController extends AdminController{
      */
     public function editGroup()
     {
-        $this->assign('nodes',$nodes);
-        $this->display('createGroup');
+        $node_list = $this->returnNodes();
+
+        $map       = array('module'=>'admin','type'=>AuthRuleModel::RULE_URL,'status'=>1);
+        $rules     = D('AuthRule')->where($map)->getField('name,id');
+
+        $auth_group = D('AuthGroup')->find((int)$_GET['id']);
+
+        $this->assign('auth_rules',$rules);
+        $this->assign('auth_group',$auth_group);
+        $this->assign('node_list',$node_list);
+        $this->display('managergroup');
     }
     
     /*
