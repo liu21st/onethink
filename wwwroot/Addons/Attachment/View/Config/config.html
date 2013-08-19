@@ -1,9 +1,8 @@
 <extend name="Public/base" />
 
 <block name="body">
-
+	<div class="title cf"> <h2>保存配置</h2> </div> 
 	<div class="data-table">
-		<h1>保存配置</h1>
 		<form action="{:addons_url('Attachment://Attachment/saveConfig?id='.$_GET['id'])}" class="form-horizontal config-form">
 			<fieldset>
 				<legend>全局配置</legend>
@@ -46,7 +45,7 @@
 					<label class="item-label">文件大小上限</label>
 					<div class="controls">
 						<input type="text" name="addons[ATTACHMENT_UPLOAD][maxSize]" class="text" value="{$data[ATTACHMENT_UPLOAD][maxSize]|default=(5*1024*1024)}">
-						<span class="chect-tips">不填无限制， 填写了以字节byte为单位</span>
+						<span class="check-tips">不填无限制， 填写了以字节byte为单位</span>
 					</div>
 				</div>
 				<div class="form-item">
