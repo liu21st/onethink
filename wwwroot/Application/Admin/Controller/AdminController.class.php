@@ -22,17 +22,19 @@ class AdminController extends Action {
     
     /**
      * 节点配置  
-     *   菜单节点必须配置title元素和url元素(供U函数作使用)
+     *   配置项目的键必须小写
+     *   菜单节点必须配置title元素和url元素(供U函数作使用的合法字符串,参数必须使用?k=v&k2=v2...格式)
      *   array(
      *       //值的元素  title:节点名字；url:链接; group:链接组; tip:链接提示文字
-     *       array( 'title'=>'节点标题','url'=>'action?query=vaule', 'group'=>'扩展','tip'=>''),
+     *       array( 'title'=>'节点标题','url'=>'Index/action?query=vaule', 'group'=>'扩展','tip'=>''),
      *   )
      */ 
     static protected $nodes = array();
 
     /**
      * 主节点配置示例:  
-     *   菜单节点必须配置title元素和url元素(供U函数作使用)和controllers元素
+     *   配置项目的键必须小写
+     *   菜单节点必须配置title元素和url元素(供U函数作使用的合法字符串,参数必须使用?k=v&k2=v2...格式)和controllers元素
      *   array(
      *       //值的元素  title:节点名字；url:链接; controller:从哪些控制器查询节点,多个逗号分隔; tip:链接提示文字
      *       array( 'title'=>'节点标题', 'url'=>'Index/index?param=value','controllers'=>'', 'tip'=>''),
@@ -134,8 +136,10 @@ class AdminController extends Action {
         if( $_REQUEST['model']||$_REQUEST['where']||$_REQUEST['msg']){
             $this->error('非法请求',__APP__); //安全检测,防止通过参数绑定修改数据
         }
-        $where   = array_merge( array('id' => array('in', I('id',0))) ,(array)$where );
-        $msg     = array_merge( array( 'success'=>'操作成功！', 'error'=>'操作失败！', 'url'=>'' ,'ajax'=>IS_AJAX) , (array)$msg );
+        $id    = I('id',0);
+        $id    = is_array($id) ? implode(',',$id) : $id;
+        $where = array_merge( array('id' => array('in', $id )) ,(array)$where );
+        $msg   = array_merge( array( 'success'=>'操作成功！', 'error'=>'操作失败！', 'url'=>'' ,'ajax'=>IS_AJAX) , (array)$msg );
         if( D($model)->where($where)->save($data) ) {
             $this->success($msg['success'],$msg['url'],$msg['ajax']);
         }else{
