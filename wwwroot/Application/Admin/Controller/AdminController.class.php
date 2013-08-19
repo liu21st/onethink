@@ -247,7 +247,7 @@ class AdminController extends Action {
 //        if ( S('menu'.$controller) ) {
 //            return S('menu'.$controller);
 //        }
-        $menus['main']  = self::$menus; //获取主节点
+        $menus['main']  = self::$menus; //获取主节点  
         $menus['child'] = array(); //设置子节点
 
         //处理其他控制器中的节点
