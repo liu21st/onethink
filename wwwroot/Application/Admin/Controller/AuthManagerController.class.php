@@ -21,10 +21,17 @@ class AuthManagerController extends AdminController{
 
     static protected $nodes= array(
         array('title'=>'标题5','url'=>'index'),
+
         array('title'=>'标题1','url'=>'index','group'=>'分组1'),
-        array('title'=>'标题2','url'=>'index','group'=>'分组1'),
-        array('title'=>'标题3','url'=>'index','group'=>'分组2'),
-        array('title'=>'标题4','url'=>'index','group'=>'分组2'),
+
+        array('title'=>'标题4','url'=>'index','group'=>'分组2',
+              'operator'=>array(
+                  array('title'=>'编辑','url'=>'edit'),
+                  array('title'=>'删除','url'=>'delete'),
+                  array('title'=>'禁用','url'=>'forbid'),
+                  array('title'=>'恢复','url'=>'resume'),
+              ),
+        ),
     );
 
     /*
@@ -60,7 +67,14 @@ class AuthManagerController extends AdminController{
                 if($tree){
                     $nodes[$key]['child'] = array_merge($nodes[$key]['child'],$arr[$c.'Controller']);
                 }else{
-                    $child = array_merge($child,$arr[$c.'Controller']);
+                    $temp = $arr[$c.'Controller'];
+                    foreach ($temp as $k=>$operator){//分离菜单节点下的操作节点
+                        if ( isset($operator['operator']) ) {
+                            $child = array_merge($child,$operator['operator']);
+                            unset($temp[$k]['operator']);
+                        }
+                    }
+                    $child = array_merge($child,$temp);
                 }
             }
             unset($nodes[$key]['controllers']);
@@ -149,7 +163,7 @@ class AuthManagerController extends AdminController{
      */
     public function index()
     {
-        $node_list = $this->returnNodes();
+        $node_list = $this->returnNodes(false);
         $this->assign('node_list',$node_list);
         dump($node_list);
         $this->display();
