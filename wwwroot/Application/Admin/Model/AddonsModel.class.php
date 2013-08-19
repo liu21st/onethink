@@ -10,7 +10,6 @@
 /**
  * 插件模型
  * @author yangweijie <yangweijiester@gmail.com>
- * @date    2013-08-14 11:31:21
  */
 
 class AddonsModel extends Model {
