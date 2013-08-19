@@ -1,0 +1,34 @@
+<extend name="Public/base" />
+<block name="body">
+    <div>
+    	<div>
+    		<div>
+    			<label for="auth-title">管理员用户组</label>
+    			<input id="auth-title" type="text" name="title" />
+    		</div>
+    		<div>
+    			<label for="auth-description">用户组描述</label>
+    			<input id="auth-description" type="text" name="description" />
+    		</div>
+    	</div>
+
+        <div id="node_list">
+
+            <volist name="node_list" id="node" >
+            <div>
+                <span>{$node.title}</span>
+                <span><label><input type="checkbox" name="" />&nbsp;全选</label></span>
+                <span>
+                    <ul>
+                        <volist name="node['child']" id="child" >
+                        <li><label><input type="checkbox" name="" />&nbsp;{$child.title}</label></li>
+                        </volist>
+                    </ul>
+                </span>
+            </div>
+            </volist>
+           
+        </div>
+
+    </div>
+</block>
