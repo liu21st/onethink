@@ -25,13 +25,14 @@
 			<tbody>
 				<volist name="list" id="vo">
 				<tr>
-					<td>{$vo.id}</td>
+					<td>{$i}</td>
 					<td>{$vo.title}</td>
 					<td>{$vo.name}</td>
 					<td>{$vo.description}</td>
-					<td>{$vo.status_text}</td>
+					<td>{$vo.status_text|default="未安装"}</td>
 					<td>
-						<a href="{:U('config',array('id'=>$vo['id']))}">设置</a>
+						<empty name="vo.uninstall">
+							<a href="{:U('config',array('id'=>$vo['id']))}">设置</a>
 						<?php if ($vo['status'] >=0): ?>
 							<eq name="vo.status" value="0">
 								<a href="{:U('enable',array('id'=>$vo['id']))}">启用</a>
@@ -39,6 +40,10 @@
 								<a href="{:U('disable',array('id'=>$vo['id']))}">禁用</a>
 							</eq>
 						<?php endif ?>
+							<a href="{:U('uninstall?id='.$vo['id'])}">卸载</a>
+						<else />
+							<a href="{:U('install?addon_name='.$vo['name'])}">安装</a>
+						</empty>
 					</td>
 				</tr>
 				</volist>

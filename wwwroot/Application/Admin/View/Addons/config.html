@@ -1,0 +1,45 @@
+<extend name="Public/base" />
+
+<block name="body">
+
+	<div class="wrapper">
+		<form action="{:U('saveConfig')}" class="form-horizontal" method="post">
+		<table>
+			<thead>保存配置</thead>
+			<tbody>
+				<?php foreach ($data['config'] as $key => $form): ?>
+					<tr>
+						<td>{$form.title}</td>
+						<td>
+						<switch name="form[type]">
+							<case value="text">
+								<input type="text" name="config[{$key}]" value="{$form.value}">
+							</case>
+							<case value="radio">
+								<volist name="form.options" id="opt" key="opt_k">
+									<input type="radio" name="config[{$key}]" value="{$opt_k}">{$opt}&nbsp;
+								</volist>
+							</case>
+							<case value="select">
+								<select name="config[{$key}]">
+									<volist name="form[options]" id="opt" key="opt_k">
+										<option value="{$opt_k}" <eq name="form.value" value="$opt_k"> selected</eq>>{$opt}</option>
+										{$vo}
+									</volist>
+								</select>
+							</case>
+						</switch>
+						</td>
+					</tr>
+				<?php endforeach ?>
+			</tbody>
+		</table>
+			<input type="hidden" name="id" value="{:I('id')}" readonly>
+			<button type="submit">提交</button>
+			<button type="reset">重置</button>
+			<button onclick="javascript:history.back(-1);">返回</button>
+		</form>
+	</div>
+</block>
+
+<block name="script"></block>

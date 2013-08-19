@@ -193,30 +193,44 @@ function get_redirect_url(){
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 function hooks($tag, $type, $params = array()) {
-    $hooks = C("addons_hooks_{$type}.{$tag}");
-
-    if(!empty($hooks)) {
+    $addons = D('Hooks')->where("name='{$tag}'")->getField('addons');
+    trace($addons);
+    $addons = split(',', $addons);
+    if(!empty($addons)) {
         if(APP_DEBUG) {
             G($tag.'Start');
             trace('[ '.$tag.' ] --START--','','INFO');
         }
         // 执行插件
         $hook = parse_name($tag, 1);
-        foreach ($hooks as $key => $name) {
-            $url = "Addons://{$name}/{$name}/{$hook}";
-            $info   =   pathinfo($url);
-            $action =   $info['basename'];
-            $module =   $info['dirname'];
-            $class  =   A($module,ucfirst($type));
-            if(is_string($params)) {
-                parse_str($params,$params);
-            }
-            $class->$action($params);
+        foreach ($addons as $key => $name) {
+            $addons_class = addons($name, 1);
+            if(method_exists($addons_class, $hook))
+                $addons_class::$hook($params);
         }
         if(APP_DEBUG) { // 记录钩子的执行日志
             trace('[ '.$tag.' ] --END-- [ RunTime:'.G($tag.'Start',$tag.'End',6).'s ]','','INFO');
         }
     }else{ // 未注册任何钩子 返回false
+        return false;
+    }
+}
+
+/**
+ * 获取插件类的实例
+ */
+function addons($name,$static = false){
+    static $_action = array();
+    if(isset($_action[$name]))  return $_action[$name];
+    $result = parse_res_name("Addons://{$name}/{$name}Addons",'');
+    $class = basename($result);
+    if($static)
+    	return "{$name}Addons";
+    if(class_exists($class,false)) {
+        $action = new $class();
+        $_action[$name] = $action;
+        return $action;
+    }else {
         return false;
     }
 }
