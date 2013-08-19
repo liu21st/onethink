@@ -101,14 +101,14 @@ class AuthManagerController extends AdminController{
             $value['type']   = AuthRuleModel::URL_RULE;
             $value['status'] = 1;
             unset($value['url']);
-            $data[$value['name'].$value['module'].$value['type']] = $value;//去除重复项
+            $data[strtolower($value['name'].$value['module'].$value['type'])] = $value;//去除重复项
         }
 
         $update = array();//保存需要更新的节点
         $ids    = array();//保存需要删除的节点的id
         foreach ($rules as $index=>$rule){
-            $key = $rule['name'].$rule['module'].$rule['type'];
-            if ( isset($data[$key]) || isset(strtolower($data[$key])) ) {
+            $key = strtolower($rule['name'].$rule['module'].$rule['type']);
+            if ( isset($data[$key]) ) {
                 $update[] = $data[$key];
                 unset($data[$key]); //去除需要更新的节点,只留下需要插入的节点
                 unset($rules[$index]);//去除需要更新的节点,只留下需要删除的节点
@@ -116,17 +116,29 @@ class AuthManagerController extends AdminController{
                 $ids[] = $rule['id'];
             }
         }
-        
+        $AuthRule->startTrans();
+        //更新
+        if ( count($update) ) {
+            foreach ($update as $k=>$row){
+                unset($row['status'],$row['title']);
+                $AuthRule->where($row)->save($update[$k]);
+            }
+        }
+        //删除
+        if ( count($ids) ) {
+            $AuthRule->where( array( 'id'=>array('IN',implode(',',$ids)) ) )->save(array('status'=>-1));
+        }
+        //新增
         if( count($data) ){
             $AuthRule->addAll(array_values($data));
         }
-        if ( count($update) ) {
-            dump($update);
-        }
-        if ( count($ids) ) {
-            $AuthRule->where( array( 'id'=>array('IN',implode(',',$ids)) ) )->save(array('status'=>-1));
-            dump($AuthRule->getDbError());
-            dump($rules);
+        if ( $AuthRule->getDbError() ) {
+            $AuthRule->rollback();
+            trace(__METHOD__.':'.$AuthRule->getDbError());
+            return false;
+        }else{
+            $AuthRule->commit();
+            return true;
         }
     }
     
@@ -137,7 +149,9 @@ class AuthManagerController extends AdminController{
      */
     public function index()
     {
-        $this->assign('auth_node',$this->returnNodes());
+        $node_list = $this->returnNodes();
+        $this->assign('node_list',$node_list);
+        dump($node_list);
         $this->display();
     }
 
