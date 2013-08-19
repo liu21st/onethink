@@ -6,3 +6,8 @@ tags
 # 忽略缓存目录
 Runtime
 nbproject
+.buildpath
+.project
+.settings
+Runtime
+.metadata
