@@ -117,7 +117,7 @@ class AdminController extends Action {
         if( $_REQUEST['model']||$_REQUEST['where']||$_REQUEST['msg']){
             $this->error('非法请求',__APP__); //安全检测,防止通过参数绑定修改数据
         }
-        $where   = array_merge( array('id' => array('in', I('id',0))) ,(array)$where );
+        $where   = array_merge( array('id' => array('in', I('id',0))),(array)$where );
         $msg     = array_merge( array( 'success'=>'操作成功！', 'error'=>'操作失败！', 'url'=>'' ,'ajax'=>IS_AJAX) , (array)$msg );
         if( D($model)->where($where)->save($data) ) {
             $this->success($msg['success'],$msg['url'],$msg['ajax']);
@@ -247,7 +247,7 @@ class AdminController extends Action {
 //        if ( S('menu'.$controller) ) {
 //            return S('menu'.$controller);
 //        }
-        $menus['main']  = self::$menus; //获取主节点
+        $menus['main']  = self::$menus; //获取主节点  
         $menus['child'] = array(); //设置子节点
 
         //处理其他控制器中的节点
