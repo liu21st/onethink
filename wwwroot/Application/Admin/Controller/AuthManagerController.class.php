@@ -120,9 +120,12 @@ class AuthManagerController extends AdminController{
         foreach ($rules as $index=>$rule){
             $key = strtolower($rule['name'].$rule['module'].$rule['type']);
             if ( isset($data[$key]) ) {
+                $data[$key]['id'] = $rule['id'];
                 $update[] = $data[$key];
                 unset($data[$key]); //去除需要更新的节点,只留下需要插入的节点
                 unset($rules[$index]);//去除需要更新的节点,只留下需要删除的节点
+                unset($rule['condition']);
+                $rules[$rule['id']]=$rule;//用户更新规则时的比较判断
             }else{
                 $ids[] = $rule['id'];
             }
@@ -131,10 +134,9 @@ class AuthManagerController extends AdminController{
         //更新
         if ( count($update) ) {
             foreach ($update as $k=>$row){
-                $map['name']   = $row['name'];
-                $map['module'] = $row['module'];
-                $map['type']   = $row['type'];
-                $AuthRule->where($map)->save($update[$k]);
+                if ($row!=$rules[$row['id']]) {
+                    $AuthRule->where(array('id'=>$row['id']))->save($row);
+                }
             }
         }
         //删除
@@ -147,7 +149,7 @@ class AuthManagerController extends AdminController{
         }
         if ( $AuthRule->getDbError() ) {
             $AuthRule->rollback();
-            trace(__METHOD__.':'.$AuthRule->getDbError());
+            trace('['.__METHOD__.']:'.$AuthRule->getDbError());
             return false;
         }else{
             $AuthRule->commit();
@@ -162,6 +164,7 @@ class AuthManagerController extends AdminController{
      */
     public function index()
     {
+        $this->updateRules();
         $AuthGroup = D('AuthGroup');
         $groups    = $AuthGroup->where(array('status'=>array('egt',0),'module'=>'admin'))->select();
         $groups    = intToString($groups);
