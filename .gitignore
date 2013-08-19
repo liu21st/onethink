@@ -11,3 +11,6 @@ nbproject
 .settings
 Runtime
 .metadata
+# 忽略编辑器生成的临时文件
+*.swp
+*~
