@@ -74,7 +74,7 @@ class ArticleController extends AdminController {
 		switch ($status){
 			case -1 : $this->delete($Model, $map, array('success'=>'删除成功','error'=>'删除失败'));break;
 			case 0 : $this->forbid($Model, $map, array('success'=>'禁用成功','error'=>'禁用失败'));break;
-			case -1 : $this->resume($Model, $map, array('success'=>'审核通过','error'=>'审核失败'));break;
+			case 1 : $this->resume($Model, $map, array('success'=>'审核通过','error'=>'审核失败'));break;
 			default : $this->error('参数错误');break;
 		}
 	}
@@ -117,5 +117,14 @@ class ArticleController extends AdminController {
 		
 		$this->assign($data);
 		$this->display();
+	}
+	
+	public function update(){
+		$res = D('Document')->update();
+		if(!$res){
+			$this->error(D('Document')->getError());
+		}else{
+			$this->success('更新成功');
+		}
 	}
 }

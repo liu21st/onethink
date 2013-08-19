@@ -15,7 +15,8 @@ class DocumentModel extends CmsadminModel{
 	/* 自动验证规则 */
 	protected $_validate = array(
 		array('name', '/^[a-zA-Z]\w{0,39}$/', '文档标识不合法', self::VALUE_VALIDATE, 'regex', self::MODEL_BOTH),
-		array('name', '', '标识已经存在', self::VALUE_VALIDATE, 'unique', self::MODEL_BOTH),
+		array('name', '', '标识已经存在', self::VALUE_VALIDATE, 'unique', self::MODEL_INSERT),
+		array('name', 'checkName', '标识已经存在1', self::VALUE_VALIDATE, 'callback', self::MODEL_UPDATE),
 		array('title', 'require', '标题不能为空', self::VALUE_VALIDATE, 'regex', self::MODEL_BOTH),
 		array('category_id', 'require', '分类不能为空', self::MUST_VALIDATE , 'regex', self::MODEL_INSERT),
 		array('category_id', 'require', '分类不能为空', self::EXISTS_VALIDATE , 'regex', self::MODEL_UPDATE),
@@ -122,7 +123,7 @@ class DocumentModel extends CmsadminModel{
 
 	public function update(){
 		/* 获取数据对象 */
-		$data = $this->field('pos,display', true)->create();
+		$data = $this->create();
 		if(empty($data)){
 			return false;
 		}
@@ -230,7 +231,9 @@ class DocumentModel extends CmsadminModel{
 	 * @return integer 数据状态
 	 */
 	protected function getStatus(){
-		return 1; //TODO: 根据实际情况返回status
+		$id = I('post.id');
+		$status = $this->getFieldById($id, 'status');
+		return $status;
 	}
 
 	/**
@@ -299,6 +302,21 @@ class DocumentModel extends CmsadminModel{
 		}
 
 		return $map;
+	}
+	
+	/**
+	 * 检查标识是否已存在
+	 * @param string $name
+	 * @return true无重复，false已存在
+	 * @author huajie <banhuajie@163.com>
+	 */
+	protected function checkName($name){
+		$id = I('post.id');
+		$last_id = $this->getFieldByName($name, 'id');
+		if($last_id == $id || empty($last_id)){
+			return true;
+		}
+		return false;
 	}
 
 }

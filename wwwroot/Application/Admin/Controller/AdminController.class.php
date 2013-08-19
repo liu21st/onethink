@@ -43,7 +43,7 @@ class AdminController extends Action {
     static private $menus = array(
         array( 'title'=>'首页','url'=>'Index/index','controllers'=>'Index',),
         array( 'title'=>'内容','url'=>'Article/index','controllers'=>'Article',),
-        array( 'title'=>'用户','url'=>'User/index','controllers'=>'User,AuthManager'),
+        array( 'title'=>'用户','url'=>'User/index','controllers'=>'User'),
         array( 'title'=>'扩展','url'=>'Addons/index','controllers'=>'Addons',),
         array( 'title'=>'系统','url'=>'System/index','controllers'=>'System',),
     );

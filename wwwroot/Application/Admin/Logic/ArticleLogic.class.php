@@ -26,7 +26,7 @@ class ArticleLogic extends BaseLogic{
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function update($id){
-		/* 获取文章数据 */ //TODO: 根据不同用户获取允许更改或添加的字段
+		/* 获取文章数据 */
 		$data = $this->create();
 		if(!$data){
 			return false;
