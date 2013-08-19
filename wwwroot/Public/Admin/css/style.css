@@ -18,7 +18,8 @@ body{
     border-bottom: 1px solid #2078c7;
     background-color: #3E94E1;
     box-shadow: 0 2px 2px rgba(0,0,0,.1);
-    background: -webkit-gradient(linear, 0 0, 0 20%, from(#3d96ea), to(#3e94e1));
+    background-image: -webkit-gradient(linear, 0 0, 0 20%, from(#3d96ea), to(#3e94e1));
+    /*background-image: -moz-linear-gradient(top, #333, #000);*/
 }
 .header .logo {
     float: left;
@@ -135,10 +136,10 @@ body{
 /* 后台内页模块样式
 ------------------------------------------------- */
 .main {
-    padding: 10px 20px 70px;
+    padding: 0 20px;
 }
 .main-title {
-    padding-bottom: 10px;
+    padding: 10px 0;
 }
 .main-title:before,
 .main-title:after {
@@ -159,10 +160,6 @@ body{
     margin-top: 3px;
     font-size: 0;
     line-height: 0;
-}
-
-.tools button:hover i{
-    background-position:0 -16px;
 }
 
 /* 消息栏 */
@@ -198,6 +195,40 @@ body{
 }
 
 /* 后台首页 */
+.columns {
+    margin-bottom: 30px;
+}
+.columns .hd {
+    padding: 0 10px;
+    height: 35px;
+    line-height: 35px;
+    font-weight: bold;
+    color: #0f62b5;
+    background-color: #f5f5f5;
+}
+.columns .manager-list {
+    margin: 10px 4px 0 0;
+}
+.columns .manager-list li {
+    margin-right: 20px;
+    float: left;
+    color: #4169e1;
+}
+.columns .sys-info {
+    width: 100%;
+}
+.columns .sys-info td,
+.columns .sys-info th {
+    height: 35px;
+    line-height: 35px;
+    border-bottom: 1px solid #f0f0f0;
+}
+.columns .sys-info th {
+    padding-left: 5px;
+    width: 195px;
+    font-weight: normal;
+    text-align: left;
+}
 
 /* 分页 */
 .data-table .page {
