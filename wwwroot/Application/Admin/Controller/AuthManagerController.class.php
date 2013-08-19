@@ -100,7 +100,7 @@ class AuthManagerController extends AdminController{
         $nodes    = $this->returnNodes(false);
 
         $AuthRule = D('AuthRule');
-        $map      = array('module'=>'admin','type'=>AuthRuleModel::URL_RULE);//status全部取出,以进行更新
+        $map      = array('module'=>'admin','type'=>AuthRuleModel::RULE_URL);//status全部取出,以进行更新
         //需要更新和删除的节点必然位于$rules
         $rules    = $AuthRule->where($map)->order('name')->select();
 
@@ -110,7 +110,7 @@ class AuthManagerController extends AdminController{
             $temp['name']   = $value['url'];
             $temp['title']  = $value['title'];
             $temp['module'] = 'admin';
-            $temp['type']   = AuthRuleModel::URL_RULE;
+            $temp['type']   = AuthRuleModel::RULE_URL;
             $temp['status'] = 1;
             $data[strtolower($temp['name'].$temp['module'].$temp['type'])] = $temp;//去除重复项
         }
@@ -231,15 +231,6 @@ class AuthManagerController extends AdminController{
     public function changeStatus($method=null)
     {
         switch ( $method ){
-            case 'forbidRule':
-                $this->forbid('AuthRule');    
-                break;
-            case 'resumeRule':
-                $this->resume('AuthRule');    
-                break;
-            case 'deleteRule':
-                $this->delete('AuthRule');    
-                break;
             case 'forbidGroup':
                 $this->forbid('AuthGroup');    
                 break;

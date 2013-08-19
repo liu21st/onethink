@@ -13,6 +13,6 @@
  */
 class AuthRuleModel extends CmsadminModel{
     
-    const URL_RULE = 1;
+    const RULE_URL = 1;
 
 }
