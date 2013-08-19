@@ -94,4 +94,32 @@ function get_document_model($id = null, $field = null){
     } else {
         return $list[$id][$field];
     }
+
+}
+
+/*
+ * select返回的数组进行整数映射转换
+ * 
+ * @param array $map  映射关系二维数组  array(
+ *                                          '字段名1'=>array(映射关系数组),
+ *                                          '字段名2'=>array(映射关系数组),
+ *                                           ......
+ *                                       )
+ * @author 朱亚杰 <zhuyajie@topthink.net>
+ * @return array
+ *  
+ *  array(
+        array('id'=>1,'title'=>'标题',status=>'1','status_text'=>'正常')
+        ....
+ *  )
+ *
+ */
+function intToString($data,$map=array('status'=>array(1=>'正常',-1=>'已删除',0=>'已禁用',2=>'审核通过')))
+{
+    foreach ($data as $key => $row){
+        foreach ($map as $col=>$pair){
+            $data[$key][$col.'_text'] = $pair[$row[$col]];
+        }
+    }
+    return $data;
 }
