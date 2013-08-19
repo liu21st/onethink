@@ -110,12 +110,12 @@ class AuthManagerController extends AdminController{
         //构建insert数据
         $data     = array();//保存需要插入和更新的新节点
         foreach ($nodes as $value){
-            $value['name']   = $value['url'];
-            $value['module'] = 'admin';
-            $value['type']   = AuthRuleModel::URL_RULE;
-            $value['status'] = 1;
-            unset($value['url']);
-            $data[strtolower($value['name'].$value['module'].$value['type'])] = $value;//去除重复项
+            $temp['name']   = $value['url'];
+            $temp['title']  = $value['title'];
+            $temp['module'] = 'admin';
+            $temp['type']   = AuthRuleModel::URL_RULE;
+            $temp['status'] = 1;
+            $data[strtolower($temp['name'].$temp['module'].$temp['type'])] = $temp;//去除重复项
         }
 
         $update = array();//保存需要更新的节点
@@ -134,8 +134,10 @@ class AuthManagerController extends AdminController{
         //更新
         if ( count($update) ) {
             foreach ($update as $k=>$row){
-                unset($row['status'],$row['title']);
-                $AuthRule->where($row)->save($update[$k]);
+                $map['name']   = $row['name'];
+                $map['module'] = $row['module'];
+                $map['type']   = $row['type'];
+                $AuthRule->where($map)->save($update[$k]);
             }
         }
         //删除
@@ -163,9 +165,8 @@ class AuthManagerController extends AdminController{
      */
     public function index()
     {
-        $node_list = $this->returnNodes(false);
+        $node_list = $this->returnNodes();
         $this->assign('node_list',$node_list);
-        dump($node_list);
         $this->display();
     }
 
