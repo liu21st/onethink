@@ -5,11 +5,11 @@
     	<div>
     		<div>
     			<label for="auth-title">管理员用户组</label>
-    			<input id="auth-title" type="text" name="title" />
+                <input id="auth-title" type="text" name="title" value="{$auth_group.title}"/>
     		</div>
     		<div>
     			<label for="auth-description">用户组描述</label>
-    			<input id="auth-description" type="text" name="description" />
+                <input id="auth-description" type="text" name="description" value="{$auth_group.description}"/>
     		</div>
     	</div>
 
@@ -17,12 +17,12 @@
 
             <volist name="node_list" id="node" >
             <div>
-                <span>{$node.title}</span>
-                <span><label><input type="checkbox" name="" />&nbsp;全选</label></span>
+                <span><label><input type="checkbox" name="rule_all" />&nbsp;全选</label></span>
+                <span><label><input type="checkbox" name="rule[]" value="<?php echo $auth_rules[$node['url']] ?>"/>&nbsp;{$node.title}</label></span>
                 <span>
                     <ul>
                         <volist name="node['child']" id="child" >
-                        <li><label><input type="checkbox" name="" />&nbsp;{$child.title}</label></li>
+                        <li><label><input type="checkbox" name="rule[]" value="<?php echo $auth_rules[$child['url']] ?>"/>&nbsp;{$child.title}</label></li>
                         </volist>
                     </ul>
                 </span>
