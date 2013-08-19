@@ -250,10 +250,8 @@ class AdminController extends Action {
                 $this->error("内部错误:{$controller}控制器 nodes属性配置有误 ,即将返回首页",__APP__);
             }
             if(!strpos($value['url'],'/')){
-                dump(strtr($controller,array('Controller'=>'')));
                 $value['url'] = strtr($controller,array('Controller'=>'')).'/'.$value['url'];
             }
-            $value['url'] = strtolower($value['url']);
             if ( $group ) {
                 //为节点分组,默认分组为default
                 $group_name = empty($value['group']) ?'default': $value['group'];

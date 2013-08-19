@@ -53,7 +53,7 @@ class AuthManagerController extends AdminController{
 
         $child = array();//$tree为false时,保存所有控制器中的节点
         foreach ($nodes as $key => $value){
-            $nodes[$key]['url'] = strtolower($value['url']);
+            $nodes[$key]['url'] = $value['url'];
             $nodes[$key]['child'] = array();
             $controllers = explode(',',$value['controllers']);
             foreach ($controllers as $c){
@@ -105,18 +105,29 @@ class AuthManagerController extends AdminController{
         }
 
         $update = array();//保存需要更新的节点
+        $ids    = array();//保存需要删除的节点的id
         foreach ($rules as $index=>$rule){
-            $key = strtolower($rule['name'].$rule['module'].$rule['type']);
-            if (isset($data[$key])) {
+            $key = $rule['name'].$rule['module'].$rule['type'];
+            if ( isset($data[$key]) || isset(strtolower($data[$key])) ) {
                 $update[] = $data[$key];
                 unset($data[$key]); //去除需要更新的节点,只留下需要插入的节点
                 unset($rules[$index]);//去除需要更新的节点,只留下需要删除的节点
+            }else{
+                $ids[] = $rule['id'];
             }
         }
         
-        $AuthRule->addAll(array_values($data));
-        dump($update);
-        dump($rules);
+        if( count($data) ){
+            $AuthRule->addAll(array_values($data));
+        }
+        if ( count($update) ) {
+            dump($update);
+        }
+        if ( count($ids) ) {
+            $AuthRule->where( array( 'id'=>array('IN',implode(',',$ids)) ) )->save(array('status'=>-1));
+            dump($AuthRule->getDbError());
+            dump($rules);
+        }
     }
     
 
