@@ -133,8 +133,10 @@ body{
 
 
 /* 后台内页模块样式
- * 涉及范围 : 消息栏，数据表格，分页，编辑表单
 ------------------------------------------------- */
+.main {
+    padding: 10px 20px 70px;
+}
 .main .title{
     padding: 11px 18px;
 }
@@ -238,11 +240,6 @@ body{
     color: #000;
     opacity: .4;
     filter: alpha(opacity=40);
-}
-
-/* 数据表格 */
-.data-table {
-    margin: 0 18px 70px;
 }
 
 /* 分页 */
