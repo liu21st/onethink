@@ -1,6 +1,19 @@
 <extend name="Public/base" />
 
 <block name="body">
+	<!-- 主标题 -->
+	<div class="main-title">
+		<h2>这里是主标题</h2>
+		<div class="tools">
+			<!-- 按钮组 -->
+			<div class="btn-toolbar">
+				<button class="btn"> <i class="icon-delete"></i><em>删除</em> </button>
+				<button class="btn active"> <i class="icon-edit"></i><em>编辑</em> </button>
+				<button class="btn"> <i class="icon-ok"></i><em>确定</em> </button> 
+			</div>
+		</div>
+	</div>
+
 	<!-- 表单 -->
 	<form action="#" method="post" class="form-horizontal">
 		<div class="form-item cf">
@@ -120,6 +133,8 @@
 	<a class="btn" href="javascript:;"> <i class="icon-tags"></i><em>标签</em> </a>
 	<a class="btn" href="javascript:;"> <i class="icon-home"></i><em>首页</em> </a>
 	<a class="btn" href="javascript:;"> <i class="icon-pic"></i><em>图片</em> </a>
+	<a class="btn" href="javascript:;"> <i class="icon-redo"></i><em>返回(撤销)</em> </a>
+	<a class="btn" href="javascript:;"> <i class="icon-undo"></i><em>前进(软撤销)</em> </a>
 
 	<!-- 按钮组 -->
 	<div class="btn-toolbar">

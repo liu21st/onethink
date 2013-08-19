@@ -1,7 +1,7 @@
 <extend name="Public/base" />
 
 <block name="body">
-	<div class="title cf"> <h2>保存配置</h2> </div> 
+	<div class="main-title"> <h2>保存配置</h2> </div> 
 	<div class="data-table">
 		<form action="{:addons_url('Attachment://Attachment/saveConfig?id='.$_GET['id'])}" class="form-horizontal config-form">
 			<fieldset>
@@ -68,8 +68,8 @@
 				<div class="form-item">
 					<label class="item-label">子目录创建方式</label>
 					<div class="controls">
-						函数名：<input type="text" name="addons[ATTACHMENT_UPLOAD][subName][fun]" class="text" value="{$data[ATTACHMENT_UPLOAD][subName][fun]|default='date'}">
-						参数：<input type="text" name="addons[ATTACHMENT_UPLOAD][subName][param]" class="text" value="{$data[ATTACHMENT_UPLOAD][subName][param]|default='Y-m-d'}">
+						<label>函数名：<input type="text" name="addons[ATTACHMENT_UPLOAD][subName][fun]" class="text input-small" value="{$data[ATTACHMENT_UPLOAD][subName][fun]|default='date'}"></label>
+						<label>参数：<input type="text" name="addons[ATTACHMENT_UPLOAD][subName][param]" class="text input-small" value="{$data[ATTACHMENT_UPLOAD][subName][param]|default='Y-m-d'}"></label>
 					</div>
 				</div>
 				<div class="form-item">
@@ -87,8 +87,8 @@
 				<div class="form-item">
 					<label class="item-label">上传文件命名规则</label>
 					<div class="controls">
-						函数名：<input type="text" name="addons[ATTACHMENT_UPLOAD][saveName][fun]" class="text" value="{$data[ATTACHMENT_UPLOAD][saveName][fun]|default='uniqid'}">
-						参数：<input type="text" name="addons[ATTACHMENT_UPLOAD][saveName][param]" class="text" value="{$data[ATTACHMENT_UPLOAD][saveName][param]|default=''}">
+						<label>函数名：<input type="text" name="addons[ATTACHMENT_UPLOAD][saveName][fun]" class="text input-small" value="{$data[ATTACHMENT_UPLOAD][saveName][fun]|default='uniqid'}"></label>
+						<label>参数：<input type="text" name="addons[ATTACHMENT_UPLOAD][saveName][param]" class="text input-small" value="{$data[ATTACHMENT_UPLOAD][saveName][param]|default=''}"></label>
 					</div>
 				</div>
 				<div class="form-item">
@@ -122,7 +122,7 @@
 			</fieldset>
 			<button type="submit" class="btn">提交</button>
 			<button type="reset" class="btn">重置</button>
-			<button onclick="javascript:history.back(-1);">返回</button>
+			<button class="btn" onclick="javascript:history.back(-1);"><i class="icon-redo"></i>返回</button>
 		</form>
 	</div>
 </block>
