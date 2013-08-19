@@ -31,22 +31,21 @@ class AdminController extends Action {
     static protected $nodes = array();
 
     /**
-     * 默认从当前控制器读取节点,指定controller元素可从其他控制器读取节点合并,用逗号分隔开的控制器名(不含Controller)
      * 主节点配置示例:  
      *   菜单节点必须配置title元素和url元素(供U函数作使用)
      *   array(
-     *       //值的元素  title:节点名字；url:链接; controller:其他控制器来源; tip:链接提示文字
+     *       //值的元素  title:节点名字；url:链接; controller:从哪些控制器查询节点,多个逗号分隔; tip:链接提示文字
      *       array( 'title'=>'节点标题', 'url'=>'Index/index?param=value','controllers'=>'', 'tip'=>''),
      *        ......
      *     )
      *   
      */ 
     static private $menus = array(
-        array( 'title'=>'首页','url'=>__APP__),
-        array( 'title'=>'内容','url'=>'Article/index'),
-        array( 'title'=>'用户','url'=>'User/index','controllers'=>'AuthManager'),
-        array( 'title'=>'扩展','url'=>'Addons/index'),
-        array( 'title'=>'系统','url'=>'System/index'),
+        array( 'title'=>'首页','url'=>'Index/index','controllers'=>'Index',),
+        array( 'title'=>'内容','url'=>'Article/index','controllers'=>'Article',),
+        array( 'title'=>'用户','url'=>'User/index','controllers'=>'User,AuthManager'),
+        array( 'title'=>'扩展','url'=>'Addons/index','controllers'=>'Addons',),
+        array( 'title'=>'系统','url'=>'System/index','controllers'=>'System',),
     );
 
     final protected function _initialize()
@@ -63,7 +62,8 @@ class AdminController extends Action {
                 // $this->error('你没有权限');
             // }
         }
-        $this->assign( 'base_menu', $this->getMenus() );
+        $controller = CONTROLLER_NAME.'Controller';
+        $this->assign( 'base_menu', $controller::getMenus() );
 
         $this->_init();
     }
@@ -117,7 +117,7 @@ class AdminController extends Action {
         if( $_REQUEST['model']||$_REQUEST['where']||$_REQUEST['msg']){
             $this->error('非法请求',__APP__); //安全检测,防止通过参数绑定修改数据
         }
-        $where   = array_merge( array('id' => array('in', I('id',0)),(array)$where ));
+        $where   = array_merge( array('id' => array('in', I('id',0))),(array)$where );
         $msg     = array_merge( array( 'success'=>'操作成功！', 'error'=>'操作失败！', 'url'=>'' ,'ajax'=>IS_AJAX) , (array)$msg );
         if( D($model)->where($where)->save($data) ) {
             $this->success($msg['success'],$msg['url'],$msg['ajax']);
@@ -178,7 +178,7 @@ class AdminController extends Action {
      * 
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    final protected function getDeny( array $deny )
+    final protected function getDeny()
     {
         $controller = CONTROLLER_NAME.'Controller';
         $data = array();
@@ -225,10 +225,10 @@ class AdminController extends Action {
         if ( !$controller || !is_string($controller) || !is_array($controller::$nodes) ) {
             return false;
         }
-        $nodes = array();
+        $nodes = array('default'=>array());
         foreach ($controller::$nodes as $value){
             if ( is_array($value) ) {
-                $value['url'] = U($value['url']);
+                // $value['url'] = U($value['url']);
                 //为节点分组,默认分组为default
                 $group = empty($value['group']) ?'default': $value['group'];
                 unset($value['group']);
@@ -244,32 +244,34 @@ class AdminController extends Action {
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
     final static public function getMenus(){
-        $controller = CONTROLLER_NAME.'Controller';
 //        if ( S('menu'.$controller) ) {
 //            return S('menu'.$controller);
 //        }
-        $menus['main']  = self::$menus;                       //获取主节点
-        $menus['child'] = $controller::getNodes($controller); //获取自身控制器中的节点,已分组
+        $menus['main']  = self::$menus; //获取主节点  
+        $menus['child'] = array(); //设置子节点
 
         //处理其他控制器中的节点
         foreach ($menus['main'] as $key=>$item){
-            $menus['main'][$key]['url'] = U( $item['url'] );
+            // $menus['main'][$key]['url'] = U( $item['url'] );
             if( $item['controllers'] && is_string($item['controllers'])) {
                 $other_controller = explode(',',$item['controllers']);
-                foreach ($other_controller as $c){
-                    //如果指定了从其他控制器中读取节点
-                    $child = $c.'Controller';
-                    $child_nodes = $child::getNodes($child);      //其他控制器中的节点
-                    foreach ( $child_nodes as $group => $value ) {
-                        if ( $menus['child'][$group] ) {
-                            //如果分组已存在,合并到分组中
-                            $menus['child'][$group] = array_intersect_assoc($menus['child'][$group],$value);
-                        }else{
-                            //否则直接保存
-                            $menus['child'][$group]=$value;
-                        }
-                    }
-                }
+				if ( in_array( CONTROLLER_NAME, $other_controller ) ) {
+                    $menus['main'][$key]['class']='current';
+					foreach ($other_controller as $c){
+						//如果指定了从其他控制器中读取节点
+						$child = $c.'Controller';
+						$child_nodes = $child::getNodes($child);      //其他控制器中的节点
+						foreach ( $child_nodes as $group => $value ) {
+							if ( isset($menus['child'][$group]) ) {
+								//如果分组已存在,合并到分组中
+								$menus['child'][$group] = array_merge($menus['child'][$group],$value);
+							}else{
+								//否则直接保存
+								$menus['child'][$group]=$value;
+							}
+						}
+					}
+				}
             }
         }
 //        S('menu'.CONTROLLER_NAME,$menus);

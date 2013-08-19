@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>用户管理中心 - 首页</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/base.css" media="all">
+    <link rel="stylesheet" type="text/css" href="__CSS__/common.css" media="all">
+    <link rel="stylesheet" type="text/css" href="__CSS__/form.css" media="all">
+    <link rel="stylesheet" type="text/css" href="__CSS__/table.css" media="all">
+    <link rel="stylesheet" type="text/css" href="__CSS__/button.css" media="all">
     <link rel="stylesheet" type="text/css" href="__CSS__/style.css" media="all">
     <block name="style"></block>
 </head>
@@ -14,12 +19,10 @@
         <!-- /Logo -->
 
         <!-- 主导航 -->
-        <ul id="main-nav" class="main-nav" data-controller="{$Think.CONTROLLER_NAME}">
-            <li><a href="javascript:;">首页</a></li>
-            <li><a href="javascript:;">内容</a></li>
-            <li><a href="javascript:;">用户</a></li>
-            <li class="Addons"><a href="{:U('Addons/index')}">扩展</a></li>
-            <li><a href="javascript:;">系统</a></li>
+        <ul class="main-nav">
+            <volist name="base_menu.main" id="menu">
+                <li class="{$menu.class|default=''}"><a href="{$menu.url|U}">{$menu.title}</a></li>
+            </volist>
         </ul>
         <!-- /主导航 -->
     </div>
@@ -28,7 +31,22 @@
     <!-- 边栏 -->
     <div class="sidebar">
         <!-- 子导航 -->
-        <block name="sidebar"></block>
+        <block name="sidebar">
+            <div id="subnav" class="subnav">
+                <volist name="base_menu.child" id="sub_menu">
+                    <!-- 子导航 -->
+                    <notempty name="sub_menu">
+                        <h3><i class="icon-s1"></i>{$key}</h3>
+                        <ul>
+                            <volist name="sub_menu" id="menu">
+                                <li><a href="{$menu.url|U}">{$menu.title}</a></li>
+                            </volist>
+                        </ul>
+                    </notempty>
+                    <!-- /子导航 -->
+                </volist>
+            </div>
+        </block>
         <!-- /子导航 -->
     </div>
     <!-- /边栏 -->
@@ -46,14 +64,14 @@
     <!--<![endif]-->
     <script type="text/javascript">
         +function(){
-            var $window = $(window), $menuNav = $("#main-nav");
+            var $window = $(window), $subnav = $("#subnav"), url;
             $window.resize(function(){
                 $("#main").css("min-height", $window.height() - 50);
             }).resize();
 
-            /* 高亮头部导航 */
-            $menuNav.find(".current").removeClass("current");
-            $menuNav.find("." + $menuNav.data("controller")).addClass("current");
+            /* 左边菜单高亮 */
+            url = window.location.pathname + window.location.search;
+            $subnav.find("a[href='" + url + "']").parent().addClass("current");
         }();
     </script>
     <block name="script"></block>

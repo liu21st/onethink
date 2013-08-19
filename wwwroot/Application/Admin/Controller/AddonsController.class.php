@@ -9,11 +9,15 @@
 
 /**
  * 扩展后台管理页面
- * @authors yangweijie <yangweijiester@gmail.com>
- * @date    2013-08-14 11:20:04
+ * @author yangweijie <yangweijiester@gmail.com>
  */
 
 class AddonsController extends AdminController {
+    static protected $nodes = array(
+        array( 'title'=>'模型管理', 'url'=>'Addons/index', 'group'=>'扩展'),
+        array( 'title'=>'插件管理', 'url'=>'Addons/index', 'group'=>'扩展'),
+        array( 'title'=>'钩子管理', 'url'=>'Addons/hooks', 'group'=>'扩展'),
+    );
 
     public function index(){
         $this->assign('list',D('Addons')->getList());
@@ -53,7 +57,7 @@ class AddonsController extends AdminController {
         if(!$addon)
             $this->error('插件未安装');
         $this->assign('data',$addon);
-        $config_tpl = APP_PATH."Cms/Addons/{$addon['name']}/View/Config/config.html";
+        $config_tpl = C('EXTEND_MODULE.Addons')."{$addon['name']}/View/Config/config.html";
         $this->display($config_tpl);
     }
 
@@ -61,6 +65,7 @@ class AddonsController extends AdminController {
      * 钩子列表
      */
     public function hooks(){
+        $order = $field = array();
         $this->assign('list', D('Hooks')->field($field)->order($order)->select());
         $this->display();
     }
