@@ -38,10 +38,11 @@
 		 * 获取插件的配置数组
 		 */
 		public function getConfig(){
-			$config = D('Addons')->where("name='{$this->getName()}'")->getField('config');
-			if($config && is_string($config)){
-				$config = json_decode($config, 1);
+			$config = D('Addons')->where("name='{$this->getName()}'")->find();
+			if($config['config'] && is_string($config['config'])){
+				$config['config'] = json_decode($config['config'], 1);
 			}
+			$config['config']['status'] = $config['status'];
 			return $config;
 		}
 

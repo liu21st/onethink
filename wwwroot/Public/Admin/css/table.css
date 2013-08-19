@@ -3,6 +3,13 @@
  * 作用范围: 公共，表格模块
  */
 
+/* 隔行变色 */
+.table-striped tbody tr:nth-child(even) {
+    background-color: #f5f5f5;
+}
+
+/* 数据表格
+------------------------------------------------- */
 .data-table {
 	margin: 10px 0;
 }
@@ -39,7 +46,6 @@
     background-image: -ms-linear-gradient(top,#fafafa,#f3f3f3);
     background-image: linear-gradient(top,#fafafa,#f3f3f3);
 }
-/* 隔行变色 */
-.table-striped tbody tr:nth-child(even) {
-	background-color: #f5f5f5;
-}
+
+/* 数据表格
+------------------------------------------------- */

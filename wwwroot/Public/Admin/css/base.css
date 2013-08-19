@@ -18,6 +18,10 @@ table,caption,tr,th,td {
 ol,ul {
 	list-style:none;
 }
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
 img {
 	max-width: 100%;
 	border:0 none;
