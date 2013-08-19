@@ -340,3 +340,13 @@ body{
     color: #666;
     padding-right: 6px;
 }
+
+
+/* 配置表单 */
+.config-form fieldset {
+    margin-bottom: 20px;
+}
+.config-form .item-label {
+    padding-right: 10px;
+    min-width: 170px;
+}
