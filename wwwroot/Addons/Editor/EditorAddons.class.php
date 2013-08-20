@@ -26,10 +26,9 @@
 		 * 编辑器挂载的文章内容钩子
 		 * @param array('name'=>'表单name','value'=>'表单对应的值')
 		 */
-		static public function documentEditFormContent($data){
-			$addons = addons('Editor');
-			$addons->assign('data', $data);
-			$addons->assign('config', $addons->getConfig());
-			$addons->display('content');
+		public function documentEditFormContent($data){
+			$this->assign('data', $data);
+			$this->assign('config', $this->getConfig());
+			$this->display('content');
 		}
 	}
