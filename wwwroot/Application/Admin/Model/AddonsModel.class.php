@@ -10,7 +10,6 @@
 /**
  * 插件模型
  * @author yangweijie <yangweijiester@gmail.com>
- * @date    2013-08-14 11:31:21
  */
 
 class AddonsModel extends Model {
@@ -21,6 +20,18 @@ class AddonsModel extends Model {
 	protected function _after_find(&$result,$options) {
 		$result['status_text_arr'] = array(-1=>'损坏', 0=>'禁用', 1=>'启用');
 		$result['status_text'] = $result['status_text_arr'][$result['status']];
+		if($result['config'])
+			$result['config'] = json_decode($result['config'], 1);
+		$addons = addons($result['name']);
+		if($addons->config_file){
+			$data = include $addons->config_file;
+			if($data && $result['config']){
+				foreach ($result['config'] as $key => $value) {
+					$data[$key]['value'] = $value;
+				}
+			}
+			$result['config'] = $data;
+		}
 	}
 
 	protected function _after_select(&$result,$options){
@@ -59,6 +70,11 @@ class AddonsModel extends Model {
 	 */
 	public function getAddonsInfo($name){
 		$info = $this->where("name='{$name}'")->find();
+		if(!$info){
+			$info = include C('EXTEND_PATH.addons').$name.'/info.php';
+			if($info)
+				$info['uninstall'] = 1;
+		}
 		return $info;
 	}
 }

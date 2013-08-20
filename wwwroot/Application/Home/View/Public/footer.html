@@ -49,16 +49,11 @@
 </div>
 
 <include file="Public/var"/>
-<!--[if lt IE 9]>
-<script type="text/javascript" src="__STATIC__/jquery-1.10.2.min.js"></script>
-<![endif]-->
-<!--[if gte IE 9]><!-->
-<script type="text/javascript" src="__STATIC__/jquery-2.0.3.min.js"></script>
-<!--<![endif]-->
+
 <script type="text/javascript" src="__STATIC__/think.js"></script>
 <script type="text/javascript" src="__JS__/common.js"></script>
 <block name="script"></block> <!-- 用于加载js代码 -->
-{:hooks('page_footer', 'widget')} <!-- 页面footer钩子，一般用于加载插件JS文件和JS代码 -->
+ <!-- 页面footer钩子，一般用于加载插件JS文件和JS代码 -->
 <div class="hidden"><!-- 用于加载统计代码等隐藏元素 -->
 	<block name="hidden"></block>
-</div> 
+</div>

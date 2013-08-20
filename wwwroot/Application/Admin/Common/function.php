@@ -44,7 +44,7 @@ function is_administrator(){
  * @author huajie <banhuajie@163.com>
  */
 function get_status_title($status = null){
-	if(empty($status)){
+	if(!isset($status)){
 		return false;
 	}
 	switch ($status){

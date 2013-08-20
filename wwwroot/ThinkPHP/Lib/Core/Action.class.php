@@ -22,21 +22,21 @@ abstract class Action {
      * 视图实例对象
      * @var view
      * @access protected
-     */    
+     */
     protected $view     =  null;
 
     /**
      * 当前控制器名称
      * @var name
      * @access protected
-     */      
+     */
     private   $name     =  '';
 
     /**
      * 控制器参数
      * @var config
      * @access protected
-     */      
+     */
     protected $config   =   array();
 
    /**
@@ -46,7 +46,7 @@ abstract class Action {
     public function __construct() {
         tag('action_begin',$this->config);
         //实例化视图类
-        $this->view     = Think::instance('View');           
+        $this->view     = Think::instance('View');
         //控制器初始化
         if(method_exists($this,'_initialize'))
             $this->_initialize();
@@ -115,7 +115,7 @@ abstract class Action {
      * @param string $templateFile 指定要调用的模板文件
      * 默认为空 由系统自动定位模板文件
      * @param string $content 模板输出内容
-     * @param string $prefix 模板缓存前缀* 
+     * @param string $prefix 模板缓存前缀*
      * @return string
      */
     protected function fetch($templateFile='',$content='',$prefix='') {
@@ -177,7 +177,7 @@ abstract class Action {
      * @return mixed
      */
     public function get($name='') {
-        return $this->view->get($name);      
+        return $this->view->get($name);
     }
 
     public function __get($name) {
@@ -228,7 +228,7 @@ abstract class Action {
                 case '_get'     :   $input =& $_GET;break;
                 case '_post'    :   $input =& $_POST;break;
                 case '_put'     :   parse_str(file_get_contents('php://input'), $input);break;
-                case '_param'   :  
+                case '_param'   :
                     switch($_SERVER['REQUEST_METHOD']) {
                         case 'POST':
                             $input  =  $_POST;
@@ -328,11 +328,11 @@ abstract class Action {
                 // 返回JSON数据格式到客户端 包含状态信息
                 header('Content-Type:application/json; charset=utf-8');
                 $handler  =   isset($_GET[C('VAR_JSONP_HANDLER')]) ? $_GET[C('VAR_JSONP_HANDLER')] : C('DEFAULT_JSONP_HANDLER');
-                exit($handler.'('.json_encode($data).');');  
+                exit($handler.'('.json_encode($data).');');
             case 'EVAL' :
                 // 返回可执行的js脚本
                 header('Content-Type:text/html; charset=utf-8');
-                exit($data);            
+                exit($data);
             default     :
                 // 用于扩展其他返回格式数据
                 tag('ajax_return',$data);

@@ -1,0 +1,7 @@
+/**
+ * UBBEditor: http://www.ubbeditor.com/
+ *
+ * UBBEditor 1.0 is (c) 2009-2010 Jetiben and is released under the MIT License:
+ * http://www.opensource.org/licenses/mit-license.php
+ *
+ */

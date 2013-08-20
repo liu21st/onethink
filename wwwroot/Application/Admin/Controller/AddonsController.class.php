@@ -57,8 +57,64 @@ class AddonsController extends AdminController {
         if(!$addon)
             $this->error('插件未安装');
         $this->assign('data',$addon);
-        $config_tpl = C('EXTEND_MODULE.Addons')."{$addon['name']}/View/Config/config.html";
-        $this->display($config_tpl);
+        $this->display();
+    }
+
+    public function saveConfig(){
+        $id = (int)I('id');
+        $config = I('config');
+        $flag = D('Addons')->where("id={$id}")->setField('config',json_encode($config));
+        if($flag !== FALSE){
+            $this->success('保存成功');
+        }else{
+            $this->error('保存失败');
+        }
+    }
+
+    /**
+     * 安装插件
+     */
+    public function install(){
+    	$addons = addons(trim(I('addon_name')));
+    	if(!$addons)
+    		$this->error('插件不存在');
+		$info = include $addons->addon_path.'info.php';
+		if(!$info)
+			$this->error('插件信息缺失');
+		$install_flag = $addons->install();
+		if(!$install_flag)
+			$this->error('执行插件预安装操作失败');
+        //TODO: 安装插件时添加对应hooks里的位置
+		$addonsModel = D('Addons');
+		$data = $addonsModel->create($info);
+		if(!$data)
+			$this->error($addonsModel->getError());
+		if($addonsModel->add()){
+			$this->success('安装成功');
+		}else{
+			$this->error('写入插件数据失败');
+		}
+    }
+
+    /**
+     * 卸载插件
+     */
+    public function uninstall(){
+    	$addonsModel = D('Addons');
+    	$id = trim(I('id'));
+    	$db_addons = $addonsModel->find($id);
+    	$addons = addons($db_addons['name']);
+    	if(!$db_addons || !$addons)
+    		$this->error('插件不存在');
+    	$uninstall_flag = $addons->uninstall();
+		if(!$uninstall_flag)
+			$this->error('执行插件预卸载操作失败');
+		$delete = $addonsModel->delete($id);
+		if($delete === FALSE){
+			$this->error('卸载插件失败');
+		}else{
+			$this->success('卸载成功');
+		}
     }
 
     /**
@@ -75,5 +131,27 @@ class AddonsController extends AdminController {
         $id = I('id');
         D('Hooks')->where("id={$id}")->setField('addons', $addons);
         $this->success('更新排序成功');
+    }
+
+    public function execute($_addons = null, $_controller = null, $_action = null){
+        if(C('URL_CASE_INSENSITIVE')){
+            $_addons = ucfirst(strtolower($_addons));
+            $_controller = parse_name($_controller,1);
+        }
+
+        if(!empty($_addons) && !empty($_controller) && !empty($_action)){
+            $Addons = A("Addons://{$_addons}/{$_controller}")->setName($_addons)->$_action();
+        } else {
+            $this->error('没有指定插件名称，控制器或操作！');
+        }
+    }
+
+    /**
+     * 设置当前插件名称
+     * @param string $name 插件名称
+     */
+    protected function setName($name){
+        $this->addons = $name;
+        return $this;
     }
 }

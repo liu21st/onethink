@@ -1,1 +1,39 @@
-<extend name="Public/base"/>
+<extend name="Public/base" />
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>用户列表</h2>
+		<div class="tools">
+			<button id="add-member"><i class="icon-add"></i>添加</button>
+		</div>
+	</div>
+
+	<!-- 数据列表 -->
+	<div class="data-table table-striped">
+		<table>
+			<thead>
+				<tr>
+					<th>UID</th>
+					<th>注册时间</th>
+					<th>注册IP</th>
+					<th>最后登陆时间</th>
+					<th>最后登陆IP</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist name="list" id="vo">
+				<tr>
+					<td>{$i}</td>
+					<td>{$vo.title}</td>
+					<td>{$vo.name}</td>
+					<td>{$vo.description}</td>
+					<td>{$vo.status_text|default="未安装"}</td>
+					<td></td>
+				</tr>
+				</volist>
+			</tbody>
+		</table>
+	</div>
+</block>

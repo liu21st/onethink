@@ -1,0 +1,105 @@
+.ubbEditorDiv {
+	POSITION: relative; MARGIN: 0px; BACKGROUND: #EFEFDE; BORDER: #999999 1px solid
+}
+.ubbEditorDivPanel {
+	MARGIN: 0px; PADDING: 2px; BORDER-BOTTOM: #999999 1px solid
+}
+.ubbEditorDivPanel IMG {
+	CURSOR: pointer; PADDING: 2px; BORDER: #EFEFDE 1px solid
+}
+.ubbEditorDivPanel IMG.ubbEditorSelected {
+	CURSOR: pointer; PADDING: 2px; BORDER: #316AC5 1px solid; BACKGROUND: #DFF1FF
+}
+.ubbEditorTextarea {
+	POSITION: absolute; TOP: 27px; LEFT: 0px; MARGIN: 0px; PADDING: 0px; FONT-SIZE: 12px; BACKGROUND: #FFFFFF; BORDER: 0px; OVERFLOW-Y: scroll; VERTICAL-ALIGN: middle
+}
+.ubbEditorIframe {
+	MARGIN: 0px; BACKGROUND: #FFFFFF
+}
+.ubbEditorMaskDIV TD {
+	BACKGROUND: transparent
+}
+.ubbEditorRelative {
+  POSITION: relative
+}
+.ubbEditorCloseTable {
+  POSITION: absolute; TOP: 6px; RIGHT: 6px; CURSOR: pointer
+}
+.ubbEditorColorTable {
+	MARGIN: 0px; BACKGROUND: #EFEFDE; BORDER: #999999 1px solid
+}
+.ubbEditorColorTable TD {
+	FONT-SIZE: 12px; FONT-WEIGHT: bold
+}
+.ubbEditorColorTable TD IMG {
+	WIDTH: 11px; HEIGHT: 11px; VERTICAL-ALIGN: top; CURSOR: pointer; BORDER: #999999 1px solid
+}
+.ubbEditorSmileyTable {
+	MARGIN: 0px; BACKGROUND: #EFEFDE; BORDER: #999999 1px solid
+}
+.ubbEditorSmileyTable TD {
+	FONT-SIZE: 12px; FONT-WEIGHT: bold
+}
+.ubbEditorSmileyTable TD IMG {
+	CURSOR: pointer; MARGIN: 3px; WIDTH: 19px; HEIGHT: 19px
+}
+.ubbEditorMessageTable {
+	MARGIN: 0px; BACKGROUND: #EFEFDE; BORDER: #999999 1px solid
+}
+.ubbEditorMessageTable TD {
+	FONT-SIZE: 12px; FONT-WEIGHT: bold
+}
+.ubbEditorMessageTable TD.ubbEditorTD1 {
+	PADDING-TOP: 2px; PADDING-BOTTOM: 2px; TEXT-ALIGN: right
+}
+.ubbEditorMessageTable TD SPAN {
+	PADDING-LEFT: 30px; PADDING-RIGHT: 30px; COLOR: #333333; FONT-WEIGHT : normal
+}
+.ubbEditorMessageTable TD A {
+	FONT-FAMILY: georgia; COLOR: #316AC5; TEXT-DECORATION: none
+}
+.ubbEditorMessageTable TD A:hover {
+	FONT-FAMILY: georgia; COLOR: #316AC5; TEXT-DECORATION: underline
+}
+.ubbEditorMessageTable TD INPUT {
+	MARGIN: 0px; PADDING: 0px; VERTICAL-ALIGN: middle
+}
+.ubbEditorMessageTable TD INPUT.ubbEditorMessageButton {
+	HEIGHT: 22px; PADDING: 0px 5px 0px 5px; BACKGROUND: #DEDEDE; BORDER: #999999 1px solid
+}
+.ubbEditorLinkTable {
+	MARGIN: 0px; BACKGROUND: #EFEFDE; BORDER: #999999 1px solid
+}
+.ubbEditorLinkTable TD {
+	FONT-SIZE: 12px; FONT-WEIGHT: bold
+}
+.ubbEditorLinkTable TD.ubbEditorTD1 {
+	PADDING-TOP: 2px; PADDING-BOTTOM: 2px; TEXT-ALIGN: right
+}
+.ubbEditorLinkTable TD INPUT {
+	MARGIN: 0px; PADDING: 0px; VERTICAL-ALIGN: middle
+}
+.ubbEditorLinkTable TD INPUT.ubbEditorLinkText {
+	WIDTH: 240px; HEIGHT: 16px; PADDING: 2px; BORDER: #999999 1px solid
+}
+.ubbEditorLinkTable TD INPUT.ubbEditorLinkButton {
+	HEIGHT: 22px; PADDING: 0px 5px 0px 5px; BACKGROUND: #DEDEDE; BORDER: #999999 1px solid
+}
+.ubbEditorImageTable {
+	MARGIN: 0px; BACKGROUND: #EFEFDE; BORDER: #999999 1px solid
+}
+.ubbEditorImageTable TD {
+	FONT-SIZE: 12px; FONT-WEIGHT: bold
+}
+.ubbEditorImageTable TD.ubbEditorTD1 {
+	PADDING-TOP: 2px; PADDING-BOTTOM: 2px; TEXT-ALIGN: right
+}
+.ubbEditorImageTable TD INPUT {
+	MARGIN: 0px; PADDING: 0px; VERTICAL-ALIGN: middle
+}
+.ubbEditorImageTable TD INPUT.ubbEditorImageText {
+	WIDTH: 240px; HEIGHT: 16px; PADDING: 2px; BORDER: #999999 1px solid
+}
+.ubbEditorImageTable TD INPUT.ubbEditorImageButton {
+	HEIGHT: 22px; PADDING: 0px 5px 0px 5px; BACKGROUND: #DEDEDE; BORDER: #999999 1px solid
+}

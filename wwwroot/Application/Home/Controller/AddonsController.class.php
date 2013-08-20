@@ -25,14 +25,14 @@ class AddonsController extends Action{
 		}
 	}
 
-	public function execute($addons = null, $controller = null, $action = null){
+	public function execute($_addons = null, $_controller = null, $_action = null){
 		if(C('URL_CASE_INSENSITIVE')){
-			$addons = ucfirst(strtolower($addons));
-			$controller = parse_name($controller,1);
+			$_addons = ucfirst(strtolower($_addons));
+			$_controller = parse_name($_controller,1);
 		}
 
-		if(!empty($addons) && !empty($controller) && !empty($action)){
-			$Addons = A("Addons://{$addons}/{$controller}")->setName($addons)->$action();
+		if(!empty($_addons) && !empty($_controller) && !empty($_action)){
+			$Addons = A("Addons://{$_addons}/{$_controller}")->setName($_addons)->$_action();
 		} else {
 			$this->error('没有指定插件名称，控制器或操作！');
 		}
@@ -53,7 +53,7 @@ class AddonsController extends Action{
      * 设置当前插件名称
      * @param string $name 插件名称
      */
-    private function setName($name){
+    protected function setName($name){
     	$this->addons = $name;
     	return $this;
     }

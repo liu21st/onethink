@@ -1,0 +1,72 @@
+<extend name="Public/base" />
+
+<block name="body">
+	<!-- 表单 -->
+	<form id="form" action="{:U('update')}" method="post" class="form-horizontal">
+		<div class="form-item cf">
+			<label class="item-label">文档标识：</label>
+			<div class="controls">
+				<input type="text" class="text" name="name">
+				<span class="check-tips">请输入文档标识</span>
+			</div>
+		</div>
+		<div class="form-item cf">
+			<label class="item-label">标题：</label>
+			<div class="controls">
+				<input type="text" class="text" name="title">
+				<span class="check-tips">请输入标题</span>
+			</div>
+		</div>
+		<div class="form-item cf">
+			<label class="item-label">简介：</label>
+			<div class="controls">
+				<label class="textarea"><textarea name="description"></textarea></label>
+				<span class="check-tips">请输入简介</span>
+			</div>
+		</div>
+		<div class="form-item cf">
+			<label class="item-label">推荐位：</label>
+			<div class="controls">
+				<label class="checkbox"><input type="checkbox" name="position">列表推荐</label>
+				<label class="checkbox"><input type="checkbox" name="position">频道页推荐</label>
+				<label class="checkbox"><input type="checkbox" name="position">首页推荐</label>
+				<span class="check-tips"></span>
+			</div>
+		</div>
+		<div class="form-item cf">
+			<label class="item-label">外链：</label>
+			<div class="controls">
+				<input type="text" class="text" name="link_id">
+				<span class="check-tips"></span>
+			</div>
+		</div>
+		<div class="form-item cf">
+			<label class="item-label">可见性：</label>
+			<div class="controls">
+				<label class="radio"><input type="radio" name="display" value="0">不可见</label>
+				<label class="radio"><input type="radio" name="display" value="1" checked="checked">所有人可见</label>
+				<span class="check-tips">可见性必选</span>
+			</div>
+		</div>
+		<div class="form-item cf">
+			<label class="item-label">截止时间：</label>
+			<div class="controls">
+				<input type="text" class="text" name="dateline">
+				<span class="check-tips"></span>
+			</div>
+		</div>
+
+		<div class="btn-toolbar">
+			<button class="btn" id="submit"><em>确定</em> </button>
+		</div>
+		<input type="hidden" name="model_id" value="{$model_id}"/>
+	</form>
+</block>
+
+<block name="script">
+<script type="text/javascript">
+$('#submit').click(function(){
+	$('#form').submit();
+});
+</script>
+</block>
