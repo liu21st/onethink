@@ -32,64 +32,6 @@ class AuthManagerController extends AdminController{
     );
 
     /**
-     * 返回后台节点数据
-     * @param boolean $tree    是否返回树形结构
-     * @retrun array
-     * 
-     * @author 朱亚杰 <zhuyajie@topthink.net>
-     */
-    protected function returnNodes($tree = true)
-    {
-        $iterator = new FilesystemIterator(
-                            __DIR__,
-                            FilesystemIterator::UNIX_PATHS|FilesystemIterator::CURRENT_AS_PATHNAME|FilesystemIterator::KEY_AS_FILENAME
-                        );
-        $nodes    = $this->getVal('menus'); //获取主节点
-        //所有子菜单接单
-
-        $arr  = array(); //保存每个控制器中的节点
-        foreach ( $iterator as $filename => $obj ){
-            $class = strtr($filename,array('.class.php'=>''));
-            if( class_exists($class) && method_exists($class,'getNodes') ){
-                $arr[$class] = $class::getNodes($class,false);
-            }
-        }
-
-        $child = array();//$tree为false时,保存所有控制器中的节点
-        foreach ($nodes as $key => $value){
-            $nodes[$key]['url'] = $value['url'];
-            $nodes[$key]['child'] = array();
-            $controllers = explode(',',$value['controllers']);
-            foreach ($controllers as $c){
-                if($tree){
-                    $nodes[$key]['child'] = array_merge($nodes[$key]['child'],$arr[$c.'Controller']);
-                }else{
-                    $temp = $arr[$c.'Controller'];
-                    foreach ($temp as $k=>$operator){//分离菜单节点下的操作节点
-                        if ( isset($operator['operator']) ) {
-                            $child = array_merge($child,$operator['operator']);
-                            unset($temp[$k]['operator']);
-                        }
-                    }
-                    $child = array_merge($child,$temp);
-                }
-            }
-            unset($nodes[$key]['controllers']);
-            if (!$tree) {
-                unset($nodes[$key]['child']);
-            }else{
-                unset($nodes[$key]['child']['default']);
-            }
-        }
-
-        if (!$tree) {
-            $nodes = array_merge($nodes,$child);
-            unset($nodes['default']);
-        }
-        return $nodes;
-    }
-    
-    /**
      * 后台节点配置的url作为规则存入auth_rule
      * 执行新节点的插入,已有节点的更新,无效规则的删除三项任务
      * @author 朱亚杰 <zhuyajie@topthink.net>
@@ -119,13 +61,13 @@ class AuthManagerController extends AdminController{
         $ids    = array();//保存需要删除的节点的id
         foreach ($rules as $index=>$rule){
             $key = strtolower($rule['name'].$rule['module'].$rule['type']);
-            if ( isset($data[$key]) ) {
-                $data[$key]['id'] = $rule['id'];
-                $update[] = $data[$key];
+            if ( isset($data[$key]) ) {//如果数据库中的规则与配置的节点匹配
+                $data[$key]['id'] = $rule['id'];//为配置的节点补充数据库中对应的id值
+                $update[] = $data[$key];//保存
                 unset($data[$key]); //去除需要更新的节点,只留下需要插入的节点
                 unset($rules[$index]);//去除需要更新的节点,只留下需要删除的节点
                 unset($rule['condition']);
-                $rules[$rule['id']]=$rule;//用户更新规则时的比较判断
+                $diff[$rule['id']]=$rule;//用户更新规则时的比较判断
             }else{
                 $ids[] = $rule['id'];
             }
@@ -134,7 +76,7 @@ class AuthManagerController extends AdminController{
         //更新
         if ( count($update) ) {
             foreach ($update as $k=>$row){
-                if ($row!=$rules[$row['id']]) {
+                if ( $row!=$diff[$row['id']] ) {
                     $AuthRule->where(array('id'=>$row['id']))->save($row);
                 }
             }
@@ -184,6 +126,9 @@ class AuthManagerController extends AdminController{
 
         $this->assign('auth_rules',$rules);
         $this->assign('node_list',$node_list);
+        if ( empty($this->auth_group) ) {
+            $this->assign('auth_group',array('title'=>null,'id'=>null,'description'=>null,'rules'=>null,));//排除notice信息
+        }
         $this->display('managergroup');
     }
 
@@ -211,33 +156,16 @@ class AuthManagerController extends AdminController{
         $AuthGroup       = D('AuthGroup');
         $data = $AuthGroup->create();
         if ( $data ) {
-            if ( isset($data['id']) ) {
-                $AuthGroup->save();
-            }else{
+            if ( empty($data['id']) ) {
                 $AuthGroup->add();
+            }else{
+                $AuthGroup->save();
             }
+        }else{
+            $this->error($AuthGroup->getError());
         }
     }
-
-    /**
-     * 把用户添加到用户组,支持批量用户添加到多个用户组
-     * @author 朱亚杰 <zhuyajie@topthink.net>
-     */
-    public function addToGroup()
-    {
-        $uid      = I('post.uid');
-        $group_id = I('post.group_id');
-        //检查数据是否存在,是否重复
-        // $GroupAccess = M('AuthGroupAccess');
-        // $GroupAccess->add();
-    }
     
-    public function test()
-    {
-        // dump($method);
-        echo PHP_FILE;
-    }
-
     public function changeStatus($method=null)
     {
         switch ( $method ){
