@@ -12,4 +12,5 @@
  */
 return array(
     'Addons' => COMMON_PATH . 'Controller/Addons.class.php',
+    'Addon' => COMMON_PATH . 'Controller/Addon.php',
 );

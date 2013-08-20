@@ -20,8 +20,6 @@ class AddonsModel extends Model {
 	protected function _after_find(&$result,$options) {
 		$result['status_text_arr'] = array(-1=>'损坏', 0=>'禁用', 1=>'启用');
 		$result['status_text'] = $result['status_text_arr'][$result['status']];
-		if($result['config'])
-			$result['config'] = json_decode($result['config'], 1);
 		$addons = addons($result['name']);
 		if($addons->config_file){
 			$data = include $addons->config_file;
