@@ -58,7 +58,18 @@ class AdminController extends Action {
         if ( $ac===false ) {
             $this->error('403:禁止访问',__APP__);
         }elseif( $ac===null ){
-            $this->checkRule( MODULE_NAME.'/'.CONTROLLER_NAME.'/'.ACTION_NAME );//检测权限
+            $rule  = MODULE_NAME.'/'.CONTROLLER_NAME.'/'.ACTION_NAME;
+            $nodes = $this->returnNodes(false);
+            $i = 0;
+            foreach ($nodes as $value){
+                if( in_array($rule,$value) ){
+                    $i = 1; //当前访问的节点存在于需要执行权限验证的节点中
+                    break;
+                }
+            }
+            if ( $i===1 && !$this->checkRule($rule) ) {
+                $this->error('无权访问');
+            }
         }
         $this->assign( 'base_menu', $this->getMenus() );
 
@@ -76,7 +87,7 @@ class AdminController extends Action {
      * @return boolean
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
-    protected function checkRule($rule,$type='url')
+    final protected function checkRule($rule,$type='url')
     {
         static $Auth = null;
         import('ORG.Util.Auth');
@@ -109,8 +120,6 @@ class AdminController extends Action {
         }
         $deny  = $this->getDeny();
         $allow = $this->getAllow();
-        // dump($deny);
-        // dump($allow);
         if ( !empty($deny)  && in_array(ACTION_NAME,$deny) ) {
             return false;
         }
@@ -253,9 +262,22 @@ class AdminController extends Action {
             if (!is_array($value) || !isset($value['title'],$value['url'])) {
                 $this->error("内部错误:{$controller}控制器 nodes属性配置有误 ,即将返回首页",__APP__);
             }
-            if(!strpos($value['url'],'/')){
-                $value['url'] = strtr($controller,array('Controller'=>'')).'/'.$value['url'];
+            if( strpos($value['url'],'/')===false ){
+                $value['url'] = MODULE_NAME.'/'.strtr($controller,array('Controller'=>'')).'/'.$value['url'];
+            }elseif( stripos($value['url'],MODULE_NAME)!==0 ){
+                $value['url'] = MODULE_NAME.'/'.$value['url'];
             }
+
+            if ( isset($value['operator']) ) {
+                foreach ($value['operator'] as &$v){
+                    if( strpos($v['url'],'/')===false ){
+                        $v['url'] = MODULE_NAME.'/'.strtr($controller,array('Controller'=>'')).'/'.$v['url'];
+                    }elseif( stripos($v['url'],MODULE_NAME)!==0 ){
+                        $v['url'] = MODULE_NAME.'/'.$v['url'];
+                    }
+                }
+            }
+
             if ( $group ) {
                 //为节点分组,默认分组为default
                 $group_name = empty($value['group']) ?'default': $value['group'];
@@ -286,6 +308,11 @@ class AdminController extends Action {
             if (!is_array($item) || empty($item['title']) || empty($item['url']) || empty($item['controllers'])) {
                 $this->error('控制器基类$menus属性元素配置有误');
             }
+
+            if( stripos($item['url'],MODULE_NAME)!==0 ){
+                $item['url'] = MODULE_NAME.'/'.$item['url'];
+            }
+
             //判断节点权限
             if (!$this->checkRule($item['url'])) {  //检测节点权限
                 continue;//继续循环
@@ -332,4 +359,78 @@ class AdminController extends Action {
     final protected function getVal($val){
         return $this->$val;
     }
+    
+    /**
+     * 返回后台节点数据
+     * @param boolean $tree    是否返回树形结构
+     * @retrun array
+     * 
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
+    final protected function returnNodes($tree = true)
+    {
+        static $tree_nodes = array();
+        static $notree_nodes = array();
+        if ( $tree && !empty($tree_nodes) ) {
+            return $tree_nodes;
+        }
+        if ( !$tree && !empty($notree_nodes) ) {
+            return $notree_nodes;
+        }
+
+        $iterator = new FilesystemIterator(
+                            __DIR__,
+                            FilesystemIterator::UNIX_PATHS|FilesystemIterator::CURRENT_AS_PATHNAME|FilesystemIterator::KEY_AS_FILENAME
+                        );
+        $nodes    = $this->getVal('menus'); //获取主节点
+        //所有子菜单接单
+
+        $arr  = array(); //保存每个控制器中的节点
+        foreach ( $iterator as $filename => $obj ){
+            $class = strtr($filename,array('.class.php'=>''));
+            if( class_exists($class) && method_exists($class,'getNodes') ){
+                $arr[$class] = $class::getNodes($class,false);
+            }
+        }
+
+        $child = array();//$tree为false时,保存所有控制器中的节点
+        foreach ($nodes as $key => $value){
+            if( stripos($value['url'],MODULE_NAME)!==0 ){
+                $value['url'] = MODULE_NAME.'/'.$value['url'];
+            }
+            $nodes[$key]['url'] = $value['url'];
+            $nodes[$key]['child'] = array();
+            $controllers = explode(',',$value['controllers']);
+            foreach ($controllers as $c){
+                if($tree){
+                    $nodes[$key]['child'] = array_merge($nodes[$key]['child'],$arr[$c.'Controller']);
+                }else{
+                    $temp = $arr[$c.'Controller'];
+                    foreach ($temp as $k=>$operator){//分离菜单节点下的操作节点
+                        if ( isset($operator['operator']) ) {
+                            $child = array_merge($child,$operator['operator']);
+                            unset($temp[$k]['operator']);
+                        }
+                    }
+                    $child = array_merge($child,$temp);
+                }
+            }
+            unset($nodes[$key]['controllers']);
+            if (!$tree) {
+                unset($nodes[$key]['child']);
+            }else{
+                unset($nodes[$key]['child']['default']);
+            }
+        }
+
+        if (!$tree) {
+            $nodes = array_merge($nodes,$child);
+            unset($nodes['default']);
+            $notree_nodes = $nodes;
+        }else{
+            $tree_nodes   = $nodes;
+        }
+        return $nodes;
+    }
+    
 }
