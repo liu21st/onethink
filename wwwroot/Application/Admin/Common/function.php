@@ -97,7 +97,7 @@ function get_document_model($id = null, $field = null){
 
 }
 
-/*
+/**
  * select返回的数组进行整数映射转换
  * 
  * @param array $map  映射关系二维数组  array(
