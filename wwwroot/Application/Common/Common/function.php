@@ -204,9 +204,9 @@ function hooks($tag, $type, $params = array()) {
         // 执行插件
         $hook = parse_name($tag, 1);
         foreach ($addons as $key => $name) {
-            $addons_class = addons($name, 1);
+            $addons_class = addons($name);
             if(method_exists($addons_class, $hook))
-                $addons_class::$hook($params);
+                $addons_class->$hook($params);
         }
         if(APP_DEBUG) { // 记录钩子的执行日志
             trace('[ '.$tag.' ] --END-- [ RunTime:'.G($tag.'Start',$tag.'End',6).'s ]','','INFO');
@@ -219,13 +219,11 @@ function hooks($tag, $type, $params = array()) {
 /**
  * 获取插件类的实例
  */
-function addons($name,$static = false){
+function addons($name){
     static $_action = array();
     if(isset($_action[$name]))  return $_action[$name];
     $result = parse_res_name("Addons://{$name}/{$name}Addons",'');
     $class = basename($result);
-    if($static)
-    	return "{$name}Addons";
     if(class_exists($class,false)) {
         $action = new $class();
         $_action[$name] = $action;
