@@ -27,7 +27,7 @@
 				<tr>
 					<td><input type="checkbox" value="{$vo.id}"/></td>
 					<td>{$vo.title}</td>
-					<td>{$vo.uid}</td>
+					<td>{$vo.uid|get_username}</td>
 					<td>{$vo.create_time|time_format}</td>
 					<td>{$vo.status|get_status_title}</td>
 					<td>
