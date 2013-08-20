@@ -21,12 +21,12 @@ class AuthManagerController extends AdminController{
 
     static protected $nodes= array(
 
-        array('title'=>'管理员用户组','url'=>'AuthManager/index','group'=>'权限管理',
+        array('title'=>'权限管理','url'=>'AuthManager/index','group'=>'用户管理',
               'operator'=>array(
-                  array('title'=>'编辑','url'=>'AuthManager/edit'),
-                  array('title'=>'删除','url'=>'AuthManager/delete'),
-                  array('title'=>'禁用','url'=>'AuthManager/forbid'),
-                  array('title'=>'恢复','url'=>'AuthManager/resume'),
+                  array('title'=>'编辑','url'=>'AuthManager/editGroup'),
+                  array('title'=>'删除','url'=>'AuthManager/changeStatus?method=deleteGroup'),
+                  array('title'=>'禁用','url'=>'AuthManager/changeStatus?method=forbidGroup'),
+                  array('title'=>'恢复','url'=>'AuthManager/changeStatus?method=resumeGroup'),
               ),
         ),
     );
