@@ -195,7 +195,7 @@ function get_redirect_url(){
 function hooks($tag, $type, $params = array()) {
     $addons = D('Hooks')->where("name='{$tag}'")->getField('addons');
     trace($addons);
-    $addons = split(',', $addons);
+    $addons = explode(',', $addons);
     if(!empty($addons)) {
         if(APP_DEBUG) {
             G($tag.'Start');
@@ -229,7 +229,6 @@ function addons($name){
     $class = basename($result);
     if(class_exists($class,false)) {
         $action = new $class();
-        // dump($class);die;
         $_action[$name] = $action;
         return $action;
     }else {
