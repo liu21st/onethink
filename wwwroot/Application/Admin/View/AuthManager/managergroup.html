@@ -1,35 +1,59 @@
 <!-- 管理员用户组新增和编辑页面 -->
 <extend name="Public/base" />
 <block name="body">
-    <div>
-    	<div>
-    		<div>
-    			<label for="auth-title">管理员用户组</label>
+<div>
+    <form action="{:U('AuthManager/writeGroup')}" enctype="application/x-www-form-urlencoded" method="POST">
+        <div>
+            <div>
+                <label for="auth-title">管理员用户组</label>
                 <input id="auth-title" type="text" name="title" value="{$auth_group.title}"/>
-    		</div>
-    		<div>
-    			<label for="auth-description">用户组描述</label>
+            </div>
+            <div>
+                <label for="auth-description">用户组描述</label>
                 <input id="auth-description" type="text" name="description" value="{$auth_group.description}"/>
-    		</div>
-    	</div>
+            </div>
+        </div>
 
         <div id="node_list">
-
             <volist name="node_list" id="node" >
-            <div>
-                <span><label><input type="checkbox" name="rule_all" />&nbsp;全选</label></span>
-                <span><label><input type="checkbox" name="rule[]" value="<?php echo $auth_rules[$node['url']] ?>"/>&nbsp;{$node.title}</label></span>
+            <div class="rules_row">
+                <span><label><input type="checkbox" class="rules_all" />&nbsp;全选</label></span>
+                <span>
+                    <label><input class="auth_rules" type="checkbox" name="rules[]"
+                               value="<?php echo $auth_rules[$node['url']] ?>"/>&nbsp;{$node.title}</label>
+                </span>
                 <span>
                     <ul>
                         <volist name="node['child']" id="child" >
-                        <li><label><input type="checkbox" name="rule[]" value="<?php echo $auth_rules[$child['url']] ?>"/>&nbsp;{$child.title}</label></li>
+                        <li><label><input class="auth_rules" type="checkbox" name="rules[]" 
+                                       value="<?php echo $auth_rules[$child['url']] ?>"/>&nbsp;{$child.title}</label></li>
                         </volist>
                     </ul>
                 </span>
             </div>
             </volist>
-           
         </div>
+        <div>
+            <input type="hidden" name="id" value="{$auth_group.id}" />
+            <input type="submit" value="保存" />
+        </div>
+    </form>
+</div>
+</block>
+<block name="script">
+<script type="text/javascript" charset="utf-8">
+    +function($){
+        var rules = [{$auth_group.rules}];
+        $('.auth_rules').each(function(){
+            if( $.inArray( parseInt(this.value,10),rules )>-1 ){
+                $(this).prop('checked',true);
+            }
+        });
 
-    </div>
+        //全选节点
+        $('.rules_all').on('change',function(){
+            $(this).parents('.rules_row').find('input').prop('checked',this.checked);
+        });
+    }(jQuery);
+</script>
 </block>
