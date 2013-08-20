@@ -109,6 +109,7 @@ class AddonsController extends AdminController {
     	$id = trim(I('id'));
     	$db_addons = $addonsModel->find($id);
     	$addons = addons($db_addons['name']);
+        $this->assign('jumpUrl',U('index'));
     	if(!$db_addons || !$addons)
     		$this->error('插件不存在');
     	$uninstall_flag = $addons->uninstall();

@@ -11,7 +11,7 @@
  * 插件类
  * @author yangweijie <yangweijiester@gmail.com>
  */
-	class Addons implements Addon{
+	abstract class Addons{
  		/**
 	     * 视图实例对象
 	     * @var view
@@ -19,9 +19,9 @@
 	     */
 	    protected $view = null;
 
-		protected $addon_path = '';
-		protected $config_file = '';
-		protected $access_url = array();
+		public $addon_path = '';
+		public $config_file = '';
+		public $access_url = array();
 
 		public function __construct(){
 			// if(!in_array(CONTROLLER_NAME,$this->access_url)){
@@ -77,7 +77,7 @@
 			}
 		}
 
-		final protected function getName(){
+		final public function getName(){
 			$class = get_class($this);
 			return substr($class, 0, -6);//插件类必须为XXAddons为后缀
 		}
@@ -85,7 +85,7 @@
 		/**
 		 * 获取插件的配置数组
 		 */
-		final protected function getConfig(){
+		final public function getConfig(){
 			$config = D('Addons')->where("name='{$this->getName()}'")->find();
 			if($config['config'] && is_string($config['config'])){
 				$config['config'] = json_decode($config['config'], 1);
@@ -95,8 +95,8 @@
 		}
 
 		//必须实现安装
-		public function install(){}
+		abstract public function install();
 
 		//必须卸载插件方法
-		public function uninstall(){}
+		abstract public function uninstall();
 	}

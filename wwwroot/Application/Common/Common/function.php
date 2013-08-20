@@ -204,9 +204,12 @@ function hooks($tag, $type, $params = array()) {
         // 执行插件
         $hook = parse_name($tag, 1);
         foreach ($addons as $key => $name) {
-            $addons_class = addons($name);
-            if(method_exists($addons_class, $hook))
-                $addons_class->$hook($params);
+            if($name){
+                $addons_class = addons($name);
+                $config = $addons_class->getConfig();
+                if(method_exists($addons_class, $hook) && $config['status'] == 1)
+                    $addons_class->$hook($params);
+            }
         }
         if(APP_DEBUG) { // 记录钩子的执行日志
             trace('[ '.$tag.' ] --END-- [ RunTime:'.G($tag.'Start',$tag.'End',6).'s ]','','INFO');
@@ -226,6 +229,7 @@ function addons($name){
     $class = basename($result);
     if(class_exists($class,false)) {
         $action = new $class();
+        // dump($class);die;
         $_action[$name] = $action;
         return $action;
     }else {
