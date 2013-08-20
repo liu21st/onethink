@@ -269,7 +269,7 @@ class AdminController extends Action {
         return $nodes;
     } 
 
-    /*
+    /**
      * 获取控制器菜单数组
      * 子类中 $this->getMenus() 调用
      * @author 朱亚杰  <zhuyajie@topthink.net>
@@ -324,7 +324,7 @@ class AdminController extends Action {
         return $menus;
     }
 
-    /*
+    /**
      * 读取基类中的私有属性
      * @param string $val  属性名
      * @author 朱亚杰  <xcoolcc@gmail.com>
