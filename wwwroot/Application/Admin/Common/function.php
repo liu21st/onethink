@@ -55,3 +55,43 @@ function get_status_title($status = null){
 		default : return false;break;
 	}
 }
+
+/**
+ * 获取文档的类型文字
+ * @param string $type
+ * @return string 状态文字 ，false 未获取到
+ * @author huajie <banhuajie@163.com>
+ */
+function get_document_type($type = null){
+	if(!isset($type)){
+		return false;
+	}
+	switch ($type){
+		case 0 : return '专辑';break;
+		case 1 : return '目录';break;
+		case 2 : return '主题';break;
+		case 2 : return '段落';break;
+		default : return false;break;
+	}
+}
+
+/**
+ * 检查$pos(推荐位的值)是否包含指定推荐位$contain
+ * @param number $pos 推荐位的值
+ * @param number $contain 指定推荐位
+ * @return boolean true 包含 ， false 不包含
+ * @author huajie <banhuajie@163.com>
+ */
+function check_document_position($pos = 0, $contain = 0){
+	if(empty($pos) || empty($contain)){
+		return false;
+	}
+
+	//将两个参数进行按位与运算，不为0则表示$contain属于$pos
+	$res = $pos & $contain;
+	if($res !== 0){
+		return true;
+	}else{
+		return false;
+	}
+}
