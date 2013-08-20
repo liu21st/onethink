@@ -57,44 +57,43 @@ function get_status_title($status = null){
 }
 
 /**
- * 获取文档模型信息
- * @param  integer $id    模型ID
- * @param  string  $field 模型字段
- * @return array
+ * 获取文档的类型文字
+ * @param string $type
+ * @return string 状态文字 ，false 未获取到
  * @author huajie <banhuajie@163.com>
  */
-function get_document_model($id = null, $field = null){
-    static $list;
+function get_document_type($type = null){
+	if(!isset($type)){
+		return false;
+	}
+	switch ($type){
+		case 0 : return '专辑';break;
+		case 1 : return '目录';break;
+		case 2 : return '主题';break;
+		case 2 : return '段落';break;
+		default : return false;break;
+	}
+}
 
-    /* 非法分类ID */
-    if(!(is_numeric($id) || is_null($id))){
-        return '';
-    }
+/**
+ * 检查$pos(推荐位的值)是否包含指定推荐位$contain
+ * @param number $pos 推荐位的值
+ * @param number $contain 指定推荐位
+ * @return boolean true 包含 ， false 不包含
+ * @author huajie <banhuajie@163.com>
+ */
+function check_document_position($pos = 0, $contain = 0){
+	if(empty($pos) || empty($contain)){
+		return false;
+	}
 
-    /* 读取缓存数据 */
-    if(empty($list)){
-        $list = S('sys_document_model_list');
-    }
-
-    /* 获取模型名称 */
-    if(empty($list)){
-        $map   = array('status' => 1);
-        $model = M('DocumentModel')->where($map)->field('id,name,title')->select();
-        foreach ($model as $value) {
-            $list[$value['id']] = $value;
-        }
-        S('sys_document_model_list', $list); //更新缓存
-    }
-
-    /* 根据条件返回数据 */
-    if(is_null($id)){
-        return $list;
-    } elseif(is_null($field)){
-        return $list[$id];
-    } else {
-        return $list[$id][$field];
-    }
-
+	//将两个参数进行按位与运算，不为0则表示$contain属于$pos
+	$res = $pos & $contain;
+	if($res !== 0){
+		return true;
+	}else{
+		return false;
+	}
 }
 
 /**
@@ -109,8 +108,8 @@ function get_document_model($id = null, $field = null){
  * @return array
  *  
  *  array(
-        array('id'=>1,'title'=>'标题',status=>'1','status_text'=>'正常')
-        ....
+ *      array('id'=>1,'title'=>'标题',status=>'1','status_text'=>'正常')
+ *      ....
  *  )
  *
  */

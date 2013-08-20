@@ -18,6 +18,34 @@
 			</div>
 		</div>
 		<div class="form-item cf">
+			<label class="item-label">发布者：</label>
+			<div class="controls">
+				<input type="text" class="text" name="uid" value="{$uid|get_username}">
+				<span class="check-tips"></span>
+			</div>
+		</div>
+		<div class="form-item cf">
+			<label class="item-label">分类：</label>
+			<div class="controls">
+				<input type="text" class="text" name="category_id" value="{$category_id|get_category_title}" disabled="disabled">
+				<span class="check-tips"></span>
+			</div>
+		</div>
+		<div class="form-item cf">
+			<label class="item-label">模型：</label>
+			<div class="controls">
+				<input type="text" class="text" name="model_id" value="{$model_id|get_document_model='title'}" disabled="disabled">
+				<span class="check-tips"></span>
+			</div>
+		</div>
+		<div class="form-item cf">
+			<label class="item-label">文档类型：</label>
+			<div class="controls">
+				<input type="text" class="text" name="type" value="{$type|get_document_type}" disabled="disabled">
+				<span class="check-tips"></span>
+			</div>
+		</div>
+		<div class="form-item cf">
 			<label class="item-label">简介：</label>
 			<div class="controls">
 				<label class="textarea"><textarea name="description">{$description}</textarea></label>
@@ -27,9 +55,9 @@
 		<div class="form-item cf">
 			<label class="item-label">推荐位：</label>
 			<div class="controls">
-				<label class="checkbox"><input type="checkbox" name="position">列表推荐</label>
-				<label class="checkbox"><input type="checkbox" name="position">频道页推荐</label>
-				<label class="checkbox"><input type="checkbox" name="position">首页推荐</label>
+				<label class="checkbox"><input type="checkbox" name="position" value="1" <if condition="check_document_position($position,1)">checked="checked"</if>>列表推荐</label>
+				<label class="checkbox"><input type="checkbox" name="position" value="2" <if condition="check_document_position($position,2)">checked="checked"</if>>频道页推荐</label>
+				<label class="checkbox"><input type="checkbox" name="position" value="4" <if condition="check_document_position($position,4)">checked="checked"</if>>首页推荐</label>
 				<span class="check-tips"></span>
 			</div>
 		</div>
