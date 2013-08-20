@@ -27,7 +27,7 @@ class FileModel extends Model{
 	 */
 	protected $_map = array(
 		'type' => 'mime',
-	); 
+	);
 
 	/**
 	 * 文件上传
@@ -57,7 +57,7 @@ class FileModel extends Model{
 				/* 记录文件信息 */
 				if($this->create($value) && ($id = $this->add())){
 					$value['id'] = $id;
-				} else { 
+				} else {
 					//TODO: 文件上传成功，但是记录文件信息失败，需记录日志
 					unset($info[$key]);
 				}
@@ -94,7 +94,7 @@ class FileModel extends Model{
 			default:
 				$this->error = '不支持的文件存储类型！';
 				return false;
-				
+
 		}
 
 	}
@@ -127,7 +127,7 @@ class FileModel extends Model{
 
 			/* 执行下载 */ //TODO: 大文件断点续传
 			header("Content-Description: File Transfer");
-			header('Content-type: ' . $file['type']);
+			header('Content-type: ' . $file['mime']);
 			header('Content-Length:' . $file['size']);
 			if (preg_match('/MSIE/', $_SERVER['HTTP_USER_AGENT'])) { //for IE
 				header('Content-Disposition: attachment; filename="' . rawurlencode($file['name']) . '"');
