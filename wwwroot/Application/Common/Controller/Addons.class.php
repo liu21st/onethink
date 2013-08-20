@@ -89,6 +89,8 @@
 			$config = D('Addons')->where("name='{$this->getName()}'")->find();
 			if($config['config'] && is_string($config['config'])){
 				$config['config'] = json_decode($config['config'], 1);
+			}else{
+				$config['config'] = include $this->config_file;
 			}
 			$config['config']['status'] = $config['status'];
 			return $config['config'];
