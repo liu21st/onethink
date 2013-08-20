@@ -276,3 +276,22 @@ function time_format($time = NULL){
 	$time = $time === NULL || $time > NOW_TIME ? NOW_TIME : intval($time);
 	return date('Y-m-d H:i:s', $time);
 }
+
+
+/**
+ * 文件大小（B）格式化
+ * @param int $size
+ * @return string 格式化后的大小
+ * @author huajie <banhuajie@163.com>
+ */
+function file_size($size){
+	if($size < 1024)
+		$size = round($size,1) . 'B';
+	elseif($size < 1024*1024)
+		$size = round($size/1024,1) . 'KB';
+	elseif($size < 1024*1024*1024)
+		$size = round($size/1024/1024,1) . 'MB';
+	elseif($size < 1024*1024*1024*1024)
+		$size = round($size/1024/1024/1024,1) . 'GB';
+	return $size;
+}

@@ -217,17 +217,19 @@ body{
 .columns .sys-info {
     width: 100%;
 }
-.columns .sys-info td,
-.columns .sys-info th {
-    height: 35px;
+.columns .sys-info li {
     line-height: 35px;
     border-bottom: 1px solid #f0f0f0;
 }
-.columns .sys-info th {
+.columns .sys-info .labs {
+    float: left;
     padding-left: 5px;
     width: 195px;
-    font-weight: normal;
-    text-align: left;
+    height: 35px;  
+}
+.columns .sys-info .des {
+    overflow: hidden;
+    *zoom: 1;
 }
 
 /* 分页 */
