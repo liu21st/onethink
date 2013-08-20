@@ -31,7 +31,7 @@ class AuthManagerController extends AdminController{
         ),
     );
 
-    /*
+    /**
      * 返回后台节点数据
      * @param boolean $tree    是否返回树形结构
      * @retrun array
@@ -89,7 +89,7 @@ class AuthManagerController extends AdminController{
         return $nodes;
     }
     
-    /*
+    /**
      * 后台节点配置的url作为规则存入auth_rule
      * 执行新节点的插入,已有节点的更新,无效规则的删除三项任务
      * @author 朱亚杰 <zhuyajie@topthink.net>
@@ -158,7 +158,7 @@ class AuthManagerController extends AdminController{
     }
     
 
-    /*
+    /**
      * 权限管理首页
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
@@ -172,53 +172,54 @@ class AuthManagerController extends AdminController{
         $this->display();
     }
 
-    /*
-     * 创建用户组
+    /**
+     * 创建管理员用户组
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     public function createGroup()
     {
-        //读取规则节点
+        $node_list = $this->returnNodes();
+        $map       = array('module'=>'admin','type'=>AuthRuleModel::RULE_URL,'status'=>1);
+        $rules     = D('AuthRule')->where($map)->getField('name,id');
+
+        $this->assign('auth_rules',$rules);
+        $this->assign('node_list',$node_list);
         $this->display('managergroup');
-        
     }
-    
-    /*
-     * 编辑用户组
+
+    /**
+     * 编辑管理员用户组
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     public function editGroup()
     {
-        $node_list = $this->returnNodes();
-
-        $map       = array('module'=>'admin','type'=>AuthRuleModel::RULE_URL,'status'=>1);
-        $rules     = D('AuthRule')->where($map)->getField('name,id');
-
-        $auth_group = D('AuthGroup')->find((int)$_GET['id']);
-
-        $this->assign('auth_rules',$rules);
+        $auth_group = D('AuthGroup')->where( array('module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
+                                    ->find( (int)$_GET['id'] );
         $this->assign('auth_group',$auth_group);
-        $this->assign('node_list',$node_list);
-        $this->display('managergroup');
+        $this->createGroup();
     }
     
-    /*
-     * 写入新增用户组
+    /**
+     * 管理员用户组数据写入/更新
+     * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function insertGroup()
+    public function writeGroup()
     {
-        //将规则节点写入用户组表
+        $_POST['rules']  = implode(',',$_POST['rules']);
+        $_POST['module'] = 'admin';
+        $_POST['type']   = AuthGroupModel::TYPE_ADMIN;
+        $AuthGroup       = D('AuthGroup');
+        $data = $AuthGroup->create();
+        if ( $data ) {
+            if ( isset($data['id']) ) {
+                $AuthGroup->save();
+            }else{
+                $AuthGroup->add();
+            }
+        }
     }
 
-    /*
-     * 更新用户组数据
-     */
-    public function updateGroup()
-    {
-        
-    }
-    
-    /*
+    /**
      * 把用户添加到用户组,支持批量用户添加到多个用户组
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
