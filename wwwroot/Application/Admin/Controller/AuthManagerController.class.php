@@ -191,38 +191,5 @@ class AuthManagerController extends AdminController{
                 $this->error('参数非法',__APP__);
         }
     }
-
-    /**
-     * 返回登陆用户拥有管理权限的分类
-     * 
-     * @param boolean $tree 如果为true,返回树形结构所有分类;如果为否,则只返回某个分类下的子分类
-     * @param int     $pid  数据的起点
-     *
-     * @author 朱亚杰 <zhuyajie@topthink.net>
-     */
-    public function getCategories($tree = true,$pid = 0)
-    {
-        $cates = D('Category')->getTree($pid);
-        if ( !$tree ) {
-            foreach ($cates as &$top){
-                unset($top[_]);
-            }
-        }
-        //获取用户拥有权限的分类id列表
-        $allow_ids = array();
-        
-        $deny_ids = array();
-        $iterator = new RecursiveArrayIterator($cates);
-        $Recursive = new RecursiveIteratorIterator($iterator,1);
-
-        foreach ($Recursive as $key => $value){
-            if ( is_array($value) && in_array($value['id'],$deny_ids) ) {
-                
-            }
-            
-        }
-        //删除没有权限的分类
-    }
-    
     
 }
