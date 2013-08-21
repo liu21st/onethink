@@ -78,8 +78,8 @@ class AddonsController extends AdminController {
     	$addons = addons(trim(I('addon_name')));
     	if(!$addons)
     		$this->error('插件不存在');
-		$info = include $addons->addon_path.'info.php';
-		if(!$info)
+		$info = $addons->info;
+		if(!$info || !$addons->checkInfo())//检测信息的正确性
 			$this->error('插件信息缺失');
 		$install_flag = $addons->install();
 		if(!$install_flag)
