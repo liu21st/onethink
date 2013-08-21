@@ -21,7 +21,6 @@ class UserController extends AdminController {
     static protected $nodes = array(
     	/* 系统设置 */
         array( 'title' => '用户信息', 'url' => 'User/index', 'group' => '用户管理'),
-        array( 'title' => '权限管理', 'url' => 'User/index1', 'group' => '用户管理'),
         array( 'title' => '用户行为', 'url' => 'User/index2', 'group' => '用户管理'),
     );
 	

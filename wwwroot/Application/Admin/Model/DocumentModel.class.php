@@ -27,7 +27,6 @@ class DocumentModel extends CmsadminModel{
 
 	/* 自动完成规则 */
 	protected $_auto = array(
-		array('uid', 'session', self::MODEL_INSERT, 'function', 'user_auth.uid'),
 		array('title', 'htmlspecialchars', self::MODEL_BOTH, 'function'),
 		array('description', 'htmlspecialchars', self::MODEL_BOTH, 'function'),
 		array('attach', 0, self::MODEL_INSERT),
@@ -37,6 +36,7 @@ class DocumentModel extends CmsadminModel{
 		array('create_time', NOW_TIME, self::MODEL_INSERT),
 		array('update_time', NOW_TIME, self::MODEL_BOTH),
 		array('status', 'getStatus', self::MODEL_BOTH, 'callback'),
+		array('position', 'getPosition', self::MODEL_BOTH, 'callback'),
 	);
 
 	/**
@@ -59,7 +59,7 @@ class DocumentModel extends CmsadminModel{
 	 * @param  number  $category 分类ID
 	 * @param  integer $status   状态
 	 * @return integer           总数
-	 */	
+	 */
 	public function listCount($category, $status = 1){
 		$map = $this->listMap($category, $status);
 		return $this->where($map)->count('id');
@@ -216,7 +216,7 @@ class DocumentModel extends CmsadminModel{
 	 * @param  boolean $filed    查询字段
 	 * @return array             数据列表
 	 */
-	public function position($pos, $category = null, $limit = null, $filed = true){
+	public function position($pos, $category = null, $limit = null, $field = true){
 		$map = $this->listMap($category, 1, $pos);
 
 		/* 设置列表数量 */
@@ -303,7 +303,7 @@ class DocumentModel extends CmsadminModel{
 
 		return $map;
 	}
-	
+
 	/**
 	 * 检查标识是否已存在
 	 * @param string $name
@@ -317,6 +317,24 @@ class DocumentModel extends CmsadminModel{
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * 生成推荐位的值
+	 * @return number 推荐位
+	 * @author huajie <banhuajie@163.com>
+	 */
+	protected function getPosition(){
+		$position = I('post.position');
+		if(!is_array($position)){
+			return 0;
+		}else{
+			$pos = 0;
+			foreach ($position as $key=>$value){
+				$pos ^= $value;		//将各个推荐位的值按位与
+			}
+			return $pos;
+		}
 	}
 
 }

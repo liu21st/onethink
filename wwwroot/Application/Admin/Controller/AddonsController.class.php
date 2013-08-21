@@ -84,13 +84,18 @@ class AddonsController extends AdminController {
 		$install_flag = $addons->install();
 		if(!$install_flag)
 			$this->error('执行插件预安装操作失败');
-        //TODO: 安装插件时添加对应hooks里的位置
+
 		$addonsModel = D('Addons');
 		$data = $addonsModel->create($info);
 		if(!$data)
 			$this->error($addonsModel->getError());
 		if($addonsModel->add()){
-			$this->success('安装成功');
+            if($hooks_update = D('Hooks')->updateHooks($addons->getName())){
+                $this->success('安装成功');
+            }else{
+                $this->error('更新钩子处插件失败,请卸载后尝试重新安装');
+            }
+
 		}else{
 			$this->error('写入插件数据失败');
 		}
@@ -104,11 +109,16 @@ class AddonsController extends AdminController {
     	$id = trim(I('id'));
     	$db_addons = $addonsModel->find($id);
     	$addons = addons($db_addons['name']);
+        $this->assign('jumpUrl',U('index'));
     	if(!$db_addons || !$addons)
     		$this->error('插件不存在');
     	$uninstall_flag = $addons->uninstall();
 		if(!$uninstall_flag)
 			$this->error('执行插件预卸载操作失败');
+        $hooks_update = D('Hooks')->removeHooks($addons->getName());
+        if($hooks_update === FALSE){
+            $this->error('卸载插件所挂载的钩子数据失败');
+        }
 		$delete = $addonsModel->delete($id);
 		if($delete === FALSE){
 			$this->error('卸载插件失败');
