@@ -4,10 +4,18 @@
 	<div class="main-title">
 		<h2>用户组管理</h2>
 		<div class="tools auth-botton">
-            <button id="add-group"><a href="{:U('createGroup')}"><i class="icon-add"></i>添加</a></button>
-            <button url="{:U('changestatus',array('method'=>'resumeGroup'))}" id="enable-group"><i class="icon-add"></i>启用</button>
-            <button url="{:U('changestatus',array('method'=>'forbidGroup'))}" id="disable-group"><i class="icon-denied"></i>禁用</button>
-            <button url="{:U('changestatus',array('method'=>'deleteGroup'))}" id="delete-group"><i class="icon-delete"></i>删除</button>
+            <a id="add-group" class="btn" href="{:U('createGroup')}">
+            	<i class="icon-add"></i><em>添加</em>
+            </a>
+            <button url="{:U('changestatus',array('method'=>'resumeGroup'))}" id="enable-group" class="btn">
+            	<i class="icon-add"></i><em>启用</em>
+            </button>
+            <button url="{:U('changestatus',array('method'=>'forbidGroup'))}" id="disable-group" class="btn">
+            	<i class="icon-denied"></i><em>禁用</em>
+            </button>
+            <button url="{:U('changestatus',array('method'=>'deleteGroup'))}" id="delete-group" class="btn">
+            	<i class="icon-delete"></i><em>删除</em>
+            </button>
 		</div>
 	</div>
 
@@ -16,7 +24,7 @@
 		<table>
 			<thead>
 				<tr>
-					<th><input class="check-all" type="checkbox"/></th>
+					<th class="row-selected"><input class="check-all" type="checkbox"/></th>
 					<th>用户组</th>
 					<th>描述</th>
 					<th>状态</th>
