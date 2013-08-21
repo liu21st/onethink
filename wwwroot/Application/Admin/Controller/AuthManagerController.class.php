@@ -212,11 +212,15 @@ class AuthManagerController extends AdminController{
         $allow_ids = array();
         
         $deny_ids = array();
-        array_walk_recursive($cates,function($v,$k){
-            if ( $k=='id' && !in_array($v,$allow) ) {
-                $deny_ids[] = $v;
+        $iterator = new RecursiveArrayIterator($cates);
+        $Recursive = new RecursiveIteratorIterator($iterator,1);
+
+        foreach ($Recursive as $key => $value){
+            if ( is_array($value) && in_array($value['id'],$deny_ids) ) {
+                
             }
-        });
+            
+        }
         //删除没有权限的分类
     }
     
