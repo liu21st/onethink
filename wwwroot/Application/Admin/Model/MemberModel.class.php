@@ -13,5 +13,10 @@
  */
 
 class MemberModel extends Model {
-
+	
+	public function lists($status = 1, $order = 'uid DESC', $field = true){
+		$map = array('status' => $status);
+		return $this->field($field)->where($map)->order($order)->select();
+	}
+	
 }
