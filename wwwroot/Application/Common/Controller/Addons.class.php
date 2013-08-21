@@ -19,6 +19,7 @@
 	     */
 	    protected $view = null;
 
+	    public $info = array();
 		public $addon_path = '';
 		public $config_file = '';
 		public $access_url = array();
@@ -80,6 +81,15 @@
 		final public function getName(){
 			$class = get_class($this);
 			return substr($class, 0, -6);//插件类必须为XXAddons为后缀
+		}
+
+		final public function checkInfo(){
+			$info_check_keys = array('name','title','description','status','author','version');
+			foreach ($info_check_keys as $value) {
+				if(!array_key_exists($value, $this->info))
+					return FALSE;
+			}
+			return TRUE;
 		}
 
 		/**

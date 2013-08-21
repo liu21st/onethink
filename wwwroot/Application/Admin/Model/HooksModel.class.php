@@ -43,17 +43,17 @@ class HooksModel extends Model {
     	$addons_class = addons($addons_name, 1);//获取插件名
     	$methods = get_class_methods("{$addons_name}Addons");
         $methods = array_map('parse_name', $methods);
-        $hooks = $this->getField('name', TRUE);
+        $hooks = $this->getField('name', true);
         $common = array_intersect($hooks, $methods);
     	if($common){
     		foreach ($common as $hook) {
     			$flag = $this->updateAddons($hook, array($addons_name));
-    			if($flag === FALSE){
-    				return FALSE;
+    			if(false === $flag){
+    				return false;
     			}
     		}
     	}
-    	return TRUE;
+    	return true;
     }
 
     /**
@@ -71,7 +71,7 @@ class HooksModel extends Model {
     	}
     	$flag = D('Hooks')->where("name='{$hook_name}'")
     	->setField('addons',arr2str($addons));
-    	if($falg === FALSE)
+    	if(false === $flag)
     		D('Hooks')->where("name='{$hook_name}'")
     	->setField('addons',arr2str($o_addons));
     	return $flag;
@@ -83,17 +83,17 @@ class HooksModel extends Model {
     public function removeHooks($addons_name){
     	$methods = get_class_methods("{$addons_name}Addons");
         $methods = array_map('parse_name', $methods);
-        $hooks = $this->getField('name', TRUE);
+        $hooks = $this->getField('name', true);
         $common = array_intersect($hooks, $methods);
     	if($common){
     		foreach ($common as $hook) {
     			$flag = $this->removeAddons($hook, array($addons_name));
-    			if($flag === FALSE){
-    				return FALSE;
+    			if(false === $flag){
+    				return false;
     			}
     		}
     	}
-    	return TRUE;
+    	return true;
     }
 
     /**
@@ -105,11 +105,11 @@ class HooksModel extends Model {
     	if($o_addons){
     		$addons = array_diff($o_addons, $addons_name);
     	}else{
-    		return TRUE;
+    		return true;
     	}
     	$flag = D('Hooks')->where("name='{$hook_name}'")
     					  ->setField('addons',arr2str($addons));
-		if($falg === FALSE)
+		if(false === $flag)
     		D('Hooks')->where("name='{$hook_name}'")
     				  ->setField('addons',arr2str($o_addons));
     	return $flag;

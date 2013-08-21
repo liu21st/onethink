@@ -5,7 +5,16 @@
 	<div class="main-title">
 		<h2>文档列表</h2>
 		<div class="tools">
-			<button class="btn"><i class="icon-add"></i><em>查询</em></button>
+			<form action="#" method="post" class="search-form">
+				<input type="text" name="" class="text" placeholder="请输入关键字">
+				<select name="">
+					<option value="">所有状态</option>
+					<option value="">启用</option>
+					<option value="">禁用</option>
+					<option value="">待审核</option>
+				</select>
+				<input type="submit" value="查询" class="btn">
+			</form>	
 		</div>
 	</div>
 
@@ -14,7 +23,7 @@
 		<table>
 			<thead>
 				<tr>
-					<th></th>
+					<th class="row-selected"></th>
 					<th>标题</th>
 					<th>创建者</th>
 					<th>创建时间</th>
@@ -48,20 +57,14 @@
 			</tbody>
 		</table>
 	</div>
-	<input type="button" value="新增" id="document_add" url="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$model[0]))}"/>
-	<input type="button" value="删除" name="document_operate" status="-1"/>
-	<input type="button" value="启用" name="document_operate" status="1"/>
-	<input type="button" value="禁用" name="document_operate" status="0"/>
+	<input type="button" class="btn" value="新增" id="document_add"/>
+	<input type="button" class="btn" value="删除" name="document_operate" status="-1"/>
+	<input type="button" class="btn" value="启用" name="document_operate" status="1"/>
+	<input type="button" class="btn" value="禁用" name="document_operate" status="0"/>
 </block>
 <block name="script">
 <script type="text/javascript">
 $(function(){
-	//新增操作
-	$("#document_add").click(function(){
-		window.location.href = $(this).attr('url');
-	})
-
-	//批量操作js
 	$("input[name=document_operate]").click(function(){
 		var status = $(this).attr('status');
 		//获取选中的数据
