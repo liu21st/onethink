@@ -316,7 +316,7 @@ class AdminController extends Action {
             }
 
             //判断节点权限
-            if (!$this->checkRule($item['url'])) {  //检测节点权限
+            if (!$this->checkRule($item['url'],null)) {  //检测节点权限
                 unset($menus['main'][$key]);
                 continue;//继续循环
             }
@@ -334,7 +334,7 @@ class AdminController extends Action {
                         //$value  分组数组
                         foreach ($value as $k=>$v){
                             //$v  节点配置
-                            if (!$this->checkRule($v['url'])) {   //检测节点权限
+                            if (!$this->checkRule($v['url'],null)) {   //检测节点权限
                                 unset($value[$k]);
                             }
                         }
