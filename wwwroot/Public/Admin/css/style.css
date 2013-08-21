@@ -158,8 +158,6 @@ body{
 .main-title .tools {
     float: right;
     margin-top: 3px;
-    font-size: 0;
-    line-height: 0;
 }
 
 /* 消息栏 */
