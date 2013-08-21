@@ -394,3 +394,14 @@ function get_document_model($id = null, $field = null){
         return $list[$id][$field];
     }
 }
+
+/**
+ * 解析UBB数据
+ * @param string $data UBB字符串
+ * @return string 解析为HTML的数据
+ * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ */
+function ubb($data){
+	//TODO: 待完善，目前返回原始数据
+	return $data;
+}

@@ -81,8 +81,6 @@ class AddonsController extends Action{
     	$id = (int)I('post.id');
     	if(!$id)
     		$this->error('错误的主键');
-    	if(!$table)
-    		$this->error("写入的配置表{$model},初始化失败");
     	return D('Addons')->where("id={$id}")->setField('config',I('post.addons'));
     }
 }
