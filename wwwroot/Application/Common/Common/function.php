@@ -195,7 +195,7 @@ function get_redirect_url(){
 function hooks($tag, $type, $params = array()) {
     $addons = D('Hooks')->where("name='{$tag}'")->getField('addons');
     trace($addons);
-    $addons = split(',', $addons);
+    $addons = explode(',', $addons);
     if(!empty($addons)) {
         if(APP_DEBUG) {
             G($tag.'Start');
@@ -204,9 +204,12 @@ function hooks($tag, $type, $params = array()) {
         // 执行插件
         $hook = parse_name($tag, 1);
         foreach ($addons as $key => $name) {
-            $addons_class = addons($name, 1);
-            if(method_exists($addons_class, $hook))
-                $addons_class::$hook($params);
+            if($name){
+                $addons_class = addons($name);
+                $config = $addons_class->getConfig();
+                if(method_exists($addons_class, $hook) && $config['status'] == 1)
+                    $addons_class->$hook($params);
+            }
         }
         if(APP_DEBUG) { // 记录钩子的执行日志
             trace('[ '.$tag.' ] --END-- [ RunTime:'.G($tag.'Start',$tag.'End',6).'s ]','','INFO');
@@ -219,13 +222,11 @@ function hooks($tag, $type, $params = array()) {
 /**
  * 获取插件类的实例
  */
-function addons($name,$static = false){
+function addons($name){
     static $_action = array();
     if(isset($_action[$name]))  return $_action[$name];
     $result = parse_res_name("Addons://{$name}/{$name}Addons",'');
     $class = basename($result);
-    if($static)
-    	return "{$name}Addons";
     if(class_exists($class,false)) {
         $action = new $class();
         $_action[$name] = $action;
@@ -277,21 +278,119 @@ function time_format($time = NULL){
 	return date('Y-m-d H:i:s', $time);
 }
 
+/**
+ * 根据用户ID获取用户名
+ * @param  integer $uid 用户ID
+ * @return string       用户名
+ */
+function get_username($uid = 0){
+    static $list;
+    if(!($uid && is_numeric($uid))){ //获取当前登录用户名
+        return session('user_auth.username');
+    }
+
+    /* 获取缓存数据 */
+    if(empty($list)){
+        $list = S('sys_active_user_list');
+    }
+
+    /* 查找用户信息 */
+    $key = "u{$uid}";
+    if(isset($list[$key])){ //已缓存，直接使用
+        $name = $list[$key];
+    } else { //调用接口获取用户信息
+        $info = A('User/User', 'Api')->info($uid);
+        if($info && isset($info[1])){
+            $name = $list[$key] = $info[1];
+            /* 缓存用户 */
+            $count = count($list);
+            $max   = C('USER_MAX_CACHE');
+            while ($count-- > $max) {
+                array_shift($list);
+            }
+            S('sys_active_user_list', $list);
+        } else {
+            $name = '';
+        }
+    }
+    return $name;
+}
 
 /**
- * 文件大小（B）格式化
- * @param int $size
- * @return string 格式化后的大小
- * @author huajie <banhuajie@163.com>
+ * 获取分类信息并缓存分类
+ * @param  integer $id    分类ID
+ * @param  string  $field 要获取的字段名
+ * @return string         分类信息
  */
-function file_size($size){
-	if($size < 1024)
-		$size = round($size,1) . 'B';
-	elseif($size < 1024*1024)
-		$size = round($size/1024,1) . 'KB';
-	elseif($size < 1024*1024*1024)
-		$size = round($size/1024/1024,1) . 'MB';
-	elseif($size < 1024*1024*1024*1024)
-		$size = round($size/1024/1024/1024,1) . 'GB';
-	return $size;
+function get_category($id, $field = null){
+    static $list;
+
+    /* 非法分类ID */
+    if(empty($id) || !is_numeric($id)){
+        return '';
+    }
+
+    /* 读取缓存数据 */
+    if(empty($list)){
+        $list = S('sys_category_list');
+    }
+
+    /* 获取分类名称 */
+    if(!isset($list[$id])){
+        $cate = D('Category')->info($id);
+        if(!$cate || 1 != $cate['status']){ //不存在分类，或分类被禁用
+            return '';
+        }
+        $list[$id] = $cate;
+        S('sys_category_list', $list); //更新缓存
+    }
+
+    return is_null($field) ? $list[$id] : $list[$id][$field];
+}
+/* 根据ID获取分类标识 */
+function get_category_name($id){
+    return get_category($id, 'name');
+}
+/* 根据ID获取分类名称 */
+function get_category_title($id){
+    return get_category($id, 'title');
+}
+
+/**
+ * 获取文档模型信息
+ * @param  integer $id    模型ID
+ * @param  string  $field 模型字段
+ * @return array
+ */
+function get_document_model($id = null, $field = null){
+    static $list;
+
+    /* 非法分类ID */
+    if(!(is_numeric($id) || is_null($id))){
+        return '';
+    }
+
+    /* 读取缓存数据 */
+    if(empty($list)){
+        $list = S('sys_document_model_list');
+    }
+
+    /* 获取模型名称 */
+    if(empty($list)){
+        $map   = array('status' => 1);
+        $model = M('DocumentModel')->where($map)->field('id,name,title')->select();
+        foreach ($model as $value) {
+            $list[$value['id']] = $value;
+        }
+        S('sys_document_model_list', $list); //更新缓存
+    }
+
+    /* 根据条件返回数据 */
+    if(is_null($id)){
+        return $list;
+    } elseif(is_null($field)){
+        return $list[$id];
+    } else {
+        return $list[$id][$field];
+    }
 }

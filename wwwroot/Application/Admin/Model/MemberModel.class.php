@@ -4,13 +4,14 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2006-2012 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: yangweijie <yangweijiester@gmail.com> <http://code-tech.diandian.com>
+// | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
 /**
- * 前台别名加载定义
+ * 用户模型
+ * @author 麦当苗儿 <zuojiazi.cn@gmail.com>
  */
-return array(
-    'Addons' => COMMON_PATH . 'Controller/Addons.class.php',
-    'Addon' => COMMON_PATH . 'Controller/Addon.php',
-);
+
+class MemberModel extends Model {
+
+}

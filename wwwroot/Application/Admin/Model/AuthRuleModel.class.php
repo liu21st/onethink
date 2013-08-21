@@ -4,13 +4,15 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2006-2012 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: yangweijie <yangweijiester@gmail.com> <http://code-tech.diandian.com>
+// | Author: huajie <banhuajie@163.com>
 // +----------------------------------------------------------------------
 
 /**
- * 前台别名加载定义
+ * 权限规则模型
+ * @author 朱亚杰 <zhuyajie@topthink.net>
  */
-return array(
-    'Addons' => COMMON_PATH . 'Controller/Addons.class.php',
-    'Addon' => COMMON_PATH . 'Controller/Addon.php',
-);
+class AuthRuleModel extends CmsadminModel{
+    
+    const RULE_URL = 1;
+
+}

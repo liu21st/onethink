@@ -1,15 +1,13 @@
 <extend name="Public/base" />
-<block name="sidebar">
-</block>
 <block name="body">
 	<!-- 标题栏 -->
 	<div class="main-title">
 		<h2>用户组管理</h2>
-		<div class="tools">
-            <button id="add-member"><a href="{:U('createGroup')}"><i class="icon-add"></i>添加</a></button>
-			<button id="add-member"><i class="icon-add"></i>启用</button>
-			<button id="add-member"><i class="icon-add"></i>禁用</button>
-			<button id="add-member"><i class="icon-add"></i>删除</button>
+		<div class="tools auth-botton">
+            <button id="add-group"><a href="{:U('createGroup')}"><i class="icon-add"></i>添加</a></button>
+            <button url="{:U('changestatus',array('method'=>'resumeGroup'))}" id="enable-group"><i class="icon-add"></i>启用</button>
+            <button url="{:U('changestatus',array('method'=>'forbidGroup'))}" id="disable-group"><i class="icon-denied"></i>禁用</button>
+            <button url="{:U('changestatus',array('method'=>'deleteGroup'))}" id="delete-group"><i class="icon-delete"></i>删除</button>
 		</div>
 	</div>
 
@@ -18,8 +16,7 @@
 		<table>
 			<thead>
 				<tr>
-					<th></th>
-					<th>序号</th>
+					<th><input class="check-all" type="checkbox"/></th>
 					<th>用户组</th>
 					<th>描述</th>
 					<th>状态</th>
@@ -29,25 +26,48 @@
 			<tbody>
 				<volist name="list" id="vo">
 				<tr>
-                    <td><input type="checkbox" name="id" value="{$vo.id}" /></td>
-					<td>{$vo.id}</td>
+                    <td><input class="ids" type="checkbox" name="id[]" value="{$vo.id}" /></td>
 					<td>{$vo.title}</td>
 					<td>{$vo.description}</td>
 					<td>{$vo.status_text}</td>
 					<td>
 						<a href="{:U('editGroup',array('id'=>$vo['id']))}">编辑</a>
-                        <egt name="$vo['status']" value="0">
+                        <egt name="vo.status" value="0">
 							<eq name="vo.status" value="0">
-								<a href="{:U('resume',array('id'=>$vo['id']))}">启用</a>
+								<a href="{:U('changeStatus',array('id'=>$vo['id'],'method'=>'resumeGroup'))}">启用</a>
 							<else />
-								<a href="{:U('forbid',array('id'=>$vo['id']))}">禁用</a>
+								<a href="{:U('changeStatus',array('id'=>$vo['id'],'method'=>'forbidGroup'))}">禁用</a>
 							</eq>
                         </egt> 
-						<a href="{:U('delete',array('id'=>$vo['id']))}">删除</a>
+                        <a href="{:U('changeStatus',array('id'=>$vo['id'],'method'=>'deleteGroup'))}">删除</a>
 					</td>
 				</tr>
 				</volist>
 			</tbody>
 		</table>
 	</div>
+</block>
+<block name="script">
+<script type="text/javascript">
+    +function($){
+        $('.auth-botton').find('button').on('click',function(){
+            var url = $(this).attr('url');
+            var ids = $('.ids').serialize();
+            if (!ids) {
+                //TODO: 错误提示
+                console.warn('没有选择内容')
+            }
+            $.post(url,ids).success(function(data){
+                location.reload();
+            }).error(function(data){
+                //TODO: 错误提示
+                console.error(data);
+            });
+        });
+        //全选节点
+        $('.check-all').on('change',function(){
+            $('.ids').prop('checked',this.checked);
+        });
+    }(jQuery)
+</script>
 </block>
