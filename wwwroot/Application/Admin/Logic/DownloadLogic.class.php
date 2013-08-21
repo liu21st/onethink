@@ -34,6 +34,7 @@ class DownloadLogic extends BaseLogic{
 		}
 		$file = D('File')->field(true)->find($data['file_id']);
 		$data['file'] = think_encrypt(json_encode($file));
+		$data['file_id'] = $file;
 		return $data;
 	}
 
