@@ -21,9 +21,11 @@ class AddonsModel extends Model {
 		$result['status_text_arr'] = array(-1=>'损坏', 0=>'禁用', 1=>'启用');
 		$result['status_text'] = $result['status_text_arr'][$result['status']];
 		$addons = addons($result['name']);
-		if($addons->config_file){
+		if($addons && $addons->config_file){
 			$data = include $addons->config_file;
 			if($data && $result['config']){
+				if(is_string($result['config']))
+					$result['config'] = json_decode($result['config'], TRUE);
 				foreach ($result['config'] as $key => $value) {
 					$data[$key]['value'] = $value;
 				}
