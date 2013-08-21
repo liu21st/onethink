@@ -55,13 +55,15 @@
             var ids = $('.ids').serialize();
             if (!ids) {
                 //TODO: 错误提示
-                console.warn('没有选择内容')
+               	return false;
+                // console.warn('没有选择内容')
             }
             $.post(url,ids).success(function(data){
                 location.reload();
             }).error(function(data){
                 //TODO: 错误提示
-                console.error(data);
+                return false;
+                // console.error(data);
             });
         });
         //全选节点

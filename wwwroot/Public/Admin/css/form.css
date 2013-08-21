@@ -69,6 +69,7 @@ select {
 	float: left;
 	margin-right: 5px;
 	width: 90px;
+	height: 30px;
 	line-height: 30px;
 	text-align: right;
 }
