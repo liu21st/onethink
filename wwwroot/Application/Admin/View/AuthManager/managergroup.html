@@ -19,13 +19,15 @@
         <div id="node_list">
             <volist name="node_list" id="node" >
                 <div class="form-item rules_row">
-                    <label class="item-label">内容管理：</label>
+                    <label class="item-label">{$node.title}管理：</label>
                     <div class="controls">
                         <label class="checkbox"><input type="checkbox" class="rules_all" />全选</label>
                         <label class="checkbox">
                             <input class="auth_rules" type="checkbox" name="rules[]"
                                    value="<?php echo $auth_rules[$node['url']] ?>"/>{$node.title}
                         </label>
+
+                        <!-- 节点列表 -->
                         <volist name="node['child']" id="child" >
                             <label class="checkbox">
                                 <input class="auth_rules" type="checkbox" name="rules[]" 
