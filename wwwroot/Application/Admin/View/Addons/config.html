@@ -43,7 +43,7 @@
 						<case value="textarea">
 							<label class="textarea">
 								<textarea name="config[{$key}]">{$form.value}</textarea>
-							</label>	
+							</label>
 						</case>
 					</switch>
 				</div>
@@ -55,10 +55,10 @@
 				<input type="hidden" name="id" value="{:I('id')}" readonly>
 				<button type="submit" class="btn">提交</button>
 				<button type="reset" class="btn">重置</button>
-				<button class="btn" onclick="javascript:history.back(-1);"><i class="icon-redo"></i>返回</button>
+				<button class="btn" onclick="javascript:history.back(-1);return false;"><i class="icon-redo"></i>返回</button>
 			</div>
 		</div>
-		
+
 	</form>
 </block>
 
