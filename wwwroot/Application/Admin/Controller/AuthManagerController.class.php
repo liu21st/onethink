@@ -14,6 +14,8 @@
  */
 class AuthManagerController extends AdminController{
 
+    static $i =1;
+
     static protected $deny  = array('updateRules');
 
     /* 保存允许所有管理员访问的公共方法 */
@@ -169,6 +171,10 @@ class AuthManagerController extends AdminController{
         }
     }
     
+    /**
+     * 状态修改
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
     public function changeStatus($method=null)
     {
         switch ( $method ){
@@ -185,5 +191,34 @@ class AuthManagerController extends AdminController{
                 $this->error('参数非法',__APP__);
         }
     }
+
+    /**
+     * 返回登陆用户拥有管理权限的分类
+     * 
+     * @param boolean $tree 如果为true,返回树形结构所有分类;如果为否,则只返回某个分类下的子分类
+     * @param int     $pid  数据的起点
+     *
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
+    public function getCategories($tree = true,$pid = 0)
+    {
+        $cates = D('Category')->getTree($pid);
+        if ( !$tree ) {
+            foreach ($cates as &$top){
+                unset($top[_]);
+            }
+        }
+        //获取用户拥有权限的分类id列表
+        $allow_ids = array();
+        
+        $deny_ids = array();
+        array_walk_recursive($cates,function($v,$k){
+            if ( $k=='id' && !in_array($v,$allow) ) {
+                $deny_ids[] = $v;
+            }
+        });
+        //删除没有权限的分类
+    }
+    
     
 }
