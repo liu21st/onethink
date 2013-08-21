@@ -5,7 +5,16 @@
 	<div class="main-title">
 		<h2>文档列表</h2>
 		<div class="tools">
-			<button class="btn"><i class="icon-add"></i><em>查询</em></button>
+			<form action="#" method="post" class="search-form">
+				<input type="text" name="" class="text" placeholder="请输入关键字">
+				<select name="">
+					<option value="">所有状态</option>
+					<option value="">启用</option>
+					<option value="">禁用</option>
+					<option value="">待审核</option>
+				</select>
+				<input type="submit" value="查询" class="btn">
+			</form>	
 		</div>
 	</div>
 
@@ -48,10 +57,10 @@
 			</tbody>
 		</table>
 	</div>
-	<input type="button" value="新增" id="document_add"/>
-	<input type="button" value="删除" name="document_operate" status="-1"/>
-	<input type="button" value="启用" name="document_operate" status="1"/>
-	<input type="button" value="禁用" name="document_operate" status="0"/>
+	<input type="button" class="btn" value="新增" id="document_add"/>
+	<input type="button" class="btn" value="删除" name="document_operate" status="-1"/>
+	<input type="button" class="btn" value="启用" name="document_operate" status="1"/>
+	<input type="button" class="btn" value="禁用" name="document_operate" status="0"/>
 </block>
 <block name="script">
 <script type="text/javascript">

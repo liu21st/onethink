@@ -88,3 +88,14 @@ select {
 label.textarea + .check-tips {
 	margin-left: 0;
 }
+
+/* 搜索表单
+------------------------------------------ */
+.search-form .text,
+.search-form select,
+.search-form .btn {
+	vertical-align: middle;
+}
+.search-form .btn {
+	padding: 2px 8px;
+}
