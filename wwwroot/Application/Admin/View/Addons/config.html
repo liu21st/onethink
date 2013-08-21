@@ -1,7 +1,6 @@
 <extend name="Public/base" />
 
 <block name="body">
-
 	<div class="wrapper">
 		<form action="{:U('saveConfig')}" class="form-horizontal" method="post">
 		<table>
@@ -27,6 +26,12 @@
 									</volist>
 								</select>
 							</case>
+						<case value="textarea">
+							<textarea name="config[{$key}]" cols="30" rows="10">{$form.value}</textarea>	
+						</case>
+						<case value="hidden">
+							<input type="hidden" name="config[{$key}]" value="{$form.value}">
+						</case>
 						</switch>
 						</td>
 					</tr>

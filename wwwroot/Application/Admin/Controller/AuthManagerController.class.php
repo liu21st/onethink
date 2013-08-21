@@ -14,7 +14,7 @@
  */
 class AuthManagerController extends AdminController{
 
-    static protected $deny  = array();
+    static protected $deny  = array('updateRules');
 
     /* 保存允许所有管理员访问的公共方法 */
     static protected $allow = array();
@@ -68,11 +68,11 @@ class AuthManagerController extends AdminController{
                 unset($rules[$index]);//去除需要更新的节点,只留下需要删除的节点
                 unset($rule['condition']);
                 $diff[$rule['id']]=$rule;//用户更新规则时的比较判断
-            }else{
+            }elseif($rule['status']==1){
                 $ids[] = $rule['id'];
             }
         }
-        $AuthRule->startTrans();
+        // $AuthRule->startTrans();
         //更新
         if ( count($update) ) {
             foreach ($update as $k=>$row){
@@ -90,11 +90,11 @@ class AuthManagerController extends AdminController{
             $AuthRule->addAll(array_values($data));
         }
         if ( $AuthRule->getDbError() ) {
-            $AuthRule->rollback();
+            // $AuthRule->rollback();
             trace('['.__METHOD__.']:'.$AuthRule->getDbError());
             return false;
         }else{
-            $AuthRule->commit();
+            // $AuthRule->commit();
             return true;
         }
     }
@@ -157,12 +157,15 @@ class AuthManagerController extends AdminController{
         $data = $AuthGroup->create();
         if ( $data ) {
             if ( empty($data['id']) ) {
-                $AuthGroup->add();
+                $r = $AuthGroup->add();
             }else{
-                $AuthGroup->save();
+                $r = $AuthGroup->save();
             }
-        }else{
-            $this->error($AuthGroup->getError());
+        }
+        if($r===false){
+            $this->error('操作失败'.$AuthGroup->getError());
+        } else{
+            $this->success('操作成功!');
         }
     }
     
