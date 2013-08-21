@@ -27,6 +27,7 @@ class FileController extends AdminController {
 		/* 记录附件信息 */
 		if($info){
 			$return['data'] = think_encrypt(json_encode($info['download']));
+			$return['info'] = $info['download']['name'];
 		} else {
 			$return['status'] = 0;
 			$return['info']   = $File->getError();
