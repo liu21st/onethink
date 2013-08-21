@@ -72,6 +72,12 @@ class AdminController extends Action {
             if ( $i==1 ) 
                 if ( !$this->checkRule($rule) )
                     $this->error('无权访问');
+            //检测分类权限
+            $uid = 1;
+            $cates = AuthGroupModel::getAuthCategories($uid);
+            if( strtolower($rule)==='admin/article/index' && is_array($cates) &&  ($cid=I('cate_id')) && !in_array($cid, $cates)){
+                // $this->error('无权访问');
+            }
         }
         $this->assign( 'base_menu', $this->getMenus() );
 
