@@ -14,7 +14,8 @@ class DownloadLogic extends BaseLogic{
 
 	/* 自动验证规则 */
 	protected $_validate = array(
-		array('content', 'require', '内容不能为空！', self::MUST_VALIDATE , 'regex', self::MODEL_BOTH),
+		array('content', 'require', '详细内容不能为空！', self::MUST_VALIDATE , 'regex', self::MODEL_BOTH),
+		array('file', 'require', '请上传附件！', self::MUST_VALIDATE , 'regex', self::MODEL_BOTH),
 	);
 
 	/* 自动完成规则 */
@@ -46,7 +47,7 @@ class DownloadLogic extends BaseLogic{
 	 */
 	public function update($id){
 		/* 获取下载数据 */ //TODO: 根据不同用户获取允许更改或添加的字段
-		$data = $this->field('download', true)->create();
+		$data = $this->create();
 		if(!$data){
 			return false;
 		}
