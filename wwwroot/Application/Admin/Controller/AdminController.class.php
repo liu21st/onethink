@@ -52,7 +52,9 @@ class AdminController extends Action {
 
     final protected function _initialize()
     {
-        //TODO:登陆检测
+        if( !is_administrator() ){
+            $this->error('您的身份不是管理员!');
+        }
 
         $ac = $this->accessControl();
         if ( $ac===false ) {
@@ -67,9 +69,9 @@ class AdminController extends Action {
                     break;
                 }
             }
-            if ( $i===1 && !$this->checkRule($rule) ) {
-                $this->error('无权访问');
-            }
+            if ( $i==1 ) 
+                if ( !$this->checkRule($rule) )
+                    $this->error('无权访问');
         }
         $this->assign( 'base_menu', $this->getMenus() );
 
@@ -96,7 +98,7 @@ class AdminController extends Action {
         }
         $uid = 1;
         if(!$Auth->check($rule,$uid,$type)){
-            // return false;
+            return false;
         }
         return true;
     }
@@ -216,7 +218,7 @@ class AdminController extends Action {
             $deny = array_merge( $controller::$deny, self::$deny );
             foreach ( $deny as $key => $value){
                 if ( is_numeric($key) ){
-                    $data[] = $value;
+                    $data[] = strtolower($value);
                 }else{
                     //可扩展
                 } 
@@ -238,7 +240,7 @@ class AdminController extends Action {
             $allow = array_merge( $controller::$allow, self::$allow );
             foreach ( $allow as $key => $value){
                 if ( is_numeric($key) ){
-                    $data[] = $value;
+                    $data[] = strtolower($value);
                 }else{
                     //可扩展
                 } 
@@ -314,7 +316,8 @@ class AdminController extends Action {
             }
 
             //判断节点权限
-            if (!$this->checkRule($item['url'])) {  //检测节点权限
+            if (!$this->checkRule($item['url'],null)) {  //检测节点权限
+                unset($menus['main'][$key]);
                 continue;//继续循环
             }
             $other_controller = explode(',',$item['controllers']);
@@ -331,7 +334,7 @@ class AdminController extends Action {
                         //$value  分组数组
                         foreach ($value as $k=>$v){
                             //$v  节点配置
-                            if (!$this->checkRule($v['url'])) {   //检测节点权限
+                            if (!$this->checkRule($v['url'],null)) {   //检测节点权限
                                 unset($value[$k]);
                             }
                         }

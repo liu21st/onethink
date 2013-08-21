@@ -23,9 +23,9 @@ class ArticleController extends AdminController {
      *   )
      */
     static protected $nodes = array(
-    	array( 'title' => '讨论', 'url' => 'Article/index?cate_id=9', 'group' => '文档分类'),
-    	array( 'title' => '下载', 'url' => 'Article/index?cate_id=2', 'group' => '文档分类'),
-    	array( 'title' => '框架', 'url' => 'Article/index?cate_id=10', 'group' => '文档分类'),
+    	array( 'title' => '讨论', 'url' => 'Article/index?cate_id=9', 'group' => '文章'),
+    	array( 'title' => '下载', 'url' => 'Article/index?cate_id=2', 'group' => '文章'),
+    	array( 'title' => '框架', 'url' => 'Article/index?cate_id=10', 'group' => '下载'),
     );
 
 	/**
@@ -58,8 +58,8 @@ class ArticleController extends AdminController {
 	 */
 	public function setStatus(){
 		/*参数过滤*/
-		$ids = I('get.ids');
-		$status = I('get.status');
+		$ids = I('param.ids');
+		$status = I('param.status');
 		if(empty($ids) || !isset($status)){
 			$this->error('请选择要操作的数据');
 		}

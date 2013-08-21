@@ -108,7 +108,7 @@ function check_document_position($pos = 0, $contain = 0){
  * @return array
  *  
  *  array(
- *      array('id'=>1,'title'=>'标题',status=>'1','status_text'=>'正常')
+ *      array('id'=>1,'title'=>'标题','status'=>'1','status_text'=>'正常')
  *      ....
  *  )
  *

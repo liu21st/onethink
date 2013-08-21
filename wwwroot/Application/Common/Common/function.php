@@ -224,9 +224,9 @@ function hooks($tag, $type, $params = array()) {
  */
 function addons($name){
     static $_action = array();
+    $class = "{$name}Addons";
     if(isset($_action[$name]))  return $_action[$name];
-    $result = parse_res_name("Addons://{$name}/{$name}Addons",'');
-    $class = basename($result);
+    import($class,C('EXTEND_MODULE.Addons')."{$name}/");
     if(class_exists($class,false)) {
         $action = new $class();
         $_action[$name] = $action;

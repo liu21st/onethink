@@ -158,8 +158,6 @@ body{
 .main-title .tools {
     float: right;
     margin-top: 3px;
-    font-size: 0;
-    line-height: 0;
 }
 
 /* 消息栏 */
@@ -329,11 +327,17 @@ body{
 }
 
 
-/* 配置表单 */
+/* 插件配置表单 */
 .config-form fieldset {
     margin-bottom: 20px;
 }
 .config-form .item-label {
     padding-right: 10px;
     min-width: 170px;
+}
+
+/* 权限配置表单 */
+.auth-form .item-label {
+    padding-right: 10px;
+    min-width: 100px;
 }

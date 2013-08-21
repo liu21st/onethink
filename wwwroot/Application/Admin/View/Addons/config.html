@@ -1,7 +1,6 @@
 <extend name="Public/base" />
 
 <block name="body">
-
 	<div class="wrapper">
 		<form action="{:U('saveConfig')}" class="form-horizontal" method="post">
 		<table>
@@ -11,7 +10,7 @@
 					<tr>
 						<td>{$form.title}</td>
 						<td>
-						<switch name="form[type]">
+						<switch name="form.type">
 							<case value="text">
 								<input type="text" name="config[{$key}]" value="{$form.value}">
 							</case>
@@ -22,12 +21,17 @@
 							</case>
 							<case value="select">
 								<select name="config[{$key}]">
-									<volist name="form[options]" id="opt" key="opt_k">
+									<volist name="form.options" id="opt" key="opt_k">
 										<option value="{$opt_k}" <eq name="form.value" value="$opt_k"> selected</eq>>{$opt}</option>
-										{$vo}
 									</volist>
 								</select>
 							</case>
+						<case value="textarea">
+							<textarea name="config[{$key}]" cols="30" rows="10">{$form.value}</textarea>	
+						</case>
+						<case value="hidden">
+							<input type="hidden" name="config[{$key}]" value="{$form.value}">
+						</case>
 						</switch>
 						</td>
 					</tr>

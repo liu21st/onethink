@@ -21,9 +21,11 @@ class AddonsModel extends Model {
 		$result['status_text_arr'] = array(-1=>'损坏', 0=>'禁用', 1=>'启用');
 		$result['status_text'] = $result['status_text_arr'][$result['status']];
 		$addons = addons($result['name']);
-		if($addons->config_file){
+		if($addons && $addons->config_file){
 			$data = include $addons->config_file;
 			if($data && $result['config']){
+				if(is_string($result['config']))
+					$result['config'] = json_decode($result['config'], TRUE);
 				foreach ($result['config'] as $key => $value) {
 					$data[$key]['value'] = $value;
 				}
@@ -52,14 +54,15 @@ class AddonsModel extends Model {
 	public function getList($addon_dir = ''){
 		if(!$addon_dir)
 			$addon_dir = C('EXTEND_MODULE.Addons');
-		$dir = getcwd();
-		chdir($addon_dir);
-		$addons_names = glob('*', GLOB_ONLYDIR);
+		$addons_names = glob($addon_dir.'*', GLOB_ONLYDIR);
+		if($addons_names === FALSE || !file_exists($addon_dir)){
+			$this->error = '插件目录不可读或者不存在';
+			return FALSE;
+		}
 		$addons = array();
 		foreach ($addons_names as $value) {
-			$addons[] = $this->getAddonsInfo($value);
+			$addons[] = $this->getAddonsInfo(basename($value));
 		}
-		chdir($dir);
 		return $addons;
 	}
 
@@ -69,7 +72,8 @@ class AddonsModel extends Model {
 	public function getAddonsInfo($name){
 		$info = $this->where("name='{$name}'")->find();
 		if(!$info){
-			$info = include C('EXTEND_PATH.addons').$name.'/info.php';
+			$addons = addons($name);
+			$info = $addons->info;
 			if($info)
 				$info['uninstall'] = 1;
 		}

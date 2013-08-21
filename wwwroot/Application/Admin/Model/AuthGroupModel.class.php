@@ -14,7 +14,9 @@
  */
 class AuthGroupModel extends CmsadminModel
 {
-    const TYPE_ADMIN = 1;
+    const TYPE_ADMIN        = 1;                    //管理员用户组类型标识
+    const AUTH_GROUP_ACCESS = 'auth_group_access';  //关系表表名
+    const AUTH_GROUP        = 'auth_group';         //用户组表名
 
     protected $_validate = array(
         array('title','require', '必须设置用户组标题', Model::MUST_VALIDATE ,'regex',Model::MODEL_BOTH),
@@ -39,22 +41,48 @@ class AuthGroupModel extends CmsadminModel
     /**
      * 把用户添加到用户组,支持批量添加用户到用户组
      * @author 朱亚杰 <zhuyajie@topthink.net>
+     * 
+     * 示例: 把uid=1的用户添加到group_id为1,2的组 `AuthGroupModel::addToGroup(1,'1,2');`
      */
-    public function addToGroup($uid,$gid)
+    static public function addToGroup($uid,$gid)
     {
-        $uid = is_array($uid)?$uid:implode(',',$uid);
-        $gid = is_array($gid)?$gid:implode(',',$gid);
+        $uid = is_array($uid)?$uid:explode(',',$uid);
+        $gid = is_array($gid)?$gid:explode(',',$gid);
 
-        $Member = M('Member');
+        $Access = M(self::AUTH_GROUP_ACCESS);
         foreach ($uid as $u){
             if(is_numeric($u)){
+                $id = $Access->where( array('uid'=>$u) )->delete(); //删除用户旧的用户组关系
                 foreach ($gid as $g){
                     if(is_numeric($g)){
-                        $Member->where(array('uid'=>$u))->save(array('group_id'=>$g));
+                        $Access->add(array('uid'=>$u,'group_id'=>$g));
                     }
                 }
             }
         }
+    }
+
+    /**
+     * 返回用户所属用户组信息
+     * @param  int    $uid 用户id
+     * @return array  用户所属的用户组 array(
+     *                                         array('uid'=>'用户id','group_id'=>'用户组id','title'=>'用户组名称','rules'=>'用户组拥有的规则id,多个,号隔开'),
+     *                                         ...)   
+     */
+    static public function getUserGroup($uid)
+    {
+        static $groups = array();
+        if (isset($groups[$uid]))
+            return $groups[$uid];
+        $prefix = C('DB_PREFIX');
+        $user_groups = M()
+            ->field('uid,group_id,title,description,rules')
+            ->table($prefix.self::AUTH_GROUP_ACCESS.' a')
+            ->join ($prefix.self::AUTH_GROUP." g on a.group_id=g.id")
+            ->where("a.uid='$uid' and g.status='1'")
+            ->select();
+        $groups[$uid]=$user_groups?$user_groups:array();
+        return $groups[$uid];
     }
     
 }

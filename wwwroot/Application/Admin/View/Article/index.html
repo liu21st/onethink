@@ -25,7 +25,7 @@
 			<tbody>
 				<volist name="list" id="vo">
 				<tr>
-					<td><input type="checkbox" value="{$vo.id}"/></td>
+					<td><input type="checkbox" value="{$vo.id}" name="select"/></td>
 					<td>{$vo.title}</td>
 					<td>{$vo.uid|get_username}</td>
 					<td>{$vo.create_time|time_format}</td>
@@ -48,4 +48,47 @@
 			</tbody>
 		</table>
 	</div>
+	<input type="button" value="新增" id="document_add"/>
+	<input type="button" value="删除" name="document_operate" status="-1"/>
+	<input type="button" value="启用" name="document_operate" status="1"/>
+	<input type="button" value="禁用" name="document_operate" status="0"/>
+</block>
+<block name="script">
+<script type="text/javascript">
+$(function(){
+	$("input[name=document_operate]").click(function(){
+		var status = $(this).attr('status');
+		//获取选中的数据
+		var checked = $('input:checked');
+		var ids = new Array();
+		checked.each(function(i){
+			var id = $(this).val();
+			if(id != 'on'){
+				ids[ids.length] = id;
+			}
+		});
+		if(ids.length == 0){
+			alert('请选择要操作的数据！');
+			return false;
+		}
+		//进行ajax操作
+		$.post(
+			"{:U('setStatus')}",
+			{
+				'ids' : ids,
+				'status' : status
+			},
+			function(data){
+				if(data.status == 1){
+					alert('设置成功！');
+					setTimeout(function(){window.location.reload()},1500);
+				}else{
+					alert('操作失败！');
+				}
+			},
+			'json'
+		);
+	});
+})
+</script>
 </block>
