@@ -118,6 +118,7 @@ $('#submit').click(function(){
     	var data = $.parseJSON(data);
         if(data.status){
         	$("input[name=file]").val(data.data);
+        	$("input[name=file]").parent().find('.check-tips').text(data.info);
         } else {
         	alert(data.info);
         }

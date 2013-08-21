@@ -48,7 +48,7 @@
 			</tbody>
 		</table>
 	</div>
-	<input type="button" value="新增" id="document_add"/>
+	<input type="button" value="新增" id="document_add" url="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$model[0]))}"/>
 	<input type="button" value="删除" name="document_operate" status="-1"/>
 	<input type="button" value="启用" name="document_operate" status="1"/>
 	<input type="button" value="禁用" name="document_operate" status="0"/>
@@ -56,6 +56,12 @@
 <block name="script">
 <script type="text/javascript">
 $(function(){
+	//新增操作
+	$("#document_add").click(function(){
+		window.location.href = $(this).attr('url');
+	})
+
+	//批量操作js
 	$("input[name=document_operate]").click(function(){
 		var status = $(this).attr('status');
 		//获取选中的数据
