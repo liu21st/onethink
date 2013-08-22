@@ -12,7 +12,7 @@
  * 负责文件的下载和上传
  */
 
-class FileModel extends Model{
+class FileModel extends CmsadminModel{
 	/**
 	 * 文件模型自动完成
 	 * @var array
@@ -127,7 +127,7 @@ class FileModel extends Model{
 
 			/* 执行下载 */ //TODO: 大文件断点续传
 			header("Content-Description: File Transfer");
-			header('Content-type: ' . $file['mime']);
+			header('Content-type: ' . $file['type']);
 			header('Content-Length:' . $file['size']);
 			if (preg_match('/MSIE/', $_SERVER['HTTP_USER_AGENT'])) { //for IE
 				header('Content-Disposition: attachment; filename="' . rawurlencode($file['name']) . '"');

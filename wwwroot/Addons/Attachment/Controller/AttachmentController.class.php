@@ -19,7 +19,7 @@ class AttachmentController {
 	 * @param  array  $catecory 分类数据
 	 */
 	public function documentSaveComplete($param){
-		list($data, $catecory) = $param;
+		list($data, $category) = $param;
 		/* 附件默认配置项 */
 		$default  = C('ATTACHMENT_DEFAULT');
 

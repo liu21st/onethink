@@ -78,8 +78,8 @@ class AddonsController extends AdminController {
     	$addons = addons(trim(I('addon_name')));
     	if(!$addons)
     		$this->error('插件不存在');
-		$info = include $addons->addon_path.'info.php';
-		if(!$info)
+		$info = $addons->info;
+		if(!$info || !$addons->checkInfo())//检测信息的正确性
 			$this->error('插件信息缺失');
 		$install_flag = $addons->install();
 		if(!$install_flag)
@@ -91,6 +91,7 @@ class AddonsController extends AdminController {
 			$this->error($addonsModel->getError());
 		if($addonsModel->add()){
             if($hooks_update = D('Hooks')->updateHooks($addons->getName())){
+                S('hooks', null);
                 $this->success('安装成功');
             }else{
                 $this->error('更新钩子处插件失败,请卸载后尝试重新安装');
@@ -119,6 +120,7 @@ class AddonsController extends AdminController {
         if($hooks_update === FALSE){
             $this->error('卸载插件所挂载的钩子数据失败');
         }
+        S('hooks', null);
 		$delete = $addonsModel->delete($id);
 		if($delete === FALSE){
 			$this->error('卸载插件失败');

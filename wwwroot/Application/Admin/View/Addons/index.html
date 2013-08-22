@@ -46,9 +46,9 @@
 								<a href="{:U('disable',array('id'=>$vo['id']))}">禁用</a>
 							</eq>
 						<?php endif ?>
-							<!-- <neq name="vo.author" value="thinkphp"> -->
+							{// <eq name="vo.author" value="thinkphp">}
 								<a href="{:U('uninstall?id='.$vo['id'])}">卸载</a>
-							<!-- </neq> -->
+							{// </eq>}
 						<else />
 							<a href="{:U('install?addon_name='.$vo['name'])}">安装</a>
 						</empty>

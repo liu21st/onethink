@@ -23,9 +23,9 @@ class ArticleController extends AdminController {
      *   )
      */
     static protected $nodes = array(
-    	array( 'title' => '讨论', 'url' => 'Article/index?cate_id=9', 'group' => '文档分类'),
-    	array( 'title' => '下载', 'url' => 'Article/index?cate_id=2', 'group' => '文档分类'),
-    	array( 'title' => '框架', 'url' => 'Article/index?cate_id=10', 'group' => '文档分类'),
+    	array( 'title' => '讨论', 'url' => 'Article/index?cate_id=9', 'group' => '文章'),
+    	array( 'title' => '下载', 'url' => 'Article/index?cate_id=2', 'group' => '文章'),
+    	array( 'title' => '框架', 'url' => 'Article/index?cate_id=10', 'group' => '下载'),
     );
 
 	/**
@@ -48,6 +48,11 @@ class ArticleController extends AdminController {
 		//列表数据获取
 		$list = $Document->lists($cate_id, 'id DESC', array('gt', -1), 'id,uid,title,create_time,status', $Page->firstRow. ',' . $Page->listRows);
 
+		//获取对应分类下的模型
+		$models = get_category($cate_id, 'model');
+
+		$this->assign('model', implode(',', $models));
+		$this->assign('cate_id', $cate_id);
 		$this->assign('list', $list);
 		$this->display();
 	}
@@ -58,8 +63,8 @@ class ArticleController extends AdminController {
 	 */
 	public function setStatus(){
 		/*参数过滤*/
-		$ids = I('get.ids');
-		$status = I('get.status');
+		$ids = I('param.ids');
+		$status = I('param.status');
 		if(empty($ids) || !isset($status)){
 			$this->error('请选择要操作的数据');
 		}
@@ -87,18 +92,17 @@ class ArticleController extends AdminController {
 	 */
 	public function add(){
 		$cate_id = I('get.cate_id','');
-		if(empty($cate_id)){
-			$this->error('分类参数错误！');
+		$model_id = I('get.model_id','');
+		if(empty($cate_id) || empty($model_id)){
+			$this->error('参数不能为空！');
 		}
 
-		/*获取该分类下的文档模型*/
-		$model = D('Category')->getFieldById($cate_id, 'model');
-		$model = explode(',', $model);
+		/* 获取要编辑的模型模板 */
+		$template = strtolower(get_document_model($model_id, 'name'));
 
-		/* 获取要编辑的模型模板 */	//TODO 新增页面待讨论
-		$data['template'] = strtolower(get_document_model($model[0], 'name'));
-
-		$this->assign('models', $model);
+		$this->assign('model_id', $model_id);
+		$this->assign('cate_id', $cate_id);
+		$this->assign('template', $template);
 		$this->display();
 	}
 

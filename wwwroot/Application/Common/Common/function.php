@@ -186,23 +186,30 @@ function get_redirect_url(){
 
 /**
  * 处理插件钩子
- * @param string $tag   钩子名称
+ * @param string $hook   钩子名称
  * @param string $type  钩子类型
  * @param mixed $params 传入参数
  * @return mixed
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
-function hooks($tag, $type, $params = array()) {
-    $addons = D('Hooks')->where("name='{$tag}'")->getField('addons');
-    trace($addons);
-    $addons = explode(',', $addons);
+function hooks($hook, $type, $params = array()) {
+    $hooks = S('hooks');
+    if(!$hooks){
+        $hooks = D('Hooks')->getField('name,addons');
+        foreach ($hooks as $key => $value) {
+            $hooks[$key] = explode(',', $value);
+        }
+        S('hooks',$hooks);
+    }
+    $addons = $hooks[$hook];
+    // $addons = D('Hooks')->where("name='{$hook}'")->getField('addons');
+    // $addons = explode(',', $addons);
     if(!empty($addons)) {
         if(APP_DEBUG) {
-            G($tag.'Start');
-            trace('[ '.$tag.' ] --START--','','INFO');
+            G($hook.'Start');
+            trace('[ '.$hook.' ] --START--','','INFO');
         }
         // 执行插件
-        $hook = parse_name($tag, 1);
         foreach ($addons as $key => $name) {
             if($name){
                 $addons_class = addons($name);
@@ -212,7 +219,7 @@ function hooks($tag, $type, $params = array()) {
             }
         }
         if(APP_DEBUG) { // 记录钩子的执行日志
-            trace('[ '.$tag.' ] --END-- [ RunTime:'.G($tag.'Start',$tag.'End',6).'s ]','','INFO');
+            trace('[ '.$hook.' ] --END-- [ RunTime:'.G($hook.'Start',$hook.'End',6).'s ]','','INFO');
         }
     }else{ // 未注册任何钩子 返回false
         return false;
@@ -224,9 +231,9 @@ function hooks($tag, $type, $params = array()) {
  */
 function addons($name){
     static $_action = array();
+    $class = "{$name}Addons";
     if(isset($_action[$name]))  return $_action[$name];
-    $result = parse_res_name("Addons://{$name}/{$name}Addons",'');
-    $class = basename($result);
+    import($class,C('EXTEND_MODULE.Addons')."{$name}/");
     if(class_exists($class,false)) {
         $action = new $class();
         $_action[$name] = $action;
@@ -393,4 +400,15 @@ function get_document_model($id = null, $field = null){
     } else {
         return $list[$id][$field];
     }
+}
+
+/**
+ * 解析UBB数据
+ * @param string $data UBB字符串
+ * @return string 解析为HTML的数据
+ * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ */
+function ubb($data){
+	//TODO: 待完善，目前返回原始数据
+	return $data;
 }

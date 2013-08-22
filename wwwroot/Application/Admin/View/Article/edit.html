@@ -1,6 +1,9 @@
 <extend name="Public/base" />
 
 <block name="body">
+	<div class="main-title cf">
+		<h2>文档编辑</h2>
+	</div>
 	<!-- 表单 -->
 	<form id="form" action="{:U('update')}" method="post" class="form-horizontal">
 		<div class="form-item cf">
@@ -84,6 +87,7 @@
 			</div>
 		</div>
 
+		<!-- 引入扩展文档模型 -->
 		<include file="$template"/>
 
 		<div class="btn-toolbar">
@@ -95,9 +99,33 @@
 </block>
 
 <block name="script">
+<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
 <script type="text/javascript">
 $('#submit').click(function(){
 	$('#form').submit();
 });
+
+(function($){
+	/* 初始化上传插件 */
+	$("#download-file").uploadify({
+        "height"          : 30,
+        "swf"             : "__STATIC__/uploadify/uploadify.swf",
+        "fileObjName"     : "download",
+        "uploader"        : "{:U('File/upload')}",
+        "width"           : 120,
+        "onUploadSuccess" : uploadSuccess
+    });
+
+	/* 文件上传成功回调函数 */
+    function uploadSuccess(file, data){
+    	var data = $.parseJSON(data);
+        if(data.status){
+        	$("input[name=file]").val(data.data);
+        	$("input[name=file]").parent().find('.check-tips').text(data.info);
+        } else {
+        	alert(data.info);
+        }
+    }
+})(jQuery);
 </script>
 </block>

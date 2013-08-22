@@ -14,7 +14,7 @@ class DocumentModel extends Model{
 
 	/* 自动验证规则 */
 	protected $_validate = array(
-		array('name', '/^[a-zA-Z]\w{0,39}$/', '文档标识不合法', self::VALUE_VALIDATE, 'regex', self::MODEL_BOTH),
+		array('name', '/^[a-zA-Z]\w{0,30}$/', '文档标识不合法', self::VALUE_VALIDATE, 'regex', self::MODEL_BOTH),
 		array('name', '', '标识已经存在', self::VALUE_VALIDATE, 'unique', self::MODEL_BOTH),
 		array('title', 'require', '标题不能为空', self::VALUE_VALIDATE, 'regex', self::MODEL_BOTH),
 		array('category_id', 'require', '分类不能为空', self::MUST_VALIDATE , 'regex', self::MODEL_INSERT),
@@ -57,7 +57,7 @@ class DocumentModel extends Model{
 	 * @param  number  $category 分类ID
 	 * @param  integer $status   状态
 	 * @return integer           总数
-	 */	
+	 */
 	public function listCount($category, $status = 1){
 		$map = $this->listMap($category, $status);
 		return $this->where($map)->count('id');

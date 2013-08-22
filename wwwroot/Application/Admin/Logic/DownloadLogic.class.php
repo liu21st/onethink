@@ -4,7 +4,7 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2006-2012 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
+// | Author: huajie <banhuajie@163.com>
 // +----------------------------------------------------------------------
 
 /**
@@ -14,15 +14,40 @@ class DownloadLogic extends BaseLogic{
 
 	/* 自动验证规则 */
 	protected $_validate = array(
-		array('content', 'require', '内容不能为空！', self::MUST_VALIDATE , 'regex', self::MODEL_BOTH),
+		array('content', 'require', '详细内容不能为空！', self::MUST_VALIDATE , 'regex', self::MODEL_BOTH),
+		array('file', 'require', '请上传附件！', self::MUST_VALIDATE , 'regex', self::MODEL_BOTH),
 	);
 
 	/* 自动完成规则 */
 	protected $_auto = array();
 
+	/**
+	 * 获取模型详细信息
+	 * @param  integer $id 文档ID
+	 * @return array       当前模型详细信息
+	 * @author huajie <banhuajie@163.com>
+	 */
+	public function detail($id){
+		$data = $this->field(true)->find($id);
+		if(!$data){
+			$this->error = '获取详细信息出错！';
+			return false;
+		}
+		$file = D('File')->field(true)->find($data['file_id']);
+		$data['file'] = think_encrypt(json_encode($file));
+		$data['file_id'] = $file;
+		return $data;
+	}
+
+	/**
+	 *
+	 * @param unknown $id
+	 * @return boolean
+	 * @author huajie <banhuajie@163.com>
+	 */
 	public function update($id){
 		/* 获取下载数据 */ //TODO: 根据不同用户获取允许更改或添加的字段
-		$data = $this->field('download', true)->create();
+		$data = $this->create();
 		if(!$data){
 			return false;
 		}
@@ -35,7 +60,7 @@ class DownloadLogic extends BaseLogic{
 			$this->error = '获取上传文件信息失败！';
 			return false;
 		}
-		
+
 		/* 添加或更新数据 */
 		if(empty($data['id'])){//新增数据
 			$data['id'] = $id;

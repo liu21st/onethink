@@ -11,7 +11,7 @@
  * 后台用户控制器
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
-
+ 
 class UserController extends AdminController {
 
 	/**
@@ -29,6 +29,9 @@ class UserController extends AdminController {
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function index(){
+		$list = D("Member")->lists();
+		
+		$this->assign('list', $list);
 		$this->display();
 	}
 
