@@ -145,7 +145,8 @@ class AddonsController extends AdminController {
         $addons = trim(I('addons'));
         $id = I('id');
         D('Hooks')->where("id={$id}")->setField('addons', $addons);
-        $this->success('更新排序成功');
+        S('hooks', null);
+        $this->success('更新成功');
     }
 
     public function execute($_addons = null, $_controller = null, $_action = null){

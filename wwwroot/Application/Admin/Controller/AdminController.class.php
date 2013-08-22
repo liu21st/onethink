@@ -58,7 +58,7 @@ class AdminController extends Action {
 
         $ac = $this->accessControl();
         if ( $ac===false ) {
-            $this->error('403:禁止访问',__APP__);
+            $this->error('403:禁止访问');
         }elseif( $ac===null ){
             $rule  = MODULE_NAME.'/'.CONTROLLER_NAME.'/'.ACTION_NAME;
             $nodes = $this->returnNodes(false);
@@ -118,7 +118,7 @@ class AdminController extends Action {
     final protected function accessControl(){
         $controller = CONTROLLER_NAME.'Controller';
         if ( !is_array($controller::$deny)||!is_array($controller::$allow) ){
-            $this->error("内部错误:{$controller}控制器 deny和allow属性必须为数组,即将返回首页",__APP__);
+            $this->error("内部错误:{$controller}控制器 deny和allow属性必须为数组");
         }
         $deny  = $this->getDeny();
         $allow = $this->getAllow();
@@ -145,7 +145,7 @@ class AdminController extends Action {
     final protected function editRow ( $model ,$data, $where , $msg )
     {
         if( $_REQUEST['model']||$_REQUEST['where']||$_REQUEST['msg']){
-            $this->error('非法请求',__APP__); //安全检测,防止通过参数绑定修改数据
+            $this->error('非法请求'); //安全检测,防止通过参数绑定修改数据
         }
         $id    = I('id',0);
         $id    = is_array($id) ? implode(',',$id) : $id;
@@ -262,7 +262,7 @@ class AdminController extends Action {
         $nodes = array('default'=>array());
         foreach ($controller::$nodes as $value){
             if (!is_array($value) || !isset($value['title'],$value['url'])) {
-                $this->error("内部错误:{$controller}控制器 nodes属性配置有误 ,即将返回首页",__APP__);
+                $this->error("内部错误:{$controller}控制器 nodes属性配置有误");
             }
             if( strpos($value['url'],'/')===false ){
                 $value['url'] = MODULE_NAME.'/'.strtr($controller,array('Controller'=>'')).'/'.$value['url'];
