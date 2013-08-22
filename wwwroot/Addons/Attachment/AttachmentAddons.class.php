@@ -1,23 +1,85 @@
 <?php
-	class AttachmentAddons extends Addons{
+// +----------------------------------------------------------------------
+// | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2006-2012 http://thinkphp.cn All rights reserved.
+// +----------------------------------------------------------------------
+// | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
+// +----------------------------------------------------------------------
 
-		public function install(){
-			return true;
-		}
+/**
+ * 附件插件
+ * @author 麦当苗儿 <zuojiazi.cn@gmail.com>
+ */
+class AttachmentAddons extends Addons{
 
-		public function uninstall(){
-			return true;
-		}
-
-		/* 页面头部输出CSS文件 */
-		static public function pageHeader(){
-			// $addons = addons('Attachment');
-			if(CONTROLLER_NAME == 'Article' && ACTION_NAME == 'edit' && I('get.model') != 2){
-				$addons->display('uploadify_style');
-				// $this->display('Uploadify/style');
-			} elseif(CONTROLLER_NAME == 'Article' && ACTION_NAME == 'detail') {
-				$addons->display('View/Article/style');
-				// $this->display('Article/style');
-			}
-		}
+	public function install(){
+		return true;
 	}
+
+	public function uninstall(){
+		return true;
+	}
+
+	/* 显示文档模型编辑页插件扩展信息表单 */
+	public function documentEditForm($param = array()){
+		$this->assign($param);
+		$this->display(T('Addons://Addachment/Article/edit'));
+	}
+
+	/* 文档末尾显示附件列表 */
+	public function documentDetailAfter($info = array()){
+		if(empty($info) || empty($info['id'])){ //数据不正确
+			return ;
+		}
+
+		/* 获取当前文档附件 */
+		$Attachment = D('Addons://Attachment/Attachment');
+		$map = array('record_id' => $info['id'], 'status' => 1);
+		$list = $Attachment->field(true)->where($map)->select();
+		if(!$list){ //不存在附件
+			return ;
+		}
+
+		/* 模板赋值并渲染模板 */
+		$this->assign('list', $list);
+		$this->display(T('Addons://Addachment/Article/detail'));
+	}
+	
+	/**
+	 * 文档保存成功后执行行为
+	 * @param  array  $data     文档数据
+	 * @param  array  $catecory 分类数据
+	 */
+	public function documentSaveComplete($param){
+		list($data, $category) = $param;
+		/* 附件默认配置项 */
+		$default  = C('ATTACHMENT_DEFAULT');
+	
+		/* 合并当前配置 */
+		$config = $category['extend']['attachment'];
+		$config = empty($config) ? $default : array_merge($default, $config);
+		$attach = I('post.attachment');
+	
+		/* 该分类不允许上传附件 */
+		if(!$config['is_upload'] || !in_array($attach['type'], str2arr($config['allow_type']))){
+			return ;
+		}
+	
+		switch ($attach['type']) {
+			case 1: //外链
+				# code...
+				break;
+			case 2: //文件
+				$info = json_decode(think_decrypt($attach['info']), true);
+				if(!empty($info)){
+					$Attachment = D('Addons://Attachment/Attachment');
+					$Attachment->saveFile($info['name'], $info, $data['id']);
+				} else {
+					return; //TODO:非法附件上传，可记录日志
+				}
+				break;
+		}
+	
+	}
+}
