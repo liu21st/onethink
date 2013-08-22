@@ -47,19 +47,23 @@ class AuthGroupModel extends CmsadminModel
      */
     static public function addToGroup($uid,$gid)
     {
-        $uid = is_array($uid)?$uid:explode(',',$uid);
-        $gid = is_array($gid)?$gid:explode(',',$gid);
+        $uid = is_array($uid)?implode(',',$uid):trim($uid,',');
+        $gid = is_array($gid)?$gid:explode( ',',trim($gid,',') );
 
         $Access = M(self::AUTH_GROUP_ACCESS);
-        foreach ($uid as $u){
-            if(is_numeric($u)){
-                $Access->where( array('uid'=>$u) )->delete(); //删除用户旧的用户组关系
+        $del = $Access->where( array('uid'=>array('in',$uid)) )->delete();
+
+        $uid = explode(',',$uid);
+        $add = array();
+        if( $del!==false ){
+            foreach ($uid as $u){
                 foreach ($gid as $g){
-                    if(is_numeric($g)){
-                        $Access->add(array('uid'=>$u,'group_id'=>$g));
+                    if( is_numeric($u) && is_numeric($g) ){
+                        $add[] = array('group_id'=>$g,'uid'=>$u);
                     }
                 }
             }
+            $Access->addAll($add);
         }
     }
 
@@ -116,19 +120,23 @@ class AuthGroupModel extends CmsadminModel
      */
     static public function addToCategory($gid,$cid)
     {
-        $gid = is_array($gid)?$gid:explode(',',$gid);
-        $cid = is_array($cid)?$cid:explode(',',$cid);
+        $gid = is_array($gid)?implode(',',$gid):trim($gid,',');
+        $cid = is_array($cid)?$cid:explode( ',',trim($cid,',') );
 
         $Access = M(self::AUTH_CATEGORY_ACCESS);
-        foreach ($gid as $g){
-            if(is_numeric($g)){
-                $Access->where( array('group_id'=>$g) )->delete();
+        $del = $Access->where( array('group_id'=>array('in',$gid)) )->delete();
+
+        $gid = explode(',',$gid);
+        $add = array();
+        if( $del!==false ){
+            foreach ($gid as $g){
                 foreach ($cid as $c){
-                    if(is_numeric($c)){
-                        $Access->add(array('group_id'=>$g,'category_id'=>$c));
+                    if( is_numeric($g) && is_numeric($c) ){
+                        $add[] = array('group_id'=>$g,'category_id'=>$c);
                     }
                 }
             }
+            $Access->addAll($add);
         }
     }
 }
