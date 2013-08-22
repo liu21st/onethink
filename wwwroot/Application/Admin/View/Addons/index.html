@@ -36,7 +36,7 @@
 					<td>{$vo.version}</td>
 					<td>
 						<empty name="vo.uninstall">
-							<?php if (count($vo['config']>1)): ?>
+							<?php if (count($vo['config'])>0): ?>
 								<a href="{:U('config',array('id'=>$vo['id']))}">设置</a>
 							<?php endif ?>
 						<?php if ($vo['status'] >=0): ?>
