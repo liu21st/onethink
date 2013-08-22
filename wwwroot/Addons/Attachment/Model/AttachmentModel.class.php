@@ -31,7 +31,7 @@ class AttachmentModel extends Model{
 	 * @param  array   $file   文件数据
 	 * @param  number  $record 关联记录ID
 	 * @param  integer $dir    是否为目录
-	 * @return boolean         
+	 * @return boolean
 	 */
 	public function saveFile($title, $file, $record, $dir = 0){
 		$data = array(

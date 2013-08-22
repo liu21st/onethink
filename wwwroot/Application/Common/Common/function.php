@@ -187,12 +187,11 @@ function get_redirect_url(){
 /**
  * 处理插件钩子
  * @param string $hook   钩子名称
- * @param string $type  钩子类型
  * @param mixed $params 传入参数
  * @return mixed
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
-function hooks($hook, $type, $params = array()) {
+function hooks($hook, $params = array()) {
     $hooks = S('hooks');
     if(!$hooks){
         $hooks = D('Hooks')->getField('name,addons');

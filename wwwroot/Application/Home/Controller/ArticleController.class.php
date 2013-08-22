@@ -165,7 +165,7 @@ class ArticleController extends HomeController {
 		if($status){
 			/* 保存成功，处理插件数据 */
 			$param = array($status, $category);
-			hooks('documentSaveComplete', 'controller', $param);
+			hooks('documentSaveComplete', $param);
 
 			$this->success('保存成功！');
 		} else {

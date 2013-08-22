@@ -72,10 +72,9 @@
 				$templateFile = $this->addon_path.$templateFile.C('TMPL_TEMPLATE_SUFFIX');
 				if(!is_file($templateFile)){
 					throw new Exception("模板不存在:$templateFile");
-				}else{
-					return $this->view->fetch($templateFile);;
 				}
 			}
+			return $this->view->fetch($templateFile);
 		}
 
 		final public function getName(){

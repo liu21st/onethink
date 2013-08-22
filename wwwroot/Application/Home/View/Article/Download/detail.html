@@ -24,9 +24,9 @@
 			</div>
 		</div>
 		<div class="detail-bd">
-			{:hooks('documentDetailBefore', 'widget', $info)}
+			{:hooks('documentDetailBefore', $info)}
 			<div>{$info.content}</div>
-			{:hooks('documentDetailAfter', 'widget', $info)}
+			{:hooks('documentDetailAfter', $info)}
 		</div>
 	</div>
 </block>
