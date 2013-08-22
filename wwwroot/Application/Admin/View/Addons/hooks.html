@@ -30,7 +30,7 @@
 					<td>{$vo.type_text}</td>
 					<td>
 						<notempty name="vo.addons">
-							<a title="排序" id="{$vo.id}">
+							<a class="editAddons" title="编辑" id="{$vo.id}">
 								{$vo.addons}
 							</a>
 						<else />
@@ -44,4 +44,65 @@
 	</div>
 </block>
 
-<block name="script"></block>
+<block name="script">
+	<script type="text/javascript" src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('a.editAddons').click(function(){
+				var value = $.trim($(this).text());
+				var html = [
+					'<form action="{:U('updateSort')}" class="form-horizontal" method="post">',
+						"<label class=\"textarea\">",
+							"<textarea name=\"addons\">"+value+"</textarea>",
+						"</label>",
+						"<input type=\"hidden\" name=\"id\" value=\""+$(this).attr('id')+"\">",
+						"<label>多个插件用','分开</label>",
+					"</form>"
+				].join("");
+
+				//ajaxForm 公共函数
+		        function ajaxForm(element,callback,dataType){
+		            var form = $(element).closest('form');
+		            var dataType = dataType || 'json';
+		            $.ajax({
+		                type: "POST",
+		                url: form.attr('action'),
+		                data: form.serialize(),
+		                async: false,
+		                dataType:dataType,
+		                success: function(data) {
+		                    if($.isFunction(callback)){
+		                        callback(data,form);
+		                    }
+		                }
+		            });
+		        }
+
+				option = {
+					title:'编辑钩子处的插件',
+					actions:['close'],
+					drag:true,
+					tools:true,
+					buttons:{"ok":['保存', 'blue',function(){
+						var _this = this;
+						ajaxForm(this.find('.textarea'),function(data){
+							if (data.status){
+				                $.thinkbox.success(data.info,{
+				                    afterHide:function(){
+				                        _this.hide();
+				                        setTimeout(function(){
+				                        	location.reload(true);
+				                        },500);
+				                    }
+				                });
+				            }else{
+				                $.thinkbox.error(data.info);
+				            }
+						})
+					}]}
+				}
+				$.thinkbox(html,option);
+			});
+		})
+	</script>
+</block>

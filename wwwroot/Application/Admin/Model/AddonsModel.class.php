@@ -18,8 +18,6 @@ class AddonsModel extends Model {
 	 * 查找后置操作
 	 */
 	protected function _after_find(&$result,$options) {
-		// $result['status_text_arr'] = array(-1=>'损坏', 0=>'禁用', 1=>'启用');
-		// $result['status_text'] = $result['status_text_arr'][$result['status']];
 		$addons = addons($result['name']);
 		if($addons && $addons->config_file){
 			$data = include $addons->config_file;
