@@ -5,16 +5,16 @@
 	<div class="main-title">
 		<h2>文档列表</h2>
 		<div class="tools">
-			<form action="#" method="post" class="search-form">
-				<input type="text" name="" class="text" placeholder="请输入关键字">
-				<select name="">
+			<form method="get" class="search-form">
+				<input type="text" name="search" class="text" placeholder="请输入关键字" value="{$search}">
+				<select name="status">
 					<option value="">所有状态</option>
-					<option value="">启用</option>
-					<option value="">禁用</option>
-					<option value="">待审核</option>
+					<option value="1" <eq name="status" value="1">selected="selected"</eq>>启用</option>
+					<option value="0" <heq name="status" value="0">selected="selected"</heq>>禁用</option>
+					<option value="2" <eq name="status" value="2">selected="selected"</eq>>待审核</option>
 				</select>
-				<input type="submit" value="查询" class="btn">
-			</form>	
+				<input type="button" value="查询" class="btn" id="search" url="{:U('article/index','cate_id='.$cate_id,false)}">
+			</form>
 		</div>
 	</div>
 
@@ -57,7 +57,7 @@
 			</tbody>
 		</table>
 	</div>
-	<input type="button" class="btn" value="新增" id="document_add"/>
+	<input type="button" class="btn" value="新增" id="document_add" url="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$model[0]))}"/>
 	<input type="button" class="btn" value="删除" name="document_operate" status="-1"/>
 	<input type="button" class="btn" value="启用" name="document_operate" status="1"/>
 	<input type="button" class="btn" value="禁用" name="document_operate" status="0"/>
@@ -65,6 +65,21 @@
 <block name="script">
 <script type="text/javascript">
 $(function(){
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+		var status = $('select[name=status]').val();
+		var search = $('input[name=search]').val();
+		if(status != ''){
+			url += '/status/' + status;
+		}
+		if(search != ''){
+			url += '/search/' + search;
+		}
+		window.location.href = url;
+	});
+	$("#document_add").click(function(){
+		window.location.href = $(this).attr('url');
+	})
 	$("input[name=document_operate]").click(function(){
 		var status = $(this).attr('status');
 		//获取选中的数据
