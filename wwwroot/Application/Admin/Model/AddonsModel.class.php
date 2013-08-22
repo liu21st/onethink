@@ -18,8 +18,8 @@ class AddonsModel extends Model {
 	 * 查找后置操作
 	 */
 	protected function _after_find(&$result,$options) {
-		$result['status_text_arr'] = array(-1=>'损坏', 0=>'禁用', 1=>'启用');
-		$result['status_text'] = $result['status_text_arr'][$result['status']];
+		// $result['status_text_arr'] = array(-1=>'损坏', 0=>'禁用', 1=>'启用');
+		// $result['status_text'] = $result['status_text_arr'][$result['status']];
 		$addons = addons($result['name']);
 		if($addons && $addons->config_file){
 			$data = include $addons->config_file;
@@ -35,6 +35,7 @@ class AddonsModel extends Model {
 	}
 
 	protected function _after_select(&$result,$options){
+		intToString($result, array('status'=>array(-1=>'损坏', 0=>'禁用', 1=>'启用')));
 		foreach($result as &$record){
 			$this->_after_find($record,$options);
 		}
@@ -63,6 +64,7 @@ class AddonsModel extends Model {
 		foreach ($addons_names as $value) {
 			$addons[] = $this->getAddonsInfo(basename($value));
 		}
+		intToString($addons, array('status'=>array(-1=>'损坏', 0=>'禁用', 1=>'启用')));
 		return $addons;
 	}
 

@@ -14,9 +14,10 @@
  */
 class AuthGroupModel extends CmsadminModel
 {
-    const TYPE_ADMIN        = 1;                    //管理员用户组类型标识
-    const AUTH_GROUP_ACCESS = 'auth_group_access';  //关系表表名
-    const AUTH_GROUP        = 'auth_group';         //用户组表名
+    const TYPE_ADMIN           = 1;                    //管理员用户组类型标识
+    const AUTH_GROUP_ACCESS    = 'auth_group_access';  //关系表表名
+    const AUTH_CATEGORY_ACCESS = 'auth_category_access';//用户可管理的分类
+    const AUTH_GROUP           = 'auth_group';         //用户组表名
 
     protected $_validate = array(
         array('title','require', '必须设置用户组标题', Model::MUST_VALIDATE ,'regex',Model::MODEL_BOTH),
@@ -46,19 +47,23 @@ class AuthGroupModel extends CmsadminModel
      */
     static public function addToGroup($uid,$gid)
     {
-        $uid = is_array($uid)?$uid:explode(',',$uid);
-        $gid = is_array($gid)?$gid:explode(',',$gid);
+        $uid = is_array($uid)?implode(',',$uid):trim($uid,',');
+        $gid = is_array($gid)?$gid:explode( ',',trim($gid,',') );
 
         $Access = M(self::AUTH_GROUP_ACCESS);
-        foreach ($uid as $u){
-            if(is_numeric($u)){
-                $id = $Access->where( array('uid'=>$u) )->delete(); //删除用户旧的用户组关系
+        $del = $Access->where( array('uid'=>array('in',$uid)) )->delete();
+
+        $uid = explode(',',$uid);
+        $add = array();
+        if( $del!==false ){
+            foreach ($uid as $u){
                 foreach ($gid as $g){
-                    if(is_numeric($g)){
-                        $Access->add(array('uid'=>$u,'group_id'=>$g));
+                    if( is_numeric($u) && is_numeric($g) ){
+                        $add[] = array('group_id'=>$g,'uid'=>$u);
                     }
                 }
             }
+            $Access->addAll($add);
         }
     }
 
@@ -85,5 +90,54 @@ class AuthGroupModel extends CmsadminModel
         return $groups[$uid];
     }
     
+    /**
+     * 返回用户拥有管理权限的分类id列表
+     * 
+     * @param int     $uid  用户id
+     * @return array
+     *  
+     *  array(2,4,8,13) 
+     *
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
+    static public function getAuthCategories($uid)
+    {
+        $prefix = C('DB_PREFIX');
+        return M()
+            ->table($prefix.self::AUTH_GROUP_ACCESS.' g')
+            ->join($prefix.self::AUTH_CATEGORY_ACCESS.' c on g.group_id=c.group_id')
+            ->where("g.uid='$uid'")
+            ->getfield('category_id',true);
+    }
+    
+    /**
+     * 批量设置用户组可管理的分类
+     *
+     * @param int|string|array $gid   用户组id
+     * @param int|string|array $cid   分类id
+     * 
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
+    static public function addToCategory($gid,$cid)
+    {
+        $gid = is_array($gid)?implode(',',$gid):trim($gid,',');
+        $cid = is_array($cid)?$cid:explode( ',',trim($cid,',') );
+
+        $Access = M(self::AUTH_CATEGORY_ACCESS);
+        $del = $Access->where( array('group_id'=>array('in',$gid)) )->delete();
+
+        $gid = explode(',',$gid);
+        $add = array();
+        if( $del!==false ){
+            foreach ($gid as $g){
+                foreach ($cid as $c){
+                    if( is_numeric($g) && is_numeric($c) ){
+                        $add[] = array('group_id'=>$g,'category_id'=>$c);
+                    }
+                }
+            }
+            $Access->addAll($add);
+        }
+    }
 }
 

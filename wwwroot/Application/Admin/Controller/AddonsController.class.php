@@ -60,11 +60,14 @@ class AddonsController extends AdminController {
         $this->display();
     }
 
+    /**
+     * 保存插件设置
+     */
     public function saveConfig(){
         $id = (int)I('id');
         $config = I('config');
         $flag = D('Addons')->where("id={$id}")->setField('config',json_encode($config));
-        if($flag !== FALSE){
+        if($flag !== false){
             $this->success('保存成功');
         }else{
             $this->error('保存失败');
@@ -91,6 +94,7 @@ class AddonsController extends AdminController {
 			$this->error($addonsModel->getError());
 		if($addonsModel->add()){
             if($hooks_update = D('Hooks')->updateHooks($addons->getName())){
+                S('hooks', null);
                 $this->success('安装成功');
             }else{
                 $this->error('更新钩子处插件失败,请卸载后尝试重新安装');
@@ -116,11 +120,12 @@ class AddonsController extends AdminController {
 		if(!$uninstall_flag)
 			$this->error('执行插件预卸载操作失败');
         $hooks_update = D('Hooks')->removeHooks($addons->getName());
-        if($hooks_update === FALSE){
+        if($hooks_update === false){
             $this->error('卸载插件所挂载的钩子数据失败');
         }
+        S('hooks', null);
 		$delete = $addonsModel->delete($id);
-		if($delete === FALSE){
+		if($delete === false){
 			$this->error('卸载插件失败');
 		}else{
 			$this->success('卸载成功');

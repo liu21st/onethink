@@ -14,10 +14,14 @@ class DocumentModel extends CmsadminModel{
 
 	/* 自动验证规则 */
 	protected $_validate = array(
+		array('name', 'require', '标识不能为空', self::MUST_VALIDATE , 'regex', self::MODEL_INSERT),
 		array('name', '/^[a-zA-Z]\w{0,39}$/', '文档标识不合法', self::VALUE_VALIDATE, 'regex', self::MODEL_BOTH),
 		array('name', '', '标识已经存在', self::VALUE_VALIDATE, 'unique', self::MODEL_INSERT),
 		array('name', 'checkName', '标识已经存在1', self::VALUE_VALIDATE, 'callback', self::MODEL_UPDATE),
-		array('title', 'require', '标题不能为空', self::VALUE_VALIDATE, 'regex', self::MODEL_BOTH),
+		array('title', 'require', '标题不能为空', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
+		array('title', '1,80', '标题长度不能超过80个字符', self::MUST_VALIDATE, 'length', self::MODEL_BOTH),
+		array('description', 'require', '简介不能为空', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
+		array('description', '1,140', '简介长度不能超过140个字符', self::MUST_VALIDATE, 'length', self::MODEL_BOTH),
 		array('category_id', 'require', '分类不能为空', self::MUST_VALIDATE , 'regex', self::MODEL_INSERT),
 		array('category_id', 'require', '分类不能为空', self::EXISTS_VALIDATE , 'regex', self::MODEL_UPDATE),
 		array('category_id,type', 'checkCategory', '该分类不允许发布内容', self::MUST_VALIDATE , 'callback', self::MODEL_INSERT),
@@ -27,6 +31,7 @@ class DocumentModel extends CmsadminModel{
 
 	/* 自动完成规则 */
 	protected $_auto = array(
+		array('uid', 'is_login', self::MODEL_INSERT, 'function'),
 		array('title', 'htmlspecialchars', self::MODEL_BOTH, 'function'),
 		array('description', 'htmlspecialchars', self::MODEL_BOTH, 'function'),
 		array('attach', 0, self::MODEL_INSERT),
@@ -132,7 +137,7 @@ class DocumentModel extends CmsadminModel{
 		if(empty($data['id'])){ //新增数据
 			$id = $this->add(); //添加基础内容
 			if(!$id){
-				$this->error = '添加基础内容出错！';
+				$this->error = '新增基础内容出错！';
 				return false;
 			}
 			$data['id'] = $id;
@@ -233,7 +238,7 @@ class DocumentModel extends CmsadminModel{
 	protected function getStatus(){
 		$id = I('post.id');
 		$status = $this->getFieldById($id, 'status');
-		return $status;
+		return !isset($status) ? 1 : $status;
 	}
 
 	/**

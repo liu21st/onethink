@@ -19,11 +19,11 @@ class HooksModel extends Model {
 	 * 查找后置操作
 	 */
 	protected function _after_find(&$result,$options) {
-		$result['type_text_arr'] = array( 1=>'widget', 2=>'controller');
-		$result['type_text'] = $result['type_text_arr'][$result['type']];
+
 	}
 
 	protected function _after_select(&$result,$options){
+        intToString($result, array('type'=>array( 1=>'view', 2=>'controller')));
 		foreach($result as &$record){
 			$this->_after_find($record,$options);
 		}

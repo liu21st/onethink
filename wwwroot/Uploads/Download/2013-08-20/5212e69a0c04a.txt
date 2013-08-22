@@ -1,0 +1,103 @@
+新浪微博关注按钮代码：http://open.weibo.com/widget/followbutton.php
+51196  云端o枫o0  89d6f76838310e9d3e3bc058e22e4ccd
+
+1，
+	用户在线统计
+	评论防止重复加载
+	评论提交后改为js显示（暂不修改）
+
+	
+	收藏加上收藏理由
+	登录ajax提交，优化体验
+
+2，TP聊天室
+
+3，
+
+	
+4，api接口
+
+
+文档模型
+应用
+招聘
+求职
+图集
+	
+
+Sublime:
+1，即时显示svn同步情况，svn对比，svn版本号、最后提交者，svn文件替换为最新
+2，代码错误提示
+3，类方法提示，通用方法链接
+4，是否有控制台
+5，快捷键：删除整行；添加注释；
+
+
+未提交文件
+
+
+申请认证
+/thinkphp/Apps/home/Lib/Model/ApplyModel.class.php
+/thinkphp/Apps/home/Tpl/new/Member/apply.html
+
+
+
+database
+新增表
+think_support	think_notify	think_talk_atme		think_talk_attach
+think_talk_comment		think_talk_follow		think_talk_letter
+think_sys_letter		think_user_collect
+think_rank
+
+更新表
+think_download:	version
+think_user:  this_login_time ,this_login_ip, address ,zip_code,telphone,mobilephone,qq,msn
+think_review:  pos
+think_attachment:	outer_link  savepath长度变为200
+
+更新数据：
+download表加个pos为4的数据，首页置顶下载
+cate表新增数据
+
+
+	
+	
+
+
+ThinkPHP易错点总结（持续更新）
+
+[b]1、你能看出这条句子为什么在数据库中查不出来东西吗？[/b]
+$nnews = D('News')->field('content,ctime,from')->limit(5)->order('ctime desc')->select();
+
+上面的句子，如果改成这样就是正确的：
+$nnews = D('News')->field(array('content','ctime','from'))->limit(5)->order('ctime desc')->select();
+
+那么你可以思考一下，为什么会出现这样的情况呢？其实，答案很简单，在MYSQL中，from系统关键字，必然不能直接拿来作为字段名称查询，如果非要用字符串作为field，那么必须改成这样：
+$nnews = D('News')->field('content,ctime,·from·')->limit(5)->order('ctime desc')->select();
+
+注意，上面是在from两边加上了··，这个字符在键盘上的1左边的按钮。
+
+2、在ThinkPHP中，../Public和./Public的区别
+
+好像有点多此一举，其实不是的。在ThinkPHP中，../Public和./Public各有其特殊含义，正常来说，../Public代表当前文件的上级路径下的Public文件夹，而./Public代表当前文件同级目录的Public文件夹。但是，在ThinkPHP中是这样的：
+
+../Public代表当前模板路径下的Public文件夹，如：http://localhost/tsnss/apps/wap/Tpl/default/Public。
+
+./Public则代表当前项目的公共Public文件夹
+
+我们可以这样做，在[b]模板[/b]中分别写上：
+echo '../Public';
+echo './Public';
+
+你会发现，输出的不是字符串，而是路径！
+
+3,自动验证的require不能验证数组
+
+
+
+
+
+优秀应用刷选：
+1，http://www.thinkphp.cn/app/yourphp.html
+
+

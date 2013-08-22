@@ -37,18 +37,23 @@
 
 
 
-# 取消分组，直接使用多模块（原独立分组）
+# 取消分组，直接使用多模块（原独立分组） GROUP_NAME  MODULE_NAME CONTROLLER_NAME
+__ROOT__
 
 * 默认URL必须带上模块名
 * 可配置禁止访问目录（默认配置为Common,Runtime,自己配置会覆盖，所以需要加上这两个目录）
 * 默认控制器层更改为 Controller (IndexController.class.php 但是为了升级方便，默认还是继承Action)
+* 默认 VIEW 层改为  View
 
 
 # 函数相关
 
-* 添加T函数，用于定位模板文件
+* 添加T函数，用于定位模板文件 T('Doc/index')
 * 添加E函数，用于抛出异常（建议使用E函数替代原来的throw_exception）
-* I函数添加全局过滤支持，默认APP类不做全局过滤
+* I函数添加全局过滤支持，默认APP类不做全局过滤 I("ABC")  $_REQUEST['post']  $_POST   $_POST['abc'] = 123;
+
+I('post.')
+
 * halt函数改为Think::halt静态方法
 
 # 模板引擎
@@ -58,11 +63,11 @@
 # 模型相关
 
 * 字段映射读取数据收会自动处理映射字段
-* 自动完成忽略支持指定某个值，不仅仅是空
+* 自动完成忽略支持指定某个值，不仅仅是空 ''
 
 # 配置相关
 
 * 修正配置参数 MULIT_MODULE  => MUILT_MODULE
 * 支持视图目录独立于模块之外（VIEW_PATH）
 * READ_DATA_MAP 设置自动映射开关
-* 添加MODULE_DENY_LIST 设置静止访问模块列表
+* 添加MODULE_DENY_LIST 设置禁止访问模块列表

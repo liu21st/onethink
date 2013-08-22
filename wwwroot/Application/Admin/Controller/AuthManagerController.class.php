@@ -14,6 +14,8 @@
  */
 class AuthManagerController extends AdminController{
 
+    static $i =1;
+
     static protected $deny  = array('updateRules');
 
     /* 保存允许所有管理员访问的公共方法 */
@@ -169,6 +171,10 @@ class AuthManagerController extends AdminController{
         }
     }
     
+    /**
+     * 状态修改
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
     public function changeStatus($method=null)
     {
         switch ( $method ){
