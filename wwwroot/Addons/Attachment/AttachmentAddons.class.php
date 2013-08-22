@@ -12,6 +12,15 @@
  * @author 麦当苗儿 <zuojiazi.cn@gmail.com>
  */
 class AttachmentAddons extends Addons{
+	
+	public $info = array(
+		'name'        => 'Attachment',
+		'title'       => '附件',
+		'description' => '用于文档模型上传附件',
+		'status'      => 1,
+		'author'      => 'thinkphp',
+		'version'     => '0.1'
+	);
 
 	public function install(){
 		return true;
@@ -24,7 +33,7 @@ class AttachmentAddons extends Addons{
 	/* 显示文档模型编辑页插件扩展信息表单 */
 	public function documentEditForm($param = array()){
 		$this->assign($param);
-		$this->display(T('Addons://Addachment/Article/edit'));
+		$this->display(T('Addons://Attachment@Article/edit'));
 	}
 
 	/* 文档末尾显示附件列表 */
@@ -43,7 +52,7 @@ class AttachmentAddons extends Addons{
 
 		/* 模板赋值并渲染模板 */
 		$this->assign('list', $list);
-		$this->display(T('Addons://Addachment/Article/detail'));
+		$this->display(T('Addons://Attachment@Article/detail'));
 	}
 	
 	/**
