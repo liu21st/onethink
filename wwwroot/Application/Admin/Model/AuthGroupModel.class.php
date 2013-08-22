@@ -109,8 +109,8 @@ class AuthGroupModel extends CmsadminModel
     /**
      * 批量设置用户组可管理的分类
      *
-     * @param int $gid   用户组id
-     * @param int $cid   分类id
+     * @param int|string|array $gid   用户组id
+     * @param int|string|array $cid   分类id
      * 
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */

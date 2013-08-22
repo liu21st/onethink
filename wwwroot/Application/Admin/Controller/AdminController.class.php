@@ -75,7 +75,7 @@ class AdminController extends Action {
             //检测分类权限
             $uid = 1;
             $cates = AuthGroupModel::getAuthCategories($uid);
-            if( strtolower($rule)==='admin/article/index' && is_array($cates) &&  ($cid=I('cate_id')) && !in_array($cid, $cates)){
+            if( strtolower($rule)==='admin/article/index' && is_array($cates) && ($cid=I('cate_id')) && !in_array($cid, $cates) ){
                 // $this->error('无权访问');
             }
         }
