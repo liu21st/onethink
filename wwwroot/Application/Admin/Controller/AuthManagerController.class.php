@@ -43,7 +43,7 @@ class AuthManagerController extends AdminController{
         $nodes    = $this->returnNodes(false);
 
         $AuthRule = D('AuthRule');
-        $map      = array('module'=>'admin','type'=>AuthRuleModel::RULE_URL);//status全部取出,以进行更新
+        $map      = array('module'=>'admin','type'=>array('in','1,2'));//status全部取出,以进行更新
         //需要更新和删除的节点必然位于$rules
         $rules    = $AuthRule->where($map)->order('name')->select();
 
