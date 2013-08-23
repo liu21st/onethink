@@ -60,18 +60,21 @@ class AdminController extends Action {
         if ( $ac===false ) {
             $this->error('403:禁止访问');
         }elseif( $ac===null ){
-            $rule  = MODULE_NAME.'/'.CONTROLLER_NAME.'/'.ACTION_NAME;
+            $rule  = strtolower(MODULE_NAME.'/'.CONTROLLER_NAME.'/'.ACTION_NAME);
             $nodes = $this->returnNodes(false);
             $i = 0;
             foreach ($nodes as $value){
+                $value['url'] = strtolower($value['url']);
                 if( in_array($rule,$value) ){
                     $i = 1; //当前访问的节点存在于需要执行权限验证的节点中
                     break;
                 }
             }
-            if ( $i==1 ) 
-                if ( !$this->checkRule($rule) )
+            if ( $i==1 ){
+                if ( !$this->checkRule($rule) ){
                     $this->error('无权访问');
+                }
+            } 
         }
         $this->assign('__controller__', $this);
         $this->_init();

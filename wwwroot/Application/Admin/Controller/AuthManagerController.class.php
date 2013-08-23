@@ -23,6 +23,7 @@ class AuthManagerController extends AdminController{
 
         array('title'=>'权限管理','url'=>'AuthManager/index','group'=>'用户管理',
               'operator'=>array(
+                  array('title'=>'新增','url'=>'AuthManager/createGroup'),
                   array('title'=>'编辑','url'=>'AuthManager/editGroup'),
                   array('title'=>'删除','url'=>'AuthManager/changeStatus?method=deleteGroup'),
                   array('title'=>'禁用','url'=>'AuthManager/changeStatus?method=forbidGroup'),
