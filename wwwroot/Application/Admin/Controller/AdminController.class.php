@@ -55,7 +55,7 @@ class AdminController extends Action {
         if( !is_administrator() ){
             $this->error('您的身份不是管理员!');
         }
-
+        $this->uid = 1;//保存用户id
         $ac = $this->accessControl();
         if ( $ac===false ) {
             $this->error('403:禁止访问');
@@ -71,8 +71,8 @@ class AdminController extends Action {
                 }
             }
             if ( $i==1 ){
-                if ( !$this->checkRule($rule) ){
-                    // $this->error('无权访问');
+                if ( !$this->checkRule($rule,array('in','1,2')) ){
+                    $this->error('无权访问');
                 }
             } 
         }
@@ -87,19 +87,18 @@ class AdminController extends Action {
     /**
      * 权限检测
      * @param string  $rule    检测的规则
-     * @param string  $type    规则类型
+     * @param string  $mode    check模式
      * @return boolean
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
-    final protected function checkRule($rule,$type='url')
+    final protected function checkRule($rule, $type=AuthRuleModel::RULE_URL, $mode='url')
     {
         static $Auth = null;
         import('ORG.Util.Auth');
         if (!$Auth) {
             $Auth  = new Auth();
         }
-        $uid = 1;
-        if(!$Auth->check($rule,$uid,$type)){
+        if(!$Auth->check($rule,$this->uid,$type,$mode)){
             return false;
         }
         return true;
@@ -118,6 +117,9 @@ class AdminController extends Action {
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
     final protected function accessControl(){
+        // if($this->uid==1){
+            // return true;//超级管理员
+        // }
         $controller = CONTROLLER_NAME.'Controller';
         if ( !is_array($controller::$deny)||!is_array($controller::$allow) ){
             $this->error("内部错误:{$controller}控制器 deny和allow属性必须为数组");
@@ -149,7 +151,7 @@ class AdminController extends Action {
         if( $_REQUEST['model']||$_REQUEST['where']||$_REQUEST['msg']){
             $this->error('非法请求'); //安全检测,防止通过参数绑定修改数据
         }
-        $id    = array_unique(I('id',0));
+        $id    = array_unique((array)I('id',0));
         $id    = is_array($id) ? implode(',',$id) : $id;
         $where = array_merge( array('id' => array('in', $id )) ,(array)$where );
         $msg   = array_merge( array( 'success'=>'操作成功！', 'error'=>'操作失败！', 'url'=>'' ,'ajax'=>IS_AJAX) , (array)$msg );
@@ -314,10 +316,13 @@ class AdminController extends Action {
                 $this->error('控制器基类$menus属性元素配置有误');
             }
 
-            //判断节点权限
-            if (!$this->checkRule($item['title'],'main')) {  //检测节点权限
-                // unset($menus['main'][$key]);
-                // continue;//继续循环
+            if( stripos($item['url'],MODULE_NAME)!==0 ){
+                $item['url'] = MODULE_NAME.'/'.$item['url'];
+            }
+            //非超级管理员需要判断节点权限
+            if (  /* $this->uid!=1 && */  !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null)) {  //检测节点权限
+                unset($menus['main'][$key]);
+                continue;//继续循环
             }
             $other_controller = explode(',',$item['controllers']);
             if ( in_array( CONTROLLER_NAME, $other_controller ) ) {
@@ -325,7 +330,7 @@ class AdminController extends Action {
                 foreach ($other_controller as $c){
                     //从控制器中读取节点
                     $child = $c.'Controller';
-                    $child_nodes = $child::getNodes($child); 
+                    $child_nodes = $child::getNodes($child);
                     if ($child_nodes===false) {
                         $this->error("内部错误:请检查{$child}控制器 nodes 属性");
                     }
@@ -333,7 +338,7 @@ class AdminController extends Action {
                         //$value  分组数组
                         foreach ($value as $k=>$v){
                             //$v  节点配置
-                            if (!$this->checkRule($v['url'],null)) {   //检测节点权限
+                            if ( /* $this->uid!=1 && */ !$this->checkRule($v['url'],AuthRuleModel::RULE_URL,null) ) {   //检测节点权限
                                 unset($value[$k]);
                             }
                             if( $k==0 && !isset($menus['main'][$key]['url']) ){
@@ -371,6 +376,8 @@ class AdminController extends Action {
      * 返回后台节点数据
      * @param boolean $tree    是否返回树形结构
      * @retrun array
+     * 
+     * 注意,返回的主菜单节点数组中有'controller'元素,以供区分子节点和主节点
      * 
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
@@ -419,7 +426,6 @@ class AdminController extends Action {
                     $child = array_merge($child,$temp);
                 }
             }
-            unset($nodes[$key]['controllers']);
             if (!$tree) {
                 unset($nodes[$key]['child']);
             }else{

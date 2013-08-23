@@ -23,11 +23,12 @@
                     <div class="controls">
                         <label class="checkbox"><input type="checkbox" class="rules_all" />全选</label>
                         <label class="checkbox">
+                            <!-- 主节点 -->
                             <input class="auth_rules" type="checkbox" name="rules[]"
-                                   value="<?php echo $auth_rules[$node['url']] ?>"/>{$node.title}
+                                   value="<?php echo $main_rules[$node['url']] ?>"/>{$node.title}
                         </label>
 
-                        <!-- 节点列表 -->
+                        <!-- 子节点列表 -->
                         <volist name="node['child']" id="child" >
                             <label class="checkbox">
                                 <input class="auth_rules" type="checkbox" name="rules[]" 
