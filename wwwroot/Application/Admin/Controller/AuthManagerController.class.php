@@ -53,7 +53,11 @@ class AuthManagerController extends AdminController{
             $temp['name']   = $value['url'];
             $temp['title']  = $value['title'];
             $temp['module'] = 'admin';
-            $temp['type']   = AuthRuleModel::RULE_URL;
+            if($value['url']===$value['title']){
+                $temp['type']   = AuthRuleModel::RULE_MAIN;//主菜单
+            }else{
+                $temp['type']   = AuthRuleModel::RULE_URL;//子菜单
+            }
             $temp['status'] = 1;
             $data[strtolower($temp['name'].$temp['module'].$temp['type'])] = $temp;//去除重复项
         }

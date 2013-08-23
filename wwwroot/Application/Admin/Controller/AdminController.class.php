@@ -43,11 +43,11 @@ class AdminController extends Action {
      *   
      */ 
     private $menus = array(
-        array( 'title'=>'首页','url'=>'Index/index','controllers'=>'Index',),
-        array( 'title'=>'内容','url'=>'Article/index','controllers'=>'Article',),
-        array( 'title'=>'用户','url'=>'User/index','controllers'=>'User,AuthManager'),
-        array( 'title'=>'扩展','url'=>'Addons/index','controllers'=>'Addons',),
-        array( 'title'=>'系统','url'=>'System/index','controllers'=>'System',),
+        array( 'title'=>'首页','controllers'=>'Index',),
+        array( 'title'=>'内容','controllers'=>'Article',),
+        array( 'title'=>'用户','controllers'=>'User,AuthManager'),
+        array( 'title'=>'扩展','controllers'=>'Addons',),
+        array( 'title'=>'系统','controllers'=>'System',),
     );
 
     final protected function _initialize()
@@ -72,7 +72,7 @@ class AdminController extends Action {
             }
             if ( $i==1 ){
                 if ( !$this->checkRule($rule) ){
-                    $this->error('无权访问');
+                    // $this->error('无权访问');
                 }
             } 
         }
@@ -258,11 +258,12 @@ class AdminController extends Action {
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
     final static public function getNodes($controller,$group=true){
-        if ( !$controller || !is_string($controller) || !is_array($controller::$nodes) ) {
+        $temp = $controller::$nodes;
+        if ( !$controller || !is_string($controller) || !is_array($temp) || !count($temp)) {
             return false;
         }
         $nodes = array('default'=>array());
-        foreach ($controller::$nodes as $value){
+        foreach ($temp as $value){
             if (!is_array($value) || !isset($value['title'],$value['url'])) {
                 $this->error("内部错误:{$controller}控制器 nodes属性配置有误");
             }
@@ -309,26 +310,22 @@ class AdminController extends Action {
 
         //处理控制器中的节点
         foreach ($menus['main'] as $key=>$item){
-            if (!is_array($item) || empty($item['title']) || empty($item['url']) || empty($item['controllers'])) {
+            if (!is_array($item) || empty($item['title']) ||  empty($item['controllers'])) {
                 $this->error('控制器基类$menus属性元素配置有误');
             }
 
-            if( stripos($item['url'],MODULE_NAME)!==0 ){
-                $item['url'] = MODULE_NAME.'/'.$item['url'];
-            }
-
             //判断节点权限
-            if (!$this->checkRule($item['url'],null)) {  //检测节点权限
-                unset($menus['main'][$key]);
-                continue;//继续循环
+            if (!$this->checkRule($item['title'],'main')) {  //检测节点权限
+                // unset($menus['main'][$key]);
+                // continue;//继续循环
             }
             $other_controller = explode(',',$item['controllers']);
             if ( in_array( CONTROLLER_NAME, $other_controller ) ) {
                 $menus['main'][$key]['class']='current';
                 foreach ($other_controller as $c){
-                    //如果指定了从其他控制器中读取节点
+                    //从控制器中读取节点
                     $child = $c.'Controller';
-                    $child_nodes = $child::getNodes($child);      //其他控制器中的节点
+                    $child_nodes = $child::getNodes($child); 
                     if ($child_nodes===false) {
                         $this->error("内部错误:请检查{$child}控制器 nodes 属性");
                     }
@@ -338,6 +335,11 @@ class AdminController extends Action {
                             //$v  节点配置
                             if (!$this->checkRule($v['url'],null)) {   //检测节点权限
                                 unset($value[$k]);
+                            }
+                            if( $k==0 && !isset($menus['main'][$key]['url']) ){
+                                $menus['main'][$key]['url']=$v['url'];//初始化主菜单url
+                            } elseif( isset($v['default']) ){
+                                $menus['main'][$key]['url']=$v['url'];//如果配置了default,采用该url
                             }
                         }
                         if ( isset($menus['child'][$group]) ) {
@@ -352,7 +354,7 @@ class AdminController extends Action {
             }
         }
 //        S('base_menu'.CONTROLLER_NAME,$menus);
-        // dump($menus);
+        dump($menus);
         return $menus;
     }
 
@@ -400,10 +402,7 @@ class AdminController extends Action {
 
         $child = array();//$tree为false时,保存所有控制器中的节点
         foreach ($nodes as $key => $value){
-            if( stripos($value['url'],MODULE_NAME)!==0 ){
-                $value['url'] = MODULE_NAME.'/'.$value['url'];
-            }
-            $nodes[$key]['url'] = $value['url'];
+            $nodes[$key]['url'] = $value['title'];//使用title作为规则name
             $nodes[$key]['child'] = array();
             $controllers = explode(',',$value['controllers']);
             foreach ($controllers as $c){
