@@ -150,7 +150,7 @@ class AuthManagerController extends AdminController{
      */
     public function writeGroup()
     {
-        $_POST['rules']  = implode(',',$_POST['rules']);
+        $_POST['rules']  = implode(',',array_unique($_POST['rules']));
         $_POST['module'] = 'admin';
         $_POST['type']   = AuthGroupModel::TYPE_ADMIN;
         $AuthGroup       = D('AuthGroup');

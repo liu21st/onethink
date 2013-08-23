@@ -15,7 +15,7 @@
 class AdminController extends Action {
 
     /* 保存禁止通过url访问的公共方法,例如定义在控制器中的工具方法 ;deny优先级高于allow*/
-    static protected $deny  = array();
+    static protected $deny  = array('getMenus');
 
     /* 保存允许所有管理员访问的公共方法 */
     static protected $allow = array();
@@ -146,7 +146,7 @@ class AdminController extends Action {
         if( $_REQUEST['model']||$_REQUEST['where']||$_REQUEST['msg']){
             $this->error('非法请求'); //安全检测,防止通过参数绑定修改数据
         }
-        $id    = I('id',0);
+        $id    = array_unique(I('id',0));
         $id    = is_array($id) ? implode(',',$id) : $id;
         $where = array_merge( array('id' => array('in', $id )) ,(array)$where );
         $msg   = array_merge( array( 'success'=>'操作成功！', 'error'=>'操作失败！', 'url'=>'' ,'ajax'=>IS_AJAX) , (array)$msg );
