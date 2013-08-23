@@ -14,8 +14,6 @@
  */
 class AuthManagerController extends AdminController{
 
-    static $i =1;
-
     static protected $deny  = array('updateRules');
 
     /* 保存允许所有管理员访问的公共方法 */

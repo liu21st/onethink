@@ -33,26 +33,36 @@ class ArticleController extends AdminController {
 	 * @param $cate_id 分类id
 	 * @author huajie <banhuajie@163.com>
 	 */
-	public function index($cate_id = null){
+	public function index($cate_id = null, $status = null, $search = null){
 		if(empty($cate_id)){
 			$cate_id = 9;	//TODO:动态获取第一个分类
 		}
 		$Document = D('Document');
 
+		/* 查询条件初始化 */
+		$map = array();
+		if(isset($status)){
+			$map['status'] = $status;
+		}
+		if(!empty($search)){
+			$map['title'] = array('like', '%'.$search.'%');
+		}
 		/*初始化分页类*/
 		import('COM.Page');
-		$count = $Document->listCount($cate_id, array('gt', -1));
+		$count = $Document->listCount($cate_id, array('gt', -1), $map);
 		$Page = new Page($count, 20);
 		$this->page = $Page->show();
 
 		//列表数据获取
-		$list = $Document->lists($cate_id, 'id DESC', array('gt', -1), 'id,uid,title,create_time,status', $Page->firstRow. ',' . $Page->listRows);
+		$list = $Document->lists($cate_id, 'id DESC', array('gt', -1), 'id,uid,title,create_time,status', $Page->firstRow. ',' . $Page->listRows, $map);
 
 		//获取对应分类下的模型
 		$models = get_category($cate_id, 'model');
 
 		$this->assign('model', implode(',', $models));
 		$this->assign('cate_id', $cate_id);
+		$this->assign('status', $status);
+		$this->assign('search', $search);
 		$this->assign('list', $list);
 		$this->display();
 	}
@@ -139,7 +149,11 @@ class ArticleController extends AdminController {
 		if(!$res){
 			$this->error(D('Document')->getError());
 		}else{
-			$this->success('更新成功');
+			if($res['id']){
+				$this->success('新增成功');
+			}else{
+				$this->success('更新成功');
+			}
 		}
 	}
 

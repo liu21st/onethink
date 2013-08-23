@@ -52,10 +52,12 @@ class DocumentModel extends CmsadminModel{
 	 * @param  boolean  $count    是否返回总数
 	 * @param  string   $field    字段 true-所有字段
 	 * @param  string   $limit    分页参数
+	 * @param  array    $map      查询条件参数
 	 * @return array              文档列表
+	 * @author huajie <banhuajie@163.com>
 	 */
-	public function lists($category, $order = '`id` DESC', $status = 1, $field = true, $limit = '10'){
-		$map = $this->listMap($category, $status);
+	public function lists($category, $order = '`id` DESC', $status = 1, $field = true, $limit = '10', $map = array()){
+		$map = array_merge($this->listMap($category, $status), $map);
 		return $this->field($field)->where($map)->order($order)->limit($limit)->select();
 	}
 
@@ -65,8 +67,8 @@ class DocumentModel extends CmsadminModel{
 	 * @param  integer $status   状态
 	 * @return integer           总数
 	 */
-	public function listCount($category, $status = 1){
-		$map = $this->listMap($category, $status);
+	public function listCount($category, $status = 1, $map = array()){
+		$map = array_merge($this->listMap($category, $status), $map);
 		return $this->where($map)->count('id');
 	}
 

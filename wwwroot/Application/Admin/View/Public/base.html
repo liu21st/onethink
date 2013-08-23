@@ -13,6 +13,7 @@
 </head>
 <body>
     <!-- 头部 -->
+    <php>$__base_menu__ = $__controller__->getMenus();</php>
     <div class="header">
         <!-- Logo -->
         <a href="javascript:;" class="logo"></a>
@@ -20,7 +21,7 @@
 
         <!-- 主导航 -->
         <ul class="main-nav">
-            <volist name="base_menu.main" id="menu">
+            <volist name="__base_menu__.main" id="menu">
                 <li class="{$menu.class|default=''}"><a href="{$menu.url|U}">{$menu.title}</a></li>
             </volist>
         </ul>
@@ -33,7 +34,7 @@
         <!-- 子导航 -->
         <block name="sidebar">
             <div id="subnav" class="subnav">
-                <volist name="base_menu.child" id="sub_menu">
+                <volist name="__base_menu__.child" id="sub_menu">
                     <!-- 子导航 -->
                     <notempty name="sub_menu">
                         <h3><i class="icon-s1"></i>{$key}</h3>
