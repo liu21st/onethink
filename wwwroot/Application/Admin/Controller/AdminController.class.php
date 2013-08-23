@@ -73,7 +73,6 @@ class AdminController extends Action {
                 if ( !$this->checkRule($rule) )
                     $this->error('无权访问');
         }
-        $this->assign( 'base_menu', $this->getMenus() );
 
         $this->_init();
     }
@@ -298,7 +297,7 @@ class AdminController extends Action {
      * 子类中 $this->getMenus() 调用
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    final protected function getMenus(){
+    final public function getMenus(){
 //        if ( S('base_menu'.$controller) ) {
 //            return S('base_menu'.$controller);
 //        }
