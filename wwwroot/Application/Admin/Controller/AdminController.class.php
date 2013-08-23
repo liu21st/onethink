@@ -316,7 +316,6 @@ class AdminController extends Action {
             if( stripos($item['url'],MODULE_NAME)!==0 ){
                 $item['url'] = MODULE_NAME.'/'.$item['url'];
             }
-
             //判断节点权限
             if (!$this->checkRule($item['url'],null)) {  //检测节点权限
                 unset($menus['main'][$key]);
@@ -370,6 +369,8 @@ class AdminController extends Action {
      * @param boolean $tree    是否返回树形结构
      * @retrun array
      * 
+     * 注意,返回的主菜单节点数组中有'controller'元素,以供区分子节点和主节点
+     * 
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     final protected function returnNodes($tree = true)
@@ -420,7 +421,6 @@ class AdminController extends Action {
                     $child = array_merge($child,$temp);
                 }
             }
-            unset($nodes[$key]['controllers']);
             if (!$tree) {
                 unset($nodes[$key]['child']);
             }else{

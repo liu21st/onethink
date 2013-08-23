@@ -22,13 +22,13 @@ class AuthManagerController extends AdminController{
     static protected $nodes= array(
 
         array('title'=>'权限管理','url'=>'AuthManager/index','group'=>'用户管理',
-              'operator'=>array(
-                  array('title'=>'新增','url'=>'AuthManager/createGroup'),
-                  array('title'=>'编辑','url'=>'AuthManager/editGroup'),
-                  array('title'=>'删除','url'=>'AuthManager/changeStatus?method=deleteGroup'),
-                  array('title'=>'禁用','url'=>'AuthManager/changeStatus?method=forbidGroup'),
-                  array('title'=>'恢复','url'=>'AuthManager/changeStatus?method=resumeGroup'),
-              ),
+              // 'operator'=>array(
+                  // array('title'=>'新增','url'=>'AuthManager/createGroup'),
+                  // array('title'=>'编辑','url'=>'AuthManager/editGroup'),
+                  // array('title'=>'删除','url'=>'AuthManager/changeStatus?method=deleteGroup'),
+                  // array('title'=>'禁用','url'=>'AuthManager/changeStatus?method=forbidGroup'),
+                  // array('title'=>'恢复','url'=>'AuthManager/changeStatus?method=resumeGroup'),
+              // ),
         ),
     );
 
@@ -53,7 +53,11 @@ class AuthManagerController extends AdminController{
             $temp['name']   = $value['url'];
             $temp['title']  = $value['title'];
             $temp['module'] = 'admin';
-            $temp['type']   = AuthRuleModel::RULE_URL;
+            if(isset($value['controllers'])){
+                $temp['type']   = AuthRuleModel::RULE_MAIN;
+            }else{
+                $temp['type']   = AuthRuleModel::RULE_URL;
+            }
             $temp['status'] = 1;
             $data[strtolower($temp['name'].$temp['module'].$temp['type'])] = $temp;//去除重复项
         }
@@ -121,11 +125,14 @@ class AuthManagerController extends AdminController{
      */
     public function createGroup()
     {
-        $node_list = $this->returnNodes();
-        $map       = array('module'=>'admin','type'=>AuthRuleModel::RULE_URL,'status'=>1);
-        $rules     = D('AuthRule')->where($map)->getField('name,id');
+        $node_list   = $this->returnNodes();
+        $map         = array('module'=>'admin','type'=>AuthRuleModel::RULE_MAIN,'status'=>1);
+        $main_rules  = D('AuthRule')->where($map)->getField('name,id');
+        $map         = array('module'=>'admin','type'=>AuthRuleModel::RULE_URL,'status'=>1);
+        $child_rules = D('AuthRule')->where($map)->getField('name,id');
 
-        $this->assign('auth_rules',$rules);
+        $this->assign('main_rules',$main_rules);
+        $this->assign('auth_rules',$child_rules);
         $this->assign('node_list',$node_list);
         if ( empty($this->auth_group) ) {
             $this->assign('auth_group',array('title'=>null,'id'=>null,'description'=>null,'rules'=>null,));//排除notice信息
