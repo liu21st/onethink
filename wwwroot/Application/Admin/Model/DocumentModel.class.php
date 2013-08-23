@@ -128,6 +128,11 @@ class DocumentModel extends CmsadminModel{
 		return $this->field(true)->where($map)->order('id')->find();
 	}
 
+	/**
+	 * 新增或更新一个文档
+	 * @return boolean fasle 失败 ， int  成功 返回完整的数据
+	 * @author huajie <banhuajie@163.com>
+	 */
 	public function update(){
 		/* 获取数据对象 */
 		$data = $this->create();
