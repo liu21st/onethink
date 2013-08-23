@@ -73,7 +73,7 @@ class AdminController extends Action {
                 if ( !$this->checkRule($rule) )
                     $this->error('无权访问');
         }
-
+        $this->assign('__controller__', $this);
         $this->_init();
     }
 
