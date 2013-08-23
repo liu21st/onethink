@@ -55,7 +55,7 @@ class AdminController extends Action {
         if( !is_administrator() ){
             $this->error('您的身份不是管理员!');
         }
-
+        $this->uid = 1;//保存用户id
         $ac = $this->accessControl();
         if ( $ac===false ) {
             $this->error('403:禁止访问');
@@ -71,7 +71,7 @@ class AdminController extends Action {
                 }
             }
             if ( $i==1 ){
-                if ( !$this->checkRule($rule) ){
+                if ( !$this->checkRule($rule,array('in','1,2')) ){
                     $this->error('无权访问');
                 }
             } 
@@ -87,19 +87,18 @@ class AdminController extends Action {
     /**
      * 权限检测
      * @param string  $rule    检测的规则
-     * @param string  $type    规则类型
+     * @param string  $mode    check模式
      * @return boolean
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
-    final protected function checkRule($rule,$type='url')
+    final protected function checkRule($rule, $type=AuthRuleModel::RULE_URL, $mode='url')
     {
         static $Auth = null;
         import('ORG.Util.Auth');
         if (!$Auth) {
             $Auth  = new Auth();
         }
-        $uid = 1;
-        if(!$Auth->check($rule,$uid,$type)){
+        if(!$Auth->check($rule,$this->uid,$type,$mode)){
             return false;
         }
         return true;
@@ -118,6 +117,9 @@ class AdminController extends Action {
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
     final protected function accessControl(){
+        // if($this->uid==1){
+            // return true;//超级管理员
+        // }
         $controller = CONTROLLER_NAME.'Controller';
         if ( !is_array($controller::$deny)||!is_array($controller::$allow) ){
             $this->error("内部错误:{$controller}控制器 deny和allow属性必须为数组");
@@ -316,8 +318,8 @@ class AdminController extends Action {
             if( stripos($item['url'],MODULE_NAME)!==0 ){
                 $item['url'] = MODULE_NAME.'/'.$item['url'];
             }
-            //判断节点权限
-            if (!$this->checkRule($item['url'],null)) {  //检测节点权限
+            //非超级管理员需要判断节点权限
+            if (  /* $this->uid!=1 && */  !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null)) {  //检测节点权限
                 unset($menus['main'][$key]);
                 continue;//继续循环
             }
@@ -325,9 +327,9 @@ class AdminController extends Action {
             if ( in_array( CONTROLLER_NAME, $other_controller ) ) {
                 $menus['main'][$key]['class']='current';
                 foreach ($other_controller as $c){
-                    //如果指定了从其他控制器中读取节点
+                    //从控制器中读取节点
                     $child = $c.'Controller';
-                    $child_nodes = $child::getNodes($child);      //其他控制器中的节点
+                    $child_nodes = $child::getNodes($child);
                     if ($child_nodes===false) {
                         $this->error("内部错误:请检查{$child}控制器 nodes 属性");
                     }
@@ -335,7 +337,7 @@ class AdminController extends Action {
                         //$value  分组数组
                         foreach ($value as $k=>$v){
                             //$v  节点配置
-                            if (!$this->checkRule($v['url'],null)) {   //检测节点权限
+                            if ( /* $this->uid!=1 && */ !$this->checkRule($v['url'],AuthRuleModel::RULE_URL,null) ) {   //检测节点权限
                                 unset($value[$k]);
                             }
                         }
