@@ -151,7 +151,7 @@ class AdminController extends Action {
         if( $_REQUEST['model']||$_REQUEST['where']||$_REQUEST['msg']){
             $this->error('非法请求'); //安全检测,防止通过参数绑定修改数据
         }
-        $id    = array_unique(I('id',0));
+        $id    = array_unique((array)I('id',0));
         $id    = is_array($id) ? implode(',',$id) : $id;
         $where = array_merge( array('id' => array('in', $id )) ,(array)$where );
         $msg   = array_merge( array( 'success'=>'操作成功！', 'error'=>'操作失败！', 'url'=>'' ,'ajax'=>IS_AJAX) , (array)$msg );
