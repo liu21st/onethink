@@ -459,8 +459,8 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
  * 规则字段解释：table->要操作的数据表，不需要加表前缀；
  * 				field->要操作的字段；
  * 				condition->操作的条件，目前支持字符串，默认变量{$self}为执行行为的用户
- * 				rule->对字段进行的具体操作，目前支持加、减
- * 				cycle->执行周期，单位（分钟），表示$cycle分钟内执行$max次
+ * 				rule->对字段进行的具体操作，目前支持四则混合运算，如：1+score*2/2-3
+ * 				cycle->执行周期，单位（小时），表示$cycle小时内最多执行$max次
  * 				max->单个周期内的最大执行次数（$cycle和$max必须同时定义，否则无效）
  * 单个行为后可加 ； 连接其他规则
  * @param string $action 行为id或者name
@@ -536,7 +536,8 @@ function execute_action($rules = false, $action_id = null, $user_id = null){
 		//执行数据库操作
 		$Model = M(ucfirst($rule['table']));
 		$field = $rule['field'];
-		$res = $Model->where($rule['condition'])->setField($field, array('exp', $field.'+'.$rule['rule']));
+		$res = $Model->where($rule['condition'])->setField($field, array('exp', $rule['rule']));
+
 		if(!$res){
 			$return = false;
 		}
