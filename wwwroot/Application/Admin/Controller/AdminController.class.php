@@ -61,20 +61,9 @@ class AdminController extends Action {
             $this->error('403:禁止访问');
         }elseif( $ac===null ){
             $rule  = strtolower(MODULE_NAME.'/'.CONTROLLER_NAME.'/'.ACTION_NAME);
-            $nodes = $this->returnNodes(false);
-            $i = 0;
-            foreach ($nodes as $value){
-                $value['url'] = strtolower($value['url']);
-                if( in_array($rule,$value) ){
-                    $i = 1; //当前访问的节点存在于需要执行权限验证的节点中
-                    break;
-                }
+            if ( $this->uid!=1 && !$this->checkRule($rule,array('in','1,2')) ){
+                $this->error('无权访问');
             }
-            if ( $i==1 ){
-                if ( !$this->checkRule($rule,array('in','1,2')) ){
-                    $this->error('无权访问');
-                }
-            } 
         }
         $this->assign('__controller__', $this);
         $this->_init();
@@ -117,9 +106,6 @@ class AdminController extends Action {
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
     final protected function accessControl(){
-        // if($this->uid==1){
-            // return true;//超级管理员
-        // }
         $controller = CONTROLLER_NAME.'Controller';
         if ( !is_array($controller::$deny)||!is_array($controller::$allow) ){
             $this->error("内部错误:{$controller}控制器 deny和allow属性必须为数组");
@@ -378,28 +364,12 @@ class AdminController extends Action {
     final protected function returnNodes($tree = true)
     {
         static $tree_nodes = array();
-        static $notree_nodes = array();
-        if ( $tree && !empty($tree_nodes) ) {
-            return $tree_nodes;
-        }
-        if ( !$tree && !empty($notree_nodes) ) {
-            return $notree_nodes;
+        if ( $tree && !empty($tree_nodes[(int)$tree]) ) {
+            return $tree_nodes[$tree];
         }
 
-        $iterator = new FilesystemIterator(
-                            __DIR__,
-                            FilesystemIterator::UNIX_PATHS|FilesystemIterator::CURRENT_AS_PATHNAME|FilesystemIterator::KEY_AS_FILENAME
-                        );
         $nodes    = $this->getVal('menus'); //获取主节点
         //所有子菜单接单
-
-        $arr  = array(); //保存每个控制器中的节点
-        foreach ( $iterator as $filename => $obj ){
-            $class = strtr($filename,array('.class.php'=>''));
-            if( class_exists($class) && method_exists($class,'getNodes') ){
-                $arr[$class] = $class::getNodes($class,false);
-            }
-        }
 
         $child = array();//$tree为false时,保存所有控制器中的节点
         foreach ($nodes as $key => $value){
@@ -410,10 +380,15 @@ class AdminController extends Action {
             $nodes[$key]['child'] = array();
             $controllers = explode(',',$value['controllers']);
             foreach ($controllers as $c){
-                if($tree){
-                    $nodes[$key]['child'] = array_merge($nodes[$key]['child'],$arr[$c.'Controller']);
+                $class = $c.'Controller';
+                if( class_exists($class) && method_exists($class,'getNodes') ){
+                    $temp = $class::getNodes($class,false);
                 }else{
-                    $temp = $arr[$c.'Controller'];
+                    continue;
+                }
+                if($tree){
+                    $nodes[$key]['child'] = array_merge($nodes[$key]['child'],$temp);
+                }else{
                     foreach ($temp as $k=>$operator){//分离菜单节点下的操作节点
                         if ( isset($operator['operator']) ) {
                             $child = array_merge($child,$operator['operator']);
@@ -433,10 +408,8 @@ class AdminController extends Action {
         if (!$tree) {
             $nodes = array_merge($nodes,$child);
             unset($nodes['default']);
-            $notree_nodes = $nodes;
-        }else{
-            $tree_nodes   = $nodes;
         }
+        $tree_nodes[(int)$tree]   = $nodes;
         return $nodes;
     }
     

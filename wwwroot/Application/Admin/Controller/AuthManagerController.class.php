@@ -14,21 +14,26 @@
  */
 class AuthManagerController extends AdminController{
 
-    static protected $deny  = array('updateRules');
+    /* 因为updateRules要供缓存管理模块内部使用,无需通过url访问;
+     * 而delete,forbid,resume 已经通过changeStatus访问内部调用了,所以也不允许url访问 */
+    static protected $deny  = array('updateRules','delete','forbid','resume');
 
     /* 保存允许所有管理员访问的公共方法 */
     static protected $allow = array();
 
     static protected $nodes= array(
-
+        //权限管理页
         array('title'=>'权限管理','url'=>'AuthManager/index','group'=>'用户管理',
-              // 'operator'=>array(
-                  // array('title'=>'新增','url'=>'AuthManager/createGroup'),
-                  // array('title'=>'编辑','url'=>'AuthManager/editGroup'),
-                  // array('title'=>'删除','url'=>'AuthManager/changeStatus?method=deleteGroup'),
-                  // array('title'=>'禁用','url'=>'AuthManager/changeStatus?method=forbidGroup'),
-                  // array('title'=>'恢复','url'=>'AuthManager/changeStatus?method=resumeGroup'),
-              // ),
+              'operator'=>array(
+                  //权限管理页面的五种按钮
+                  array('title'=>'删除','url'=>'AuthManager/changeStatus?method=deleteGroup'),
+                  array('title'=>'禁用','url'=>'AuthManager/changeStatus?method=forbidGroup'),
+                  array('title'=>'恢复','url'=>'AuthManager/changeStatus?method=resumeGroup'),
+                  array('title'=>'新增','url'=>'AuthManager/createGroup'),
+                  array('title'=>'编辑','url'=>'AuthManager/editGroup'),
+                  //用户组编辑页面和新增页面的表单保存提交按钮
+                  array('title'=>'保存','url'=>'AuthManager/writeGroup'),
+              ),
         ),
     );
 
