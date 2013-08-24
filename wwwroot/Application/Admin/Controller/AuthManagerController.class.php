@@ -31,8 +31,11 @@ class AuthManagerController extends AdminController{
                   array('title'=>'恢复','url'=>'AuthManager/changeStatus?method=resumeGroup'),
                   array('title'=>'新增','url'=>'AuthManager/createGroup'),
                   array('title'=>'编辑','url'=>'AuthManager/editGroup'),
+                  array('title'=>'成员','url'=>'AuthManager/user'),
                   //用户组编辑页面和新增页面的表单保存提交按钮
-                  array('title'=>'保存','url'=>'AuthManager/writeGroup'),
+                  array('title'=>'保存用户组','url'=>'AuthManager/writeGroup'),
+                  array('title'=>'解除授权','url'=>'AuthManager/removeFromGroup'),
+                  array('title'=>'添加授权','url'=>'AuthManager/addToGroup'),
               ),
         ),
     );
@@ -202,5 +205,70 @@ class AuthManagerController extends AdminController{
                 $this->error('参数非法',__APP__);
         }
     }
+
+    public function user($group_id){
+        if(empty($group_id)){
+            $this->error('参数错误');
+        }
+        $authed_user = AuthGroupModel::memberInGroup((int)$group_id);
+        $this->assign('authed_user',intToString($authed_user));
+        $this->display();
+    }
+
+    public function category(){
+        $group_list = D('Category')->getTree();
+        $this->assign('authed_group',$authed_group);
+        $this->assign('group_list',$group_list);
+        $this->display();
+    }
+
+    public function group()
+    {
+        $auth_groups = D('AuthGroup')->getGroups();
+        $this->assign('auth_groups',$auth_groups);
+        $this->display();
+    }
+    
+    
+    public function addToGroup()
+    {
+        $uid = I('uid');
+        $gid = I('group_id');
+        if( empty($uid) || empty($gid) ){
+            $this->error('参数有误');
+        }
+        $AuthGroup = D('AuthGroup');
+        if( !$AuthGroup->find($gid)){
+            $this->error('用户组不存在');
+        }
+        if( !M('UcenterMember')->find($uid)){
+            $this->error('用户不存在');
+        }
+        if ( $AuthGroup->addToGroup($uid,$gid) ){
+            $this->success('操作成功');
+        }else{
+            $this->error('操作失败');
+        }
+    }
+
+    public function removeFromGroup()
+    {
+        $uid = I('uid');
+        $gid = I('group_id');
+        if( empty($uid) || empty($gid) ){
+            $this->error('参数有误');
+        }
+        $AuthGroup = D('AuthGroup');
+        if( !$AuthGroup->find($gid)){
+            $this->error('用户组不存在');
+        }
+        if ( $AuthGroup->removeFromGroup($uid,$gid) ){
+            $this->success('操作成功');
+        }else{
+            $this->error('操作失败');
+        }
+        
+    }
+    
     
 }
