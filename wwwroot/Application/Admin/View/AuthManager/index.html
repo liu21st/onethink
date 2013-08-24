@@ -47,7 +47,7 @@
 								<a href="{:U('changeStatus',array('id'=>$vo['id'],'method'=>'forbidGroup'))}">禁用</a>
 							</eq>
                         </egt> 
-                        <a href="{:U('changeStatus',array('id'=>$vo['id'],'method'=>'deleteGroup'))}">删除</a>
+                        <a class="confirm" href="{:U('changeStatus',array('id'=>$vo['id'],'method'=>'deleteGroup'))}">删除</a>
 					</td>
 				</tr>
 				</volist>
@@ -58,7 +58,15 @@
 <block name="script">
 <script type="text/javascript">
     +function($){
+        $('.confirm').on('click',function(){
+            if(!confirm('确认要删除吗?')){
+                return false;
+            }
+        });
         $('.auth-botton').find('button').on('click',function(){
+            if( this.id=='delete-group' && !confirm('确认要删除吗?')){
+                return false;
+            }
             var url = $(this).attr('url');
             var ids = $('.ids').serialize();
             if (!ids) {
