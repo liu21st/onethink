@@ -116,6 +116,22 @@ class AuthGroupModel extends CmsadminModel
             ->where("g.uid='$uid'")
             ->getfield('category_id',true);
     }
+
+    /**
+     * 获取用户组授权的分类id列表
+     * 
+     * @param int     $gid  用户组id
+     * @return array
+     *  
+     *  array(2,4,8,13) 
+     *
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
+    static public function getCategoryOfGroup($gid)
+    {
+        return M(self::AUTH_CATEGORY_ACCESS)->where( array('group_id'=>$gid) )->getfield('category_id',true);
+    }
+    
     
     /**
      * 批量设置用户组可管理的分类

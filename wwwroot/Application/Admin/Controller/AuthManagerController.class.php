@@ -203,10 +203,14 @@ class AuthManagerController extends AdminController{
                 $this->delete('AuthGroup');    
                 break;
             default:
-                $this->error('参数非法',__APP__);
+                $this->error('参数非法');
         }
     }
 
+    /**
+     * 用户组授权用户列表
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
     public function user($group_id){
         if(empty($group_id)){
             $this->error('参数错误');
@@ -216,21 +220,39 @@ class AuthManagerController extends AdminController{
         $this->display();
     }
 
+    /**
+     * 将分类添加到用户组的编辑页面
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
     public function category(){
-        $group_list = D('Category')->getTree();
-        $this->assign('authed_group',$authed_group);
+        $group_list   = D('Category')->getTree();
+        $authed_group = AuthGroupModel::getCategoryOfGroup(I('group_id'));
+        $this->assign('authed_group',implode(',',(array)$authed_group));
         $this->assign('group_list',$group_list);
         $this->display();
     }
 
+    /**
+     * 将用户添加到用户组的编辑页面
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
     public function group()
     {
         $auth_groups = D('AuthGroup')->getGroups();
+        $user_groups = AuthGroupModel::getUserGroup(I('uid'));
+        $ids = array();
+        foreach ($user_groups as $value){
+            $ids[] = $value['group_id'];
+        }
         $this->assign('auth_groups',$auth_groups);
+        $this->assign('user_groups',implode(',',$ids));
         $this->display();
     }
     
-    
+    /**
+     * 将用户添加到用户组,入参uid,group_id
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
     public function addToGroup()
     {
         $uid = I('uid');
@@ -252,6 +274,10 @@ class AuthManagerController extends AdminController{
         }
     }
 
+    /**
+     * 将用户从用户组中移除  入参:uid,group_id
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
     public function removeFromGroup()
     {
         $uid = I('uid');
@@ -268,8 +294,5 @@ class AuthManagerController extends AdminController{
         }else{
             $this->error('操作失败');
         }
-        
     }
-    
-    
 }
