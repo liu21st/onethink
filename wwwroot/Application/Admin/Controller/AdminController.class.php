@@ -50,6 +50,8 @@ class AdminController extends Action {
         array( 'title'=>'系统','url'=>'System/index','controllers'=>'System',),
     );
 
+    private $uid = null;//保存登陆用户的uid
+
     final protected function _initialize()
     {
         if( !is_administrator() ){
@@ -87,7 +89,7 @@ class AdminController extends Action {
         if (!$Auth) {
             $Auth  = new Auth();
         }
-        if(!$Auth->check($rule,$this->uid,$type,$mode)){
+        if(!$Auth->check($rule,$this->getVal('uid'),$type,$mode)){
             return false;
         }
         return true;
