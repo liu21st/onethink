@@ -59,13 +59,13 @@ class AdminController extends Action {
             return;
         }
         $this->uid = 1;
-        $this->uid = is_login(); 
+        // $this->uid = is_login(); 
         if( !$this->uid ){
             $this->redirect('Admin/Index/login');
             exit;
         }
         $this->root_user = 1;
-        $this->root_user = is_administrator();
+        // $this->root_user = is_administrator();
         $ac = $this->accessControl();
         if ( $ac===false ) {
             $this->error('403:禁止访问');
