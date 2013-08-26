@@ -12,7 +12,7 @@
  * @author 麦当苗儿 <zuojiazi.cn@gmail.com>
  */
 class AttachmentAddons extends Addons{
-	
+
 	public $info = array(
 		'name'        => 'Attachment',
 		'title'       => '附件',
@@ -20,6 +20,15 @@ class AttachmentAddons extends Addons{
 		'status'      => 1,
 		'author'      => 'thinkphp',
 		'version'     => '0.1'
+	);
+
+	public $admin_list = array(
+		'listKey' => array(
+			'title'=>'文件名',
+			'size'=>'大小',
+			'update_time_text'=>'更新时间',
+			'document_title'=>'文档标题'
+		)
 	);
 
 	public function install(){
@@ -54,7 +63,7 @@ class AttachmentAddons extends Addons{
 		$this->assign('list', $list);
 		$this->display(T('Addons://Attachment@Article/detail'));
 	}
-	
+
 	/**
 	 * 文档保存成功后执行行为
 	 * @param  array  $data     文档数据
@@ -64,17 +73,17 @@ class AttachmentAddons extends Addons{
 		list($data, $category) = $param;
 		/* 附件默认配置项 */
 		$default  = C('ATTACHMENT_DEFAULT');
-	
+
 		/* 合并当前配置 */
 		$config = $category['extend']['attachment'];
 		$config = empty($config) ? $default : array_merge($default, $config);
 		$attach = I('post.attachment');
-	
+
 		/* 该分类不允许上传附件 */
 		if(!$config['is_upload'] || !in_array($attach['type'], str2arr($config['allow_type']))){
 			return ;
 		}
-	
+
 		switch ($attach['type']) {
 			case 1: //外链
 				# code...
@@ -89,6 +98,6 @@ class AttachmentAddons extends Addons{
 				}
 				break;
 		}
-	
+
 	}
 }

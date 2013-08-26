@@ -13,14 +13,46 @@
  */
 
 class AddonsController extends AdminController {
-    static protected $nodes = array(
-        array( 'title'=>'模型管理', 'url'=>'Addons/index', 'group'=>'扩展'),
-        array( 'title'=>'插件管理', 'url'=>'Addons/index', 'group'=>'扩展'),
-        array( 'title'=>'钩子管理', 'url'=>'Addons/hooks', 'group'=>'扩展'),
-    );
+
+    public function _initialize(){
+        parent::$nodes = array(
+            array( 'title'=>'模型管理', 'url'=>'Addons/index', 'group'=>'扩展'),
+            array( 'title'=>'插件管理', 'url'=>'Addons/index', 'group'=>'扩展'),
+            array( 'title'=>'钩子管理', 'url'=>'Addons/hooks', 'group'=>'扩展'),
+        );
+        $admin = D('Addons')->getAdminList();
+        $this->assign('adminList', $admin);
+        parent::_initialize();
+    }
 
     public function index(){
         $this->assign('list',D('Addons')->getList());
+        $this->display();
+    }
+
+    public function adminList($name){
+        $addon = addons($name);
+        $param = $addon->admin_list;
+        extract($param);
+        foreach ($searchKey as $key => $value) {
+            $search = trim(I($key));
+            if($search){
+                switch ($value['type']) {
+                    case 'like':
+                        $map[$key] = array('like', "{$value['format']}");
+                        break;
+                    case 'gt': case 'lt': case 'egt': case 'elt': case 'eq':
+                        $map[$key] = array($value['type'], $search);
+                    default:
+                        $map[$key] = $search;
+                        break;
+                }
+            }
+        }
+        $this->assign('title', $addon->info['title']);
+        $this->assign($param);
+        $list = D($model)->field($fields)->where($map)->order($order)->select();
+        $this->assign('list', $list);
         $this->display();
     }
 
@@ -51,8 +83,8 @@ class AddonsController extends AdminController {
         if(!$addon)
             $this->error('插件未安装');
         $this->assign('data',$addon);
-        if($addon['config']['custom_config'])
-            $this->assign('custom_config', $addon['addon_path'].$addon['config']['custom_config']);
+        if($addon['custom_config'])
+            $this->assign('custom_config', $addon['addon_path'].$addon['custom_config']);
         $this->display();
     }
 

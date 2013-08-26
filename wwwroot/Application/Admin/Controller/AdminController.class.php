@@ -21,7 +21,7 @@ class AdminController extends Action {
     static protected $allow = array();
 
     /**
-     * 节点配置  
+     * 节点配置
      *   配置项目的键必须小写
      *   菜单节点必须配置title元素和url元素(供U函数作使用的合法字符串,参数必须使用?k=v&k2=v2...格式)
      *   array(
@@ -32,7 +32,7 @@ class AdminController extends Action {
     static protected $nodes = array();
 
     /**
-     * 主节点配置示例:  
+     * 主节点配置示例:
      *   配置项目的键必须小写
      *   菜单节点必须配置title元素和url元素(供U函数作使用的合法字符串,参数必须使用?k=v&k2=v2...格式)和controllers元素
      *   array(
@@ -40,8 +40,8 @@ class AdminController extends Action {
      *       array( 'title'=>'节点标题', 'url'=>'Index/index?param=value','controllers'=>'', 'tip'=>''),
      *        ......
      *     )
-     *   
-     */ 
+     *
+     */
     private $menus = array(
         array( 'title'=>'首页','url'=>'Index/index','controllers'=>'Index',),
         array( 'title'=>'内容','url'=>'Article/index','controllers'=>'Article',),
@@ -53,13 +53,13 @@ class AdminController extends Action {
     private $uid = null;         //保存登陆用户的uid
     private $root_user = null;   //保存超级管理员用户id;
 
-    final protected function _initialize()
-    { 
+    protected function _initialize()
+    {
         if(ACTION_NAME=='login'){
             return;
         }
         $this->uid = 1;
-        // $this->uid = is_login(); 
+        // $this->uid = is_login();
         if( !$this->uid ){
             $this->redirect('Admin/Index/login');
             exit;
@@ -102,13 +102,13 @@ class AdminController extends Action {
         }
         return true;
     }
-    
-    
+
+
     /**
      * action访问控制,在 **登陆成功** 后执行的第一项权限检测任务
      *
      * @return true|false|null  返回值必须使用 `===` 进行判断
-     * 
+     *
      *   返回false,不允许任何人访问
      *   返回true, 允许任何管理员访问,无需执行权限检测
      *   返回null, 需要继续执行权限检测决定是否允许访问
@@ -222,7 +222,7 @@ class AdminController extends Action {
                     $data[] = strtolower($value);
                 }else{
                     //可扩展
-                } 
+                }
             }
         }
         return $data;
@@ -244,7 +244,7 @@ class AdminController extends Action {
                     $data[] = strtolower($value);
                 }else{
                     //可扩展
-                } 
+                }
             }
         }
         return $data;
@@ -365,14 +365,14 @@ class AdminController extends Action {
     {
         return $this->$val;
     }
-    
+
     /**
      * 返回后台节点数据
      * @param boolean $tree    是否返回树形结构
      * @retrun array
-     * 
+     *
      * 注意,返回的主菜单节点数组中有'controller'元素,以供区分子节点和主节点
-     * 
+     *
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     final protected function returnNodes($tree = true)
@@ -426,5 +426,5 @@ class AdminController extends Action {
         $tree_nodes[(int)$tree]   = $nodes;
         return $nodes;
     }
-    
+
 }
