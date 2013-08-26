@@ -14,30 +14,22 @@
 
 class ArticleController extends AdminController {
 
-	/**
-     * 节点配置
-     *   菜单节点必须配置title元素和url元素(供U函数作使用)
-     *   array(
-     *       //值的元素  title:节点名字；url:链接; group:链接组; tip:链接提示文字
-     *       array( 'title'=>'节点标题','url'=>'action?query=vaule', 'group'=>'扩展','tip'=>''),
-     *   )
+    /**
+     * 控制器初始化方法
+     * @see AdminController::_init()
+     * @author huajie <banhuajie@163.com>
      */
-    static protected $nodes = array(
-    	array( 'title' => '讨论', 'url' => 'Article/index?cate_id=9', 'group' => '文章'),
-    	array( 'title' => '下载', 'url' => 'Article/index?cate_id=2', 'group' => '文章'),
-    	array( 'title' => '框架', 'url' => 'Article/index?cate_id=10', 'group' => '下载'),
-    );
-
     protected function _init(){
-    	//设置节点
+    	//获取动态节点
     	$cate = M('Category')->where(array('display'=>1,'status'=>1))->field('id,title,pid')->order('sort')->select();
 		$cate = list_to_tree($cate);
-		foreach ($cate as $key=>$value){
-			foreach ($value['_child'] as $k=>$v){
-				self::$nodes[] = array( 'title' => $v['title'], 'url' => 'Article/index?cate_id='.$v['id'], 'group' => $value['title']);
+		foreach ($cate as $key=>&$value){
+			foreach ($value['_child'] as $k=>&$v){
+				$v['url'] = 'Article/index?cate_id='.$v['id'];
 			}
 
 		}
+		$this->assign('nodes', $cate);
     }
 
 	/**
@@ -47,7 +39,8 @@ class ArticleController extends AdminController {
 	 */
 	public function index($cate_id = null, $status = null, $search = null){
 		if(empty($cate_id)){
-			$cate_id = 9;	//TODO:动态获取第一个分类
+			$nodes = $this->get('nodes');
+			$cate_id = $nodes[0]['id'];
 		}
 		$Document = D('Document');
 
@@ -62,7 +55,7 @@ class ArticleController extends AdminController {
 		/*初始化分页类*/
 		import('COM.Page');
 		$count = $Document->listCount($cate_id, array('gt', -1), $map);
-		$Page = new Page($count, 20);
+		$Page = new Page($count, 10);
 		$this->page = $Page->show();
 
 		//列表数据获取

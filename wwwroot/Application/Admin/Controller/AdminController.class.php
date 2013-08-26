@@ -21,7 +21,7 @@ class AdminController extends Action {
     static protected $allow = array();
 
     /**
-     * 节点配置
+     * 节点配置  
      *   配置项目的键必须小写
      *   菜单节点必须配置title元素和url元素(供U函数作使用的合法字符串,参数必须使用?k=v&k2=v2...格式)
      *   array(
@@ -32,7 +32,7 @@ class AdminController extends Action {
     static protected $nodes = array();
 
     /**
-     * 主节点配置示例:
+     * 主节点配置示例:  
      *   配置项目的键必须小写
      *   菜单节点必须配置title元素和url元素(供U函数作使用的合法字符串,参数必须使用?k=v&k2=v2...格式)和controllers元素
      *   array(
@@ -40,8 +40,8 @@ class AdminController extends Action {
      *       array( 'title'=>'节点标题', 'url'=>'Index/index?param=value','controllers'=>'', 'tip'=>''),
      *        ......
      *     )
-     *
-     */
+     *   
+     */ 
     private $menus = array(
         array( 'title'=>'首页','url'=>'Index/index','controllers'=>'Index',),
         array( 'title'=>'内容','url'=>'Article/index','controllers'=>'Article',),
@@ -50,16 +50,13 @@ class AdminController extends Action {
         array( 'title'=>'系统','url'=>'System/index','controllers'=>'System',),
     );
 
-    private $uid = null;         //保存登陆用户的uid
+    private $uid = null;//保存登陆用户的uid
     private $root_user = null;   //保存超级管理员用户id;
 
     protected function _initialize()
-    {
-        if(ACTION_NAME=='login'){
-            return;
-        }
+    { 
         $this->uid = 1;
-        // $this->uid = is_login();
+        // $this->uid = is_login(); 
         if( !$this->uid ){
             $this->redirect('Admin/Index/login');
             exit;
@@ -76,11 +73,6 @@ class AdminController extends Action {
             }
         }
         $this->assign('__controller__', $this);
-        $this->_init();
-    }
-
-    protected function _init()
-    {
     }
 
     /**
@@ -102,13 +94,13 @@ class AdminController extends Action {
         }
         return true;
     }
-
-
+    
+    
     /**
      * action访问控制,在 **登陆成功** 后执行的第一项权限检测任务
      *
      * @return true|false|null  返回值必须使用 `===` 进行判断
-     *
+     * 
      *   返回false,不允许任何人访问
      *   返回true, 允许任何管理员访问,无需执行权限检测
      *   返回null, 需要继续执行权限检测决定是否允许访问
@@ -145,9 +137,9 @@ class AdminController extends Action {
      */
     final protected function editRow ( $model ,$data, $where , $msg )
     {
-        if( $_REQUEST['model']||$_REQUEST['where']||$_REQUEST['msg']){
-            $this->error('非法请求'); //安全检测,防止通过参数绑定修改数据
-        }
+        // if( $_REQUEST['model']||$_REQUEST['where']||$_REQUEST['msg']){
+            // $this->error('非法请求'); //安全检测,防止通过参数绑定修改数据
+        // }
         $id    = array_unique((array)I('id',0));
         $id    = is_array($id) ? implode(',',$id) : $id;
         $where = array_merge( array('id' => array('in', $id )) ,(array)$where );
@@ -168,7 +160,7 @@ class AdminController extends Action {
      *
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    public function forbid ( $model , $where = array() , $msg = array( 'success'=>'状态禁用成功！', 'error'=>'状态禁用失败！'))
+    protected function forbid ( $model , $where = array() , $msg = array( 'success'=>'状态禁用成功！', 'error'=>'状态禁用失败！'))
     {
         $data    = array('status' => 0);
         $where   = array_merge(array('status' => 1),$where);
@@ -184,7 +176,7 @@ class AdminController extends Action {
      *
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    public function resume (  $model , $where = array() , $msg = array( 'success'=>'状态恢复成功！', 'error'=>'状态恢复失败！'))
+    protected function resume (  $model , $where = array() , $msg = array( 'success'=>'状态恢复成功！', 'error'=>'状态恢复失败！'))
     {
         $data    = array('status' => 1);
         $where   = array_merge(array('status' => 0),$where);
@@ -200,7 +192,7 @@ class AdminController extends Action {
      *
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    public function delete ( $model , $where = array() , $msg = array( 'success'=>'删除成功！', 'error'=>'删除失败！'))
+    protected function delete ( $model , $where = array() , $msg = array( 'success'=>'删除成功！', 'error'=>'删除失败！'))
     {
         $data    = array('status' => -1);
         $this->editRow(   $model , $data, $where, $msg);
@@ -222,7 +214,7 @@ class AdminController extends Action {
                     $data[] = strtolower($value);
                 }else{
                     //可扩展
-                }
+                } 
             }
         }
         return $data;
@@ -244,7 +236,7 @@ class AdminController extends Action {
                     $data[] = strtolower($value);
                 }else{
                     //可扩展
-                }
+                } 
             }
         }
         return $data;
@@ -365,14 +357,14 @@ class AdminController extends Action {
     {
         return $this->$val;
     }
-
+    
     /**
      * 返回后台节点数据
      * @param boolean $tree    是否返回树形结构
      * @retrun array
-     *
+     * 
      * 注意,返回的主菜单节点数组中有'controller'元素,以供区分子节点和主节点
-     *
+     * 
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     final protected function returnNodes($tree = true)
@@ -426,5 +418,5 @@ class AdminController extends Action {
         $tree_nodes[(int)$tree]   = $nodes;
         return $nodes;
     }
-
+    
 }

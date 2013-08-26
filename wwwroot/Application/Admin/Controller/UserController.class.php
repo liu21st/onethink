@@ -41,9 +41,17 @@ class UserController extends AdminController {
 	 */
 	public function action(){
 		//获取列表数据
-		$list = M('Action')->select();
+		$list = M('Action')->where(array('status'=>array('gt',-1)))->select();
 
 		$this->assign('list', $list);
+		$this->display();
+	}
+
+	/**
+	 * 新增行为
+	 * @author huajie <banhuajie@163.com>
+	 */
+	public function addAction(){
 		$this->display();
 	}
 

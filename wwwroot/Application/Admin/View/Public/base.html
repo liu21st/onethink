@@ -34,6 +34,10 @@
         <!-- 子导航 -->
         <block name="sidebar">
             <div id="subnav" class="subnav">
+                <notempty name="_extra_menu">
+                    {// 动态扩展菜单 //}
+                    {:extra_menu($_extra_menu,$__base_menu__)}
+                </notempty>
                 <volist name="__base_menu__.child" id="sub_menu">
                     <!-- 子导航 -->
                     <notempty name="sub_menu">
