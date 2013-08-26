@@ -50,22 +50,19 @@ class AdminController extends Action {
         array( 'title'=>'系统','url'=>'System/index','controllers'=>'System',),
     );
 
-    private $uid = null;         //保存登陆用户的uid
+    private $uid = null;//保存登陆用户的uid
     private $root_user = null;   //保存超级管理员用户id;
 
-    final protected function _initialize()
+    protected function _initialize()
     { 
-        if(ACTION_NAME=='login'){
-            return;
-        }
         $this->uid = 1;
-        // $this->uid = is_login(); 
+        $this->uid = is_login(); 
         if( !$this->uid ){
             $this->redirect('Admin/Index/login');
             exit;
         }
         $this->root_user = 1;
-        // $this->root_user = is_administrator();
+        $this->root_user = is_administrator();
         $ac = $this->accessControl();
         if ( $ac===false ) {
             $this->error('403:禁止访问');
@@ -76,11 +73,6 @@ class AdminController extends Action {
             }
         }
         $this->assign('__controller__', $this);
-        $this->_init();
-    }
-
-    protected function _init()
-    {
     }
 
     /**
