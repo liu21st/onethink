@@ -27,11 +27,7 @@ class IndexController extends AdminController {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function index(){
-        if(is_administrator()){
-            $this->display();
-        } else {
-            $this->redirect('login');
-        }
+        $this->display();
     }
 
     //表单样式查看页面 TODO: 完成后会删除

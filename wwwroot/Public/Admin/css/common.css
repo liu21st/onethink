@@ -62,6 +62,15 @@ i[class^="icon"],
 .icon-redo {
 	background-position: -100px -20px;
 }
+.icon-right {
+	background-position: -120px -20px;
+}
+.icon-error {
+	background-position: -140px -20px;
+}
+.icon-disabled {
+	background-position: -160px -20px;
+}
 
 /* 实心小三角 */
 .arrow {

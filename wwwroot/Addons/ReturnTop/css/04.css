@@ -1,0 +1,2 @@
+#topcontrol a.top_stick{ width:53px; height:41px; background:url(../images/04.png);}
+#topcontrol a.top_stick:hover{background-position:-52px 0px;}
