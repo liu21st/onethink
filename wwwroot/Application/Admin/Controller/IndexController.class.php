@@ -51,6 +51,7 @@ class IndexController extends AdminController {
     public function login(){
         if(IS_POST){
             //TODO: 后台用户登录
+            //
         } else {
             $this->display();
         }
