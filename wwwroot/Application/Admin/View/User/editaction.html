@@ -1,0 +1,62 @@
+<extend name="Public/base" />
+
+<block name="body">
+	<div class="main-title cf">
+		<h2>编辑行为</h2>
+	</div>
+	<!-- 表单 -->
+	<form id="form" action="{:U('saveAction')}" method="post" class="form-horizontal">
+		<div class="form-item cf">
+			<label class="item-label">行为标识：</label>
+			<div class="controls">
+				<input type="text" class="text" value="{$name}" disabled="disabled">
+				<span class="check-tips">请输入行为标识</span>
+			</div>
+		</div>
+		<div class="form-item cf">
+			<label class="item-label">标题：</label>
+			<div class="controls">
+				<input type="text" class="text" name="title" value="{$title}">
+				<span class="check-tips">请输入标题</span>
+			</div>
+		</div>
+		<div class="form-item cf">
+			<label class="item-label">描述：</label>
+			<div class="controls">
+				<input type="text" class="text" name="remark" value="{$remark}">
+				<span class="check-tips">请输入行为描述</span>
+			</div>
+		</div>
+		<div class="form-item cf">
+			<label class="item-label">行为规则：</label>
+			<div class="controls">
+				<label class="textarea"><textarea name="rule">{$rule}</textarea></label>
+				<span class="check-tips">
+				请输入行为规则<br>
+				<br>规则定义  table:$table|field:$field|condition:$condition|rule:$rule[|cycle:$cycle|max:$max][;......]
+				<br>规则字段解释：table->要操作的数据表，不需要加表前缀；
+				<br>			field->要操作的字段；
+				<br>			condition->操作的条件，目前支持字符串，默认变量{$self}为执行行为的用户
+				<br>			rule->对字段进行的具体操作，目前支持加、减
+				<br>			cycle->执行周期，单位（小时），表示$cycle小时内最多执行$max次
+				<br>			max->单个周期内的最大执行次数（$cycle和$max必须同时定义，否则无效）
+				<br>单个行为后可加 ； 连接其他规则
+				</span>
+			</div>
+		</div>
+
+		<div class="btn-toolbar">
+			<input type="hidden" name="id" value="{$id}"/>
+			<button class="btn" id="submit"><em>确定</em> </button>
+		</div>
+	</form>
+</block>
+
+<block name="script">
+<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+<script type="text/javascript">
+$('#submit').click(function(){
+	$('#form').submit();
+});
+</script>
+</block>

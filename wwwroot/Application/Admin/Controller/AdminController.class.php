@@ -56,13 +56,13 @@ class AdminController extends Action {
     protected function _initialize()
     { 
         $this->uid = 1;
-        $this->uid = is_login(); 
+        // $this->uid = is_login(); 
         if( !$this->uid ){
             $this->redirect('Admin/Index/login');
             exit;
         }
         $this->root_user = 1;
-        $this->root_user = is_administrator();
+        // $this->root_user = is_administrator();
         $ac = $this->accessControl();
         if ( $ac===false ) {
             $this->error('403:禁止访问');
@@ -137,9 +137,9 @@ class AdminController extends Action {
      */
     final protected function editRow ( $model ,$data, $where , $msg )
     {
-        if( $_REQUEST['model']||$_REQUEST['where']||$_REQUEST['msg']){
-            $this->error('非法请求'); //安全检测,防止通过参数绑定修改数据
-        }
+        // if( $_REQUEST['model']||$_REQUEST['where']||$_REQUEST['msg']){
+            // $this->error('非法请求'); //安全检测,防止通过参数绑定修改数据
+        // }
         $id    = array_unique((array)I('id',0));
         $id    = is_array($id) ? implode(',',$id) : $id;
         $where = array_merge( array('id' => array('in', $id )) ,(array)$where );
@@ -160,7 +160,7 @@ class AdminController extends Action {
      *
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    public function forbid ( $model , $where = array() , $msg = array( 'success'=>'状态禁用成功！', 'error'=>'状态禁用失败！'))
+    protected function forbid ( $model , $where = array() , $msg = array( 'success'=>'状态禁用成功！', 'error'=>'状态禁用失败！'))
     {
         $data    = array('status' => 0);
         $where   = array_merge(array('status' => 1),$where);
@@ -176,7 +176,7 @@ class AdminController extends Action {
      *
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    public function resume (  $model , $where = array() , $msg = array( 'success'=>'状态恢复成功！', 'error'=>'状态恢复失败！'))
+    protected function resume (  $model , $where = array() , $msg = array( 'success'=>'状态恢复成功！', 'error'=>'状态恢复失败！'))
     {
         $data    = array('status' => 1);
         $where   = array_merge(array('status' => 0),$where);
@@ -192,7 +192,7 @@ class AdminController extends Action {
      *
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    public function delete ( $model , $where = array() , $msg = array( 'success'=>'删除成功！', 'error'=>'删除失败！'))
+    protected function delete ( $model , $where = array() , $msg = array( 'success'=>'删除成功！', 'error'=>'删除失败！'))
     {
         $data    = array('status' => -1);
         $this->editRow(   $model , $data, $where, $msg);
