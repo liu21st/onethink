@@ -95,6 +95,9 @@ img {
 .login-form .icon-login-pwd {
     background-position: -48px 0;
 }
+.login-form .icon-login-verifycode {
+    background-position: -24px 0;
+}
 .login-form input {
     padding: 15px 0;
     width: 280px;
@@ -120,7 +123,8 @@ img {
 .login-form .login-btn {
     padding: 3px 0;
     width: 120px; 
-    height: 30px;
+    height: 40px;
+    font-size: 16px;
     font-family: '微软雅黑',arial,verdana;
     color: #FFFFFF;
     text-align: center;
@@ -133,6 +137,24 @@ img {
     background-color: #139FEE;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
 }
+.login-form .login-btn .in {
+    display: none;
+}
+.login-form .log-in .in {
+    display: inline-block;
+}
+.login-form .log-in .on {
+    display: none;
+}
+.icon-loading {
+    display: inline-block;
+    margin-right: 5px;
+    width: 16px;
+    height: 16px;
+    vertical-align: -3px;
+    background: url(../images/loading_icon.gif) no-repeat 0 0;
+}
+
 .login-footer {
     line-height: 2.0;
     text-align: right;
