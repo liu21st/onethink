@@ -1,0 +1,44 @@
+<extend name="Public/base" />
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+        <h2>{:I('group_name')} 列表</h2>
+        <div id="add-to-group" class="tools ">
+            <form class="form-item" action="{:U('addToGroup')}" method="post" enctype="application/x-www-form-urlencoded" >
+                <label class="item-label">UID:<input class="text input-small" type="text" name="uid"></label>
+                <input type="hidden" name="group_id" value="{:I('group_id')}">
+                <input class="btn" type="submit" value="添加">
+            </form>
+        </div>
+	</div>
+
+	<!-- 数据列表 -->
+	<div class="data-table table-striped">
+		<table>
+			<thead>
+				<tr>
+					<th>UID</th>
+					<th>用户名</th>
+					<th>最后登陆时间</th>
+					<th>最后登陆IP</th>
+                    <th>会员状态</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist name="authed_user" id="user">
+				<tr>
+					<td>{$user.id}</td>
+                    <td>{$user.username}</td>
+					<td>{$user.last_login_time|date='Y-m-d H:i:s',###}</td>
+					<td>{$user.last_login_ip|long2ip}</td>
+                    <td>{$user.status_text}</td>
+                    <td>
+                        <a href="{:U('removeFromGroup',array('group_id'=>I('group_id'),'uid'=>$user['id']))}">解除授权</a>
+                    </td>
+				</tr>
+				</volist>
+			</tbody>
+		</table>
+	</div>
+</block>

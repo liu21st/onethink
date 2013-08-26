@@ -15,6 +15,7 @@
 class AuthGroupModel extends CmsadminModel
 {
     const TYPE_ADMIN           = 1;                    //管理员用户组类型标识
+    const MEMBER               = 'ucenter_member';
     const AUTH_GROUP_ACCESS    = 'auth_group_access';  //关系表表名
     const AUTH_CATEGORY_ACCESS = 'auth_category_access';//用户可管理的分类
     const AUTH_GROUP           = 'auth_group';         //用户组表名
@@ -65,6 +66,12 @@ class AuthGroupModel extends CmsadminModel
             }
             $Access->addAll($add);
         }
+        if ($Access->getDbError()) {
+            dump($Access->getDbError());exit;
+            return false;
+        }else{
+            return true;
+        }
     }
 
     /**
@@ -109,6 +116,22 @@ class AuthGroupModel extends CmsadminModel
             ->where("g.uid='$uid'")
             ->getfield('category_id',true);
     }
+
+    /**
+     * 获取用户组授权的分类id列表
+     * 
+     * @param int     $gid  用户组id
+     * @return array
+     *  
+     *  array(2,4,8,13) 
+     *
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
+    static public function getCategoryOfGroup($gid)
+    {
+        return M(self::AUTH_CATEGORY_ACCESS)->where( array('group_id'=>$gid) )->getfield('category_id',true);
+    }
+    
     
     /**
      * 批量设置用户组可管理的分类
@@ -138,6 +161,35 @@ class AuthGroupModel extends CmsadminModel
             }
             $Access->addAll($add);
         }
+        if ($Access->getDbError()) {
+            dump($Access->getDbError());exit;
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public function removeFromGroup($uid,$gid){
+        return M(self::AUTH_GROUP_ACCESS)->where( array( 'uid'=>$uid,'group_id'=>$gid) )->delete();
+    }
+
+    /**
+     * 获取某个用户组的用户列表
+     *
+     * @param int $group_id   用户组id
+     * 
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
+    static public function memberInGroup($group_id){
+        $prefix  = C('DB_PREFIX');
+        $l_table = $prefix.self::MEMBER;
+        $r_table = $prefix.self::AUTH_GROUP_ACCESS;
+        $list    = M() ->field('m.id,m.username,m.last_login_time,m.last_login_ip,m.status')
+                       ->table($l_table.' m')
+                       ->join($r_table.' a ON m.id=a.uid')
+                       ->where(array('a.group_id'=>$group_id))
+                       ->select();
+        return $list;
     }
 }
 

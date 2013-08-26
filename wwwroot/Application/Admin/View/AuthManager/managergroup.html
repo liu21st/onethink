@@ -19,21 +19,41 @@
         <div id="node_list">
             <volist name="node_list" id="node" >
                 <div class="form-item rules_row">
-                    <label class="item-label">{$node.title}管理：</label>
+                    <label class="item-label" style="font-weight:bold;">{$node.title}管理：</label>
                     <div class="controls">
-                        <label class="checkbox"><input type="checkbox" class="rules_all" />全选</label>
-                        <label class="checkbox">
-                            <input class="auth_rules" type="checkbox" name="rules[]"
-                                   value="<?php echo $auth_rules[$node['url']] ?>"/>{$node.title}
-                        </label>
-
-                        <!-- 节点列表 -->
-                        <volist name="node['child']" id="child" >
+                        <span style="display:inline-block;vertical-align:top;">
+                            <label class="checkbox"><input type="checkbox" class="rules_all" />全选</label>
+                        </span>
+                        <span style="display:inline-block;">
+                            <span style="font-weight:bold;">
                             <label class="checkbox">
-                                <input class="auth_rules" type="checkbox" name="rules[]" 
-                                           value="<?php echo $auth_rules[$child['url']] ?>"/>{$child.title}
-                            </label>
-                        </volist>
+                                <!-- 主节点 -->
+                                <input class="auth_rules" type="checkbox" name="rules[]"
+                                       value="<?php echo $main_rules[$node['url']] ?>"/>{$node.title}
+                                   </label>
+                               </span>
+
+                               <!-- 子节点列表 -->
+                               <volist name="node['child']" id="child" >
+                               <div>
+                                   <label class="checkbox">
+                                       <input class="auth_rules" type="checkbox" name="rules[]" 
+                                       value="<?php echo $auth_rules[$child['url']] ?>"/>{$child.title}
+                                   </label>
+                                   <notempty name="child['operator']">
+                                   <span>&nbsp;-&nbsp;</span>
+                                   <span>
+                                       <volist name="child['operator']" id="op">
+                                       <label class="checkbox">
+                                           <input class="auth_rules" type="checkbox" name="rules[]" 
+                                           value="<?php echo $auth_rules[$op['url']] ?>"/>{$op.title}
+                                       </label>
+                                       </volist>
+                                   </span>
+                                   </notempty>
+                               </div>
+                               </volist>
+                        </span>
                     </div>
                 </div>
             </volist>

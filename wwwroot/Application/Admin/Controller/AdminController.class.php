@@ -15,7 +15,7 @@
 class AdminController extends Action {
 
     /* 保存禁止通过url访问的公共方法,例如定义在控制器中的工具方法 ;deny优先级高于allow*/
-    static protected $deny  = array();
+    static protected $deny  = array('getMenus');
 
     /* 保存允许所有管理员访问的公共方法 */
     static protected $allow = array();
@@ -50,28 +50,22 @@ class AdminController extends Action {
         array( 'title'=>'系统','url'=>'System/index','controllers'=>'System',),
     );
 
+    private $uid = null;//保存登陆用户的uid
+
     final protected function _initialize()
     {
         if( !is_administrator() ){
             $this->error('您的身份不是管理员!');
         }
-
+        $this->uid = 1;//保存用户id
         $ac = $this->accessControl();
         if ( $ac===false ) {
             $this->error('403:禁止访问');
         }elseif( $ac===null ){
-            $rule  = MODULE_NAME.'/'.CONTROLLER_NAME.'/'.ACTION_NAME;
-            $nodes = $this->returnNodes(false);
-            $i = 0;
-            foreach ($nodes as $value){
-                if( in_array($rule,$value) ){
-                    $i = 1; //当前访问的节点存在于需要执行权限验证的节点中
-                    break;
-                }
+            $rule  = strtolower(MODULE_NAME.'/'.CONTROLLER_NAME.'/'.ACTION_NAME);
+            if ( $this->uid!=1 && !$this->checkRule($rule,array('in','1,2')) ){
+                $this->error('无权访问');
             }
-            if ( $i==1 ) 
-                if ( !$this->checkRule($rule) )
-                    $this->error('无权访问');
         }
         $this->assign('__controller__', $this);
         $this->_init();
@@ -84,19 +78,18 @@ class AdminController extends Action {
     /**
      * 权限检测
      * @param string  $rule    检测的规则
-     * @param string  $type    规则类型
+     * @param string  $mode    check模式
      * @return boolean
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
-    final protected function checkRule($rule,$type='url')
+    final protected function checkRule($rule, $type=AuthRuleModel::RULE_URL, $mode='url')
     {
         static $Auth = null;
         import('ORG.Util.Auth');
         if (!$Auth) {
             $Auth  = new Auth();
         }
-        $uid = 1;
-        if(!$Auth->check($rule,$uid,$type)){
+        if(!$Auth->check($rule,$this->getVal('uid'),$type,$mode)){
             return false;
         }
         return true;
@@ -146,7 +139,7 @@ class AdminController extends Action {
         if( $_REQUEST['model']||$_REQUEST['where']||$_REQUEST['msg']){
             $this->error('非法请求'); //安全检测,防止通过参数绑定修改数据
         }
-        $id    = I('id',0);
+        $id    = array_unique((array)I('id',0));
         $id    = is_array($id) ? implode(',',$id) : $id;
         $where = array_merge( array('id' => array('in', $id )) ,(array)$where );
         $msg   = array_merge( array( 'success'=>'操作成功！', 'error'=>'操作失败！', 'url'=>'' ,'ajax'=>IS_AJAX) , (array)$msg );
@@ -313,9 +306,8 @@ class AdminController extends Action {
             if( stripos($item['url'],MODULE_NAME)!==0 ){
                 $item['url'] = MODULE_NAME.'/'.$item['url'];
             }
-
-            //判断节点权限
-            if (!$this->checkRule($item['url'],null)) {  //检测节点权限
+            //非超级管理员需要判断节点权限
+            if (  /* $this->uid!=1 && */  !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null)) {  //检测节点权限
                 unset($menus['main'][$key]);
                 continue;//继续循环
             }
@@ -323,9 +315,9 @@ class AdminController extends Action {
             if ( in_array( CONTROLLER_NAME, $other_controller ) ) {
                 $menus['main'][$key]['class']='current';
                 foreach ($other_controller as $c){
-                    //如果指定了从其他控制器中读取节点
+                    //从控制器中读取节点
                     $child = $c.'Controller';
-                    $child_nodes = $child::getNodes($child);      //其他控制器中的节点
+                    $child_nodes = $child::getNodes($child);
                     if ($child_nodes===false) {
                         $this->error("内部错误:请检查{$child}控制器 nodes 属性");
                     }
@@ -333,7 +325,7 @@ class AdminController extends Action {
                         //$value  分组数组
                         foreach ($value as $k=>$v){
                             //$v  节点配置
-                            if (!$this->checkRule($v['url'],null)) {   //检测节点权限
+                            if ( /* $this->uid!=1 && */ !$this->checkRule($v['url'],AuthRuleModel::RULE_URL,null) ) {   //检测节点权限
                                 unset($value[$k]);
                             }
                         }
@@ -367,33 +359,19 @@ class AdminController extends Action {
      * @param boolean $tree    是否返回树形结构
      * @retrun array
      * 
+     * 注意,返回的主菜单节点数组中有'controller'元素,以供区分子节点和主节点
+     * 
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     final protected function returnNodes($tree = true)
     {
         static $tree_nodes = array();
-        static $notree_nodes = array();
-        if ( $tree && !empty($tree_nodes) ) {
-            return $tree_nodes;
-        }
-        if ( !$tree && !empty($notree_nodes) ) {
-            return $notree_nodes;
+        if ( $tree && !empty($tree_nodes[(int)$tree]) ) {
+            return $tree_nodes[$tree];
         }
 
-        $iterator = new FilesystemIterator(
-                            __DIR__,
-                            FilesystemIterator::UNIX_PATHS|FilesystemIterator::CURRENT_AS_PATHNAME|FilesystemIterator::KEY_AS_FILENAME
-                        );
         $nodes    = $this->getVal('menus'); //获取主节点
         //所有子菜单接单
-
-        $arr  = array(); //保存每个控制器中的节点
-        foreach ( $iterator as $filename => $obj ){
-            $class = strtr($filename,array('.class.php'=>''));
-            if( class_exists($class) && method_exists($class,'getNodes') ){
-                $arr[$class] = $class::getNodes($class,false);
-            }
-        }
 
         $child = array();//$tree为false时,保存所有控制器中的节点
         foreach ($nodes as $key => $value){
@@ -404,10 +382,15 @@ class AdminController extends Action {
             $nodes[$key]['child'] = array();
             $controllers = explode(',',$value['controllers']);
             foreach ($controllers as $c){
-                if($tree){
-                    $nodes[$key]['child'] = array_merge($nodes[$key]['child'],$arr[$c.'Controller']);
+                $class = $c.'Controller';
+                if( class_exists($class) && method_exists($class,'getNodes') ){
+                    $temp = $class::getNodes($class,false);
                 }else{
-                    $temp = $arr[$c.'Controller'];
+                    continue;
+                }
+                if($tree){
+                    $nodes[$key]['child'] = array_merge($nodes[$key]['child'],$temp);
+                }else{
                     foreach ($temp as $k=>$operator){//分离菜单节点下的操作节点
                         if ( isset($operator['operator']) ) {
                             $child = array_merge($child,$operator['operator']);
@@ -417,7 +400,6 @@ class AdminController extends Action {
                     $child = array_merge($child,$temp);
                 }
             }
-            unset($nodes[$key]['controllers']);
             if (!$tree) {
                 unset($nodes[$key]['child']);
             }else{
@@ -428,10 +410,8 @@ class AdminController extends Action {
         if (!$tree) {
             $nodes = array_merge($nodes,$child);
             unset($nodes['default']);
-            $notree_nodes = $nodes;
-        }else{
-            $tree_nodes   = $nodes;
         }
+        $tree_nodes[(int)$tree]   = $nodes;
         return $nodes;
     }
     
