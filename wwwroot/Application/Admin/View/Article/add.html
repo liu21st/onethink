@@ -1,5 +1,22 @@
 <extend name="Public/base" />
-
+<!-- 子导航 -->
+<block name="sidebar">
+    <div id="subnav" class="subnav">
+        <volist name="nodes" id="sub_menu">
+            <!-- 子导航 -->
+            <notempty name="sub_menu">
+                <h3><i class="icon-s1"></i>{$sub_menu.title}</h3>
+                <ul>
+                    <volist name="sub_menu['_child']" id="menu">
+                        <li><a href="{$menu.url|U}">{$menu.title}</a></li>
+                    </volist>
+                </ul>
+            </notempty>
+            <!-- /子导航 -->
+        </volist>
+    </div>
+</block>
+<!-- /子导航 -->
 <block name="body">
 	<!-- 表单 -->
 	<form id="form" action="{:U('update')}" method="post" class="form-horizontal">
