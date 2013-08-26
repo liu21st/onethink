@@ -90,11 +90,14 @@
 		<!-- 引入扩展文档模型 -->
 		<include file="$template"/>
 
-		<div class="btn-toolbar">
-			<button class="btn" id="submit"><em>确定</em> </button>
+		<div class="form-item cf">
+			<label class="item-label"></label>
+			<div class="controls">
+				<button class="btn" id="submit"><em>确定</em> </button>
+				<input type="hidden" name="id" value="{$id}"/>
+				<input type="hidden" name="model_id" value="{$model_id}"/>
+			</div>
 		</div>
-		<input type="hidden" name="id" value="{$id}"/>
-		<input type="hidden" name="model_id" value="{$model_id}"/>
 	</form>
 </block>
 
