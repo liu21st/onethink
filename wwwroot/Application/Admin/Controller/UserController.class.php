@@ -60,6 +60,10 @@ class UserController extends AdminController {
 		$this->display();
 	}
 
+	/**
+	 * 更新行为
+	 * @author huajie <banhuajie@163.com>
+	 */
 	public function saveAction(){
 		$res = D('Action')->update();
 		if(!$res){
@@ -70,6 +74,34 @@ class UserController extends AdminController {
 			}else{
 				$this->success('新增行为成功！');
 			}
+		}
+	}
+
+	/**
+	 * 设置一条或者多条数据的状态
+	 * @author huajie <banhuajie@163.com>
+	 */
+	public function setStatus(){
+		/*参数过滤*/
+		$ids = I('param.ids');
+		$status = I('param.status');
+		if(empty($ids) || !isset($status)){
+			$this->error('请选择要操作的数据');
+		}
+
+		/*拼接参数并修改状态*/
+		$Model = 'Action';
+		$map = array();
+		if(is_array($ids)){
+			$map['id'] = array('in', implode(',', $ids));
+		}elseif (is_numeric($ids)){
+			$map['id'] = $ids;
+		}
+		switch ($status){
+			case -1 : $this->delete($Model, $map, array('success'=>'删除成功','error'=>'删除失败'));break;
+			case 0 : $this->forbid($Model, $map, array('success'=>'禁用成功','error'=>'禁用失败'));break;
+			case 1 : $this->resume($Model, $map, array('success'=>'启用成功','error'=>'启用失败'));break;
+			default : $this->error('参数错误');break;
 		}
 	}
 
