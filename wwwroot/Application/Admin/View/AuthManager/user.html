@@ -5,7 +5,7 @@
         <h2>{:I('group_name')} 列表</h2>
         <div id="add-to-group" class="tools ">
             <form class="form-item" action="{:U('addToGroup')}" method="post" enctype="application/x-www-form-urlencoded" >
-                <label class="item-label">UID:<input class="text input-small" type="text" name="uid"></label>
+                <label class="item-label"><input class="text input-small" type="text" name="uid" placeholder="请输入uid"></label>
                 <input type="hidden" name="group_id" value="{:I('group_id')}">
                 <input class="btn" type="submit" value="添加">
             </form>
