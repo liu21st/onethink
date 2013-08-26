@@ -27,7 +27,7 @@ class IndexController extends AdminController {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function index(){
-        if(is_administrator()){
+        if(is_login()){
             $this->display();
         } else {
             $this->redirect('login');
