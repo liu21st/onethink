@@ -59,16 +59,15 @@ class AdminController extends Action {
         // $this->uid = is_login(); 
         if( !$this->uid ){
             $this->redirect('Admin/Index/login');
-            exit;
         }
-        $this->root_user = 1;
+        $this->root_user = true;
         // $this->root_user = is_administrator();
         $ac = $this->accessControl();
         if ( $ac===false ) {
             $this->error('403:禁止访问');
         }elseif( $ac===null ){
             $rule  = strtolower(MODULE_NAME.'/'.CONTROLLER_NAME.'/'.ACTION_NAME);
-            if ( $this->uid!=$this->root_user && !$this->checkRule($rule,array('in','1,2')) ){
+            if ( !$this->root_user && !$this->checkRule($rule,array('in','1,2')) ){
                 $this->error('无权访问');
             }
         }
@@ -310,7 +309,7 @@ class AdminController extends Action {
                 $item['url'] = MODULE_NAME.'/'.$item['url'];
             }
             //非超级管理员需要判断节点权限
-            if (  /* $this->uid!=$this->root_user && */  !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null)) {  //检测节点权限
+            if ( /* !$this->root_user */ &&  !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null)) {  //检测节点权限
                 unset($menus['main'][$key]);
                 continue;//继续循环
             }
@@ -328,7 +327,7 @@ class AdminController extends Action {
                         //$value  分组数组
                         foreach ($value as $k=>$v){
                             //$v  节点配置
-                            if ( !empty($v['hide']) || ( /* $this->uid!=$this->root_user && */ !$this->checkRule($v['url'],AuthRuleModel::RULE_URL,null) ) ) {   //检测节点权限
+                            if ( !empty($v['hide']) || ( /* !$this->root_user */ && !$this->checkRule($v['url'],AuthRuleModel::RULE_URL,null) ) ) {   //检测节点权限
                                 unset($value[$k]);
                             }
                         }
