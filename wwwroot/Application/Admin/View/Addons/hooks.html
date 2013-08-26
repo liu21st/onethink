@@ -3,7 +3,7 @@
 <block name="body">
 	<!-- 标题栏 -->
 	<div class="main-title">
-		<h2>插件列表</h2>
+		<h2>钩子列表</h2>
 		<div class="tools">
 			<button id="add-member"><i class="icon-add"></i>添加</button>
 		</div>
@@ -30,8 +30,8 @@
 					<td>{$vo.type_text}</td>
 					<td>
 						<notempty name="vo.addons">
-							<a class="editAddons" title="编辑" id="{$vo.id}">
-								{$vo.addons}
+							<a class="editAddons" title="{$vo.addons}" id="{$vo.id}">
+								编辑
 							</a>
 						<else />
 							无
@@ -45,11 +45,12 @@
 </block>
 
 <block name="script">
+
 	<script type="text/javascript" src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
 	<script type="text/javascript">
 		$(function(){
 			$('a.editAddons').click(function(){
-				var value = $.trim($(this).text());
+				var value = $.trim($(this).attr('title'));
 				var html = [
 					'<form action="{:U('updateSort')}" class="form-horizontal" method="post">',
 						"<label class=\"textarea\">",

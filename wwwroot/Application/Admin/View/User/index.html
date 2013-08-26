@@ -5,7 +5,7 @@
 	<div class="main-title">
 		<h2>用户列表</h2>
 		<div class="tools">
-			<button id="add-member"><i class="icon-add"></i>添加</button>
+			<button class="btn" id="add-member"><i class="icon-add"></i><em>添加</em></button>
 		</div>
 	</div>
 
@@ -30,9 +30,7 @@
 					<td>{$user.reg_ip|long2ip}</td>
 					<td>{$user.last_login_time|date='Y-m-d H:i:s',###}</td>
 					<td>{$user.last_login_ip|long2ip}</td>
-                    <td>
-                        <a href="{:U('AuthManager/group',array('uid'=>$user['uid']))}">授权</a>
-                    </td>
+					<td></td>
 				</tr>
 				</volist>
 			</tbody>
