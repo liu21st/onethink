@@ -126,6 +126,14 @@ class AuthManagerController extends AdminController{
         $groups    = $AuthGroup->where(array('status'=>array('egt',0),'module'=>'admin'))->select();
         $groups    = intToString($groups);
         $this->assign('list',$groups);
+        $this->assign('_extra_menu',array(
+            '测试组'=>array(
+                array('title'=>'测试链接','url'=>'AuthManager/index2'),
+            ),
+            '用户管理'=>array(
+                array('title'=>'测试链接','url'=>'AuthManager/index3'),
+            )
+        ));
         $this->display();
     }
 
