@@ -115,7 +115,8 @@ class AdminController extends Action {
      *
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    final protected function accessControl(){
+    final protected function accessControl()
+    {
         $controller = CONTROLLER_NAME.'Controller';
         if ( !is_array($controller::$deny)||!is_array($controller::$allow) ){
             $this->error("内部错误:{$controller}控制器 deny和allow属性必须为数组");
@@ -151,7 +152,7 @@ class AdminController extends Action {
         $id    = is_array($id) ? implode(',',$id) : $id;
         $where = array_merge( array('id' => array('in', $id )) ,(array)$where );
         $msg   = array_merge( array( 'success'=>'操作成功！', 'error'=>'操作失败！', 'url'=>'' ,'ajax'=>IS_AJAX) , (array)$msg );
-        if( D($model)->where($where)->save($data) ) {
+        if( D($model)->where($where)->save($data)!==false ) {
             $this->success($msg['success'],$msg['url'],$msg['ajax']);
         }else{
             $this->error($msg['error'],$msg['url'],$msg['ajax']);
@@ -255,7 +256,8 @@ class AdminController extends Action {
      * @param  boolean $group        是否分组
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    final static public function getNodes($controller,$group=true){
+    final static public function getNodes($controller,$group=true)
+    {
         if ( !$controller || !is_string($controller) || !is_array($controller::$nodes) ) {
             return false;
         }
@@ -298,7 +300,8 @@ class AdminController extends Action {
      * 子类中 $this->getMenus() 调用
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    final public function getMenus(){
+    final public function getMenus()
+    {
 //        if ( S('base_menu'.$controller) ) {
 //            return S('base_menu'.$controller);
 //        }
@@ -358,7 +361,8 @@ class AdminController extends Action {
      * @param string $val  属性名
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
-    final protected function getVal($val){
+    final protected function getVal($val)
+    {
         return $this->$val;
     }
     
