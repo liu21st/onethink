@@ -29,11 +29,8 @@ class AddonsController extends AdminController {
      */
     public function enable(){
         $id = I('id');
-        $flag = D('Addons')->where("id={$id}")->setField('status', 1);
-        if($flag !== false)
-            $this->success('启用成功');
-        else
-            $this->error('启用失败');
+        $msg = array('success'=>'启用成功', 'error'=>'启用失败');
+        $this->resume('Addons', "id={$id}", $msg);
     }
 
     /**
@@ -41,11 +38,8 @@ class AddonsController extends AdminController {
      */
     public function disable(){
         $id = I('id');
-        $flag = D('Addons')->where("id={$id}")->setField('status', 0);
-        if($flag !== false)
-            $this->success('禁用成功');
-        else
-            $this->error('禁用失败');
+        $msg = array('success'=>'禁用成功', 'error'=>'禁用失败');
+        $this->forbid('Addons', "id={$id}", $msg);
     }
 
     /**
