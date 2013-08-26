@@ -266,8 +266,8 @@ class AuthManagerController extends AdminController{
         if( !$AuthGroup->find($gid)){
             $this->error('用户组不存在');
         }
-        if( !M('UcenterMember')->find($uid)){
-            $this->error('用户不存在');
+        if( !M('Member')->where(array('uid'=>$uid))->find()){
+            $this->error('管理员用户不存在');
         }
         if ( $AuthGroup->addToGroup($uid,$gid) ){
             $this->success('操作成功');

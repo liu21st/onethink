@@ -30,6 +30,7 @@ class AddonsModel extends Model {
 			}
 			$result['config'] = $data;
 		}
+		$result['addon_path'] = $addons->addon_path;
 	}
 
 	protected function _after_select(&$result,$options){

@@ -17,7 +17,7 @@
 	<div class="login-body">
 		<div class="login-main pr">
 			<form action="#" method="post" class="login-form">
-				<h3>登陆</h3>
+				<h3>登录</h3>
 				<div id="itemBox" class="item-box">
 					<div class="item">
 						<i class="icon-login-user"></i>
@@ -34,7 +34,11 @@
 					</div>
 				</div>
 				<div class="login_btn_panel">
-					<button class="login-btn" type="submit">登录</button>
+					<button class="login-btn log-in" type="submit" disabled="disabled">
+						<span class="in"><i class="icon-loading"></i>登录中...</span>
+						<span class="on">登录</span>
+					</button>
+					<span class="check-tips">密码输入错误！</span>
 				</div>
 			</form>
 		</div>

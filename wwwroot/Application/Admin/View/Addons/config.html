@@ -5,50 +5,66 @@
 		<h2>保存配置</h2>
 	</div>
 	<form action="{:U('saveConfig')}" class="form-horizontal" method="post">
-		<foreach name="data['config']" item="form" key="o_key">
-			<div class="form-item cf">
-				<label class="item-label">{$form.title}</label>
-				<div class="controls">
-					<switch name="form.type">
-						<case value="text">
-							<input type="text" name="config[{$key}]" class="text" value="{$form.value}">
-						</case>
-						<case value="password">
-							<input type="password" name="config[{$key}]" class="text" value="{$form.value}">
-						</case>
-						<case value="hidden">
-							<input type="hidden" name="config[{$key}]" value="{$form.value}">
-						</case>
-						<case value="radio">
-							<foreach name="form.options" item="opt" key="opt_k">
-								<label class="radio">
-									<input type="radio" name="config[{$o_key}]" value="{$opt_k}" <eq name="form.value" value="$opt_k"> checked</eq>>{$opt}
+		<empty name="data.config.custom_config">
+			<foreach name="data['config']" item="form" key="o_key">
+				<div class="form-item cf">
+					<label class="item-label">{$form.title}</label>
+					<div class="controls">
+						<switch name="form.type">
+							<case value="text">
+								<input type="text" name="config[{$key}]" class="text" value="{$form.value}">
+							</case>
+							<case value="password">
+								<input type="password" name="config[{$key}]" class="text" value="{$form.value}">
+							</case>
+							<case value="hidden">
+								<input type="hidden" name="config[{$key}]" value="{$form.value}">
+							</case>
+							<case value="radio">
+								<foreach name="form.options" item="opt" key="opt_k">
+									<label class="radio">
+										<input type="radio" name="config[{$o_key}]" value="{$opt_k}" <eq name="form.value" value="$opt_k"> checked</eq>>{$opt}
+									</label>
+								</foreach>
+							</case>
+							<case value="checkbox">
+								<foreach name="form.options" item="opt" key="opt_k">
+									<label class="checkbox">
+										<input type="checkbox" name="config[{$o_key}]" value="{$opt_k}" <eq name="form.value" value="$opt_k"> checked</eq>>{$opt}
+									</label>
+								</foreach>
+							</case>
+							<case value="select">
+								<select name="config[{$key}]">
+									<volist name="form.options" id="opt" key="opt_k">
+										<option value="{$opt_k}" <eq name="form.value" value="$opt_k"> selected</eq>>{$opt}</option>
+									</volist>
+								</select>
+							</case>
+							<case value="textarea">
+								<label class="textarea">
+									<textarea name="config[{$key}]">{$form.value}</textarea>
 								</label>
-							</foreach>
-						</case>
-						<case value="checkbox">
-							<foreach name="form.options" item="opt" key="opt_k">
-								<label class="checkbox">
-									<input type="checkbox" name="config[{$o_key}]" value="{$opt_k}" <eq name="form.value" value="$opt_k"> checked</eq>>{$opt}
-								</label>
-							</foreach>
-						</case>
-						<case value="select">
-							<select name="config[{$key}]">
-								<volist name="form.options" id="opt" key="opt_k">
-									<option value="{$opt_k}" <eq name="form.value" value="$opt_k"> selected</eq>>{$opt}</option>
-								</volist>
-							</select>
-						</case>
-						<case value="textarea">
-							<label class="textarea">
-								<textarea name="config[{$key}]">{$form.value}</textarea>
-							</label>
-						</case>
-					</switch>
+							</case>
+						</switch>
+					</div>
 				</div>
-			</div>
-		</foreach>
+			</foreach>
+		<else />
+			<present name="custom_config">
+				<?php
+					 // 视图解析标签
+		            $params = array('var'=>$this->tVar,'file'=>$custom_config,);
+		            tag('view_parse',$params);
+		            // 获取并清空缓存
+			        $content = ob_get_clean();
+			        // 内容过滤标签
+			        tag('view_filter',$content);
+			        echo $content;
+				?>
+			</present>
+		</empty>
+
 		<div class="form-item cf">
 			<label class="item-label">&nbsp;</label>
 			<div class="controls">

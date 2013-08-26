@@ -51,6 +51,8 @@ class AddonsController extends AdminController {
         if(!$addon)
             $this->error('插件未安装');
         $this->assign('data',$addon);
+        if($addon['config']['custom_config'])
+            $this->assign('custom_config', $addon['addon_path'].$addon['config']['custom_config']);
         $this->display();
     }
 

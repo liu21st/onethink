@@ -13,10 +13,13 @@
 		'91.png','92.gif','93.gif','94.gif','95.gif','96.gif','97.gif','98.png','99.png',
 	);
 	$returntop = array_slice($returntop, 1 ,null ,true);
-	foreach ($returntop as &$value) {
-		$value = '<img src="/Addons/ReturnTop/images/0'.$value.'"/>';
+
+	foreach ($returntop as $key=>$value) {
+		$returntop[$key] = '<img src="/Addons/ReturnTop/images/0'.$value.'"/>';
 	}
+
 	return array(
+		'custom_config'=>'config.html',
 		'random'=>array(
 			'title'=>'是否开启随机:',
 			'type'=>'radio',
