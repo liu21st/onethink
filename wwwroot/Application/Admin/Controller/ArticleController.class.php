@@ -19,7 +19,9 @@ class ArticleController extends AdminController {
      * @see AdminController::_init()
      * @author huajie <banhuajie@163.com>
      */
-    protected function _init(){
+    protected function _initialize(){
+    	//调用父类的初始化方法
+    	parent::_initialize();
     	//获取动态节点
     	$cate = M('Category')->where(array('display'=>1,'status'=>1))->field('id,title,pid')->order('sort')->select();
 		$cate = list_to_tree($cate);
