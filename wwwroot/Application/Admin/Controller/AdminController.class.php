@@ -309,7 +309,7 @@ class AdminController extends Action {
                 $item['url'] = MODULE_NAME.'/'.$item['url'];
             }
             //非超级管理员需要判断节点权限
-            if ( /* !$this->root_user */ &&  !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null)) {  //检测节点权限
+            if ( /* !$this->root_user */   !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null)) {  //检测节点权限
                 unset($menus['main'][$key]);
                 continue;//继续循环
             }
@@ -327,7 +327,7 @@ class AdminController extends Action {
                         //$value  分组数组
                         foreach ($value as $k=>$v){
                             //$v  节点配置
-                            if ( !empty($v['hide']) || ( /* !$this->root_user */ && !$this->checkRule($v['url'],AuthRuleModel::RULE_URL,null) ) ) {   //检测节点权限
+                            if ( !empty($v['hide']) || ( /* !$this->root_user */  !$this->checkRule($v['url'],AuthRuleModel::RULE_URL,null) ) ) {   //检测节点权限
                                 unset($value[$k]);
                             }
                         }
