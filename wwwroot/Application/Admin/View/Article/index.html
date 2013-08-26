@@ -35,7 +35,7 @@
 				<volist name="list" id="vo">
 				<tr>
 					<td><input type="checkbox" value="{$vo.id}" name="select"/></td>
-					<td>{$vo.title}</td>
+					<td><a href="{:U('edit',array('id'=>$vo['id']))}">{$vo.title}</a></td>
 					<td>{$vo.uid|get_username}</td>
 					<td>{$vo.create_time|time_format}</td>
 					<td>{$vo.status|get_status_title}</td>
@@ -88,7 +88,7 @@ $(function(){
 	$("#document_add").click(function(){
 		window.location.href = $(this).attr('url');
 	})
-	$("input[name=document_operate]").click(function(){
+	$("button[name=document_operate]").click(function(){
 		var status = $(this).attr('status');
 		//获取选中的数据
 		var checked = $('input:checked');
