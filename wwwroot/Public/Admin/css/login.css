@@ -9,6 +9,16 @@ html,body {
 img {
     border: 0;
 }
+.cf:before,.cf:after {
+    display: table;
+    content: "";
+}
+.cf:after {
+    clear: both;
+}
+.cf {
+    *zoom: 1;
+}
 
 /* 登陆页样式
 ------------------------------------------ */
@@ -48,6 +58,10 @@ img {
     margin: 0 0 10px;
     padding: 0;
 }
+.login-form .check-tips {
+    margin-left: 20px;
+    color: #b94a48;
+}
 .login-form .item-box {
     box-shadow: 0 1px 3px rgba(170, 170, 170, 0.8) inset;
     background-color: #fff;
@@ -61,7 +75,6 @@ img {
 .login-form .item {
     padding: 3px 10px 3px 12px;
     border: 1px solid #aeaeae;
-    /*transition: all .4s linear;*/
 }
 .login-form .b0 {
     border-top: transparent;
@@ -78,7 +91,6 @@ img {
     border-bottom: 1px solid #4A9BDF; 
     box-shadow: 0 0 5px #AEDCFA;
 }
-
 .login-form .icon-login-user,
 .login-form .icon-login-pwd,
 .login-form .icon-login-verifycode {
@@ -137,6 +149,10 @@ img {
     background-color: #139FEE;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
 }
+.login-form .login-btn[disabled] {
+    border-color: #999;
+    background-color: #ccc;
+}
 .login-form .login-btn .in {
     display: none;
 }
@@ -155,6 +171,7 @@ img {
     background: url(../images/loading_icon.gif) no-repeat 0 0;
 }
 
+/* 底部 */
 .login-footer {
     line-height: 2.0;
     text-align: right;
