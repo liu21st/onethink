@@ -52,24 +52,12 @@ return array(
     'SESSION_PREFIX' => 'think_cms', //session前缀
     'COOKIE_PREFIX'  => 'think_cms_', // Cookie前缀 避免冲突
 
-    /* 默认插件定义 */
-    'ADDONS_HOOKS_WIDGET' => array(
-        'page_header'            => array('Attachment'),
-        'document_edit_form'     => array('Attachment'),
-        'document_detail_before' => array(),
-        'document_detail_after'  => array('Attachment'),
-        'page_footer'            => array('Attachment'),
-    ),
-    'ADDONS_HOOKS_CONTROLLER' => array(
-        'document_save_complete' => array('Attachment'),
-    ),
-
     /**
      * 附件相关配置
      * 附件是规划在插件中的，所以附件的配置暂时写到这里
      * 后期会移动到数据库进行管理
      */
-    'ATTACHMENT_DEFAULT' => array( 
+    'ATTACHMENT_DEFAULT' => array(
         'is_upload'     => true,
         'allow_type'    => '0,1,2', //允许的附件类型 (0-目录，1-外链，2-文件)
         'driver'        => 'Local', //上传驱动

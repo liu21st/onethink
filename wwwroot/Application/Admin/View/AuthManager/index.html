@@ -29,6 +29,7 @@
 					<th>描述</th>
 					<th>状态</th>
 					<th>操作</th>
+					<th>授权</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -47,8 +48,12 @@
 								<a href="{:U('changeStatus',array('id'=>$vo['id'],'method'=>'forbidGroup'))}">禁用</a>
 							</eq>
                         </egt> 
-                        <a href="{:U('changeStatus',array('id'=>$vo['id'],'method'=>'deleteGroup'))}">删除</a>
+                        <a class="confirm" href="{:U('changeStatus',array('id'=>$vo['id'],'method'=>'deleteGroup'))}">删除</a>
 					</td>
+                    <td>
+                        <a href="{:U('user',array('group_id'=>$vo['id'],'group_name'=>$vo['title']))}">成员</a>
+                        <!-- <a href="{:U('category',array('group_id'=>$vo['id'],'group_name'=>$vo['title']))}">栏目</a> -->
+                    </td>
 				</tr>
 				</volist>
 			</tbody>
@@ -58,7 +63,15 @@
 <block name="script">
 <script type="text/javascript">
     +function($){
+        $('.confirm').on('click',function(){
+            if(!confirm('确认要删除吗?')){
+                return false;
+            }
+        });
         $('.auth-botton').find('button').on('click',function(){
+            if( this.id=='delete-group' && !confirm('确认要删除吗?')){
+                return false;
+            }
             var url = $(this).attr('url');
             var ids = $('.ids').serialize();
             if (!ids) {

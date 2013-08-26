@@ -42,16 +42,19 @@ class HooksModel extends Model {
     public function updateHooks($addons_name){
     	$addons_class = addons($addons_name, 1);//获取插件名
     	$methods = get_class_methods("{$addons_name}Addons");
-        $methods = array_map('parse_name', $methods);
         $hooks = $this->getField('name', true);
         $common = array_intersect($hooks, $methods);
-    	if($common){
+    	if(!empty($common)){
     		foreach ($common as $hook) {
     			$flag = $this->updateAddons($hook, array($addons_name));
     			if(false === $flag){
+    				$this->removeHooks($addons_name);
     				return false;
     			}
     		}
+    	} else {
+    		$this->error = '插件为实现任何钩子';
+    		return false;
     	}
     	return true;
     }
@@ -82,7 +85,6 @@ class HooksModel extends Model {
      */
     public function removeHooks($addons_name){
     	$methods = get_class_methods("{$addons_name}Addons");
-        $methods = array_map('parse_name', $methods);
         $hooks = $this->getField('name', true);
         $common = array_intersect($hooks, $methods);
     	if($common){

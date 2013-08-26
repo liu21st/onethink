@@ -14,19 +14,28 @@
  */
 class AuthManagerController extends AdminController{
 
-    static protected $deny  = array('updateRules');
+    /* 因为updateRules要供缓存管理模块内部使用,无需通过url访问;
+     * 而delete,forbid,resume 已经通过changeStatus访问内部调用了,所以也不允许url访问 */
+    static protected $deny  = array('updateRules','delete','forbid','resume');
 
     /* 保存允许所有管理员访问的公共方法 */
     static protected $allow = array();
 
     static protected $nodes= array(
-
+        //权限管理页
         array('title'=>'权限管理','url'=>'AuthManager/index','group'=>'用户管理',
               'operator'=>array(
-                  array('title'=>'编辑','url'=>'AuthManager/editGroup'),
+                  //权限管理页面的五种按钮
                   array('title'=>'删除','url'=>'AuthManager/changeStatus?method=deleteGroup'),
                   array('title'=>'禁用','url'=>'AuthManager/changeStatus?method=forbidGroup'),
                   array('title'=>'恢复','url'=>'AuthManager/changeStatus?method=resumeGroup'),
+                  array('title'=>'新增','url'=>'AuthManager/createGroup'),
+                  array('title'=>'编辑','url'=>'AuthManager/editGroup'),
+                  array('title'=>'成员','url'=>'AuthManager/user'),
+                  //用户组编辑页面和新增页面的表单保存提交按钮
+                  array('title'=>'保存用户组','url'=>'AuthManager/writeGroup'),
+                  array('title'=>'解除授权','url'=>'AuthManager/removeFromGroup'),
+                  array('title'=>'添加授权','url'=>'AuthManager/addToGroup'),
               ),
         ),
     );
@@ -42,7 +51,7 @@ class AuthManagerController extends AdminController{
         $nodes    = $this->returnNodes(false);
 
         $AuthRule = D('AuthRule');
-        $map      = array('module'=>'admin','type'=>AuthRuleModel::RULE_URL);//status全部取出,以进行更新
+        $map      = array('module'=>'admin','type'=>array('in','1,2'));//status全部取出,以进行更新
         //需要更新和删除的节点必然位于$rules
         $rules    = $AuthRule->where($map)->order('name')->select();
 
@@ -52,7 +61,11 @@ class AuthManagerController extends AdminController{
             $temp['name']   = $value['url'];
             $temp['title']  = $value['title'];
             $temp['module'] = 'admin';
-            $temp['type']   = AuthRuleModel::RULE_URL;
+            if(isset($value['controllers'])){
+                $temp['type']   = AuthRuleModel::RULE_MAIN;
+            }else{
+                $temp['type']   = AuthRuleModel::RULE_URL;
+            }
             $temp['status'] = 1;
             $data[strtolower($temp['name'].$temp['module'].$temp['type'])] = $temp;//去除重复项
         }
@@ -120,11 +133,14 @@ class AuthManagerController extends AdminController{
      */
     public function createGroup()
     {
-        $node_list = $this->returnNodes();
-        $map       = array('module'=>'admin','type'=>AuthRuleModel::RULE_URL,'status'=>1);
-        $rules     = D('AuthRule')->where($map)->getField('name,id');
+        $node_list   = $this->returnNodes();
+        $map         = array('module'=>'admin','type'=>AuthRuleModel::RULE_MAIN,'status'=>1);
+        $main_rules  = D('AuthRule')->where($map)->getField('name,id');
+        $map         = array('module'=>'admin','type'=>AuthRuleModel::RULE_URL,'status'=>1);
+        $child_rules = D('AuthRule')->where($map)->getField('name,id');
 
-        $this->assign('auth_rules',$rules);
+        $this->assign('main_rules',$main_rules);
+        $this->assign('auth_rules',$child_rules);
         $this->assign('node_list',$node_list);
         if ( empty($this->auth_group) ) {
             $this->assign('auth_group',array('title'=>null,'id'=>null,'description'=>null,'rules'=>null,));//排除notice信息
@@ -150,7 +166,8 @@ class AuthManagerController extends AdminController{
      */
     public function writeGroup()
     {
-        $_POST['rules']  = implode(',',$_POST['rules']);
+        sort($_POST['rules']);
+        $_POST['rules']  = implode(',',array_unique($_POST['rules']));
         $_POST['module'] = 'admin';
         $_POST['type']   = AuthGroupModel::TYPE_ADMIN;
         $AuthGroup       = D('AuthGroup');
@@ -186,8 +203,96 @@ class AuthManagerController extends AdminController{
                 $this->delete('AuthGroup');    
                 break;
             default:
-                $this->error('参数非法',__APP__);
+                $this->error('参数非法');
         }
     }
+
+    /**
+     * 用户组授权用户列表
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
+    public function user($group_id){
+        if(empty($group_id)){
+            $this->error('参数错误');
+        }
+        $authed_user = AuthGroupModel::memberInGroup((int)$group_id);
+        $this->assign('authed_user',intToString($authed_user));
+        $this->display();
+    }
+
+    /**
+     * 将分类添加到用户组的编辑页面
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
+    public function category(){
+        $group_list   = D('Category')->getTree();
+        $authed_group = AuthGroupModel::getCategoryOfGroup(I('group_id'));
+        $this->assign('authed_group',implode(',',(array)$authed_group));
+        $this->assign('group_list',$group_list);
+        $this->display();
+    }
+
+    /**
+     * 将用户添加到用户组的编辑页面
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
+    public function group()
+    {
+        $auth_groups = D('AuthGroup')->getGroups();
+        $user_groups = AuthGroupModel::getUserGroup(I('uid'));
+        $ids = array();
+        foreach ($user_groups as $value){
+            $ids[] = $value['group_id'];
+        }
+        $this->assign('auth_groups',$auth_groups);
+        $this->assign('user_groups',implode(',',$ids));
+        $this->display();
+    }
     
+    /**
+     * 将用户添加到用户组,入参uid,group_id
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
+    public function addToGroup()
+    {
+        $uid = I('uid');
+        $gid = I('group_id');
+        if( empty($uid) || empty($gid) ){
+            $this->error('参数有误');
+        }
+        $AuthGroup = D('AuthGroup');
+        if( !$AuthGroup->find($gid)){
+            $this->error('用户组不存在');
+        }
+        if( !M('UcenterMember')->find($uid)){
+            $this->error('用户不存在');
+        }
+        if ( $AuthGroup->addToGroup($uid,$gid) ){
+            $this->success('操作成功');
+        }else{
+            $this->error('操作失败');
+        }
+    }
+
+    /**
+     * 将用户从用户组中移除  入参:uid,group_id
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
+    public function removeFromGroup()
+    {
+        $uid = I('uid');
+        $gid = I('group_id');
+        if( empty($uid) || empty($gid) ){
+            $this->error('参数有误');
+        }
+        $AuthGroup = D('AuthGroup');
+        if( !$AuthGroup->find($gid)){
+            $this->error('用户组不存在');
+        }
+        if ( $AuthGroup->removeFromGroup($uid,$gid) ){
+            $this->success('操作成功');
+        }else{
+            $this->error('操作失败');
+        }
+    }
 }

@@ -6,7 +6,7 @@
         <div class="item description">
         <textarea name="content" id="content" style="height:600px">{$info['content']}</textarea>
         <input type="hidden" name="parse" value="0">
-        	{:hooks('documentEditFormContent', 1 ,array('name'=>'content','value'=>$info['content']))}
+        	{:hooks('documentEditFormContent', array('name'=>'content','value'=>$info['content']))}
         </div>
     </div>
 </block>

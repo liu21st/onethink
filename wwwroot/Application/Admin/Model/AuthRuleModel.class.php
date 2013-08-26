@@ -14,5 +14,6 @@
 class AuthRuleModel extends CmsadminModel{
     
     const RULE_URL = 1;
+    const RULE_MAIN = 2;
 
 }

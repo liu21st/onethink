@@ -91,13 +91,14 @@ class Auth{
       * 检查权限
       * @param name string|array  需要验证的规则列表,支持逗号分隔的权限规则或索引数组
       * @param uid  int           认证用户的id
+      * @param string mode        执行check的模式
       * @param relation string    如果为 'or' 表示满足任一条规则即通过验证;如果为 'and'则表示需满足所有规则才能通过验证
       * @return boolean           通过验证返回true;失败返回false
      */
-    public function check($name, $uid, $type='url', $relation='or') {
+    public function check($name, $uid, $type=1, $mode='url', $relation='or') {
         if (!$this->_config['AUTH_ON'])
             return true;
-        $authList = $this->getAuthList($uid); //获取用户需要验证的所有有效规则列表
+        $authList = $this->getAuthList($uid,$type); //获取用户需要验证的所有有效规则列表
         if (is_string($name)) {
             $name = strtolower($name);
             if (strpos($name, ',') !== false) {
@@ -109,7 +110,7 @@ class Auth{
         $list = array(); //保存验证通过的规则名
         foreach ( $authList as $auth ) {
             $query = preg_replace('/^.+\?/U','',$auth);
-            if ($type=='url' && $query!=$auth ) {
+            if ($mode=='url' && $query!=$auth ) {
                 parse_str($query,$param); //解析规则中的param
                 $intersect = array_intersect_assoc($_GET,$param);
                 if ( in_array($auth,$name) && $intersect==$param ) {  //如果节点相符且url参数满足
@@ -154,13 +155,13 @@ class Auth{
      * @param uid  int  用户id
      * 
      */
-    protected function getAuthList($uid) {
+    protected function getAuthList($uid,$type) {
         static $_authList = array(); //保存用户验证通过的权限列表
-        if (isset($_authList[$uid])) {
-            return $_authList[$uid];
+        if (isset($_authList[$uid.$type])) {
+            return $_authList[$uid.$type];
         }
-        if(isset($_SESSION['_AUTH_LIST_'.$uid])){
-            return $_SESSION['_AUTH_LIST_'.$uid];
+        if(isset($_SESSION['_AUTH_LIST_'.$uid.$type])){
+            return $_SESSION['_AUTH_LIST_'.$uid.$type];
         }
 
         //读取用户所属用户组
@@ -171,13 +172,14 @@ class Auth{
         }
         $ids = array_unique($ids);
         if (empty($ids)) {
-            $_authList[$uid] = array();
+            $_authList[$uid.$type] = array();
             return array();
         }
 
         $map=array(
             'id'=>array('in',$ids),
-            'status'=>1
+            'type'=>$type,
+            'status'=>1,
         );
         //读取用户组所有权限规则
         $rules = M()->table($this->_config['AUTH_RULE'])->where($map)->select();
@@ -199,10 +201,10 @@ class Auth{
                 $authList[] = strtolower($rule['name']);
             }
         }
-        $_authList[$uid] = $authList;
+        $_authList[$uid.$type] = $authList;
         if($this->_config['AUTH_TYPE']==2){
             //规则列表结果保存到session
-            $_SESSION['_AUTH_LIST_'.$uid]=$authList;
+            $_SESSION['_AUTH_LIST_'.$uid.$type]=$authList;
         }
         return array_unique($authList);
     }
