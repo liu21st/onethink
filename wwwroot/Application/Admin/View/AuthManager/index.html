@@ -8,7 +8,7 @@
             	<i class="icon-add"></i><em>添加</em>
             </a>
             <button url="{:U('changestatus',array('method'=>'resumeGroup'))}" id="enable-group" class="btn">
-            	<i class="icon-add"></i><em>启用</em>
+            	<i class="icon-right"></i><em>启用</em>
             </button>
             <button url="{:U('changestatus',array('method'=>'forbidGroup'))}" id="disable-group" class="btn">
             	<i class="icon-denied"></i><em>禁用</em>
@@ -20,7 +20,7 @@
 	</div>
 
 	<!-- 数据列表 -->
-	<div class="data-table">
+	<div class="data-table table-striped">
 		<table>
 			<thead>
 				<tr>
@@ -52,7 +52,7 @@
 					</td>
                     <td>
                         <a href="{:U('user',array('group_id'=>$vo['id'],'group_name'=>$vo['title']))}">成员</a>
-                        <!-- <a href="{:U('category',array('group_id'=>$vo['id'],'group_name'=>$vo['title']))}">栏目</a> -->
+                        <a href="{:U('category',array('group_id'=>$vo['id'],'group_name'=>$vo['title']))}">栏目</a>
                     </td>
 				</tr>
 				</volist>
