@@ -28,6 +28,18 @@ class ArticleController extends AdminController {
     	array( 'title' => '框架', 'url' => 'Article/index?cate_id=10', 'group' => '下载'),
     );
 
+    protected function _init(){
+    	//设置节点
+    	$cate = M('Category')->where(array('display'=>1,'status'=>1))->field('id,title,pid')->order('sort')->select();
+		$cate = list_to_tree($cate);
+		foreach ($cate as $key=>$value){
+			foreach ($value['_child'] as $k=>$v){
+				self::$nodes[] = array( 'title' => $v['title'], 'url' => 'Article/index?cate_id='.$v['id'], 'group' => $value['title']);
+			}
+
+		}
+    }
+
 	/**
 	 * 内容管理首页
 	 * @param $cate_id 分类id
