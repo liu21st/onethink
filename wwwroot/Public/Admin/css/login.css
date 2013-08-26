@@ -95,6 +95,9 @@ img {
 .login-form .icon-login-pwd {
     background-position: -48px 0;
 }
+.login-form .icon-login-verifycode {
+    background-position: -24px 0;
+}
 .login-form input {
     padding: 15px 0;
     width: 280px;
