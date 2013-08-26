@@ -15,7 +15,8 @@
 class AuthGroupModel extends CmsadminModel
 {
     const TYPE_ADMIN           = 1;                    //管理员用户组类型标识
-    const MEMBER               = 'ucenter_member';
+    const MEMBER               = 'member';
+    const UCENTER_MEMBER       = 'ucenter_member';
     const AUTH_GROUP_ACCESS    = 'auth_group_access';  //关系表表名
     const AUTH_CATEGORY_ACCESS = 'auth_category_access';//用户可管理的分类
     const AUTH_GROUP           = 'auth_group';         //用户组表名
@@ -181,12 +182,14 @@ class AuthGroupModel extends CmsadminModel
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     static public function memberInGroup($group_id){
-        $prefix  = C('DB_PREFIX');
-        $l_table = $prefix.self::MEMBER;
-        $r_table = $prefix.self::AUTH_GROUP_ACCESS;
-        $list    = M() ->field('m.id,m.username,m.last_login_time,m.last_login_ip,m.status')
+        $prefix   = C('DB_PREFIX');
+        $l_table  = $prefix.self::MEMBER;
+        $r_table  = $prefix.self::AUTH_GROUP_ACCESS;
+        $r_table2 = $prefix.self::UCENTER_MEMBER;
+        $list     = M() ->field('m.uid,u.username,m.last_login_time,m.last_login_ip,m.status')
                        ->table($l_table.' m')
-                       ->join($r_table.' a ON m.id=a.uid')
+                       ->join($r_table.' a ON m.uid=a.uid')
+                       ->join($r_table2.' u ON m.uid=u.id')
                        ->where(array('a.group_id'=>$group_id))
                        ->select();
         return $list;

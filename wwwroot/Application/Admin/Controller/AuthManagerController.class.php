@@ -31,11 +31,13 @@ class AuthManagerController extends AdminController{
                   array('title'=>'恢复','url'=>'AuthManager/changeStatus?method=resumeGroup'),
                   array('title'=>'新增','url'=>'AuthManager/createGroup'),
                   array('title'=>'编辑','url'=>'AuthManager/editGroup'),
-                  array('title'=>'成员','url'=>'AuthManager/user'),
+                  array('title'=>'成员','url'=>'AuthManager/user','tip'=>'"权限管理"页面"成员"按钮'),
+                  array('title'=>'栏目','url'=>'AuthManager/category','tip'=>'"权限管理"页面"栏目"按钮'),
+                  array('title'=>'授权','url'=>'AuthManager/group','tip'=>'"用户管理"界面"授权"按钮'),
                   //用户组编辑页面和新增页面的表单保存提交按钮
-                  array('title'=>'保存用户组','url'=>'AuthManager/writeGroup'),
-                  array('title'=>'解除授权','url'=>'AuthManager/removeFromGroup'),
-                  array('title'=>'添加授权','url'=>'AuthManager/addToGroup'),
+                  array('title'=>'保存用户组','url'=>'AuthManager/writeGroup','tip'=>'"权限管理"编辑和添加页面的"保存"按钮'),
+                  array('title'=>'解除授权','url'=>'AuthManager/removeFromGroup','tip'=>'"权限管理"-"成员"页面的按钮'),
+                  array('title'=>'添加授权','url'=>'AuthManager/addToGroup','tip'=>'"权限管理"-"成员"页面的"添加"按钮;"用户管理"-"授权"页面的"保存"按钮'),
               ),
         ),
     );
@@ -264,8 +266,8 @@ class AuthManagerController extends AdminController{
         if( !$AuthGroup->find($gid)){
             $this->error('用户组不存在');
         }
-        if( !M('UcenterMember')->find($uid)){
-            $this->error('用户不存在');
+        if( !M('Member')->where(array('uid'=>$uid))->find()){
+            $this->error('管理员用户不存在');
         }
         if ( $AuthGroup->addToGroup($uid,$gid) ){
             $this->success('操作成功');

@@ -33,8 +33,7 @@ function is_login(){
  */
 function is_administrator(){
     $uid = is_login();
-    //return $uid && (intval($uid) === C('USER_ADMINISTRATOR'));
-    return true; //TODO: 登录功能完成后改回
+    return $uid && (intval($uid) === C('USER_ADMINISTRATOR'));
 }
 
 /**

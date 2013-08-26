@@ -1,8 +1,11 @@
 <!-- 管理员用户组新增和编辑页面 -->
 <extend name="Public/base" />
 <block name="body">
-<div>
-    <form action="{:U('AuthManager/writeGroup')}" enctype="application/x-www-form-urlencoded" method="POST" class="form-horizontal auth-form">
+    <div class="main-title cf">
+        <h2>编辑用户组</h2>
+    </div>
+    <form action="{:U('AuthManager/writeGroup')}" enctype="application/x-www-form-urlencoded" method="POST" 
+            class="form-horizontal auth-form">
         <div class="form-item">
             <label for="auth-title" class="item-label">管理员用户组：</label>
             <div class="controls">
@@ -26,7 +29,7 @@
                         </span>
                         <span style="display:inline-block;">
                             <span style="font-weight:bold;">
-                            <label class="checkbox">
+                                <label class="checkbox" <notempty name="node['tip']">title='{$node.tip}'</notempty>>
                                 <!-- 主节点 -->
                                 <input class="auth_rules" type="checkbox" name="rules[]"
                                        value="<?php echo $main_rules[$node['url']] ?>"/>{$node.title}
@@ -36,7 +39,7 @@
                                <!-- 子节点列表 -->
                                <volist name="node['child']" id="child" >
                                <div>
-                                   <label class="checkbox">
+                                   <label class="checkbox" <notempty name="child['tip']">title='{$child.tip}'</notempty>>
                                        <input class="auth_rules" type="checkbox" name="rules[]" 
                                        value="<?php echo $auth_rules[$child['url']] ?>"/>{$child.title}
                                    </label>
@@ -44,7 +47,7 @@
                                    <span>&nbsp;-&nbsp;</span>
                                    <span>
                                        <volist name="child['operator']" id="op">
-                                       <label class="checkbox">
+                                       <label class="checkbox" <notempty name="op['tip']">title='{$op.tip}'</notempty>>
                                            <input class="auth_rules" type="checkbox" name="rules[]" 
                                            value="<?php echo $auth_rules[$op['url']] ?>"/>{$op.title}
                                        </label>
@@ -59,11 +62,13 @@
             </volist>
         </div>
         <div class="form-item">
-            <input type="hidden" name="id" value="{$auth_group.id}" />
-            <input type="submit" class="btn" value="保存" />
+            <label class="item-label"></label>
+            <div class="controls">
+                <input type="hidden" name="id" value="{$auth_group.id}" />
+                <input type="submit" class="btn" value="保存" />
+            </div>
         </div>
     </form>
-</div>
 </block>
 <block name="script">
 <script type="text/javascript" charset="utf-8">

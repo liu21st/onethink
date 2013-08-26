@@ -50,11 +50,21 @@ class AdminController extends Action {
         array( 'title'=>'系统','url'=>'System/index','controllers'=>'System',),
     );
 
+<<<<<<< HEAD
     private $uid = null;//保存登陆用户的uid
+=======
+    private $uid = null;         //保存登陆用户的uid
+>>>>>>> refs/heads/develop
     private $root_user = null;   //保存超级管理员用户id;
 
     final protected function _initialize()
     { 
+<<<<<<< HEAD
+=======
+        if(ACTION_NAME=='login'){
+            return;
+        }
+>>>>>>> refs/heads/develop
         $this->uid = 1;
         // $this->uid = is_login(); 
         if( !$this->uid ){
