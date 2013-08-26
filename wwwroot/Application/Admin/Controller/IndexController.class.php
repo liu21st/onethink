@@ -23,6 +23,15 @@ class IndexController extends AdminController {
     );
 
     /**
+     * 登录页面不检查权限
+     */
+    protected function _initialize(){
+        if(ACTION_NAME !== 'login'){
+            parent::_initialize();
+        }
+    }
+
+    /**
      * 后台首页
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */

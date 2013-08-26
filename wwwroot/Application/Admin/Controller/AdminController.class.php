@@ -51,19 +51,24 @@ class AdminController extends Action {
     );
 
     private $uid = null;//保存登陆用户的uid
+    private $root_user = null;   //保存超级管理员用户id;
 
     final protected function _initialize()
-    {
-        if( !is_administrator() ){
-            $this->error('您的身份不是管理员!');
+    { 
+        $this->uid = 1;
+        // $this->uid = is_login(); 
+        if( !$this->uid ){
+            $this->redirect('Admin/Index/login');
+            exit;
         }
-        $this->uid = 1;//保存用户id
+        $this->root_user = 1;
+        // $this->root_user = is_administrator();
         $ac = $this->accessControl();
         if ( $ac===false ) {
             $this->error('403:禁止访问');
         }elseif( $ac===null ){
             $rule  = strtolower(MODULE_NAME.'/'.CONTROLLER_NAME.'/'.ACTION_NAME);
-            if ( $this->uid!=1 && !$this->checkRule($rule,array('in','1,2')) ){
+            if ( $this->uid!=$this->root_user && !$this->checkRule($rule,array('in','1,2')) ){
                 $this->error('无权访问');
             }
         }
@@ -89,7 +94,7 @@ class AdminController extends Action {
         if (!$Auth) {
             $Auth  = new Auth();
         }
-        if(!$Auth->check($rule,$this->getVal('uid'),$type,$mode)){
+        if(!$Auth->check($rule,$this->uid,$type,$mode)){
             return false;
         }
         return true;
@@ -107,7 +112,8 @@ class AdminController extends Action {
      *
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    final protected function accessControl(){
+    final protected function accessControl()
+    {
         $controller = CONTROLLER_NAME.'Controller';
         if ( !is_array($controller::$deny)||!is_array($controller::$allow) ){
             $this->error("内部错误:{$controller}控制器 deny和allow属性必须为数组");
@@ -143,7 +149,7 @@ class AdminController extends Action {
         $id    = is_array($id) ? implode(',',$id) : $id;
         $where = array_merge( array('id' => array('in', $id )) ,(array)$where );
         $msg   = array_merge( array( 'success'=>'操作成功！', 'error'=>'操作失败！', 'url'=>'' ,'ajax'=>IS_AJAX) , (array)$msg );
-        if( D($model)->where($where)->save($data) ) {
+        if( D($model)->where($where)->save($data)!==false ) {
             $this->success($msg['success'],$msg['url'],$msg['ajax']);
         }else{
             $this->error($msg['error'],$msg['url'],$msg['ajax']);
@@ -247,7 +253,8 @@ class AdminController extends Action {
      * @param  boolean $group        是否分组
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    final static public function getNodes($controller,$group=true){
+    final static public function getNodes($controller,$group=true)
+    {
         if ( !$controller || !is_string($controller) || !is_array($controller::$nodes) ) {
             return false;
         }
@@ -290,7 +297,8 @@ class AdminController extends Action {
      * 子类中 $this->getMenus() 调用
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    final public function getMenus(){
+    final public function getMenus()
+    {
 //        if ( S('base_menu'.$controller) ) {
 //            return S('base_menu'.$controller);
 //        }
@@ -307,7 +315,7 @@ class AdminController extends Action {
                 $item['url'] = MODULE_NAME.'/'.$item['url'];
             }
             //非超级管理员需要判断节点权限
-            if (  /* $this->uid!=1 && */  !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null)) {  //检测节点权限
+            if (  /* $this->uid!=$this->root_user && */  !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null)) {  //检测节点权限
                 unset($menus['main'][$key]);
                 continue;//继续循环
             }
@@ -325,7 +333,7 @@ class AdminController extends Action {
                         //$value  分组数组
                         foreach ($value as $k=>$v){
                             //$v  节点配置
-                            if ( /* $this->uid!=1 && */ !$this->checkRule($v['url'],AuthRuleModel::RULE_URL,null) ) {   //检测节点权限
+                            if ( /* $this->uid!=$this->root_user && */ !$this->checkRule($v['url'],AuthRuleModel::RULE_URL,null) ) {   //检测节点权限
                                 unset($value[$k]);
                             }
                         }
@@ -346,11 +354,12 @@ class AdminController extends Action {
     }
 
     /**
-     * 读取基类中的私有属性
+     * 供子类读取基类中的私有属性
      * @param string $val  属性名
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
-    final protected function getVal($val){
+    final protected function getVal($val)
+    {
         return $this->$val;
     }
     
