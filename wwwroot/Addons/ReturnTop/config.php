@@ -19,6 +19,7 @@
 	}
 
 	return array(
+		'custom_config'=>'config.html',
 		'random'=>array(
 			'title'=>'是否开启随机:',
 			'type'=>'radio',
