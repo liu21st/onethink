@@ -79,4 +79,14 @@ class IndexController extends AdminController {
             $this->display();
         }
     }
+
+    /* 退出登录 */
+    public function logout(){
+        if(is_login()){
+            D('Member')->logout();
+            $this->success('退出成功！', U('login'));
+        } else {
+            $this->redirect('login');
+        }
+    }
 }

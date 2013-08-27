@@ -16,7 +16,7 @@
 	<!-- 主体 -->
 	<div class="login-body">
 		<div class="login-main pr">
-			<form action="#" method="post" class="login-form">
+			<form action="{:U('login')}" method="post" class="login-form">
 				<h3>登录</h3>
 				<div id="itemBox" class="item-box">
 					<div class="item">
@@ -38,7 +38,7 @@
 						<span class="in"><i class="icon-loading"></i>登录中...</span>
 						<span class="on">登录</span>
 					</button>
-					<span class="check-tips">密码输入错误！</span>
+					<span class="check-tips"></span>
 				</div>
 			</form>
 		</div>
@@ -81,8 +81,30 @@
 	    		secItem.next().removeClass("bdt0");
 	    		secItem.addClass("b0");
 	    	}
-    	})
+    	});
 
+    	//表单提交
+    	$(document)
+	    	.ajaxStart(function(){
+	    		$("button:submit").addClass("log-in").attr("disabled", true);
+	    	})
+	    	.ajaxStop(function(){
+	    		$("button:submit").removeClass("log-in").attr("disabled", false);
+	    	});
+
+    	$("form").submit(function(){
+    		var self = $(this);
+    		$.post(self.attr("action"), self.serialize(), success, "json");
+    		return false;
+
+    		function success(data){
+    			if(data.status){
+    				window.location.href = data.url;
+    			} else {
+    				self.find(".check-tips").text(data.info);
+    			}
+    		}
+    	});
     	
     </script>
 </body>
