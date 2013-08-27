@@ -21,7 +21,26 @@
 	<!-- 标题栏 -->
 	<div class="main-title">
 		<h2>文档列表</h2>
-		<div class="tools">
+	</div>
+
+	<!-- 操作按钮区 -->
+	<div class="cf">
+		<div class="fl">
+			<button class="btn" id="document_add" url="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$model[0]))}">
+				<i class="icon-add"></i><em>新增</em>
+			</button>
+			<button class="btn" name="document_operate" status="-1">
+				<i class="icon-delete"></i><em>删除</em>
+			</button>
+			<button class="btn" name="document_operate" status="1">
+				<i class="icon-right"></i><em>启用</em>
+			</button>
+			<button class="btn" name="document_operate" status="0">
+				<i class="icon-denied"></i><em>禁用</em>
+			</button>
+		</div>
+
+		<div class="tools fr">
 			<form method="get" class="search-form">
 				<input type="text" name="search" class="text" placeholder="请输入关键字" value="{$search}">
 				<select name="status">
@@ -33,22 +52,6 @@
 				<input type="button" value="查询" class="btn" id="search" url="{:U('article/index','cate_id='.$cate_id,false)}">
 			</form>
 		</div>
-	</div>
-
-	<!-- 操作按钮区 -->
-	<div>
-		<button class="btn" id="document_add" url="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$model[0]))}">
-			<i class="icon-add"></i><em>新增</em>
-		</button>
-		<button class="btn" name="document_operate" status="-1">
-			<i class="icon-delete"></i><em>删除</em>
-		</button>
-		<button class="btn" name="document_operate" status="1">
-			<i class="icon-right"></i><em>启用</em>
-		</button>
-		<button class="btn" name="document_operate" status="0">
-			<i class="icon-denied"></i><em>禁用</em>
-		</button>
 	</div>
 
 	<!-- 数据列表 -->

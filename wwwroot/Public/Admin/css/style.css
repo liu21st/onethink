@@ -153,10 +153,6 @@ body{
     font-weight: 400;
     color: #445566;   
 }
-.main-title .tools {
-    float: right;
-    margin-top: 3px;
-}
 
 /* 消息栏 */
 .tips-bar {
