@@ -310,7 +310,7 @@ class AuthManagerController extends AdminController{
     {
         $thead = array(
             'title'=>array(
-                'title'=>'用户组'
+                'title'=>'用户组',
                 'url'  =>'Article/edit?ids=$id',
                 'class'=>'my_class',
             ), 
