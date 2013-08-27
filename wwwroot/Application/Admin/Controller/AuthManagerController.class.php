@@ -317,15 +317,21 @@ class AuthManagerController extends AdminController{
             ),
         );
 
+        $keys = array_keys($thead);
         $list = $this->lists('AuthGroup',array('module'=>'admin'));
+        array_walk($list,function(&$v,$k,$thead) use($keys) {
+            $v = array_intersect_key($v,$thead);
+            $arr = array();
+            foreach ($keys as $value){
+                $arr[$value] = $v[$value];
+            }
+            $v = $arr;
+        },$thead);
+        dump($list);
         $this->assign('_thead',$thead);
         $this->assign('_list',intToString($list));
 
-        foreach ($thead as $key => $value){
-        }
-
-
-        // dump($list);
+        dump($list);
         $this->display();
     }
     

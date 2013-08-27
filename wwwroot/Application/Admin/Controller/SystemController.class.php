@@ -26,6 +26,7 @@ class SystemController extends AdminController {
         
         /* 导航栏目设置 */
         array( 'title' => '导航管理', 'url' => 'System/index3', 'group' => '导航栏目设置'),
+        array( 'title' => '分类管理', 'url' => 'System/index4', 'group' => '导航栏目设置'),
 
         /* 其他设置 */
         array( 'title' => '数据迁移', 'url' => 'System/index5', 'group' => '其他设置'),
@@ -40,4 +41,5 @@ class SystemController extends AdminController {
 	public function index(){
 		$this->display();
 	}
+
 }

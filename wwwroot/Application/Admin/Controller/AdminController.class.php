@@ -47,19 +47,21 @@ class AdminController extends Action {
         array( 'title'=>'内容','url'=>'Article/index','controllers'=>'Article',),
         array( 'title'=>'用户','url'=>'User/index','controllers'=>'User,AuthManager'),
         array( 'title'=>'扩展','url'=>'Addons/index','controllers'=>'Addons,Model',),
-        array( 'title'=>'系统','url'=>'System/index','controllers'=>'System,Category',),
+        array( 'title'=>'系统','url'=>'System/index','controllers'=>'System',),
     );
 
     private $uid = null;//保存登陆用户的uid
     private $root_user = null;   //保存超级管理员用户id;
 
     protected function _initialize()
-    { 
-        $this->uid = is_login(); 
+    {
+        $this->uid = 1;
+        // $this->uid = is_login();
         if( !$this->uid ){
             $this->redirect('Admin/Index/login');
         }
-        $this->root_user = is_administrator();
+        $this->root_user = true;
+        // $this->root_user = is_administrator();
         $ac = $this->accessControl();
         if ( $ac===false ) {
             $this->error('403:禁止访问');
