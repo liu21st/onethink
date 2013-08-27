@@ -9,6 +9,11 @@
     <link rel="stylesheet" type="text/css" href="__CSS__/table.css" media="all">
     <link rel="stylesheet" type="text/css" href="__CSS__/button.css" media="all">
     <link rel="stylesheet" type="text/css" href="__CSS__/style.css" media="all">
+     <!--[if lt IE 9]>
+    <script type="text/javascript" src="__STATIC__/jquery-1.10.2.min.js"></script>
+    <![endif]--><!--[if gte IE 9]><!-->
+    <script type="text/javascript" src="__STATIC__/jquery-2.0.3.min.js"></script>
+    <!--<![endif]-->
     <block name="style"></block>
 </head>
 <body>
@@ -34,6 +39,10 @@
         <!-- 子导航 -->
         <block name="sidebar">
             <div id="subnav" class="subnav">
+                <notempty name="_extra_menu">
+                    {// 动态扩展菜单 //}
+                    {:extra_menu($_extra_menu,$__base_menu__)}
+                </notempty>
                 <volist name="__base_menu__.child" id="sub_menu">
                     <!-- 子导航 -->
                     <notempty name="sub_menu">
@@ -58,11 +67,6 @@
     </div>
     <!-- /内容区 -->
 
-    <!--[if lt IE 9]>
-    <script type="text/javascript" src="__STATIC__/jquery-1.10.2.min.js"></script>
-    <![endif]--><!--[if gte IE 9]><!-->
-    <script type="text/javascript" src="__STATIC__/jquery-2.0.3.min.js"></script>
-    <!--<![endif]-->
     <script type="text/javascript">
         +function(){
             var $window = $(window), $subnav = $("#subnav"), url;

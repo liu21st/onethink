@@ -151,9 +151,10 @@ img {
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
 }
 .login-form .login-btn[disabled] {
-    opacity: .4;
-    filter: alpha(opacity=40);
+    opacity: 0.6;
+    filter: alpha(opacity=60);
     cursor: default;
+    box-shadow: none;
 }
 .login-form .login-btn .in {
     display: none;

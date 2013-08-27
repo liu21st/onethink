@@ -112,12 +112,25 @@ function check_document_position($pos = 0, $contain = 0){
  *  )
  *
  */
-function intToString(&$data,$map=array('status'=>array(1=>'正常',-1=>'已删除',0=>'已禁用',2=>'审核通过')))
-{
+function intToString(&$data,$map=array('status'=>array(1=>'正常',-1=>'已删除',0=>'已禁用',2=>'审核通过'))) {
     foreach ($data as $key => $row){
         foreach ($map as $col=>$pair){
             $data[$key][$col.'_text'] = $pair[$row[$col]];
         }
     }
     return $data;
+}
+
+/**
+ * 动态扩展左侧菜单,base.html里用到
+ * @author 朱亚杰 <zhuyajie@topthink.net>
+ */
+function extra_menu($extra_menu,&$base_menu){
+    foreach ($extra_menu as $key=>$group){
+        if( isset($base_menu['child'][$key]) ){
+            $base_menu['child'][$key] = array_merge( $base_menu['child'][$key], $group);
+        }else{
+            $base_menu['child'][$key] = $group;
+        }
+    }
 }

@@ -14,6 +14,8 @@
 
 	class ReturnTopAddons extends Addons{
 
+		public $custom_config = 'config.html';
+
 		public $info = array(
 				'name'=>'ReturnTop',
 				'title'=>'返回顶部',

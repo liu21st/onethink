@@ -8,68 +8,41 @@
 // +----------------------------------------------------------------------
 
 /**
- * 后台内容控制器
+ * 模型管理控制器
  * @author huajie <banhuajie@163.com>
  */
 
-class ArticleController extends AdminController {
-
-    /**
-     * 控制器初始化方法
-     * @see AdminController::_init()
-     * @author huajie <banhuajie@163.com>
-     */
-    protected function _initialize(){
-    	//调用父类的初始化方法
-    	parent::_initialize();
-    	//获取动态节点
-    	$cate = M('Category')->where(array('display'=>1,'status'=>1))->field('id,title,pid')->order('sort')->select();
-		$cate = list_to_tree($cate);
-		foreach ($cate as $key=>&$value){
-			foreach ($value['_child'] as $k=>&$v){
-				$v['url'] = 'Article/index?cate_id='.$v['id'];
-			}
-
-		}
-		$this->assign('nodes', $cate);
-    }
+class ModelController extends AdminController {
 
 	/**
-	 * 内容管理首页
-	 * @param $cate_id 分类id
+	 * 左侧导航节点定义
 	 * @author huajie <banhuajie@163.com>
 	 */
-	public function index($cate_id = null, $status = null, $search = null){
-		if(empty($cate_id)){
-			$nodes = $this->get('nodes');
-			$cate_id = $nodes[0]['id'];
-		}
-		$Document = D('Document');
+    static protected $nodes = array(
+        array( 'title'=>'模型管理', 'url'=>'Model/index', 'group'=>'扩展'),
+        array( 'title'=>'插件管理', 'url'=>'Addons/index', 'group'=>'扩展'),
+        array( 'title'=>'钩子管理', 'url'=>'Addons/hooks', 'group'=>'扩展'),
+    );
+
+	/**
+	 * 模型管理首页
+	 * @author huajie <banhuajie@163.com>
+	 */
+	public function index(){
+		$Model = D('DocumentModel');
 
 		/* 查询条件初始化 */
-		$map = array();
-		if(isset($status)){
-			$map['status'] = $status;
-		}
-		if(!empty($search)){
-			$map['title'] = array('like', '%'.$search.'%');
-		}
+		$map = array('status'=>array('gt',-1));
+
 		/*初始化分页类*/
 		import('COM.Page');
-		$count = $Document->listCount($cate_id, array('gt', -1), $map);
+		$count = $Model->where($map)->count('id');
 		$Page = new Page($count, 10);
 		$this->page = $Page->show();
 
 		//列表数据获取
-		$list = $Document->lists($cate_id, 'id DESC', array('gt', -1), 'id,uid,title,create_time,status', $Page->firstRow. ',' . $Page->listRows, $map);
+		$list = $Model->where($map)->limit($Page->firstRow. ',' . $Page->listRows)->select();
 
-		//获取对应分类下的模型
-		$models = get_category($cate_id, 'model');
-
-		$this->assign('model', implode(',', $models));
-		$this->assign('cate_id', $cate_id);
-		$this->assign('status', $status);
-		$this->assign('search', $search);
 		$this->assign('list', $list);
 		$this->display();
 	}
@@ -87,7 +60,7 @@ class ArticleController extends AdminController {
 		}
 
 		/*拼接参数并修改状态*/
-		$Model = 'Document';
+		$Model = 'DocumentModel';
 		$map = array();
 		if(is_array($ids)){
 			$map['id'] = array('in', implode(',', $ids));
@@ -97,7 +70,7 @@ class ArticleController extends AdminController {
 		switch ($status){
 			case -1 : $this->delete($Model, $map, array('success'=>'删除成功','error'=>'删除失败'));break;
 			case 0 : $this->forbid($Model, $map, array('success'=>'禁用成功','error'=>'禁用失败'));break;
-			case 1 : $this->resume($Model, $map, array('success'=>'审核通过','error'=>'审核失败'));break;
+			case 1 : $this->resume($Model, $map, array('success'=>'启用成功','error'=>'启用失败'));break;
 			default : $this->error('参数错误');break;
 		}
 	}
@@ -108,18 +81,6 @@ class ArticleController extends AdminController {
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function add(){
-		$cate_id = I('get.cate_id','');
-		$model_id = I('get.model_id','');
-		if(empty($cate_id) || empty($model_id)){
-			$this->error('参数不能为空！');
-		}
-
-		/* 获取要编辑的模型模板 */
-		$template = strtolower(get_document_model($model_id, 'name'));
-
-		$this->assign('model_id', $model_id);
-		$this->assign('cate_id', $cate_id);
-		$this->assign('template', $template);
 		$this->display();
 	}
 
@@ -134,14 +95,11 @@ class ArticleController extends AdminController {
 		}
 
 		/*获取一条记录的详细数据*/
-		$Document = D('Document');
-		$data = $Document->detail($id);
+		$Model = D('DocumentModel');
+		$data = $Model->find($id);
 		if(!$data){
-			$this->error($Document->getError());
+			$this->error($Model->getError());
 		}
-
-		/* 获取要编辑的模型模板 */
-		$data['template'] = strtolower(get_document_model($data['model_id'], 'name'));
 
 		$this->assign($data);
 		$this->display();
