@@ -21,9 +21,9 @@
     background-image: -o-linear-gradient(top, #FFF, #FBFBFB);
     background-image: linear-gradient(to bottom, #FFF, #FBFBFB);
     background-repeat: repeat-x;
-    border: 1px solid #e1e1e1;
-    border-bottom-color: #b3b3b3;
-    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    border: 1px solid #CCC;
+    border-bottom-color: #B3B3B3;
+    border-color: rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.15);
     -webkit-border-radius: 2px;
        -moz-border-radius: 2px;
             border-radius: 2px;
