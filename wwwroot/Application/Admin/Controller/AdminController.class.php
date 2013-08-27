@@ -418,4 +418,61 @@ class AdminController extends Action {
         return $nodes;
     }
     
+    /**
+     * 通用分页列表方法
+     *  
+     *  可以通过url参数传递where条件,例如:  index.html?name=asdfasdfasdfddds 
+     *  可以通过url空值排序字段和方式,例如: index.html?_field=id&_order=asc
+     *  支持多表join,控制器代码示例如下:
+     *
+     *  <pre>
+     *      $Model = M()
+     *               ->table('left_tabel as l')
+     *               ->join('right_table as r ON l.id=r.uid')
+     *               ->where(array('l.status'=>1));
+     *      $list = $this->lists($Model);
+     *      $this->dispaly();
+     *  </pre>
+     *
+     * @param sting|Model  $model   模型名或模型实例
+     * @param array        $where   where查询条件
+     * @param array|string $order   排序条件
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
+    protected function lists ($model,$where=array(),$order='')
+    {
+        $options = array();
+        $REQUEST = I();
+        if(is_string($model)){
+            $model = D($model);
+        }
+
+        $OPT = new ReflectionProperty($model,'options');
+        $OPT->setAccessible(true);
+
+        if ( isset($REQUEST['_order']) && isset($REQUEST['_field']) && in_array(strtolower($REQUEST['_order']),array('desc','asc')) ) {
+            $options['order'] = '`'.$REQUEST['_field'].'` '.$REQUEST['_order'];
+        }else if( empty($order) && empty($options['order']) && !empty($model->getPk()) ){
+            $options['order'] = $model->getPk().' desc';
+        }elseif($order){
+            $options['order'] = $order;
+        }
+        unset($REQUEST['_order'],$REQUEST['_field']);
+
+        $options['where'] = array_merge( array('status'=>array('egt',0)), $REQUEST,  $where );
+        $options          = array_merge( $options , (array)$OPT->getValue($model) );
+
+		$total = $model->where($options['where'])->count();
+
+		import("COM.Page");
+
+		$listRows = C('LIST_ROWS') > 0 ? C('LIST_ROWS') : 10;
+		$page = new Page($total, $listRows, $REQUEST);
+		$this->assign('_page', $page->show());
+        $options['limit'] = $page->firstRow.','.$page->listRows;
+
+        $model->setProperty('options',$options);
+
+		return $model->select();
+    }
 }
