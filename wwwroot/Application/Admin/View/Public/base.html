@@ -84,6 +84,11 @@
             /* 左边菜单高亮 */
             url = window.location.pathname + window.location.search;
             $subnav.find("a[href='" + url + "']").parent().addClass("current");
+
+            /* 左边菜单显示收起 */
+                $("#subnav h3").click(function(){
+                    $(this).next().toggle("fast","linear")
+                })
         }();
     </script>
     <block name="script"></block>
