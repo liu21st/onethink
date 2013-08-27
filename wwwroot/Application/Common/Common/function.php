@@ -425,7 +425,7 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
 
 	//参数检查
 	if(empty($action) || empty($model) || empty($record_id)){
-		return false;
+		return '参数不能为空';
 	}
 	if(empty($user_id)){
 		$user_id = is_login();
@@ -434,7 +434,7 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
 	//查询行为,判断是否执行
 	$action_info = M('Action')->getByName($action);
 	if($action_info['status'] != 1){
-		return false;
+		return '该行为被禁用';
 	}
 
 	//插入行为日志
