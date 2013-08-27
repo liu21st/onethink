@@ -15,7 +15,6 @@
 class AddonsController extends AdminController {
 
     static protected $nodes = array(
-        array( 'title'=>'模型管理', 'url'=>'Model/index', 'group'=>'扩展'),
         array( 'title'=>'插件管理', 'url'=>'Addons/index', 'group'=>'扩展'),
         array( 'title'=>'钩子管理', 'url'=>'Addons/hooks', 'group'=>'扩展'),
     );
@@ -36,26 +35,11 @@ class AddonsController extends AdminController {
         $addon = addons($name);
         $param = $addon->admin_list;
         extract($param);
-        foreach ($searchKey as $key => $value) {
-            $search = trim(I($key));
-            if($search){
-                switch ($value['type']) {
-                    case 'like':
-                        $map[$key] = array('like', "{$value['format']}");
-                        break;
-                    case 'gt': case 'lt': case 'egt': case 'elt': case 'eq':
-                        $map[$key] = array($value['type'], $search);
-                    default:
-                        $map[$key] = $search;
-                        break;
-                }
-            }
-        }
         $this->assign('title', $addon->info['title']);
         if($addon->custom_adminlist)
             $this->assign('custom_adminlist', $addon->addon_path.$addon->custom_adminlist);
         $this->assign($param);
-        $list = D("Addons://{$model}/{$model}")->field($fields)->where($map)->order($order)->select();
+        $list = $this->lists(D("Addons://{$model}/{$model}")->field($fields),$map,$order);
         $this->assign('list', $list);
         $this->display();
     }

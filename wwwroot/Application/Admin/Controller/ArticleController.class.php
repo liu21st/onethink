@@ -157,9 +157,9 @@ class ArticleController extends AdminController {
 			$this->error(D('Document')->getError());
 		}else{
 			if($res['id']){
-				$this->success('新增成功');
-			}else{
 				$this->success('更新成功');
+			}else{
+				$this->success('新增成功');
 			}
 		}
 	}

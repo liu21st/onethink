@@ -30,6 +30,7 @@ class AttachmentAddons extends Addons{
 			'document_title'=>'文档标题'
 		),
 		'model'=>'Attachment',
+		'order'=>'id asc'
 	);
 
 	public $custom_adminlist = 'adminlist.html';
