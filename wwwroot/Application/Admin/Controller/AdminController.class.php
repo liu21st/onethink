@@ -47,7 +47,7 @@ class AdminController extends Action {
         array( 'title'=>'内容','url'=>'Article/index','controllers'=>'Article',),
         array( 'title'=>'用户','url'=>'User/index','controllers'=>'User,AuthManager'),
         array( 'title'=>'扩展','url'=>'Addons/index','controllers'=>'Addons,Model',),
-        array( 'title'=>'系统','url'=>'System/index','controllers'=>'System',),
+        array( 'title'=>'系统','url'=>'System/index','controllers'=>'System,Category',),
     );
 
     private $uid = null;//保存登陆用户的uid
