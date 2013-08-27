@@ -81,7 +81,7 @@ select {
 	margin-left: 20px;
 	color: #999;
 }
-label.textarea + .check-tips {
+label.textarea ~ .check-tips {
 	margin-left: 0;
 }
 
