@@ -15,8 +15,26 @@
 class AddonsController extends AdminController {
 
     static protected $nodes = array(
-        array( 'title'=>'插件管理', 'url'=>'Addons/index', 'group'=>'扩展'),
-        array( 'title'=>'钩子管理', 'url'=>'Addons/hooks', 'group'=>'扩展'),
+        array(
+            'title'=>'插件管理', 'url'=>'Addons/index', 'group'=>'扩展',
+            'operator'=>array(
+                //权限管理页面的五种按钮
+                array('title'=>'创建','url'=>'Addons/create'),
+                array('title'=>'设置','url'=>'Addons/config'),
+                array('title'=>'禁用','url'=>'Addons/disable'),
+                array('title'=>'启用','url'=>'Addons/enable'),
+                array('title'=>'安装','url'=>'Addons/install'),
+                array('title'=>'卸载','url'=>'Addons/uninstall'),
+                array('title'=>'更新配置','url'=>'Addons/saveconfig'),
+                array('title'=>'插件后台列表','url'=>'Addons/adminList')
+            ),
+        ),
+        array( 'title'=>'钩子管理', 'url'=>'Addons/hooks', 'group'=>'扩展',
+            'operator'=>array(
+            //权限管理页面的五种按钮
+                array('title'=>'编辑','url'=>'Addons/updateSort'),
+            ),
+        ),
     );
 
     public function _initialize(){
