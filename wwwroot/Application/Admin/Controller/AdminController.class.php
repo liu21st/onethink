@@ -444,7 +444,7 @@ class AdminController extends Action {
     protected function lists ($model,$where=array(),$order='')
     {
         $options = array();
-        $REQUEST = I();
+        $REQUEST = (array)I('get');
         if(is_string($model)){
             $model = D($model);
         }
@@ -462,7 +462,7 @@ class AdminController extends Action {
         }
         unset($REQUEST['_order'],$REQUEST['_field']);
 
-        $options['where'] = array_merge( array('status'=>array('egt',0)), $REQUEST,  $where );
+        $options['where'] = array_filter(array_merge( array('status'=>array('egt',0)), $REQUEST,  $where ));
         $options          = array_merge( $options , (array)$OPT->getValue($model) );
 
 		$total = $model->where($options['where'])->count();

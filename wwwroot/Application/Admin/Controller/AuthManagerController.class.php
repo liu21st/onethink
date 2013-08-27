@@ -309,29 +309,37 @@ class AuthManagerController extends AdminController{
     public function test()
     {
         $thead = array(
-            'title'=>'用户组', 'description'=>'描述', 'status'=>'状态', '操作'=>array(
-                '编辑'=>'Article/edit?ids=$id',
+            'title'=>array(
+                'title'=>'用户组'
+                'url'  =>'Article/edit?ids=$id',
+                'class'=>'my_class',
+            ), 
+            'description'=>'描述',
+            'status_text'=>'状态',
+            '操作'=>array(
+                '编辑'     =>'Article/edit?ids=$id',
                 '禁用/启用'=>'Article/setstatus?ids=$id&status=0',
                 '启用/禁用'=>'Article/setstatus?ids=$id&status=1',
-                '删除'=>'Article/setstatus?ids=$id&status=-1',
+                '删除'     =>'Article/setstatus?ids=$id&status=-1',
             ),
         );
 
         $keys = array_keys($thead);
         $list = $this->lists('AuthGroup',array('module'=>'admin'));
+        $list = intToString($list);
         array_walk($list,function(&$v,$k,$thead) use($keys) {
             $v = array_intersect_key($v,$thead);
             $arr = array();
             foreach ($keys as $value){
-                $arr[$value] = $v[$value];
+                if ( isset($v[$value]) ) {
+                    $arr[$value] = $v[$value];
+                }
             }
             $v = $arr;
         },$thead);
-        dump($list);
         $this->assign('_thead',$thead);
-        $this->assign('_list',intToString($list));
+        $this->assign('_list',$list);
 
-        dump($list);
         $this->display();
     }
     
