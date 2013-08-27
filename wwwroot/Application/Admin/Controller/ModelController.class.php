@@ -20,8 +20,6 @@ class ModelController extends AdminController {
 	 */
     static protected $nodes = array(
         array( 'title'=>'模型管理', 'url'=>'Model/index', 'group'=>'扩展'),
-        array( 'title'=>'插件管理', 'url'=>'Addons/index', 'group'=>'扩展'),
-        array( 'title'=>'钩子管理', 'url'=>'Addons/hooks', 'group'=>'扩展'),
     );
 
 	/**
@@ -110,14 +108,14 @@ class ModelController extends AdminController {
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function update(){
-		$res = D('Document')->update();
+		$res = D('DocumentModel')->update();
 		if(!$res){
-			$this->error(D('Document')->getError());
+			$this->error(D('DocumentModel')->getError());
 		}else{
 			if($res['id']){
-				$this->success('新增成功');
-			}else{
 				$this->success('更新成功');
+			}else{
+				$this->success('新增成功');
 			}
 		}
 	}
