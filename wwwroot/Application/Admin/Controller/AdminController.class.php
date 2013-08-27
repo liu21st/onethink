@@ -431,6 +431,7 @@ class AdminController extends Action {
      *               ->join('right_table as r ON l.id=r.uid')
      *               ->where(array('l.status'=>1));
      *      $list = $this->lists($Model);
+     *      $this->assign('data',$list);
      *      $this->dispaly();
      *  </pre>
      *
@@ -438,6 +439,9 @@ class AdminController extends Action {
      * @param array        $where   where查询条件
      * @param array|string $order   排序条件
      * @author 朱亚杰 <zhuyajie@topthink.net>
+     * 
+     * @return array|false
+     * 返回数据集
      */
     protected function lists ($model,$where=array(),$order='')
     {
