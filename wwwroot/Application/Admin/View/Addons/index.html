@@ -5,9 +5,61 @@
 	<div class="main-title">
 		<h2>插件列表</h2>
 		<div class="tools">
-			<button id="add-member" class="btn"><i class="icon-add"></i><em>添加</em></button>
-			<a href="{:U('create')}"><button id="add-member" class="btn"><i class="icon-add"></i><em>创建</em></button></a>
+			<button id="add-member" class="btn"><i class="icon-add"></i>添加</button>
+			<a href="{:U('create')}"><button id="add-member" class="btn"><i class="icon-add"></i>创建</button></a>
 		</div>
+	</div>
+
+	<!-- 数据列表 -->
+	<div class="data-table table-striped">
+		<table>
+			<thead>
+				<tr>
+					<th>序号</th>
+					<th>名称</th>
+					<th>标识</th>
+					<th>描述</th>
+					<th>状态</th>
+					<th>作者</th>
+					<th>版本</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist name="list" id="vo">
+				<tr>
+					<td>{$i}</td>
+					<td>{$vo.title}</td>
+					<td>{$vo.name}</td>
+					<td>{$vo.description}</td>
+					<td>{$vo.status_text|default="未安装"}</td>
+					<td>{$vo.author}</td>
+					<td>{$vo.version}</td>
+					<td>
+						<empty name="vo.uninstall">
+							<?php if (count($vo['config'])>0): ?>
+								<a href="{:U('config',array('id'=>$vo['id']))}">设置</a>
+							<?php endif ?>
+						<?php if ($vo['status'] >=0): ?>
+							<eq name="vo.status" value="0">
+								<a href="{:U('enable',array('id'=>$vo['id']))}">启用</a>
+							<else />
+								<a href="{:U('disable',array('id'=>$vo['id']))}">禁用</a>
+							</eq>
+						<?php endif ?>
+							{// <eq name="vo.author" value="thinkphp">}
+								<a href="{:U('uninstall?id='.$vo['id'])}">卸载</a>
+							{// </eq>}
+						<else />
+							<a href="{:U('install?addon_name='.$vo['name'])}">安装</a>
+						</empty>
+					</td>
+				</tr>
+				</volist>
+			</tbody>
+		</table>
+	</div>
+</block>		</div>
 	</div>
 
 	<!-- 数据列表 -->

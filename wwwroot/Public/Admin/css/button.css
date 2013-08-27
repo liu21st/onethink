@@ -60,10 +60,6 @@
 .btn:focus {
 	outline: 0;
 }
-.btn em {
-	font-style: normal;
-	vertical-align: middle;
-}
 
 /* 按钮组 */
 .btn-toolbar .btn {

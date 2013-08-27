@@ -1,5 +1,32 @@
 <extend name="Public/base" />
 
+<block name="style">
+	<link rel="stylesheet" href="__PUBLIC__/Admin/css/addons.css">
+	<style type="text/css">
+		.ico-top, .ico-btm {
+			background: url("__ROOT__/addons/theme/stv1/_static/admin/image/ico_top_btm.gif") no-repeat scroll 0 0 transparent;
+			height: 14px;
+			width: 12px;
+		}
+		.ico-top, .ico-btm {
+			display: inline-block;
+			vertical-align: middle;
+		}
+		.ico-top {
+			background-position: -12px 0;
+		}
+		.ico-btm {
+			background-position: -24px 0;
+		}
+		.ico-top:hover {
+			background-position: 0 0;
+		}
+		.ico-btm:hover {
+			background-position: -35px 0;
+		}
+	</style>
+</block>
+
 <block name="body">
 	<!-- 标题栏 -->
 	<div class="main-title">
@@ -7,5 +34,330 @@
 	</div>
 
 	<!-- 数据列表 -->
+	<div class="container">
+	<div class="header">
+		<div id="title1">
+			<h1></h1>
+			<span>{$lisence_info}</span>
+				<div class="setup step1">
+				<h2>基本信息</h2>
+				<dl>插件文件的建立及相关信息的填写</dl>
+			</div>
+		</div>
+		<div id="title2" class="hidden">
+			<h1></h1>
+			<span>{$lisence_info}</span>
+				<div class="setup step2">
+				<h2>插件方法和钩子</h2>
+				<dl>建立插件要使用的方法，供钩子和系统内建方法使用，完成钩子</dl>
+			</div>
+		</div>
+		<div id="title3" class="hidden">
+			<h1></h1>
+			<span>{$lisence_info}</span>
+				<div class="setup step3">
+				<h2>内建方法</h2>
+				<dl>系统内建方法（插件启动、安装、卸载的实现）</dl>
+			</div>
+		</div>
+		<div id="title4" class="hidden">
+			<h1></h1>
+			<span>{$lisence_info}</span>
+				<div class="setup step4">
+				<h2>预览和创建</h2>
+				<dl>预览插件源码和创建插件</dl>
+			</div>
+		</div>
+		<div class="stepstat">
+			<ul>
+				<li class="current">填写插件信息</li>
+				<li class="unactivated">添加插件方法和指定钩子</li>
+				<li class="unactivated">设置插件启动、安装、卸载</li>
+				<li class="unactivated last">预览、创建</li>
+			</ul>
+			<div class="stepstatbg stepstat1" id="stepstatbg"></div>
+		</div>
+	</div>
+	<php>
+		$form_url = U('preBuild');
+	</php>
+	<form id="create" method="post" action="{$form_url}">
+		<div class="main form2" id="content1">
+			<input type="hidden" name="is_edit" value="{$is_edit}" />
+			<dl>
+				<dt><label for="pluginFile">文件名</label><em>*</em></dt>
+				<dd><input type="text" id="pluginFile" name="pluginFile" value="{$post.pluginFile}"{$readonly} class="no-ime"/></dd>
+			</dl>
+			<dl>
+				<dt><label for="version">版本</label><em>*</em></dt>
+				<dd><input type="text" id="version" name="version" value="{$post.version}" class="no-ime"/></dd>
+			</dl>
+			<dl>
+				<dt><label for="author">作者</label><em>*</em></dt>
+				<dd><input type="text" id="author" name="author" value="{$post.author}"/></dd>
+			</dl>
+			<dl>
+				<dt><label for="site">个人站点</label><em>*</em></dt>
+				<dd><input type="text" id="site" name="site" value="{$post.site}" class="no-ime"/></dd>
+			</dl>
+			<dl>
+				<dt><label for="pluginName">插件名</label><em>*</em></dt>
+				<dd><input type="text" id="info" name="pluginName" value="{$post.pluginName}"/></dd>
+			</dl>
+			<dl>
+				<dt><label for="info">插件信息</label><em>*</em></dt>
+				<dd><input type="text" id="info" name="info" value="{$post.info}"/></dd>
+			</dl>
+			<dl>
+				<dt><label for="tsVersion">TS版本</label><em>*</em></dt>
+				<dd><input type="text" id="tsVersion" name="tsVersion" value="{$tsVersion}" readonly="readonly"/></dd>
+			</dl>
+			<div class="btnbox">
+				<a class="button next" title="下一步" onclick="checkForm();">下一步</a>
+			</div>
+		</div>
+		<div class="main hidden" id="content2">
+			<table align="center">
+				<tr><td colspan="9"><hr/></td></tr>
+				<tr><th colspan="9" align="center">类自定义方法methods</th></tr>
+				<tr>
+					<th colspan="3" align="center"><label>方法用途:</label></th>
+					<th colspan="3" align="center"><label>方法名:</label></th>
+					<th colspan="1" align="center"><label>方法体:</label></th>
+					<th colspan="1" align="center"><label>操作:</label></th>
+					<th colspan="1" align="center"><label>排序:</label></th>
+				</tr>
+				<if condition="is_edit">
+					<volist name="post['hook_method']" id="vo">
+						<php>$small_i = $i-1;</php>
+						<tr class="group2">
+							<td colspan="3" align="center"><input type="text" name="hook_method[{$small_i}][comment]" value="{$vo.comment}" /></td>
+							<td colspan="3" align="center">
+								<input type="text" name="hook_method[{$small_i}][name]" class="hook_method no-ime" value="{$vo.name}"/>
+							</td>
+							<td colspan="1" align="center">
+								<textarea name="hook_method[{$small_i}][content]" class="no-ime" style="display:none;"/>{$vo.content}</textarea>
+								<a onclick="pop(this)">编辑</a>
+							</td>
+							<td colspan="1" align="center">
+								<eq  name="i" value="1">
+									<a class="add" title="添加">添加</a>
+								<else />
+									<a class="del" title="删除">删除</a>
+								</eq>
+							</td>
+							<td colspan="1"></td>
+						</tr>
+					</volist>
+					<php>
+						if($post['hook_method'] == null){
+					</php>
+						<tr class="group2">
+							<td colspan="3" align="center"><input type="text" name="hook_method[0][comment]" value="" /></td>
+							<td colspan="3" align="center">
+								<input type="text" name="hook_method[0][name]" class="hook_method no-ime" value=""/>
+							</td>
+							<td colspan="1" align="center">
+								<textarea name="hook_method[0][content]" class="no-ime" style="display:none;"/></textarea>
+								<a onclick="pop(this)">编辑</a>
+							</td>
+							<td colspan="1" align="center"><a class="add" href="javascript:;">增加</a></td>
+						</tr>
+					<php>}</php>
+				<else />
+					<tr class="group2">
+						<td colspan="3" align="center"><input type="text" name="hook_method[0][comment]" value="" /></td>
+						<td colspan="3" align="center">
+							<input type="text" name="hook_method[0][name]" class="hook_method no-ime" value=""/>
+						</td>
+						<td colspan="1" align="center">
+							<textarea name="hook_method[0][content]" class="no-ime" style="display:none;"/></textarea>
+							<a onclick="pop(this);">编辑</a>
+						</td>
+						<td colspan="1" align="center"><a class="add" href="javascript:;">增加</a></td>
+					</tr>
+				</if>
+				<tr><td colspan="9"><hr/></td></tr>
+				<tr><th colspan="9" align="center">插件钩子(getHookInfo)</th></tr>
+				<tr>
+					<th colspan="2" align="center"><label>方法:</label></th>
+					<th colspan="3" align="center"><label>钩子:</label></th>
+					<th colspan="2" align="center"><label>操作:</label></th>
+					<th colspan="2">排序</th>
+				</tr>
+				<php>if($is_edit){</php>
+					<volist name="post['hooks']" id="vo">
+						<tr class="group">
+							<php>$small_i = $i-1;</php>
+							<td colspan="2" align="center">
+								<select name="hooks[{$small_i}][method]" class="method"/>
+									<option value="">请选择</option>
+									<volist name="post['hook_method']" id="mo">
+										<php> $selected1 = ($vo['method'] == $mo['name']) ? ' selected="selected"':'';</php>
+										<option value="{$mo.name}"{$selected1}>{$mo.name}</option>
+									</volist>
+								</select>
+							</td>
+							<td colspan="2" align="center">
+								<select name="hooks[{$small_i}][hook]" class="hook">
+									<volist name="Hooks" id="ho">
+										<optgroup label="{$key}"></optgroup>
+										<volist name ="ho" id="hook">
+											<php> $selected2 = ($vo['hook'] == $hook) ? ' selected="selected"':'';</php>
+											<option value="{$hook}"{$selected2}>{$hook}</option>
+										</volist>
+									</volist>
+								</select>
+							</td>
+							<td colspan="2" align="center">
+								<eq name="i" value="1">
+									<a class="add" title="添加">添加</a>
+								<else />
+									<a class="del" title="删除">删除</a>
+								</eq>
+							</td>
+						</tr>
+					</volist>
+					<php>if(!$post['hooks']){</php>
+						<tr class="group">
+							<td colspan="2" align="center">
+								<select name="hooks[0][method]" class="method"/>
+									<option value="">请选择</option>
+									<volist name="post['hook_method']" id="mo">
+										<option value="{$mo.name}">{$mo.name}</option>
+									</volist>
+								</select>
+							</td>
+							<td colspan="3" align="center">
+								<select name="hooks[0][hook]" class="hook">
+									<volist name="Hooks" id="vo">
+										<optgroup label="{$key}"></optgroup>
+										<volist name ="vo" id="hook">
+											<option value="{$hook}">{$hook}</option>
+										</volist>
+									</volist>
+								</select>
+							</td>
+							<td colspan="2" align="center"><a class="add" href="javascript:;">增加</a></td>
+						</tr>
+					<php>}</php>
+				<php>}else{</php>
+					<tr class="group">
+						<td colspan="2" align="center">
+							<select name="hooks[0][method]" class="method" /></select></td>
+						<td colspan="3" align="center">
+							<select name="hooks[0][hook]" class="hook">
+								<volist name="Hooks" id="vo">
+									<optgroup label="{$key}"></optgroup>
+									<volist name ="vo" id="hook">
+										<option value="{$hook}">{$hook}</option>
+									</volist>
+								</volist>
+							</select>
+						</td>
+						<td colspan="2" align="center"><a class="add" href="javascript:;">增加</a></td>
+					</tr>
+				<php>}</php>
+			</table>
+			<div class="btnbox">
+				<a class="button prev" title="上一步" onclick="prev(2)">上一步</a>
+				<a class="button next" title="下一步" onclick="next(2)">下一步</a>
+			</div>
+		</div>
+		<div class="main hidden" id="content3">
+			<table>
+				<tr>
+					<td colspan="8"><hr/></td></tr>
+				<tr><th colspan="8" align="center">内部接口:</th></tr>
+				<tr>
+					<th colspan="2" align="center"><label>初始化(start)-返回ture 或 fasle</label></th>
+					<th colspan="2" align="center"><label>安装(install)-初次启用插件时操作，通常操作数据库</label></th>
+					<th colspan="2" align="center"><label>卸载(uninstall)-通常是卸载清除数据:</label></th>
+					<th colspan="2" align="center">
+						<label>后台(adminMenu)-管理菜单<br/>(格式如 create:创建,save:保存 的字符串)</label>
+					</th>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<textarea name="start" class="no-ime" style="display:none;">{$post.start}</textarea>
+						<a onclick="pop2(this)">编辑</a>
+					</td>
+					<td colspan="2" align="center">
+						<textarea name="install" class="no-ime" style="display:none;">{$post.install}</textarea>
+						<a onclick="pop2(this)">编辑</a>
+					</td>
+					<td colspan="2" align="center">
+						<textarea name="uninstall" class="no-ime" style="display:none;">{$post.uninstall}</textarea>
+						<a onclick="pop2(this)">编辑</a>
+					</td>
+					<td colspan="2" align="center">
+						<textarea name="adminMenu">{$post.adminMenu}</textarea>
+					</td>
+				</tr>
+			</table>
+			<div class="btnbox">
+				<a class="button prev" title="上一步" onclick="prev(3)">上一步</a>
+				<a class="button next" title="下一步" onclick="next(3)">下一步</a>
+			</div>
+		</div>
+		<div class="main hidden" id="content4">
+			&nbsp;&nbsp;&nbsp;预览:<textarea id="preview"></textarea>
+			<div class="btnbox">
+				<a class="button prev" title="上一步" onclick="prev(4)">上一步</a>
+				<a class="button next" title="创建" onclick="next(4)">下一步</a>
+			</div>
+		</div>
+		</div>
+	</form>
 
+<script type="text/javascript" src="{$url_path}js/codemirror.js"></script>
+<script type="text/javascript" src="{$url_path}js/xml.js"></script>
+<script type="text/javascript" src="{$url_path}js/javascript.js"></script>
+<script type="text/javascript" src="{$url_path}js/clike.js"></script>
+<script type="text/javascript" src="{$url_path}js/php.js"></script>
+<script>
+	var editor = CodeMirror.fromTextArea(document.getElementById("preview"), {
+		lineNumbers: true,
+		matchBrackets: true,
+		mode: "text/x-php",
+		indentUnit: 4,
+		indentWithTabs: true,
+		readOnly : true,
+		enterMode: "keep",
+		tabMode: "shift",
+		theme: "{$theme}",
+	});
+</script>
+<script type="text/javascript">
+	var temp_textarea;
+	//是编辑的时候
+<php>if($is_edit){</php>
+	$(function(){
+		del_form_btns('a.del');
+		$('.tit_tab li a.on').text('编辑插件');
+	})
+	var form_hooks_count = {:($post['hooks'])?count($post['hooks']) : 1};
+	var form_hooks_methods_count = {:($post['hook_method'])?count($post['hook_method']) : 1};
+<php>}else{</php>
+	var form_hooks_count = 1;
+	var form_hooks_methods_count = 1;
+	$(function(){
+		generateOptions('table tr.group select.method','table tr.group2 .hook_method[value!=""]');
+	});
+<php>}</php>
+	var checkUrl = '{:U('checkForm')}';
+	var previewUrl = 'U('preview')}';
+	var windowUrl = '{:U("window")}';
+
+	$(function(){
+		add_form_btns('table tr.group a.add');
+		add_form_btns2('table tr.group2 a.add');
+		$('input,textarea').live('keyup',function(){
+			var data= preview();
+			generateOptions('table tr.group select.method','table tr.group2 .hook_method[value!=""]');
+			bindSelected(data);
+		});
+	});
+</script>
+<script type="text/javascript" src="__PUBLIC__/Admin/js/js.js"></script>
 </block>
