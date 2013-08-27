@@ -305,4 +305,12 @@ class AuthManagerController extends AdminController{
             $this->error('操作失败');
         }
     }
+
+    public function test()
+    {
+        $Doc = D('Document');
+        $a = $this->lists($Doc);
+        dump($a);
+    }
+    
 }
