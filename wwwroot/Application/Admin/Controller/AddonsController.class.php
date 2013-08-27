@@ -35,35 +35,11 @@ class AddonsController extends AdminController {
         $addon = addons($name);
         $param = $addon->admin_list;
         extract($param);
-        if(!isset($fields))
-            $fields = array();
-        if(!isset($map))
-            $map = array();
-        if(!isset($order))
-            $order = array();
-        if(isset($searchKey) && $searchKey){
-            foreach ($searchKey as $key => $value) {
-                $search = trim(I($key));
-                if($search){
-                    switch ($value['type']) {
-                        case 'like':
-                            $map[$key] = array('like', "{$value['format']}");
-                            break;
-                        case 'gt': case 'lt': case 'egt': case 'elt': case 'eq':
-                            $map[$key] = array($value['type'], $search);
-                        default:
-                            $map[$key] = $search;
-                            break;
-                    }
-                }
-            }
-        }
-
         $this->assign('title', $addon->info['title']);
         if($addon->custom_adminlist)
             $this->assign('custom_adminlist', $addon->addon_path.$addon->custom_adminlist);
         $this->assign($param);
-        $list = D("Addons://{$model}/{$model}")->field($fields)->where($map)->order($order)->select();
+        $list = $this->lists(D("Addons://{$model}/{$model}")->field($fields),$map,$order);
         $this->assign('list', $list);
         $this->display();
     }
