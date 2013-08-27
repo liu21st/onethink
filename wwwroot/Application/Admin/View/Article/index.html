@@ -1,4 +1,5 @@
 <extend name="Public/base"/>
+
 <!-- 子导航 -->
 <block name="sidebar">
     <div id="subnav" class="subnav">
@@ -16,86 +17,104 @@
         </volist>
     </div>
 </block>
-<!-- /子导航 -->
+
+
 <block name="body">
-	<!-- 标题栏 -->
-	<div class="main-title">
-		<h2>文档列表</h2>
-	</div>
+	<!-- 标签页导航 -->
+	<div class="tab-wrap">
+		<ul class="tab-nav nav">
+			<li><a data-tab="tab" href="#tag1">标签1</a></li>
+			<li><a data-tab="tab" href="#tag2">标签2</a></li>
+		</ul>
+		<div class="tab-content">
+			<!-- 标签一内容 -->
+			<div id="tag1" class="tab-pane in">
+				<!-- 标题栏 -->
+				<div class="main-title">
+					<h2>文档列表</h2>
+				</div>
 
-	<!-- 操作按钮区 -->
-	<div class="cf">
-		<div class="fl">
-			<button class="btn" id="document_add" url="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$model[0]))}">
-				<i class="icon-add"></i><em>新增</em>
-			</button>
-			<button class="btn" name="document_operate" status="-1">
-				<i class="icon-delete"></i><em>删除</em>
-			</button>
-			<button class="btn" name="document_operate" status="1">
-				<i class="icon-right"></i><em>启用</em>
-			</button>
-			<button class="btn" name="document_operate" status="0">
-				<i class="icon-denied"></i><em>禁用</em>
-			</button>
+				<!-- 操作按钮区 -->
+				<div class="cf">
+					<div class="fl">
+						<button class="btn" id="document_add" url="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$model[0]))}">
+							<i class="icon-add"></i><em>新增</em>
+						</button>
+						<button class="btn" name="document_operate" status="-1">
+							<i class="icon-delete"></i><em>删除</em>
+						</button>
+						<button class="btn" name="document_operate" status="1">
+							<i class="icon-right"></i><em>启用</em>
+						</button>
+						<button class="btn" name="document_operate" status="0">
+							<i class="icon-denied"></i><em>禁用</em>
+						</button>
+					</div>
+
+					<div class="tools fr">
+						<form method="get" class="search-form">
+							<input type="text" name="search" class="text" placeholder="请输入关键字" value="{$search}">
+							<select name="status">
+								<option value="">所有状态</option>
+								<option value="1" <eq name="status" value="1">selected="selected"</eq>>启用</option>
+								<option value="0" <heq name="status" value="0">selected="selected"</heq>>禁用</option>
+								<option value="2" <eq name="status" value="2">selected="selected"</eq>>待审核</option>
+							</select>
+							<input type="button" value="查询" class="btn" id="search" url="{:U('article/index','cate_id='.$cate_id,false)}">
+						</form>
+					</div>
+				</div>
+
+				<!-- 数据列表 -->
+				<div class="data-table">
+					<table>
+						<thead>
+							<tr>
+								<th class="row-selected"></th>
+								<th>标题</th>
+								<th>创建者</th>
+								<th>创建时间</th>
+								<th>状态</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<volist name="list" id="vo">
+							<tr>
+								<td><input type="checkbox" value="{$vo.id}" name="select"/></td>
+								<td><a href="{:U('edit',array('id'=>$vo['id']))}">{$vo.title}</a></td>
+								<td>{$vo.uid|get_username}</td>
+								<td>{$vo.create_time|time_format}</td>
+								<td>{$vo.status|get_status_title}</td>
+								<td>
+									<a href="{:U('edit',array('id'=>$vo['id']))}">编辑</a>
+									<a href="{:U('setStatus',array('ids'=>$vo['id'],'status'=>-1))}">删除</a>
+									<eq name="vo['status']" value="0">
+										<a href="{:U('setStatus',array('ids'=>$vo['id'],'status'=>1))}">启用</a>
+									</eq>
+									<eq name="vo['status']" value="1">
+										<a href="{:U('setStatus',array('ids'=>$vo['id'],'status'=>0))}">禁用</a>
+									</eq>
+									<eq name="vo['status']" value="2">
+										<a href="{:U('setStatus',array('ids'=>$vo['id'],'status'=>1))}">审核</a>
+									</eq>
+								</td>
+							</tr>
+							</volist>
+						</tbody>
+					</table>
+				</div>
+				
+				<!-- 分页 -->
+				<div class="page">{$page}</div>
+			</div>
+
+			<!-- 标签二内容 -->
+			<div id="tag2" class="tab-pane">内容二</div>
 		</div>
-
-		<div class="tools fr">
-			<form method="get" class="search-form">
-				<input type="text" name="search" class="text" placeholder="请输入关键字" value="{$search}">
-				<select name="status">
-					<option value="">所有状态</option>
-					<option value="1" <eq name="status" value="1">selected="selected"</eq>>启用</option>
-					<option value="0" <heq name="status" value="0">selected="selected"</heq>>禁用</option>
-					<option value="2" <eq name="status" value="2">selected="selected"</eq>>待审核</option>
-				</select>
-				<input type="button" value="查询" class="btn" id="search" url="{:U('article/index','cate_id='.$cate_id,false)}">
-			</form>
-		</div>
 	</div>
 
-	<!-- 数据列表 -->
-	<div class="data-table">
-		<table>
-			<thead>
-				<tr>
-					<th class="row-selected"></th>
-					<th>标题</th>
-					<th>创建者</th>
-					<th>创建时间</th>
-					<th>状态</th>
-					<th>操作</th>
-				</tr>
-			</thead>
-			<tbody>
-				<volist name="list" id="vo">
-				<tr>
-					<td><input type="checkbox" value="{$vo.id}" name="select"/></td>
-					<td><a href="{:U('edit',array('id'=>$vo['id']))}">{$vo.title}</a></td>
-					<td>{$vo.uid|get_username}</td>
-					<td>{$vo.create_time|time_format}</td>
-					<td>{$vo.status|get_status_title}</td>
-					<td>
-						<a href="{:U('edit',array('id'=>$vo['id']))}">编辑</a>
-						<a href="{:U('setStatus',array('ids'=>$vo['id'],'status'=>-1))}">删除</a>
-						<eq name="vo['status']" value="0">
-							<a href="{:U('setStatus',array('ids'=>$vo['id'],'status'=>1))}">启用</a>
-						</eq>
-						<eq name="vo['status']" value="1">
-							<a href="{:U('setStatus',array('ids'=>$vo['id'],'status'=>0))}">禁用</a>
-						</eq>
-						<eq name="vo['status']" value="2">
-							<a href="{:U('setStatus',array('ids'=>$vo['id'],'status'=>1))}">审核</a>
-						</eq>
-					</td>
-				</tr>
-				</volist>
-			</tbody>
-		</table>
-	</div>
-	<!-- 分页 -->
-	<div class="page">{$page}</div>
-	<!-- /分页 -->
+	
 	
 </block>
 <block name="script">

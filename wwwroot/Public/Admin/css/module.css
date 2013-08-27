@@ -5,6 +5,9 @@
 
 /* 标签导航
 ------------------------------------------ */
+.tab-wrap {
+	margin-top: 10px;
+}
 .tab-nav {
 	margin-bottom: 8px;
 	border-bottom: 1px solid #ccc;
@@ -189,21 +192,4 @@
 .slide-numlist .current a {
 	background-color: #fff;
 	background-color: rgba(255,255,255,.9);
-}
-
-/* 分页
------------------------------------------- */
-.page {
-	margin: 10px 0;
-}
-.page a {
-	display: inline-block;
-	padding: 0 3px;
-	border: 1px solid #ccc;
-	background-color: #f0f0f0;
-}
-.page a:hover,
-.page .current {
-	text-decoration: none;
-	background-color: #fff;
 }
