@@ -9,6 +9,11 @@
     <link rel="stylesheet" type="text/css" href="__CSS__/table.css" media="all">
     <link rel="stylesheet" type="text/css" href="__CSS__/button.css" media="all">
     <link rel="stylesheet" type="text/css" href="__CSS__/style.css" media="all">
+     <!--[if lt IE 9]>
+    <script type="text/javascript" src="__STATIC__/jquery-1.10.2.min.js"></script>
+    <![endif]--><!--[if gte IE 9]><!-->
+    <script type="text/javascript" src="__STATIC__/jquery-2.0.3.min.js"></script>
+    <!--<![endif]-->
     <block name="style"></block>
 </head>
 <body>
@@ -62,11 +67,6 @@
     </div>
     <!-- /内容区 -->
 
-    <!--[if lt IE 9]>
-    <script type="text/javascript" src="__STATIC__/jquery-1.10.2.min.js"></script>
-    <![endif]--><!--[if gte IE 9]><!-->
-    <script type="text/javascript" src="__STATIC__/jquery-2.0.3.min.js"></script>
-    <!--<![endif]-->
     <script type="text/javascript">
         +function(){
             var $window = $(window), $subnav = $("#subnav"), url;

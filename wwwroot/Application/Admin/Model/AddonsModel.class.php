@@ -31,6 +31,7 @@ class AddonsModel extends Model {
 			$result['config'] = $data;
 		}
 		$result['addon_path'] = $addons->addon_path;
+		$result['custom_config'] = $addons->custom_config;
 	}
 
 	protected function _after_select(&$result,$options){
@@ -65,6 +66,25 @@ class AddonsModel extends Model {
 		}
 		intToString($addons, array('status'=>array(-1=>'损坏', 0=>'禁用', 1=>'启用')));
 		return $addons;
+	}
+
+	public function getAdminList(){
+		$addon_dir = C('EXTEND_MODULE.Addons');
+		$addons_names = glob($addon_dir.'*', GLOB_ONLYDIR);
+		if($addons_names === FALSE || !file_exists($addon_dir)){
+			$this->error = '插件目录不可读或者不存在';
+			return FALSE;
+		}
+		$addons = $admin = array();
+		foreach ($addons_names as $value) {
+			$name = basename($value);
+			$addon = addons($name);
+			$info = $this->getAddonsInfo($name);
+			if($addon->admin_list !== array() && $info['id']){
+				$admin[] = array('title'=>$addon->info['title'],'url'=>"Addons/adminList?name={$name}");
+			}
+		}
+		return $admin;
 	}
 
 	/**
