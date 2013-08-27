@@ -4,6 +4,21 @@
 	<!-- 标题栏 -->
 	<div class="main-title">
 		<h2>文档模型列表</h2>
+
+		<div class="tools">
+			<button class="btn" id="document_add" url="{:U('model/add')}">
+				<i class="icon-add"></i><em>新增</em>
+			</button>
+			<button class="btn" name="document_operate" status="-1">
+				<i class="icon-delete"></i><em>删除</em>
+			</button>
+			<button class="btn" name="document_operate" status="1">
+				<i class="icon-right"></i><em>启用</em>
+			</button>
+			<button class="btn" name="document_operate" status="0">
+				<i class="icon-denied"></i><em>禁用</em>
+			</button>
+		</div>
 	</div>
 
 	<!-- 数据列表 -->
@@ -50,18 +65,7 @@
 	<!-- 分页 -->
 	<div class="page">{$page}</div>
 	<!-- /分页 -->
-	<button class="btn" id="document_add" url="{:U('model/add')}">
-		<i class="icon-add"></i><em>新增</em>
-	</button>
-	<button class="btn" name="document_operate" status="-1">
-		<i class="icon-delete"></i><em>删除</em>
-	</button>
-	<button class="btn" name="document_operate" status="1">
-		<i class="icon-right"></i><em>启用</em>
-	</button>
-	<button class="btn" name="document_operate" status="0">
-		<i class="icon-denied"></i><em>禁用</em>
-	</button>
+	
 </block>
 <block name="script">
 <script type="text/javascript">
