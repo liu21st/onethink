@@ -31,9 +31,17 @@ class AddonsController extends AdminController {
         $this->display();
     }
 
+    /**
+     * 插件后台显示页面
+     * @param string $name 插件名
+     */
     public function adminList($name){
         $addon = addons($name);
+        if(!$addon)
+            $this->error('插件不存在');
         $param = $addon->admin_list;
+        if(!$param)
+            $this->error('插件列表信息不正确');
         extract($param);
         $this->assign('title', $addon->info['title']);
         if($addon->custom_adminlist)
@@ -161,7 +169,7 @@ class AddonsController extends AdminController {
         $addons = trim(I('addons'));
         $id = I('id');
         D('Hooks')->where("id={$id}")->setField('addons', $addons);
-        S('hooks', null);
+        S('hooks', null);//:TODO S方法更新缓存 前后台不一致，有BUG
         $this->success('更新成功');
     }
 
