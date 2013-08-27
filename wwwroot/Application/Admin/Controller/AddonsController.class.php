@@ -31,39 +31,23 @@ class AddonsController extends AdminController {
         $this->display();
     }
 
+    /**
+     * 插件后台显示页面
+     * @param string $name 插件名
+     */
     public function adminList($name){
         $addon = addons($name);
+        if(!$addon)
+            $this->error('插件不存在');
         $param = $addon->admin_list;
+        if(!$param)
+            $this->error('插件列表信息不正确');
         extract($param);
-        if(!isset($fields))
-            $fields = array();
-        if(!isset($map))
-            $map = array();
-        if(!isset($order))
-            $order = array();
-        if(isset($searchKey) && $searchKey){
-            foreach ($searchKey as $key => $value) {
-                $search = trim(I($key));
-                if($search){
-                    switch ($value['type']) {
-                        case 'like':
-                            $map[$key] = array('like', "{$value['format']}");
-                            break;
-                        case 'gt': case 'lt': case 'egt': case 'elt': case 'eq':
-                            $map[$key] = array($value['type'], $search);
-                        default:
-                            $map[$key] = $search;
-                            break;
-                    }
-                }
-            }
-        }
-
         $this->assign('title', $addon->info['title']);
         if($addon->custom_adminlist)
             $this->assign('custom_adminlist', $addon->addon_path.$addon->custom_adminlist);
         $this->assign($param);
-        $list = D("Addons://{$model}/{$model}")->field($fields)->where($map)->order($order)->select();
+        $list = $this->lists(D("Addons://{$model}/{$model}")->field($fields),$map,$order);
         $this->assign('list', $list);
         $this->display();
     }
@@ -185,7 +169,7 @@ class AddonsController extends AdminController {
         $addons = trim(I('addons'));
         $id = I('id');
         D('Hooks')->where("id={$id}")->setField('addons', $addons);
-        S('hooks', null);
+        S('hooks', null);//:TODO S方法更新缓存 前后台不一致，有BUG
         $this->success('更新成功');
     }
 
