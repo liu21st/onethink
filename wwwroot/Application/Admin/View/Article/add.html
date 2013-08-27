@@ -17,7 +17,12 @@
     </div>
 </block>
 <!-- /子导航 -->
+
 <block name="body">
+	<div class="main-title">
+		<h2>新增文章</h2>
+	</div>
+
 	<!-- 表单 -->
 	<form id="form" action="{:U('update')}" method="post" class="form-horizontal">
 		<div class="form-item cf">
@@ -97,12 +102,15 @@
 		<!-- 引入扩展文档模型 -->
 		<include file="$template"/>
 
-		<div class="btn-toolbar">
-			<input type="hidden" name="pid" value="0">
-            <input type="hidden" name="type" value="2">
-            <input type="hidden" name="category_id" value="{$cate_id}">
-            <input type="hidden" name="model_id" value="{$model_id}">
-			<button class="btn" id="submit"><em>确定</em> </button>
+		<div class="form-item cf">
+			<label class="item-label"></label>
+			<div class="controls">
+				<input type="hidden" name="pid" value="0">
+	            <input type="hidden" name="type" value="2">
+	            <input type="hidden" name="category_id" value="{$cate_id}">
+	            <input type="hidden" name="model_id" value="{$model_id}">
+				<button class="btn" id="submit"><em>保存</em> </button>
+			</div>
 		</div>
 	</form>
 </block>

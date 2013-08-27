@@ -153,10 +153,6 @@ body{
     font-weight: 400;
     color: #445566;   
 }
-.main-title .tools {
-    float: right;
-    margin-top: 3px;
-}
 
 /* 消息栏 */
 .tips-bar {
@@ -229,22 +225,19 @@ body{
 }
 
 /* 分页 */
-.data-table .page {
+.page {
     margin: 10px 0;
 }
-.data-table .page .show-page {
+.page .show-page {
     float: left;
     color: #999;
 }
-.data-table .page .page-box {
+.page .page-box {
     float: right;
     font-size: 0;
     height: 35px;
 }
-.data-table img{
-    vertical-align: bottom;
-}
-.page-box div{
+.page-box div {
     border: 1px solid #d7d7d7;
 }
 .page-box a, .page-box span {
@@ -344,4 +337,7 @@ body{
 .hooktpl {
     padding: 10px;
     width: 500px;
+}
+.hooktpl .textarea {
+    max-width: 500px;
 }
