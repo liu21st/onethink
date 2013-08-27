@@ -7,9 +7,9 @@
 i[class^="icon"],
 .icon {
 	display: inline-block;
-	margin-right: 3px;
-	width: 14px;
-	height: 14px;
+	margin-right: 2px;
+	width: 16px;
+	height: 16px;
 	vertical-align: middle;
 	background-image: url(../images/icon_bg.png);
 	background-repeat: no-repeat;
