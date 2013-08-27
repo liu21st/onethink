@@ -55,18 +55,11 @@ class AdminController extends Action {
 
     protected function _initialize()
     { 
-        $this->uid = 1;
         $this->uid = is_login(); 
         if( !$this->uid ){
             $this->redirect('Admin/Index/login');
         }
-<<<<<<< HEAD
-        $this->root_user = 1;
         $this->root_user = is_administrator();
-=======
-        $this->root_user = true;
-        // $this->root_user = is_administrator();
->>>>>>> refs/heads/develop
         $ac = $this->accessControl();
         if ( $ac===false ) {
             $this->error('403:禁止访问');
