@@ -81,7 +81,7 @@ class AddonsModel extends Model {
 			$addon = addons($name);
 			$info = $this->getAddonsInfo($name);
 			if($addon->admin_list !== array() && $info['id']){
-				$admin[] = array('title'=>$addon->info['title'],'url'=>"Addons/adminList?name={$name}", 'group'=>'已装插件后台');
+				$admin[] = array('title'=>$addon->info['title'],'url'=>"Addons/adminList?name={$name}");
 			}
 		}
 		return $admin;

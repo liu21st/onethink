@@ -24,6 +24,7 @@
 		public $config_file = '';
 		public $custom_config = '';
 		public $admin_list = array();
+		public $custom_adminlist = '';
 		public $access_url = array();
 
 		public function __construct(){

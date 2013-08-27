@@ -1,33 +1,5 @@
 <extend name="Public/base" />
 
-<!-- 子导航 -->
-<block name="sidebar">
-    <div id="subnav" class="subnav">
-        <volist name="__base_menu__.child" id="sub_menu">
-            <!-- 子导航 -->
-            <notempty name="sub_menu">
-                <h3><i class="icon-s1"></i>{$key}</h3>
-                <ul>
-                    <volist name="sub_menu" id="menu">
-                        <li><a href="{$menu.url|U}">{$menu.title}</a></li>
-                    </volist>
-                </ul>
-            </notempty>
-            <!-- /子导航 -->
-        </volist>
-
-        <!-- 插件管理列表 -->
-        <h3><i class="icon-s1"></i>{$adminList.0.group}</h3>
-        <ul>
-            <volist name="adminList" id="menu">
-                <li><a href="{$menu.url|U}">{$menu.title}</a></li>
-            </volist>
-        </ul>
-        <!-- /插件管理列表 -->
-    </div>
-</block>
-<!-- /子导航 -->
-
 <block name="body">
 	<!-- 标题栏 -->
 	<div class="main-title">

@@ -28,8 +28,11 @@ class AttachmentAddons extends Addons{
 			'size'=>'大小',
 			'update_time_text'=>'更新时间',
 			'document_title'=>'文档标题'
-		)
+		),
+		'model'=>'Attachment',
 	);
+
+	public $custom_adminlist = 'adminlist.html';
 
 	public function install(){
 		return true;

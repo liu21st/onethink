@@ -14,14 +14,16 @@
 
 class AddonsController extends AdminController {
 
+    static protected $nodes = array(
+        array( 'title'=>'模型管理', 'url'=>'Addons/index', 'group'=>'扩展'),
+        array( 'title'=>'插件管理', 'url'=>'Addons/index', 'group'=>'扩展'),
+        array( 'title'=>'钩子管理', 'url'=>'Addons/hooks', 'group'=>'扩展'),
+    );
+
     public function _initialize(){
-        parent::$nodes = array(
-            array( 'title'=>'模型管理', 'url'=>'Addons/index', 'group'=>'扩展'),
-            array( 'title'=>'插件管理', 'url'=>'Addons/index', 'group'=>'扩展'),
-            array( 'title'=>'钩子管理', 'url'=>'Addons/hooks', 'group'=>'扩展'),
-        );
-        $admin = D('Addons')->getAdminList();
-        $this->assign('adminList', $admin);
+        $this->assign('_extra_menu',array(
+            '已装插件后台'=>D('Addons')->getAdminList(),
+        ));
         parent::_initialize();
     }
 
@@ -50,8 +52,10 @@ class AddonsController extends AdminController {
             }
         }
         $this->assign('title', $addon->info['title']);
+        if($addon->custom_adminlist)
+            $this->assign('custom_adminlist', $addon->addon_path.$addon->custom_adminlist);
         $this->assign($param);
-        $list = D($model)->field($fields)->where($map)->order($order)->select();
+        $list = D("Addons://{$model}/{$model}")->field($fields)->where($map)->order($order)->select();
         $this->assign('list', $list);
         $this->display();
     }
