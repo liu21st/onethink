@@ -1,0 +1,41 @@
+<extend name="Public/base" />
+<block name="body">
+    <block name="body_header"></block>
+    <notempty name="_thead">
+    <table class="data-table">
+        <thead>
+            <tr>
+            <foreach name="_thead" item="th" key="key">
+            <th>
+            <php>
+            if(!is_array($th)){
+                echo $th;
+            }else{
+                echo $key;
+            }
+            </php>
+            </th>   
+            </foreach>
+            </tr>
+        </thead>
+        <notempty name="_list">
+        <tbody>
+            <volist name="_list" id="row" >
+            <tr>
+                <volist name="row" id="td" key="i">
+                <td>{$td}</td>
+                </volist>
+            </tr>
+            </volist>
+        </tbody>
+        </notempty>
+    </table>
+    </notempty>
+
+
+    <block name="body_footer">
+        <notempty name="_list">
+            {$_page}
+        </notempty>
+    </block>
+</block>

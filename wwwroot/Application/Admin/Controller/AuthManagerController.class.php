@@ -308,9 +308,25 @@ class AuthManagerController extends AdminController{
 
     public function test()
     {
-        $Doc = D('Document');
-        $a = $this->lists($Doc);
-        dump($a);
+        $thead = array(
+            'title'=>'用户组', 'description'=>'描述', 'status'=>'状态', '操作'=>array(
+                '编辑'=>'Article/edit?ids=$id',
+                '禁用/启用'=>'Article/setstatus?ids=$id&status=0',
+                '启用/禁用'=>'Article/setstatus?ids=$id&status=1',
+                '删除'=>'Article/setstatus?ids=$id&status=-1',
+            ),
+        );
+
+        $list = $this->lists('AuthGroup',array('module'=>'admin'));
+        $this->assign('_thead',$thead);
+        $this->assign('_list',intToString($list));
+
+        foreach ($thead as $key => $value){
+        }
+
+
+        // dump($list);
+        $this->display();
     }
     
 }
