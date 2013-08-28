@@ -61,6 +61,16 @@ body{
     box-shadow: inset 0px -4px 10px rgba(0, 49, 115, 0.2);
 }
 
+/* 用户 */
+.header .user-bar {
+    float: right;
+    margin-right: 15px;
+    color: #efefef;
+}
+.header .user-bar a {
+    margin: 0 5px;
+    color: #fff;
+}
 
 /* 边栏导航样式
 ------------------------------------------ */
@@ -84,6 +94,7 @@ body{
     font-size: 14px;
     font-weight: 400;
     color: #666;
+    cursor: pointer;
     background: url(../images/overview_nav_bg.png) no-repeat 0 34px;
 }
 .subnav h3 .icon-s1,
@@ -344,4 +355,9 @@ body{
 }
 .hooktpl .textarea {
     max-width: 500px;
+}
+
+/* 文档模型编辑页 */
+.doc-modal-form .item-label {
+    width: 100px;
 }

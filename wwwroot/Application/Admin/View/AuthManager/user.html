@@ -2,10 +2,10 @@
 <block name="body">
 	<!-- 标题栏 -->
 	<div class="main-title">
-        <h2>{:I('group_name')} 列表</h2>
+        <h2>{:I('group_name')}列表</h2>
         <div id="add-to-group" class="tools ">
-            <form class="form-item" action="{:U('addToGroup')}" method="post" enctype="application/x-www-form-urlencoded" >
-                <label class="item-label"><input class="text input-small" type="text" name="uid" placeholder="请输入uid"></label>
+            <form action="{:U('addToGroup')}" method="post" enctype="application/x-www-form-urlencoded" >
+                <input class="text input-small" type="text" name="uid" placeholder="请输入uid">
                 <input type="hidden" name="group_id" value="{:I('group_id')}">
                 <input class="btn" type="submit" value="添加">
             </form>
@@ -34,7 +34,7 @@
 					<td>{$user.last_login_ip|long2ip}</td>
                     <td>{$user.status_text}</td>
                     <td>
-                        <a href="{:U('removeFromGroup',array('group_id'=>I('group_id'),'uid'=>$user['id']))}">解除授权</a>
+                        <a href="{:U('removeFromGroup',array('group_id'=>I('group_id'),'uid'=>$user['uid']))}">解除授权</a>
                     </td>
 				</tr>
 				</volist>

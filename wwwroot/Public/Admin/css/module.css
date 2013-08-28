@@ -9,24 +9,22 @@
 	margin-top: 10px;
 }
 .tab-nav {
-	margin-bottom: 8px;
-	border-bottom: 1px solid #ccc;
+	padding: 6px 15px 0;
+	margin-bottom: 15px;
+	background-color: #f0f0f0;
 }
 .tab-nav li {
-	margin: 0 2px -1px 0;
+	margin: 0 10px -1px 0;
 }
 .tab-nav li a {
-	padding: 0 15px;
-	height: 30px;
-	line-height: 30px;
-	border: 1px solid #ccc;
-	border-radius: 4px 4px 0 0;
-	background-color: #f5f5f5;
+	padding: 0 20px;
+	height: 35px;
+	line-height: 35px;
+	border-radius: 6px 6px 0 0;
 }
 .tab-nav li a:hover,
 .tab-nav .current a {
 	background-color: #fff;
-	border-bottom-color: transparent; 
 }
 .tab-content .tab-pane {
 	display: none;
