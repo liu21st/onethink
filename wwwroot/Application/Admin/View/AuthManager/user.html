@@ -34,7 +34,7 @@
 					<td>{$user.last_login_ip|long2ip}</td>
                     <td>{$user.status_text}</td>
                     <td>
-                        <a href="{:U('removeFromGroup',array('group_id'=>I('group_id'),'uid'=>$user['id']))}">解除授权</a>
+                        <a href="{:U('removeFromGroup',array('group_id'=>I('group_id'),'uid'=>$user['uid']))}">解除授权</a>
                     </td>
 				</tr>
 				</volist>

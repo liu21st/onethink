@@ -46,9 +46,6 @@ body{
 .main-nav a:hover {
     text-decoration: none;
     background-color:#348dde;
-    /*background: -webkit-gradient(linear, 0 0, 100% 100%, from(rgba(34,126,210,0.5)), to(rgba(53,144,227,0.5)));
-    background: -moz-linear-gradient(top,rgba(34,126,210,0.5),rgba(53,144,227,0.5));
-    background: -ms-linear-gradient(top,rgba(34,126,210,0.5),rgba(53,144,227,0.5));*/
 }
 .main-nav .current{
     background-color: #1667ca;
@@ -94,6 +91,7 @@ body{
     font-size: 14px;
     font-weight: 400;
     color: #666;
+    cursor: pointer;
     background: url(../images/overview_nav_bg.png) no-repeat 0 34px;
 }
 .subnav h3 .icon-s1,
@@ -165,7 +163,7 @@ body{
 }
 .main-title .tools {
     float: right;
-    margin-top: 3px;
+    margin-top: 5px;
 }
 
 /* 消息栏 */
