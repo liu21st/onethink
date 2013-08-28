@@ -24,7 +24,7 @@
 	<div class="main-title">
 		<h2>文档列表</h2>
 	</div>
-	
+
 	<!-- 标签页导航 -->
 	<div class="tab-wrap">
 		<ul class="tab-nav nav">
@@ -70,7 +70,7 @@
 					<table>
 						<thead>
 							<tr>
-								<th class="row-selected"><input type="checkbox" id="selectall" name="checkAll"/></th>
+								<th class="row-selected"><input type="checkbox" id="selectall"/></th>
 								<th>标题</th>
 								<th>创建者</th>
 								<th>创建时间</th>
@@ -78,10 +78,10 @@
 								<th>操作</th>
 							</tr>
 						</thead>
-						<tbody id="tbody">
+						<tbody>
 							<volist name="list" id="vo">
 							<tr>
-								<td><input class="checkEach" type="checkbox" value="{$vo.id}" name="select"/></td>
+								<td><input type="checkbox" value="{$vo.id}" class="child_checkbox"/></td>
 								<td><a href="{:U('edit',array('id'=>$vo['id']))}">{$vo.title}</a></td>
 								<td>{$vo.uid|get_username}</td>
 								<td>{$vo.create_time|time_format}</td>
