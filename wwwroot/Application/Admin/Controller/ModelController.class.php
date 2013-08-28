@@ -19,8 +19,28 @@ class ModelController extends AdminController {
 	 * @author huajie <banhuajie@163.com>
 	 */
     static protected $nodes = array(
-        array( 'title'=>'模型管理', 'url'=>'Model/index', 'group'=>'扩展'),
+        array( 'title'=>'模型管理', 'url'=>'Model/index', 'group'=>'扩展',
+        		'operator'=>array(
+        				//权限管理页面的五种按钮
+        				array('title'=>'新增','url'=>'model/add'),
+        				array('title'=>'编辑','url'=>'model/edit'),
+        				array('title'=>'改变状态','url'=>'model/setStatus'),
+        				array('title'=>'保存数据','url'=>'model/update'),
+        		),
+    	),
     );
+
+    /**
+     * 初始化方法，与AddonsController同步
+     * @see AdminController::_initialize()
+     * @author huajie <banhuajie@163.com>
+     */
+    public function _initialize(){
+    	$this->assign('_extra_menu',array(
+    			'已装插件后台'=>D('Addons')->getAdminList(),
+    	));
+    	parent::_initialize();
+    }
 
 	/**
 	 * 模型管理首页
