@@ -1,21 +1,23 @@
-<?php if(!empty($_thead)) { ?>
+<?php if(!empty($_thead)) { 
+    $operator=array(); ?>
 <table class="data-table">
     <thead>
         <tr>
         <foreach name="_thead" item="th" key="key">
         <th>
-            <if condition="!is_array($th)">
-            {$th}
-            <elseif condition="isset($th['title'])" />
-            {$th.title}
-            <?php
-            if (!isset($th['tag'])){
-                $_thead[$key]['tag'] = 'span';
+            <?php 
+            if (!is_array($th)){
+                echo $th;
+            }elseif(isset($th['title'])){
+                echo $th['title'];
+                if (!isset($th['tag'])){
+                    $_thead[$key]['tag'] = 'span';
+                }
+            }else{
+                echo $key;
+                $operator[$key]=$th;
             }
             ?>
-            <else />
-            {$key} 
-            </if>
         </th>   
         </foreach>
         </tr>
@@ -24,30 +26,73 @@
     <tbody>
         <?php foreach ($_list as $row) { ?>
         <tr>
-            <?php foreach ($row as $key=>$td) {    
-                  if(array_key_exists($key,$_thead)){ ?>
-            <td>
-                <?php 
-                if( is_array($_thead[$key]) ) { 
-                    $Doc = new DOMDocument('1.0','utf-8');
-                    $ele = $Doc->createElement($_thead[$key]['tag'],$td);
-                    foreach ($_thead[$key] as $k=>$v) {
-                        if(strtolower($k)!='title' && strtolower($k)!='tag' ){
+            <?php 
+            foreach ($row as $key=>$td) {    
+                if(array_key_exists($key,$_thead)){ 
+                    echo '<td>';
+                    if( is_array($_thead[$key]) ) { 
+                        $Doc = new DOMDocument('1.0','utf-8');
+                        $ele = $Doc->createElement($_thead[$key]['tag'],$td);
+                        foreach ($_thead[$key] as $k=>$v) {
+                            if(strtolower($k)!='title' && strtolower($k)!='tag' ){
+                                $v = preg_replace_callback('/\$(\w+)/',function($matches) use($row) {
+                                    return ($row[$matches[1]]);
+                                },$v);
+                                if( strtolower($k)=='url' || strtolower($k)=='href' ){
+                                    $v = U($v);
+                                }
+                                $ele->setAttribute($k,$v);
+                            }
+                        }
+                        $Doc->appendChild($ele);
+                        echo substr($Doc->saveHTML(),0,-1);
+                    }else{
+                       echo $td;
+                    }
+                    echo '</td>';
+                } 
+            }
+            foreach ($operator as $key=>$op){
+                echo '<td>';
+                    foreach ($op as $k=>$v){
+                        if(is_array($v)){
+
+                            $Doc = new DOMDocument('1.0','utf-8');
+                            $ele = $Doc->createElement($v['tag'],$k);
+
+                            foreach ($v as $attr=>$value){
+                                $value = preg_replace_callback('/\$(\w+)/',function($matches) use($row) {
+                                    return ($row[$matches[1]]);
+                                },$value);
+
+                                if( strtolower($attr)=='condition'){
+                                    $c = eval( 'return '.$value.';' );
+                                    if (!$c){
+                                        continue 2;
+                                    }
+                                }
+                                if( strtolower($attr)!='tag' && strtolower($attr)!='condition' ){
+                                    if( strtolower($attr)=='url' || strtolower($attr)=='href' ){
+                                        $value = U($value);
+                                    }
+                                    $ele->setAttribute($attr,$value);
+                                }
+                            }
+                            $Doc->appendChild($ele);
+                            echo substr($Doc->saveHTML(),0,-1);
+                        }else{
                             $v = preg_replace_callback('/\$(\w+)/',function($matches) use($row) {
                                 return ($row[$matches[1]]);
                             },$v);
-                            $ele->setAttribute($k,$v);
+                            $v = U($v);
+                            echo "<a href='$v'>";
+                            echo $k;
+                            echo '</a>';
                         }
                     }
-                    $Doc->appendChild($ele);
-                    echo $Doc->saveHTML();
-                }else{
-                   echo $td;
-                }
-               ?>
-            </td>
-            <?php }   
-                  } ?>
+                echo '</td>';
+            }
+            ?>
         </tr>
         <?php } ?>
     </tbody>

@@ -311,36 +311,34 @@ class AuthManagerController extends AdminController{
         $thead = array(
             'title'=>array(
                 'title'=>'用户组',
-                'tag'=>'a',//默认为span
-                'href'  =>'Article/edit?ids=$id',
+                'tag'  =>'a',//默认为span
+                'href' =>'Article/edit?ids=$id',
                 'class'=>'my_class',
             ), 
             // 'title'=>'标题',
             'description'=>'描述',
             'status_text'=>'状态',
             '操作'=>array(
-                '编辑'     =>'Article/edit?ids=$id',
-                '禁用/启用'=>'Article/setstatus?ids=$id&status=0',
-                '启用/禁用'=>'Article/setstatus?ids=$id&status=1',
-                '删除'     =>'Article/setstatus?ids=$id&status=-1',
+                '编辑'=>'Article/edit/ids=$id',
+                '禁用'=>array(
+                    'tag'  =>'a',//默认为span
+                    'href' =>'Article/edit?ids=$id',
+                    'class'=>'my_class',
+                    'condition'=>'$status==1'
+                ), 
+                '启用'=>array(
+                    'tag'  =>'a',//默认为span
+                    'href' =>'Article/edit?ids=$id',
+                    'class'=>'my_class',
+                    'condition'=>'$status==0'//支持 == != > < 比较运算
+                ), 
+                '删除'=>'Article/setstatus?ids=$id&status=-1',
             ),
         );
 
-        $keys = array_keys($thead);
         $list = $this->lists('AuthGroup',array('module'=>'admin'));
         $list = intToString($list);
-        array_walk($list,function(&$v,$k,$thead) use($keys) {
-            $arr = array();
-            foreach ($keys as $value){
-                if ( isset($v[$value]) ) {
-                    $arr[$value] = $v[$value];
-                }
-            }
-            $v = array_merge($arr,$v);
-        },$thead);
-        $this->assign('_thead',$thead);
-        $this->assign('_list',$list);
-
+        $this->tableList($list,$thead);
         $this->display();
     }
     
