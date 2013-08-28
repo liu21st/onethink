@@ -7,13 +7,18 @@
             <tr>
             <foreach name="_thead" item="th" key="key">
             <th>
-            <php>
-            if(!is_array($th)){
-                echo $th;
-            }else{
-                echo $key;
-            }
-            </php>
+                <if condition="!is_array($th)">
+                {$th}
+                <elseif condition="isset($th['title'])" />
+                {$th.title}
+                <?php
+                if (!isset($th['tag'])){
+                    $_thead[$key]['tag'] = 'span';
+                }
+                ?>
+                <else />
+                {$key} 
+                </if>
             </th>   
             </foreach>
             </tr>
@@ -22,17 +27,39 @@
         <tbody>
             <volist name="_list" id="row" >
             <tr>
-                <volist name="row" id="td" key="i">
-                <td>{$td}</td>
-                </volist>
+                <foreach name="row" item="td" key="key">
+                <if condition="array_key_exists($key,$_thead)">
+                <td>
+                    <if condition="is_array($_thead[$key])">
+                    <?php
+                        $Doc = new DOMDocument('1.0','utf-8');
+                        $ele = $Doc->createElement($_thead[$key]['tag'],$td);
+                        foreach ($_thead[$key] as $k=>$v) {
+                            if(strtolower($k)!='title' && strtolower($k)!='tag' ){
+                                $v = preg_replace_callback('/\$\w+/',function($matches){
+                                    //return $m = eval($matches[0]);
+                                    dump($matches);
+                                    return 'aaa';
+                                },$v);
+                                //dump($v);
+                                $ele->setAttribute($k,$v);
+                            }
+                        }
+                        $Doc->appendChild($ele);
+                        echo $Doc->saveHTML();
+                    ?>
+                    <else />
+                    {$td}
+                    </if>
+                </td>
+                </if>
+                </foreach>
             </tr>
             </volist>
         </tbody>
         </notempty>
     </table>
     </notempty>
-
-
     <block name="body_footer">
         <notempty name="_list">
             {$_page}

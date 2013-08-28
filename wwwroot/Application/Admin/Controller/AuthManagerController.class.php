@@ -311,9 +311,11 @@ class AuthManagerController extends AdminController{
         $thead = array(
             'title'=>array(
                 'title'=>'用户组',
-                'url'  =>'Article/edit?ids=$id',
+                'tag'=>'a',//默认为span
+                'href'  =>'Article/edit?ids=$id',
                 'class'=>'my_class',
             ), 
+            // 'title'=>'标题',
             'description'=>'描述',
             'status_text'=>'状态',
             '操作'=>array(
@@ -328,14 +330,13 @@ class AuthManagerController extends AdminController{
         $list = $this->lists('AuthGroup',array('module'=>'admin'));
         $list = intToString($list);
         array_walk($list,function(&$v,$k,$thead) use($keys) {
-            $v = array_intersect_key($v,$thead);
             $arr = array();
             foreach ($keys as $value){
                 if ( isset($v[$value]) ) {
                     $arr[$value] = $v[$value];
                 }
             }
-            $v = $arr;
+            $v = array_merge($arr,$v);
         },$thead);
         $this->assign('_thead',$thead);
         $this->assign('_list',$list);

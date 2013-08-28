@@ -18,7 +18,7 @@ class AdminController extends Action {
     static protected $deny  = array('getMenus');
 
     /* 保存允许所有管理员访问的公共方法 */
-    static protected $allow = array();
+    static protected $allow = array('test');
 
     /**
      * 节点配置
