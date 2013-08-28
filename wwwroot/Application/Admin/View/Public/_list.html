@@ -1,13 +1,15 @@
 <?php if(!empty($_thead)) { 
     $operator=array(); ?>
-<table class="data-table">
+<table class="{$table_class|default="data-table"}">
     <thead>
         <tr>
         <foreach name="_thead" item="th" key="key">
         <th>
             <?php 
-            if (!is_array($th)){
+            if (!is_array($th) ){
                 echo $th;
+            }elseif( strpos($key,'_')===0 ){
+                echo $th['th'];
             }elseif(isset($th['title'])){
                 echo $th['title'];
                 if (!isset($th['tag'])){
@@ -28,9 +30,14 @@
         <tr>
             <?php 
             foreach ($row as $key=>$td) {    
-                if(array_key_exists($key,$_thead)){ 
+                if( array_key_exists($key,$_thead) ){ 
                     echo '<td>';
-                    if( is_array($_thead[$key]) ) { 
+                    if( strpos($key,'_')===0 ){
+                        $td = preg_replace_callback('/\$(\w+)/',function($matches) use($row) {
+                            return ($row[$matches[1]]);
+                        },$td);
+                        echo $td;
+                    }else if( is_array($_thead[$key]) ) { 
                         $Doc = new DOMDocument('1.0','utf-8');
                         $ele = $Doc->createElement($_thead[$key]['tag'],$td);
                         foreach ($_thead[$key] as $k=>$v) {

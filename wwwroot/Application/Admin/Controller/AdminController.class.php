@@ -482,15 +482,17 @@ class AdminController extends Action {
     protected function tableList($list,$thead)
     {
         $keys = array_keys($thead);
-        array_walk($list,function(&$v,$k,$thead) use($keys) {
+        array_walk($list,function(&$v,$k) use($keys,$thead) {
             $arr = array();
             foreach ($keys as $value){
                 if ( isset($v[$value]) ) {
                     $arr[$value] = $v[$value];
+                }elseif( strpos($value,'_')===0 ){
+                    $arr[$value] = $thead[$value]['td'];
                 }
             }
             $v = array_merge($arr,$v);
-        },$thead);
+        });
         $this->assign('_thead',$thead);
         $this->assign('_list',$list);
         

@@ -309,6 +309,10 @@ class AuthManagerController extends AdminController{
     public function test()
     {
         $thead = array(
+            '_html'=>array(
+                'th'=>'<input type="checkbox">',
+                'td'=>'<input type="checkbox" value="$id" name="id">',
+            ),
             'title'=>array(
                 'title'=>'用户组',
                 'tag'  =>'a',//默认为span
@@ -324,7 +328,7 @@ class AuthManagerController extends AdminController{
                     'tag'  =>'a',//默认为span
                     'href' =>'Article/edit?ids=$id',
                     'class'=>'my_class',
-                    'condition'=>'$status==1'
+                    'condition'=>'$status==1',//当条件运算为真时,才会显示该操作项
                 ), 
                 '启用'=>array(
                     'tag'  =>'a',//默认为span
