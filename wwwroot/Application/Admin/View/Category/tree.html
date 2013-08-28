@@ -1,20 +1,24 @@
 <volist name="tree" id="list">
 	<dl class="cate-item">
-		<dt class="clearfix">
+		<dt class="cf">
 			<form action="{:U('edit')}" method="post">
-				<div class="btn-toolbar pull-right opt-btn">
-					<div class="btn-group">
-						<a class="btn btn-mini add-sub" title="添加子分类" href="{:U('edit?pid='.$list['id'])}"><i class="icon-plus-sign"></i></a>
-						<a class="btn btn-mini" title="查看" href="{:U('edit?id='.$list['id'])}"><i class="icon-eye-open"></i></a>
-						<a class="btn btn-mini" title="删除" href="javascript:;"><i class="icon-remove"></i></a>
-					</div>
+				<div class="btn-toolbar opt-btn cf">
+					<a class="btn" title="添加子分类" href="{:U('edit?pid='.$list['id'])}">
+						<i class="icon-plus-sign"></i>
+					</a>
+					<a class="btn" title="查看" href="{:U('edit?id='.$list['id'])}">
+						<i class="icon-eye-open"></i>
+					</a>
+					<a class="btn" title="删除" href="javascript:;">
+						<i class="icon-delete"></i>
+					</a>
 				</div>
 				<div class="fold"><i></i></div>
-				<div class="order"><input type="text" name="sort" class="input-mini" value="{$list.sort}"></div>
+				<div class="order"><input type="text" name="sort" class="text input-mini" value="{$list.sort}"></div>
 				<div class="name">
 					<span class="tab-sign"></span>
 					<input type="hidden" name="id" value="{$list.id}">
-					<input type="text" name="title" class="input-medium" value="{$list.title}">
+					<input type="text" name="title" class="text" value="{$list.title}">
 					<span class="help-inline msg"></span>
 				</div>
 			</form>

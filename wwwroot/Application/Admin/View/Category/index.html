@@ -1,17 +1,19 @@
 <extend name="Public/base"/>
 
 <block name="body">
-	<h3 class="cnt-title">分类管理</h3>
+	<div class="main-title">
+		<h2>TopThink 管理中心</h2>
+	</div>
 		
 	<!-- 表格列表 -->
 	<div class="tb-unit posr">
 		<div class="tb-unit-bar">
-			<a class="btn btn-small" href="{:U('categoryEdit')}">
+			<a class="btn" href="{:U('categoryEdit')}">
 				<i class="icon-plus"></i>新增分类
 			</a>
 		</div>
 		<div class="category">
-			<div class="hd clearfix">
+			<div class="hd cf">
 				<div class="opt">操作</div>
 				<div class="fold">折叠</div>
 				<div class="order">排序</div>
