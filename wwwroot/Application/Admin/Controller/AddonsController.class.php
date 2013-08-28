@@ -20,6 +20,8 @@ class AddonsController extends AdminController {
             'operator'=>array(
                 //权限管理页面的五种按钮
                 array('title'=>'创建','url'=>'Addons/create'),
+                array('title'=>'检测创建','url'=>'Addons/checkForm'),
+                array('title'=>'弹窗','url'=>'Addons/window'),
                 array('title'=>'设置','url'=>'Addons/config'),
                 array('title'=>'禁用','url'=>'Addons/disable'),
                 array('title'=>'启用','url'=>'Addons/enable'),
@@ -44,6 +46,23 @@ class AddonsController extends AdminController {
         parent::_initialize();
     }
 
+    //创建向导首页
+    public function create(){
+        $hooks = include 'hooks_config.php';
+        $this->assign('Hooks',$hooks);
+        $this->assign('lisence_info','插件创建向导0.1');
+        $this->assign('theme','ambiance');//还可以是monokai代码预览的高亮主题
+        $this->assign('url_path',$this->url.'/html/');
+        $this->display('create');
+    }
+
+    public function checkForm(){
+        $this->success('好的');
+    }
+
+    /**
+     * 插件列表
+     */
     public function index(){
         $this->assign('list',D('Addons')->getList());
         $this->display();

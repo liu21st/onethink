@@ -35,7 +35,7 @@
 
 	<!-- 数据列表 -->
 	<div class="container">
-	<div class="header">
+	<div class="addon_header">
 		<div id="title1">
 			<h1></h1>
 			<span>{$lisence_info}</span>
@@ -82,40 +82,40 @@
 		$form_url = U('preBuild');
 	</php>
 	<form id="create" method="post" action="{$form_url}">
+
 		<div class="main form2" id="content1">
-			<input type="hidden" name="is_edit" value="{$is_edit}" />
 			<dl>
-				<dt><label for="pluginFile">文件名</label><em>*</em></dt>
-				<dd><input type="text" id="pluginFile" name="pluginFile" value="{$post.pluginFile}"{$readonly} class="no-ime"/></dd>
+				<dt><label for="info['name']">标识名</label><em>*</em></dt>
+				<dd><input type="text" id="pluginFile" class="no-ime" name="info['name']" value="Example"/></dd>
 			</dl>
 			<dl>
-				<dt><label for="version">版本</label><em>*</em></dt>
-				<dd><input type="text" id="version" name="version" value="{$post.version}" class="no-ime"/></dd>
+				<dt><label for="info['title']">插件名</label><em>*</em></dt>
+				<dd><input type="text" id="info" name="info['title']" value="示列"/></dd>
 			</dl>
 			<dl>
-				<dt><label for="author">作者</label><em>*</em></dt>
-				<dd><input type="text" id="author" name="author" value="{$post.author}"/></dd>
+				<dt><label for="info['version']">版本</label><em>*</em></dt>
+				<dd><input type="text" id="version" class="no-ime" name="info['version']" value="1.0" /></dd>
 			</dl>
 			<dl>
-				<dt><label for="site">个人站点</label><em>*</em></dt>
-				<dd><input type="text" id="site" name="site" value="{$post.site}" class="no-ime"/></dd>
+				<dt><label for="info['author']">作者</label><em>*</em></dt>
+				<dd><input type="text" id="author" name="info['author']" value="无名"/></dd>
 			</dl>
 			<dl>
-				<dt><label for="pluginName">插件名</label><em>*</em></dt>
-				<dd><input type="text" id="info" name="pluginName" value="{$post.pluginName}"/></dd>
+				<dt><label for="info['description']">插件信息</label><em>*</em></dt>
+				<dd><textarea id="info" name="info['description']">这是一个简单插件的示列</textarea></dd>
 			</dl>
 			<dl>
-				<dt><label for="info">插件信息</label><em>*</em></dt>
-				<dd><input type="text" id="info" name="info" value="{$post.info}"/></dd>
-			</dl>
-			<dl>
-				<dt><label for="tsVersion">TS版本</label><em>*</em></dt>
-				<dd><input type="text" id="tsVersion" name="tsVersion" value="{$tsVersion}" readonly="readonly"/></dd>
+				<dt><label for="info['status']">初始时是否启用</label><em>*</em></dt>
+				<dd>
+				<input type="radio" name="info['status']" value="1" checked />启用
+				<input type="radio" name="info['status']" value="0" />禁用
+				</dd>
 			</dl>
 			<div class="btnbox">
 				<a class="button next" title="下一步" onclick="checkForm();">下一步</a>
 			</div>
 		</div>
+
 		<div class="main hidden" id="content2">
 			<table align="center">
 				<tr><td colspan="9"><hr/></td></tr>
@@ -127,56 +127,17 @@
 					<th colspan="1" align="center"><label>操作:</label></th>
 					<th colspan="1" align="center"><label>排序:</label></th>
 				</tr>
-				<if condition="is_edit">
-					<volist name="post['hook_method']" id="vo">
-						<php>$small_i = $i-1;</php>
-						<tr class="group2">
-							<td colspan="3" align="center"><input type="text" name="hook_method[{$small_i}][comment]" value="{$vo.comment}" /></td>
-							<td colspan="3" align="center">
-								<input type="text" name="hook_method[{$small_i}][name]" class="hook_method no-ime" value="{$vo.name}"/>
-							</td>
-							<td colspan="1" align="center">
-								<textarea name="hook_method[{$small_i}][content]" class="no-ime" style="display:none;"/>{$vo.content}</textarea>
-								<a onclick="pop(this)">编辑</a>
-							</td>
-							<td colspan="1" align="center">
-								<eq  name="i" value="1">
-									<a class="add" title="添加">添加</a>
-								<else />
-									<a class="del" title="删除">删除</a>
-								</eq>
-							</td>
-							<td colspan="1"></td>
-						</tr>
-					</volist>
-					<php>
-						if($post['hook_method'] == null){
-					</php>
-						<tr class="group2">
-							<td colspan="3" align="center"><input type="text" name="hook_method[0][comment]" value="" /></td>
-							<td colspan="3" align="center">
-								<input type="text" name="hook_method[0][name]" class="hook_method no-ime" value=""/>
-							</td>
-							<td colspan="1" align="center">
-								<textarea name="hook_method[0][content]" class="no-ime" style="display:none;"/></textarea>
-								<a onclick="pop(this)">编辑</a>
-							</td>
-							<td colspan="1" align="center"><a class="add" href="javascript:;">增加</a></td>
-						</tr>
-					<php>}</php>
-				<else />
-					<tr class="group2">
-						<td colspan="3" align="center"><input type="text" name="hook_method[0][comment]" value="" /></td>
-						<td colspan="3" align="center">
-							<input type="text" name="hook_method[0][name]" class="hook_method no-ime" value=""/>
-						</td>
-						<td colspan="1" align="center">
-							<textarea name="hook_method[0][content]" class="no-ime" style="display:none;"/></textarea>
-							<a onclick="pop(this);">编辑</a>
-						</td>
-						<td colspan="1" align="center"><a class="add" href="javascript:;">增加</a></td>
-					</tr>
-				</if>
+				<tr class="group2">
+					<td colspan="3" align="center"><input type="text" name="hook_method[0][comment]" value="" /></td>
+					<td colspan="3" align="center">
+						<input type="text" name="hook_method[0][name]" class="hook_method no-ime" value=""/>
+					</td>
+					<td colspan="1" align="center">
+						<textarea name="hook_method[0][content]" class="no-ime" style="display:none;"></textarea>
+						<a onclick="pop(this);">编辑</a>
+					</td>
+					<td colspan="1" align="center"><a class="add" href="javascript:;">增加</a></td>
+				</tr>
 				<tr><td colspan="9"><hr/></td></tr>
 				<tr><th colspan="9" align="center">插件钩子(getHookInfo)</th></tr>
 				<tr>
@@ -185,85 +146,29 @@
 					<th colspan="2" align="center"><label>操作:</label></th>
 					<th colspan="2">排序</th>
 				</tr>
-				<php>if($is_edit){</php>
-					<volist name="post['hooks']" id="vo">
-						<tr class="group">
-							<php>$small_i = $i-1;</php>
-							<td colspan="2" align="center">
-								<select name="hooks[{$small_i}][method]" class="method"/>
-									<option value="">请选择</option>
-									<volist name="post['hook_method']" id="mo">
-										<php> $selected1 = ($vo['method'] == $mo['name']) ? ' selected="selected"':'';</php>
-										<option value="{$mo.name}"{$selected1}>{$mo.name}</option>
-									</volist>
-								</select>
-							</td>
-							<td colspan="2" align="center">
-								<select name="hooks[{$small_i}][hook]" class="hook">
-									<volist name="Hooks" id="ho">
-										<optgroup label="{$key}"></optgroup>
-										<volist name ="ho" id="hook">
-											<php> $selected2 = ($vo['hook'] == $hook) ? ' selected="selected"':'';</php>
-											<option value="{$hook}"{$selected2}>{$hook}</option>
-										</volist>
-									</volist>
-								</select>
-							</td>
-							<td colspan="2" align="center">
-								<eq name="i" value="1">
-									<a class="add" title="添加">添加</a>
-								<else />
-									<a class="del" title="删除">删除</a>
-								</eq>
-							</td>
-						</tr>
-					</volist>
-					<php>if(!$post['hooks']){</php>
-						<tr class="group">
-							<td colspan="2" align="center">
-								<select name="hooks[0][method]" class="method"/>
-									<option value="">请选择</option>
-									<volist name="post['hook_method']" id="mo">
-										<option value="{$mo.name}">{$mo.name}</option>
-									</volist>
-								</select>
-							</td>
-							<td colspan="3" align="center">
-								<select name="hooks[0][hook]" class="hook">
-									<volist name="Hooks" id="vo">
-										<optgroup label="{$key}"></optgroup>
-										<volist name ="vo" id="hook">
-											<option value="{$hook}">{$hook}</option>
-										</volist>
-									</volist>
-								</select>
-							</td>
-							<td colspan="2" align="center"><a class="add" href="javascript:;">增加</a></td>
-						</tr>
-					<php>}</php>
-				<php>}else{</php>
-					<tr class="group">
-						<td colspan="2" align="center">
-							<select name="hooks[0][method]" class="method" /></select></td>
-						<td colspan="3" align="center">
-							<select name="hooks[0][hook]" class="hook">
-								<volist name="Hooks" id="vo">
-									<optgroup label="{$key}"></optgroup>
-									<volist name ="vo" id="hook">
-										<option value="{$hook}">{$hook}</option>
-									</volist>
+				<tr class="group">
+					<td colspan="2" align="center">
+						<select name="hooks[0][method]" class="method"></select>
+					</td>
+					<td colspan="3" align="center">
+						<select name="hooks[0][hook]" class="hook">
+							<volist name="Hooks" id="vo">
+								<optgroup label="{$key}"></optgroup>
+								<volist name ="vo" id="hook">
+									<option value="{$hook}">{$hook}</option>
 								</volist>
-							</select>
-						</td>
-						<td colspan="2" align="center"><a class="add" href="javascript:;">增加</a></td>
-					</tr>
-				<php>}</php>
+							</volist>
+						</select>
+					</td>
+					<td colspan="2" align="center"><a class="add" href="javascript:;">增加</a></td>
+				</tr>
 			</table>
 			<div class="btnbox">
 				<a class="button prev" title="上一步" onclick="prev(2)">上一步</a>
 				<a class="button next" title="下一步" onclick="next(2)">下一步</a>
 			</div>
 		</div>
+
 		<div class="main hidden" id="content3">
 			<table>
 				<tr>
@@ -310,11 +215,11 @@
 		</div>
 	</form>
 
-<script type="text/javascript" src="{$url_path}js/codemirror.js"></script>
-<script type="text/javascript" src="{$url_path}js/xml.js"></script>
-<script type="text/javascript" src="{$url_path}js/javascript.js"></script>
-<script type="text/javascript" src="{$url_path}js/clike.js"></script>
-<script type="text/javascript" src="{$url_path}js/php.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/js/codemirror/codemirror.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/js/codemirror/xml.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/js/codemirror/javascript.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/js/codemirror/clike.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/js/codemirror/php.js"></script>
 <script>
 	var editor = CodeMirror.fromTextArea(document.getElementById("preview"), {
 		lineNumbers: true,
@@ -330,34 +235,23 @@
 </script>
 <script type="text/javascript">
 	var temp_textarea;
-	//是编辑的时候
-<php>if($is_edit){</php>
-	$(function(){
-		del_form_btns('a.del');
-		$('.tit_tab li a.on').text('编辑插件');
-	})
-	var form_hooks_count = {:($post['hooks'])?count($post['hooks']) : 1};
-	var form_hooks_methods_count = {:($post['hook_method'])?count($post['hook_method']) : 1};
-<php>}else{</php>
 	var form_hooks_count = 1;
 	var form_hooks_methods_count = 1;
-	$(function(){
-		generateOptions('table tr.group select.method','table tr.group2 .hook_method[value!=""]');
-	});
-<php>}</php>
-	var checkUrl = '{:U('checkForm')}';
-	var previewUrl = 'U('preview')}';
+	var checkUrl = '{:U("checkForm")}';
+	var previewUrl = '{:U("preview")}';
 	var windowUrl = '{:U("window")}';
 
 	$(function(){
+		generateOptions('table tr.group select.method','table tr.group2 .hook_method[value!=""]');
 		add_form_btns('table tr.group a.add');
 		add_form_btns2('table tr.group2 a.add');
-		$('input,textarea').live('keyup',function(){
+		$('input,textarea').on('keyup',function(){
 			var data= preview();
 			generateOptions('table tr.group select.method','table tr.group2 .hook_method[value!=""]');
 			bindSelected(data);
 		});
 	});
 </script>
+<script type="text/javascript" src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
 <script type="text/javascript" src="__PUBLIC__/Admin/js/js.js"></script>
 </block>

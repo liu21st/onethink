@@ -173,22 +173,22 @@ function pop(e){
 	temp_textarea = tr.find(':text[name$="[name]"]');
 	name = temp_textarea.val();
 	temp_textarea = tr.find('textarea[name$="[content]"]');
-	ui.box.load(windowUrl,'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function '+ name +' ($param)');
+	$.thinkbox.load(windowUrl,{title:'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function '+ name +' ($param)'});
 }
 
 function pop2(e){
 	td = $(e).parent();
 	temp_textarea = td.find('textarea');
 	name = temp_textarea.attr('name');
-	ui.box.load(windowUrl,'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function '+ name +' ($param)');
+	$.thinkbox.load(windowUrl,{title:'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function '+ name +' ($param)'});
 }
 
-function save(e){
+function save(e,item){
 	temp_textarea.val(e.getValue());
-	cancel();
+	cancel(item);
 	preview();
 }
 
-function cancel(){
-	ui.box.close();
+function cancel(e){
+	$.thinkbox.get(e).hide();
 }

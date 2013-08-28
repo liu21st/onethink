@@ -19,9 +19,9 @@ span.error{color: #F00; margin-left: 10px;}
 .btnbox a.next{background:url(../images/metro_forward.gif); float: right;}
 /* box */
 .container{ overflow:hidden; margin:0 auto; width:750px; height:auto !important;text-align:left; border:1px solid #B5CFD9;padding-bottom: 20px; }
-.header{ *overflow:hidden; height:194px; background:url(../images/bg_repx.gif) repeat-x; border-bottom: 0;}
-	.header h1{ text-indent:-9999px; width:270px; height:48px; background:url(../images/bg_title.gif) no-repeat }
-	.header span { float: right; padding-right: 10px; }
+.addon_header{ *overflow:hidden; height:194px; background:url(../images/bg_repx.gif) repeat-x; border-bottom: 0;}
+	.addon_header h1{ text-indent:-9999px; width:270px; height:48px; background:url(../images/bg_title.gif) no-repeat }
+	.addon_header span { float: right; padding-right: 10px; }
 .main{ padding:20px 20px 0; background:#F7FBFE url(../images/bg_repx.gif) repeat-x 0 -194px; }
 	.main h3{ margin:10px auto; width:75%; color:#6CA1B4; font-weight:700; }
 .desc{ margin:0 auto; width:537px; line-height:180%; clear:both; }
