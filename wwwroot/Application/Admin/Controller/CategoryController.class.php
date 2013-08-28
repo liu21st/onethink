@@ -43,7 +43,7 @@ class CategoryController extends AdminController {
     public function tree($tree = null){
         C('_SYS_GET_CATEGORY_TREE_') || $this->_empty();
         $this->assign('tree', $tree);
-        $this->display('categorytree');
+        $this->display('tree');
     }
 
     /* 编辑分类 */
