@@ -47,7 +47,7 @@ class AdminController extends Action {
         array( 'title'=>'内容','url'=>'Article/index','controllers'=>'Article',),
         array( 'title'=>'用户','url'=>'User/index','controllers'=>'User,AuthManager'),
         array( 'title'=>'扩展','url'=>'Addons/index','controllers'=>'Addons,Model',),
-        array( 'title'=>'系统','url'=>'System/index','controllers'=>'System',),
+        array( 'title'=>'系统','url'=>'System/index','controllers'=>'System,Category',),
     );
 
     private $uid = null;//保存登陆用户的uid
@@ -429,6 +429,7 @@ class AdminController extends Action {
      *               ->join('right_table as r ON l.id=r.uid')
      *               ->where(array('l.status'=>1));
      *      $list = $this->lists($Model);
+     *      $this->assign('data',$list);
      *      $this->dispaly();
      *  </pre>
      *
@@ -436,11 +437,14 @@ class AdminController extends Action {
      * @param array        $where   where查询条件
      * @param array|string $order   排序条件
      * @author 朱亚杰 <zhuyajie@topthink.net>
+     * 
+     * @return array|false
+     * 返回数据集
      */
     protected function lists ($model,$where=array(),$order='')
     {
         $options = array();
-        $REQUEST = I();
+        $REQUEST = (array)I('get');
         if(is_string($model)){
             $model = D($model);
         }
@@ -458,7 +462,7 @@ class AdminController extends Action {
         }
         unset($REQUEST['_order'],$REQUEST['_field']);
 
-        $options['where'] = array_merge( array('status'=>array('egt',0)), $REQUEST,  $where );
+        $options['where'] = array_filter(array_merge( array('status'=>array('egt',0)), $REQUEST,  $where ));
         $options          = array_merge( $options , (array)$OPT->getValue($model) );
 
 		$total = $model->where($options['where'])->count();
