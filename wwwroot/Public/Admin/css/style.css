@@ -168,9 +168,6 @@ body{
     float: right;
     margin-top: 3px;
 }
-.tab-pane .main-title {
-    padding: 0 0 10px;
-}
 
 /* 消息栏 */
 .tips-bar {
