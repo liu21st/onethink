@@ -94,6 +94,7 @@ body{
     font-size: 14px;
     font-weight: 400;
     color: #666;
+    cursor: pointer;
     background: url(../images/overview_nav_bg.png) no-repeat 0 34px;
 }
 .subnav h3 .icon-s1,
@@ -166,6 +167,9 @@ body{
 .main-title .tools {
     float: right;
     margin-top: 3px;
+}
+.tab-pane .main-title {
+    padding: 0 0 10px;
 }
 
 /* 消息栏 */
