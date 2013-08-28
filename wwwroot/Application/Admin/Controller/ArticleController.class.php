@@ -14,6 +14,19 @@
 
 class ArticleController extends AdminController {
 
+	/* 左侧节点菜单定义 */
+	static protected $nodes = array(
+			array(
+					'title'=>'文档列表', 'url'=>'article/index', 'group'=>'内容','hide'=>true,
+					'operator'=>array(
+							//权限管理页面的五种按钮
+							array('title'=>'新增','url'=>'article/add'),
+							array('title'=>'编辑','url'=>'article/edit'),
+							array('title'=>'改变状态','url'=>'article/setStatus'),
+					),
+			),
+	);
+
     /**
      * 控制器初始化方法
      * @see AdminController::_init()
@@ -51,7 +64,7 @@ class ArticleController extends AdminController {
 		if(isset($status)){
 			$map['status'] = $status;
 		}
-		if(!empty($search)){
+		if(isset($search)){
 			$map['title'] = array('like', '%'.$search.'%');
 		}
 		/*初始化分页类*/
