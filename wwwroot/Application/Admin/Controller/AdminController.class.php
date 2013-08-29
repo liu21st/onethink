@@ -495,7 +495,7 @@ class AdminController extends Action {
         });
         $this->assign('_thead',$thead);
         $this->assign('_list',$list);
-        
+        return $this->fetch('Public:_list');
     }
     
 }

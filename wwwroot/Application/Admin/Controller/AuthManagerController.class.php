@@ -122,18 +122,37 @@ class AuthManagerController extends AdminController{
     public function index()
     {
         $this->updateRules();
-        $AuthGroup = D('AuthGroup');
-        $groups    = $AuthGroup->where(array('status'=>array('egt',0),'module'=>'admin'))->select();
-        $groups    = intToString($groups);
-        $this->assign('list',$groups);
-        $this->assign('_extra_menu',array(
-            '测试组'=>array(
-                array('title'=>'测试链接','url'=>'AuthManager/index2'),
+
+        $thead = array(
+            '_html'=>array(
+                'th'=>'<input class="check-all" type="checkbox"/>',
+                'td'=>'<input class="ids" type="checkbox" name="id[]" value="$id" />',
             ),
-            '用户管理'=>array(
-                array('title'=>'测试链接','url'=>'AuthManager/index3'),
-            )
-        ));
+            'title'=>'用户组',
+            'description'=>'描述',
+            'status_text'=>'状态',
+            '操作'=>array(
+                '编辑'=>'AuthManager/editgroup?id=$id',
+                '禁用'=>array(
+                    'href' =>'AuthManager/changeStatus?method=forbidGroup&id=$id',
+                    'condition'=>'$status==1',//当条件运算为真时,才会显示该操作项
+                ), 
+                '启用'=>array(
+                    'href' =>'AuthManager/changeStatus?method=resumeGroup&id=$id',
+                    'condition'=>'$status==0'//支持 == != > < 比较运算
+                ), 
+                '删除'=>'AuthManager/changeStatus?method=deleteGroup&id=$id',
+            ),
+            '授权'=>array(
+                '成员'=>'AuthManager/user?group_name=$title&group_id=$id',
+                '栏目'=>'AuthManager/category?group_name=$title&group_id=$id',
+            ),
+        );
+
+        $list = $this->lists('AuthGroup',array('module'=>'admin'));
+        $list = intToString($list);
+        $this->assign('_table_class', 'data-table table-striped');
+        $this->assign( '_table_list', $this->tableList($list,$thead) );
         $this->display();
     }
 
@@ -308,42 +327,7 @@ class AuthManagerController extends AdminController{
 
     public function test()
     {
-        $thead = array(
-            '_html'=>array(
-                'th'=>'<input type="checkbox">',
-                'td'=>'<input type="checkbox" value="$id" name="id">',
-            ),
-            'title'=>array(
-                'title'=>'用户组',
-                'tag'  =>'a',//默认为span
-                'href' =>'Article/edit?ids=$id',
-                'class'=>'my_class',
-            ), 
-            // 'title'=>'标题',
-            'description'=>'描述',
-            'status_text'=>'状态',
-            '操作'=>array(
-                '编辑'=>'Article/edit/ids=$id',
-                '禁用'=>array(
-                    'tag'  =>'a',//默认为span
-                    'href' =>'Article/edit?ids=$id',
-                    'class'=>'my_class',
-                    'condition'=>'$status==1',//当条件运算为真时,才会显示该操作项
-                ), 
-                '启用'=>array(
-                    'tag'  =>'a',//默认为span
-                    'href' =>'Article/edit?ids=$id',
-                    'class'=>'my_class',
-                    'condition'=>'$status==0'//支持 == != > < 比较运算
-                ), 
-                '删除'=>'Article/setstatus?ids=$id&status=-1',
-            ),
-        );
-
-        $list = $this->lists('AuthGroup',array('module'=>'admin'));
-        $list = intToString($list);
-        $this->tableList($list,$thead);
-        $this->display();
+        
     }
     
 }

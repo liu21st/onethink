@@ -1,6 +1,6 @@
 <?php if(!empty($_thead)) { 
     $operator=array(); ?>
-<table class="{$table_class|default="data-table"}">
+<table class="{$_table_class|default=""}">
     <thead>
         <tr>
         <foreach name="_thead" item="th" key="key">
@@ -13,7 +13,7 @@
             }elseif(isset($th['title'])){
                 echo $th['title'];
                 if (!isset($th['tag'])){
-                    $_thead[$key]['tag'] = 'span';
+                    $_thead[$key]['tag'] = 'a';
                 }
             }else{
                 echo $key;
