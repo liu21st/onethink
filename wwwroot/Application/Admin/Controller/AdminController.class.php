@@ -48,6 +48,7 @@ class AdminController extends Action {
         array( 'title'=>'用户','url'=>'User/index','controllers'=>'User,AuthManager'),
         array( 'title'=>'扩展','url'=>'Addons/index','controllers'=>'Addons,Model',),
         array( 'title'=>'系统','url'=>'System/index','controllers'=>'System,Category',),
+        array( 'title'=>'其他','url'=>'other','controllers'=>'File','hide'=>true),//专门放置不需要显示在任何菜单中的节点
     );
 
     private $uid = null;//保存登陆用户的uid
@@ -307,10 +308,15 @@ class AdminController extends Action {
                 $item['url'] = MODULE_NAME.'/'.$item['url'];
             }
             //非超级管理员需要判断节点权限
-            if ( /* !$this->root_user */   !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null)) {  //检测节点权限
+            if ( /* !$this->root_user && */   !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null) ) {  //检测节点权限
                 unset($menus['main'][$key]);
                 continue;//继续循环
             }
+
+            if ( !empty($item['hide']) ){
+                unset($menus['main'][$key]);
+            }
+
             $other_controller = explode(',',$item['controllers']);
             if ( in_array( CONTROLLER_NAME, $other_controller ) ) {
                 $menus['main'][$key]['class']='current';
@@ -325,7 +331,7 @@ class AdminController extends Action {
                         //$value  分组数组
                         foreach ($value as $k=>$v){
                             //$v  节点配置
-                            if ( !empty($v['hide']) || ( /* !$this->root_user */  !$this->checkRule($v['url'],AuthRuleModel::RULE_URL,null) ) ) {   //检测节点权限
+                            if ( !empty($v['hide']) || ( /* !$this->root_user && */  !$this->checkRule($v['url'],AuthRuleModel::RULE_URL,null) ) ) {   //检测节点权限
                                 unset($value[$k]);
                             }
                         }
@@ -381,6 +387,9 @@ class AdminController extends Action {
             }
             $nodes[$key]['url'] = $value['url'];
             $nodes[$key]['child'] = array();
+            if($nodes[$key]['hide'] && !$tree){
+                unset($nodes[$key]);//删除隐藏的主节点
+            }
             $controllers = explode(',',$value['controllers']);
             foreach ($controllers as $c){
                 $class = $c.'Controller';
