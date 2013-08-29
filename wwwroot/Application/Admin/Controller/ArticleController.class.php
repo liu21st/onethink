@@ -23,6 +23,7 @@ class ArticleController extends AdminController {
 							array('title'=>'新增','url'=>'article/add'),
 							array('title'=>'编辑','url'=>'article/edit'),
 							array('title'=>'改变状态','url'=>'article/setStatus'),
+							array('title'=>'保存数据','url'=>'article/update'),
 					),
 			),
 	);
@@ -39,6 +40,7 @@ class ArticleController extends AdminController {
     	$cate = M('Category')->where(array('display'=>1,'status'=>1))->field('id,title,pid')->order('sort')->select();
 		$cate = list_to_tree($cate);
 		foreach ($cate as $key=>&$value){
+			$value['url'] = 'Article/index?cate_id='.$value['id'];
 			foreach ($value['_child'] as $k=>&$v){
 				$v['url'] = 'Article/index?cate_id='.$v['id'];
 			}
