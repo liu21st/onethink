@@ -31,7 +31,8 @@
 					<td>{$user.last_login_time|date='Y-m-d H:i:s',###}</td>
 					<td>{$user.last_login_ip|long2ip}</td>
                     <td>
-                        <a href="{:U('AuthManager/group',array('uid'=>$user['uid']))}">授权</a>
+                        <a class="authorize" href="javascript:;">授权</a>
+                        <!-- <a href="{:U('AuthManager/group',array('uid'=>$user['uid']))}">授权</a> -->
                     </td>
 				</tr>
 				</volist>
@@ -41,7 +42,20 @@
 </block>
 
 <block name="script">
+	<script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+
 	<script type="text/javascript">
-		
+		$(function(){
+			$(".authorize").click(function(){
+				var thinkboxOption = {
+					title:'用户授权',
+					actions:['close'],
+					drag:true,
+					tools:true
+				}
+				var authorUrl = "{:U('AuthManager/group',array('uid'=>$user['uid']))}";
+				$.thinkbox.load(authorUrl,thinkboxOption);
+			});
+		})
 	</script>
 </block>
