@@ -133,7 +133,7 @@ class Dispatcher {
                 $var[$varAction]  =   array_shift($paths);
                 // 解析剩余的URL参数
                 for ($i=0, $count = count($paths); $i < $count; $i += 2) { 
-                    if(preg_match(/^\w+$/, $paths[$i]) && isset($paths[$i + 1])){
+                    if(preg_match('/^\w+$/', $paths[$i]) && isset($paths[$i + 1])){
                         $var[strtolower($paths[$i])] = strip_tags($paths[$i + 1]);
                     }
                 }
