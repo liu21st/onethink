@@ -144,6 +144,11 @@ body{
     background: url(../images/subnav_current.png) no-repeat 150px 12px #FFF;
 }
 
+/* 内容模块边栏子菜单 */
+.subnav-off {
+    display: none;
+}
+
 
 /* 后台内页模块样式
 ------------------------------------------------- */

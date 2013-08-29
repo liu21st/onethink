@@ -7,7 +7,7 @@
             <!-- 子导航 -->
             <notempty name="sub_menu">
                 <h3><i class="icon-s1"></i><a href="{$sub_menu.url|U}">{$sub_menu.title}</a></h3>
-                <ul>
+                <ul class="subnav-off">
                     <volist name="sub_menu['_child']" id="menu">
                         <li><a href="{$menu.url|U}">{$menu.title}</a></li>
                     </volist>
