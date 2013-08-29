@@ -159,7 +159,7 @@ class AuthManagerController extends AdminController{
             ),
         );
 
-        $list = $this->lists('AuthGroup',array('module'=>'admin'));
+        $list = $this->lists('AuthGroup',array('module'=>'admin'),'id asc');
         $list = intToString($list);
         $this->assign('_table_class', 'data-table table-striped');
         $this->assign( '_table_list', $this->tableList($list,$thead) );
