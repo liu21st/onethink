@@ -121,7 +121,6 @@ class AuthManagerController extends AdminController{
      */
     public function index()
     {
-        $this->updateRules();
 
         $thead = array(
             //元素value中的变量就是数据集中的字段,value必须使用单引号
@@ -194,6 +193,7 @@ class AuthManagerController extends AdminController{
      */
     public function editGroup()
     {
+        $this->updateRules();
         $auth_group = D('AuthGroup')->where( array('module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
                                     ->find( (int)$_GET['id'] );
         $this->assign('auth_group',$auth_group);
