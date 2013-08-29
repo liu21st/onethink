@@ -104,7 +104,7 @@ class CategoryModel extends Model{
 	 * 查询后解析扩展信息
 	 * @param  array $data 分类数据
 	 */
-	protected function _after_find(&$data){
+	protected function _after_find(&$data, $options){
 		/* 分割模型 */
 		if(!empty($data['model'])){
 			$data['model'] = explode(',', $data['model']);

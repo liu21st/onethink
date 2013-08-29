@@ -1,0 +1,38 @@
+<link type="text/css" rel="stylesheet" href="__PUBLIC__/Admin/js/codemirror/codemirror.css">
+<link type="text/css" rel="stylesheet" href="__PUBLIC__/Admin/js/codemirror/theme/{$theme}.css">
+<style type="text/css">
+	.btn_w{margin-right:10px;}
+	#edit_method{margin:10px 10px 5px;width:792px}
+	#btns{margin:10px 10px 0 0;text-align:right;}
+</style>
+<script type="text/javascript" src="__PUBLIC__/admin/js/codemirror/codemirror.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/js/codemirror/xml.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/js/codemirror/javascript.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/js/codemirror/clike.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/js/codemirror/php.js"></script>
+<script type="text/javascript">
+	var editor2 = CodeMirror.fromTextArea(document.getElementById("edit_method"), {
+		lineNumbers: true,
+		matchBrackets: true,
+		mode: "text/x-php",
+		indentUnit: 4,
+		indentWithTabs: true,
+		enterMode: "keep",
+		showCursorWhenSelecting: true,
+		// workTime:4000,
+		// workDelay:500,
+		tabMode: "shift",
+		theme: "ambiance",
+	});
+	if(temp_textarea.val() != '')
+		editor2.setValue(temp_textarea.val());
+	if(!editor2.hasFocus())
+		editor2.focus();
+</script>
+
+<textarea id="edit_method"></textarea>
+<div id="btns" class="page_btm">
+	<input type="button" value="取消" onclick="cancel(this)" class="btn_w">
+	<input type="button" value="确定" onclick="save(editor2,this)" class="btn_b">
+	<div class="clear"></div>
+</div>

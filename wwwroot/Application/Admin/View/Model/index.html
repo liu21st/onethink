@@ -26,7 +26,7 @@
 		<table>
 			<thead>
 				<tr>
-					<th class="row-selected"></th>
+					<th class="row-selected"><input type="checkbox" id="selectall"/></th>
 					<th>编号</th>
 					<th>文档模型</th>
 					<th>标题</th>
@@ -38,7 +38,7 @@
 			<tbody>
 				<volist name="list" id="vo">
 				<tr>
-					<td><input type="checkbox" value="{$vo.id}" name="select"/></td>
+					<td><input type="checkbox" value="{$vo.id}" class="child_checkbox"/></td>
 					<td>{$vo.id}</td>
 					<td>{$vo.name}</td>
 					<td><a href="{:U('edit',array('id'=>$vo['id']))}">{$vo.title}</a></td>
@@ -65,7 +65,7 @@
 	<!-- 分页 -->
 	<div class="page">{$page}</div>
 	<!-- /分页 -->
-	
+
 </block>
 <block name="script">
 <script type="text/javascript">
