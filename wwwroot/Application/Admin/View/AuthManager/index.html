@@ -21,43 +21,7 @@
 
 	<!-- 数据列表 -->
 	<div class="data-table table-striped">
-		<table>
-			<thead>
-				<tr>
-					<th class="row-selected"><input class="check-all" type="checkbox"/></th>
-					<th>用户组</th>
-					<th>描述</th>
-					<th>状态</th>
-					<th>操作</th>
-					<th>授权</th>
-				</tr>
-			</thead>
-			<tbody>
-				<volist name="list" id="vo">
-				<tr>
-                    <td><input class="ids" type="checkbox" name="id[]" value="{$vo.id}" /></td>
-					<td>{$vo.title}</td>
-					<td>{$vo.description}</td>
-					<td>{$vo.status_text}</td>
-					<td>
-						<a href="{:U('editGroup',array('id'=>$vo['id']))}">编辑</a>
-                        <egt name="vo.status" value="0">
-							<eq name="vo.status" value="0">
-								<a href="{:U('changeStatus',array('id'=>$vo['id'],'method'=>'resumeGroup'))}">启用</a>
-							<else />
-								<a href="{:U('changeStatus',array('id'=>$vo['id'],'method'=>'forbidGroup'))}">禁用</a>
-							</eq>
-                        </egt> 
-                        <a class="confirm" href="{:U('changeStatus',array('id'=>$vo['id'],'method'=>'deleteGroup'))}">删除</a>
-					</td>
-                    <td>
-                        <a href="{:U('user',array('group_id'=>$vo['id'],'group_name'=>$vo['title']))}">成员</a>
-                        <a href="{:U('category',array('group_id'=>$vo['id'],'group_name'=>$vo['title']))}">栏目</a>
-                    </td>
-				</tr>
-				</volist>
-			</tbody>
-		</table>
+        {$_table_list}
 	</div>
 </block>
 
