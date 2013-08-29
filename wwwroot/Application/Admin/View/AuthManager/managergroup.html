@@ -78,6 +78,9 @@
             if( $.inArray( parseInt(this.value,10),rules )>-1 ){
                 $(this).prop('checked',true);
             }
+            if(this.value==''){
+                $(this).closest('span').remove();
+            }
         });
 
         //全选节点
