@@ -64,6 +64,9 @@
                     foreach ($op as $k=>$v){
                         if(is_array($v)){
 
+                            if( !isset($v['tag']) ){
+                                $v['tag']='a';
+                            }
                             $Doc = new DOMDocument('1.0','utf-8');
                             $ele = $Doc->createElement($v['tag'],$k);
 

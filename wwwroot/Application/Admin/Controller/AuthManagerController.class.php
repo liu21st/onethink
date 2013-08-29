@@ -124,25 +124,36 @@ class AuthManagerController extends AdminController{
         $this->updateRules();
 
         $thead = array(
+            //元素value中的变量就是数据集中的字段,value必须使用单引号
+            
+            //所有 _ 下划线开头的元素用于使用html代码生成th和td
             '_html'=>array(
                 'th'=>'<input class="check-all" type="checkbox"/>',
                 'td'=>'<input class="ids" type="checkbox" name="id[]" value="$id" />',
             ),
+            //查询出的数据集中的字段=>字段的表头
             'title'=>'用户组',
             'description'=>'描述',
             'status_text'=>'状态',
+            //操作配置
             '操作'=>array(
+                //操作按钮=>'按钮链接'
                 '编辑'=>'AuthManager/editgroup?id=$id',
+                //符合条件才显示的操作按钮
                 '禁用'=>array(
+                    // 'tag'=>'a',//按钮的包裹元素,默认为 a 标签
+                    // 标签上的attr,需要什么设置什么,此处设置了a标签的href属性
                     'href' =>'AuthManager/changeStatus?method=forbidGroup&id=$id',
-                    'condition'=>'$status==1',//当条件运算为真时,才会显示该操作项
+                    // 按钮显示的条件,支持 == != > < 比较运算
+                    'condition'=>'$status==1',
                 ), 
                 '启用'=>array(
                     'href' =>'AuthManager/changeStatus?method=resumeGroup&id=$id',
-                    'condition'=>'$status==0'//支持 == != > < 比较运算
+                    'condition'=>'$status==0',
                 ), 
                 '删除'=>'AuthManager/changeStatus?method=deleteGroup&id=$id',
             ),
+            //另一列操作配置
             '授权'=>array(
                 '成员'=>'AuthManager/user?group_name=$title&group_id=$id',
                 '栏目'=>'AuthManager/category?group_name=$title&group_id=$id',
