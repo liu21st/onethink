@@ -94,6 +94,9 @@ body{
     cursor: pointer;
     background: url(../images/overview_nav_bg.png) no-repeat 0 34px;
 }
+.subnav h3 a:hover {
+    text-decoration: none;
+}
 .subnav h3 .icon-s1,
 .subnav h3 .icon-s2 {
     display: inline-block;
@@ -108,21 +111,24 @@ body{
 .subnav ul {
     margin: 5px 0;
 }
-.subnav li {
+.subnav ul li {
     margin: 2px 0;
 }
-.subnav a {
+.subnav ul a {
     padding:6px 0;
     line-height:20px;
     width:140px;
     padding-left: 45px;
     display:inline-block;
 }
-.subnav a:link, .subnav a:visited {
+.subnav ul a:link, 
+.subnav ul a:visited {
     color: #2a72c5;
     text-decoration: none;
 }
-.subnav a:hover, .subnav a:active, .subnav .current a {
+.subnav ul a:hover, 
+.subnav ul a:active, 
+.subnav ul .current a {
     color: #666666;
     text-decoration: none;
     background:#ffffff;
@@ -134,7 +140,7 @@ body{
     *border-bottom:1px solid #dbdcdc;
     *height:19px;
 }
-.subnav .current a{
+.subnav ul .current a{
     background: url(../images/subnav_current.png) no-repeat 150px 12px #FFF;
 }
 
