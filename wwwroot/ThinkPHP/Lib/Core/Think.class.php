@@ -47,7 +47,7 @@ class Think {
      * @return string
      */
     static private function buildApp() {
-
+        
         // 读取运行模式
         if(defined('MODE_NAME')) { // 读取模式的设置
             $mode   = include MODE_PATH.strtolower(MODE_NAME).'.php';
@@ -103,14 +103,14 @@ class Think {
                 if(!APP_DEBUG)   $compile .= compile($file);
             }
         }
-
+        
         // 加载模式别名定义
         if(isset($mode['alias'])) {
             $alias = is_array($mode['alias'])?$mode['alias']:include $mode['alias'];
             alias_import($alias);
-            if(!APP_DEBUG) $compile .= 'alias_import('.var_export($alias,true).');';
+            if(!APP_DEBUG) $compile .= 'alias_import('.var_export($alias,true).');';               
         }
-
+     
         if(APP_DEBUG) {
             // 调试模式加载系统默认的配置文件
             C(include THINK_PATH.'Conf/debug.php');
@@ -141,7 +141,7 @@ class Think {
                 || (defined('MODE_NAME') && require_cache(MODE_PATH.ucwords(MODE_NAME).'/Behavior/'.$file))) {
                 return ;
             }
-        }
+        }        
         // 自动加载的类库层
         foreach(explode(',',C('APP_AUTOLOAD_LAYER')) as $layer){
             if(substr($class,-strlen($layer))==$layer){
@@ -151,7 +151,7 @@ class Think {
                     ),true)) {
                     return ;
                 }
-            }
+            }            
         }
         // 自动加载的驱动类库
         foreach(explode(',',C('APP_AUTOLOAD_DRIVER')) as $driver){
@@ -162,8 +162,8 @@ class Think {
                     CORE_PATH.'Driver/'.$driver.'/'.$file),true)){
                     return ;
                 }
-            }
-        }
+            }            
+        }        
 
         // 根据自动加载路径设置进行尝试搜索
         foreach (explode(',',C('APP_AUTOLOAD_PATH')) as $path){
@@ -254,7 +254,7 @@ class Think {
             break;
       }
     }
-
+    
     // 致命错误捕获
     static public function fatalError() {
         // 保存日志记录
@@ -265,7 +265,7 @@ class Think {
               case E_PARSE:
               case E_CORE_ERROR:
               case E_COMPILE_ERROR:
-              case E_USER_ERROR:
+              case E_USER_ERROR:  
                 ob_end_clean();
                 self::halt($e);
                 break;
@@ -287,12 +287,12 @@ class Think {
                 $e['message']   = $error;
                 $e['file']      = $trace[0]['file'];
                 $e['line']      = $trace[0]['line'];
+                ob_start();
+                debug_print_backtrace();
+                $e['trace']     = ob_get_clean();
             } else {
                 $e              = $error;
             }
-            ob_start();
-                debug_print_backtrace();
-                $e['trace']     = ob_get_clean();
             if(IS_CLI){
                 exit($e['message'].PHP_EOL.'FILE: '.$e['file'].'('.$e['line'].')'.PHP_EOL.$e['trace']);
             }
@@ -310,7 +310,6 @@ class Think {
         }
         // 包含异常页面模板
         include C('TMPL_EXCEPTION_FILE');
-
         exit;
     }
 }
