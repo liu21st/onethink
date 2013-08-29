@@ -87,8 +87,8 @@
             $subnav.find("a[href='" + url + "']").parent().addClass("current");
 
             /* 左边菜单显示收起 */
-            $("#subnav h3").click(function(){
-                $(this).next().toggle("fast","linear")
+            $("#subnav .icon-s1").click(function(){
+                $(this).parent().next().toggle("fast","linear")
             })
         }();
     </script>
