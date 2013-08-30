@@ -45,10 +45,6 @@ class IndexController extends HomeController {
     	}
     }
 
-    public function test(){
-        echo 123;
-    }
-
     public function upyun(){
         $policydoc = array(
             "bucket"             => "thinkphp-static", /// 空间名

@@ -139,7 +139,7 @@ class  ThinkTemplate {
         $tmplContent =  '<?php if (!defined(\'THINK_PATH\')) exit();?>'.$tmplContent;
         if(C('TMPL_STRIP_SPACE')) {
             /* 去除html空格与换行 */
-            $find           = array('~>\s+<~','~>(\s+\n|\r)~');
+            $find           = array('/>\s+<~','~>(\s+\n|\r)/');
             $replace        = array('><','>');
             $tmplContent    = preg_replace($find, $replace, $tmplContent);
         }
@@ -196,7 +196,7 @@ class  ThinkTemplate {
             $this->parseTagLib($tag,$content,true);
         }
         //解析普通模板标签 {tagName}
-        $content = preg_replace('/('.$this->config['tmpl_begin'].')([^\d\s'.$this->config['tmpl_begin'].$this->config['tmpl_end'].'].+?)('.$this->config['tmpl_end'].')/eis',"\$this->parseTag('\\2')",$content);
+        $content = preg_replace_callback('/('.$this->config['tmpl_begin'].')([^\d\s'.$this->config['tmpl_begin'].$this->config['tmpl_end'].'].+?)('.$this->config['tmpl_end'].')/is', array($this, 'parseTag'),$content);
         return $content;
     }
 
@@ -266,7 +266,7 @@ class  ThinkTemplate {
             //替换extend标签
             $content    =   str_replace($matches[0],'',$content);
             // 记录页面中的block标签
-            preg_replace('/'.$begin.'block\sname=(.+?)\s*?'.$end.'(.*?)'.$begin.'\/block'.$end.'/eis',"\$this->parseBlock('\\1','\\2')",$content);
+            preg_replace_callback('/'.$begin.'block\sname=(.+?)\s*?'.$end.'(.*?)'.$begin.'\/block'.$end.'/is', array($this, 'parseBlock'),$content);
             // 读取继承模板
             $array      =   $this->parseXmlAttrs($matches[1]);
             $content    =   $this->parseTemplateName($array['name']);
@@ -331,7 +331,11 @@ class  ThinkTemplate {
      * @param string $content  模板内容
      * @return string
      */
-    private function parseBlock($name,$content) {
+    private function parseBlock($name,$content = '') {
+        if(is_array($name)){
+            $content = $name[2];
+            $name    = $name[1];
+        }
         $this->block[$name]  =   $content;
         return '';
     }
@@ -358,7 +362,7 @@ class  ThinkTemplate {
                 $content[3] = preg_replace_callback($reg, array($this, 'replaceBlock'), "{$content[3]}{$begin}/block{$end}");
                 return $content[1] . $content[3];
             } else {
-                $name    = addslashes($content[2]);
+                $name    = $content[2];
                 $content = $content[3];
                 $content = isset($this->block[$name]) ? $this->block[$name] : $content;
                 return stripslashes($content);
@@ -414,6 +418,8 @@ class  ThinkTemplate {
                     $tag  =  $name;
                 }
                 $n1 = empty($val['attr'])?'(\s*?)':'\s([^'.$end.']*)';
+                $this->tempVar = array($tagLib, $tag);
+
                 if (!$closeTag){
                     if ( version_compare(PHP_VERSION,'5.0.0')<0 ) {
                         $patterns       = '/'.$begin.$parseTag.$n1.'\/(\s*?)'.$end.'/eis';
@@ -455,6 +461,11 @@ class  ThinkTemplate {
      * @return string|false
      */
     public function parseXmlTag($tagLib,$tag,$attr,$content) {
+
+        dump($content);
+        dump($tagLib);
+        dump($tag);
+
         //if (MAGIC_QUOTES_GPC) {
             $attr   = stripslashes($attr);
             $content= stripslashes($content);
@@ -475,6 +486,7 @@ class  ThinkTemplate {
      * @return string
      */
     public function parseTag($tagStr){
+        if(is_array($tagStr)) $tagStr = $tagStr[2];
         //if (MAGIC_QUOTES_GPC) {
             $tagStr = stripslashes($tagStr);
         //}
