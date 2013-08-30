@@ -23,6 +23,8 @@ return array(
     /* 系统数据加密设置 */
     'DATA_AUTH_KEY' => 'kd23()#20okifi4fj)(03JF!@#$%^&*', //默认数据加密KEY
 
+    'codemirror_theme'=>'ambiance',
+
     /* 文件上传相关配置 */
     'DOWNLOAD_UPLOAD' => array(
         'mimes'    => '', //允许上传的文件MiMe类型
@@ -38,7 +40,7 @@ return array(
         'hash'     => true, //是否生成hash编码
         'callback' => false, //检测文件是否存在回调函数，如果存在返回文件信息数组
     ), //下载模型上传配置（文件上传类配置）
-    
+
     /* 模板相关配置 */
     'TMPL_PARSE_STRING' => array(
         '__STATIC__' => __ROOT__ . '/Public/static',

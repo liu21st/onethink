@@ -9,26 +9,8 @@
 	<!-- 数据列表 -->
 	<div class="data-table table-striped">
 		<empty name="custom_adminlist">
-		<table>
-			<thead>
-				<tr>
-					<th>序号</th>
-					<volist name="listKey" id="vo">
-						<th>{$vo}</th>
-					</volist>
-				</tr>
-			</thead>
-			<tbody>
-				<volist name="list" id="lv" key="lk">
-				<tr>
-					<td>{$lv.id}</td>
-					<?php foreach ($listKey as $key => $value): ?>
-						<td>{$lv[$key]}</td>
-					<?php endforeach ?>
-				</tr>
-				</volist>
-			</tbody>
-		</table>
+			<!-- 数据列表 -->
+	        {$_table_list}
 		<else />
 			<present name="custom_adminlist">
 				<?php
@@ -43,6 +25,16 @@
 				?>
 			</present>
 		</empty>
-
 	</div>
+	<div>{$_page}</div>
+</block>
+<block name="script">
+	<script type="text/javascript">
+		$(function(){
+	        //全选节点
+	        $('.check-all').on('change',function(){
+	            $('.ids').prop('checked',this.checked);
+	        });
+		})
+	</script>
 </block>

@@ -48,12 +48,86 @@ class AddonsController extends AdminController {
 
     //创建向导首页
     public function create(){
-        $hooks = include 'hooks_config.php';
+        $hooks = D('Hooks')->field('name,description')->select();
         $this->assign('Hooks',$hooks);
-        $this->assign('lisence_info','插件创建向导0.1');
-        $this->assign('theme','ambiance');//还可以是monokai代码预览的高亮主题
-        $this->assign('url_path',$this->url.'/html/');
         $this->display('create');
+    }
+
+    //预览
+    public function preview($output = true){
+        $data = $_POST;
+        $data['info']['status'] = (int)$data['info']['status'];
+        // exit(var_export($data,1));
+        $extend = array();
+        $custom_config = trim($data['custom_config']);
+        if($data['has_config'] && $custom_config){
+            $custom_config = <<<str
+
+
+        public \$custom_config = '{$custom_config}';
+str;
+            $extend[] = $custom_config;
+        }
+
+        $admin_list = trim($data['admin_list']);
+        if($data['has_adminlist'] && $admin_list){
+            $admin_list = <<<str
+
+
+        public \$admin_list = array(
+            {$admin_list}
+        );
+str;
+           $extend[] = $admin_list;
+        }
+
+        $custom_adminlist = trim($data['custom_adminlist']);
+        if($data['has_adminlist'] && $custom_adminlist){
+            $custom_adminlist = <<<str
+
+
+        public \$custom_adminlist = '{$custom_adminlist}';
+str;
+            $extend[] = $custom_adminlist;
+        }
+
+        $extend = implode('', $extend);
+        $tpl = <<<str
+<?php
+/**
+ * {$data['info']['title']}插件
+ * @author {$data['info']['author']}
+ */
+
+    class {$data['info']['name']}Addons extends Addons{
+
+        public \$info = array(
+            'name'=>'{$data['info']['name']}',
+            'title'=>'{$data['info']['title']}',
+            'description'=>'{$data['info']['description']}',
+            'status'=>{$data['info']['status']},
+            'author'=>'{$data['info']['author']}',
+            'version'=>'{$data['info']['version']}'
+        );{$extend}
+
+        public function install(){
+            return true;
+        }
+
+        public function uninstall(){
+            return true;
+        }
+
+        //实现的{$data['hook']}钩子方法
+        public function {$data['hook']}(\$param){
+
+        }
+    }
+str;
+        if($output)
+            exit($tpl);
+        else
+            return $tpl;
     }
 
     public function checkForm(){
@@ -85,7 +159,20 @@ class AddonsController extends AdminController {
             $this->assign('custom_adminlist', $addon->addon_path.$addon->custom_adminlist);
         $this->assign($param);
         $list = $this->lists(D("Addons://{$model}/{$model}")->field($fields),$map,$order);
-        $this->assign('list', $list);
+        $thead = array(
+            //元素value中的变量就是数据集中的字段,value必须使用单引号
+
+            //所有 _ 下划线开头的元素用于使用html代码生成th和td
+            '_html'=>array(
+                'th'=>'<input class="check-all" type="checkbox"/>',
+                'td'=>'<input class="ids" type="checkbox" name="id[]" value="$id" />',
+            ),
+            //查询出的数据集中的字段=>字段的表头
+        );
+        if($listKey)
+            $thead = array_merge($thead, $listKey);
+        $this->assign('_table_class', 'data-table table-striped');
+        $this->assign( '_table_list', $this->tableList($list,$thead) );
         $this->display();
     }
 
