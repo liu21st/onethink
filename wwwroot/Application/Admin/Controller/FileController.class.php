@@ -13,6 +13,19 @@
  */
 
 class FileController extends AdminController {
+
+	/* 左侧节点菜单定义,用户生成权限 */
+	static protected $nodes = array(
+			array(
+					'title'=>'上传控件', 'url'=>'file/upload', 'group'=>'上传','hide'=>true,
+					'operator'=>array(
+							//权限管理页面的五种按钮
+							array('title'=>'上传','url'=>'file/upload'),
+							array('title'=>'下载','url'=>'file/download'),
+					),
+			),
+	);
+
 	/* 文件上传 */
 	public function upload(){
 		//TODO: 用户登录检测

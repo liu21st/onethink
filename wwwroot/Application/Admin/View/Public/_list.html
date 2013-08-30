@@ -1,37 +1,35 @@
-<?php if(!empty($_thead)) { 
-    $operator=array(); ?>
+<notempty name="_thead">
+<php> $operator=array(); </php>
 <table class="{$_table_class|default=""}">
     <thead>
         <tr>
         <foreach name="_thead" item="th" key="key">
         <th>
-            <?php 
-            if (!is_array($th) ){
-                echo $th;
-            }elseif( strpos($key,'_')===0 ){
-                echo $th['th'];
-            }elseif(isset($th['title'])){
-                echo $th['title'];
-                if (!isset($th['tag'])){
-                    $_thead[$key]['tag'] = 'a';
-                }
-            }else{
-                echo $key;
-                $operator[$key]=$th;
-            }
-            ?>
+            <if condition="!is_array($th)">
+                {$th}
+            <elseif condition="strpos($key,'_')===0 " />
+                {$th.th}
+            <elseif condition="isset($th['title'])" />
+                {$th.title}
+                <if condition="!isset($th['tag'])">
+                <php>$_thead[$key]['tag'] = 'a';</php>
+                </if>
+            <else />
+                {$key}
+                <php>$operator[$key]=$th;</php>
+            </if>
         </th>   
         </foreach>
         </tr>
     </thead>
-    <?php if(!empty($_list)) { ?>
+    <notempty name="_list">
     <tbody>
-        <?php foreach ($_list as $row) { ?>
+        <foreach name="_list" item="row">
         <tr>
-            <?php 
-            foreach ($row as $key=>$td) {    
-                if( array_key_exists($key,$_thead) ){ 
-                    echo '<td>';
+            <foreach name="row" item="td" key="key">
+            <if condition="array_key_exists($key,$_thead)" >
+                    <td>
+                        <php>
                     if( strpos($key,'_')===0 ){
                         $td = preg_replace_callback('/\$(\w+)/',function($matches) use($row) {
                             return ($row[$matches[1]]);
@@ -56,11 +54,13 @@
                     }else{
                        echo $td;
                     }
-                    echo '</td>';
-                } 
-            }
-            foreach ($operator as $key=>$op){
-                echo '<td>';
+                        </php>
+                    </td>
+            </if>
+            </foreach>
+            <foreach name="operator" item="op" key="key">
+                <td>
+                    <php>
                     foreach ($op as $k=>$v){
                         if(is_array($v)){
 
@@ -95,17 +95,15 @@
                                 return ($row[$matches[1]]);
                             },$v);
                             $v = U($v);
-                            echo "<a href='$v'>";
-                            echo $k;
-                            echo '</a>';
+                            echo "<a href='$v'>".$k.'</a>';
                         }
                     }
-                echo '</td>';
-            }
-            ?>
+                    </php>
+                </td>
+            </foreach>
         </tr>
-        <?php } ?>
+        </foreach>
     </tbody>
-    <?php } ?>
+    </notempty>
 </table>
-<?php } ?>
+<notempty>

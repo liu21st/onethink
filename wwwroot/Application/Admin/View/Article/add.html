@@ -22,8 +22,8 @@
 	<!-- 标签页导航 -->
 	<div class="tab-wrap">
 		<ul class="tab-nav nav">
-			<li data-tab="tab1" class="current"><a href="javascript:void(0);">基础文档模型</a></li>
-			<li data-tab="tab2"><a href="javascript:void(0);">扩展文档模型</a></li>
+			<li data-tab="tab1" class="current"><a href="javascript:void(0);">基础</a></li>
+			<li data-tab="tab2"><a href="javascript:void(0);">扩展</a></li>
 		</ul>
 		<div class="tab-content">
 			<form id="form" action="{:U('update')}" method="post" class="form-horizontal">
@@ -116,7 +116,7 @@ $('#submit').click(function(){
         "height"          : 30,
         "swf"             : "__STATIC__/uploadify/uploadify.swf",
         "fileObjName"     : "download",
-        "uploader"        : "{:U('File/upload')}",
+        "uploader"        : "{:U('File/upload',array('session_id'=>session_id()))}",
         "width"           : 120,
         "onUploadSuccess" : uploadSuccess
     });
