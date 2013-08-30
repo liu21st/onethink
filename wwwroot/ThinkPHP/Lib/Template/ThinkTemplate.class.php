@@ -415,14 +415,30 @@ class  ThinkTemplate {
                 }
                 $n1 = empty($val['attr'])?'(\s*?)':'\s([^'.$end.']*)';
                 if (!$closeTag){
-                    $patterns       = '/'.$begin.$parseTag.$n1.'\/(\s*?)'.$end.'/eis';
-                    $replacement    = "\$this->parseXmlTag('$tagLib','$tag','$1','')";
-                    $content        = preg_replace($patterns, $replacement,$content);
+                    if ( version_compare(PHP_VERSION,'5.0.0')<0 ) {
+                        $patterns       = '/'.$begin.$parseTag.$n1.'\/(\s*?)'.$end.'/eis';
+                        $replacement    = "\$this->parseXmlTag('$tagLib','$tag','$1','')";
+                        $content        = preg_replace($patterns, $replacement,$content);
+                    }else{
+                        $patterns       = '/'.$begin.$parseTag.$n1.'\/(\s*?)'.$end.'/is';
+                        $content        = preg_replace_callback($patterns, function($matches) use($tagLib,$tag){
+                            return $this->parseXmlTag($tagLib,$tag,$matches[1],$matches[2]);
+                        },$content);
+                    }
                 }else{
-                    $patterns       = '/'.$begin.$parseTag.$n1.$end.'(.*?)'.$begin.'\/'.$parseTag.'(\s*?)'.$end.'/eis';
-                    $replacement    = "\$this->parseXmlTag('$tagLib','$tag','$1','$2')";
-                    for($i=0;$i<$level;$i++) 
-                        $content=preg_replace($patterns,$replacement,$content);
+                    if ( version_compare(PHP_VERSION,'5.0.0')<0 ) {
+                        $patterns       = '/'.$begin.$parseTag.$n1.$end.'(.*?)'.$begin.'\/'.$parseTag.'(\s*?)'.$end.'/eis';
+                        $replacement    = "\$this->parseXmlTag('$tagLib','$tag','$1','$2')";
+                        for($i=0;$i<$level;$i++) 
+                            $content=preg_replace($patterns,$replacement,$content);
+                    }else{
+                        $patterns       = '/'.$begin.$parseTag.$n1.$end.'(.*?)'.$begin.'\/'.$parseTag.'(\s*?)'.$end.'/is';
+                        for($i=0;$i<$level;$i++) {
+                            $content=preg_replace_callback($patterns,function($matches) use($tagLib,$tag){
+                                return $this->parseXmlTag($tagLib,$tag,$matches[1],$matches[2]);
+                            },$content);
+                        }
+                    }
                 }
             }
         }
