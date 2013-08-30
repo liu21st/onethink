@@ -121,19 +121,48 @@ class AuthManagerController extends AdminController{
      */
     public function index()
     {
-        $this->updateRules();
-        $AuthGroup = D('AuthGroup');
-        $groups    = $AuthGroup->where(array('status'=>array('egt',0),'module'=>'admin'))->select();
-        $groups    = intToString($groups);
-        $this->assign('list',$groups);
-        $this->assign('_extra_menu',array(
-            '测试组'=>array(
-                array('title'=>'测试链接','url'=>'AuthManager/index2'),
+
+        $thead = array(
+            //元素value中的变量就是数据集中的字段,value必须使用单引号
+            
+            //所有 _ 下划线开头的元素用于使用html代码生成th和td
+            '_html'=>array(
+                'th'=>'<input class="check-all" type="checkbox"/>',
+                'td'=>'<input class="ids" type="checkbox" name="id[]" value="$id" />',
             ),
-            '用户管理'=>array(
-                array('title'=>'测试链接','url'=>'AuthManager/index3'),
-            )
-        ));
+            //查询出的数据集中的字段=>字段的表头
+            'title'=>'用户组',
+            'description'=>'描述',
+            'status_text'=>'状态',
+            //操作配置
+            '操作'=>array(
+                //操作按钮=>'按钮链接'
+                '编辑'=>'AuthManager/editgroup?id=$id',
+                //符合条件才显示的操作按钮
+                '禁用'=>array(
+                    // 'tag'=>'a',//按钮的包裹元素,默认为 a 标签
+                    // 标签上的attr,需要什么设置什么,此处设置了a标签的href属性
+                    'href' =>'AuthManager/changeStatus?method=forbidGroup&id=$id',
+                    // 按钮显示的条件,支持 == != > < 比较运算
+                    'condition'=>'$status==1',
+                ), 
+                '启用'=>array(
+                    'href' =>'AuthManager/changeStatus?method=resumeGroup&id=$id',
+                    'condition'=>'$status==0',
+                ), 
+                '删除'=>'AuthManager/changeStatus?method=deleteGroup&id=$id',
+            ),
+            //另一列操作配置
+            '授权'=>array(
+                '成员'=>'AuthManager/user?group_name=$title&group_id=$id',
+                '栏目'=>'AuthManager/category?group_name=$title&group_id=$id',
+            ),
+        );
+
+        $list = $this->lists('AuthGroup',array('module'=>'admin'),'id asc');
+        $list = intToString($list);
+        $this->assign('_table_class', 'data-table table-striped');
+        $this->assign( '_table_list', $this->tableList($list,$thead) );
         $this->display();
     }
 
@@ -164,6 +193,7 @@ class AuthManagerController extends AdminController{
      */
     public function editGroup()
     {
+        $this->updateRules();
         $auth_group = D('AuthGroup')->where( array('module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
                                     ->find( (int)$_GET['id'] );
         $this->assign('auth_group',$auth_group);
@@ -308,39 +338,7 @@ class AuthManagerController extends AdminController{
 
     public function test()
     {
-        $thead = array(
-            'title'=>array(
-                'title'=>'用户组',
-                'url'  =>'Article/edit?ids=$id',
-                'class'=>'my_class',
-            ), 
-            'description'=>'描述',
-            'status_text'=>'状态',
-            '操作'=>array(
-                '编辑'     =>'Article/edit?ids=$id',
-                '禁用/启用'=>'Article/setstatus?ids=$id&status=0',
-                '启用/禁用'=>'Article/setstatus?ids=$id&status=1',
-                '删除'     =>'Article/setstatus?ids=$id&status=-1',
-            ),
-        );
-
-        $keys = array_keys($thead);
-        $list = $this->lists('AuthGroup',array('module'=>'admin'));
-        $list = intToString($list);
-        array_walk($list,function(&$v,$k,$thead) use($keys) {
-            $v = array_intersect_key($v,$thead);
-            $arr = array();
-            foreach ($keys as $value){
-                if ( isset($v[$value]) ) {
-                    $arr[$value] = $v[$value];
-                }
-            }
-            $v = $arr;
-        },$thead);
-        $this->assign('_thead',$thead);
-        $this->assign('_list',$list);
-
-        $this->display();
+        
     }
     
 }

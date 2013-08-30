@@ -15,8 +15,28 @@
 class AddonsController extends AdminController {
 
     static protected $nodes = array(
-        array( 'title'=>'插件管理', 'url'=>'Addons/index', 'group'=>'扩展'),
-        array( 'title'=>'钩子管理', 'url'=>'Addons/hooks', 'group'=>'扩展'),
+        array(
+            'title'=>'插件管理', 'url'=>'Addons/index', 'group'=>'扩展',
+            'operator'=>array(
+                //权限管理页面的五种按钮
+                array('title'=>'创建','url'=>'Addons/create'),
+                array('title'=>'检测创建','url'=>'Addons/checkForm'),
+                array('title'=>'弹窗','url'=>'Addons/window'),
+                array('title'=>'设置','url'=>'Addons/config'),
+                array('title'=>'禁用','url'=>'Addons/disable'),
+                array('title'=>'启用','url'=>'Addons/enable'),
+                array('title'=>'安装','url'=>'Addons/install'),
+                array('title'=>'卸载','url'=>'Addons/uninstall'),
+                array('title'=>'更新配置','url'=>'Addons/saveconfig'),
+                array('title'=>'插件后台列表','url'=>'Addons/adminList')
+            ),
+        ),
+        array( 'title'=>'钩子管理', 'url'=>'Addons/hooks', 'group'=>'扩展',
+            'operator'=>array(
+            //权限管理页面的五种按钮
+                array('title'=>'编辑','url'=>'Addons/updateSort'),
+            ),
+        ),
     );
 
     public function _initialize(){
@@ -26,6 +46,23 @@ class AddonsController extends AdminController {
         parent::_initialize();
     }
 
+    //创建向导首页
+    public function create(){
+        $hooks = include 'hooks_config.php';
+        $this->assign('Hooks',$hooks);
+        $this->assign('lisence_info','插件创建向导0.1');
+        $this->assign('theme','ambiance');//还可以是monokai代码预览的高亮主题
+        $this->assign('url_path',$this->url.'/html/');
+        $this->display('create');
+    }
+
+    public function checkForm(){
+        $this->success('好的');
+    }
+
+    /**
+     * 插件列表
+     */
     public function index(){
         $this->assign('list',D('Addons')->getList());
         $this->display();

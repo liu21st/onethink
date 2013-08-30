@@ -14,6 +14,20 @@
 
 class ArticleController extends AdminController {
 
+	/* 左侧节点菜单定义 */
+	static protected $nodes = array(
+			array(
+					'title'=>'文档列表', 'url'=>'article/index', 'group'=>'内容','hide'=>true,
+					'operator'=>array(
+							//权限管理页面的五种按钮
+							array('title'=>'新增','url'=>'article/add'),
+							array('title'=>'编辑','url'=>'article/edit'),
+							array('title'=>'改变状态','url'=>'article/setStatus'),
+							array('title'=>'保存数据','url'=>'article/update'),
+					),
+			),
+	);
+
     /**
      * 控制器初始化方法
      * @see AdminController::_init()
@@ -26,6 +40,7 @@ class ArticleController extends AdminController {
     	$cate = M('Category')->where(array('display'=>1,'status'=>1))->field('id,title,pid')->order('sort')->select();
 		$cate = list_to_tree($cate);
 		foreach ($cate as $key=>&$value){
+			$value['url'] = 'Article/index?cate_id='.$value['id'];
 			foreach ($value['_child'] as $k=>&$v){
 				$v['url'] = 'Article/index?cate_id='.$v['id'];
 			}
@@ -51,7 +66,7 @@ class ArticleController extends AdminController {
 		if(isset($status)){
 			$map['status'] = $status;
 		}
-		if(!empty($search)){
+		if(isset($search)){
 			$map['title'] = array('like', '%'.$search.'%');
 		}
 		/*初始化分页类*/

@@ -21,7 +21,15 @@ class UserController extends AdminController {
     static protected $nodes = array(
     	/* 系统设置 */
         array( 'title' => '用户信息', 'url' => 'User/index', 'group' => '用户管理'),
-        array( 'title' => '用户行为', 'url' => 'User/action', 'group' => '用户管理'),
+        array( 'title' => '用户行为', 'url' => 'User/action', 'group' => '用户管理',
+        		'operator'=>array(
+        				//权限管理页面的五种按钮
+        				array('title'=>'新增','url'=>'user/addAction'),
+        				array('title'=>'编辑','url'=>'user/editAction'),
+        				array('title'=>'改变状态','url'=>'user/setStatus'),
+        				array('title'=>'保存数据','url'=>'user/saveAction'),
+        		),
+    	),
     );
 
 	/**

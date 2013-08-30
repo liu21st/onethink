@@ -33,12 +33,35 @@
 > 菜单权限指登陆后台后可进入的后台区域,这些页面系统安装后即始终存在,所以可以直接在控制器中定义$nodes属性,权限系统将根据该属性
 > 自动为不同权限的管理员返回对应权限的后台界面菜单,任何非授权的访问将被拒绝.
 
-### 配置格式
+### 主菜单配置
+
+> 主菜单配置位于 AdminController的 $menus 静态属性
+
+```php
+    private $menus = array(
+        array( 'title'=>'首页','url'=>'Index/index','controllers'=>'Index',),
+        array( 'title'=>'内容','url'=>'Article/index','controllers'=>'Article',),
+        array( 'title'=>'用户','url'=>'User/index','controllers'=>'User,AuthManager'),
+        array( 'title'=>'扩展','url'=>'Addons/index','controllers'=>'Addons,Model',),
+        array( 'title'=>'系统','url'=>'System/index','controllers'=>'System,Category',),
+        array( 'title'=>'其他','url'=>'other','controllers'=>'File','hide'=>true),//专门放置不需要显示在任何菜单中的节点
+    );
+```
+
+* title  必设
+* url  必设,供U函数使用的合法参数
+* controllers 必设,将从次数列出的控制器文件中读取子节点,多个用英文逗号隔开
+* hide 可选,隐藏菜单(但其子菜单仍受权限系统控制)
+
+
+### 子菜单配置
+
+> 子菜单配置位于 Controller自己的文件中的 $nodes静态属性
 
 ```php
     static protected $nodes= array(
 
-        array('title'=>'权限管理','url'=>'AuthManager/index','group'=>'用户管理',
+        array('title'=>'权限管理','url'=>'AuthManager/index','group'=>'用户管理','hide'=>false,
               'operator'=>array(
                   array('title'=>'编辑','url'=>'AuthManager/editGroup'),
                   array('title'=>'删除','url'=>'AuthManager/changeStatus?method=deleteGroup'),
@@ -53,6 +76,7 @@
 *   title,url为必选配置,用于生成菜单和执行验证; url配置值格式:`Moudle/Action?param1=value1&param2=value2`
 *   group默认值为"default"
 *   operator为可选,用于页面打开后页面内的操作按钮的权限,元素只需配置title和url
+*   hide可选,值为true时,该条目不会显示在菜单中(但受权限系统控制)
 
 
 动态页面权限控制
