@@ -717,8 +717,9 @@ class  ThinkTemplate {
             //支持加载变量文件名
             $templateName = $this->get(substr($templateName,1));
         $array  =   explode(',',$templateName);
-        $parseStr   =   '';
+        $parseStr   =   ''; 
         foreach ($array as $templateName){
+            if(empty($templateName)) continue;
             if(false === strpos($templateName,$this->config['template_suffix'])) {
                 // 解析规则为 分组@模板主题:模块:操作
                 $templateName   =   T($templateName);
