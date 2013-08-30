@@ -13,6 +13,11 @@
  */
 class IndexController extends HomeController {
 
+    public function test(){
+        $this->assign("list", array(1,2,3,4,5,6,7));
+        $this->display("Index/a");
+    }
+
 	//系统首页
     public function index(){
     	if(IS_CLI){
