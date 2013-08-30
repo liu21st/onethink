@@ -1,257 +1,195 @@
 <extend name="Public/base" />
-
 <block name="style">
-	<link rel="stylesheet" href="__PUBLIC__/Admin/css/addons.css">
-	<style type="text/css">
-		.ico-top, .ico-btm {
-			background: url("__ROOT__/addons/theme/stv1/_static/admin/image/ico_top_btm.gif") no-repeat scroll 0 0 transparent;
-			height: 14px;
-			width: 12px;
+	<link rel="stylesheet" href="__PUBLIC__/admin/js/codemirror/codemirror.css">
+	<link rel="stylesheet" href="__PUBLIC__/admin/js/codemirror/theme/{:C('codemirror_theme')}.css">
+	<style>
+		.doc-modal-form .item-label {
+			width: 130px;
 		}
-		.ico-top, .ico-btm {
-			display: inline-block;
-			vertical-align: middle;
+		.CodeMirror,#preview_window{
+			width:700px;
+			height:500px;
 		}
-		.ico-top {
-			background-position: -12px 0;
+		#preview_window.loading{
+			background: url('__STATIC__/thinkbox/skin/default/tips_loading.gif') no-repeat center;
 		}
-		.ico-btm {
-			background-position: -24px 0;
-		}
-		.ico-top:hover {
-			background-position: 0 0;
-		}
-		.ico-btm:hover {
-			background-position: -35px 0;
+
+		#preview_window textarea{
+			display: none;
 		}
 	</style>
 </block>
-
 <block name="body">
-	<!-- 标题栏 -->
-	<div class="main-title">
-		<h2>创建插件</h2>
+	<div class="main-title cf">
+		<h2>插件快速创建</h2>
 	</div>
-
-	<!-- 数据列表 -->
-	<div class="container">
-	<div class="addon_header">
-		<div id="title1">
-			<h1></h1>
-			<span>{$lisence_info}</span>
-				<div class="setup step1">
-				<h2>基本信息</h2>
-				<dl>插件文件的建立及相关信息的填写</dl>
+	<!-- 表单 -->
+	<form id="form" action="{:U('update')}" method="post" class="form-horizontal doc-modal-form">
+		<div class="form-item cf">
+			<label class="item-label">标识名：</label>
+			<div class="controls">
+				<input type="text" class="text" name="info[name]" value="Example">
+				<span class="check-tips">请输入插件标识</span>
 			</div>
 		</div>
-		<div id="title2" class="hidden">
-			<h1></h1>
-			<span>{$lisence_info}</span>
-				<div class="setup step2">
-				<h2>插件方法和钩子</h2>
-				<dl>建立插件要使用的方法，供钩子和系统内建方法使用，完成钩子</dl>
+		<div class="form-item cf">
+			<label class="item-label">插件名：</label>
+			<div class="controls">
+				<input type="text" class="text" name="info[title]" value="示列">
+				<span class="check-tips">请输入插件名</span>
 			</div>
 		</div>
-		<div id="title3" class="hidden">
-			<h1></h1>
-			<span>{$lisence_info}</span>
-				<div class="setup step3">
-				<h2>内建方法</h2>
-				<dl>系统内建方法（插件启动、安装、卸载的实现）</dl>
+		<div class="form-item cf">
+			<label class="item-label">版本：</label>
+			<div class="controls">
+				<input type="text" class="text" name="info[version]" value="0.1">
+				<span class="check-tips">请输入插件名</span>
 			</div>
 		</div>
-		<div id="title4" class="hidden">
-			<h1></h1>
-			<span>{$lisence_info}</span>
-				<div class="setup step4">
-				<h2>预览和创建</h2>
-				<dl>预览插件源码和创建插件</dl>
+		<div class="form-item cf">
+			<label class="item-label">作者：</label>
+			<div class="controls">
+				<input type="text" class="text" name="info[author]" value="无名">
+				<span class="check-tips">请输入插件名</span>
 			</div>
 		</div>
-		<div class="stepstat">
-			<ul>
-				<li class="current">填写插件信息</li>
-				<li class="unactivated">添加插件方法和指定钩子</li>
-				<li class="unactivated">设置插件启动、安装、卸载</li>
-				<li class="unactivated last">预览、创建</li>
-			</ul>
-			<div class="stepstatbg stepstat1" id="stepstatbg"></div>
-		</div>
-	</div>
-	<php>
-		$form_url = U('preBuild');
-	</php>
-	<form id="create" method="post" action="{$form_url}">
-
-		<div class="main form2" id="content1">
-			<dl>
-				<dt><label for="info['name']">标识名</label><em>*</em></dt>
-				<dd><input type="text" id="pluginFile" class="no-ime" name="info['name']" value="Example"/></dd>
-			</dl>
-			<dl>
-				<dt><label for="info['title']">插件名</label><em>*</em></dt>
-				<dd><input type="text" id="info" name="info['title']" value="示列"/></dd>
-			</dl>
-			<dl>
-				<dt><label for="info['version']">版本</label><em>*</em></dt>
-				<dd><input type="text" id="version" class="no-ime" name="info['version']" value="1.0" /></dd>
-			</dl>
-			<dl>
-				<dt><label for="info['author']">作者</label><em>*</em></dt>
-				<dd><input type="text" id="author" name="info['author']" value="无名"/></dd>
-			</dl>
-			<dl>
-				<dt><label for="info['description']">插件信息</label><em>*</em></dt>
-				<dd><textarea id="info" name="info['description']">这是一个简单插件的示列</textarea></dd>
-			</dl>
-			<dl>
-				<dt><label for="info['status']">初始时是否启用</label><em>*</em></dt>
-				<dd>
-				<input type="radio" name="info['status']" value="1" checked />启用
-				<input type="radio" name="info['status']" value="0" />禁用
-				</dd>
-			</dl>
-			<div class="btnbox">
-				<a class="button next" title="下一步" onclick="checkForm();">下一步</a>
+		<div class="form-item cf">
+			<label class="item-label">描述：</label>
+			<div class="controls">
+				<textarea class="textarea" name="info[description]">这是一个临时描述</textarea>
+				<span class="check-tips">请输入描述</span>
 			</div>
 		</div>
-
-		<div class="main hidden" id="content2">
-			<table align="center">
-				<tr><td colspan="9"><hr/></td></tr>
-				<tr><th colspan="9" align="center">类自定义方法methods</th></tr>
-				<tr>
-					<th colspan="3" align="center"><label>方法用途:</label></th>
-					<th colspan="3" align="center"><label>方法名:</label></th>
-					<th colspan="1" align="center"><label>方法体:</label></th>
-					<th colspan="1" align="center"><label>操作:</label></th>
-					<th colspan="1" align="center"><label>排序:</label></th>
-				</tr>
-				<tr class="group2">
-					<td colspan="3" align="center"><input type="text" name="hook_method[0][comment]" value="" /></td>
-					<td colspan="3" align="center">
-						<input type="text" name="hook_method[0][name]" class="hook_method no-ime" value=""/>
-					</td>
-					<td colspan="1" align="center">
-						<textarea name="hook_method[0][content]" class="no-ime" style="display:none;"></textarea>
-						<a onclick="pop(this);">编辑</a>
-					</td>
-					<td colspan="1" align="center"><a class="add" href="javascript:;">增加</a></td>
-				</tr>
-				<tr><td colspan="9"><hr/></td></tr>
-				<tr><th colspan="9" align="center">插件钩子(getHookInfo)</th></tr>
-				<tr>
-					<th colspan="2" align="center"><label>方法:</label></th>
-					<th colspan="3" align="center"><label>钩子:</label></th>
-					<th colspan="2" align="center"><label>操作:</label></th>
-					<th colspan="2">排序</th>
-				</tr>
-				<tr class="group">
-					<td colspan="2" align="center">
-						<select name="hooks[0][method]" class="method"></select>
-					</td>
-					<td colspan="3" align="center">
-						<select name="hooks[0][hook]" class="hook">
-							<volist name="Hooks" id="vo">
-								<optgroup label="{$key}"></optgroup>
-								<volist name ="vo" id="hook">
-									<option value="{$hook}">{$hook}</option>
-								</volist>
-							</volist>
-						</select>
-					</td>
-					<td colspan="2" align="center"><a class="add" href="javascript:;">增加</a></td>
-				</tr>
-			</table>
-			<div class="btnbox">
-				<a class="button prev" title="上一步" onclick="prev(2)">上一步</a>
-				<a class="button next" title="下一步" onclick="next(2)">下一步</a>
+		<div class="form-item cf">
+			<div class="controls">
+				<label class="item-label">安装后是否启用：</label>
+				<input type="checkbox" class="checkbox" name="info[status]" value="1" checked />
 			</div>
 		</div>
-
-		<div class="main hidden" id="content3">
-			<table>
-				<tr>
-					<td colspan="8"><hr/></td></tr>
-				<tr><th colspan="8" align="center">内部接口:</th></tr>
-				<tr>
-					<th colspan="2" align="center"><label>初始化(start)-返回ture 或 fasle</label></th>
-					<th colspan="2" align="center"><label>安装(install)-初次启用插件时操作，通常操作数据库</label></th>
-					<th colspan="2" align="center"><label>卸载(uninstall)-通常是卸载清除数据:</label></th>
-					<th colspan="2" align="center">
-						<label>后台(adminMenu)-管理菜单<br/>(格式如 create:创建,save:保存 的字符串)</label>
-					</th>
-				</tr>
-				<tr>
-					<td colspan="2" align="center">
-						<textarea name="start" class="no-ime" style="display:none;">{$post.start}</textarea>
-						<a onclick="pop2(this)">编辑</a>
-					</td>
-					<td colspan="2" align="center">
-						<textarea name="install" class="no-ime" style="display:none;">{$post.install}</textarea>
-						<a onclick="pop2(this)">编辑</a>
-					</td>
-					<td colspan="2" align="center">
-						<textarea name="uninstall" class="no-ime" style="display:none;">{$post.uninstall}</textarea>
-						<a onclick="pop2(this)">编辑</a>
-					</td>
-					<td colspan="2" align="center">
-						<textarea name="adminMenu">{$post.adminMenu}</textarea>
-					</td>
-				</tr>
-			</table>
-			<div class="btnbox">
-				<a class="button prev" title="上一步" onclick="prev(3)">上一步</a>
-				<a class="button next" title="下一步" onclick="next(3)">下一步</a>
+		<div class="form-item cf">
+			<label class="item-label">是否需要配置：</label>
+			<div class="controls">
+				<input type="checkbox" id="has_config" class="checkbox" name="has_config" value="1" />
+				<textarea class="textarea has_config hidden" name="config">
+return array(
+	'random'=>array(//配置在表单中的键名 ,这个会是config[random]
+		'title'=>'是否开启随机:',//表单的文字
+		'type'=>'radio',		 //表单的类型：text、textarea、checkbox、radio、select等
+		'options'=>array(		 //select 和radion、checkbox的子选项
+			'1'=>'开启',		 //值=>文字
+			'0'=>'关闭',
+		),
+		'value'=>'1',			 //表单的默认值
+	),
+);
+				</textarea>
+				<br>
+				<input type="text" class="text has_config hidden" name="custom_config">
+				<span class="check-tips has_config hidden">自定义模板,注意：自定义模板里的表单name必须为config[name]这种，获取保存后配置的值用$data.config.name</span>
 			</div>
 		</div>
-		<div class="main hidden" id="content4">
-			&nbsp;&nbsp;&nbsp;预览:<textarea id="preview"></textarea>
-			<div class="btnbox">
-				<a class="button prev" title="上一步" onclick="prev(4)">上一步</a>
-				<a class="button next" title="创建" onclick="next(4)">下一步</a>
+		<div class="form-item cf">
+			<div class="controls">
+				<label class="item-label">是否需要外部访问：</label>
+				<input type="checkbox" class="checkbox" name="has_outurl" value="1" checked />
 			</div>
 		</div>
+		<div class="form-item cf">
+			<div class="controls">
+				<label class="item-label">实现的钩子方法：</label>
+				<select class="select" name="hook">
+					<volist name="Hooks" id="vo">
+						<option value="{$vo.name}" title="{$vo.description}">{$vo.name}</option>
+					</volist>
+				</select>
+			</div>
+		</div>
+		<div class="form-item cf">
+			<label class="item-label">是否需要后台列表：</label>
+			<div class="controls">
+				<input type="checkbox" id="has_adminlist" class="checkbox" name="has_adminlist" value="1" />勾选，扩展里已装插件后台列表会出现插件名的列表菜单，如系统的附件
+				<textarea class="textarea has_adminlist hidden" name="admin_list">
+			'model'=>'Example',//要查的表
+			'fields'=>'*',//要查的字段
+			'map'=>'',//查询条件, 如果需要可以再插件类的构造方法里动态重置这个属性
+			'order'=>'id desc'//排序,
+			'listKey'=>array( //这里定义的是除了id序号外的表格里字段显示的表头名
+				'字段名'=>'表头显示名'
+			),
+				</textarea>
+				<br>
+				<input type="text" class="text  has_adminlist hidden" name="custom_adminlist">
+				<span class="check-tips has_adminlist hidden">自定义模板,注意：自定义模板里的列表变量为$_list这种,遍历后可以用listkey可以控制表头显示,也可以完全手写，分页变量用$_page</span>
+			</div>
+		</div>
+		<div class="form-item cf">
+			<label class="item-label"></label>
+			<div class="controls">
+				<button class="btn" type="button" id="preview">预览</button>
+				<button class="btn" id="submit">确定</button>
+			</div>
 		</div>
 	</form>
+</block>
 
-<script type="text/javascript" src="__PUBLIC__/admin/js/codemirror/codemirror.js"></script>
-<script type="text/javascript" src="__PUBLIC__/admin/js/codemirror/xml.js"></script>
-<script type="text/javascript" src="__PUBLIC__/admin/js/codemirror/javascript.js"></script>
-<script type="text/javascript" src="__PUBLIC__/admin/js/codemirror/clike.js"></script>
-<script type="text/javascript" src="__PUBLIC__/admin/js/codemirror/php.js"></script>
-<script>
-	var editor = CodeMirror.fromTextArea(document.getElementById("preview"), {
-		lineNumbers: true,
-		matchBrackets: true,
-		mode: "text/x-php",
-		indentUnit: 4,
-		indentWithTabs: true,
-		readOnly : true,
-		enterMode: "keep",
-		tabMode: "shift",
-		theme: "{$theme}",
-	});
-</script>
-<script type="text/javascript">
-	var temp_textarea;
-	var form_hooks_count = 1;
-	var form_hooks_methods_count = 1;
-	var checkUrl = '{:U("checkForm")}';
-	var previewUrl = '{:U("preview")}';
-	var windowUrl = '{:U("window")}';
+<block name="script">
+	<script type="text/javascript" src="__PUBLIC__/admin/js/codemirror/codemirror.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/admin/js/codemirror/xml.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/admin/js/codemirror/javascript.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/admin/js/codemirror/clike.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/admin/js/codemirror/php.js"></script>
 
-	$(function(){
-		generateOptions('table tr.group select.method','table tr.group2 .hook_method[value!=""]');
-		add_form_btns('table tr.group a.add');
-		add_form_btns2('table tr.group2 a.add');
-		$('input,textarea').on('keyup',function(){
-			var data= preview();
-			generateOptions('table tr.group select.method','table tr.group2 .hook_method[value!=""]');
-			bindSelected(data);
+	<script type="text/javascript" src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+
+	<script type="text/javascript">
+		function bindShow(radio_bind, selectors){
+			$(radio_bind).click(function(){
+				$(selectors).toggleClass('hidden');
+			})
+		}
+
+		//配置的动态
+		bindShow('#has_config','.has_config');
+		bindShow('#has_adminlist','.has_adminlist');
+
+		$('#preview').click(function(){
+			var preview_url = '{:U("preview")}';
+			console.log($('#form').serialize());
+			$.post(preview_url, $('#form').serialize(),function(data){
+				$.thinkbox('<div id="preview_window" class="loading"><textarea></textarea></div>',{
+					afterShow:function(){
+						var codemirror_option = {
+							lineNumbers   :true,
+							matchBrackets :true,
+							mode          :"application/x-httpd-php",
+							indentUnit    :4,
+							gutter        :true,
+							fixedGutter   :true,
+							indentWithTabs:true,
+							readOnly	  :true,
+							lineWrapping  :true,
+							height		  :500,
+							enterMode     :"keep",
+							tabMode       :"shift",
+							theme: "{:C('codemirror_theme')}",
+						};
+						var preview_window = $("#preview_window").removeClass(".loading").find("textarea");
+						var editor = CodeMirror.fromTextArea(preview_window[0], codemirror_option);
+						editor.setValue(data);
+						$(window).resize();
+					},
+
+					title:'预览插件主文件',
+					unload: true,
+					actions:['close'],
+					drag:true,
+				});
+			});
+			return false;
 		});
-	});
-</script>
-<script type="text/javascript" src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
-<script type="text/javascript" src="__PUBLIC__/Admin/js/js.js"></script>
+
+		$('#submit').click(function(){
+			$('#form').submit();
+		});
+	</script>
 </block>
