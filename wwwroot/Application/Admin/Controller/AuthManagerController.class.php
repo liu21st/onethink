@@ -38,6 +38,7 @@ class AuthManagerController extends AdminController{
                   array('title'=>'保存用户组','url'=>'AuthManager/writeGroup','tip'=>'"权限管理"编辑和添加页面的"保存"按钮'),
                   array('title'=>'解除授权','url'=>'AuthManager/removeFromGroup','tip'=>'"权限管理"-"成员"页面的按钮'),
                   array('title'=>'添加授权','url'=>'AuthManager/addToGroup','tip'=>'"权限管理"-"成员"页面的"添加"按钮;"用户管理"-"授权"页面的"保存"按钮'),
+                  array('title'=>'保存栏目授权','url'=>'AuthManager/addToCategory'),
               ),
         ),
     );
