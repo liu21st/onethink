@@ -128,7 +128,7 @@ $(function(){
 			url += '/status/' + status;
 		}
 		if(search != ''){
-			url += '/search/' + search;
+			url += '/search/' + encodeURIComponent(search);
 		}
 		window.location.href = url;
 	});

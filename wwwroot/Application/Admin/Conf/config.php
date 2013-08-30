@@ -53,5 +53,6 @@ return array(
     /* SESSION 和 COOKIE 配置 */
     'SESSION_PREFIX' => 'think_cmsadmin', //session前缀
     'COOKIE_PREFIX'  => 'think_cmsadmin_', // Cookie前缀 避免冲突
+    'VAR_SESSION_ID'=> 'session_id',	//修复uploadify插件无法传递session_id的bug
 
 );
