@@ -114,7 +114,7 @@ class AuthGroupModel extends CmsadminModel
         return M()
             ->table($prefix.self::AUTH_GROUP_ACCESS.' g')
             ->join($prefix.self::AUTH_CATEGORY_ACCESS.' c on g.group_id=c.group_id')
-            ->where("g.uid='$uid'")
+            ->where("g.uid='$uid' and !isnull(category_id)")
             ->getfield('category_id',true);
     }
 
@@ -193,6 +193,57 @@ class AuthGroupModel extends CmsadminModel
                        ->where(array('a.group_id'=>$group_id))
                        ->select();
         return $list;
+    }
+
+    /**
+     * 检查用户组是否全部存在
+     * @param array|string $gid  用户组id列表
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
+    public function checkGroupId($gid)
+    {
+        if(is_array($gid)){
+            $count = count($gid);
+            $ids   = implode(',',$gid);
+        }else{
+            $gid   = explode(',',$gid);
+            $count = count();
+            $ids   = $gid;
+        }
+
+        $s = $this->where(array('id'=>array('IN',$ids)))->getField('id',true);
+        if(count($s)===$count){
+            return true;
+        }else{
+            $diff = implode(',',array_diff($gid,$s));
+            $this->error = '以下用户组id不存在:'.$diff;
+            return false;
+        }
+    }
+    
+    /**
+     * 检查分类是否全部存在
+     * @param array|string $cid  栏目分类id列表
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
+    public function checkCategoryId($cid)
+    {
+        if(is_array($cid)){
+            $count = count($cid);
+            $ids   = implode(',',$cid);
+        }else{
+            $count = count(explode(',',$cid));
+            $ids   = $cid;
+        }
+
+        $s = M('Category')->where(array('id'=>array('IN',$ids)))->getField('id',true);
+        if(count($s)===$count){
+            return true;
+        }else{
+            $diff = implode(',',array_diff($cid,$s));
+            $this->error = '以下分类id不存在:'.$diff;
+            return false;
+        }
     }
 }
 

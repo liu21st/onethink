@@ -1,5 +1,65 @@
 <extend name="Public/base" />
 <block name="body">
-{:dump($authed_group)}
-{:dump($group_list)}
+	<div class="main-title">
+		<h2>栏目授权</h2>
+	</div>
+		
+	<!-- 表格列表 -->
+	<div class="tb-unit posr">
+        <form action="{:U('AuthManager/addToCategory')}" method="post" enctype="application/x-www-form-urlencoded">
+            <input type="hidden" name="group_id" value="{:I('group_id')}">
+            <div class="tb-unit-bar">
+                <button class="btn">
+                    <i class="icon-ok"></i>保存
+                </button>
+            </div>
+            <div class="category">
+                <div class="hd cf">
+                    <div class="fold">折叠</div>
+                    <div class="order">选择</div>
+                    <div class="name">栏目名称</div>
+                </div>
+                {:R('AuthManager/tree', array($group_list))}
+            </div>
+
+            <div class="tb-unit-bar">
+                <button class="btn">
+                    <i class="icon-ok"></i>保存
+                </button>
+            </div>
+        </form>
+    </div>
+	<!-- /表格列表 -->
+</block>
+<block name="script">
+<script type="text/javascript">
+    +function($){
+        /* 分类展开收起 */
+        $(".category dd").prev().find(".fold i").addClass("icon-minus")
+        .click(function(){
+            var self = $(this);
+            if(self.hasClass("icon-minus")){
+                self.closest("dt").next().slideUp("fast", function(){
+                    self.removeClass("icon-minus").addClass("icon-plus");
+                });
+            } else {
+                self.closest("dt").next().slideDown("fast", function(){
+                    self.removeClass("icon-plus").addClass("icon-minus");
+                });
+            }
+        });
+
+        var auth_groups = [{$authed_group}];
+        $('.cate_id').each(function(){
+            if( $.inArray( parseInt(this.value,10),auth_groups )>-1 ){
+                $(this).prop('checked',true);
+            }
+        });
+
+        //全选节点
+        //$('.rules_all').on('change',function(){
+        //   $(this).parents('.rules_row').find('input').prop('checked',this.checked);
+        // });
+    }(jQuery);
+	</script>
 </block>
