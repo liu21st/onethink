@@ -21,16 +21,16 @@ class SystemController extends AdminController {
     static protected $nodes = array(
     	/* 系统设置 */
         array( 'title' => '基本设置', 'url' => 'System/index', 'group' => '系统设置'),
-        array( 'title' => '静态规则设置', 'url' => 'System/index1', 'group' => '系统设置'),
-        array( 'title' => 'SEO优化设置', 'url' => 'System/index2', 'group' => '系统设置'),
+        // array( 'title' => '静态规则设置', 'url' => 'System/index1', 'group' => '系统设置'),
+        // array( 'title' => 'SEO优化设置', 'url' => 'System/index2', 'group' => '系统设置'),
         
         /* 导航栏目设置 */
-        array( 'title' => '导航管理', 'url' => 'System/index3', 'group' => '导航栏目设置'),
+        array( 'title' => '导航管理', 'url' => 'System/channel', 'group' => '导航栏目设置'),
 
         /* 其他设置 */
-        array( 'title' => '数据迁移', 'url' => 'System/index5', 'group' => '其他设置'),
-        array( 'title' => '数据备份/恢复', 'url' => 'System/index6', 'group' => '其他设置'),
-        array( 'title' => '系统日志', 'url' => 'System/index7', 'group' => '其他设置'),
+        // array( 'title' => '数据迁移', 'url' => 'System/index5', 'group' => '其他设置'),
+        // array( 'title' => '数据备份/恢复', 'url' => 'System/index6', 'group' => '其他设置'),
+        // array( 'title' => '系统日志', 'url' => 'System/index7', 'group' => '其他设置'),
     );
 	
 	/**
@@ -40,4 +40,15 @@ class SystemController extends AdminController {
 	public function index(){
 		$this->display();
 	}
+
+    /* 频道管理 */
+    public function channel(){
+        /* 获取频道列表 */
+        $map  = array('status' => 1);
+        $list = M('Channel')->where($map)->select();
+
+        $this->assign('list', $list);
+        $this->display();
+    }
+
 }
