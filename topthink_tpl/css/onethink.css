@@ -1,0 +1,440 @@
+/** 
+ * 描述：onethink官网样式
+ * 作用范围：onethink
+ */
+
+/* 头部
+------------------------------------------ */
+.header {
+	margin-bottom: 20px;
+	min-width: 1000px;
+	height: 80px;
+	background-color: #ebebeb;
+}
+.logo {
+	float: left;
+	margin-right: 10px;
+	height: 80px;
+	line-height: 80px;
+}
+.logo img {
+	vertical-align: middle;
+}
+
+/* 主导航 */
+.main-nav {
+	float: left;
+}
+.main-nav a {
+	padding: 0 30px;
+	height: 75px;
+	line-height: 75px;
+	font-size: 16px;
+	color: #999;
+	border-bottom: 4px solid transparent;
+}
+.main-nav a:hover,
+.main-nav .current a {
+	color: #222;
+	border-bottom-color: #34b4e0;
+	background-color: #e1e1e1;
+}
+
+.user-bar {
+	float: right;
+	margin-top: 20px;
+}
+
+/* 搜索 */
+.header-search {
+	float: left;
+	margin: 5px 10px 0 0;
+}
+.header-search .text {
+	float: left;
+	width: 140px;
+	border-radius: 2px 0 0 2px;
+}
+.header-search .btn {
+	float: left;
+	margin-left: -1px;
+	padding: 4px 6px;
+	height: 30px;
+	cursor: pointer;
+	border: 1px solid #ccc;
+	background-color: #f1f1f1;
+}
+
+/* 用户入口 */
+.user-entrance {
+	position: relative;
+	float: left;
+	width: 50px;
+	height: 42px;
+}
+.user-pic {
+	display: block;
+}
+.user-pic:hover {
+	text-decoration: none;
+}
+.user-pic img {
+	width: 36px;
+	height: 36px;
+	overflow: hidden;
+	vertical-align: middle;
+}
+
+/* 用户菜单 */
+.user-menu {
+	position: absolute;
+	top: 60px;
+	right: 0;
+	width: 180px;
+	background-color: #fefefe;
+	border: 1px solid #ebebeb;
+	border-bottom-width: 0;
+}
+.user-menu li {
+	border-bottom: 1px solid #ebebeb;
+}
+.user-menu li a {
+	padding: 0 12px;
+	width: 156px;
+	height: 35px;
+	line-height: 35px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.user-menu li a:hover {
+	background-color: #f5f5f5;
+}
+
+/* 分类
+------------------------------------------ */
+.sort-box {
+	position: relative;
+	padding: 15px 0 15px 15px;
+	line-height: 2;
+	overflow: hidden;
+}
+.sort-box .sort-hidden {
+	/*height: 28px;
+	overflow: hidden;*/
+}
+.sort-box a {
+	display: inline-block;
+	margin-right: 20px;
+}
+.sort-box a {
+	color: #666;
+}
+.sort-box a em {
+	font-style: normal;
+	font-weight: normal;
+	color: #999;
+}
+.sort-box .selected,
+.sort-box .selected em {
+	font-weight: bold;
+	color: #000;
+}
+.sort-box .slide-arrow {
+	position: absolute;
+	bottom: 3px;
+	left: 25px;
+	margin: 0;
+	width: 30px;
+	height: 14px;
+	line-height: 14px;
+	text-align: center;
+}
+.sort-box .slide-arrow:active {
+	outline: 1px dotted #333;
+}
+.icon-arrow {
+	display: inline-block;
+	width: 7px;
+	height: 5px;
+	vertical-align: middle;
+	background: url(../images/slide_arrow_down.png) no-repeat 0 0;
+}
+.sa-up .icon-arrow {
+	background: url(../images/slide_arrow_up.png) no-repeat 0 0;
+}
+
+/* 内容区-左边
+------------------------------------------ */
+/* 新闻列表 */
+.news {
+	padding: 15px;
+}
+.news .hd {
+	margin-bottom: 10px;
+	font-size: 16px;
+	color: #333;
+}
+.news-list li {
+	height: 30px;
+	line-height: 30px;
+	*zoom: 1;
+}
+.news-list li:before, 
+.news-list li:after, {
+	diplay: table;
+	content: "";
+}
+.news-list li:after {
+	clear: both;
+}
+.news-list .title-link {
+	margin-right: 60px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.news-list a {
+	color: #666;
+	vertical-align: middle;
+}
+.news-list .time {
+	float: right;
+	color: #cbcbcb;
+}
+.news-list .arrow {
+	border-left-color: #d4d4d4;
+	*margin-right: 3px;
+}
+
+/* 标签页 */
+.tab-nav {
+	border-bottom: 1px solid #ebebeb;
+}
+.tab-nav li {
+	margin-bottom: -1px;
+}
+.tab-nav li a {
+	padding: 0 20px;
+	height: 42px;
+	line-height: 42px;
+	font-size: 16px;
+	color: #999;
+	border-bottom: 3px solid transparent;
+	border-right: 1px solid #ebebeb;
+}
+.tab-nav li a:hover,
+.tab-nav .current a {
+	color: #333;
+	border-bottom-color: #34b4e0;
+}
+.tab-content {
+	padding: 15px;
+}
+.tab-content .tab-pane {
+	display: none;
+}
+.tab-content .in {
+	display: block;
+}
+
+/* 话题列表 */
+.media {
+	margin-bottom: 15px;
+}
+.media .media-avatar,
+.media .round-mask,
+.media .media-avatar img {
+	width: 52px;
+	height: 52px;
+}
+.media .media-avatar {
+	position: relative;
+	float: left;
+	margin-right: 15px;
+	
+}
+.media .round-mask {
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: url(../images/round_mask.png) no-repeat 0 0;
+}
+.media .media-avatar img {
+	display: block;
+}
+.media .media-body {
+	overflow: hidden;
+	line-height: 1.8;
+}
+.media .media-info,
+.media .media-info a {
+	margin-top: 3px;
+	color: #999;
+}
+.media .media-info span,
+.media .media-info a {
+	margin-right: 15px;
+}
+
+/* 分页 */
+.page {
+	text-align: right;
+}
+.page a {
+	display: inline-block;
+	padding: 0 6px;
+	color: #ccc;
+	vertical-align: middle;
+	border-radius: 2px;
+	background-color: #ebebeb;
+}
+.page a:hover,
+.page .current {
+	color: #fff;
+	text-decoration: none;
+	background-color: #34b4e0
+}
+
+/* 内容区-右边栏
+------------------------------------------ */
+/* 发布按钮 */
+.release-btn {
+	display: block;
+	width: 270px;
+	height: 128px;
+	text-align: center;
+	font-size: 22px;
+	color: #fff;
+	background-color: #34b4e0;
+}
+.release-btn:hover {
+	text-decoration: none;
+	background-color: #3BAAD1;
+}
+.release-btn em {
+	display: block;
+	padding-right: 15px;
+	text-align: right;
+	font-size: 56px;
+	font-style: normal;
+	font-weight: normal;
+	color: #49bce3;
+}
+.release-btn i {
+	display: inline-block;
+	margin-right: 5px;
+	width: 32px;
+	height: 32px;
+	vertical-align: middle;
+}
+.icon-topic {
+	background: url(../images/release_topic.png) no-repeat 0 0;
+}
+
+/* 分享到 */
+.shareto {
+	padding: 15px;
+	border-top-width: 0;
+}
+.sharebox {
+	margin-top: 15px;
+	text-align: center;
+}
+.sharebox a {
+	display: inline-block;
+	margin: 0 10px;
+	width: 35px;
+	height: 35px;
+	font-size: 0;
+	line-height: 9;
+	overflow: hidden;
+}
+.icon-sina {
+	background: url(../images/sina.png) no-repeat 0 0;
+}
+.icon-weixin {
+	background: url(../images/weixin.png) no-repeat 0 0;
+}
+.icon-renren {
+	background: url(../images/renren.png) no-repeat 0 0;
+}
+.icon-facebook {
+	background: url(../images/facebook.png) no-repeat 0 0;
+}
+
+/* 单独图片链接 */
+.pic-link {
+	padding: 5px;
+}
+.pic-link img {
+	display: block;
+	width: 258px;
+}
+
+/* 排行榜列表 */
+.rank-list li {
+	height: 35px;
+	line-height: 35px;
+}
+.rank-list li i {
+	display: inline-block;
+	margin-right: 8px;
+	width: 16px;
+	height: 16px;
+	line-height: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-style: normal;
+	color: #999;
+	background-color: #ebebeb;
+}
+.rank-list .top3 i {
+	color: #fff;
+	background-color: #ee784c;
+}
+
+/* 底部
+------------------------------------------ */
+.footer {
+	margin-top: 10px;
+	padding: 30px 0 60px;
+	min-width: 1000px;
+	background-color: #ebebeb;
+}
+.footer .ft-col {
+	float: left;
+	margin-right: 20px;
+	width: 90px;
+}
+.footer .ft-col h3 {
+	margin-bottom: 4px;
+	font-size: 14px;
+	font-weight: normal;
+	color: #444;
+}
+.footer .ft-col li {
+	height: 25px;
+	line-height: 25px;
+}
+.footer .ft-col li a {
+	color: #999;
+}
+.footer .ft-intro {
+	float: left;
+	width: 560px;
+	line-height: 1.8;
+	color: #999;
+	text-align: justify;
+	text-justify: inter-word;
+}
+.footer .ft-intro strong {
+	font-weight: normal;
+	color: #666;
+}
+.footer .copyright {
+	margin-top: 20px;
+}
+.footer .copyright a {
+	margin-left: 20px;
+}
