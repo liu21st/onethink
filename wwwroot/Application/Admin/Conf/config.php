@@ -38,7 +38,7 @@ return array(
         'hash'     => true, //是否生成hash编码
         'callback' => false, //检测文件是否存在回调函数，如果存在返回文件信息数组
     ), //下载模型上传配置（文件上传类配置）
-    
+
     /* 模板相关配置 */
     'TMPL_PARSE_STRING' => array(
         '__STATIC__' => __ROOT__ . '/Public/static',
@@ -51,5 +51,6 @@ return array(
     /* SESSION 和 COOKIE 配置 */
     'SESSION_PREFIX' => 'think_cmsadmin', //session前缀
     'COOKIE_PREFIX'  => 'think_cmsadmin_', // Cookie前缀 避免冲突
+    'VAR_SESSION_ID'=> 'session_id',	//修复uploadify插件无法传递session_id的bug
 
 );
