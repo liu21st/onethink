@@ -90,6 +90,7 @@
 	position: absolute;
 	top: 60px;
 	right: 0;
+	z-index: 8;
 	width: 180px;
 	background-color: #fefefe;
 	border: 1px solid #ebebeb;
@@ -97,6 +98,7 @@
 }
 .user-menu li {
 	border-bottom: 1px solid #ebebeb;
+	background-color: #fff;
 }
 .user-menu li a {
 	padding: 0 12px;
