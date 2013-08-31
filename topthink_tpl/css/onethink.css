@@ -68,6 +68,7 @@
 /* 用户入口 */
 .user-entrance {
 	position: relative;
+	z-index: 8;
 	float: left;
 	width: 50px;
 	height: 42px;
