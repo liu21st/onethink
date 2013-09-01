@@ -9,6 +9,7 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
+// 本地文件写入存储类
 class StorageFile extends ThinkStorage{
 
     /**
@@ -21,6 +22,8 @@ class StorageFile extends ThinkStorage{
     /**
      * 文件内容读取
      * @access public
+     * @param string $filename  文件名
+     * @return string     
      */
     public function read($filename){
         return $this->get($filename,'content');
@@ -29,6 +32,9 @@ class StorageFile extends ThinkStorage{
     /**
      * 文件写入
      * @access public
+     * @param string $filename  文件名
+     * @param string $content  文件内容
+     * @return boolean         
      */
     public function put($filename,$content){
         $dir         =  dirname($filename);
@@ -42,8 +48,25 @@ class StorageFile extends ThinkStorage{
     }
 
     /**
+     * 文件追加写入
+     * @access public
+     * @param string $filename  文件名
+     * @param string $content  追加的文件内容
+     * @return boolean        
+     */
+    public function append($filename,$content){
+        if(is_file($filename)){
+            $content =  $this->read($filename).$content;
+        }
+        return $this->put($filename,$content);
+    }
+
+    /**
      * 加载文件
      * @access public
+     * @param string $filename  文件名
+     * @param array $vars  传入变量
+     * @return void        
      */
     public function load($filename,$vars=null){
         if(!is_null($vars))
@@ -54,6 +77,8 @@ class StorageFile extends ThinkStorage{
     /**
      * 文件是否存在
      * @access public
+     * @param string $filename  文件名
+     * @return boolean     
      */
     public function has($filename){
         return file_exists($filename);
@@ -62,6 +87,8 @@ class StorageFile extends ThinkStorage{
     /**
      * 文件删除
      * @access public
+     * @param string $filename  文件名
+     * @return boolean     
      */
     public function unlink($filename){
         return unlink($filename);
@@ -70,6 +97,9 @@ class StorageFile extends ThinkStorage{
     /**
      * 读取文件信息
      * @access public
+     * @param string $filename  文件名
+     * @param string $name  信息名 mtime或者content
+     * @return boolean     
      */
     public function get($filename,$name){
         if(!is_file($filename)) return false;
