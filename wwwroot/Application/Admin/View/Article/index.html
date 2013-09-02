@@ -9,7 +9,7 @@
                 <h3><i class="icon-s1"></i><a href="{$sub_menu.url|U}">{$sub_menu.title}</a></h3>
                 <ul <neq name="sub_menu['current']" value="1">class="subnav-off"</neq>>
                     <volist name="sub_menu['_child']" id="menu">
-                        <li <eq name="menu['id']" value="$cate_id">class="current"</eq>><a href="{$menu.url|U}">{$menu.title}</a></li>
+                        <li <if condition="$menu['id'] eq $cate_id or $menu['current'] eq 1">class="current"</if>><a href="{$menu.url|U}">{$menu.title}</a></li>
                     </volist>
                 </ul>
             </notempty>
