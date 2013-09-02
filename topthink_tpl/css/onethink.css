@@ -39,7 +39,6 @@
 	border-bottom-color: #34b4e0;
 	background-color: #e1e1e1;
 }
-
 .user-bar {
 	float: right;
 	margin-top: 20px;
@@ -210,6 +209,53 @@
 	*margin-right: 3px;
 }
 
+/* 详细页 */
+.detail-box {
+	padding: 15px;
+}
+.detail-box .hd {
+	padding-bottom: 5px;
+	height: 65px;
+	line-height: 65px;
+	border-bottom: 1px solid #ebebeb;
+}
+.detail-box .hd a:hover {
+	text-decoration: none;
+}
+.detail-box .hd .prev,
+.detail-box .hd .next {
+	font-size: 42px;
+	font-family: "宋体";
+}
+.detail-box .hd .prev {
+	float: left;
+}
+.detail-box .hd .next {
+	float: right;
+}
+.detail-box h1 {
+	margin: 0 30px;
+	font-weight: normal;
+	font-size: 24px;
+	color: #555;
+	text-align: center;
+}
+.detail-box .info {
+	height: 40px;
+	line-height: 40px;
+	color: #999;
+	text-align: center;
+}
+.detail-box .info span {
+	margin-left: 20px;
+}
+.detail-box .bd {
+	line-height: 1.6;
+	color: #666;
+	word-wrap: break-word;
+	word-break: break-all;
+}
+
 /* 标签页 */
 .tab-nav {
 	border-bottom: 1px solid #ebebeb;
@@ -246,22 +292,14 @@
 	margin-bottom: 15px;
 }
 .media .media-avatar,
-.media .round-mask,
 .media .media-avatar img {
 	width: 52px;
 	height: 52px;
+	border-radius: 50%;
 }
 .media .media-avatar {
-	position: relative;
 	float: left;
 	margin-right: 15px;
-	
-}
-.media .round-mask {
-	position: absolute;
-	top: 0;
-	left: 0;
-	background: url(../images/round_mask.png) no-repeat 0 0;
 }
 .media .media-avatar img {
 	display: block;
@@ -270,13 +308,13 @@
 	overflow: hidden;
 	line-height: 1.8;
 }
-.media .media-info,
-.media .media-info a {
+.artlist-info,
+.artlist-info a {
 	margin-top: 3px;
 	color: #999;
 }
-.media .media-info span,
-.media .media-info a {
+.artlist-info span,
+.artlist-info a {
 	margin-right: 15px;
 }
 
@@ -335,10 +373,53 @@
 	background: url(../images/release_topic.png) no-repeat 0 0;
 }
 
+/* 用户信息 */
+.user-box {
+	padding: 30px 15px 15px;
+	border-top: 15px solid #34b4e0;
+}
+.author-info dt {
+	font-size: 16px;
+	font-weight: bold;
+}
+.author-info dd {
+	color: #a1a1a1;
+}
+.count-info {
+	padding: 15px 1px 0;
+}
+.count-info a {
+	float: left;
+	width: 78px;
+	border-left: 1px solid #ebebeb;
+}
+.count-info a:hover {
+	text-decoration: none;
+}
+.count-info a:first-child {
+	border-left-width: 0;
+}
+.count-info span,
+.count-info em {
+	display: block;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	cursor: pointer;
+}
+.count-info span {
+	color: #a1a1a1;
+}
+.count-info em {
+	font-size: 20px;
+	font-style: normal;
+	font-weight: bold;
+}
+
 /* 分享到 */
 .shareto {
 	padding: 15px;
-	border-top-width: 0;
+	color: #a1a1a1;
 }
 .sharebox {
 	margin-top: 15px;
@@ -365,10 +446,13 @@
 .icon-facebook {
 	background: url(../images/facebook.png) no-repeat 0 0;
 }
+.bt0 {
+	border-top-width: 0;
+}
 
 /* 单独图片链接 */
 .pic-link {
-	padding: 5px;
+	padding: 10px;
 }
 .pic-link img {
 	display: block;
