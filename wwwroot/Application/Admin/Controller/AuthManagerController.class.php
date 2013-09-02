@@ -178,21 +178,16 @@ class AuthManagerController extends AdminController{
      */
     public function createGroup()
     {
-        $node_list   = $this->returnNodes();
-        $map         = array('module'=>'admin','type'=>AuthRuleModel::RULE_MAIN,'status'=>1);
-        $main_rules  = D('AuthRule')->where($map)->getField('name,id');
-        $map         = array('module'=>'admin','type'=>AuthRuleModel::RULE_URL,'status'=>1);
-        $child_rules = D('AuthRule')->where($map)->getField('name,id');
-
-        $this->assign('main_rules',$main_rules);
-        $this->assign('auth_rules',$child_rules);
-        $this->assign('node_list',$node_list);
         if ( empty($this->auth_group) ) {
             $this->assign('auth_group',array('title'=>null,'id'=>null,'description'=>null,'rules'=>null,));//排除notice信息
         }
-        $this->display('managergroup');
+        $this->display('editgroup');
     }
 
+    /**
+     * 编辑管理员用户组
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
     public function editGroup()
     {
         $auth_group = D('AuthGroup')->where( array('module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
@@ -209,7 +204,19 @@ class AuthManagerController extends AdminController{
     public function access()
     {
         $this->updateRules();
-        $this->createGroup();
+        $auth_group = D('AuthGroup')->where( array('module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
+                                    ->find( (int)$_GET['id'] );
+        $node_list   = $this->returnNodes();
+        $map         = array('module'=>'admin','type'=>AuthRuleModel::RULE_MAIN,'status'=>1);
+        $main_rules  = D('AuthRule')->where($map)->getField('name,id');
+        $map         = array('module'=>'admin','type'=>AuthRuleModel::RULE_URL,'status'=>1);
+        $child_rules = D('AuthRule')->where($map)->getField('name,id');
+
+        $this->assign('main_rules',$main_rules);
+        $this->assign('auth_rules',$child_rules);
+        $this->assign('node_list',$node_list);
+        $this->assign('auth_group',$auth_group);
+        $this->display('managergroup');
     }
     
     /**
@@ -218,8 +225,10 @@ class AuthManagerController extends AdminController{
      */
     public function writeGroup()
     {
-        sort($_POST['rules']);
-        $_POST['rules']  = implode(',',array_unique($_POST['rules']));
+        if(isset($_POST['rules'])){
+            sort($_POST['rules']);
+            $_POST['rules']  = implode(',',array_unique($_POST['rules']));
+        }
         $_POST['module'] = 'admin';
         $_POST['type']   = AuthGroupModel::TYPE_ADMIN;
         $AuthGroup       = D('AuthGroup');
@@ -230,11 +239,13 @@ class AuthManagerController extends AdminController{
             }else{
                 $r = $AuthGroup->save();
             }
-        }
-        if($r===false){
+            if($r===false){
+                $this->error('操作失败'.$AuthGroup->getError());
+            } else{
+                $this->success('操作成功!');
+            }
+        }else{
             $this->error('操作失败'.$AuthGroup->getError());
-        } else{
-            $this->success('操作成功!');
         }
     }
     
@@ -318,7 +329,7 @@ class AuthManagerController extends AdminController{
             $this->error('参数有误');
         }
         $AuthGroup = D('AuthGroup');
-        if( !M('Member')->where(array('uid'=>$uid))->find()){
+        if( !M('Member')->where(array('uid'=>$uid))->find() ){
             $this->error('管理员用户不存在');
         }
         if(!$AuthGroup->checkGroupId($gid)){
@@ -327,7 +338,7 @@ class AuthManagerController extends AdminController{
         if ( $AuthGroup->addToGroup($uid,$gid) ){
             $this->success('操作成功');
         }else{
-            $this->error('操作失败');
+            $this->error($AuthGroup->getError());
         }
     }
 
