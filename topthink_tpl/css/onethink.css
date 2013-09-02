@@ -226,6 +226,7 @@
 .detail-box .hd .next {
 	font-size: 42px;
 	font-family: "宋体";
+	color: #999;
 }
 .detail-box .hd .prev {
 	float: left;
