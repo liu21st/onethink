@@ -16,7 +16,7 @@ class AuthManagerController extends AdminController{
 
     /* 因为updateRules要供缓存管理模块内部使用,无需通过url访问;
      * 而delete,forbid,resume 已经通过changeStatus访问内部调用了,所以也不允许url访问 */
-    static protected $deny  = array('updateRules','delete','forbid','resume');
+    static protected $deny  = array('updateRules','tree');
 
     /* 保存允许所有管理员访问的公共方法 */
     static protected $allow = array();
@@ -38,6 +38,7 @@ class AuthManagerController extends AdminController{
                   array('title'=>'保存用户组','url'=>'AuthManager/writeGroup','tip'=>'"权限管理"编辑和添加页面的"保存"按钮'),
                   array('title'=>'解除授权','url'=>'AuthManager/removeFromGroup','tip'=>'"权限管理"-"成员"页面的按钮'),
                   array('title'=>'添加授权','url'=>'AuthManager/addToGroup','tip'=>'"权限管理"-"成员"页面的"添加"按钮;"用户管理"-"授权"页面的"保存"按钮'),
+                  array('title'=>'保存栏目授权','url'=>'AuthManager/addToCategory'),
               ),
         ),
     );
@@ -272,6 +273,11 @@ class AuthManagerController extends AdminController{
         $this->display();
     }
 
+    public function tree($tree = null){
+        $this->assign('tree', $tree);
+        $this->display('tree');
+    }
+
     /**
      * 将用户添加到用户组的编辑页面
      * @author 朱亚杰 <zhuyajie@topthink.net>
@@ -301,11 +307,11 @@ class AuthManagerController extends AdminController{
             $this->error('参数有误');
         }
         $AuthGroup = D('AuthGroup');
-        if( !$AuthGroup->find($gid)){
-            $this->error('用户组不存在');
-        }
         if( !M('Member')->where(array('uid'=>$uid))->find()){
             $this->error('管理员用户不存在');
+        }
+        if(!$AuthGroup->checkGroupId($gid)){
+            $this->error($AuthGroup->error);
         }
         if ( $AuthGroup->addToGroup($uid,$gid) ){
             $this->success('操作成功');
@@ -336,9 +342,36 @@ class AuthManagerController extends AdminController{
         }
     }
 
+    /**
+     * 将分类添加到用户组  入参:cid,group_id
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
+    public function addToCategory()
+    {
+        $cid = I('cid');
+        $gid = I('group_id');
+        if( empty($cid) || empty($gid) ){
+            $this->error('参数有误');
+        }
+        $AuthGroup = D('AuthGroup');
+        if( !$AuthGroup->find($gid)){
+            $this->error('用户组不存在');
+        }
+        if(!$AuthGroup->checkCategoryId($cid)){
+            $this->error($AuthGroup->error);
+        }
+        if ( $AuthGroup->addToCategory($gid,$cid) ){
+            $this->success('操作成功');
+        }else{
+            $this->error('操作失败');
+        }
+    }
+
     public function test()
     {
-        
+        $a = AuthGroupModel::getAuthCategories(1);
+        dump($a);
     }
+    
     
 }

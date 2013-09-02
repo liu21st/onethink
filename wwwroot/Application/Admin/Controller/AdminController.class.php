@@ -478,7 +478,11 @@ class AdminController extends Action {
 
 		import("COM.Page");
 
-		$listRows = C('LIST_ROWS') > 0 ? C('LIST_ROWS') : 10;
+        if( isset($REQUEST['r']) ){
+            $listRows = (int)$REQUEST['r'];
+        }else{
+            $listRows = C('LIST_ROWS') > 0 ? C('LIST_ROWS') : 10;
+        }
 		$page = new Page($total, $listRows, $REQUEST);
 		$this->assign('_page', $page->show());
         $options['limit'] = $page->firstRow.','.$page->listRows;

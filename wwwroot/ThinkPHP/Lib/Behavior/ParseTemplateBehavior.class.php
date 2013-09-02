@@ -84,19 +84,20 @@ class ParseTemplateBehavior extends Behavior {
         if (!C('TMPL_CACHE_ON')) // 优先对配置设定检测
             return false;
         $tmplCacheFile = C('CACHE_PATH').$prefix.md5($tmplTemplateFile).C('TMPL_CACHFILE_SUFFIX');
-        if(!is_file($tmplCacheFile)){
+        $storage        =   ThinkStorage::getInstance();
+        if(!$storage->has($tmplCacheFile)){
             return false;
-        }elseif (filemtime($tmplTemplateFile) > filemtime($tmplCacheFile)) {
+        }elseif (filemtime($tmplTemplateFile) > $storage->get($tmplCacheFile,'mtime')) {
             // 模板文件如果有更新则缓存需要更新
             return false;
-        }elseif (C('TMPL_CACHE_TIME') != 0 && time() > filemtime($tmplCacheFile)+C('TMPL_CACHE_TIME')) {
+        }elseif (C('TMPL_CACHE_TIME') != 0 && time() > $storage->get($tmplCacheFile,'mtime')+C('TMPL_CACHE_TIME')) {
             // 缓存是否在有效期
             return false;
         }
         // 开启布局模板
         if(C('LAYOUT_ON')) {
             $layoutFile  =  THEME_PATH.C('LAYOUT_NAME').C('TMPL_TEMPLATE_SUFFIX');
-            if(filemtime($layoutFile) > filemtime($tmplCacheFile)) {
+            if(filemtime($layoutFile) > $storage->get($tmplCacheFile,'mtime')) {
                 return false;
             }
         }
@@ -112,7 +113,8 @@ class ParseTemplateBehavior extends Behavior {
      * @return boolean
      */
     protected function checkContentCache($tmplContent,$prefix='') {
-        if(is_file(C('CACHE_PATH').$prefix.md5($tmplContent).C('TMPL_CACHFILE_SUFFIX'))){
+        $storage        =   ThinkStorage::getInstance();
+        if($storage->isExist(C('CACHE_PATH').$prefix.md5($tmplContent).C('TMPL_CACHFILE_SUFFIX'))){
             return true;
         }else{
             return false;

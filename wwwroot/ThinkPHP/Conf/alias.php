@@ -16,6 +16,7 @@ return array(
     'Db'            => CORE_PATH.'Core/Db.class.php',
     'Log'          	=> CORE_PATH.'Core/Log.class.php',
     'ThinkTemplate' => CORE_PATH.'Template/ThinkTemplate.class.php',
+    'ThinkStorage'  => CORE_PATH.'Core/ThinkStorage.class.php',    
     'TagLib'        => CORE_PATH.'Template/TagLib.class.php',
     'Cache'         => CORE_PATH.'Core/Cache.class.php',
     'Widget'        => CORE_PATH.'Core/Widget.class.php',

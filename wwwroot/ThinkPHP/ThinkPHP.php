@@ -21,16 +21,18 @@ defined('APP_PATH') 	or define('APP_PATH', dirname($_SERVER['SCRIPT_FILENAME']).
 defined('APP_DEBUG') 	or define('APP_DEBUG',false); // 是否调试模式
 if(defined('ENGINE_NAME')) {
     defined('ENGINE_PATH') or define('ENGINE_PATH',THINK_PATH.'Extend/Engine/');
-	require ENGINE_PATH.strtolower(ENGINE_NAME).'.php';
+    require ENGINE_PATH.strtolower(ENGINE_NAME).'.php';
 }else{
     defined('RUNTIME_PATH') or define('RUNTIME_PATH',APP_PATH.'Runtime/');
-	$runtime = defined('MODE_NAME')?'~'.strtolower(MODE_NAME).'_runtime.php':'~runtime.php';
-	defined('RUNTIME_FILE') or define('RUNTIME_FILE',RUNTIME_PATH.$runtime);
-	if(!APP_DEBUG && is_file(RUNTIME_FILE)) {
-	    // 部署模式直接载入运行缓存
-	    require RUNTIME_FILE;
-	}else{
-	    // 加载运行时文件
-	    require THINK_PATH.'Common/runtime.php';
-	}	
+    $runtime =  defined('MODE_NAME')?'~'.strtolower(MODE_NAME).'_runtime.php':'~runtime.php';
+    defined('RUNTIME_FILE') or define('RUNTIME_FILE',RUNTIME_PATH.$runtime);
+    require THINK_PATH.'Lib/Core/ThinkStorage.class.php';
+    $storage =  ThinkStorage::getInstance(defined('STORAGE_TYPE')?STORAGE_TYPE:'File');
+    if(!APP_DEBUG && $storage->has(RUNTIME_FILE)) {
+        // 部署模式直接载入运行缓存
+        $storage->load(RUNTIME_FILE);
+    }else{
+        // 加载运行时文件
+        require THINK_PATH.'Common/runtime.php';
+    }
 }

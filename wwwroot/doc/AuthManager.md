@@ -115,7 +115,7 @@ AuthGroupModel::addToCategory( 123, '2,3,5,8,9' );
 动态扩展菜单
 ----------------------
 
-> 在控制器的相关方法中为模板分配一个菜单扩展变量,即可为左侧的菜单动态增加菜单
+> 在控制器的相关方法中为模板分配一个菜单扩展变量 `_extra_menu`,即可为左侧的菜单动态增加菜单
 
 > 例如,如果在index操作中增加以下变量,则在访问index操作是左侧便会在"测试组"插入一条"测试链接"菜单,在"用户管理"组插入一条"测试链接2"菜单
 
@@ -125,6 +125,7 @@ AuthGroupModel::addToCategory( 123, '2,3,5,8,9' );
 ```
         //菜单扩展变量名: _extra_menu
         $this->assign('_extra_menu',array(
+            // '组名称'=>链接配置数组
             '测试组'=>array(
                 array('title'=>'测试链接','url'=>'AuthManager/index2'),
             ),

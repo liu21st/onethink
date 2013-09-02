@@ -78,10 +78,7 @@ class  ThinkTemplate {
     public function fetch($templateFile,$templateVar,$prefix='') {
         $this->tVar         =   $templateVar;
         $templateCacheFile  =   $this->loadTemplate($templateFile,$prefix);
-        // 模板阵列变量分解成为独立变量
-        extract($templateVar, EXTR_OVERWRITE);
-        //载入模版缓存文件
-        include $templateCacheFile;
+        ThinkStorage::getInstance()->load($templateCacheFile,$this->tVar);
     }
 
     /**
@@ -114,13 +111,7 @@ class  ThinkTemplate {
         }
         // 编译模板内容
         $tmplContent =  $this->compiler($tmplContent);
-        // 检测模板目录
-        $dir         =  dirname($tmplCacheFile);
-        if(!is_dir($dir))
-            mkdir($dir,0755,true);
-        //重写Cache文件
-        if( false === file_put_contents($tmplCacheFile,trim($tmplContent)))
-            E(L('_CACHE_WRITE_ERROR_').':'.$tmplCacheFile);
+        ThinkStorage::getInstance()->put($tmplCacheFile,trim($tmplContent));
         return $tmplCacheFile;
     }
 
@@ -137,12 +128,6 @@ class  ThinkTemplate {
         $tmplContent =  preg_replace_callback('/<!--###literal(\d+)###-->/is', array($this, 'restoreLiteral'), $tmplContent);
         // 添加安全代码
         $tmplContent =  '<?php if (!defined(\'THINK_PATH\')) exit();?>'.$tmplContent;
-        if(C('TMPL_STRIP_SPACE')) {
-            /* 去除html空格与换行 */
-            $find           = array('/>\s+<~','~>(\s+\n|\r)/');
-            $replace        = array('><','>');
-            $tmplContent    = preg_replace($find, $replace, $tmplContent);
-        }
         // 优化生成的php代码
         $tmplContent = str_replace('?><?php','',$tmplContent);
         // 模版编译过滤标签
@@ -717,8 +702,9 @@ class  ThinkTemplate {
             //支持加载变量文件名
             $templateName = $this->get(substr($templateName,1));
         $array  =   explode(',',$templateName);
-        $parseStr   =   '';
+        $parseStr   =   ''; 
         foreach ($array as $templateName){
+            if(empty($templateName)) continue;
             if(false === strpos($templateName,$this->config['template_suffix'])) {
                 // 解析规则为 分组@模板主题:模块:操作
                 $templateName   =   T($templateName);

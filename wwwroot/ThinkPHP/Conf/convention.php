@@ -26,7 +26,7 @@ return  array(
     'APP_FILE_CASE'         => false,   // 是否检查文件的大小写 对Windows平台有效
     'APP_AUTOLOAD_PATH'     => '',// 自动加载机制的自动搜索路径,注意搜索顺序
     'APP_AUTOLOAD_LAYER'    =>  'Model,Controller', // 自动加载的类库层
-    'APP_AUTOLOAD_DRIVER'   =>  'Db,TagLib,Cache,Template', // 自动加载的驱动类库
+    'APP_AUTOLOAD_DRIVER'   =>  'Db,TagLib,Cache,Template,Storage', // 自动加载的驱动类库
     'APP_TAGS_ON'           => true, // 系统标签扩展开关
     'APP_SUB_DOMAIN_DEPLOY' => false,   // 是否开启子域名部署
     'APP_SUB_DOMAIN_RULES'  => array(), // 子域名部署规则
@@ -34,6 +34,7 @@ return  array(
     'ACTION_SUFFIX'         =>  '', // 操作方法后缀
     'MULTI_MODULE'          =>  true, // 是否允许多模块 如果为false 则必须设置 DEFAULT_MODULE
     'MODULE_DENY_LIST'      =>  array('Common','Runtime'),
+    'STORAGE_TYPE'          =>  'File',
 
     /* Cookie设置 */
     'COOKIE_EXPIRE'         => 0,    // Coodie有效期

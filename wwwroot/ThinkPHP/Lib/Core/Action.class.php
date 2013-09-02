@@ -135,11 +135,7 @@ abstract class Action {
         $content = $this->fetch($templateFile);
         $htmlpath   = !empty($htmlpath)?$htmlpath:HTML_PATH;
         $htmlfile =  $htmlpath.$htmlfile.C('HTML_FILE_SUFFIX');
-        if(!is_dir(dirname($htmlfile)))
-            // 如果静态目录不存在 则创建
-            mkdir(dirname($htmlfile),0755,true);
-        if(false === file_put_contents($htmlfile,$content))
-            E(L('_CACHE_WRITE_ERROR_').':'.$htmlfile);
+        ThinkStorage::getInstance()->put($htmlfile , $content);
         return $content;
     }
 

@@ -1,0 +1,103 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<div class="main-title">
+		<h2>频道管理</h2>
+	</div>
+	
+	<div class="toolbar">
+		<label class="checkbox"><input type="checkbox">全选</label>
+		<a class="btn" href="javascript:;">
+			<i class="icon-delete"></i>删除频道
+		</a>
+		<a class="btn"href="javascript:;">
+			<i class="icon-plus"></i>添加频道
+		</a>
+	</div>
+
+	<div class="data-table table-striped">
+		<table>
+			<thead>
+				<tr>
+					<th class="row-selected"></th>
+					<th>ID</th>
+					<th>频道名称</th>
+					<th>频道类型</th>
+					<th>频道地址</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist name="list" id="channel">
+					<tr>
+						<td class="row-selected"> <input type="checkbox" name="" id=""> </td>
+						<td>1</td>
+						<td><a href="javascript:;">{$channel.title}</a></td>
+						<td>系统频道</td>
+						<td><a href="#">{$channel.url}</a></td>
+						<td>
+							<div class="btn-toolbar">
+								<div class="btn-group">
+									<a class="btn" data-toggle="modal" data-target="#editModal" title="编辑" href="#">
+										<i class="icon-edit"></i>
+									</a>
+									<a class="btn" data-toggle="modal" data-target="#delModal" title="删除"  href="#">
+										<i class="icon-remove"></i>
+									</a>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</volist>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="toolbar">
+		<label class="checkbox"><input type="checkbox">全选</label>
+		<a class="btn" href="javascript:;">
+			<i class="icon-delete"></i>删除频道
+		</a>
+		<a class="btn"href="javascript:;">
+			<i class="icon-plus"></i>添加频道
+		</a>
+	</div>
+		
+	<!-- 编辑及新建频道弹出框 -->
+	<form action="#" method="post" class="form-horizontal add-pop-form">
+		<div class="form-item">
+			<label class="item-label">频道ID：</label>
+			<div class="controls">
+				<input type="text" class="text" value="1" disabled>
+			</div>
+		</div>
+		<div class="form-item">
+			<label class="item-label">频道名称：</label>
+			<div class="controls">
+				<input type="text" name="" class="text" value="">
+			</div>
+		</div>
+		<div class="form-item">
+			<label class="item-label">频道类型：</label>
+			<div class="controls">
+				<select>
+					<option value="">文档</option>
+					<option value="">视频</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-item">
+			<label class="item-label">频道地址：</label>
+			<div class="controls">
+				<input type="text" name="" class="text" value="wwww.thinkphp.cn">
+			</div>
+		</div>
+		<div class="form-item">
+			<label class="item-label"></label>
+			<div class="controls">
+				<input type="submit" value="保存" class="btn">
+				<input type="reset" value="取消" class="btn">
+			</div>
+		</div>
+	</form>
+</block>
