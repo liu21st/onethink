@@ -544,3 +544,15 @@ function execute_action($rules = false, $action_id = null, $user_id = null){
 	}
 	return $return;
 }
+
+//基于数组创建目录和文件
+function createDirOrFiles($files){
+    $length = count($files);
+    foreach ($files as $key => $value) {
+        if(substr($value, -1) == '/'){
+            mkdir($value);
+        }else{
+            file_put_contents($value, '');
+        }
+    }
+}

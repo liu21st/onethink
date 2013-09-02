@@ -50,7 +50,7 @@
                             }
                         }
                         $Doc->appendChild($ele);
-                        echo substr($Doc->saveHTML(),0,-1);
+                        echo $Doc->saveHTML();
                     }else{
                        echo $td;
                     }
@@ -89,13 +89,13 @@
                                 }
                             }
                             $Doc->appendChild($ele);
-                            echo substr($Doc->saveHTML(),0,-1);
+                            echo $Doc->saveHTML();
                         }else{
                             $v = preg_replace_callback('/\$(\w+)/',function($matches) use($row) {
                                 return ($row[$matches[1]]);
                             },$v);
                             $v = U($v);
-                            echo "<a href='$v'>".$k.'</a>';
+                            echo "<a href='$v'>".$k.'</a>'.PHP_EOL;
                         }
                     }
                     </php>

@@ -157,11 +157,12 @@ class Auth{
      */
     protected function getAuthList($uid,$type) {
         static $_authList = array(); //保存用户验证通过的权限列表
-        if (isset($_authList[$uid.$type])) {
-            return $_authList[$uid.$type];
+        $t = implode(',',(array)$type);
+        if (isset($_authList[$uid.$t])) {
+            return $_authList[$uid.$t];
         }
-        if(isset($_SESSION['_AUTH_LIST_'.$uid.$type])){
-            return $_SESSION['_AUTH_LIST_'.$uid.$type];
+        if(isset($_SESSION['_AUTH_LIST_'.$uid.$t])){
+            return $_SESSION['_AUTH_LIST_'.$uid.$t];
         }
 
         //读取用户所属用户组
@@ -172,7 +173,7 @@ class Auth{
         }
         $ids = array_unique($ids);
         if (empty($ids)) {
-            $_authList[$uid.$type] = array();
+            $_authList[$uid.$t] = array();
             return array();
         }
 
@@ -201,10 +202,10 @@ class Auth{
                 $authList[] = strtolower($rule['name']);
             }
         }
-        $_authList[$uid.$type] = $authList;
+        $_authList[$uid.$t] = $authList;
         if($this->_config['AUTH_TYPE']==2){
             //规则列表结果保存到session
-            $_SESSION['_AUTH_LIST_'.$uid.$type]=$authList;
+            $_SESSION['_AUTH_LIST_'.$uid.$t]=$authList;
         }
         return array_unique($authList);
     }
