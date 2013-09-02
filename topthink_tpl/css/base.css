@@ -1,0 +1,173 @@
+/** 
+ * 描述：重置页面元素，设置布局样式及公共模块
+ * 作用范围：公共
+ */
+
+html,body {
+	font: 14px/1.5 "微软正黑体","microsoft yahei", Helvetica, Tahoma, Arial, sans-serif;
+	color:#404040;
+	background-color:#fff;
+}
+body,p,pre,blockquote,
+h1,h2,h3,h4,h5,h6,			
+dl,dt,dd,ul,ol,li,			
+form,fieldset,legend,select,
+input,textarea,button,		
+table,caption,tr,th,td {
+	margin:0;
+	padding:0;
+}
+ol,ul {
+	list-style:none;
+}
+fieldset,img {
+	border:0 none;
+}
+img {
+	max-width: 100%;
+}
+a {
+	color: #666;
+	text-decoration:none;
+}
+a:hover{
+	text-decoration:underline;
+}
+input,button,textarea,select,option {
+	font-family:inherit;
+	font-size:100%;	
+	outline: 0;
+}
+textarea {
+	overflow: auto;
+	resize: none;
+}
+
+/* 布局样式 */
+.cf,.nav {
+	*zoom: 1;
+}
+.cf:before, .cf:after,
+.nav:before, .nav:after,
+.media:before, .media:after {
+	display: table;
+	content: "";
+}
+.cf:after,
+.nav:after,
+.media:after {
+	clear: both;
+}
+.fl {
+	float: left;
+}
+.fr {
+	float: right;
+}
+.wrapper {
+	margin-left: auto;
+	margin-right: auto;
+	width: 1000px;
+}
+.cont-container {
+	float: left;
+	width: 720px;
+}
+.side-container {
+	float: right;
+	width: 270px;
+}
+.columns .hd {
+	padding: 0 15px;
+	height: 45px;
+	line-height: 45px;
+	font-size: 16px;
+	color: #333;
+	border-bottom: 1px solid #ebebeb;
+}
+.columns .bd {
+	padding: 10px;
+}
+
+/* 公共独立类名 */
+.hidden {
+	display: none!important;
+}
+.block {
+	display: block;
+}
+.mod {
+	margin-bottom: 10px;
+	border: 1px solid #ebebeb;
+}
+.pillar {
+	display: inline-block;
+	width: 0;
+	height: 100%;
+	vertical-align: middle;
+}
+.ellipsis,
+.ellipsis li {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+
+/* 导航列表 */
+.nav li {
+	float: left;
+}
+.nav-list {
+	float: none;
+}
+.nav li a,
+.nav li a:hover,
+.nav-list li a,
+.nav-list li a:hover {
+	display: block;
+	text-decoration: none;
+}
+
+/* 表单样式 */
+.text {
+    padding: 4px 6px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 14px;
+    color: #34495E;
+    vertical-align: middle;
+    border: 1px solid #ccc;
+ 	border-radius: 2px;
+ 	background-color: #fff;
+}
+
+/* 实心小三角 */
+.arrow {
+	display: inline-block;
+	width: 0;
+	height: 0;
+	line-height: 0;
+	vertical-align: middle;
+	border: 4px dashed transparent;
+}
+.arrow-down {
+	border-top-style: solid;
+	border-top-color: #000;
+	border-bottom-width: 0;
+}
+.arrow-up {
+	border-bottom-style: solid;
+	border-bottom-color: #000;
+	border-top-width: 0;
+}
+.arrow-left {
+	border-right-style: solid;
+	border-right-color: #000;
+	border-left-width: 0;
+}
+.arrow-right {
+	border-left-style: solid;
+	border-left-color: #000;
+	border-right-width: 0;
+}

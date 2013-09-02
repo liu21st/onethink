@@ -334,27 +334,29 @@ function S($name,$value='',$options=null) {
  * @return mixed
  */
 function F($name, $value='', $path=DATA_PATH) {
-    static $_cache  = array();
-    $filename       = $path . $name . '.php';
+    static $_cache  =   array();
+    $filename       =   $path . $name . '.php';
+    $storage        =   ThinkStorage::getInstance();
     if ('' !== $value) {
         if (is_null($value)) {
             // 删除缓存
-            return false !== strpos($name,'*')?array_map("unlink", glob($filename)):unlink($filename);
+            if(false !== strpos($name,'*')){
+                return false; // TODO 
+            }else{
+                return $storage->unlink($filename);
+            }
         } else {
+            $storage->put($filename,serialize($value));
             // 缓存数据
-            $dir            =   dirname($filename);
-            // 目录不存在则创建
-            if (!is_dir($dir))
-                mkdir($dir,0755,true);
             $_cache[$name]  =   $value;
-            return file_put_contents($filename, strip_whitespace("<?php\treturn " . var_export($value, true) . ";?>"));
+            return ;
         }
     }
+    // 获取缓存数据
     if (isset($_cache[$name]))
         return $_cache[$name];
-    // 获取缓存数据
-    if (is_file($filename)) {
-        $value          =   include $filename;
+    if ($storage->has($filename)){
+        $value      =   unserialize($storage->read($filename));
         $_cache[$name]  =   $value;
     } else {
         $value          =   false;

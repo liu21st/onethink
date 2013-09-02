@@ -23,6 +23,8 @@ return array(
     /* 系统数据加密设置 */
     'DATA_AUTH_KEY' => 'kd23()#20okifi4fj)(03JF!@#$%^&*', //默认数据加密KEY
 
+    'codemirror_theme'=>'ambiance',
+
     /* 文件上传相关配置 */
     'DOWNLOAD_UPLOAD' => array(
         'mimes'    => '', //允许上传的文件MiMe类型
