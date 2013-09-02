@@ -156,7 +156,7 @@ class AuthManagerController extends AdminController{
             //另一列操作配置
             '授权'=>array(
                 '成员'=>'AuthManager/user?group_name=$title&group_id=$id',
-                '栏目'=>'AuthManager/category?group_name=$title&group_id=$id',
+                '文档分类'=>'AuthManager/category?group_name=$title&group_id=$id',
             ),
         );
 
@@ -372,6 +372,5 @@ class AuthManagerController extends AdminController{
         $a = AuthGroupModel::getAuthCategories(1);
         dump($a);
     }
-    
     
 }

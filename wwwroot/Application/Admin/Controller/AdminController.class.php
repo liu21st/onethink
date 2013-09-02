@@ -71,6 +71,7 @@ class AdminController extends Action {
             }
         }
         $this->assign('__controller__', $this);
+        $this->checkNodes();
     }
 
     /**
@@ -426,7 +427,7 @@ class AdminController extends Action {
     }
     
     /**
-     * 通用分页列表方法
+     * 通用分页列表数据集获取方法
      *  
      *  可以通过url参数传递where条件,例如:  index.html?name=asdfasdfasdfddds 
      *  可以通过url空值排序字段和方式,例如: index.html?_field=id&_order=asc
@@ -492,6 +493,14 @@ class AdminController extends Action {
 		return $model->select();
     }
 
+    /**
+     * 通用表格列表
+     *
+     * @param array $list     select 数据集
+     * @param array $thead    表头配置数组
+     *
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
     protected function tableList($list,$thead)
     {
         $keys = array_keys($thead);
@@ -510,5 +519,52 @@ class AdminController extends Action {
         $this->assign('_list',$list);
         return $this->fetch('Public:_list');
     }
-    
+
+    /**
+     * debug模式下检查是否存在不受权限系统管理的公共方法
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
+    protected function checkNodes(){
+        if ( APP_DEBUG!=true ){
+            return;
+        }
+
+        $CReflection = new ReflectionClass(CONTROLLER_NAME.'Controller');
+        $public = $CReflection->getMethods( ReflectionMethod::IS_PUBLIC );
+        $static = $CReflection->getMethods( ReflectionMethod::IS_STATIC );
+        $method = array_diff($public,$static);
+        $deny   = $this->getDeny();
+        $allow  = $this->getAllow();
+        $deny_allow = array_merge($deny,$allow,array('__get','__set','__call','__construct','__destruct','__isset','__sleep','__wakeup','__clone'));
+
+        $nodes  = M('AuthRule')->where(array('module'=>'admin','status'=>1))->getField('name',true);
+        foreach ($nodes as $k=>$n){
+            if( ($pos = strpos($n,'?'))>0){
+                $nodes[$k] = substr($n,0,$pos);
+            }
+        }
+        
+        $collect = array();
+        foreach ($method as $value){
+            if($value->class=='Action' || (strpos($value->name,'_')===0) ){
+                continue;
+            }
+            if( in_array( strtolower($value->name),$deny_allow) ){
+                continue;
+            }else{
+                $name =(MODULE_NAME.'/'.CONTROLLER_NAME.'/'.$value->name);
+                if( in_array($name,$nodes) ){
+                    continue;
+                }else{
+                    $collect[]=$value->name;
+                }
+            }
+        }
+        if( count($collect) ){
+            C('TRACE_PAGE_TABS', array('BASE'=>'基本','FILE'=>'文件','INFO'=>'流程','ERR|NOTIC'=>'错误','SQL'=>'SQL','DEBUG'=>'调试','DEV'=>'开发提示'));
+            foreach ($collect as $value){
+                trace(" 公共方法 '{$value}' 尚未进行任何权限配置!",CONTROLLER_NAME,'dev');
+            }
+        }
+    }
 }
