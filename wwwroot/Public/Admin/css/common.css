@@ -1,0 +1,156 @@
+/** 
+ * 描述：定义公共类名
+ * 作用范围: 公共，独立样式
+ */
+
+/* 小图标icon */
+i[class^="icon"],
+.icon {
+	display: inline-block;
+	margin-right: 2px;
+	width: 16px;
+	height: 16px;
+	vertical-align: middle;
+	background-image: url(../images/icon_bg.png);
+	background-repeat: no-repeat;
+}
+.icon-add {
+	background-position: 0 0;
+}
+.icon-remove {
+	background-position: -20px 0;
+}
+.icon-delete {
+	background-position: -40px 0;
+}
+.icon-ok {
+	background-position: -60px 0;
+}
+.icon-edit {
+	background-position: -80px 0;
+}
+.icon-denied {
+	background-position: -100px 0;
+}
+.icon-settings {
+	background-position: -120px 0;
+}
+.icon-lock {
+	background-position: -140px 0;
+}
+.icon-unlock {
+	background-position: -160px 0;
+}
+.icon-attachment {
+	background-position: -180px 0;
+}
+.icon-user {
+	background-position: 0 -20px;
+}
+.icon-tags {
+	background-position: -20px -20px;
+}
+.icon-home {
+	background-position: -40px -20px;
+}
+.icon-pic {
+	background-position: -60px -20px;
+}
+.icon-undo {
+	background-position: -80px -20px;
+}
+.icon-redo {
+	background-position: -100px -20px;
+}
+.icon-right {
+	background-position: -120px -20px;
+}
+.icon-error {
+	background-position: -140px -20px;
+}
+.icon-disabled {
+	background-position: -160px -20px;
+}
+
+/* 实心小三角 */
+.arrow {
+	display: inline-block;
+	width: 0;
+	height: 0;
+	line-height: 0;
+	border: 4px dashed transparent;
+}
+.arrow-down {
+	border-top-style: solid;
+	border-top-color: #000;
+	border-bottom-width: 0;
+}
+.arrow-up {
+	border-bottom-style: solid;
+	border-bottom-color: #000;
+	border-top-width: 0;
+}
+.arrow-left {
+	border-right-style: solid;
+	border-right-color: #000;
+	border-left-width: 0;
+}
+.arrow-right {
+	border-left-style: solid;
+	border-left-color: #000;
+	border-right-width: 0;
+}
+
+/* 空心小三角（要兼容IE,字体大小和宽高需一致） */
+.tips-arrow {
+	position: absolute;
+	margin-bottom: 10px;
+	width: 16px;
+	height: 16px;
+}
+.tips-arrow .outer,
+.tips-arrow .inner {
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	line-height: 16px;	/* 去掉字体上下的空白高度 */
+	font-size: 16px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+.tips-arrow .outer {
+	color: red;
+}
+.tips-arrow .inner {
+	color: #fff;
+}
+.tips-up .inner {
+	top: 1px;
+}
+.tips-down .inner {
+	bottom: 1px;
+}
+.tips-left .inner {
+	left: 1px;
+}
+.tips-right .inner {
+	right: 1px;
+}
+
+/* 单个元素在容器内垂直居中的支撑点，兼容IE6+ */
+.pillar {
+	display: inline-block;
+	width: 0;
+	height: 100%;
+	vertical-align: middle;
+}
+
+/* 半透明蒙板 */
+.mask {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: url(../images/mask.png) repeat 0 0;
+}
+
