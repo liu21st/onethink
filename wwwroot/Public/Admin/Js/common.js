@@ -1,7 +1,7 @@
-//dom鍔犺浇瀹屾垚鍚庢墽琛岀殑js
+//dom加载完成后执行的js
 ;$(function(){
 
-	//鍏ㄩ�夌殑瀹炵幇
+	//全选的实现
 	$("#selectall").click(function(){
 		$(".child_checkbox").prop("checked", this.checked);
 	});
