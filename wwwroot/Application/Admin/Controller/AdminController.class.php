@@ -18,7 +18,7 @@ class AdminController extends Action {
     static protected $deny  = array('getMenus');
 
     /* 保存允许所有管理员访问的公共方法 */
-    static protected $allow = array('test');
+    static protected $allow = array( 'login','logout', 'test');
 
     /**
      * 节点配置
@@ -542,6 +542,7 @@ class AdminController extends Action {
             if( ($pos = strpos($n,'?'))>0){
                 $nodes[$k] = substr($n,0,$pos);
             }
+            $nodes[$k] = strtolower($n);
         }
         
         $collect = array();
@@ -552,7 +553,7 @@ class AdminController extends Action {
             if( in_array( strtolower($value->name),$deny_allow) ){
                 continue;
             }else{
-                $name =(MODULE_NAME.'/'.CONTROLLER_NAME.'/'.$value->name);
+                $name = strtolower(MODULE_NAME.'/'.CONTROLLER_NAME.'/'.$value->name);
                 if( in_array($name,$nodes) ){
                     continue;
                 }else{
