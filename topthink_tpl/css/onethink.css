@@ -226,6 +226,7 @@
 .detail-box .hd .next {
 	font-size: 42px;
 	font-family: "宋体";
+	color: #999;
 }
 .detail-box .hd .prev {
 	float: left;
@@ -375,7 +376,7 @@
 
 /* 用户信息 */
 .user-box {
-	padding: 30px 15px 15px;
+	padding: 20px 15px 15px;
 	border-top: 15px solid #34b4e0;
 }
 .author-info dt {
