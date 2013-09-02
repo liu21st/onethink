@@ -21,7 +21,8 @@ class AddonsController extends AdminController {
                 //权限管理页面的五种按钮
                 array('title'=>'创建','url'=>'Addons/create'),
                 array('title'=>'检测创建','url'=>'Addons/checkForm'),
-                array('title'=>'弹窗','url'=>'Addons/window'),
+                array('title'=>'预览','url'=>'Addons/preview'),
+                array('title'=>'快速生成插件','url'=>'Addons/build'),
                 array('title'=>'设置','url'=>'Addons/config'),
                 array('title'=>'禁用','url'=>'Addons/disable'),
                 array('title'=>'启用','url'=>'Addons/enable'),
@@ -131,7 +132,64 @@ str;
     }
 
     public function checkForm(){
-        $this->success('好的');
+        $data = $_POST;
+        //检测插件名是否合法
+        $addons_dir = C('EXTEND_MODULE.Addons');
+        if(file_exists("{$addons_dir}{$data['info']['name']}")){
+            $this->error('插件已经存在了');
+        }
+        //检测配置和插件主文件是否合法 TODO: 无法实现正确的检测php代码片段机制
+        // if($data['has_config']){
+        //     if(!@eval(ltrim($data['config'], '<?php'))){
+        //         $this->error('配置有语法错误');
+        //     }
+        // }
+        // $preview = $this->preview(false);
+        // $check_preview = ltrim($preview, '<?php');
+        // $addon_class = realpath(APP_PATH.'Common/Controller/Addons.class.php');
+        // if(!class_exists('Addons'))
+        //     $check_preview = "include '{$addon_class}';".$check_preview;
+        // if(!@eval($check_preview)){
+        //     $this->error('插件定义类有语法错误','', array('error'=>$check_preview));
+        // }
+        $this->success('可以创建');
+    }
+
+    public function build(){
+        $addonFile = $this->preview(false);
+        $data = $_POST;
+        $addons_dir = C('EXTEND_MODULE.Addons');
+        //创建目录结构
+        $files = array();
+        $addon_dir = "$addons_dir{$data['info']['name']}/";
+        $files[] = $addon_dir;
+        $addon_name = "{$data['info']['name']}Addons.class.php";
+        $files[] = "{$addon_dir}{$addon_name}";
+        if($data['has_config'] == 1);//如果有配置文件
+            $files[] = $addon_dir.'config.php';
+
+        if($data['has_outurl']){
+            $files[] = "{$addon_dir}Controller/";
+            $files[] = "{$addon_dir}Controller/{$data['info']['name']}Controller.class.php";
+            $files[] = "{$addon_dir}Model/";
+            $files[] = "{$addon_dir}Model/{$data['info']['name']}Model.class.php";
+        }
+        $custom_config = trim($data['custom_config']);
+        if($custom_config)
+            $data[] = "{$addon_dir}{$custom_config}";
+
+        $custom_adminlist = trim($data['custom_adminlist']);
+        if($custom_adminlist)
+            $data[] = "{$addon_dir}{$custom_adminlist}";
+
+        createDirOrFiles($files);
+
+        //写文件
+        file_put_contents("{$addon_dir}{$addon_name}", $addonFile);
+        if($data['has_config'] == 1)
+            file_put_contents("{$addon_dir}config.php", $data['config']);
+
+        $this->success('创建成功');
     }
 
     /**
@@ -139,6 +197,7 @@ str;
      */
     public function index(){
         $this->assign('list',D('Addons')->getList());
+        $this->assign('creatable', is_writable(C('EXTEND_MODULE.Addons')));
         $this->display();
     }
 
