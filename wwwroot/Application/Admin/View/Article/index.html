@@ -30,7 +30,7 @@
 		<notempty name="child_cates">
 		<ul class="tab-nav nav">
 			<volist name="child_cates" id="child_cate">
-				<li <eq name="child_cate['id']" value="$cate_id">class="current"</eq>><a data-tab="tab" href="{$child_cate.url}">{$child_cate.title}</a></li>
+				<li <eq name="child_cate['id']" value="$cate_id">class="current"</eq>><a data-tab="tab" href="{$child_cate.url|U}">{$child_cate.title}</a></li>
 			</volist>
 		</ul>
 		</notempty>
