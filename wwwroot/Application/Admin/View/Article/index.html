@@ -7,9 +7,9 @@
             <!-- 子导航 -->
             <notempty name="sub_menu">
                 <h3><i class="icon-s1"></i><a href="{$sub_menu.url|U}">{$sub_menu.title}</a></h3>
-                <ul class="subnav-off">
+                <ul <neq name="sub_menu['current']" value="1">class="subnav-off"</neq>>
                     <volist name="sub_menu['_child']" id="menu">
-                        <li><a href="{$menu.url|U}">{$menu.title}</a></li>
+                        <li <eq name="menu['id']" value="$cate_id">class="current"</eq>><a href="{$menu.url|U}">{$menu.title}</a></li>
                     </volist>
                 </ul>
             </notempty>
@@ -85,12 +85,12 @@
 							<volist name="list" id="vo">
 							<tr>
 								<td><input type="checkbox" value="{$vo.id}" class="child_checkbox"/></td>
-								<td><a href="{:U('edit',array('id'=>$vo['id']))}">{$vo.title}</a></td>
+								<td><a href="{:U('edit',array('id'=>$vo['id'],'cate_id'=>$cate_id))}">{$vo.title}</a></td>
 								<td>{$vo.uid|get_username}</td>
 								<td>{$vo.create_time|time_format}</td>
 								<td>{$vo.status|get_status_title}</td>
 								<td>
-									<a href="{:U('edit',array('id'=>$vo['id']))}">编辑</a>
+									<a href="{:U('edit',array('id'=>$vo['id'],'cate_id'=>$cate_id))}">编辑</a>
 									<a href="{:U('setStatus',array('ids'=>$vo['id'],'status'=>-1))}">删除</a>
 									<eq name="vo['status']" value="0">
 										<a href="{:U('setStatus',array('ids'=>$vo['id'],'status'=>1))}">启用</a>
@@ -111,9 +111,6 @@
 				<!-- 分页 -->
 				<div class="page">{$page}</div>
 			</div>
-
-			<!-- 标签二内容 -->
-			<div id="tag2" class="tab-pane">内容二</div>
 		</div>
 	</div>
 
