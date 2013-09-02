@@ -55,31 +55,33 @@ class ArticleController extends AdminController {
 			$value['url'] = 'Article/index?cate_id='.$value['id'];
 			$value['level'] = 1;
 			if($cate_id == $value['id']){
-
+				$value['current'] = true;
 			}
 			foreach ($value['_child'] as $ka=>&$va){
 				$va['url'] = 'Article/index?cate_id='.$va['id'];
 				$va['level'] = 2;
-					foreach ($va['_child'] as $k=>&$v){
-						$v['url'] = 'Article/index?cate_id='.$v['id'];
-						$v['pid'] = $va['id'];
-						$v['level'] = 3;
-						if($v['id'] == $cate_id){
-							$is_child = true;
-						}
+				foreach ($va['_child'] as $k=>&$v){
+					$v['url'] = 'Article/index?cate_id='.$v['id'];
+					$v['pid'] = $va['id'];
+					$v['level'] = 3;
+					if($v['id'] == $cate_id){
+						$is_child = true;
 					}
+				}
 
 				if($va['id'] == $cate_id || $is_child){
 					$child_cates = $va['_child'];
 					$is_child = false;
+					$value['current'] = true;
 				}
 			}
 		}
 		$this->assign('nodes', $cate);
 		$this->assign('child_cates', $child_cates);
+		$this->assign('cate_id', $this->cate_id);
 
-		//判断权限
-		$cate_auth = AuthGroupModel::getAuthCategories(is_login());
+		//权限判断
+		$cate_auth = AuthGroupModel::getAuthCategories(is_login());	//获取当前用户所有的内容权限节点
 		if(!in_array($cate_id, $cate_auth)){
 			$this->error('没有权限！');
 		}
@@ -115,7 +117,6 @@ class ArticleController extends AdminController {
 		$models = get_category($cate_id, 'model');
 
 		$this->assign('model', implode(',', $models));
-		$this->assign('cate_id', $cate_id);
 		$this->assign('status', $status);
 		$this->assign('search', $search);
 		$this->assign('list', $list);
@@ -166,7 +167,6 @@ class ArticleController extends AdminController {
 		$template = strtolower(get_document_model($model_id, 'name'));
 
 		$this->assign('model_id', $model_id);
-		$this->assign('cate_id', $cate_id);
 		$this->assign('template', $template);
 		$this->display();
 	}
