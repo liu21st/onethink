@@ -30,9 +30,10 @@ class AuthManagerController extends AdminController{
                   array('title'=>'禁用','url'=>'AuthManager/changeStatus?method=forbidGroup'),
                   array('title'=>'恢复','url'=>'AuthManager/changeStatus?method=resumeGroup'),
                   array('title'=>'新增','url'=>'AuthManager/createGroup'),
-                  array('title'=>'编辑','url'=>'AuthManager/editGroup'),
-                  array('title'=>'成员','url'=>'AuthManager/user','tip'=>'"权限管理"页面"成员"按钮'),
-                  array('title'=>'栏目','url'=>'AuthManager/category','tip'=>'"权限管理"页面"栏目"按钮'),
+                  array('title'=>'编辑','url'=>'AuthManager/editGroup','tip'=>'点击进入编辑'),
+                  array('title'=>'访问授权','url'=>'AuthManager/access'),
+                  array('title'=>'成员授权','url'=>'AuthManager/user','tip'=>'"权限管理"页面"成员"按钮'),
+                  array('title'=>'分类授权','url'=>'AuthManager/category','tip'=>'"权限管理"页面"栏目"按钮'),
                   array('title'=>'授权','url'=>'AuthManager/group','tip'=>'"用户管理"界面"授权"按钮'),
                   //用户组编辑页面和新增页面的表单保存提交按钮
                   array('title'=>'保存用户组','url'=>'AuthManager/writeGroup','tip'=>'"权限管理"编辑和添加页面的"保存"按钮'),
@@ -132,13 +133,16 @@ class AuthManagerController extends AdminController{
                 'td'=>'<input class="ids" type="checkbox" name="id[]" value="$id" />',
             ),
             //查询出的数据集中的字段=>字段的表头
-            'title'=>'用户组',
+            'title'=>array(
+				'title'=>'用户组',
+				'tag'=>'a',
+				'href'=>'AuthManager/editgroup?id=$id',
+			),
             'description'=>'描述',
             'status_text'=>'状态',
             //操作配置
             '操作'=>array(
                 //操作按钮=>'按钮链接'
-                '编辑'=>'AuthManager/editgroup?id=$id',
                 //符合条件才显示的操作按钮
                 '禁用'=>array(
                     // 'tag'=>'a',//按钮的包裹元素,默认为 a 标签
@@ -155,8 +159,9 @@ class AuthManagerController extends AdminController{
             ),
             //另一列操作配置
             '授权'=>array(
-                '成员'=>'AuthManager/user?group_name=$title&group_id=$id',
-                '文档分类'=>'AuthManager/category?group_name=$title&group_id=$id',
+				'访问授权'=>'AuthManager/access?id=$id',
+                '成员授权'=>'AuthManager/user?group_name=$title&group_id=$id',
+                '分类授权'=>'AuthManager/category?group_name=$title&group_id=$id',
             ),
         );
 
@@ -188,16 +193,22 @@ class AuthManagerController extends AdminController{
         $this->display('managergroup');
     }
 
-    /**
-     * 编辑管理员用户组
-     * @author 朱亚杰 <zhuyajie@topthink.net>
-     */
     public function editGroup()
     {
-        $this->updateRules();
         $auth_group = D('AuthGroup')->where( array('module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
                                     ->find( (int)$_GET['id'] );
         $this->assign('auth_group',$auth_group);
+        $this->display();
+    }
+    
+
+    /**
+     * 访问授权页面
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
+    public function access()
+    {
+        $this->updateRules();
         $this->createGroup();
     }
     
