@@ -27,10 +27,13 @@
 
 	<!-- 标签页导航 -->
 	<div class="tab-wrap">
+		<notempty name="child_cates">
 		<ul class="tab-nav nav">
-			<li class="current"><a data-tab="tab" href="#tag1">文档列表</a></li>
-			<li><a data-tab="tab" href="#tag2">标签2</a></li>
+			<volist name="child_cates" id="child_cate">
+				<li <eq name="child_cate['id']" value="$cate_id">class="current"</eq>><a data-tab="tab" href="{$child_cate.url}">{$child_cate.title}</a></li>
+			</volist>
 		</ul>
+		</notempty>
 		<div class="tab-content">
 			<!-- 标签一内容 -->
 			<div id="tag1" class="tab-pane in">
