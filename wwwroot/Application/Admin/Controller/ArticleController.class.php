@@ -68,11 +68,12 @@ class ArticleController extends AdminController {
 						$is_child = true;
 					}
 				}
-
+				//展开子分类的父分类
 				if($va['id'] == $cate_id || $is_child){
 					$child_cates = $va['_child'];
 					$is_child = false;
 					$value['current'] = true;
+					$va['current'] = true;
 				}
 			}
 		}
