@@ -6,7 +6,7 @@
         <volist name="nodes" id="sub_menu">
             <!-- 子导航 -->
             <notempty name="sub_menu">
-                <h3><i class="icon-s1"></i><a href="{$sub_menu.url|U}">{$sub_menu.title}</a></h3>
+                <h3><i class="icon-fold"></i><a href="{$sub_menu.url|U}">{$sub_menu.title}</a></h3>
                 <ul <neq name="sub_menu['current']" value="1">class="subnav-off"</neq>>
                     <volist name="sub_menu['_child']" id="menu">
                         <li <if condition="$menu['id'] eq $cate_id or $menu['current'] eq 1">class="current"</if>><a href="{$menu.url|U}">{$menu.title}</a></li>
@@ -15,6 +15,8 @@
             </notempty>
             <!-- /子导航 -->
         </volist>
+        <!-- 回收站 -->
+        <h3><i class="icon-s1"></i><a href="{:U('article/recycle')}">回收站</a></h3>
     </div>
 </block>
 
@@ -73,7 +75,7 @@
 					<table>
 						<thead>
 							<tr>
-								<th class="row-selected"><input type="checkbox" id="selectall"/></th>
+								<th class="row-selected"><input type="checkbox" class="check-all"/></th>
 								<th>标题</th>
 								<th>创建者</th>
 								<th>创建时间</th>
@@ -84,7 +86,7 @@
 						<tbody>
 							<volist name="list" id="vo">
 							<tr>
-								<td><input type="checkbox" value="{$vo.id}" class="child_checkbox"/></td>
+								<td><input type="checkbox" value="{$vo.id}" class="ids"/></td>
 								<td><a href="{:U('edit',array('id'=>$vo['id'],'cate_id'=>$cate_id))}">{$vo.title}</a></td>
 								<td>{$vo.uid|get_username}</td>
 								<td>{$vo.create_time|time_format}</td>

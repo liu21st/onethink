@@ -49,14 +49,20 @@ textarea {
 }
 .cf:before, .cf:after,
 .nav:before, .nav:after,
-.media:before, .media:after {
+.media:before, .media:after,
+.form-item:before,.form-item:after {
 	display: table;
 	content: "";
 }
 .cf:after,
 .nav:after,
-.media:after {
+.media:after,
+.form-item:after {
 	clear: both;
+}
+.cf,.nav,.media,
+.form-item {
+	*zoom: 1;
 }
 .fl {
 	float: left;
@@ -113,7 +119,6 @@ textarea {
 	white-space: nowrap;
 }
 
-
 /* 导航列表 */
 .nav li {
 	float: left;
@@ -130,16 +135,95 @@ textarea {
 }
 
 /* 表单样式 */
-.text {
+.text,.textarea {
     padding: 4px 6px;
-    height: 20px;
-    line-height: 20px;
     font-size: 14px;
     color: #34495E;
     vertical-align: middle;
-    border: 1px solid #ccc;
+    border: 1px solid #ebebeb;
  	border-radius: 2px;
  	background-color: #fff;
+}
+.text {
+	height: 20px;
+    line-height: 20px;
+}
+.textarea {
+	display: block;
+}
+.textarea textarea {
+	width: 100%;
+	border: 0 none;
+}
+select {
+	padding: 2px;
+	height: 27px;
+	line-height: 27px;
+	font-size: 14px;
+	border: 1px solid #ebebeb;
+}
+.radio,.checkbox {
+	display: inline-block;
+	font-size: 14px;
+	min-height: 20px;
+	line-height: 20px;
+	vertical-align: middle;
+}
+.radio input,
+.checkbox input {
+	float: left;
+	margin: 4px 4px 0 0;
+	*margin: 0 2px 0 0;
+}
+.radio + .radio,
+.checkbox + .checkbox {
+	margin-left: 15px;
+}
+.must {
+	margin: 0 4px;
+	color: #f00;
+}
+
+/* 横向多列表单 */
+.form-horizontal .form-item {
+	margin-bottom: 10px;
+}
+.form-horizontal .controls {
+	min-height: 28px;
+	overflow: hidden;
+	*zoom: 1;
+}
+.form-horizontal .item-label {
+	float: left;
+	margin-right: 25px;
+	width: 80px;
+	height: 28px;
+	line-height: 28px;
+	text-align: right;
+}
+.form-horizontal .text {
+	width: 220px;
+}
+
+/* 按钮 */
+.btn {
+    display: inline-block;
+    margin: 0 0 5px;
+    padding: 6px 16px;
+    line-height: 22px;
+    font-size: 16px;
+    color: #FFFFFF;
+    cursor: pointer;
+    text-align: center;
+    vertical-align: middle;
+    border: 0 none;
+    border-radius: 2px 2px 2px 2px;
+	background-color: #348fd4;
+    transition: opacity 0.2s ease-in-out 0s;
+}
+.btn:hover {
+	text-decoration: none;
+	background-color: #2f81bf;
 }
 
 /* 实心小三角 */

@@ -24,6 +24,9 @@ class ArticleController extends AdminController {
 							array('title'=>'编辑','url'=>'article/edit'),
 							array('title'=>'改变状态','url'=>'article/setStatus'),
 							array('title'=>'保存数据','url'=>'article/update'),
+							array('title'=>'回收站','url'=>'article/recycle'),
+							array('title'=>'还原','url'=>'article/permit'),
+							array('title'=>'清空回收站','url'=>'article/clear'),
 					),
 			),
 	);
@@ -210,6 +213,85 @@ class ArticleController extends AdminController {
 			}else{
 				$this->success('新增成功');
 			}
+		}
+	}
+
+	/**
+	 * 回收站列表
+	 * @author huajie <banhuajie@163.com>
+	 */
+	public function recycle(){
+		$list = D('Document')->where(array('status'=>-1))->field('id,title,uid,create_time')->select();
+		//处理列表数据
+		foreach ($list as $k=>&$v){
+			$v['username'] = get_username($v['uid']);
+			$v['create_time'] = time_format($v['create_time']);
+		}
+		$this->assign('list', $list);
+
+		$thead = array(
+            //元素value中的变量就是数据集中的字段,value必须使用单引号
+
+            //所有 _ 下划线开头的元素用于使用html代码生成th和td
+            '_html'=>array(
+                'th'=>'<input class="check-all" type="checkbox"/>',
+                'td'=>'<input class="ids" type="checkbox" name="id[]" value="$id" />',
+            ),
+            //查询出的数据集中的字段=>字段的表头
+            'id'=>'编号',
+            'username'=>'创建者',
+			'title'=>'标题',
+            'create_time'=>'创建时间',
+            //操作配置
+            '操作'=>array(
+                //操作按钮=>'按钮链接'
+                //符合条件才显示的操作按钮
+                '还原'=>array(
+                    // 'tag'=>'a',//按钮的包裹元素,默认为 a 标签
+                    // 标签上的attr,需要什么设置什么,此处设置了a标签的href属性
+                    'href' =>'article/permit?ids=$id',
+                    // 按钮显示的条件,支持 == != > < 比较运算
+                ),
+            ),
+        );
+
+        $this->assign('_table_class', 'data-table table-striped');
+        $this->assign( '_table_list', $this->tableList($list,$thead) );
+        $this->display();
+	}
+
+	/**
+	 * 还原被删除的数据
+	 * @author huajie <banhuajie@163.com>
+	 */
+	public function permit(){
+		/*参数过滤*/
+		$ids = I('param.ids');
+		if(empty($ids)){
+			$this->error('请选择要操作的数据');
+		}
+
+		/*拼接参数并修改状态*/
+		$Model = 'Document';
+		$map = array();
+		if(is_array($ids)){
+			$map['id'] = array('in', implode(',', $ids));
+		}elseif (is_numeric($ids)){
+			$map['id'] = $ids;
+		}
+		$this->restore($Model,$map);
+	}
+
+	/**
+	 * 清空回收站
+	 * @author huajie <banhuajie@163.com>
+	 */
+	public function clear(){
+		$res = D('Document')->remove();
+		if($res){
+			$this->success('清空回收站成功！');
+		}else{
+			$this->error('清空回收站失败！');
 		}
 	}
 
