@@ -45,10 +45,6 @@
     -moz-box-shadow: 0px 1px 0 rgba(255, 255, 255, 1.0) inset;
     box-shadow: 0px 1px 0 rgba(255, 255, 255, 1.0) inset;
     background-color:#f5f5f5;
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fafafa), to(#f3f3f3));
-    background-image: -moz-linear-gradient(top,#fafafa,#f3f3f3);
-    background-image: -ms-linear-gradient(top,#fafafa,#f3f3f3);
-    background-image: linear-gradient(top,#fafafa,#f3f3f3);
 }
 
 /* 数据表格
