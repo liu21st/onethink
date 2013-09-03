@@ -617,7 +617,7 @@ class AdminController extends Action {
      * @param string $title  菜单名称
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    protected function nav($level,$title,$show=true){
+    protected function nav($level,$title,$show=false){
         if ( is_numeric($level) ) {
 			$this->nav[$level] = array ($this->nav['last']=>$title);
             unset($this->nav['last']);
@@ -630,9 +630,8 @@ class AdminController extends Action {
                 }
             }
 			session( 'nav', $this->nav );
-            if ( $show ) {
-                $this->assign('_nav',$arr);        
-            }
+            $this->assign('_nav',$arr);        
+            $this->assign('_show_nav',$show);
         }
     }
 }
