@@ -68,15 +68,21 @@
             $(this).qtip({
                 content: {
                     text: $(this).attr('title'),
-                    title:'提示'
+                    title: $(this).text()
                 },
                 position: {
-                    my: 'bottom center',  // Position my top left...
-                    at: 'top center', // at the bottom right of...
+                    my: 'bottom center',
+                    at: 'top center',
                     target: $(this)
                 },
                 style: {
-                    classes: 'qtip-blue'
+                    classes: 'qtip-blue',
+                    tip: {
+                        corner: true,
+                        mimic: false,
+                        width: 10,
+                        height: 10
+                    }
                 }
             });
         })
