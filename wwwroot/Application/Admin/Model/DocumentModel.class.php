@@ -348,4 +348,25 @@ class DocumentModel extends CmsadminModel{
 		}
 	}
 
+
+	/**
+	 * 删除状态为-1的数据（包含扩展模型）
+	 * @return true 删除成功， false 删除失败
+	 * @author huajie <banhuajie@163.com>
+	 */
+	public function remove(){
+		//查询假删除的基础数据
+		$base_list = $this->where(array('status'=>-1))->field('id,model_id')->select();
+
+		//删除扩展模型数据
+		foreach ($base_list as $key=>$value){
+			$logic = $this->logic($value['model_id']);
+			$logic->delete($value['id']);
+		}
+
+		//删除基础数据
+		$res = $this->where(array('status'=>-1))->delete();
+		return $res;
+	}
+
 }

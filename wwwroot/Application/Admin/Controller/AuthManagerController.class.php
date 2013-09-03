@@ -169,6 +169,7 @@ class AuthManagerController extends AdminController{
         $list = intToString($list);
         $this->assign('_table_class', 'data-table table-striped');
         $this->assign( '_table_list', $this->tableList($list,$thead) );
+        $this->nav(2,'权限管理');
         $this->display();
     }
 
@@ -216,6 +217,7 @@ class AuthManagerController extends AdminController{
         $this->assign('auth_rules',$child_rules);
         $this->assign('node_list',$node_list);
         $this->assign('auth_group',$auth_group);
+        $this->nav(3,'访问授权');
         $this->display('managergroup');
     }
     
@@ -280,6 +282,7 @@ class AuthManagerController extends AdminController{
         }
         $authed_user = AuthGroupModel::memberInGroup((int)$group_id);
         $this->assign('authed_user',intToString($authed_user));
+        $this->nav(3,'成员授权');
         $this->display();
     }
 
@@ -292,6 +295,7 @@ class AuthManagerController extends AdminController{
         $authed_group = AuthGroupModel::getCategoryOfGroup(I('group_id'));
         $this->assign('authed_group',implode(',',(array)$authed_group));
         $this->assign('group_list',$group_list);
+        $this->nav(3,'分类授权');
         $this->display();
     }
 

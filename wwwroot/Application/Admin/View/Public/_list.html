@@ -29,17 +29,30 @@
             <foreach name="row" item="td" key="key">
             <if condition="array_key_exists($key,$_thead)" >
                     <td>
-                        <php>
+<?php
                     if( strpos($key,'_')===0 ){
                         $td = preg_replace_callback('/\$(\w+)/',function($matches) use($row) {
                             return ($row[$matches[1]]);
                         },$td);
                         echo $td;
                     }else if( is_array($_thead[$key]) ) { 
+
+                        if ( array_key_exists('func',$_thead[$key]) ) {
+                            $_thead[$key]['func'] = preg_replace_callback('/\$(\w+)/',function($matches) use($row) {
+                                return ('"'.$row[$matches[1]].'"');
+                            },$_thead[$key]['func']);
+
+                            if ( substr($_thead[$key]['func'],-1)!=';' ) {
+                                $_thead[$key]['func'].=';';
+                            }
+                            @eval('$td ='. $_thead[$key]['func'] );
+                        }
+
                         $Doc = new DOMDocument('1.0','utf-8');
                         $ele = $Doc->createElement($_thead[$key]['tag'],$td);
+
                         foreach ($_thead[$key] as $k=>$v) {
-                            if(strtolower($k)!='title' && strtolower($k)!='tag' ){
+                            if(strtolower($k)!='title' && strtolower($k)!='tag' && strtolower($k)!='func'){
                                 $v = preg_replace_callback('/\$(\w+)/',function($matches) use($row) {
                                     return ($row[$matches[1]]);
                                 },$v);
@@ -54,13 +67,13 @@
                     }else{
                        echo $td;
                     }
-                        </php>
+                        ?>
                     </td>
             </if>
             </foreach>
             <foreach name="operator" item="op" key="key">
                 <td>
-                    <php>
+<?php
                     foreach ($op as $k=>$v){
                         if(is_array($v)){
 
@@ -98,7 +111,7 @@
                             echo "<a href='$v'>".$k.'</a>'.PHP_EOL;
                         }
                     }
-                    </php>
+                    ?>
                 </td>
             </foreach>
         </tr>
