@@ -83,7 +83,7 @@ class ArticleController extends AdminController {
 
 		//权限判断
 		$cate_auth = AuthGroupModel::getAuthCategories(is_login());	//获取当前用户所有的内容权限节点
-		if(!in_array($cate_id, $cate_auth)){
+		if(!in_array($cate_id, $cate_auth) && !is_administrator() && !empty($_GET)){
 			$this->error('没有权限！');
 		}
     }
