@@ -53,12 +53,15 @@
 	float: left;
 	width: 140px;
 	border-radius: 2px 0 0 2px;
+	border-color: #ccc;
 }
 .header-search .btn {
 	float: left;
 	margin-left: -1px;
 	padding: 4px 6px;
 	height: 30px;
+	color: #999;
+	font-size: 14px;
 	cursor: pointer;
 	border: 1px solid #ccc;
 	background-color: #f1f1f1;
@@ -319,6 +322,11 @@
 	margin-right: 15px;
 }
 
+/* 发布页 */
+.add-mod {
+	padding: 15px;
+}
+
 /* 分页 */
 .page {
 	text-align: right;
@@ -480,6 +488,25 @@
 .rank-list .top3 i {
 	color: #fff;
 	background-color: #ee784c;
+}
+
+/* 发布页提示列表 */
+.dot-list {
+	margin-left: 15px;
+	color: #999;
+	list-style-type: disc;
+}
+.key-list {
+	margin: 10px 0 0 10px;
+	color: #999;
+}
+.alert-info {
+	padding: 8px;
+    color: #3A87AD;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    border-color: #BCE8F1;
+    border-radius: 2px;
+	background-color: #D9EDF7;
 }
 
 /* 底部
