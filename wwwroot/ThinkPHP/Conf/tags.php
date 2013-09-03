@@ -14,25 +14,25 @@ return array(
     'app_init'      =>  array(
     ),
     'app_begin'     =>  array(
-        'ReadHtmlCache', // 读取静态缓存
+        'Think\Behavior\ReadHtmlCache', // 读取静态缓存
     ),
     'route_check'   =>  array(
-        'CheckRoute', // 路由检测
+        'Think\Behavior\CheckRoute', // 路由检测
     ), 
     'app_end'       =>  array(
-        'ShowPageTrace', // 页面Trace显示
+        'Think\Behavior\ShowPageTrace', // 页面Trace显示
     ),
     'path_info'     =>  array(),
     'action_begin'  =>  array(),
     'action_end'    =>  array(),
     'view_begin'    =>  array(),
     'view_parse'    =>  array(
-        'ParseTemplate', // 模板解析 支持PHP、内置模板引擎和第三方模板引擎
+        'Think\Behavior\ParseTemplate', // 模板解析 支持PHP、内置模板引擎和第三方模板引擎
     ),
     'view_filter'   =>  array(
-        'ContentReplace', // 模板输出替换
-        'TokenBuild',   // 表单令牌
-        'WriteHtmlCache', // 写入静态缓存
+        'Think\Behavior\ContentReplace', // 模板输出替换
+        'Think\Behavior\TokenBuild',   // 表单令牌
+        'Think\Behavior\WriteHtmlCache', // 写入静态缓存
        // 'ShowRuntime', // 运行时间显示
     ),
     'view_end'      =>  array(),

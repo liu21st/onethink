@@ -56,6 +56,7 @@ if(!IS_CLI) {
 }
 
 // 路径设置 可在入口文件中重新定义 所有路径常量都必须以/ 结尾
+defined('RUNTIME_PATH') or define('RUNTIME_PATH',APP_PATH.'Runtime/');
 defined('CORE_PATH')    or define('CORE_PATH',      THINK_PATH.'Lib/'); // 系统核心类库目录
 defined('EXTEND_PATH')  or define('EXTEND_PATH',    THINK_PATH.'Extend/'); // 系统扩展目录
 defined('MODE_PATH')    or define('MODE_PATH',      EXTEND_PATH.'Mode/'); // 模式扩展目录
@@ -75,20 +76,11 @@ set_include_path(get_include_path() . PATH_SEPARATOR . VENDOR_PATH);
 
 // 加载运行时所需要的文件 并负责自动目录生成
 function load_runtime_file() {
-    // 加载系统基础函数库
     require THINK_PATH.'Common/common.php';
     // 加载惯例配置
     C(include THINK_PATH.'Conf/convention.php');
     // 读取核心文件列表
-    $list = array(
-        CORE_PATH.'Core/Think.class.php',
-        CORE_PATH.'Core/ThinkException.class.php',  // 异常处理类
-        CORE_PATH.'Core/Behavior.class.php',
-    );
-    // 加载模式文件列表
-    foreach ($list as $key=>$file){
-        if(is_file($file))  require_cache($file);
-    }
+    require CORE_PATH.'Think.class.php';
     // 加载系统类库别名定义
     alias_import(include THINK_PATH.'Conf/alias.php');
 
@@ -99,9 +91,6 @@ function load_runtime_file() {
     }elseif(!is_dir(CACHE_PATH)){
         // 检查缓存目录
         check_runtime();
-    }elseif(APP_DEBUG){
-        // 调试模式切换删除编译缓存
-        if(is_file(RUNTIME_FILE))   unlink(RUNTIME_FILE);
     }
 }
 
@@ -118,50 +107,6 @@ function check_runtime() {
     if(!is_dir(TEMP_PATH))  mkdir(TEMP_PATH);   // 数据缓存目录
     if(!is_dir(DATA_PATH))  mkdir(DATA_PATH);   // 数据文件目录
     return true;
-}
-
-// 创建编译缓存
-function build_runtime_cache($append='') {
-    // 生成编译文件
-    $defs           = get_defined_constants(TRUE);
-    $content        =  '$GLOBALS[\'_beginTime\'] = microtime(TRUE);';
-    if(defined('RUNTIME_DEF_FILE')) { // 编译后的常量文件外部引入
-        file_put_contents(RUNTIME_DEF_FILE,'<?php '.array_define($defs['user']));
-        $content   .=  'require \''.RUNTIME_DEF_FILE.'\';';
-    }else{
-        $content   .= array_define($defs['user']);
-    }
-    $content       .= 'set_include_path(get_include_path() . PATH_SEPARATOR . VENDOR_PATH);';
-    // 读取核心编译文件列表
-    $list = array(
-        THINK_PATH.'Common/common.php',
-        CORE_PATH.'Core/Think.class.php',
-        CORE_PATH.'Core/ThinkException.class.php',
-        CORE_PATH.'Core/Behavior.class.php',
-    );
-    foreach ($list as $file){
-        $content .= compile($file);
-    }
-    // 系统行为扩展文件统一编译
-    $content .= build_tags_cache();
-    
-    $alias      = include THINK_PATH.'Conf/alias.php';
-    $content   .= 'alias_import('.var_export($alias,true).');';
-    // 编译框架默认语言包和配置参数
-    $content   .= $append."\nL(".var_export(L(),true).");C(".var_export(C(),true).');G(\'loadTime\');Think::Start();';
-    ThinkStorage::getInstance(defined('STORAGE_TYPE')?STORAGE_TYPE:'File')->put(RUNTIME_FILE,strip_whitespace('<?php '.str_replace("defined('THINK_PATH') or exit();",' ',$content)));
-}
-
-// 编译系统行为扩展类库
-function build_tags_cache() {
-    $tags = C('extends');
-    $content = '';
-    foreach ($tags as $tag=>$item){
-        foreach ($item as $key=>$name) {
-            $content .= is_int($key)?compile(CORE_PATH.'Behavior/'.$name.'Behavior.class.php'):compile($name);
-        }
-    }
-    return $content;
 }
 
 // 创建项目目录结构
@@ -232,4 +177,4 @@ load_runtime_file();
 // 记录加载文件时间
 G('loadTime');
 // 执行入口
-Think::Start();
+Think\Think::Start();

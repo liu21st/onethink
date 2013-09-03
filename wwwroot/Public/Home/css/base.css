@@ -1,129 +1,257 @@
-/**
-  * 描    述：重置,布局及基础样式
-  * 涉及区域：公共,全局
-  * 通用颜色：black 		#323232
-  * 		  blue 			#3490d4
-  * 		  green 		#009933
-  * 		  gray 			#777777
-  * 		  link 			#444444
-  * 		  border-color  #d4d4d4
-  */
+/** 
+ * 描述：重置页面元素，设置布局样式及公共模块
+ * 作用范围：公共
+ */
 
 html,body {
-	font-size: 14px;
-	font-family: "Microsoft yahei";
-	color: #323232;
-	background-color: #f9f9f9;
+	font: 14px/1.5 "microsoft yahei", Helvetica, Tahoma, Arial, "Microsoft jhengHei", sans-serif;
+	color:#404040;
+	background-color:#fff;
 }
-body,p,h1,h2,h3,h4,h5,h6,
-dl,dt,dd,ul,ol,li,
-form,input,textarea,button,
-pre,img {
-	margin: 0;
-	padding: 0;
+body,p,pre,blockquote,
+h1,h2,h3,h4,h5,h6,			
+dl,dt,dd,ul,ol,li,			
+form,fieldset,legend,select,
+input,textarea,button,		
+table,caption,tr,th,td {
+	margin:0;
+	padding:0;
 }
-ul,ol {
-	list-style: none;
+ol,ul {
+	list-style:none;
+}
+fieldset,img {
+	border:0 none;
 }
 img {
-	border: 0;
+	max-width: 100%;
 }
-a{
-	color: #444;
-	text-decoration: none;
+a {
+	color: #666;
+	text-decoration:none;
 }
 a:hover{
-	color: #093;
-	text-decoration: underline;
+	text-decoration:underline;
 }
-input,textarea,select {
-	font-size: 100%;
+input,button,textarea,select,option {
+	font-family:inherit;
+	font-size:100%;	
 	outline: 0;
+}
+textarea {
+	overflow: auto;
 	resize: none;
-	color: #323232;
-	font-family: "Microsoft yahei";
 }
 
-/* 布局 */
+/* 布局样式 */
+.cf,.nav {
+	*zoom: 1;
+}
+.cf:before, .cf:after,
+.nav:before, .nav:after,
+.media:before, .media:after,
+.form-item:before,.form-item:after {
+	display: table;
+	content: "";
+}
+.cf:after,
+.nav:after,
+.media:after,
+.form-item:after {
+	clear: both;
+}
+.cf,.nav,.media,
+.form-item {
+	*zoom: 1;
+}
 .fl {
-	float:left;
-	display:inline;
+	float: left;
 }
 .fr {
-	float:right;
-	display:inline;
-}
-.cf {
-	zoom:1;
-}
-.cf:after {
-	display:block;
-	visibility:hidden;
-	width:0;
-	height:0;
-	line-height:0;
-	font-size:0;
-	clear:both;
-	content:".";
-}
-.main {
-	margin-left: auto;
-	margin-right: auto;
-	padding-top: 70px;
-	width: 1000px;
-	min-height: 500px;
-	height: auto!important;
+	float: right;
 }
 .wrapper {
+	margin-left: auto;
+	margin-right: auto;
+	width: 1000px;
+}
+.cont-container {
 	float: left;
 	width: 720px;
 }
-.sidebar {
+.side-container {
 	float: right;
 	width: 270px;
 }
-.box,.contentbox {
-	margin-bottom: 10px;
-	border: 1px solid #D4D4D4;
-	background-color: #FFF;
+.columns .hd {
+	padding: 0 15px;
+	height: 45px;
+	line-height: 45px;
+	font-size: 16px;
+	color: #333;
+	border-bottom: 1px solid #ebebeb;
 }
-.contentbox {
-	padding: 15px;
-}
-.msgbox {
-	overflow: hidden;
-	word-break: break-all;
-	word-wrap: break-word;
-	_zoom:1;
+.columns .bd {
+	padding: 10px;
 }
 
-/* 公用样式 */
+/* 公共独立类名 */
 .hidden {
-	display: none;
+	display: none!important;
 }
-.b0 {
-    border: 0!important;
+.block {
+	display: block;
 }
-.posr {
-	position: relative;
+.mod {
+	margin-bottom: 10px;
+	border: 1px solid #ebebeb;
 }
-.avatar {
-	float: left;
-	margin-right: 10px;
-	padding: 1px;
-	width: 44px;
-	height: 44px;
+.pillar {
+	display: inline-block;
+	width: 0;
+	height: 100%;
+	vertical-align: middle;
+}
+.ellipsis,
+.ellipsis li {
 	overflow: hidden;
-	border: 1px solid #D4D4D4;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
-.editlink {
-	color: #d2691e;
+
+/* 导航列表 */
+.nav li {
+	float: left;
 }
-.checkbox,.radio {
+.nav-list {
+	float: none;
+}
+.nav li a,
+.nav li a:hover,
+.nav-list li a,
+.nav-list li a:hover {
+	display: block;
+	text-decoration: none;
+}
+
+/* 表单样式 */
+.text,.textarea {
+    padding: 4px 6px;
+    font-size: 14px;
+    color: #34495E;
+    vertical-align: middle;
+    border: 1px solid #ebebeb;
+ 	border-radius: 2px;
+ 	background-color: #fff;
+}
+.text {
+	height: 20px;
+    line-height: 20px;
+}
+.textarea {
+	display: block;
+}
+.textarea textarea {
+	width: 100%;
+	border: 0 none;
+}
+select {
+	padding: 2px;
+	height: 27px;
+	line-height: 27px;
+	font-size: 14px;
+	border: 1px solid #ebebeb;
+}
+.radio,.checkbox {
+	display: inline-block;
+	font-size: 14px;
+	min-height: 20px;
 	line-height: 20px;
+	vertical-align: middle;
 }
-.checkbox input,
-.radio input {
-	margin-right: 5px;
-	vertical-align: -1px;
+.radio input,
+.checkbox input {
+	float: left;
+	margin: 4px 4px 0 0;
+	*margin: 0 2px 0 0;
+}
+.radio + .radio,
+.checkbox + .checkbox {
+	margin-left: 15px;
+}
+.must {
+	margin: 0 4px;
+	color: #f00;
+}
+
+/* 横向多列表单 */
+.form-horizontal .form-item {
+	margin-bottom: 10px;
+}
+.form-horizontal .controls {
+	min-height: 28px;
+	overflow: hidden;
+	*zoom: 1;
+}
+.form-horizontal .item-label {
+	float: left;
+	margin-right: 25px;
+	width: 80px;
+	height: 28px;
+	line-height: 28px;
+	text-align: right;
+}
+.form-horizontal .text {
+	width: 220px;
+}
+
+/* 按钮 */
+.btn {
+    display: inline-block;
+    margin: 0 0 5px;
+    padding: 6px 16px;
+    line-height: 22px;
+    font-size: 16px;
+    color: #FFFFFF;
+    cursor: pointer;
+    text-align: center;
+    vertical-align: middle;
+    border: 0 none;
+    border-radius: 2px 2px 2px 2px;
+	background-color: #348fd4;
+    transition: opacity 0.2s ease-in-out 0s;
+}
+.btn:hover {
+	text-decoration: none;
+	background-color: #2f81bf;
+}
+
+/* 实心小三角 */
+.arrow {
+	display: inline-block;
+	width: 0;
+	height: 0;
+	line-height: 0;
+	vertical-align: middle;
+	border: 4px dashed transparent;
+}
+.arrow-down {
+	border-top-style: solid;
+	border-top-color: #000;
+	border-bottom-width: 0;
+}
+.arrow-up {
+	border-bottom-style: solid;
+	border-bottom-color: #000;
+	border-top-width: 0;
+}
+.arrow-left {
+	border-right-style: solid;
+	border-right-color: #000;
+	border-left-width: 0;
+}
+.arrow-right {
+	border-left-style: solid;
+	border-left-color: #000;
+	border-right-width: 0;
 }
