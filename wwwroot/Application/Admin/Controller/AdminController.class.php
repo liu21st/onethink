@@ -540,7 +540,7 @@ class AdminController extends Action {
         $nodes  = M('AuthRule')->where(array('module'=>'admin','status'=>1))->getField('name',true);
         foreach ($nodes as $k=>$n){
             if( ($pos = strpos($n,'?'))>0){
-                $nodes[$k] = substr($n,0,$pos);
+                $n= substr($n,0,$pos);
             }
             $nodes[$k] = strtolower($n);
         }
