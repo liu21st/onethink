@@ -26,20 +26,19 @@ class AuthManagerController extends AdminController{
         array('title'=>'权限管理','url'=>'AuthManager/index','group'=>'用户管理',
               'operator'=>array(
                   //权限管理页面的五种按钮
-                  array('title'=>'删除','url'=>'AuthManager/changeStatus?method=deleteGroup'),
-                  array('title'=>'禁用','url'=>'AuthManager/changeStatus?method=forbidGroup'),
-                  array('title'=>'恢复','url'=>'AuthManager/changeStatus?method=resumeGroup'),
-                  array('title'=>'新增','url'=>'AuthManager/createGroup'),
-                  array('title'=>'编辑','url'=>'AuthManager/editGroup','tip'=>'点击进入编辑'),
-                  array('title'=>'访问授权','url'=>'AuthManager/access'),
-                  array('title'=>'成员授权','url'=>'AuthManager/user','tip'=>'"权限管理"页面"成员"按钮'),
-                  array('title'=>'分类授权','url'=>'AuthManager/category','tip'=>'"权限管理"页面"栏目"按钮'),
-                  array('title'=>'授权','url'=>'AuthManager/group','tip'=>'"用户管理"界面"授权"按钮'),
-                  //用户组编辑页面和新增页面的表单保存提交按钮
-                  array('title'=>'保存用户组','url'=>'AuthManager/writeGroup','tip'=>'"权限管理"编辑和添加页面的"保存"按钮'),
-                  array('title'=>'解除授权','url'=>'AuthManager/removeFromGroup','tip'=>'"权限管理"-"成员"页面的按钮'),
-                  array('title'=>'添加授权','url'=>'AuthManager/addToGroup','tip'=>'"权限管理"-"成员"页面的"添加"按钮;"用户管理"-"授权"页面的"保存"按钮'),
-                  array('title'=>'保存栏目授权','url'=>'AuthManager/addToCategory'),
+                  array('title'=>'删除',        'url'=>'AuthManager/changeStatus?method=deleteGroup','tip'=>'删除用户组'),
+                  array('title'=>'禁用',        'url'=>'AuthManager/changeStatus?method=forbidGroup','tip'=>'禁用用户组'),
+                  array('title'=>'恢复',        'url'=>'AuthManager/changeStatus?method=resumeGroup','tip'=>'恢复已禁用的用户组'),
+                  array('title'=>'新增',        'url'=>'AuthManager/createGroup',                    'tip'=>'创建新的用户组'),
+                  array('title'=>'编辑',        'url'=>'AuthManager/editGroup',                      'tip'=>'编辑用户组名称和描述'),
+                  array('title'=>'保存用户组',  'url'=>'AuthManager/writeGroup',                     'tip'=>'新增和编辑用户组的"保存"按钮'),
+                  array('title'=>'授权',        'url'=>'AuthManager/group',                          'tip'=>'"后台 \ 用户 \ 用户信息"列表页的"授权"操作按钮,用于设置用户所属用户组'),
+                  array('title'=>'访问授权',    'url'=>'AuthManager/access',                         'tip'=>'"后台 \ 用户 \ 权限管理"列表页的"访问授权"操作按钮'),
+                  array('title'=>'成员授权',    'url'=>'AuthManager/user',                           'tip'=>'"后台 \ 用户 \ 权限管理"列表页的"成员授权"操作按钮'),
+                  array('title'=>'解除授权',    'url'=>'AuthManager/removeFromGroup',                'tip'=>'"成员授权"列表页内的解除授权操作按钮'),
+                  array('title'=>'保存成员授权','url'=>'AuthManager/addToGroup',                     'tip'=>'"用户信息"列表页"授权"时的"保存"按钮和"成员授权"里右上角的"添加"按钮)'),
+                  array('title'=>'分类授权',    'url'=>'AuthManager/category',                       'tip'=>'"后台 \ 用户 \ 权限管理"列表页的"分类授权"操作按钮'),
+                  array('title'=>'保存分类授权','url'=>'AuthManager/addToCategory',                  'tip'=>'"分类授权"页面的"保存"按钮'),
               ),
         ),
     );
@@ -66,11 +65,11 @@ class AuthManagerController extends AdminController{
             $temp['title']  = $value['title'];
             $temp['module'] = 'admin';
             if(isset($value['controllers'])){
-                $temp['type']   = AuthRuleModel::RULE_MAIN;
+                $temp['type'] = AuthRuleModel::RULE_MAIN;
             }else{
-                $temp['type']   = AuthRuleModel::RULE_URL;
+                $temp['type'] = AuthRuleModel::RULE_URL;
             }
-            $temp['status'] = 1;
+            $temp['status']   = 1;
             $data[strtolower($temp['name'].$temp['module'].$temp['type'])] = $temp;//去除重复项
         }
 
@@ -78,19 +77,17 @@ class AuthManagerController extends AdminController{
         $ids    = array();//保存需要删除的节点的id
         foreach ($rules as $index=>$rule){
             $key = strtolower($rule['name'].$rule['module'].$rule['type']);
-            if ( isset($data[$key]) ) {//如果数据库中的规则与配置的节点匹配
-                $data[$key]['id'] = $rule['id'];//为配置的节点补充数据库中对应的id值
-                $update[] = $data[$key];//保存
-                unset($data[$key]); //去除需要更新的节点,只留下需要插入的节点
-                unset($rules[$index]);//去除需要更新的节点,只留下需要删除的节点
+            if ( isset($data[$key]) ) {//如果数据库中的规则与配置的节点匹配,说明是需要更新的节点
+                $data[$key]['id'] = $rule['id'];//为需要更新的节点补充id值
+                $update[] = $data[$key];
+                unset($data[$key]);
+                unset($rules[$index]);
                 unset($rule['condition']);
-                $diff[$rule['id']]=$rule;//用户更新规则时的比较判断
+                $diff[$rule['id']]=$rule;
             }elseif($rule['status']==1){
                 $ids[] = $rule['id'];
             }
         }
-        // $AuthRule->startTrans();
-        //更新
         if ( count($update) ) {
             foreach ($update as $k=>$row){
                 if ( $row!=$diff[$row['id']] ) {
@@ -98,20 +95,16 @@ class AuthManagerController extends AdminController{
                 }
             }
         }
-        //删除
         if ( count($ids) ) {
             $AuthRule->where( array( 'id'=>array('IN',implode(',',$ids)) ) )->save(array('status'=>-1));
         }
-        //新增
         if( count($data) ){
             $AuthRule->addAll(array_values($data));
         }
         if ( $AuthRule->getDbError() ) {
-            // $AuthRule->rollback();
             trace('['.__METHOD__.']:'.$AuthRule->getDbError());
             return false;
         }else{
-            // $AuthRule->commit();
             return true;
         }
     }
@@ -125,14 +118,10 @@ class AuthManagerController extends AdminController{
     {
 
         $thead = array(
-            //元素value中的变量就是数据集中的字段,value必须使用单引号
-            
-            //所有 _ 下划线开头的元素用于使用html代码生成th和td
             '_html'=>array(
                 'th'=>'<input class="check-all" type="checkbox"/>',
                 'td'=>'<input class="ids" type="checkbox" name="id[]" value="$id" />',
             ),
-            //查询出的数据集中的字段=>字段的表头
             'title'=>array(
 				'title'=>'用户组',
 				'tag'=>'a',
@@ -140,24 +129,11 @@ class AuthManagerController extends AdminController{
 			),
             'description'=>'描述',
             'status_text'=>'状态',
-            //操作配置
             '操作'=>array(
-                //操作按钮=>'按钮链接'
-                //符合条件才显示的操作按钮
-                '禁用'=>array(
-                    // 'tag'=>'a',//按钮的包裹元素,默认为 a 标签
-                    // 标签上的attr,需要什么设置什么,此处设置了a标签的href属性
-                    'href' =>'AuthManager/changeStatus?method=forbidGroup&id=$id',
-                    // 按钮显示的条件,支持 == != > < 比较运算
-                    'condition'=>'$status==1',
-                ), 
-                '启用'=>array(
-                    'href' =>'AuthManager/changeStatus?method=resumeGroup&id=$id',
-                    'condition'=>'$status==0',
-                ), 
+                '禁用'=>array( 'href' =>'AuthManager/changeStatus?method=forbidGroup&id=$id', 'condition'=>'$status==1',), 
+                '启用'=>array( 'href' =>'AuthManager/changeStatus?method=resumeGroup&id=$id', 'condition'=>'$status==0',), 
                 '删除'=>'AuthManager/changeStatus?method=deleteGroup&id=$id',
             ),
-            //另一列操作配置
             '授权'=>array(
 				'访问授权'=>'AuthManager/access?id=$id',
                 '成员授权'=>'AuthManager/user?group_name=$title&group_id=$id',
@@ -167,7 +143,6 @@ class AuthManagerController extends AdminController{
 
         $list = $this->lists('AuthGroup',array('module'=>'admin'),'id asc');
         $list = intToString($list);
-        $this->assign('_table_class', 'data-table table-striped');
         $this->assign( '_table_list', $this->tableList($list,$thead) );
         $this->nav(2,'权限管理');
         $this->display();
