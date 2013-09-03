@@ -68,11 +68,12 @@ class ArticleController extends AdminController {
 						$is_child = true;
 					}
 				}
-
+				//展开子分类的父分类
 				if($va['id'] == $cate_id || $is_child){
 					$child_cates = $va['_child'];
 					$is_child = false;
 					$value['current'] = true;
+					$va['current'] = true;
 				}
 			}
 		}
@@ -82,7 +83,7 @@ class ArticleController extends AdminController {
 
 		//权限判断
 		$cate_auth = AuthGroupModel::getAuthCategories(is_login());	//获取当前用户所有的内容权限节点
-		if(!in_array($cate_id, $cate_auth)){
+		if(!in_array($cate_id, $cate_auth) && !is_administrator() && !empty($_GET)){
 			$this->error('没有权限！');
 		}
     }
