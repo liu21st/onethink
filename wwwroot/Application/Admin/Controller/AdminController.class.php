@@ -7,7 +7,9 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
-
+namespace Admin\Controller;
+use Think\Action;
+use Admin\Model\AuthRuleModel;
 /**
  * 后台首页控制器
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
@@ -87,9 +89,8 @@ class AdminController extends Action {
     final protected function checkRule($rule, $type=AuthRuleModel::RULE_URL, $mode='url')
     {
         static $Auth = null;
-        import('ORG.Util.Auth');
         if (!$Auth) {
-            $Auth  = new Auth();
+            $Auth  = new \ORG\Util\Auth();
         }
         if(!$Auth->check($rule,$this->uid,$type,$mode)){
             return false;
@@ -111,7 +112,7 @@ class AdminController extends Action {
      */
     final protected function accessControl()
     {
-        $controller = CONTROLLER_NAME.'Controller';
+        $controller = 'Admin\\Controller\\'.CONTROLLER_NAME.'Controller';
         if ( !is_array($controller::$deny)||!is_array($controller::$allow) ){
             $this->error("内部错误:{$controller}控制器 deny和allow属性必须为数组");
         }
@@ -222,7 +223,7 @@ class AdminController extends Action {
      */
     final protected function getDeny()
     {
-        $controller = CONTROLLER_NAME.'Controller';
+        $controller = 'Admin\\Controller\\'.CONTROLLER_NAME.'Controller';
         $data = array();
         if ( is_array( $controller::$deny) ) {
             $deny = array_merge( $controller::$deny, self::$deny );
@@ -244,7 +245,7 @@ class AdminController extends Action {
      */
     final protected function getAllow()
     {
-        $controller = CONTROLLER_NAME.'Controller';
+        $controller = 'Admin\\Controller\\'.CONTROLLER_NAME.'Controller';
         $data = array();
         if ( is_array( $controller::$allow) ) {
             $allow = array_merge( $controller::$allow, self::$allow );
@@ -342,7 +343,7 @@ class AdminController extends Action {
                 $menus['main'][$key]['class']='current';
                 foreach ($other_controller as $c){
                     //从控制器中读取节点
-                    $child = $c.'Controller';
+                    $child = 'Admin\\Controller\\'.$c.'Controller';
                     $child_nodes = $child::getNodes($child);
                     if ($child_nodes===false) {
                         $this->error("内部错误:请检查{$child}控制器 nodes 属性");
@@ -478,7 +479,7 @@ class AdminController extends Action {
             $model = D($model);
         }
 
-        $OPT = new ReflectionProperty($model,'options');
+        $OPT = new \ReflectionProperty($model,'options');
         $OPT->setAccessible(true);
 
         $pk = $model->getPk();
@@ -496,14 +497,12 @@ class AdminController extends Action {
 
 		$total = $model->where($options['where'])->count();
 
-		import("COM.Page");
-
         if( isset($REQUEST['r']) ){
             $listRows = (int)$REQUEST['r'];
         }else{
             $listRows = C('LIST_ROWS') > 0 ? C('LIST_ROWS') : 10;
         }
-		$page = new Page($total, $listRows, $REQUEST);
+		$page = new \COM\Page($total, $listRows, $REQUEST);
 		$this->assign('_page', $page->show());
         $options['limit'] = $page->firstRow.','.$page->listRows;
 
@@ -548,9 +547,9 @@ class AdminController extends Action {
             return;
         }
 
-        $CReflection = new ReflectionClass(CONTROLLER_NAME.'Controller');
-        $public = $CReflection->getMethods( ReflectionMethod::IS_PUBLIC );
-        $static = $CReflection->getMethods( ReflectionMethod::IS_STATIC );
+        $CReflection = new \ReflectionClass('Admin\\Controller\\'.CONTROLLER_NAME.'Controller');
+        $public = $CReflection->getMethods( \ReflectionMethod::IS_PUBLIC );
+        $static = $CReflection->getMethods( \ReflectionMethod::IS_STATIC );
         $method = array_diff($public,$static);
         $deny   = $this->getDeny();
         $allow  = $this->getAllow();

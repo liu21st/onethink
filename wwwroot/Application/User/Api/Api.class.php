@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
-
+namespace User\Api;
 define('UC_CLIENT_PATH', dirname(dirname(__FILE__)));
 
 //载入配置文件

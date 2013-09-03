@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------
 // | Author: yangweijie <yangweijiester@gmail.com> <code-tech.diandian.com>
 // +----------------------------------------------------------------------
-
+namespace Admin\Controller;
 /**
  * 扩展后台管理页面
  * @author yangweijie <yangweijiester@gmail.com>

@@ -6,7 +6,8 @@
 // +----------------------------------------------------------------------
 // | Author: yangweijie <yangweijiester@gmail.com> <code-tech.diandian.com>
 // +----------------------------------------------------------------------
-
+namespace Admin\Model;
+use Think\Model;
 /**
  * 插件模型
  * @author yangweijie <yangweijiester@gmail.com>
