@@ -565,7 +565,7 @@ class AdminController extends Action {
 
         $collect = array();
         foreach ($method as $value){
-            if($value->class=='Action' || (strpos($value->name,'_')===0) ){
+            if($value->class=='Think\\Action' || (strpos($value->name,'_')===0) ){
                 continue;
             }
             if( in_array( strtolower($value->name),$deny_allow) ){
