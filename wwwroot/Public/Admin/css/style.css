@@ -25,7 +25,7 @@ body{
     margin-left: 15px;
     width: 184px;
     height: 49px;
-    background: url(../images/logo.png) no-repeat;
+    background: url(../images/logo.png) no-repeat 10px center;
 }
 
 /* 主导航 */

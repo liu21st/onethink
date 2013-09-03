@@ -1,6 +1,9 @@
 <!-- 管理员用户组新增和编辑页面 -->
 <extend name="Public/base" />
 <block name="body">
+	<div class="tab-wrap">
+		
+	</div>
     <div class="main-title cf">
         <h2>访问授权</h2>
     </div>
@@ -33,13 +36,8 @@
 			</dl>
 		</volist>
 
-        <div class="form-item">
-            <label class="item-label"></label>
-            <div class="controls">
-                <input type="hidden" name="id" value="{$auth_group.id}" />
-                <input type="submit" class="btn" value="保存" />
-            </div>
-        </div>
+        <input type="hidden" name="id" value="{$auth_group.id}" />
+        <input type="submit" class="btn" value="保存" />
     </form>
 </block>
 <block name="script">
