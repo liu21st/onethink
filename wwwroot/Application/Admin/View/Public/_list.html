@@ -42,6 +42,9 @@
                                 return ('"'.$row[$matches[1]].'"');
                             },$_thead[$key]['func']);
 
+                            if ( substr($_thead[$key]['func'],-1)!=';' ) {
+                                $_thead[$key]['func'].=';';
+                            }
                             @eval('$td ='. $_thead[$key]['func'] );
                         }
 
