@@ -483,15 +483,9 @@ function session($name,$value='') {
         if(isset($name['cache_expire']))    session_cache_expire($name['cache_expire']);
         if(isset($name['type']))            C('SESSION_TYPE',$name['type']);
         if(C('SESSION_TYPE')) { // 读取session驱动
-            $class      = 'Session'. ucwords(strtolower(C('SESSION_TYPE')));
-            // 检查驱动类
-            if(require_cache(EXTEND_PATH.'Driver/Session/'.$class.'.class.php')) {
-                $hander = new $class();
-                $hander->execute();
-            }else {
-                // 类没有定义
-                E(L('_CLASS_NOT_EXIST_').': ' . $class);
-            }
+            $class  =   'Think\\Session\\Driver\\'. ucwords(strtolower(C('SESSION_TYPE')));
+            $hander =   new $class();
+            $hander->execute();
         }
         // 启动session
         if(C('SESSION_AUTO_START'))  session_start();
