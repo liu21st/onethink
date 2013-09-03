@@ -135,7 +135,7 @@ abstract class Action {
         $content = $this->fetch($templateFile);
         $htmlpath   = !empty($htmlpath)?$htmlpath:HTML_PATH;
         $htmlfile =  $htmlpath.$htmlfile.C('HTML_FILE_SUFFIX');
-        ThinkStorage::getInstance()->put($htmlfile , $content);
+        Storage::getInstance()->put($htmlfile , $content);
         return $content;
     }
 

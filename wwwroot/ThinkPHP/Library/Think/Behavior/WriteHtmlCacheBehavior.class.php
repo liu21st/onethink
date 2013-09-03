@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace Think\Behavior;
 use Think\Behavior;
+use Think\Storage;
 defined('THINK_PATH') or exit();
 /**
  * 系统行为扩展：静态缓存写入
@@ -24,7 +25,7 @@ class WriteHtmlCacheBehavior extends Behavior {
     public function run(&$content){
         if(C('HTML_CACHE_ON') && defined('HTML_FILE_NAME'))  {
             //静态文件写入
-            ThinkStorage::getInstance()->put(HTML_FILE_NAME , $content);
+            Storage::getInstance()->put(HTML_FILE_NAME , $content);
         }
     }
 }
