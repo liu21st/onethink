@@ -28,6 +28,8 @@ class ArticleController extends AdminController {
 			),
 	);
 
+	private $cate_id = null;	//文档分类id
+
     /**
      * 控制器初始化方法
      * @see AdminController::_init()
@@ -36,17 +38,53 @@ class ArticleController extends AdminController {
     protected function _initialize(){
     	//调用父类的初始化方法
     	parent::_initialize();
+
     	//获取动态节点
     	$cate = M('Category')->where(array('display'=>1,'status'=>1))->field('id,title,pid')->order('sort')->select();
 		$cate = list_to_tree($cate);
+
+		//获取分类id
+		$cate_id = I('param.cate_id') == '' ? $cate[0]['id'] : I('param.cate_id');
+		$this->cate_id = $cate_id;
+
+		//单独处理2级以下的分类
+		$child_cates = array();
+
+		//生成每个分类的url
 		foreach ($cate as $key=>&$value){
 			$value['url'] = 'Article/index?cate_id='.$value['id'];
-			foreach ($value['_child'] as $k=>&$v){
-				$v['url'] = 'Article/index?cate_id='.$v['id'];
+			$value['level'] = 1;
+			if($cate_id == $value['id']){
+				$value['current'] = true;
 			}
+			foreach ($value['_child'] as $ka=>&$va){
+				$va['url'] = 'Article/index?cate_id='.$va['id'];
+				$va['level'] = 2;
+				foreach ($va['_child'] as $k=>&$v){
+					$v['url'] = 'Article/index?cate_id='.$v['id'];
+					$v['pid'] = $va['id'];
+					$v['level'] = 3;
+					if($v['id'] == $cate_id){
+						$is_child = true;
+					}
+				}
 
+				if($va['id'] == $cate_id || $is_child){
+					$child_cates = $va['_child'];
+					$is_child = false;
+					$value['current'] = true;
+				}
+			}
 		}
 		$this->assign('nodes', $cate);
+		$this->assign('child_cates', $child_cates);
+		$this->assign('cate_id', $this->cate_id);
+
+		//权限判断
+		$cate_auth = AuthGroupModel::getAuthCategories(is_login());	//获取当前用户所有的内容权限节点
+		if(!in_array($cate_id, $cate_auth)){
+			$this->error('没有权限！');
+		}
     }
 
 	/**
@@ -55,10 +93,7 @@ class ArticleController extends AdminController {
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function index($cate_id = null, $status = null, $search = null){
-		if(empty($cate_id)){
-			$nodes = $this->get('nodes');
-			$cate_id = $nodes[0]['id'];
-		}
+		$cate_id = $this->cate_id;
 		$Document = D('Document');
 
 		/* 查询条件初始化 */
@@ -82,7 +117,6 @@ class ArticleController extends AdminController {
 		$models = get_category($cate_id, 'model');
 
 		$this->assign('model', implode(',', $models));
-		$this->assign('cate_id', $cate_id);
 		$this->assign('status', $status);
 		$this->assign('search', $search);
 		$this->assign('list', $list);
@@ -133,7 +167,6 @@ class ArticleController extends AdminController {
 		$template = strtolower(get_document_model($model_id, 'name'));
 
 		$this->assign('model_id', $model_id);
-		$this->assign('cate_id', $cate_id);
 		$this->assign('template', $template);
 		$this->display();
 	}

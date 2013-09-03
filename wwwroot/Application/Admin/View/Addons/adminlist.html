@@ -13,16 +13,7 @@
 	        {$_table_list}
 		<else />
 			<present name="custom_adminlist">
-				<?php
-					 // 视图解析标签
-		            $params = array('var'=>$this->tVar,'file'=>$custom_adminlist);
-		            tag('view_parse',$params);
-		            // 获取并清空缓存
-			        $content = ob_get_clean();
-			        // 内容过滤标签
-			        tag('view_filter',$content);
-			        echo $content;
-				?>
+				<include file="$custom_adminlist" />
 			</present>
 		</empty>
 	</div>
