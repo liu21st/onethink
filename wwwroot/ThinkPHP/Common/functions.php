@@ -24,11 +24,11 @@
  * @return void
  */
 function throw_exception($msg, $type='ThinkException', $code=0) {
-    Log::record('建议使用E方法替代throw_exception',Log::NOTICE);
+    Think\Log::record('建议使用E方法替代throw_exception',Log::NOTICE);
     if (class_exists($type, false))
         throw new $type($msg, $code);
     else
-        Think::halt($msg);        // 异常类型不存在则输出错误信息字串
+        Think\Think::halt($msg);        // 异常类型不存在则输出错误信息字串
 }
 
 /**
@@ -304,13 +304,13 @@ function S($name,$value='',$options=null) {
     if(is_array($options) && empty($cache)){
         // 缓存操作的同时初始化
         $type       =   isset($options['type'])?$options['type']:'';
-        $cache      =   Cache::getInstance($type,$options);
+        $cache      =   Think\Cache::getInstance($type,$options);
     }elseif(is_array($name)) { // 缓存初始化
         $type       =   isset($name['type'])?$name['type']:'';
-        $cache      =   Cache::getInstance($type,$name);
+        $cache      =   Think\Cache::getInstance($type,$name);
         return $cache;
     }elseif(empty($cache)) { // 自动初始化
-        $cache      =   Cache::getInstance();
+        $cache      =   Think\Cache::getInstance();
     }
     if(''=== $value){ // 获取缓存
         return $cache->get($name);
@@ -336,7 +336,7 @@ function S($name,$value='',$options=null) {
 function F($name, $value='', $path=DATA_PATH) {
     static $_cache  =   array();
     $filename       =   $path . $name . '.php';
-    $storage        =   ThinkStorage::getInstance();
+    $storage        =   Think\Storage::getInstance();
     if ('' !== $value) {
         if (is_null($value)) {
             // 删除缓存

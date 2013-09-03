@@ -25,7 +25,7 @@
  * @subpackage Util
  * @author luofei614<weibo.com/luofei614>
  */
-
+namespace ORG\Util;
 //数据库
 /*
 -- ----------------------------
