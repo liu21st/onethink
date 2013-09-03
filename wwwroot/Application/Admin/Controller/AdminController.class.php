@@ -57,8 +57,8 @@ class AdminController extends Action {
     protected $nav = array();
 
     protected function _initialize()
-    { 
-        $this->uid = is_login(); 
+    {
+        $this->uid = is_login();
         if( !$this->uid ){
             $this->redirect('Admin/Index/login');
         }
@@ -183,6 +183,21 @@ class AdminController extends Action {
         $data    = array('status' => 1);
         $where   = array_merge(array('status' => 0),$where);
         $this->editRow(   $model , $data, $where, $msg);
+    }
+
+    /**
+     * 还原条目
+     * @param string $model 模型名称,供D函数使用的参数
+     * @param array  $where 查询时的where()方法的参数
+     * @param array  $msg   执行正确和错误的消息 array('success'=>'','error'=>'', 'url'=>'','ajax'=>false)
+     *                     url为跳转页面,ajax是否ajax方式(数字则为倒数计时秒数)
+     * @author huajie  <banhuajie@163.com>
+     */
+    protected function restore (  $model , $where = array() , $msg = array( 'success'=>'状态还原成功！', 'error'=>'状态还原失败！'))
+    {
+    	$data    = array('status' => 1);
+    	$where   = array_merge(array('status' => -1),$where);
+    	$this->editRow(   $model , $data, $where, $msg);
     }
 
     /**
@@ -429,11 +444,11 @@ class AdminController extends Action {
         $tree_nodes[(int)$tree]   = $nodes;
         return $nodes;
     }
-    
+
     /**
      * 通用分页列表数据集获取方法
-     *  
-     *  可以通过url参数传递where条件,例如:  index.html?name=asdfasdfasdfddds 
+     *
+     *  可以通过url参数传递where条件,例如:  index.html?name=asdfasdfasdfddds
      *  可以通过url空值排序字段和方式,例如: index.html?_field=id&_order=asc
      *  支持多表join,控制器代码示例如下:
      *
@@ -451,7 +466,7 @@ class AdminController extends Action {
      * @param array        $where   where查询条件
      * @param array|string $order   排序条件
      * @author 朱亚杰 <zhuyajie@topthink.net>
-     * 
+     *
      * @return array|false
      * 返回数据集
      */
@@ -548,7 +563,7 @@ class AdminController extends Action {
             }
             $nodes[$k] = strtolower($n);
         }
-        
+
         $collect = array();
         foreach ($method as $value){
             if($value->class=='Action' || (strpos($value->name,'_')===0) ){
@@ -617,7 +632,7 @@ class AdminController extends Action {
      * @param string $title  菜单名称
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    protected function nav($level,$title,$show=true){
+    protected function nav($level,$title,$show=false){
         if ( is_numeric($level) ) {
 			$this->nav[$level] = array ($this->nav['last']=>$title);
             unset($this->nav['last']);
@@ -630,9 +645,8 @@ class AdminController extends Action {
                 }
             }
 			session( 'nav', $this->nav );
-            if ( $show ) {
-                $this->assign('_nav',$arr);        
-            }
+            $this->assign('_nav',$arr);        
+            $this->assign('_show_nav',$show);
         }
     }
 }
