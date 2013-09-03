@@ -12,7 +12,7 @@
  * @author yangweijie <yangweijiester@gmail.com>
  */
 
-	class EditorAddons extends Addons{
+	class EditorAddons extends Common\Controller\Addons{
 
 		public $info = array(
 				'name'=>'Editor',

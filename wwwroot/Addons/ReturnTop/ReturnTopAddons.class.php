@@ -12,7 +12,7 @@
  * @author yangweijie <yangweijiester@gmail.com>
  */
 
-	class ReturnTopAddons extends Addons{
+	class ReturnTopAddons extends Common\Controller\Addons{
 
 		public $custom_config = 'config.html';
 

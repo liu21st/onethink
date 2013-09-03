@@ -53,9 +53,8 @@ class ModelController extends AdminController {
 		$map = array('status'=>array('gt',-1));
 
 		/*初始化分页类*/
-		import('COM.Page');
 		$count = $Model->where($map)->count('id');
-		$Page = new Page($count, 10);
+		$Page = new \COM\Page($count, 10);
 		$this->page = $Page->show();
 
 		//列表数据获取
