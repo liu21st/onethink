@@ -8,31 +8,29 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-
+namespace Think\Db\Driver;
+use Think\Db;
 defined('THINK_PATH') or exit();
 /**
- * MSsql数据库驱动 要求sqlserver2005
+ * Sqlsrv数据库驱动
  * @category   Extend
  * @package  Extend
  * @subpackage  Driver.Db
  * @author    liu21st <liu21st@gmail.com>
  */
-class DbMssql extends Db{
+class Sqlsrv extends Db{
     protected $selectSql  =     'SELECT T1.* FROM (SELECT thinkphp.*, ROW_NUMBER() OVER (%ORDER%) AS ROW_NUMBER FROM (SELECT %DISTINCT% %FIELD% FROM %TABLE%%JOIN%%WHERE%%GROUP%%HAVING%) AS thinkphp) AS T1 %LIMIT%%COMMENT%';
     /**
      * 架构函数 读取数据库配置信息
      * @access public
      * @param array $config 数据库配置数组
      */
-    public function __construct($config=''){
-        if ( !function_exists('mssql_connect') ) {
-            throw_exception(L('_NOT_SUPPERT_').':mssql');
+    public function __construct($config='') {
+        if ( !function_exists('sqlsrv_connect') ) {
+            throw_exception(L('_NOT_SUPPERT_').':sqlsrv');
         }
         if(!empty($config)) {
             $this->config	=	$config;
-            if(empty($this->config['params'])) {
-                $this->config['params'] =   array();
-            }
         }
     }
 
@@ -43,16 +41,10 @@ class DbMssql extends Db{
     public function connect($config='',$linkNum=0) {
         if ( !isset($this->linkID[$linkNum]) ) {
             if(empty($config))	$config  =  $this->config;
-            $pconnect   = !empty($config['params']['persist'])? $config['params']['persist']:$this->pconnect;
-            $conn = $pconnect ? 'mssql_pconnect':'mssql_connect';
-            // 处理不带端口号的socket连接情况
-            $sepr = IS_WIN ? ',' : ':';
-            $host = $config['hostname'].($config['hostport']?$sepr."{$config['hostport']}":'');
-            $this->linkID[$linkNum] = $conn( $host, $config['username'], $config['password']);
-            if ( !$this->linkID[$linkNum] )  throw_exception("Couldn't connect to SQL Server on $host");
-            if ( !empty($config['database'])  && !mssql_select_db($config['database'], $this->linkID[$linkNum]) ) {
-                throw_exception("Couldn't open database '".$config['database']);
-            }
+            $host = $config['hostname'].($config['hostport']?",{$config['hostport']}":'');
+            $connectInfo  =  array('Database'=>$config['database'],'UID'=>$config['username'],'PWD'=>$config['password'],'CharacterSet' => C('DEFAULT_CHARSET'));
+            $this->linkID[$linkNum] = sqlsrv_connect( $host, $connectInfo);
+            if ( !$this->linkID[$linkNum] )  $this->error(false);
             // 标记连接成功
             $this->connected =  true;
             //注销数据库安全信息
@@ -66,7 +58,7 @@ class DbMssql extends Db{
      * @access public
      */
     public function free() {
-        mssql_free_result($this->queryID);
+        sqlsrv_free_stmt($this->queryID);
         $this->queryID = null;
     }
 
@@ -74,24 +66,27 @@ class DbMssql extends Db{
      * 执行查询  返回数据集
      * @access public
      * @param string $str  sql指令
+     * @param array $bind 参数绑定
      * @return mixed
      */
-    public function query($str) {
+    public function query($str,$bind=array()) {
         $this->initConnect(false);
         if ( !$this->_linkID ) return false;
-        $this->queryStr = $str;
         //释放前次的查询结果
         if ( $this->queryID ) $this->free();
         N('db_query',1);
         // 记录开始执行时间
         G('queryStartTime');
-        $this->queryID = mssql_query($str, $this->_linkID);
+        $str    =   str_replace(array_keys($bind),'?',$str);
+        $bind   =   array_values($bind);
+        $this->queryStr = $str;
+        $this->queryID = sqlsrv_query($this->_linkID,$str,$bind, array( "Scrollable" => SQLSRV_CURSOR_KEYSET));
         $this->debug();
         if ( false === $this->queryID ) {
             $this->error();
             return false;
         } else {
-            $this->numRows = mssql_num_rows($this->queryID);
+            $this->numRows = sqlsrv_num_rows($this->queryID);
             return $this->getAll();
         }
     }
@@ -100,24 +95,27 @@ class DbMssql extends Db{
      * 执行语句
      * @access public
      * @param string $str  sql指令
+     * @param array $bind 参数绑定
      * @return integer
      */
-    public function execute($str) {
+    public function execute($str,$bind=array()) {
         $this->initConnect(true);
         if ( !$this->_linkID ) return false;
-        $this->queryStr = $str;
         //释放前次的查询结果
         if ( $this->queryID ) $this->free();
         N('db_write',1);
         // 记录开始执行时间
         G('queryStartTime');
-        $result	=	mssql_query($str, $this->_linkID);
+        $str    =   str_replace(array_keys($bind),'?',$str);
+        $bind   =   array_values($bind);
+        $this->queryStr = $str;
+        $this->queryID=	sqlsrv_query($this->_linkID,$str,$bind);
         $this->debug();
-        if ( false === $result ) {
+        if ( false === $this->queryID ) {
             $this->error();
             return false;
         } else {
-            $this->numRows = mssql_rows_affected($this->_linkID);
+            $this->numRows = sqlsrv_rows_affected($this->queryID);
             $this->lastInsID = $this->mssql_insert_id();
             return $this->numRows;
         }
@@ -130,9 +128,9 @@ class DbMssql extends Db{
      */
     public function mssql_insert_id() {
         $query  =   "SELECT @@IDENTITY as last_insert_id";
-        $result =   mssql_query($query, $this->_linkID);
-        list($last_insert_id)   =   mssql_fetch_row($result);
-        mssql_free_result($result);
+        $result =   sqlsrv_query($this->_linkID,$query);
+        list($last_insert_id)   =   sqlsrv_fetch_array($result);
+        sqlsrv_free_stmt($result);
         return $last_insert_id;
     }
 
@@ -146,7 +144,7 @@ class DbMssql extends Db{
         if ( !$this->_linkID ) return false;
         //数据rollback 支持
         if ($this->transTimes == 0) {
-            mssql_query('BEGIN TRAN', $this->_linkID);
+            sqlsrv_begin_transaction($this->_linkID);
         }
         $this->transTimes++;
         return ;
@@ -159,7 +157,7 @@ class DbMssql extends Db{
      */
     public function commit() {
         if ($this->transTimes > 0) {
-            $result = mssql_query('COMMIT TRAN', $this->_linkID);
+            $result = sqlsrv_commit($this->_linkID);
             $this->transTimes = 0;
             if(!$result){
                 $this->error();
@@ -176,7 +174,7 @@ class DbMssql extends Db{
      */
     public function rollback() {
         if ($this->transTimes > 0) {
-            $result = mssql_query('ROLLBACK TRAN', $this->_linkID);
+            $result = sqlsrv_rollback($this->_linkID);
             $this->transTimes = 0;
             if(!$result){
                 $this->error();
@@ -195,7 +193,7 @@ class DbMssql extends Db{
         //返回数据集
         $result = array();
         if($this->numRows >0) {
-            while($row = mssql_fetch_assoc($this->queryID))
+            while($row = sqlsrv_fetch_array($this->queryID,SQLSRV_FETCH_ASSOC))
                 $result[]   =   $row;
         }
         return $result;
@@ -207,14 +205,16 @@ class DbMssql extends Db{
      * @return array
      */
     public function getFields($tableName) {
-        $result =   $this->query("SELECT   column_name,   data_type,   column_default,   is_nullable
-        FROM    information_schema.tables AS t
-        JOIN    information_schema.columns AS c
-        ON  t.table_catalog = c.table_catalog
-        AND t.table_schema  = c.table_schema
-        AND t.table_name    = c.table_name
-        WHERE   t.table_name = '$tableName'");
-        $info   =   array();
+        $result = $this->query("
+            SELECT column_name,data_type,column_default,is_nullable
+            FROM   information_schema.tables AS t
+            JOIN   information_schema.columns AS c
+            ON     t.table_catalog = c.table_catalog
+            AND    t.table_schema  = c.table_schema
+            AND    t.table_name    = c.table_name
+            WHERE  t.table_name = '{$tableName}'");
+        $pk = $this->query("SELECT * FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_NAME='{$tableName}'");
+        $info = array();
         if($result) {
             foreach ($result as $key => $val) {
                 $info[$val['column_name']] = array(
@@ -222,7 +222,7 @@ class DbMssql extends Db{
                     'type'    => $val['data_type'],
                     'notnull' => (bool) ($val['is_nullable'] === ''), // not null is empty, null is yes
                     'default' => $val['column_default'],
-                    'primary' => false,
+                    'primary' => $val['column_name'] == $pk[0]['COLUMN_NAME'],
                     'autoinc' => false,
                 );
             }
@@ -258,8 +258,23 @@ class DbMssql extends Db{
     }
 
     /**
+     * 字段名分析
+     * @access protected
+     * @param string $key
+     * @return string
+     */
+    protected function parseKey(&$key) {
+        $key   =  trim($key);
+        if(!preg_match('/[,\'\"\*\(\)\[.\s]/',$key)) {
+           $key = '['.$key.']';
+        }
+        return $key;   
+    }
+    
+    /**
      * limit
      * @access public
+     * @param mixed $limit
      * @return string
      */
     public function parseLimit($limit) {
@@ -272,7 +287,7 @@ class DbMssql extends Db{
         return 'WHERE '.$limitStr;
     }
 
-   /**
+    /**
      * 更新记录
      * @access public
      * @param mixed $data 数据
@@ -287,7 +302,7 @@ class DbMssql extends Db{
             .$this->parseWhere(!empty($options['where'])?$options['where']:'')
             .$this->parseLock(isset($options['lock'])?$options['lock']:false)
             .$this->parseComment(!empty($options['comment'])?$options['comment']:'');
-        return $this->execute($sql);
+        return $this->execute($sql,$this->parseBind(!empty($options['bind'])?$options['bind']:array()));
     }
 
     /**
@@ -303,7 +318,7 @@ class DbMssql extends Db{
             .$this->parseWhere(!empty($options['where'])?$options['where']:'')
             .$this->parseLock(isset($options['lock'])?$options['lock']:false)
             .$this->parseComment(!empty($options['comment'])?$options['comment']:'');
-        return $this->execute($sql);
+        return $this->execute($sql,$this->parseBind(!empty($options['bind'])?$options['bind']:array()));
     }
 
     /**
@@ -312,7 +327,7 @@ class DbMssql extends Db{
      */
     public function close() {
         if ($this->_linkID){
-            mssql_close($this->_linkID);
+            sqlsrv_close($this->_linkID);
         }
         $this->_linkID = null;
     }
@@ -323,12 +338,16 @@ class DbMssql extends Db{
      * @access public
      * @return string
      */
-    public function error() {
-        $this->error = mssql_get_last_message();
+    public function error($result = true) {
+        $errors = sqlsrv_errors();
+        $this->error    =   '';
+        foreach( $errors as $error ) {
+            $this->error .= $error['code'].':'.$error['message'];
+        }
         if('' != $this->queryStr){
             $this->error .= "\n [ SQL语句 ] : ".$this->queryStr;
         }
-        trace($this->error,'','ERR');
+        $result? trace($this->error,'','ERR'):throw_exception($this->error);
         return $this->error;
     }
 }

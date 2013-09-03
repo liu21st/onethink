@@ -8,26 +8,26 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-
+namespace Think\Db\Driver;
+use Think\Db;
 defined('THINK_PATH') or exit();
 /**
- * Firebird数据库驱动
+ * Pgsql数据库驱动
  * @category   Extend
  * @package  Extend
  * @subpackage  Driver.Db
- * @author    剑雷
+ * @author    liu21st <liu21st@gmail.com>
  */
-class DbIbase extends Db{
+class Pgsql extends Db{
 
-    protected $selectSql  =     'SELECT %LIMIT% %DISTINCT% %FIELD% FROM %TABLE%%JOIN%%WHERE%%GROUP%%HAVING%%ORDER%';
     /**
      * 架构函数 读取数据库配置信息
      * @access public
      * @param array $config 数据库配置数组
      */
     public function __construct($config='') {
-        if ( !extension_loaded('interbase') ) {
-            throw_exception(L('_NOT_SUPPERT_').':Interbase or Firebird');
+        if ( !extension_loaded('pgsql') ) {
+            throw_exception(L('_NOT_SUPPERT_').':pgsql');
         }
         if(!empty($config)) {
             $this->config   =   $config;
@@ -40,22 +40,23 @@ class DbIbase extends Db{
     /**
      * 连接数据库方法
      * @access public
-     * @throws ThinkExecption
      */
     public function connect($config='',$linkNum=0) {
         if ( !isset($this->linkID[$linkNum]) ) {
             if(empty($config))  $config =   $this->config;
             $pconnect   = !empty($config['params']['persist'])? $config['params']['persist']:$this->pconnect;
-            $conn = $pconnect ? 'ibase_pconnect':'ibase_connect';
-            // 处理不带端口号的socket连接情况
-            $host = $config['hostname'].($config['hostport']?"/{$config['hostport']}":'');
-            $this->linkID[$linkNum] = $conn($host.':'.$config['database'], $config['username'], $config['password'],C('DB_CHARSET'),0,3);
-            if ( !$this->linkID[$linkNum]) {
-                throw_exception(ibase_errmsg());
+            $conn = $pconnect ? 'pg_pconnect':'pg_connect';
+            $this->linkID[$linkNum] =  $conn('host='.$config['hostname'].' port='.$config['hostport'].' dbname='.$config['database'].' user='.$config['username'].'  password='.$config['password']);
+            if (0 !== pg_connection_status($this->linkID[$linkNum])){
+                throw_exception($this->error(false));
             }
+            //设置编码
+            pg_set_client_encoding($this->linkID[$linkNum], C('DB_CHARSET'));
+            //$pgInfo = pg_version($this->linkID[$linkNum]);
+            //$dbVersion = $pgInfo['server'];
             // 标记连接成功
             $this->connected    =   true;
-            // 注销数据库连接配置信息
+            //注销数据库安全信息
             if(1 != C('DB_DEPLOY_TYPE')) unset($this->config);
         }
         return $this->linkID[$linkNum];
@@ -66,7 +67,7 @@ class DbIbase extends Db{
      * @access public
      */
     public function free() {
-        ibase_free_result($this->queryID);
+        pg_free_result($this->queryID);
         $this->queryID = null;
     }
 
@@ -85,12 +86,13 @@ class DbIbase extends Db{
         N('db_query',1);
         // 记录开始执行时间
         G('queryStartTime');
-        $this->queryID = ibase_query($this->_linkID, $str);
+        $this->queryID = pg_query($this->_linkID,$str);
         $this->debug();
         if ( false === $this->queryID ) {
             $this->error();
             return false;
         } else {
+            $this->numRows = pg_num_rows($this->queryID);
             return $this->getAll();
         }
     }
@@ -110,24 +112,42 @@ class DbIbase extends Db{
         N('db_write',1);
         // 记录开始执行时间
         G('queryStartTime');
-        $result =   ibase_query($this->_linkID, $str) ;
+        $result =   pg_query($this->_linkID,$str);
         $this->debug();
-        if ( false === $result) {
+        if ( false === $result ) {
             $this->error();
             return false;
         } else {
-            $this->numRows = ibase_affected_rows($this->_linkID);
-            $this->lastInsID =0;
+            $this->numRows = pg_affected_rows($result);
+            $this->lastInsID =   $this->last_insert_id();
             return $this->numRows;
         }
     }
 
+    /**
+     * 用于获取最后插入的ID
+     * @access public
+     * @return integer
+     */
+    public function last_insert_id() {
+        $query  =   "SELECT LASTVAL() AS insert_id";
+        $result =   pg_query($this->_linkID,$query);
+        list($last_insert_id)   =   pg_fetch_array($result,null,PGSQL_ASSOC);
+        pg_free_result($result);
+        return $last_insert_id;
+    }
+
+    /**
+     * 启动事务
+     * @access public
+     * @return void
+     */
     public function startTrans() {
         $this->initConnect(true);
         if ( !$this->_linkID ) return false;
         //数据rollback 支持
         if ($this->transTimes == 0) {
-            ibase_trans( IBASE_DEFAULT, $this->_linkID);
+            pg_exec($this->_linkID,'begin;');
         }
         $this->transTimes++;
         return ;
@@ -140,12 +160,12 @@ class DbIbase extends Db{
      */
     public function commit() {
         if ($this->transTimes > 0) {
-            $result =  ibase_commit($this->_linkID);
-            $this->transTimes = 0;
+            $result = pg_exec($this->_linkID,'end;');
             if(!$result){
                 $this->error();
                 return false;
             }
+            $this->transTimes = 0;
         }
         return true;
     }
@@ -157,36 +177,14 @@ class DbIbase extends Db{
      */
     public function rollback() {
         if ($this->transTimes > 0) {
-            $result =ibase_rollback($this->_linkID);
-            $this->transTimes = 0;
+            $result = pg_exec($this->_linkID,'abort;');
             if(!$result){
                 $this->error();
                 return false;
             }
+            $this->transTimes = 0;
         }
         return true;
-    }
-
-    /**
-     * BLOB字段解密函数 Firebird特有
-     * @access public
-     * @param $blob 待解密的BLOB
-     * @return 二进制数据
-     */
-     public function BlobDecode($blob) {
-        $maxblobsize = 262144;
-        $blob_data = ibase_blob_info($this->_linkID, $blob );
-        $blobid = ibase_blob_open($this->_linkID, $blob );
-        if( $blob_data[0] > $maxblobsize ) {
-            $realblob = ibase_blob_get($blobid, $maxblobsize);
-            while($string = ibase_blob_get($blobid, 8192)){
-                $realblob .= $string;
-            }
-        } else {
-            $realblob = ibase_blob_get($blobid, $blob_data[0]);
-        }
-        ibase_blob_close( $blobid );
-        return( $realblob );
     }
 
     /**
@@ -196,31 +194,9 @@ class DbIbase extends Db{
      */
     private function getAll() {
         //返回数据集
-        $result = array();
-        while ( $row = ibase_fetch_assoc($this->queryID)) {
-            $result[]   =   $row;
-        }
-        //剑雷 2007.12.30 自动解密BLOB字段
-        //取BLOB字段清单
-        $bloblist = array();
-        $fieldCount = ibase_num_fields($this->queryID);
-        for ($i = 0; $i < $fieldCount; $i++) {
-         $col_info = ibase_field_info($this->queryID, $i);
-         if ($col_info['type']=='BLOB') {
-           $bloblist[]=trim($col_info['name']);
-         }
-        }
-       //如果有BLOB字段,就进行解密处理
-       if (!empty($bloblist)) {
-         $i=0;
-         foreach ($result as $row) {
-           foreach($bloblist as $field) {
-               if (!empty($row[$field])) $result[$i][$field]=$this->BlobDecode($row[$field]);
-          }
-          $i++;
-        }
-      }
-     return $result;
+        $result   =  pg_fetch_all($this->queryID);
+        pg_result_seek($this->queryID,0);
+        return $result;
     }
 
     /**
@@ -228,43 +204,32 @@ class DbIbase extends Db{
      * @access public
      */
     public function getFields($tableName) {
-        $result   =  $this->query('SELECT RDB$FIELD_NAME AS FIELD, RDB$DEFAULT_VALUE AS DEFAULT1, RDB$NULL_FLAG AS NULL1 FROM RDB$RELATION_FIELDS WHERE RDB$RELATION_NAME=UPPER(\''.$tableName.'\') ORDER By RDB$FIELD_POSITION');
+        $result   =  $this->query("select a.attname as \"Field\",
+            t.typname as \"Type\",
+            a.attnotnull as \"Null\",
+            i.indisprimary as \"Key\",
+            d.adsrc as \"Default\"
+            from pg_class c
+            inner join pg_attribute a on a.attrelid = c.oid
+            inner join pg_type t on a.atttypid = t.oid
+            left join pg_attrdef d on a.attrelid=d.adrelid and d.adnum=a.attnum
+            left join pg_index i on a.attnum=ANY(i.indkey) and c.oid = i.indrelid
+            where (c.relname='{$tableName}' or c.relname = lower('{$tableName}'))   AND a.attnum > 0
+                order by a.attnum asc;");
         $info   =   array();
         if($result) {
             foreach ($result as $key => $val) {
-                $info[trim($val['FIELD'])] = array(
-                    'name'    => trim($val['FIELD']),
-                    'type'    => '',
-                    'notnull' => (bool) ($val['NULL1'] ==1), // 1表示不为Null
-                    'default' => $val['DEFAULT1'],
-                    'primary' => false,
-                    'autoinc' => false,
+                $info[$val['Field']] = array(
+                'name'    => $val['Field'],
+                'type'    => $val['Type'],
+                'notnull' => (bool) ($val['Null'] == 't'?1:0), // 't' is 'not null'
+                'default' => $val['Default'],
+                'primary' => (strtolower($val['Key']) == 't'),
+                'autoinc' => (strtolower($val['Default']) == "nextval('{$tableName}_id_seq'::regclass)"),
                 );
-           }
-      }
-      //剑雷 取表字段类型
-     $sql='select first 1 * from '. $tableName;
-     $rs_temp = ibase_query ($this->_linkID, $sql);
-     $fieldCount = ibase_num_fields($rs_temp);
-
-     for ($i = 0; $i < $fieldCount; $i++)
-     {
-       $col_info = ibase_field_info($rs_temp, $i);
-       $info[trim($col_info['name'])]['type']=$col_info['type'];
-     }
-     ibase_free_result ($rs_temp);
-
-     //剑雷 取表的主键
-     $sql='select b.rdb$field_name as FIELD_NAME from rdb$relation_constraints a join rdb$index_segments b
-on a.rdb$index_name=b.rdb$index_name
-where a.rdb$constraint_type=\'PRIMARY KEY\' and a.rdb$relation_name=UPPER(\''.$tableName.'\')';
-     $rs_temp = ibase_query ($this->_linkID, $sql);
-     while ($row=ibase_fetch_object($rs_temp)) {
-      $info[trim($row->FIELD_NAME)]['primary']=True;
-     }
-     ibase_free_result ($rs_temp);
-
-     return $info;
+            }
+        }
+        return $info;
     }
 
     /**
@@ -272,11 +237,10 @@ where a.rdb$constraint_type=\'PRIMARY KEY\' and a.rdb$relation_name=UPPER(\''.$t
      * @access public
      */
     public function getTables($dbName='') {
-        $sql='SELECT DISTINCT RDB$RELATION_NAME FROM RDB$RELATION_FIELDS WHERE RDB$SYSTEM_FLAG=0';
-        $result   =  $this->query($sql);
+        $result = $this->query("select tablename as Tables_in_test from pg_tables where  schemaname ='public'");
         $info   =   array();
         foreach ($result as $key => $val) {
-            $info[$key] = trim(current($val));
+            $info[$key] = current($val);
         }
         return $info;
     }
@@ -286,8 +250,8 @@ where a.rdb$constraint_type=\'PRIMARY KEY\' and a.rdb$relation_name=UPPER(\''.$t
      * @access public
      */
     public function close() {
-        if ($this->_linkID){
-            ibase_close($this->_linkID);
+        if($this->_linkID){
+            pg_close($this->_linkID);
         }
         $this->_linkID = null;
     }
@@ -298,8 +262,8 @@ where a.rdb$constraint_type=\'PRIMARY KEY\' and a.rdb$relation_name=UPPER(\''.$t
      * @access public
      * @return string
      */
-    public function error() {
-        $this->error = ibase_errcode().':'.ibase_errmsg();
+    public function error($result = true) {
+        $this->error = $result?pg_result_error($this->queryID): pg_last_error($this->_linkID);
         if('' != $this->queryStr){
             $this->error .= "\n [ SQL语句 ] : ".$this->queryStr;
         }
@@ -314,25 +278,24 @@ where a.rdb$constraint_type=\'PRIMARY KEY\' and a.rdb$relation_name=UPPER(\''.$t
      * @return string
      */
     public function escapeString($str) {
-        return str_replace("'", "''", $str);
+        return pg_escape_string($str);
     }
 
     /**
      * limit
      * @access public
-     * @param $limit limit表达式
      * @return string
      */
-	public function parseLimit($limit) {
+    public function parseLimit($limit) {
         $limitStr    = '';
         if(!empty($limit)) {
             $limit  =   explode(',',$limit);
             if(count($limit)>1) {
-                 $limitStr = ' FIRST '.($limit[1]-$limit[0]).' SKIP '.$limit[0].' ';
+                $limitStr .= ' LIMIT '.$limit[1].' OFFSET '.$limit[0].' ';
             }else{
-              $limitStr = ' FIRST '.$limit[0].' ';
+                $limitStr .= ' LIMIT '.$limit[0].' ';
             }
         }
-		return $limitStr;
-	}
+        return $limitStr;
+    }
 }

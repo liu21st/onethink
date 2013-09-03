@@ -8,7 +8,8 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-
+namespace Think\Cache\Driver;
+use Think\Cache;
 defined('THINK_PATH') or exit();
 /**
  * Shmop缓存驱动 
@@ -17,7 +18,7 @@ defined('THINK_PATH') or exit();
  * @subpackage  Driver.Cache
  * @author    liu21st <liu21st@gmail.com>
  */
-class CacheShmop extends Cache {
+class Shmop extends Cache {
 
     /**
      * 架构函数

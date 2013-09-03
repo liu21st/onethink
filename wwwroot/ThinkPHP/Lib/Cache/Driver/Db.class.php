@@ -8,7 +8,8 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-
+namespace Think\Cache\Driver;
+use Think\Cache;
 defined('THINK_PATH') or exit();
 /**
  * 数据库方式缓存驱动
@@ -24,7 +25,7 @@ defined('THINK_PATH') or exit();
  * @subpackage  Driver.Cache
  * @author    liu21st <liu21st@gmail.com>
  */
-class CacheDb extends Cache {
+class Db extends Cache {
 
     /**
      * 架构函数
@@ -41,8 +42,7 @@ class CacheDb extends Cache {
         $this->options['prefix']    =   isset($options['prefix'])?  $options['prefix']  :   C('DATA_CACHE_PREFIX');
         $this->options['length']    =   isset($options['length'])?  $options['length']  :   0;        
         $this->options['expire']    =   isset($options['expire'])?  $options['expire']  :   C('DATA_CACHE_TIME');
-        import('Db');
-        $this->handler   = DB::getInstance();
+        $this->handler   = Think\Db::getInstance();
     }
 
     /**

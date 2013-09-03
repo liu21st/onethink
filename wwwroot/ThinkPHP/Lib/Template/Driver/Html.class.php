@@ -8,7 +8,8 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-
+namespace Think\Template\Driver;
+use Think\Template\TagLib;
 defined('THINK_PATH') or exit();
 /**
  * Html标签库驱动
@@ -17,7 +18,7 @@ defined('THINK_PATH') or exit();
  * @subpackage  Driver.Taglib
  * @author    liu21st <liu21st@gmail.com>
  */
-class TagLibHtml extends TagLib{
+class Html extends TagLib{
     // 标签定义
     protected $tags   =  array(
         // 标签定义： attr 属性列表 close 是否闭合（0 或者1 默认1） alias 标签别名 level 嵌套层次

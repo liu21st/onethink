@@ -8,16 +8,17 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-
+namespace Think\Db\Driver;
+use Think\Db;
 defined('THINK_PATH') or exit();
 /**
- * Pgsql数据库驱动
+ * Sqlite数据库驱动
  * @category   Extend
  * @package  Extend
  * @subpackage  Driver.Db
  * @author    liu21st <liu21st@gmail.com>
  */
-class DbPgsql extends Db{
+class Sqlite extends Db {
 
     /**
      * 架构函数 读取数据库配置信息
@@ -25,11 +26,14 @@ class DbPgsql extends Db{
      * @param array $config 数据库配置数组
      */
     public function __construct($config='') {
-        if ( !extension_loaded('pgsql') ) {
-            throw_exception(L('_NOT_SUPPERT_').':pgsql');
+        if ( !extension_loaded('sqlite') ) {
+            throw_exception(L('_NOT_SUPPERT_').':sqlite');
         }
         if(!empty($config)) {
-            $this->config   =   $config;
+            if(!isset($config['mode'])) {
+                $config['mode']	=	0666;
+            }
+            $this->config	=	$config;
             if(empty($this->config['params'])) {
                 $this->config['params'] =   array();
             }
@@ -42,19 +46,15 @@ class DbPgsql extends Db{
      */
     public function connect($config='',$linkNum=0) {
         if ( !isset($this->linkID[$linkNum]) ) {
-            if(empty($config))  $config =   $this->config;
+            if(empty($config))	$config	=	$this->config;
             $pconnect   = !empty($config['params']['persist'])? $config['params']['persist']:$this->pconnect;
-            $conn = $pconnect ? 'pg_pconnect':'pg_connect';
-            $this->linkID[$linkNum] =  $conn('host='.$config['hostname'].' port='.$config['hostport'].' dbname='.$config['database'].' user='.$config['username'].'  password='.$config['password']);
-            if (0 !== pg_connection_status($this->linkID[$linkNum])){
-                throw_exception($this->error(false));
+            $conn = $pconnect ? 'sqlite_popen':'sqlite_open';
+            $this->linkID[$linkNum] = $conn($config['database'],$config['mode']);
+            if ( !$this->linkID[$linkNum]) {
+                throw_exception(sqlite_error_string());
             }
-            //设置编码
-            pg_set_client_encoding($this->linkID[$linkNum], C('DB_CHARSET'));
-            //$pgInfo = pg_version($this->linkID[$linkNum]);
-            //$dbVersion = $pgInfo['server'];
             // 标记连接成功
-            $this->connected    =   true;
+            $this->connected	=	true;
             //注销数据库安全信息
             if(1 != C('DB_DEPLOY_TYPE')) unset($this->config);
         }
@@ -66,7 +66,6 @@ class DbPgsql extends Db{
      * @access public
      */
     public function free() {
-        pg_free_result($this->queryID);
         $this->queryID = null;
     }
 
@@ -85,13 +84,13 @@ class DbPgsql extends Db{
         N('db_query',1);
         // 记录开始执行时间
         G('queryStartTime');
-        $this->queryID = pg_query($this->_linkID,$str);
+        $this->queryID = sqlite_query($this->_linkID,$str);
         $this->debug();
         if ( false === $this->queryID ) {
             $this->error();
             return false;
         } else {
-            $this->numRows = pg_num_rows($this->queryID);
+            $this->numRows = sqlite_num_rows($this->queryID);
             return $this->getAll();
         }
     }
@@ -111,29 +110,16 @@ class DbPgsql extends Db{
         N('db_write',1);
         // 记录开始执行时间
         G('queryStartTime');
-        $result =   pg_query($this->_linkID,$str);
+        $result	=	sqlite_exec($this->_linkID,$str);
         $this->debug();
         if ( false === $result ) {
             $this->error();
             return false;
         } else {
-            $this->numRows = pg_affected_rows($result);
-            $this->lastInsID =   $this->last_insert_id();
+            $this->numRows = sqlite_changes($this->_linkID);
+            $this->lastInsID = sqlite_last_insert_rowid($this->_linkID);
             return $this->numRows;
         }
-    }
-
-    /**
-     * 用于获取最后插入的ID
-     * @access public
-     * @return integer
-     */
-    public function last_insert_id() {
-        $query  =   "SELECT LASTVAL() AS insert_id";
-        $result =   pg_query($this->_linkID,$query);
-        list($last_insert_id)   =   pg_fetch_array($result,null,PGSQL_ASSOC);
-        pg_free_result($result);
-        return $last_insert_id;
     }
 
     /**
@@ -146,7 +132,7 @@ class DbPgsql extends Db{
         if ( !$this->_linkID ) return false;
         //数据rollback 支持
         if ($this->transTimes == 0) {
-            pg_exec($this->_linkID,'begin;');
+            sqlite_query($this->_linkID,'BEGIN TRANSACTION');
         }
         $this->transTimes++;
         return ;
@@ -159,7 +145,7 @@ class DbPgsql extends Db{
      */
     public function commit() {
         if ($this->transTimes > 0) {
-            $result = pg_exec($this->_linkID,'end;');
+            $result = sqlite_query($this->_linkID,'COMMIT TRANSACTION');
             if(!$result){
                 $this->error();
                 return false;
@@ -176,7 +162,7 @@ class DbPgsql extends Db{
      */
     public function rollback() {
         if ($this->transTimes > 0) {
-            $result = pg_exec($this->_linkID,'abort;');
+            $result = sqlite_query($this->_linkID,'ROLLBACK TRANSACTION');
             if(!$result){
                 $this->error();
                 return false;
@@ -193,38 +179,34 @@ class DbPgsql extends Db{
      */
     private function getAll() {
         //返回数据集
-        $result   =  pg_fetch_all($this->queryID);
-        pg_result_seek($this->queryID,0);
+        $result = array();
+        if($this->numRows >0) {
+            for($i=0;$i<$this->numRows ;$i++ ){
+                // 返回数组集
+                $result[$i] = sqlite_fetch_array($this->queryID,SQLITE_ASSOC);
+            }
+            sqlite_seek($this->queryID,0);
+        }
         return $result;
     }
 
     /**
      * 取得数据表的字段信息
      * @access public
+     * @return array
      */
     public function getFields($tableName) {
-        $result   =  $this->query("select a.attname as \"Field\",
-            t.typname as \"Type\",
-            a.attnotnull as \"Null\",
-            i.indisprimary as \"Key\",
-            d.adsrc as \"Default\"
-            from pg_class c
-            inner join pg_attribute a on a.attrelid = c.oid
-            inner join pg_type t on a.atttypid = t.oid
-            left join pg_attrdef d on a.attrelid=d.adrelid and d.adnum=a.attnum
-            left join pg_index i on a.attnum=ANY(i.indkey) and c.oid = i.indrelid
-            where (c.relname='{$tableName}' or c.relname = lower('{$tableName}'))   AND a.attnum > 0
-                order by a.attnum asc;");
+        $result =   $this->query('PRAGMA table_info( '.$tableName.' )');
         $info   =   array();
-        if($result) {
+        if($result){
             foreach ($result as $key => $val) {
                 $info[$val['Field']] = array(
-                'name'    => $val['Field'],
-                'type'    => $val['Type'],
-                'notnull' => (bool) ($val['Null'] == 't'?1:0), // 't' is 'not null'
-                'default' => $val['Default'],
-                'primary' => (strtolower($val['Key']) == 't'),
-                'autoinc' => (strtolower($val['Default']) == "nextval('{$tableName}_id_seq'::regclass)"),
+                    'name'    => $val['Field'],
+                    'type'    => $val['Type'],
+                    'notnull' => (bool) ($val['Null'] === ''), // not null is empty, null is yes
+                    'default' => $val['Default'],
+                    'primary' => (strtolower($val['Key']) == 'pri'),
+                    'autoinc' => (strtolower($val['Extra']) == 'auto_increment'),
                 );
             }
         }
@@ -234,9 +216,12 @@ class DbPgsql extends Db{
     /**
      * 取得数据库的表信息
      * @access public
+     * @return array
      */
     public function getTables($dbName='') {
-        $result = $this->query("select tablename as Tables_in_test from pg_tables where  schemaname ='public'");
+        $result =   $this->query("SELECT name FROM sqlite_master WHERE type='table' "
+             . "UNION ALL SELECT name FROM sqlite_temp_master "
+             . "WHERE type='table' ORDER BY name");
         $info   =   array();
         foreach ($result as $key => $val) {
             $info[$key] = current($val);
@@ -249,8 +234,8 @@ class DbPgsql extends Db{
      * @access public
      */
     public function close() {
-        if($this->_linkID){
-            pg_close($this->_linkID);
+        if ($this->_linkID){
+            sqlite_close($this->_linkID);
         }
         $this->_linkID = null;
     }
@@ -261,8 +246,9 @@ class DbPgsql extends Db{
      * @access public
      * @return string
      */
-    public function error($result = true) {
-        $this->error = $result?pg_result_error($this->queryID): pg_last_error($this->_linkID);
+    public function error() {
+        $code   =   sqlite_last_error($this->_linkID);
+        $this->error = $code.':'.sqlite_error_string($code);
         if('' != $this->queryStr){
             $this->error .= "\n [ SQL语句 ] : ".$this->queryStr;
         }
@@ -277,7 +263,7 @@ class DbPgsql extends Db{
      * @return string
      */
     public function escapeString($str) {
-        return pg_escape_string($str);
+        return sqlite_escape_string($str);
     }
 
     /**

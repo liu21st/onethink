@@ -8,7 +8,8 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-
+namespace Think\Db\Driver;
+use Think\Db;
 defined('THINK_PATH') or exit();
 /**
  * Oracle数据库驱动
@@ -17,7 +18,7 @@ defined('THINK_PATH') or exit();
  * @subpackage  Driver.Db
  * @author    ZhangXuehun <zhangxuehun@sohu.com>
  */
-class DbOracle extends Db{
+class Oracle extends Db{
 
     private     $mode         = OCI_COMMIT_ON_SUCCESS;
     private     $table        = '';

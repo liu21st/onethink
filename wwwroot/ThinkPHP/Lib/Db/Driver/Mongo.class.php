@@ -8,7 +8,8 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-
+namespace Think\Db\Driver;
+use Think\Db;
 defined('THINK_PATH') or exit();
 /**
  * Mongo数据库驱动 必须配合MongoModel使用
@@ -17,7 +18,7 @@ defined('THINK_PATH') or exit();
  * @subpackage  Driver.Db
  * @author    liu21st <liu21st@gmail.com>
  */
-class DbMongo extends Db{
+class Mongo extends Db{
 
     protected $_mongo           =   null; // MongoDb Object
     protected $_collection      =   null; // MongoCollection Object
@@ -52,8 +53,8 @@ class DbMongo extends Db{
             if(empty($config))  $config =   $this->config;
             $host = 'mongodb://'.($config['username']?"{$config['username']}":'').($config['password']?":{$config['password']}@":'').$config['hostname'].($config['hostport']?":{$config['hostport']}":'').'/'.($config['database']?"{$config['database']}":'');
             try{
-                $this->linkID[$linkNum] = new mongoClient( $host,$config['params']);
-            }catch (MongoConnectionException $e){
+                $this->linkID[$linkNum] = new \mongoClient( $host,$config['params']);
+            }catch (\MongoConnectionException $e){
                 throw_exception($e->getmessage());
             }
             // 标记连接成功

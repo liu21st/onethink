@@ -8,7 +8,8 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-
+namespace Think\Cache\Driver;
+use Think\Cache;
 defined('THINK_PATH') or exit();
 /**
  * Apachenote缓存驱动
@@ -17,7 +18,7 @@ defined('THINK_PATH') or exit();
  * @subpackage  Driver
  * @author    liu21st <liu21st@gmail.com>
  */
-class CacheApachenote extends Cache {
+class Apachenote extends Cache {
 
     /**
      * 架构函数

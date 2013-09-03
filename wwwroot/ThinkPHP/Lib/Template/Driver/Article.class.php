@@ -6,11 +6,12 @@
 // +----------------------------------------------------------------------
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
-
+namespace Think\Template\Driver;
+use Think\Template\TagLib;
 /**
  * ThinkCMS 系文档模型标签库
  */
-class TagLibArticle extends TagLib{
+class Article extends TagLib{
 	/**
 	 * 定义标签列表
 	 * @var array

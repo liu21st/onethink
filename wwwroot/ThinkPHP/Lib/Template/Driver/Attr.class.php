@@ -9,9 +9,10 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 // $Id$
-
+namespace Think\Template\Driver;
+use Think\Template\TagLib;
 // 属性类型标签库
-class TagLibAttr extends TagLib{
+class Attr extends TagLib{
     // 标签定义
     protected $tags   =  array(
         // 标签定义： attr 属性列表 close 是否闭合（0 或者1 默认1） alias 标签别名 level 嵌套层次

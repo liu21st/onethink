@@ -8,16 +8,17 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-
+namespace Think\Cache\Driver;
+use Think\Cache;
 defined('THINK_PATH') or exit();
 /**
- * Eaccelerator缓存驱动
+ * Apc缓存驱动
  * @category   Extend
  * @package  Extend
  * @subpackage  Driver.Cache
  * @author    liu21st <liu21st@gmail.com>
  */
-class CacheEaccelerator extends Cache {
+class Apc extends Cache {
 
     /**
      * 架构函数
@@ -25,9 +26,12 @@ class CacheEaccelerator extends Cache {
      * @access public
      */
     public function __construct($options=array()) {
-        $this->options['expire'] =  isset($options['expire'])?  $options['expire']  :   C('DATA_CACHE_TIME');
-        $this->options['prefix'] =  isset($options['prefix'])?  $options['prefix']  :   C('DATA_CACHE_PREFIX');        
-        $this->options['length'] =  isset($options['length'])?  $options['length']  :   0;
+        if(!function_exists('apc_cache_info')) {
+            throw_exception(L('_NOT_SUPPERT_').':Apc');
+        }
+        $this->options['prefix']    =   isset($options['prefix'])?  $options['prefix']  :   C('DATA_CACHE_PREFIX');
+        $this->options['length']    =   isset($options['length'])?  $options['length']  :   0;        
+        $this->options['expire']    =   isset($options['expire'])?  $options['expire']  :   C('DATA_CACHE_TIME');
     }
 
     /**
@@ -38,7 +42,7 @@ class CacheEaccelerator extends Cache {
      */
      public function get($name) {
         N('cache_read',1);
-         return eaccelerator_get($this->options['prefix'].$name);
+         return apc_fetch($this->options['prefix'].$name);
      }
 
     /**
@@ -55,17 +59,14 @@ class CacheEaccelerator extends Cache {
             $expire  =  $this->options['expire'];
         }
         $name   =   $this->options['prefix'].$name;
-        eaccelerator_lock($name);
-        if(eaccelerator_put($name, $value, $expire)) {
+        if($result = apc_store($name, $value, $expire)) {
             if($this->options['length']>0) {
                 // 记录缓存队列
                 $this->queue($name);
             }
-            return true;
         }
-        return false;
+        return $result;
      }
-
 
     /**
      * 删除缓存
@@ -74,7 +75,16 @@ class CacheEaccelerator extends Cache {
      * @return boolen
      */
      public function rm($name) {
-         return eaccelerator_rm($this->options['prefix'].$name);
+         return apc_delete($this->options['prefix'].$name);
      }
+
+    /**
+     * 清除缓存
+     * @access public
+     * @return boolen
+     */
+    public function clear() {
+        return apc_clear_cache();
+    }
 
 }
