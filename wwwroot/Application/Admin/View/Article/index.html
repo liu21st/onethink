@@ -15,6 +15,8 @@
             </notempty>
             <!-- /子导航 -->
         </volist>
+        <!-- 回收站 -->
+        <h3><i class="icon-s1"></i><a href="{:U('article/recycle')}">回收站</a></h3>
     </div>
 </block>
 
@@ -73,7 +75,7 @@
 					<table>
 						<thead>
 							<tr>
-								<th class="row-selected"><input type="checkbox" id="selectall"/></th>
+								<th class="row-selected"><input type="checkbox" class="check-all"/></th>
 								<th>标题</th>
 								<th>创建者</th>
 								<th>创建时间</th>
@@ -84,7 +86,7 @@
 						<tbody>
 							<volist name="list" id="vo">
 							<tr>
-								<td><input type="checkbox" value="{$vo.id}" class="child_checkbox"/></td>
+								<td><input type="checkbox" value="{$vo.id}" class="ids"/></td>
 								<td><a href="{:U('edit',array('id'=>$vo['id'],'cate_id'=>$cate_id))}">{$vo.title}</a></td>
 								<td>{$vo.uid|get_username}</td>
 								<td>{$vo.create_time|time_format}</td>
