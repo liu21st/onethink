@@ -54,7 +54,7 @@
                 <volist name="__base_menu__.child" id="sub_menu">
                     <!-- 子导航 -->
                     <notempty name="sub_menu">
-                        <h3><i class="icon-s1"></i>{$key}</h3>
+                        <h3><i class="icon icon-fold"></i>{$key}</h3>
                         <ul>
                             <volist name="sub_menu" id="menu">
                                 <li><a href="{$menu.url|U}">{$menu.title}</a></li>
@@ -105,7 +105,7 @@
             $subnav.find("a[href='" + url + "']").parent().addClass("current");
 
             /* 左边菜单显示收起 */
-            $("#subnav .icon-s1").click(function(){
+            $("#subnav h3").find("i").click(function(){
                 $(this).parent().next().toggle("fast","linear");
             })
         }();
