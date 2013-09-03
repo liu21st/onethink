@@ -1,0 +1,62 @@
+<!-- 底部 -->
+<div class="footer">
+	<div class="wrapper cf">
+		<div class="ft-col">
+			<h3>我们</h3>
+			<ul>
+				<li><a href="javascript:;">关于我们</a></li>
+				<li><a href="javascript:;">公司动态</a></li>
+				<li><a href="javascript:;">联系我们</a></li>
+				<li><a href="javascript:;">免责声明</a></li>
+				<li><a href="javascript:;">加入我们</a></li>
+				<li><a href="javascript:;">捐赠我们</a></li>
+			</ul>
+		</div>
+		<div class="ft-col">
+			<h3>我们</h3>
+			<ul>
+				<li><a href="javascript:;">技术培训</a></li>
+				<li><a href="javascript:;">广告合作</a></li>
+				<li><a href="javascript:;">项目合作</a></li>
+				<li><a href="javascript:;">投资合作</a></li>
+				<li><a href="javascript:;">合作伙伴</a></li>
+				<li><a href="javascript:;">友情链接</a></li>
+			</ul>
+		</div>
+		<div class="ft-col">
+			<h3>我们</h3>
+			<ul>
+				<li><a href="javascript:;">RSS订阅</a></li>
+				<li><a href="javascript:;">投稿指南</a></li>
+				<li><a href="javascript:;">网站帮助</a></li>
+			</ul>
+		</div>
+		<div class="ft-col">
+			<h3>我们</h3>
+			<ul>
+				<li><a href="javascript:;">更新列表</a></li>
+				<li><a href="javascript:;">BUG反馈</a></li>
+				<li><a href="javascript:;">技术讨论</a></li>
+				<li><a href="javascript:;">教程资讯</a></li>
+			</ul>
+		</div>
+		<div class="ft-intro">
+			<p>
+				<strong>OneThink</strong>是一个免费开源的，快速、简单的面向对象的 轻量级PHP开发框架 ，创立于2006年初，遵循Apache2开源协议发布，是为了敏捷WEB应用开发和简化企业应用开发而诞生的。ThinkPHP从诞生以来一直秉承简洁实用的设计原则，在保持出色的性能和至简的代码的同时，也注重易用性。并且拥有众多的原创功能和特性，在社区团队的积极参与下，在易用性、扩展性和性能方面不断优化和改进，已经成长为国内最领先和最具影响力的WEB应用开发框架，众多的典型案例确保可以稳定用于商业以及门户级的开发。
+			</p>
+			<p class="copyright">
+				沪ICP备12007941号-2<a href="http://www.thinkphp.cn">本网站由顶想科技维护支持</a>
+			</p>
+		</div>
+	</div>
+</div>
+
+<include file="Public/var"/>
+<script type="text/javascript" src="__STATIC__/think.js"></script>
+<script type="text/javascript" src="__JS__/common.js"></script>
+<block name="script"></block> <!-- 用于加载js代码 -->
+<!-- 页面footer钩子，一般用于加载插件JS文件和JS代码 -->
+{:hooks('pageFooter', 'widget')}
+<div class="hidden"><!-- 用于加载统计代码等隐藏元素 -->
+	<block name="hidden"></block>
+</div>
