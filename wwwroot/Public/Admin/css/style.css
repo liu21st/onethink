@@ -25,7 +25,7 @@ body{
     margin-left: 15px;
     width: 184px;
     height: 49px;
-    background: url(../images/logo.png) no-repeat;
+    background: url(../images/logo.png) no-repeat 10px center;
 }
 
 /* 主导航 */
@@ -373,4 +373,24 @@ body{
 
 .add-pop-form {
     width: 500px;
+}
+
+/* 授权编辑页 */
+.checkmod dt {
+    padding-left: 10px;
+    height: 30px;
+    line-height: 30px;
+    font-weight: bold;
+    background-color: #f5f5f5;
+}
+.checkmod dd {
+    margin-bottom: 20px;
+    padding-left: 10px;
+    line-height: 30px;
+}
+.checkmod dd .checkbox {
+    margin: 0 10px 0 0;
+}
+.checkmod dd .divsion {
+    margin-right: 10px;
 }

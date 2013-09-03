@@ -54,6 +54,8 @@ class AdminController extends Action {
     private $uid = null;//保存登陆用户的uid
     private $root_user = null;   //保存超级管理员用户id;
 
+    protected $nav = array();
+
     protected function _initialize()
     {
         $this->uid = is_login();
@@ -67,11 +69,12 @@ class AdminController extends Action {
         }elseif( $ac===null ){
             $rule  = strtolower(MODULE_NAME.'/'.CONTROLLER_NAME.'/'.ACTION_NAME);
             if ( !$this->root_user && !$this->checkRule($rule,array('in','1,2')) ){
-                $this->error('无权访问');
+                $this->error('提示:无权访问,您可能需要联系管理员为您授权!');
             }
         }
         $this->assign('__controller__', $this);
         $this->checkNodes();
+        $this->_nav();
     }
 
     /**
@@ -270,7 +273,8 @@ class AdminController extends Action {
         $nodes = array('default'=>array());
         foreach ($controller::$nodes as $value){
             if (!is_array($value) || !isset($value['title'],$value['url'])) {
-                $this->error("内部错误:{$controller}控制器 nodes属性配置有误");
+                $action = A(CONTROLLER_NAME);
+				$action->error("内部错误:{$controller}控制器 nodes属性配置有误");
             }
             if( strpos($value['url'],'/')===false ){
                 $value['url'] = MODULE_NAME.'/'.strtr($controller,array('Controller'=>'')).'/'.$value['url'];
@@ -581,6 +585,68 @@ class AdminController extends Action {
             foreach ($collect as $value){
                 trace(" 公共方法 '{$value}' 尚未进行任何权限配置!",CONTROLLER_NAME,'dev');
             }
+        }
+    }
+
+
+    /**
+     * 构建nav的1和last元素
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
+    final protected function _nav()
+    {
+        if(!isset($_SERVER["HTTP_REFERER"])){
+            $_SERVER["HTTP_REFERER"]=U('Admin/Index/index');
+        }
+
+        $first = M('AuthRule')->where(array('module'=>'admin','status'=>1, 'type'=>2))->getField('name,title',true);
+
+
+        $arr = array();
+        foreach ($first as $key => $value){
+            $arr[U($key,$vars='',$suffix=true,$redirect=false,$domain=true)] = $value;
+        }
+
+        $nav  = session('nav')?session('nav'):array();
+
+		$port = $_SERVER['SERVER_PORT']==80?'':':'.$_SERVER['SERVER_PORT'];
+		$last = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$port .$_SERVER['REQUEST_URI'];
+        if( array_key_exists( $_SERVER["HTTP_REFERER"],$arr ) ){
+            $nav = array();//清空
+            $nav[1] = array( $_SERVER["HTTP_REFERER"]=>$arr[$_SERVER["HTTP_REFERER"]] );
+        }
+		if( array_key_exists( $last,$arr ) ){
+			$nav = array();//清空
+			$nav[1] = array( $last=>$arr[$last]);
+			$this->nav = $nav;
+			session('nav',$this->nav);
+			return;
+		}
+		$nav['last'] = $last;
+        $this->nav = $nav;
+    }
+
+    /**
+     * 设置nav
+     * @param int    $level  菜单层级
+     * @param string $title  菜单名称
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
+    protected function nav($level,$title,$show=false){
+        if ( is_numeric($level) ) {
+			$this->nav[$level] = array ($this->nav['last']=>$title);
+            unset($this->nav['last']);
+            ksort($this->nav);
+			$this->nav = array_slice($this->nav,0,$level,true);
+            $arr = array();
+            foreach ($this->nav as $key => $value){
+                foreach ($value as $k => $v){
+                    $arr[$k]=$v;
+                }
+            }
+			session( 'nav', $this->nav );
+            $this->assign('_nav',$arr);        
+            $this->assign('_show_nav',$show);
         }
     }
 }
