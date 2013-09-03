@@ -413,7 +413,7 @@ class AdminController extends Action {
             }
             $controllers = explode(',',$value['controllers']);
             foreach ($controllers as $c){
-                $class = $c.'Controller';
+                $class = 'Admin\\Controller\\'.$c.'Controller';
                 if( class_exists($class) && method_exists($class,'getNodes') ){
                     $temp = $class::getNodes($class,false);
                 }else{
