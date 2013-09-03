@@ -56,12 +56,12 @@ if(!IS_CLI) {
 }
 
 // 路径设置 可在入口文件中重新定义 所有路径常量都必须以/ 结尾
-defined('RUNTIME_PATH') or define('RUNTIME_PATH',APP_PATH.'Runtime/');
-defined('CORE_PATH')    or define('CORE_PATH',      THINK_PATH.'Lib/'); // 系统核心类库目录
+defined('RUNTIME_PATH') or define('RUNTIME_PATH',   APP_PATH.'Runtime/');
+defined('LIB_PATH')     or define('LIB_PATH',       THINK_PATH.'Library/'); // 系统核心类库目录
+defined('CORE_PATH')    or define('CORE_PATH',      LIB_PATH.'Think/'); // 第三方类库目录
 defined('EXTEND_PATH')  or define('EXTEND_PATH',    THINK_PATH.'Extend/'); // 系统扩展目录
 defined('MODE_PATH')    or define('MODE_PATH',      EXTEND_PATH.'Mode/'); // 模式扩展目录
-defined('ENGINE_PATH')  or define('ENGINE_PATH',    EXTEND_PATH.'Engine/'); // 引擎扩展目录
-defined('VENDOR_PATH')  or define('VENDOR_PATH',    EXTEND_PATH.'Vendor/'); // 第三方类库目录
+defined('VENDOR_PATH')  or define('VENDOR_PATH',    LIB_PATH.'Vendor/'); // 第三方类库目录
 defined('LIBRARY_PATH') or define('LIBRARY_PATH',   EXTEND_PATH.'Library/'); // 扩展类库目录
 defined('COMMON_PATH')  or define('COMMON_PATH',    APP_PATH.'Common/'); // 项目公共目录
 defined('LANG_PATH')    or define('LANG_PATH',      COMMON_PATH.'Lang/'); // 项目语言目录
