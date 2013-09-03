@@ -16,5 +16,5 @@ namespace Think;
  * @subpackage  Core
  * @author    liu21st <liu21st@gmail.com>
  */
-class ThinkException extends \Exception {
+class Exception extends \Exception {
 }

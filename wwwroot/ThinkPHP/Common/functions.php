@@ -19,12 +19,12 @@
 /**
  * 自定义异常处理
  * @param string $msg 异常消息
- * @param string $type 异常类型 默认为ThinkException
+ * @param string $type 异常类型 默认为Think\Exception
  * @param integer $code 异常代码 默认为0
  * @return void
  */
-function throw_exception($msg, $type='ThinkException', $code=0) {
-    Think\Log::record('建议使用E方法替代throw_exception',Log::NOTICE);
+function throw_exception($msg, $type='Think\\Exception', $code=0) {
+    Think\Log::record('建议使用E方法替代throw_exception',Think\Log::NOTICE);
     if (class_exists($type, false))
         throw new $type($msg, $code);
     else
