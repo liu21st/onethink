@@ -301,21 +301,24 @@
 	margin-bottom: 15px;
 }
 .media .media-avatar,
+.media .media-side {
+	float: left;
+	margin-right: 15px;
+}
+.media .media-avatar,
 .media .media-avatar img {
 	width: 52px;
 	height: 52px;
 	border-radius: 50%;
 }
-.media .media-avatar {
-	float: left;
-	margin-right: 15px;
-}
-.media .media-avatar img {
+.media .media-avatar img,
+.media .media-side img {
 	display: block;
 }
 .media .media-body {
 	overflow: hidden;
 	line-height: 1.8;
+	word-break: break-all;
 }
 .artlist-info,
 .artlist-info a {
@@ -359,13 +362,8 @@
 .info-list .media {
 	margin-bottom: 0;
 }
-.info-list .media-left {
-	float: left;
-	margin-right: 10px;
+.info-list .media-side {
 	width: 180px;
-}
-.info-list .media-left img {
-	display: block;
 }
 .info-list .media-body {
 	color: #999;
