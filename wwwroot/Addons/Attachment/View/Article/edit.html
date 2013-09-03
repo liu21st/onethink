@@ -12,7 +12,7 @@
 (function($){
 	//上传URL
 	var url = "{:addons_url('Attachment://Attachment/upload?category='.$category['id'])}";
-	
+
 	/* 初始化上传插件 */
 	$("#attachment").uploadify({
         "height"          : 30,
@@ -20,11 +20,14 @@
         "fileObjName"     : "attachment",
         "uploader"        : url,
         "width"           : 120,
-        "onUploadSuccess" : uploadSuccess
+        'formData'        : {'XDEBUG_SESSION_START':'netbeans-xdebug'},
+        "onUploadSuccess" : uploadSuccess,
+        "successTimeout"  : 36000,
     });
 
 	/* 文件上传成功回调函数 */
     function uploadSuccess(file, data){
+        alert(data);
     	var data = $.parseJSON(data);
         if(data.status){
         	$("input[name='attachment[info]']").val(data.data);
