@@ -23,7 +23,7 @@
  * @return void
  */
 function E($msg, $code=0) {
-    throw new ThinkException($msg, $code);
+    throw new Think\ThinkException($msg, $code);
 }
 
 /**
@@ -394,18 +394,16 @@ function alias_import($alias, $classfile='') {
  * @return Model
  */
 function D($name='',$layer='') {
-    if(empty($name)) return new Model;
+    if(empty($name)) return new Think\Model;
     static $_model  =   array();
     $layer          =   $layer?$layer:C('DEFAULT_M_LAYER');
     if(isset($_model[$name.$layer]))   return $_model[$name.$layer];
-    $result   =   parse_res_name($name,$layer);
-
-    $class          =   basename($result);
+    $class   =   parse_res_name($name,$layer);
     if(class_exists($class)) {
         $model      =   new $class(basename($name));
     }else {
-        Log::record('D方法实例化没找到模型类'.$class,Log::NOTICE);
-        $model      =   new Model(basename($name));
+        Think\Log::record('D方法实例化没找到模型类'.$class,Think\Log::NOTICE);
+        $model      =   new Think\Model(basename($name));
     }
     $_model[$name.$layer]  =  $model;
     return $model;
@@ -423,7 +421,7 @@ function M($name='', $tablePrefix='',$connection='') {
     if(strpos($name,':')) {
         list($class,$name)    =  explode(':',$name);
     }else{
-        $class      =   'Model';
+        $class      =   'Think\\Model';
     }
     $guid           =   $tablePrefix . $name . '_' . $class;
     if (!isset($_model[$guid]))
@@ -446,22 +444,16 @@ function parse_res_name($name,$layer){
     }
     if(strpos($name,'/')){ // 指定模块
         $path   =   explode('/',$name);
-        $name   =   $path[0].'/'.$layer.'/'.$path[1];
+        $module =   $path[0];
     }else{
-        $name   =   '@/'.$layer.'/'.$name;
+        $module =   MODULE_NAME;
     }
+    $class  =   $module.'\\'.$layer.'\\'.parse_name($name, 1);
     // 导入资源类库
-    if($extend && ($list = C('EXTEND_MODULE')) && isset($list[$extend])){ // 扩展资源
-        $baseUrl    =   $list[$extend];
-        $result     =   import($name.$layer,$baseUrl);
-    }else{
-        $result     =   import($name.$layer);
+    if($extend){ // 扩展资源
+        $class      =   $extend.'\\'.$class;
     }
-    if(!$result){
-        // 类库不存在 加载公共模块下面的类库
-        import(ltrim(strstr($name,'/'),'/').$layer,COMMON_PATH);
-    }
-    return $extend.'_'.$name.$layer;
+    return $class.$layer;
 }
 
 /**
@@ -475,9 +467,8 @@ function A($name,$layer='') {
     static $_action = array();
     $layer  =   $layer?$layer:C('DEFAULT_C_LAYER');
     if(isset($_action[$name.$layer]))  return $_action[$name.$layer];
-    $result   =   parse_res_name($name,$layer);
-    $class    =   basename($result);
-    if(class_exists($class,false)) {
+    $class   =   parse_res_name($name,$layer);
+    if(class_exists($class)) {
         $action             =   new $class();
         $_action[$name.$layer]     =   $action;
         return $action;
@@ -712,38 +703,6 @@ function strip_whitespace($content) {
     return $stripStr;
 }
 
-//[RUNTIME]
-// 编译文件
-function compile($filename) {
-    $content        = file_get_contents($filename);
-    // 替换预编译指令
-    $content        = preg_replace('/\/\/\[RUNTIME\](.*?)\/\/\[\/RUNTIME\]/s', '', $content);
-    $content        = substr(trim($content), 5);
-    if ('?>' == substr($content, -2))
-        $content    = substr($content, 0, -2);
-    return $content;
-}
-
-// 根据数组生成常量定义
-function array_define($array,$check=true) {
-    $content = "\n";
-    foreach ($array as $key => $val) {
-        $key = strtoupper($key);
-        if($check)   $content .= 'defined(\'' . $key . '\') or ';
-        if (is_int($val) || is_float($val)) {
-            $content .= "define('" . $key . "'," . $val . ');';
-        } elseif (is_bool($val)) {
-            $val = ($val) ? 'true' : 'false';
-            $content .= "define('" . $key . "'," . $val . ');';
-        } elseif (is_string($val)) {
-            $content .= "define('" . $key . "','" . addslashes($val) . "');";
-        }
-        $content    .= "\n";
-    }
-    return $content;
-}
-//[/RUNTIME]
-
 /**
  * 添加和获取页面Trace记录
  * @param string $value 变量
@@ -767,7 +726,7 @@ function trace($value='[think]',$label='',$level='DEBUG',$record=false) {
             }
         $_trace[$level][]   = $info;
         if((defined('IS_AJAX') && IS_AJAX) || !C('SHOW_PAGE_TRACE')  || $record) {
-            Log::record($info,$level,$record);
+            Think\Log::record($info,$level,$record);
         }
     }
 }

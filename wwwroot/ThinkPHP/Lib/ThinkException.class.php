@@ -8,23 +8,13 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-namespace Think\Behavior;
-use Think\Behavior;
-defined('THINK_PATH') or exit();
+namespace Think;
 /**
- * 系统行为扩展：静态缓存写入
+ * ThinkPHP系统异常基类
  * @category   Think
  * @package  Think
- * @subpackage  Behavior
- * @author   liu21st <liu21st@gmail.com>
+ * @subpackage  Core
+ * @author    liu21st <liu21st@gmail.com>
  */
-class WriteHtmlCacheBehavior extends Behavior {
-
-    // 行为扩展的执行入口必须是run
-    public function run(&$content){
-        if(C('HTML_CACHE_ON') && defined('HTML_FILE_NAME'))  {
-            //静态文件写入
-            ThinkStorage::getInstance()->put(HTML_FILE_NAME , $content);
-        }
-    }
+class ThinkException extends \Exception {
 }
