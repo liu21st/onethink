@@ -131,8 +131,7 @@
 .sort-box a {
 	display: inline-block;
 	margin-right: 20px;
-}
-.sort-box a {
+	width: 116px;
 	color: #666;
 }
 .sort-box a em {
@@ -144,6 +143,12 @@
 .sort-box .selected em {
 	font-weight: bold;
 	color: #000;
+}
+.sort-box .sub-sort {
+	float: left;
+	width: 847px;
+	overflow: hidden;
+	*zoom: 1;
 }
 .sort-box .slide-arrow {
 	position: absolute;

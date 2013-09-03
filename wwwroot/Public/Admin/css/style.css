@@ -41,6 +41,7 @@ body{
     display: block;
     height: 49px;
     line-height: 49px;
+    font-size: 18px;
     color: #FFF;
     text-align: center;
 }
@@ -86,7 +87,7 @@ body{
 /* 子导航标题栏 */
 .subnav h3 {
     margin-right: 15px;
-    padding-left: 20px;
+    padding-left: 15px;
     height: 35px;
     line-height: 35px;
     font-size: 14px;
@@ -98,14 +99,19 @@ body{
 .subnav h3 a:hover {
     text-decoration: none;
 }
-.subnav h3 .icon-s1,
-.subnav h3 .icon-s2 {
+.subnav h3 .icon-fold,
+.subnav h3 .icon-unfold {
     display: inline-block;
-    margin-right: 12px;
+    margin-right: 6px;
     width: 16px;
     height: 16px;
-    vertical-align: -3px;
-    background: url(../images/i_overview.png) no-repeat 0 0;
+    vertical-align: -2px;
+}
+.subnav h3 .icon-fold {
+    background-position: 0 -40px;
+}
+.subnav h3 .icon-unfold {
+    background-position: -20px -40px;
 }
 
 /* 子导航 */
