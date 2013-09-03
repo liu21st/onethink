@@ -45,6 +45,8 @@
     </form>
 </block>
 <block name="script">
+<script type="text/javascript" src="__STATIC__/qtip/jquery.qtip.min.js"></script>
+<link rel="stylesheet" type="text/css" href="__STATIC__/qtip/jquery.qtip.min.css" media="all">
 <script type="text/javascript" charset="utf-8">
     +function($){
         var rules = [{$auth_group.rules}];
@@ -61,6 +63,22 @@
         $('.rules_all').on('change',function(){
             $(this).parents('.rules_row').find('input').prop('checked',this.checked);
         });
+
+        $('.checkbox').each(function(){
+            $(this).qtip({
+                content: {
+                    text: $(this).attr('title')
+                },
+                position: {
+                    my: 'bottom center',  // Position my top left...
+                    at: 'top center', // at the bottom right of...
+                    target: $(this)
+                },
+                style: {
+                    classes: 'qtip-blue'
+                }
+            });
+        })
     }(jQuery);
 </script>
 </block>
