@@ -1,13 +1,4 @@
 <!-- 管理员用户组新增和编辑页面 -->
-<extend name="Public/base" />
-<block name="body">
-    <div class="main-title cf">
-        <empty name="auth_group['id']">
-        <h2>新增用户组</h2>
-        <else />
-        <h2>编辑用户组</h2>
-        </empty>
-    </div>
     <form action="{:U('AuthManager/writeGroup')}" enctype="application/x-www-form-urlencoded" method="POST" 
             class="form-horizontal auth-form">
         <div class="form-item">
@@ -31,4 +22,3 @@
             </div>
         </div>
     </form>
-</block>

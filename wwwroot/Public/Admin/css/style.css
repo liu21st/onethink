@@ -108,10 +108,10 @@ body{
     vertical-align: -2px;
 }
 .subnav h3 .icon-fold {
-    background-position: 0 -40px;
+    background: url(../images/plus.png) no-repeat center center;
 }
 .subnav h3 .icon-unfold {
-    background-position: -20px -40px;
+    background: url(../images/minus.png) no-repeat center center;
 }
 
 /* 子导航 */
@@ -164,6 +164,7 @@ body{
 }
 .main-title {
     padding: 10px 0;
+    *zoom: 1;
 }
 .main-title:before,
 .main-title:after {

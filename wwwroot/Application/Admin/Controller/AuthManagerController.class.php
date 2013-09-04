@@ -127,6 +127,8 @@ class AuthManagerController extends AdminController{
             'title'=>array(
 				'title'=>'用户组',
 				'tag'=>'a',
+                'class'=>'edit-group',
+                'data-id'=>'$id',
 				'href'=>'AuthManager/editgroup?id=$id',
 			),
             'description'=>'描述',

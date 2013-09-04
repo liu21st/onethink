@@ -78,6 +78,7 @@ i[class^="icon"],
 	width: 0;
 	height: 0;
 	line-height: 0;
+	vertical-align: middle;
 	border: 4px dashed transparent;
 }
 .arrow-down {

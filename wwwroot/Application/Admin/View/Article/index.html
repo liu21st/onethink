@@ -59,16 +59,20 @@
 							</select>
 							<input type="button" value="查询" class="btn" id="search" url="{:U('article/index','cate_id='.$cate_id,false)}">
 						</form> -->
-						<form action="#" method="post" class="search-form">
-							<ul class="dropdown">
-								<li><a href="javascript:;">所有状态</a></li>
-								<li><a href="javascript:;">启用</a></li>
-								<li><a href="javascript:;">禁用</a></li>
-								<li><a href="javascript:;">待审核</a></li>
-							</ul>
+						<div class="search-form cf">
+							<div class="drop-down">
+								<span id="sch-sort-txt" class="sort-txt">所有状态</span>
+								<i class="arrow arrow-down"></i>
+								<ul id="sub-sch-menu" class="nav-list hidden">
+									<li><a href="javascript:;">所有状态</a></li>
+									<li><a href="javascript:;">启用</a></li>
+									<li><a href="javascript:;">禁用</a></li>
+									<li><a href="javascript:;">待审核</a></li>
+								</ul>
+							</div>
 							<input type="text" name="">
-							
-						</form>
+							<a class="sch-btn" href="javascript:;">高级搜索</a>
+						</div>
 					</div>
 				</div>
 
@@ -171,6 +175,20 @@ $(function(){
 			},
 			'json'
 		);
+	});
+
+	/* 高级搜索子菜单 */
+	$(".search-form").find(".drop-down").hover(function(){
+		$("#sub-sch-menu").removeClass("hidden");
+	},function(){
+		$("#sub-sch-menu").addClass("hidden");
+	});
+	$("#sub-sch-menu li").find("a").each(function(){
+		$(this).click(function(){
+			var text = $(this).text();
+			$("#sch-sort-txt").text(text);
+			$("#sub-sch-menu").addClass("hidden");
+		})
 	});
 })
 </script>
