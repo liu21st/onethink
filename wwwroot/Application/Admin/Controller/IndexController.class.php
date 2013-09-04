@@ -7,6 +7,8 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 namespace Admin\Controller;
+use User\Api\UserApi as UserApi;
+
 /**
  * 后台首页控制器
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
@@ -56,7 +58,8 @@ class IndexController extends AdminController {
             // }
 
             /* 调用UC登录接口登录 */
-            $uid = A('User/User', 'Api')->login($username, $password);
+             $User = new UserApi;
+            $uid = $User->login($username, $password);
             if(0 < $uid){ //UC登录成功
                 /* 登录用户 */
                 $Member = D('Member');
