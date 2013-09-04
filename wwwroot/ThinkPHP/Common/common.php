@@ -23,7 +23,7 @@
  * @return void
  */
 function E($msg, $code=0) {
-    throw new Think\ThinkException($msg, $code);
+    throw new Think\Exception($msg, $code);
 }
 
 /**

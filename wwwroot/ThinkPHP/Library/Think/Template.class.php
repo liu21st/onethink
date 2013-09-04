@@ -388,7 +388,7 @@ class  Template {
     public function parseTagLib($tagLib,&$content,$hide=false) {
         $begin      =   $this->config['taglib_begin'];
         $end        =   $this->config['taglib_end'];
-        $className  =   'Think\\Template\Driver\\'.ucwords($tagLib);
+        $className  =   'Think\\Template\TagLib\\'.ucwords($tagLib);
         $tLib       =   \Think\Think::instance($className);
         $that       =   $this;
         foreach ($tLib->getTags() as $name=>$val){
@@ -457,7 +457,7 @@ class  Template {
         //}
         if(ini_get('magic_quotes_sybase'))
             $attr   =  str_replace('\"','\'',$attr);
-        $tLib       =  Think::instance('Think\\Template\Driver\\'.ucwords(strtolower($tagLib)));
+        $tLib       =  Think::instance('Think\\Template\TagLib\\'.ucwords(strtolower($tagLib)));
         $parse      = '_'.$tag;
         $content    = trim($content);
         return $tLib->$parse($attr,$content);

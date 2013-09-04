@@ -19,12 +19,12 @@
 /**
  * 自定义异常处理
  * @param string $msg 异常消息
- * @param string $type 异常类型 默认为ThinkException
+ * @param string $type 异常类型 默认为Think\Exception
  * @param integer $code 异常代码 默认为0
  * @return void
  */
-function throw_exception($msg, $type='ThinkException', $code=0) {
-    Think\Log::record('建议使用E方法替代throw_exception',Log::NOTICE);
+function throw_exception($msg, $type='Think\\Exception', $code=0) {
+    Think\Log::record('建议使用E方法替代throw_exception',Think\Log::NOTICE);
     if (class_exists($type, false))
         throw new $type($msg, $code);
     else
@@ -483,15 +483,9 @@ function session($name,$value='') {
         if(isset($name['cache_expire']))    session_cache_expire($name['cache_expire']);
         if(isset($name['type']))            C('SESSION_TYPE',$name['type']);
         if(C('SESSION_TYPE')) { // 读取session驱动
-            $class      = 'Session'. ucwords(strtolower(C('SESSION_TYPE')));
-            // 检查驱动类
-            if(require_cache(EXTEND_PATH.'Driver/Session/'.$class.'.class.php')) {
-                $hander = new $class();
-                $hander->execute();
-            }else {
-                // 类没有定义
-                E(L('_CLASS_NOT_EXIST_').': ' . $class);
-            }
+            $class  =   'Think\\Session\\Driver\\'. ucwords(strtolower(C('SESSION_TYPE')));
+            $hander =   new $class();
+            $hander->execute();
         }
         // 启动session
         if(C('SESSION_AUTO_START'))  session_start();

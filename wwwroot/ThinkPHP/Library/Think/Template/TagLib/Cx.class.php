@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-namespace Think\Template\Driver;
+namespace Think\Template\TagLib;
 use Think\Template\TagLib;
 defined('THINK_PATH') or exit();
 /**

@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
-namespace Think\Template\Driver;
+namespace Think\Template\TagLib;
 use Think\Template\TagLib;
 /**
  * ThinkCMS 系文档模型标签库

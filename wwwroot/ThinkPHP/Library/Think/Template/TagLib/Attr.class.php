@@ -8,8 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-// $Id$
-namespace Think\Template\Driver;
+namespace Think\Template\TagLib;
 use Think\Template\TagLib;
 // 属性类型标签库
 class Attr extends TagLib{

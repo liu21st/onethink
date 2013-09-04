@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace Think\Behavior;
 use Think\Behavior;
+use Think\Log;
 defined('THINK_PATH') or exit();
 /**
  * 系统行为扩展：页面Trace显示输出

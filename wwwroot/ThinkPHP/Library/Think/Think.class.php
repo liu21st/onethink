@@ -90,11 +90,6 @@ class Think {
         }else{
             $list  =  array(
                 THINK_PATH.'Common/functions.php', // 标准模式函数库
-                CORE_PATH.'Core/Log.class.php',    // 日志处理类
-                CORE_PATH.'Core/Dispatcher.class.php', // URL调度类
-                CORE_PATH.'Core/App.class.php',   // 应用程序类
-                CORE_PATH.'Core/Action.class.php', // 控制器类
-                CORE_PATH.'Core/View.class.php',  // 视图类
             );
         }
 
@@ -131,13 +126,10 @@ class Think {
         if(alias_import($class)) return ;
         $name     = strstr($class, '\\', true);
         $namespace =    C('AUTOLOAD_NAMESPACE');
-        if('Think' == $name){
-            $path   =   CORE_PATH;
-            $class  =   substr(strstr($class, '\\'),1);
-        }elseif(isset($namespace[$name])){ // 注册的命名空间
+        if(isset($namespace[$name])){ // 注册的命名空间
             $path   =   dirname($namespace[$name]) . '/';
-        }elseif(is_dir(LIBRARY_PATH.$name)){ // Library目录下面的命名空间自动定位
-            $path   =   LIBRARY_PATH;
+        }elseif(is_dir(LIB_PATH.$name)){ // Library目录下面的命名空间自动定位
+            $path   =   LIB_PATH;
         }else{ // 模块的命名空间
             $path   =   APP_PATH;
         }

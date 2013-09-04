@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace Think\Behavior;
 use Think\Behavior;
+use Think\Storage;
+use Think\Think;
 defined('THINK_PATH') or exit();
 /**
  * 系统行为扩展：模板解析
@@ -58,13 +60,13 @@ class ParseTemplateBehavior extends Behavior {
                 //载入模版缓存文件
                 include C('CACHE_PATH').$_data['prefix'].md5($_content).C('TMPL_CACHFILE_SUFFIX');
             }else{
-                $tpl = \Think\Think::instance('Think\\Template');
+                $tpl = Think::instance('Think\\Template');
                 // 编译并加载模板文件
                 $tpl->fetch($_content,$_data['var'],$_data['prefix']);
             }
         }else{
             // 调用第三方模板引擎解析和输出
-            $class   = 'Template'.ucwords($engine);
+            $class   = 'Think\\Template\\Driver\\'.ucwords($engine);
             if(class_exists($class)) {
                 $tpl   =  new $class;
                 $tpl->fetch($_content,$_data['var']);
@@ -85,7 +87,7 @@ class ParseTemplateBehavior extends Behavior {
         if (!C('TMPL_CACHE_ON')) // 优先对配置设定检测
             return false;
         $tmplCacheFile = C('CACHE_PATH').$prefix.md5($tmplTemplateFile).C('TMPL_CACHFILE_SUFFIX');
-        $storage        =   ThinkStorage::getInstance();
+        $storage        =  Storage::getInstance();
         if(!$storage->has($tmplCacheFile)){
             return false;
         }elseif (filemtime($tmplTemplateFile) > $storage->get($tmplCacheFile,'mtime')) {
@@ -114,8 +116,8 @@ class ParseTemplateBehavior extends Behavior {
      * @return boolean
      */
     protected function checkContentCache($tmplContent,$prefix='') {
-        $storage        =   ThinkStorage::getInstance();
-        if($storage->isExist(C('CACHE_PATH').$prefix.md5($tmplContent).C('TMPL_CACHFILE_SUFFIX'))){
+        $storage        =   Storage::getInstance();
+        if($storage->has(C('CACHE_PATH').$prefix.md5($tmplContent).C('TMPL_CACHFILE_SUFFIX'))){
             return true;
         }else{
             return false;

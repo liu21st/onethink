@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace Think\Behavior;
 use Think\Behavior;
+use Think\Storage;
 defined('THINK_PATH') or exit();
 /**
  * 系统行为扩展：静态缓存读取
@@ -33,7 +34,7 @@ class ReadHtmlCacheBehavior extends Behavior {
             $cacheTime = $this->requireHtmlCache();
             if( false !== $cacheTime && $this->checkHTMLCache(HTML_FILE_NAME,$cacheTime)) { //静态页面有效
                 // 读取静态页面输出
-                readfile(HTML_FILE_NAME);
+                echo Storage::getInstance()->read(HTML_FILE_NAME);
                 exit();
             }
         }
@@ -111,14 +112,15 @@ class ReadHtmlCacheBehavior extends Behavior {
      * @return boolean
      */
     static public function checkHTMLCache($cacheFile='',$cacheTime='') {
+        $storage        =  Storage::getInstance();
         if(!is_file($cacheFile)){
             return false;
-        }elseif (filemtime(C('TEMPLATE_NAME')) > filemtime($cacheFile)) {
+        }elseif (filemtime(C('TEMPLATE_NAME')) > $storage->get($cacheFile,'mtime')) {
             // 模板文件如果更新静态文件需要更新
             return false;
         }elseif(!is_numeric($cacheTime) && function_exists($cacheTime)){
             return $cacheTime($cacheFile);
-        }elseif ($cacheTime != 0 && NOW_TIME > filemtime($cacheFile)+$cacheTime) {
+        }elseif ($cacheTime != 0 && NOW_TIME > $storage->get($cacheFile,'mtime')+$cacheTime) {
             // 文件是否在有效期
             return false;
         }
