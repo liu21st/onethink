@@ -139,12 +139,13 @@ class UcenterMemberModel extends Model{
 				break;
 			case 4:
 				$map['id'] = $username;
+				break;
 			default:
 				return 0; //参数错误
 		}
 
 		/* 获取用户数据 */
-		$user = $this->field(true)->where($map)->find();
+		$user = $this->where($map)->find();
 		if(is_array($user) && $user['status']){
 			/* 验证用户密码 */
 			if(think_ucenter_md5($password) === $user['password']){

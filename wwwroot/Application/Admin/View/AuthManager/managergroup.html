@@ -18,7 +18,7 @@
 					<volist name="node_list" id="node" >
 						<dl class="checkmod">
 							<dt class="hd">
-								<label class="checkbox"><input type="checkbox" name="rules[]">{$node.title}管理</label>
+								<label class="checkbox"><input type="checkbox" name="rules[]" value=''>{$node.title}管理</label>
 							</dt>
 							<dd class="bd">
 								<volist name="node['child']" id="child" >
@@ -59,6 +59,8 @@
     
 </block>
 <block name="script">
+<script type="text/javascript" src="__STATIC__/qtip/jquery.qtip.min.js"></script>
+<link rel="stylesheet" type="text/css" href="__STATIC__/qtip/jquery.qtip.min.css" media="all">
 <script type="text/javascript" charset="utf-8">
     +function($){
         var rules = [{$auth_group.rules}];
@@ -75,6 +77,29 @@
         $('.rules_all').on('change',function(){
             $(this).parents('.rules_row').find('input').prop('checked',this.checked);
         });
+
+        $('.checkbox').each(function(){
+            $(this).qtip({
+                content: {
+                    text: $(this).attr('title'),
+                    title: $(this).text()
+                },
+                position: {
+                    my: 'bottom center',
+                    at: 'top center',
+                    target: $(this)
+                },
+                style: {
+                    classes: 'qtip-blue',
+                    tip: {
+                        corner: true,
+                        mimic: false,
+                        width: 10,
+                        height: 10
+                    }
+                }
+            });
+        })
     }(jQuery);
 </script>
 </block>
