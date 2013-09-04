@@ -5,33 +5,16 @@
 
 .btn {
     display: inline-block;
-    padding: 2px 6px;
-    margin-bottom: 0;
+    padding: 4px 10px;
     font-size: 14px;
     line-height: 18px;
     color: #444;
     text-align: center;
-    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
     vertical-align: middle;
     cursor: pointer;
-    background-color: #FDFDFE;
-    background-image: -moz-linear-gradient(top, #FFF, #FBFBFB);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#FFF), to(#FBFBFB));
-    background-image: -webkit-linear-gradient(top, #FFF, #FBFBFB);
-    background-image: -o-linear-gradient(top, #FFF, #FBFBFB);
-    background-image: linear-gradient(to bottom, #FFF, #FBFBFB);
-    background-repeat: repeat-x;
     border: 1px solid #CCC;
-    border-bottom-color: #B3B3B3;
-    border-color: rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.15);
-    -webkit-border-radius: 2px;
-       -moz-border-radius: 2px;
-            border-radius: 2px;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFFFF', endColorstr='#FFFBFBFB', GradientType=0);
-    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
-    -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.03);
-       -moz-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.03);
-            box-shadow: 0 2px 0 rgba(0, 0, 0, 0.03);
+    border-bottom-color: #b3b3b3;
+    background-color: #fdfdfe;
 }
 .btn:hover {
 	color: #333;
@@ -39,26 +22,14 @@
     background-color: #fefefe;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
 }
-.btn:active,
-.active,
-.active:hover {
-	background-image: none;
-    outline: 0 none;
-    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) inset;
-       -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) inset;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) inset;
+.submit-btn {
+    color: #fff;
+    border-color: transparent;
+    background-color: #0080FF;
 }
-.btn:hover, 
-.btn:focus, 
-.btn:active, 
-.btn.active, 
-.btn.disabled, 
-.btn[disabled] {
-    background-color: #EEEEEF;
-    color: #444444;
-}
-.btn:focus {
-	outline: 0;
+.submit-btn:hover {
+    color: #fff;
+    background-color: #347ec7;
 }
 
 /* 按钮组 */

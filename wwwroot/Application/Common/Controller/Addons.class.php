@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------
 // | Author: yangweijie <yangweijiester@gmail.com> <code-tech.diandian.com>
 // +----------------------------------------------------------------------
-
+namespace Common\Controller;
 /**
  * 插件类
  * @author yangweijie <yangweijiester@gmail.com>
@@ -41,7 +41,7 @@
 			// if(!in_array(CONTROLLER_NAME,$this->access_url)){
 			// 	$this->error('非插件内部访问');
 			// }
-			$this->view = Think::instance('View');
+			$this->view = Think\Think::instance('Think\View');
 			$this->addon_path = C('EXTEND_MODULE.Addons').$this->getName().'/';
 			if(is_file($this->addon_path.'config.php')){
 				$this->config_file = $this->addon_path.'config.php';

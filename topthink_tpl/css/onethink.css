@@ -301,21 +301,24 @@
 	margin-bottom: 15px;
 }
 .media .media-avatar,
+.media .media-side {
+	float: left;
+	margin-right: 15px;
+}
+.media .media-avatar,
 .media .media-avatar img {
 	width: 52px;
 	height: 52px;
 	border-radius: 50%;
 }
-.media .media-avatar {
-	float: left;
-	margin-right: 15px;
-}
-.media .media-avatar img {
+.media .media-avatar img,
+.media .media-side img {
 	display: block;
 }
 .media .media-body {
 	overflow: hidden;
 	line-height: 1.8;
+	word-break: break-all;
 }
 .artlist-info,
 .artlist-info a {
@@ -325,6 +328,63 @@
 .artlist-info span,
 .artlist-info a {
 	margin-right: 15px;
+}
+
+/* 资讯列表 */
+.info-list li {
+	margin-top: 10px;
+	padding-top: 10px;
+	border-top: 1px dashed #ebebeb;
+}
+.info-list li:first-child {
+	border-top: 0 none;
+}
+.info-list h3 {
+	font-size: 16px;
+}
+.taginfo {
+	margin: 5px 0;
+}
+.taginfo span {
+	margin-right: 15px;
+}
+.taginfo a,
+.taginfo em {
+	font-size: 12px;
+}
+.taginfo a {
+	color: #444;
+}
+.taginfo em {
+	color: #ccc;
+	font-style: normal;
+}
+.info-list .media {
+	margin-bottom: 0;
+}
+.info-list .media-side {
+	width: 180px;
+}
+.info-list .media-body {
+	color: #999;
+}
+.icon {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	vertical-align: middle;
+}
+.icon-sort {
+	background: url(../images/sort_list.png) no-repeat;
+}
+.icon-comment {
+	background: url(../images/comment.png) no-repeat;
+}
+.icon-view {
+	background: url(../images/view.png) no-repeat;
+}
+.icon-clock {
+	background: url(../images/clock.png) no-repeat;
 }
 
 /* 发布页 */

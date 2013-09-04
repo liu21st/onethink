@@ -25,7 +25,7 @@
  * @subpackage Util
  * @author luofei614<weibo.com/luofei614>
  */
-
+namespace ORG\Util;
 //数据库
 /*
 -- ----------------------------
@@ -67,7 +67,7 @@ CREATE TABLE `think_auth_group_access` (
     KEY `group_id` (`group_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
  */
-
+namespace ORG\Util;
 class Auth{
 
     //默认配置

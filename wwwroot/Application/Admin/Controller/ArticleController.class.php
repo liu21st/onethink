@@ -6,7 +6,8 @@
 // +----------------------------------------------------------------------
 // | Author: huajie <banhuajie@163.com>
 // +----------------------------------------------------------------------
-
+namespace Admin\Controller;
+use Admin\Model\AuthGroupModel;
 /**
  * 后台内容控制器
  * @author huajie <banhuajie@163.com>
@@ -109,9 +110,8 @@ class ArticleController extends AdminController {
 			$map['title'] = array('like', '%'.$search.'%');
 		}
 		/*初始化分页类*/
-		import('COM.Page');
 		$count = $Document->listCount($cate_id, array('gt', -1), $map);
-		$Page = new Page($count, 10);
+		$Page = new \COM\Page($count, 10);
 		$this->page = $Page->show();
 
 		//列表数据获取

@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-
+namespace Think\Template;
 /**
  * ThinkPHP标签库TagLib解析基类
  * @category   Think
@@ -68,7 +68,7 @@ class TagLib {
      */
     public function __construct() {
         $this->tagLib  = strtolower(substr(get_class($this),6));
-        $this->tpl     = Think::instance('ThinkTemplate');
+        $this->tpl     = \Think\Think::instance('Think\\Template');
     }
 
     /**
