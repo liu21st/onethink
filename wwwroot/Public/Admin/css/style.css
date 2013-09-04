@@ -164,6 +164,7 @@ body{
 }
 .main-title {
     padding: 10px 0;
+    *zoom: 1;
 }
 .main-title:before,
 .main-title:after {
