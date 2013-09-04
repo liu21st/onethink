@@ -14,31 +14,9 @@
 
 	<!-- 数据列表 -->
 	<div class="data-table table-striped">
-		<table>
-			<thead>
-				<tr>
-					<th>UID</th>
-                    <th>用户名</th>
-					<th>最后登陆时间</th>
-					<th>最后登陆IP</th>
-                    <th>会员状态</th>
-					<th>操作</th>
-				</tr>
-			</thead>
-			<tbody>
-				<volist name="authed_user" id="user">
-				<tr>
-					<td>{$user.uid}</td>
-                    <td>{$user.username}</td>
-					<td>{$user.last_login_time|date='Y-m-d H:i:s',###}</td>
-					<td>{$user.last_login_ip|long2ip}</td>
-                    <td>{$user.status_text}</td>
-                    <td>
-                        <a href="{:U('removeFromGroup',array('group_id'=>I('group_id'),'uid'=>$user['uid']))}">解除授权</a>
-                    </td>
-				</tr>
-				</volist>
-			</tbody>
-		</table>
+        {$authed_user}
 	</div>
+    <div>
+        {$_page}
+    </div>
 </block>
