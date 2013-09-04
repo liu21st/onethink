@@ -296,30 +296,7 @@
 	display: block;
 }
 
-/* media结构(话题列表) */
-.media {
-	margin-bottom: 15px;
-}
-.media .media-avatar,
-.media .media-side {
-	float: left;
-	margin-right: 15px;
-}
-.media .media-avatar,
-.media .media-avatar img {
-	width: 52px;
-	height: 52px;
-	border-radius: 50%;
-}
-.media .media-avatar img,
-.media .media-side img {
-	display: block;
-}
-.media .media-body {
-	overflow: hidden;
-	line-height: 1.8;
-	word-break: break-all;
-}
+/* 话题列表 */
 .artlist-info,
 .artlist-info a {
 	margin-top: 3px;

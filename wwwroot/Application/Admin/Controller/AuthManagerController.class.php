@@ -206,7 +206,7 @@ class AuthManagerController extends AdminController{
     {
         if(isset($_POST['rules'])){
             sort($_POST['rules']);
-            $_POST['rules']  = implode(',',array_unique($_POST['rules']));
+            $_POST['rules']  = trim( implode( ',' , array_unique($_POST['rules'])) , ',' );
         }
         $_POST['module'] = 'admin';
         $_POST['type']   = AuthGroupModel::TYPE_ADMIN;
@@ -308,6 +308,9 @@ class AuthManagerController extends AdminController{
         $gid = I('group_id');
         if( empty($uid) || empty($gid) ){
             $this->error('参数有误');
+        }
+        if ( C('USER_ADMINISTRATOR')==$uid ) {
+            $this->error('该用户为超级管理员');
         }
         $AuthGroup = D('AuthGroup');
         if( !M('Member')->where(array('uid'=>$uid))->find() ){

@@ -4,18 +4,10 @@
 	<div class="main-title">
 		<h2>用户组管理</h2>
 		<div class="tools auth-botton">
-            <a id="add-group" class="btn" href="{:U('createGroup')}">
-            	<i class="icon-add"></i>添加
-            </a>
-            <button url="{:U('changestatus',array('method'=>'resumeGroup'))}" id="enable-group" class="btn">
-            	<i class="icon-right"></i>启用
-            </button>
-            <button url="{:U('changestatus',array('method'=>'forbidGroup'))}" id="disable-group" class="btn">
-            	<i class="icon-denied"></i>禁用
-            </button>
-            <button url="{:U('changestatus',array('method'=>'deleteGroup'))}" id="delete-group" class="btn">
-            	<i class="icon-delete"></i>删除
-            </button>
+            <a id="add-group" class="btn" href="{:U('createGroup')}">添加</a>
+            <a url="{:U('changestatus',array('method'=>'resumeGroup'))}" id="enable-group" class="btn" href="javascript:;">启用</a>
+            <a url="{:U('changestatus',array('method'=>'forbidGroup'))}" id="disable-group" class="btn" href="javascript:;">禁用</a>
+            <a url="{:U('changestatus',array('method'=>'deleteGroup'))}" id="delete-group" class="btn" href="javascript:;">删除</a>
 		</div>
 	</div>
 
