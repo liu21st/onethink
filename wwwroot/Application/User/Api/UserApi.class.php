@@ -7,7 +7,9 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
-require_cache(dirname(__FILE__) . '/Api.class.php');
+namespace User\Api;
+use User\Api\Api;
+//require_cache(dirname(__FILE__) . '/Api.class.php');
 
 class UserApi extends Api{
 	/**

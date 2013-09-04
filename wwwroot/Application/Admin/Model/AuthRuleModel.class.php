@@ -4,9 +4,9 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2006-2012 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: huajie <banhuajie@163.com>
+// | Author: zhuyajie <xcoolcc@gmail.com>
 // +----------------------------------------------------------------------
-
+namespace Admin\Model;
 /**
  * 权限规则模型
  * @author 朱亚杰 <zhuyajie@topthink.net>

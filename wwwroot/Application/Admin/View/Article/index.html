@@ -6,15 +6,17 @@
         <volist name="nodes" id="sub_menu">
             <!-- 子导航 -->
             <notempty name="sub_menu">
-                <h3><i class="icon-s1"></i><a href="{$sub_menu.url|U}">{$sub_menu.title}</a></h3>
-                <ul class="subnav-off">
+                <h3><i class="icon-fold"></i><a href="{$sub_menu.url|U}">{$sub_menu.title}</a></h3>
+                <ul <neq name="sub_menu['current']" value="1">class="subnav-off"</neq>>
                     <volist name="sub_menu['_child']" id="menu">
-                        <li><a href="{$menu.url|U}">{$menu.title}</a></li>
+                        <li <if condition="$menu['id'] eq $cate_id or $menu['current'] eq 1">class="current"</if>><a href="{$menu.url|U}">{$menu.title}</a></li>
                     </volist>
                 </ul>
             </notempty>
             <!-- /子导航 -->
         </volist>
+        <!-- 回收站 -->
+        <h3><i class="icon-fold"></i><a href="{:U('article/recycle')}">回收站</a></h3>
     </div>
 </block>
 
@@ -30,7 +32,7 @@
 		<notempty name="child_cates">
 		<ul class="tab-nav nav">
 			<volist name="child_cates" id="child_cate">
-				<li <eq name="child_cate['id']" value="$cate_id">class="current"</eq>><a data-tab="tab" href="{$child_cate.url}">{$child_cate.title}</a></li>
+				<li <eq name="child_cate['id']" value="$cate_id">class="current"</eq>><a data-tab="tab" href="{$child_cate.url|U}">{$child_cate.title}</a></li>
 			</volist>
 		</ul>
 		</notempty>
@@ -40,18 +42,10 @@
 				<!-- 操作按钮区 -->
 				<div class="cf">
 					<div class="fl">
-						<button class="btn" id="document_add" url="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$model[0]))}">
-							<i class="icon-add"></i>新增
-						</button>
-						<button class="btn" name="document_operate" status="-1">
-							<i class="icon-delete"></i>删除
-						</button>
-						<button class="btn" name="document_operate" status="1">
-							<i class="icon-right"></i>启用
-						</button>
-						<button class="btn" name="document_operate" status="0">
-							<i class="icon-denied"></i>禁用
-						</button>
+						<button class="btn" id="document_add" url="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$model[0]))}">新增</button>
+						<button class="btn" name="document_operate" status="-1">删除</button>
+						<button class="btn" name="document_operate" status="1">启用</button>
+						<button class="btn" name="document_operate" status="0">禁用</button>
 					</div>
 
 					<div class="tools fr">
@@ -73,7 +67,7 @@
 					<table>
 						<thead>
 							<tr>
-								<th class="row-selected"><input type="checkbox" id="selectall"/></th>
+								<th class="row-selected"><input type="checkbox" class="check-all"/></th>
 								<th>标题</th>
 								<th>创建者</th>
 								<th>创建时间</th>
@@ -84,13 +78,13 @@
 						<tbody>
 							<volist name="list" id="vo">
 							<tr>
-								<td><input type="checkbox" value="{$vo.id}" class="child_checkbox"/></td>
-								<td><a href="{:U('edit',array('id'=>$vo['id']))}">{$vo.title}</a></td>
+								<td><input type="checkbox" value="{$vo.id}" class="ids"/></td>
+								<td><a href="{:U('edit',array('id'=>$vo['id'],'cate_id'=>$cate_id))}">{$vo.title}</a></td>
 								<td>{$vo.uid|get_username}</td>
 								<td>{$vo.create_time|time_format}</td>
 								<td>{$vo.status|get_status_title}</td>
 								<td>
-									<a href="{:U('edit',array('id'=>$vo['id']))}">编辑</a>
+									<a href="{:U('edit',array('id'=>$vo['id'],'cate_id'=>$cate_id))}">编辑</a>
 									<a href="{:U('setStatus',array('ids'=>$vo['id'],'status'=>-1))}">删除</a>
 									<eq name="vo['status']" value="0">
 										<a href="{:U('setStatus',array('ids'=>$vo['id'],'status'=>1))}">启用</a>
@@ -111,9 +105,6 @@
 				<!-- 分页 -->
 				<div class="page">{$page}</div>
 			</div>
-
-			<!-- 标签二内容 -->
-			<div id="tag2" class="tab-pane">内容二</div>
 		</div>
 	</div>
 

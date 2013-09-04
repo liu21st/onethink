@@ -11,7 +11,7 @@
  * 附件插件
  * @author 麦当苗儿 <zuojiazi.cn@gmail.com>
  */
-class AttachmentAddons extends Addons{
+class AttachmentAddons extends Common\Controller\Addons{
 
 	public $info = array(
 		'name'        => 'Attachment',

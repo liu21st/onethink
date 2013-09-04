@@ -36,6 +36,7 @@ $thead = array(
         'tag'  =>'a',//标签名
         'class'=>'my_class',//可以配置任意标签属性
         'href' =>'供U函数使用的参数',
+        'func' =>'mb_substr($description,0,20,"utf-8")',
     ),
     'status_text'     =>'状态',
 

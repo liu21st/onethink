@@ -6,14 +6,14 @@
 // +----------------------------------------------------------------------
 // | Author: huajie <banhuajie@163.com>
 // +----------------------------------------------------------------------
-
+namespace Admin\Model;
+use Think\Model;
 /**
  * 用户组模型类
  * Class AuthGroupModel 
  * @author 朱亚杰 <zhuyajie@topthink.net>
  */
-class AuthGroupModel extends CmsadminModel
-{
+class AuthGroupModel extends CmsadminModel {
     const TYPE_ADMIN           = 1;                    //管理员用户组类型标识
     const MEMBER               = 'member';
     const UCENTER_MEMBER       = 'ucenter_member';
@@ -22,7 +22,8 @@ class AuthGroupModel extends CmsadminModel
     const AUTH_GROUP           = 'auth_group';         //用户组表名
 
     protected $_validate = array(
-        array('title','require', '必须设置用户组标题', Model::MUST_VALIDATE ,'regex',Model::MODEL_BOTH),
+        array('title','require', '必须设置用户组标题', Model::MUST_VALIDATE ,'regex',Model::MODEL_INSERT),
+        array('title','require', '必须设置用户组标题', Model::EXISTS_VALIDATE  ,'regex',Model::MODEL_INSERT),
         array('description','0,80', '描述最多80字符', Model::VALUE_VALIDATE , 'length'  ,Model::MODEL_BOTH ),
         array('rules','/^(\d,?)+(?<!,)$/', '规则数据不合法', Model::VALUE_VALIDATE , 'regex'  ,Model::MODEL_BOTH ),
     );
@@ -45,20 +46,23 @@ class AuthGroupModel extends CmsadminModel
      * 把用户添加到用户组,支持批量添加用户到用户组
      * @author 朱亚杰 <zhuyajie@topthink.net>
      * 
-     * 示例: 把uid=1的用户添加到group_id为1,2的组 `AuthGroupModel::addToGroup(1,'1,2');`
+     * 示例: 把uid=1的用户添加到group_id为1,2的组 `AuthGroupModel->addToGroup(1,'1,2');`
      */
-    static public function addToGroup($uid,$gid)
+    public function addToGroup($uid,$gid)
     {
         $uid = is_array($uid)?implode(',',$uid):trim($uid,',');
         $gid = is_array($gid)?$gid:explode( ',',trim($gid,',') );
 
         $Access = M(self::AUTH_GROUP_ACCESS);
-        $del = $Access->where( array('uid'=>array('in',$uid)) )->delete();
+        if( isset($_REQUEST['batch']) ){
+            //为单个用户批量添加用户组时,先删除旧数据
+            $del = $Access->where( array('uid'=>array('in',$uid)) )->delete();
+        }
 
-        $uid = explode(',',$uid);
+        $uid_arr = explode(',',$uid);
         $add = array();
         if( $del!==false ){
-            foreach ($uid as $u){
+            foreach ($uid_arr as $u){
                 foreach ($gid as $g){
                     if( is_numeric($u) && is_numeric($g) ){
                         $add[] = array('group_id'=>$g,'uid'=>$u);
@@ -68,7 +72,10 @@ class AuthGroupModel extends CmsadminModel
             $Access->addAll($add);
         }
         if ($Access->getDbError()) {
-            dump($Access->getDbError());exit;
+            if( count($uid_arr)==1 && count($gid)==1 ){
+                //单个添加时定制错误提示
+                $this->error = "不能重复添加";
+            }
             return false;
         }else{
             return true;
@@ -207,10 +214,9 @@ class AuthGroupModel extends CmsadminModel
             $ids   = implode(',',$gid);
         }else{
             $gid   = explode(',',$gid);
-            $count = count();
+            $count = count($gid);
             $ids   = $gid;
         }
-
         $s = $this->where(array('id'=>array('IN',$ids)))->getField('id',true);
         if(count($s)===$count){
             return true;

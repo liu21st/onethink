@@ -7,7 +7,9 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
-
+namespace Admin\Controller;
+use Think\Action;
+use Admin\Model\AuthRuleModel;
 /**
  * 后台首页控制器
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
@@ -18,7 +20,7 @@ class AdminController extends Action {
     static protected $deny  = array('getMenus');
 
     /* 保存允许所有管理员访问的公共方法 */
-    static protected $allow = array('test');
+    static protected $allow = array( 'login','logout', 'test');
 
     /**
      * 节点配置
@@ -54,9 +56,11 @@ class AdminController extends Action {
     private $uid = null;//保存登陆用户的uid
     private $root_user = null;   //保存超级管理员用户id;
 
+    protected $nav = array();
+
     protected function _initialize()
-    { 
-        $this->uid = is_login(); 
+    {
+        $this->uid = is_login();
         if( !$this->uid ){
             $this->redirect('Admin/Index/login');
         }
@@ -67,10 +71,12 @@ class AdminController extends Action {
         }elseif( $ac===null ){
             $rule  = strtolower(MODULE_NAME.'/'.CONTROLLER_NAME.'/'.ACTION_NAME);
             if ( !$this->root_user && !$this->checkRule($rule,array('in','1,2')) ){
-                $this->error('无权访问');
+                $this->error('提示:无权访问,您可能需要联系管理员为您授权!');
             }
         }
         $this->assign('__controller__', $this);
+        $this->checkNodes();
+        $this->_nav();
     }
 
     /**
@@ -83,9 +89,8 @@ class AdminController extends Action {
     final protected function checkRule($rule, $type=AuthRuleModel::RULE_URL, $mode='url')
     {
         static $Auth = null;
-        import('ORG.Util.Auth');
         if (!$Auth) {
-            $Auth  = new Auth();
+            $Auth  = new \ORG\Util\Auth();
         }
         if(!$Auth->check($rule,$this->uid,$type,$mode)){
             return false;
@@ -107,7 +112,7 @@ class AdminController extends Action {
      */
     final protected function accessControl()
     {
-        $controller = CONTROLLER_NAME.'Controller';
+        $controller = 'Admin\\Controller\\'.CONTROLLER_NAME.'Controller';
         if ( !is_array($controller::$deny)||!is_array($controller::$allow) ){
             $this->error("内部错误:{$controller}控制器 deny和allow属性必须为数组");
         }
@@ -182,6 +187,21 @@ class AdminController extends Action {
     }
 
     /**
+     * 还原条目
+     * @param string $model 模型名称,供D函数使用的参数
+     * @param array  $where 查询时的where()方法的参数
+     * @param array  $msg   执行正确和错误的消息 array('success'=>'','error'=>'', 'url'=>'','ajax'=>false)
+     *                     url为跳转页面,ajax是否ajax方式(数字则为倒数计时秒数)
+     * @author huajie  <banhuajie@163.com>
+     */
+    protected function restore (  $model , $where = array() , $msg = array( 'success'=>'状态还原成功！', 'error'=>'状态还原失败！'))
+    {
+    	$data    = array('status' => 1);
+    	$where   = array_merge(array('status' => -1),$where);
+    	$this->editRow(   $model , $data, $where, $msg);
+    }
+
+    /**
      * 条目假删除
      * @param string $model 模型名称,供D函数使用的参数
      * @param array  $where 查询时的where()方法的参数
@@ -203,7 +223,7 @@ class AdminController extends Action {
      */
     final protected function getDeny()
     {
-        $controller = CONTROLLER_NAME.'Controller';
+        $controller = 'Admin\\Controller\\'.CONTROLLER_NAME.'Controller';
         $data = array();
         if ( is_array( $controller::$deny) ) {
             $deny = array_merge( $controller::$deny, self::$deny );
@@ -225,7 +245,7 @@ class AdminController extends Action {
      */
     final protected function getAllow()
     {
-        $controller = CONTROLLER_NAME.'Controller';
+        $controller = 'Admin\\Controller\\'.CONTROLLER_NAME.'Controller';
         $data = array();
         if ( is_array( $controller::$allow) ) {
             $allow = array_merge( $controller::$allow, self::$allow );
@@ -254,7 +274,8 @@ class AdminController extends Action {
         $nodes = array('default'=>array());
         foreach ($controller::$nodes as $value){
             if (!is_array($value) || !isset($value['title'],$value['url'])) {
-                $this->error("内部错误:{$controller}控制器 nodes属性配置有误");
+                $action = A(CONTROLLER_NAME);
+				$action->error("内部错误:{$controller}控制器 nodes属性配置有误");
             }
             if( strpos($value['url'],'/')===false ){
                 $value['url'] = MODULE_NAME.'/'.strtr($controller,array('Controller'=>'')).'/'.$value['url'];
@@ -322,7 +343,7 @@ class AdminController extends Action {
                 $menus['main'][$key]['class']='current';
                 foreach ($other_controller as $c){
                     //从控制器中读取节点
-                    $child = $c.'Controller';
+                    $child = 'Admin\\Controller\\'.$c.'Controller';
                     $child_nodes = $child::getNodes($child);
                     if ($child_nodes===false) {
                         $this->error("内部错误:请检查{$child}控制器 nodes 属性");
@@ -392,7 +413,7 @@ class AdminController extends Action {
             }
             $controllers = explode(',',$value['controllers']);
             foreach ($controllers as $c){
-                $class = $c.'Controller';
+                $class = 'Admin\\Controller\\'.$c.'Controller';
                 if( class_exists($class) && method_exists($class,'getNodes') ){
                     $temp = $class::getNodes($class,false);
                 }else{
@@ -424,11 +445,11 @@ class AdminController extends Action {
         $tree_nodes[(int)$tree]   = $nodes;
         return $nodes;
     }
-    
+
     /**
-     * 通用分页列表方法
-     *  
-     *  可以通过url参数传递where条件,例如:  index.html?name=asdfasdfasdfddds 
+     * 通用分页列表数据集获取方法
+     *
+     *  可以通过url参数传递where条件,例如:  index.html?name=asdfasdfasdfddds
      *  可以通过url空值排序字段和方式,例如: index.html?_field=id&_order=asc
      *  支持多表join,控制器代码示例如下:
      *
@@ -446,7 +467,7 @@ class AdminController extends Action {
      * @param array        $where   where查询条件
      * @param array|string $order   排序条件
      * @author 朱亚杰 <zhuyajie@topthink.net>
-     * 
+     *
      * @return array|false
      * 返回数据集
      */
@@ -458,7 +479,7 @@ class AdminController extends Action {
             $model = D($model);
         }
 
-        $OPT = new ReflectionProperty($model,'options');
+        $OPT = new \ReflectionProperty($model,'options');
         $OPT->setAccessible(true);
 
         $pk = $model->getPk();
@@ -476,14 +497,12 @@ class AdminController extends Action {
 
 		$total = $model->where($options['where'])->count();
 
-		import("COM.Page");
-
         if( isset($REQUEST['r']) ){
             $listRows = (int)$REQUEST['r'];
         }else{
             $listRows = C('LIST_ROWS') > 0 ? C('LIST_ROWS') : 10;
         }
-		$page = new Page($total, $listRows, $REQUEST);
+		$page = new \COM\Page($total, $listRows, $REQUEST);
 		$this->assign('_page', $page->show());
         $options['limit'] = $page->firstRow.','.$page->listRows;
 
@@ -492,6 +511,14 @@ class AdminController extends Action {
 		return $model->select();
     }
 
+    /**
+     * 通用表格列表
+     *
+     * @param array $list     select 数据集
+     * @param array $thead    表头配置数组
+     *
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
     protected function tableList($list,$thead)
     {
         $keys = array_keys($thead);
@@ -510,5 +537,115 @@ class AdminController extends Action {
         $this->assign('_list',$list);
         return $this->fetch('Public:_list');
     }
-    
+
+    /**
+     * debug模式下检查是否存在不受权限系统管理的公共方法
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
+    protected function checkNodes(){
+        if ( APP_DEBUG!=true ){
+            return;
+        }
+
+        $CReflection = new \ReflectionClass('Admin\\Controller\\'.CONTROLLER_NAME.'Controller');
+        $public = $CReflection->getMethods( \ReflectionMethod::IS_PUBLIC );
+        $static = $CReflection->getMethods( \ReflectionMethod::IS_STATIC );
+        $method = array_diff($public,$static);
+        $deny   = $this->getDeny();
+        $allow  = $this->getAllow();
+        $deny_allow = array_merge($deny,$allow,array('__get','__set','__call','__construct','__destruct','__isset','__sleep','__wakeup','__clone'));
+
+        $nodes  = M('AuthRule')->where(array('module'=>'admin','status'=>1))->getField('name',true);
+        foreach ($nodes as $k=>$n){
+            if( ($pos = strpos($n,'?'))>0){
+                $n= substr($n,0,$pos);
+            }
+            $nodes[$k] = strtolower($n);
+        }
+
+        $collect = array();
+        foreach ($method as $value){
+            if($value->class=='Think\\Action' || (strpos($value->name,'_')===0) ){
+                continue;
+            }
+            if( in_array( strtolower($value->name),$deny_allow) ){
+                continue;
+            }else{
+                $name = strtolower(MODULE_NAME.'/'.CONTROLLER_NAME.'/'.$value->name);
+                if( in_array($name,$nodes) ){
+                    continue;
+                }else{
+                    $collect[]=$value->name;
+                }
+            }
+        }
+        if( count($collect) ){
+            C('TRACE_PAGE_TABS', array('BASE'=>'基本','FILE'=>'文件','INFO'=>'流程','ERR|NOTIC'=>'错误','SQL'=>'SQL','DEBUG'=>'调试','DEV'=>'开发提示'));
+            foreach ($collect as $value){
+                trace(" 公共方法 '{$value}' 尚未进行任何权限配置!",CONTROLLER_NAME,'dev');
+            }
+        }
+    }
+
+
+    /**
+     * 构建nav的1和last元素
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
+    final protected function _nav()
+    {
+        if(!isset($_SERVER["HTTP_REFERER"])){
+            $_SERVER["HTTP_REFERER"]=U('Admin/Index/index');
+        }
+
+        $first = M('AuthRule')->where(array('module'=>'admin','status'=>1, 'type'=>2))->getField('name,title',true);
+
+
+        $arr = array();
+        foreach ($first as $key => $value){
+            $arr[U($key,$vars='',$suffix=true,$redirect=false,$domain=true)] = $value;
+        }
+
+        $nav  = session('nav')?session('nav'):array();
+
+		$port = $_SERVER['SERVER_PORT']==80?'':':'.$_SERVER['SERVER_PORT'];
+		$last = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$port .$_SERVER['REQUEST_URI'];
+        if( array_key_exists( $_SERVER["HTTP_REFERER"],$arr ) ){
+            $nav = array();//清空
+            $nav[1] = array( $_SERVER["HTTP_REFERER"]=>$arr[$_SERVER["HTTP_REFERER"]] );
+        }
+		if( array_key_exists( $last,$arr ) ){
+			$nav = array();//清空
+			$nav[1] = array( $last=>$arr[$last]);
+			$this->nav = $nav;
+			session('nav',$this->nav);
+			return;
+		}
+		$nav['last'] = $last;
+        $this->nav = $nav;
+    }
+
+    /**
+     * 设置nav
+     * @param int    $level  菜单层级
+     * @param string $title  菜单名称
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
+    protected function nav($level,$title,$show=false){
+        if ( is_numeric($level) ) {
+			$this->nav[$level] = array ($this->nav['last']=>$title);
+            unset($this->nav['last']);
+            ksort($this->nav);
+			$this->nav = array_slice($this->nav,0,$level,true);
+            $arr = array();
+            foreach ($this->nav as $key => $value){
+                foreach ($value as $k => $v){
+                    $arr[$k]=$v;
+                }
+            }
+			session( 'nav', $this->nav );
+            $this->assign('_nav',$arr);        
+            $this->assign('_show_nav',$show);
+        }
+    }
 }

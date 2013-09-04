@@ -37,7 +37,7 @@
         <!-- 用户栏 -->
         <div class="user-bar">
             你好，<strong>admin</strong>
-            <a href="javascript:;">[退出]</a>
+            <a href="{:U('Index/logout')}">[退出]</a>
         </div>
     </div>
     <!-- /头部 -->
@@ -54,7 +54,7 @@
                 <volist name="__base_menu__.child" id="sub_menu">
                     <!-- 子导航 -->
                     <notempty name="sub_menu">
-                        <h3><i class="icon-s1"></i>{$key}</h3>
+                        <h3><i class="icon icon-unfold"></i>{$key}</h3>
                         <ul>
                             <volist name="sub_menu" id="menu">
                                 <li><a href="{$menu.url|U}">{$menu.title}</a></li>
@@ -71,7 +71,25 @@
 
     <!-- 内容区 -->
     <div id="main" class="main">
-        <block name="body"></block>
+        <block name="nav">
+        <!-- nav -->
+        <notempty name="_show_nav">
+        <div class="breadcrumb">
+            <span>您的位置:</span>
+            <assign name="i" value="1" />
+            <foreach name="_nav" item="v" key="k">
+                <if condition="$i eq count($_nav)">
+                <span>{$v}</span>
+                <else />   
+                <span><a href="{$k}">{$v}</a>&gt;</span>
+                </if>
+                <assign name="i" value="$i+1" />
+            </foreach>
+        </div>
+        </notempty>
+        <!-- nav -->
+        </block>
+        <block name="body"> </block>
     </div>
     <!-- /内容区 -->
 
@@ -87,7 +105,7 @@
             $subnav.find("a[href='" + url + "']").parent().addClass("current");
 
             /* 左边菜单显示收起 */
-            $("#subnav .icon-s1").click(function(){
+            $("#subnav h3").find("i").click(function(){
                 $(this).parent().next().toggle("fast","linear");
             })
         }();

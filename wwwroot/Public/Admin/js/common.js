@@ -1,18 +1,18 @@
-//dom加载完成后执行的js
+//dom鍔犺浇瀹屾垚鍚庢墽琛岀殑js
 ;$(function(){
 
-	//全选的实现
-	$("#selectall").click(function(){
-		$(".child_checkbox").prop("checked", this.checked);
+	//鍏ㄩ�夌殑瀹炵幇
+	$(".check-all").click(function(){
+		$(".ids").prop("checked", this.checked);
 	});
-	$(".child_checkbox").click(function(){
-		var option = $(".child_checkbox");
+	$(".ids").click(function(){
+		var option = $(".ids");
 		option.each(function(i){
 			if(!this.checked){
-				$("#selectall").prop("checked", false);
+				$(".check-all").prop("checked", false);
 				return false;
 			}else{
-				$("#selectall").prop("checked", true);
+				$(".check-all").prop("checked", true);
 			}
 		});
 	});
