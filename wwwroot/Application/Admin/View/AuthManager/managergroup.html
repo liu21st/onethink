@@ -22,9 +22,11 @@
 							</dt>
 							<dd class="bd">
 								<volist name="node['child']" id="child" >
-									<div><label class="checkbox" <notempty name="child['tip']">title='{$child.tip}'</notempty>>
+									<div>
+										<label class="checkbox" <notempty name="child['tip']">title='{$child.tip}'</notempty>>
 			                           <input class="auth_rules" type="checkbox" name="rules[]" value="<?php echo $auth_rules[$child['url']] ?>"/>{$child.title}
-				                    	</label></div>
+				                    	</label>
+				                    </div>
 			                       <notempty name="child['operator']">
 				                       <span class="divsion">&nbsp;</span>
 				                       <span>
@@ -36,7 +38,6 @@
 				                           </volist>
 				                       </span>
 			                       </notempty>
-                               </div>
 								</volist>
 							</dd>
 						</dl>
