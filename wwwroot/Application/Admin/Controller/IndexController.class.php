@@ -58,7 +58,7 @@ class IndexController extends AdminController {
             // }
 
             /* 调用UC登录接口登录 */
-             $User = new UserApi;
+            $User = new UserApi;
             $uid = $User->login($username, $password);
             if(0 < $uid){ //UC登录成功
                 /* 登录用户 */

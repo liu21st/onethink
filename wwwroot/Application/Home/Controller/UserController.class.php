@@ -7,6 +7,8 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
+namespace Home\Controller;
+
 /**
  * 用户控制器
  * 包括用户中心，用户登录及注册

@@ -52,8 +52,7 @@ class Article extends TagLib{
 		$cate    = $tag['cate'];
 		$listrow = $tag['listrow'];
 		$parse   = '<?php ';
-		$parse  .= 'import(\'COM.Page\');';
-		$parse  .= '$__PAGE__ = new Page(get_list_count(' . $cate . '), ' . $listrow . ');';
+		$parse  .= '$__PAGE__ = new \COM\Page(get_list_count(' . $cate . '), ' . $listrow . ');';
 		$parse  .= 'echo $__PAGE__->show();';
 		$parse  .= ' ?>';
 		return $parse;

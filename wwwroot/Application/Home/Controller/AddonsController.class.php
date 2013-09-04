@@ -7,6 +7,8 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
+namespace Home\Controller;
+
 /**
  * 扩展控制器
  * 用于调度各个扩展的URL访问需求
