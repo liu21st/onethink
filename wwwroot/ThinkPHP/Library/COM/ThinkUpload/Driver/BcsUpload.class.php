@@ -8,15 +8,14 @@
 // +----------------------------------------------------------------------
 // | Author: Jay <yangweijiester@gmail.com> <http://code-tech.diandian.com>
 // +----------------------------------------------------------------------
-
+namespace COM\ThinkUpload\Driver;
 class BcsUpload{
     /**
      * 上传文件根目录
      * @var string
      */
     private $rootPath;
-
-    public $apiurl = 'http://developer.baidu.com/bae/bcs/key/getsign';
+    final private $host = 'bcs.duapp.com';
 
     /**
      * 上传错误信息
@@ -26,11 +25,13 @@ class BcsUpload{
 
     private $config = array(
     	'AccessKey'=> '',
-        'SecretKey'=> '', //又拍云服务器
+        'SecretKey'=> '', //百度云服务器
         'bucket'   => '', //空间名称
         'rename'   => false,
         'timeout'  => 3600, //超时时间
     );
+
+    private $bcs = null;
 
     /**
      * 构造函数，用于设置上传根路径
@@ -41,11 +42,13 @@ class BcsUpload{
         /* 默认FTP配置 */
         $this->config = array_merge($this->config, $config);
         /* 设置根目录 */
-        $this->rootPath = '/';
+        $this->rootPath = str_replace('./', '/', $root);
+        require './Bcs/bcs.class.php';
+        $this->bcs = new BaiduBCS ( $this->config['AccessKey'], $this->config['SecrectKey'], $this->host );
 	}
 
     /**
-     * 检测上传根目录(又拍云上传时支持自动创建目录，直接返回)
+     * 检测上传根目录(百度云上传时支持自动创建目录，直接返回)
      * @return boolean true-检测通过，false-检测失败
      */
     public function checkRootPath(){
@@ -53,7 +56,7 @@ class BcsUpload{
     }
 
     /**
-     * 检测上传目录(又拍云上传时支持自动创建目录，直接返回)
+     * 检测上传目录(百度云上传时支持自动创建目录，直接返回)
      * @param  string $savepath 上传目录
      * @return boolean          检测结果，true-通过，false-失败
      */
@@ -62,7 +65,7 @@ class BcsUpload{
     }
 
     /**
-     * 创建文件夹 (又拍云上传时支持自动创建目录，直接返回)
+     * 创建文件夹 (百度云上传时支持自动创建目录，直接返回)
      * @param  string $savepath 目录名称
      * @return boolean          true-创建成功，false-创建失败
      */
@@ -77,18 +80,35 @@ class BcsUpload{
      * @return boolean          保存状态，true-成功，false-失败
      */
     public function save($file, $replace) {
-        $header['Content-Type'] = $file['type'];
-        $header['Content-MD5'] = md5_file($file['md5']);
-        $resource = fopen($file['tmp_name'], 'r');
-        $savepath = str_replace('/', '-', ltrim($file['savepath'], '/'));
-        $save = $savepath . $file['savename'];
-        $path = $this->sign('PUT',$this->config['bucket'],$save);
-        file_put_contents('./debug', var_export($this->config['bucket'],1),FILE_APPEND);
-        if($this->rename)
-        	$path .='&renametype='.$header['Content-MD5'];
-        file_put_contents('./debug', var_export($path,1),FILE_APPEND);
-        $data = $this->request($path, 'PUT', $header, $resource);
-        return $data['code'] ? false : true;
+        $opt = array ();
+        $opt ['acl'] = BaiduBCS::BCS_SDK_ACL_TYPE_PUBLIC_WRITE;
+        // $opt [BaiduBCS::IMPORT_BCS_LOG_METHOD] = "bs_log";
+        $opt ['curlopts'] = array (
+                CURLOPT_CONNECTTIMEOUT => 10,
+                CURLOPT_TIMEOUT => 1800
+        );
+        $response = $this->bcs->create_object ( $this->config['bucket'], $file['tmp_name'], $fileUpload, $opt );
+        // $header['Content-Type'] = $file['type'];
+        // $header['Content-MD5'] = md5_file($file['md5']);
+        // $resource = fopen($file['tmp_name'], 'r');
+        // $savepath = str_replace('/', '-', ltrim($file['savepath'], '/'));
+        // $save = $savepath . $file['savename'];
+        // $path = $this->sign('PUT',$this->config['bucket'],$save);
+        file_put_contents('./debug2', var_export($file,1),FILE_APPEND);
+        // if($this->rename)
+        // 	$path .='&renametype='.$header['Content-MD5'];
+        // file_put_contents('./debug', var_export($path,1),FILE_APPEND);
+        // $data = $this->request($path, 'PUT', $header, $resource);
+        file_put_contents('./debug2', var_export($response,1),FILE_APPEND);
+        return $response->isOK() ? true : false;
+    }
+
+    public download($file){
+        $file = str_replace('./', '/', $file);
+        $opt = array();
+        $opt['time'] = time() + 3600; //有效时间1小时
+        $response = $this->bcs->generate_get_object_url ( $this->config['bucket'], $file, $opt );
+        return $response;
     }
 
     /**
@@ -100,7 +120,7 @@ class BcsUpload{
     }
 
     /**
-     * 请求又拍云服务器
+     * 请求百度云服务器
      * @param  string   $path    请求的PATH
      * @param  string   $method  请求方法
      * @param  array    $headers 请求header
