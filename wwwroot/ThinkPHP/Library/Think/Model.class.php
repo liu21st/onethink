@@ -1251,8 +1251,11 @@ class Model {
     public function getModelName() {
         if(empty($this->name)){
 			$name = substr(get_class($this),0,-5);
-			$pos = strrpos($name,'\\');
-            $this->name = substr($name,$pos+1);
+			if ( $pos = strrpos($name,'\\') ) {//有命名空间
+				$this->name = substr($name,$pos+1);
+			}else{
+				$this->name = $name;
+			}
 		}
         return $this->name;
     }
