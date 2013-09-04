@@ -206,7 +206,7 @@ class AuthManagerController extends AdminController{
     {
         if(isset($_POST['rules'])){
             sort($_POST['rules']);
-            $_POST['rules']  = implode(',',array_unique($_POST['rules']));
+            $_POST['rules']  = trim( implode( ',' , array_unique($_POST['rules'])) , ',' );
         }
         $_POST['module'] = 'admin';
         $_POST['type']   = AuthGroupModel::TYPE_ADMIN;
