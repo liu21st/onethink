@@ -225,6 +225,13 @@ select {
 	text-decoration: none;
 	background-color: #2f81bf;
 }
+.btn-small {
+	padding: 3px 12px;
+}
+.btn-mini {
+	padding: 1px 8px;
+	font-size: 14px;
+}
 
 /* 实心小三角 */
 .arrow {

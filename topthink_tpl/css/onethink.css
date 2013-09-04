@@ -296,7 +296,7 @@
 	display: block;
 }
 
-/* 话题列表 */
+/* media结构(话题列表) */
 .media {
 	margin-bottom: 15px;
 }
@@ -385,6 +385,62 @@
 }
 .icon-clock {
 	background: url(../images/clock.png) no-repeat;
+}
+
+/* 话题详情页 */
+.topic-detail {
+	margin-bottom: 10px;
+}
+.topic-detail li {
+	padding: 15px;
+	border: 1px solid #ebebeb;
+}
+.topic-detail .floor {
+	float: right;
+	color: #017FFD;
+}
+.topic-detail .topic-title {
+	border-bottom: 1px solid #ebebeb;
+}
+.topic-detail .topic-title h1 {
+	margin-right: 40px;
+	font-size: 28px;
+	font-weight: normal;
+}
+.topic-detail .topic-title .floor {
+	margin-top: 12px;
+}
+.topic-detail .info {
+	margin-bottom: 10px;
+	line-height: 30px;
+	height: 30px;
+	color: #aaa;
+}
+.topic-detail .info span + span {
+	margin-left: 15px;
+}
+.topic-detail .hd {
+	margin-bottom: 10px;
+	height: 30px;
+	line-height: 30px;
+	color: #aaa;
+	border-bottom: 1px dashed #ebebeb;
+}
+.topic-detail .hd span {
+	margin: 0 6px;
+}
+.topic-detail .bd {
+	word-break:  break-all;
+	color: #666;
+}
+.topic-detail .ft {
+	margin-top: 10px;
+	padding-top: 10px;
+	border-top: 1px dashed #ebebeb;
+}
+.topic-detail .ft .btn {
+	float: left;
+	margin: 0 10px 0 0;
 }
 
 /* 发布页 */

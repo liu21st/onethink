@@ -33,19 +33,17 @@ class Think {
         set_exception_handler(array('Think\Think','appException'));
         // 注册AUTOLOAD方法
         spl_autoload_register(array('Think\Think', 'autoload'));
-        //[RUNTIME]
-        self::buildApp();         // 预编译项目
-        //[/RUNTIME]
+        // 加载项目文件
+        self::buildApp(); 
         // 运行应用
         App::run();
         return ;
     }
 
-    //[RUNTIME]
     /**
-     * 读取配置信息 编译项目
+     * 读取配置信息 加载模式文件
      * @access private
-     * @return string
+     * @return void
      */
     static private function buildApp() {
         
@@ -83,7 +81,6 @@ class Think {
             C('tags', include COMMON_PATH.'Conf/tags.php');
         }
 
-        $compile   = '';
         // 读取核心编译文件列表
         if(isset($mode['core'])) {
             $list  =  $mode['core'];
@@ -92,19 +89,14 @@ class Think {
                 THINK_PATH.'Common/functions.php', // 标准模式函数库
             );
         }
-
-        foreach ($list as $file){
-            if(is_file($file))  {
-                require_cache($file);
-                if(!APP_DEBUG)   $compile .= compile($file);
-            }
-        }
+        if(is_array($list)){
+            require_array($list);
+        }       
         
         // 加载模式别名定义
         if(isset($mode['alias'])) {
             $alias = is_array($mode['alias'])?$mode['alias']:include $mode['alias'];
             alias_import($alias);
-            if(!APP_DEBUG) $compile .= 'alias_import('.var_export($alias,true).');';               
         }
      
         if(APP_DEBUG) {
@@ -113,7 +105,6 @@ class Think {
         }
         return ;
     }
-    //[/RUNTIME]
 
     /**
      * 系统自动加载ThinkPHP类库

@@ -9,6 +9,7 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
+namespace COM\ThinkUpload\Driver;
 class UpyunUpload{
     /**
      * 上传文件根目录
