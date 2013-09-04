@@ -1249,8 +1249,11 @@ class Model {
      * @return string
      */
     public function getModelName() {
-        if(empty($this->name))
-            $this->name =   substr(get_class($this),0,-5);
+        if(empty($this->name)){
+			$name = substr(get_class($this),0,-5);
+			$pos = strrpos($name,'\\');
+            $this->name = substr($name,$pos+1);
+		}
         return $this->name;
     }
 
