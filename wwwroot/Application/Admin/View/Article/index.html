@@ -49,7 +49,7 @@
 					</div>
 
 					<div class="tools fr">
-						<form method="get" class="search-form">
+						<!-- <form method="get" class="search-form">
 							<input type="text" name="search" class="text" placeholder="请输入关键字" value="{$search}">
 							<select name="status">
 								<option value="">所有状态</option>
@@ -58,6 +58,16 @@
 								<option value="2" <eq name="status" value="2">selected="selected"</eq>>待审核</option>
 							</select>
 							<input type="button" value="查询" class="btn" id="search" url="{:U('article/index','cate_id='.$cate_id,false)}">
+						</form> -->
+						<form action="#" method="post" class="search-form">
+							<ul class="dropdown">
+								<li><a href="javascript:;">所有状态</a></li>
+								<li><a href="javascript:;">启用</a></li>
+								<li><a href="javascript:;">禁用</a></li>
+								<li><a href="javascript:;">待审核</a></li>
+							</ul>
+							<input type="text" name="">
+							
 						</form>
 					</div>
 				</div>
