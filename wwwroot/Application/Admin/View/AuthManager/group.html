@@ -1,9 +1,9 @@
 <div id="auth_groups">
-    <form class="form-item" action="{:U('addToGroup')}" method="post" enctype="application/x-www-form-urlencoded" >
+    <form class="form-horizontal auth-form" action="{:U('addToGroup')}" method="post" enctype="application/x-www-form-urlencoded" >
         <ul>
             <volist name="auth_groups" id="vo">
-            <li>
-                <label class="checkbox">
+            <li class="form-item">
+                <label class="checkbox controls">
                     <input class="auth_groups" type="checkbox" name="group_id[]" value="{$vo.id}">{$vo.title}
                 </label>
             </li>
