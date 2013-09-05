@@ -13,11 +13,11 @@ namespace Think\Log\Driver;
 
 class File {
 
-    protected $config  =   [
+    protected $config  =   array(
         'log_time_format'   =>  ' c ',
         'log_file_size'     =>  2097152,
         'log_path'          =>  '',
-    ];
+    );
 
     // 实例化并传入参数
     public function __construct($config=array()){
