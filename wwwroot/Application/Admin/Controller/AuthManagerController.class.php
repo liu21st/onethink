@@ -239,13 +239,13 @@ class AuthManagerController extends AdminController{
     public function changeStatus($method=null)
     {
         switch ( $method ){
-            case 'forbidGroup':
+            case 'forbidgroup':
                 $this->forbid('AuthGroup');    
                 break;
-            case 'resumeGroup':
+            case 'resumegroup':
                 $this->resume('AuthGroup');    
                 break;
-            case 'deleteGroup':
+            case 'deletegroup':
                 $this->delete('AuthGroup');    
                 break;
             default:

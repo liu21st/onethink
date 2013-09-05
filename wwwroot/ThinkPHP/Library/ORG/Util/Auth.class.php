@@ -115,6 +115,7 @@ class Auth{
                 $get = strtolower(serialize($_GET));
                 $_GET = unserialize($get);
                 $intersect = array_intersect_assoc($_GET,$param);
+                $auth = preg_replace('/\?.*$/U','',$auth);
                 if ( in_array($auth,$name) && $intersect==$param ) {  //如果节点相符且url参数满足
                     $list[] = $auth ;
                 }
