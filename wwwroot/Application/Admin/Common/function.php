@@ -97,7 +97,7 @@ function check_document_position($pos = 0, $contain = 0){
 
 /**
  * select返回的数组进行整数映射转换
- * 
+ *
  * @param array $map  映射关系二维数组  array(
  *                                          '字段名1'=>array(映射关系数组),
  *                                          '字段名2'=>array(映射关系数组),
@@ -105,7 +105,7 @@ function check_document_position($pos = 0, $contain = 0){
  *                                       )
  * @author 朱亚杰 <zhuyajie@topthink.net>
  * @return array
- *  
+ *
  *  array(
  *      array('id'=>1,'title'=>'标题','status'=>'1','status_text'=>'正常')
  *      ....
@@ -133,4 +133,30 @@ function extra_menu($extra_menu,&$base_menu){
             $base_menu['child'][$key] = $group;
         }
     }
+}
+
+/**
+ * 获取参数的所有父级分类
+ * @param int $cid 分类id
+ * @return array 参数分类和父类的信息集合
+ * @author huajie <banhuajie@163.com>
+ */
+function get_parent_category($cid){
+	$cates = M('Category')->where(array('status'=>1))->field('id,title,pid')->order('sort')->select();
+	$child = get_category($cid);
+	$pid = $child['pid'];
+	$temp = array();
+	$res[] = $child;
+	while(true){
+		foreach ($cates as $key=>$cate){
+			if($cate['id'] == $pid){
+				$pid = $cate['pid'];
+				array_unshift($res, $cate);
+			}
+		}
+		if($pid == 0){
+			break;
+		}
+	}
+	return $res;
 }

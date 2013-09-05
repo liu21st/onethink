@@ -36,7 +36,7 @@ class ArticleLogic extends BaseLogic{
 		if(!$data){
 			return false;
 		}
-		
+
 		/* 添加或更新数据 */
 		if(empty($data['id'])){//新增数据
 			$data['id'] = $id;

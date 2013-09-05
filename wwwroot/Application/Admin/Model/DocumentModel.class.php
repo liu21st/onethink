@@ -159,7 +159,7 @@ class DocumentModel extends CmsadminModel{
 		$logic = $this->logic($data['model_id']);
 		if(!$logic->update($id)){
 			if(isset($id)){ //新增失败，删除基础数据
-				$this->delete($data['id']);
+				$this->delete($id);
 			}
 			$this->error = $logic->getError();
 			return false;

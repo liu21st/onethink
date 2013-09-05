@@ -644,7 +644,7 @@ class AdminController extends Action {
                 }
             }
 			session( 'nav', $this->nav );
-            $this->assign('_nav',$arr);        
+            $this->assign('_nav',$arr);
             $this->assign('_show_nav',$show);
         }
     }

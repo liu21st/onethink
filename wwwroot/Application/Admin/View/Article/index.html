@@ -9,7 +9,13 @@
 <block name="body">
 	<!-- 标题 -->
 	<div class="main-title">
-		<h2>文档列表</h2>
+		<h2>
+		[
+		<volist name="rightNav" id="nav">
+		<a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a><if condition="count($rightNav) gt $i">-></if>
+		</volist>
+		]列表
+		</h2>
 	</div>
 
 	<!-- 标签页导航 -->
@@ -34,29 +40,19 @@
 					</div>
 
 					<div class="tools fr">
-						<!-- <form method="get" class="search-form">
-							<input type="text" name="search" class="text" placeholder="请输入关键字" value="{$search}">
-							<select name="status">
-								<option value="">所有状态</option>
-								<option value="1" <eq name="status" value="1">selected="selected"</eq>>启用</option>
-								<option value="0" <heq name="status" value="0">selected="selected"</heq>>禁用</option>
-								<option value="2" <eq name="status" value="2">selected="selected"</eq>>待审核</option>
-							</select>
-							<input type="button" value="查询" class="btn" id="search" url="{:U('article/index','cate_id='.$cate_id,false)}">
-						</form> -->
 						<div class="search-form cf">
 							<div class="drop-down">
-								<span id="sch-sort-txt" class="sort-txt">所有状态</span>
+								<span id="sch-sort-txt" class="sort-txt" data="{$status}"><if condition="get_status_title($status) eq ''">所有状态<else/>{:get_status_title($status)}</if></span>
 								<i class="arrow arrow-down"></i>
 								<ul id="sub-sch-menu" class="nav-list hidden">
-									<li><a href="javascript:;">所有状态</a></li>
-									<li><a href="javascript:;">启用</a></li>
-									<li><a href="javascript:;">禁用</a></li>
-									<li><a href="javascript:;">待审核</a></li>
+									<li><a href="javascript:;" value="">所有状态</a></li>
+									<li><a href="javascript:;" value="1">正常</a></li>
+									<li><a href="javascript:;" value="0">禁用</a></li>
+									<li><a href="javascript:;" value="2">待审核</a></li>
 								</ul>
 							</div>
-							<input type="text" name="">
-							<a class="sch-btn" href="javascript:;">高级搜索</a>
+							<input type="text" name="search" value="{$search}">
+							<a class="sch-btn" href="javascript:;" id="search" url="{:U('article/index','cate_id='.$cate_id,false)}">高级搜索</a>
 						</div>
 					</div>
 				</div>
@@ -113,9 +109,10 @@
 <block name="script">
 <script type="text/javascript">
 $(function(){
+	//搜索功能
 	$("#search").click(function(){
 		var url = $(this).attr('url');
-		var status = $('select[name=status]').val();
+		var status = $("#sch-sort-txt").attr("data");
 		var search = $('input[name=search]').val();
 		if(status != ''){
 			url += '/status/' + status;
@@ -125,9 +122,11 @@ $(function(){
 		}
 		window.location.href = url;
 	});
+	//新增功能
 	$("#document_add").click(function(){
 		window.location.href = $(this).attr('url');
 	})
+	//批量操作
 	$("button[name=document_operate]").click(function(){
 		var status = $(this).attr('status');
 		//获取选中的数据
@@ -171,7 +170,7 @@ $(function(){
 	$("#sub-sch-menu li").find("a").each(function(){
 		$(this).click(function(){
 			var text = $(this).text();
-			$("#sch-sort-txt").text(text);
+			$("#sch-sort-txt").text(text).attr("data",$(this).attr("value"));
 			$("#sub-sch-menu").addClass("hidden");
 		})
 	});
