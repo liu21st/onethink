@@ -227,6 +227,7 @@ select {
 }
 .btn-small {
 	padding: 3px 12px;
+	font-size: 14px;
 }
 .btn-mini {
 	padding: 1px 8px;

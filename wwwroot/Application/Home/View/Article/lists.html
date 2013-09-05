@@ -11,11 +11,11 @@
 					<div class="taginfo">
 						<span> 
 							<i class="icon icon-sort"></i>
-							<a href="/info/news.html">{$data.category_id|get_category_title}</a>
+							<a href="">{$data.category_id|get_category_title}</a>
 						</span>								
 						<span> 
 							<i class="icon icon-comment"></i>
-							<a href="/info/414.html#comment">{$data.comment}条评论</a>								
+							<a href="{:U('detail?id='.$data['id'])}#comment">{$data.comment}条评论</a>								
 						</span>
 						<span>
 							<i class="icon icon-view"></i> <em>{$data.view}人围观</em>

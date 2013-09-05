@@ -150,6 +150,7 @@ class AuthManagerController extends AdminController{
         $list = intToString($list);
         $this->assign( '_table_list', $this->tableList($list,$thead) );
         $this->nav(2,'权限管理');
+        cookie( 'auth_index',__SELF__);
         $this->display();
     }
 
@@ -408,7 +409,7 @@ class AuthManagerController extends AdminController{
 
     public function test()
     {
-        $a = addons('Editor');
+        $a=C("COOKIE_PREFIX");
 
         dump($a);
     }
