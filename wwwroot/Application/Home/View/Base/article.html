@@ -14,27 +14,28 @@
 		<block name="category">
 			<div class="sort-box mod">
 				<div class="sort-hidden">
-					<a class="fl" href="{:U('index?category='.get_category_name($category['pid']))}">全部</a>
 					<div class="sub-sort">
 						{:W('Category/lists', array($category['id']))}
 					</div>
 				</div>
 				<a href="javascript:;" class="slide-arrow">
-					<b class="pillar"></b><i class="icon-arrow"></i>
+					<!-- <b class="pillar"></b><i class="icon-arrow"></i> -->
 				</a>
 			</div>
 		</block>
 
 		<!-- 内容区 -->
-		<div class="cf">
-			<!-- 左边 -->
-			<div class="cont-container">
-				<block name="body"></block>
+		<block name="container">
+			<div class="cf">
+				<!-- 左边 -->
+				<div class="cont-container">
+					<block name="body"></block>
+				</div>
+			
+				<!-- 右边 -->
+				<include file="Public/side"/>
 			</div>
-
-			<!-- 右边 -->
-			<include file="Public/side"/>
-		</div>
+		</block>
 	</div>
 
 	<!-- 底部 -->

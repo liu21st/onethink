@@ -8,13 +8,13 @@
 .header {
 	margin-bottom: 20px;
 	min-width: 1000px;
-	height: 80px;
+	height: 70px;
 	background-color: #ebebeb;
 }
 .logo ,.logo:hover{
 	float: left;
-	margin-right: 10px;
-	height: 80px;
+	margin-right: 70px;
+	height: 70px;
 	text-decoration:none;
 }
 .logo img {
@@ -27,33 +27,49 @@
 }
 .main-nav a {
 	padding: 0 30px;
-	height: 75px;
-	line-height: 75px;
+	height: 66px;
+	line-height: 86px;
 	font-size: 14px;
 	color: #999;
 	border-bottom: 4px solid transparent;
 }
 .main-nav a:hover,
 .main-nav .current a {
+	font-weight:800;
 	color: #222;
 	border-bottom-color: #34b4e0;
 	background-color: #e1e1e1;
 }
 .user-bar {
 	float: right;
-	margin-top: 20px;
+	margin-top: 24px;
 }
 
 /* 搜索 */
 .header-search {
 	float: left;
-	margin: 5px 10px 0 0;
+	margin: 5px 30px 0 0;
+}
+.header-search{
+	position: relative;
 }
 .header-search .text {
 	float: left;
-	width: 140px;
-	border-radius: 2px 0 0 2px;
+	width: 174px;
+	height: 18px; 
+	line-height: 18px;
+	border-radius: 18px;
 	border-color: #ccc;
+	background: url(../images/search.png) no-repeat 162px center #fff;
+}
+.header-search .submit{
+	cursor: pointer;
+    height: 20px;
+    left: 162px;
+    position: absolute;
+    text-indent: -999em;
+    top: 4px;
+    width: 20px;
 }
 .header-search .btn {
 	float: left;
@@ -819,39 +835,35 @@
 	min-width: 1000px;
 	background-color: #ebebeb;
 }
-.footer .ft-col {
-	float: left;
-	margin-right: 20px;
-	width: 90px;
+.other dl{
+	float:left;
+	margin-right: 131px;
 }
-.footer .ft-col h3 {
-	margin-bottom: 4px;
-	font-size: 14px;
-	font-weight: normal;
-	color: #444;
+.other dt{
+	background: url("../images/help_more.png") no-repeat scroll 0 0 transparent;
+  float: left;
+  margin-right: 18px;
+  height: 54px;
+  width: 54px;
 }
-.footer .ft-col li {
-	height: 25px;
-	line-height: 25px;
+.other .edu {
+	background-position: 0 0;
 }
-.footer .ft-col li a {
-	color: #999;
+.other .advice {
+	background-position: 0 -66px;
 }
-.footer .ft-intro {
-	float: left;
-	width: 560px;
-	line-height: 1.8;
-	color: #999;
-	text-align: justify;
-	text-justify: inter-word;
+.other .invest {
+	background-position: 0 -138px;
 }
-.footer .ft-intro strong {
-	font-weight: normal;
-	color: #666;
+.other dt a{
+	display: block;
+	width: 54px;
+	height:  54px;
 }
-.footer .copyright {
-	margin-top: 20px;
+.other dd{
+	font-size: 12px;
 }
-.footer .copyright a {
-	margin-left: 20px;
+.ft-intro{
+	text-align: center;
+	padding-top:50px;
 }
