@@ -112,7 +112,10 @@ class Auth{
             $query = preg_replace('/^.+\?/U','',$auth);
             if ($mode=='url' && $query!=$auth ) {
                 parse_str($query,$param); //解析规则中的param
+                $get = strtolower(serialize($_GET));
+                $_GET = unserialize($get);
                 $intersect = array_intersect_assoc($_GET,$param);
+                $auth = preg_replace('/\?.*$/U','',$auth);
                 if ( in_array($auth,$name) && $intersect==$param ) {  //如果节点相符且url参数满足
                     $list[] = $auth ;
                 }

@@ -134,9 +134,9 @@ class AuthManagerController extends AdminController{
             'description'=>'描述',
             'status_text'=>'状态',
             '操作'=>array(
-                '禁用'=>array( 'href' =>'AuthManager/changeStatus?method=forbidGroup&id=$id', 'condition'=>'$status==1',), 
-                '启用'=>array( 'href' =>'AuthManager/changeStatus?method=resumeGroup&id=$id', 'condition'=>'$status==0',), 
-                '删除'=>'AuthManager/changeStatus?method=deleteGroup&id=$id',
+                '禁用'=>array( 'href' => 'AuthManager/changeStatus?method=forbidGroup&id=$id', 'condition'=>'$status==1',), 
+                '启用'=>array( 'href' => 'AuthManager/changeStatus?method=resumeGroup&id=$id', 'condition'=>'$status==0',), 
+                '删除'=>array( 'href' => 'AuthManager/changeStatus?method=deleteGroup&id=$id', 'class'=>'confirm' ),
             ),
             '授权'=>array(
 				'访问授权'=>'AuthManager/access?group_name=$title&group_id=$id',
@@ -239,13 +239,13 @@ class AuthManagerController extends AdminController{
     public function changeStatus($method=null)
     {
         switch ( $method ){
-            case 'forbidGroup':
+            case 'forbidgroup':
                 $this->forbid('AuthGroup');    
                 break;
-            case 'resumeGroup':
+            case 'resumegroup':
                 $this->resume('AuthGroup');    
                 break;
-            case 'deleteGroup':
+            case 'deletegroup':
                 $this->delete('AuthGroup');    
                 break;
             default:
