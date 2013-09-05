@@ -13,7 +13,7 @@
 }
 .logo ,.logo:hover{
 	float: left;
-	margin-right: 24px;
+	margin-right: 70px;
 	height: 70px;
 	text-decoration:none;
 }
@@ -48,7 +48,7 @@
 /* 搜索 */
 .header-search {
 	float: left;
-	margin: 5px 10px 0 0;
+	margin: 5px 30px 0 0;
 }
 .header-search{
 	position: relative;
@@ -834,40 +834,4 @@
 	padding: 30px 0 60px;
 	min-width: 1000px;
 	background-color: #ebebeb;
-}
-.footer .ft-col {
-	float: left;
-	margin-right: 20px;
-	width: 90px;
-}
-.footer .ft-col h3 {
-	margin-bottom: 4px;
-	font-size: 14px;
-	font-weight: normal;
-	color: #444;
-}
-.footer .ft-col li {
-	height: 25px;
-	line-height: 25px;
-}
-.footer .ft-col li a {
-	color: #999;
-}
-.footer .ft-intro {
-	float: left;
-	width: 560px;
-	line-height: 1.8;
-	color: #999;
-	text-align: justify;
-	text-justify: inter-word;
-}
-.footer .ft-intro strong {
-	font-weight: normal;
-	color: #666;
-}
-.footer .copyright {
-	margin-top: 20px;
-}
-.footer .copyright a {
-	margin-left: 20px;
 }
