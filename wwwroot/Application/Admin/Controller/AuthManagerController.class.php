@@ -118,37 +118,9 @@ class AuthManagerController extends AdminController{
      */
     public function index()
     {
-
-        $thead = array(
-            '_html'=>array(
-                'th'=>'<input class="check-all" type="checkbox"/>',
-                'td'=>'<input class="ids" type="checkbox" name="id[]" value="$id" />',
-            ),
-            'title'=>array(
-				'title'  =>'用户组',
-				'tag'    =>'a',
-                'class'  =>'edit-group',
-                'data-id'=>'$id',
-				'href'   =>'AuthManager/editgroup?id=$id',
-			),
-            'description'=>'描述',
-            'status_text'=>'状态',
-            '操作'=>array(
-                '禁用'=>array( 'href' => 'AuthManager/changeStatus?method=forbidGroup&id=$id', 'condition'=>'$status==1',), 
-                '启用'=>array( 'href' => 'AuthManager/changeStatus?method=resumeGroup&id=$id', 'condition'=>'$status==0',), 
-                '删除'=>array( 'href' => 'AuthManager/changeStatus?method=deleteGroup&id=$id', 'class'=>'confirm' ),
-            ),
-            '授权'=>array(
-				'访问授权'=>'AuthManager/access?group_name=$title&group_id=$id',
-                '成员授权'=>'AuthManager/user?group_name=$title&group_id=$id',
-                '分类授权'=>'AuthManager/category?group_name=$title&group_id=$id',
-            ),
-        );
-
-        // dump($_GET);exit;
         $list = $this->lists('AuthGroup',array('module'=>'admin'),'id asc');
         $list = intToString($list);
-        $this->assign( '_table_list', $this->tableList($list,$thead) );
+        $this->assign( '_list', $list );
         $this->nav(2,'权限管理');
         cookie( 'auth_index',__SELF__);
         $this->display();
@@ -262,25 +234,6 @@ class AuthManagerController extends AdminController{
             $this->error('参数错误');
         }
 
-        $thead = array(
-            'uid'=>'UID',
-            'username'=>'用户名',
-            'last_login_time'=>array(
-                'title'=>'最后登陆时间',
-                'tag'=>'span',
-                'func'=>'date("Y-m-d h:i:s",$last_login_time)'
-            ),
-            'last_login_ip'=>array(
-                'title'=>'最后登陆ip',
-                'tag'=>'span',
-                'func'=>'long2ip($last_login_ip)'
-            ),
-            'status_text'=>'状态',
-            '操作'=>array(
-                '解除授权'=>'AuthManager/removeFromGroup?uid=$uid&group_id='.I('group_id'),
-            ),
-        );
-
         $prefix   = C('DB_PREFIX');
         $l_table  = $prefix.(AuthGroupModel::MEMBER);
         $r_table  = $prefix.(AuthGroupModel::AUTH_GROUP_ACCESS);
@@ -292,7 +245,7 @@ class AuthManagerController extends AdminController{
                        ->where(array('a.group_id'=>$group_id));
         $list = $this->lists($list);
         $list = intToString($list);
-        $this->assign( 'authed_user', $this->tableList($list,$thead) );
+        $this->assign( '_list', $list );
         $this->nav(3,'成员授权');
         $this->display();
     }
