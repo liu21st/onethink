@@ -45,12 +45,25 @@ class ArticleController extends \Admin\Controller\AdminController {
     	parent::_initialize();
 
     	//获取动态节点
+    	$cate_auth = AuthGroupModel::getAuthCategories(is_login());	//获取当前用户所有的内容权限节点
     	$cate = M('Category')->where(array('display'=>1,'status'=>1))->field('id,title,pid')->order('sort')->select();
+    	//没有权限的分类则不显示
+    	foreach ($cate as $key=>$value){
+    		if(!in_array($value['id'], $cate_auth)){
+    			unset($cate[$key]);
+    		}
+    	}
 		$cate = list_to_tree($cate);
 
 		//获取分类id
 		$cate_id = I('param.cate_id') == '' ? $cate[0]['id'] : I('param.cate_id');
 		$this->cate_id = $cate_id;
+
+		//权限判断
+
+		if(!in_array($cate_id, $cate_auth) && !is_administrator() && !empty($_GET)){
+			$this->error('没有权限！');
+		}
 
 		//单独处理2级以下的分类
 		$child_cates = array();
@@ -90,11 +103,7 @@ class ArticleController extends \Admin\Controller\AdminController {
 		$nav = get_parent_category($cate_id);
 		$this->assign('rightNav', $nav);
 
-		//权限判断
-		$cate_auth = AuthGroupModel::getAuthCategories(is_login());	//获取当前用户所有的内容权限节点
-		if(!in_array($cate_id, $cate_auth) && !is_administrator() && !empty($_GET)){
-			$this->error('没有权限！');
-		}
+
     }
 
 	/**
