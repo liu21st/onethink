@@ -306,15 +306,11 @@ function import($class, $baseUrl = '', $ext='.class.php') {
             //加载当前模块的类库
             $baseUrl = MODULE_PATH;
             $class   = substr_replace($class, '', 0, strlen($class_strut[0]) + 1);
-        }elseif ('think' == strtolower($class_strut[0])){ // think 官方基类库
-            $baseUrl = CORE_PATH;
-            $class   = substr($class,6);
-        }elseif (in_array(strtolower($class_strut[0]), array('org', 'com'))) {
+        }if (in_array(strtolower($class_strut[0]), array('think','org', 'com'))) {
             // org 第三方公共类库 com 企业公共类库
-            $baseUrl = LIBRARY_PATH;
+            $baseUrl = LIB_PATH;
         }else { // 加载其他模块的类库
-            $class   = substr_replace($class, '', 0, strlen($class_strut[0]) + 1);
-            $baseUrl = APP_PATH . $class_strut[0] . '/';
+            $baseUrl = APP_PATH;
         }
     }
     if (substr($baseUrl, -1) != '/')
