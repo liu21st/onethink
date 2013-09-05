@@ -8,13 +8,13 @@
 .header {
 	margin-bottom: 20px;
 	min-width: 1000px;
-	height: 80px;
+	height: 70px;
 	background-color: #ebebeb;
 }
 .logo ,.logo:hover{
 	float: left;
-	margin-right: 10px;
-	height: 80px;
+	margin-right: 24px;
+	height: 70px;
 	text-decoration:none;
 }
 .logo img {
@@ -27,21 +27,22 @@
 }
 .main-nav a {
 	padding: 0 30px;
-	height: 75px;
-	line-height: 75px;
+	height: 66px;
+	line-height: 86px;
 	font-size: 14px;
 	color: #999;
 	border-bottom: 4px solid transparent;
 }
 .main-nav a:hover,
 .main-nav .current a {
+	font-weight:800;
 	color: #222;
 	border-bottom-color: #34b4e0;
 	background-color: #e1e1e1;
 }
 .user-bar {
 	float: right;
-	margin-top: 20px;
+	margin-top: 24px;
 }
 
 /* 搜索 */
@@ -49,11 +50,26 @@
 	float: left;
 	margin: 5px 10px 0 0;
 }
+.header-search{
+	position: relative;
+}
 .header-search .text {
 	float: left;
-	width: 140px;
-	border-radius: 2px 0 0 2px;
+	width: 174px;
+	height: 18px; 
+	line-height: 18px;
+	border-radius: 18px;
 	border-color: #ccc;
+	background: url(../images/search.png) no-repeat 162px center #fff;
+}
+.header-search .submit{
+	cursor: pointer;
+    height: 20px;
+    left: 162px;
+    position: absolute;
+    text-indent: -999em;
+    top: 4px;
+    width: 20px;
 }
 .header-search .btn {
 	float: left;
