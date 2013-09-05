@@ -80,5 +80,5 @@ class UserApi extends Api{
 	public function checkMobile($mobile){
 		return $this->model->checkField($mobile, 3);
 	}
-	
+
 }
