@@ -18,10 +18,10 @@ define('MEMORY_LIMIT_ON',function_exists('memory_get_usage'));
 if(MEMORY_LIMIT_ON) $GLOBALS['_startUseMems'] = memory_get_usage();
 
 // 系统常量定义
-defined('THINK_PATH') 	or define('THINK_PATH', dirname(__FILE__).'/');
-defined('APP_PATH') 	or define('APP_PATH', dirname($_SERVER['SCRIPT_FILENAME']).'/');
-defined('APP_DEBUG') 	or define('APP_DEBUG',false); // 是否调试模式
-defined('APP_MODE')     or define('APP_MODE','common'); // 应用模式 默认为普通模式
+defined('THINK_PATH') 	or define('THINK_PATH',     dirname(__FILE__).'/');
+defined('APP_PATH') 	or define('APP_PATH',       dirname($_SERVER['SCRIPT_FILENAME']).'/');
+defined('APP_DEBUG') 	or define('APP_DEBUG',      false); // 是否调试模式
+defined('APP_MODE')     or define('APP_MODE',       'common'); // 应用模式 默认为普通模式
 defined('RUNTIME_PATH') or define('RUNTIME_PATH',   APP_PATH.'Runtime/');
 defined('LIB_PATH')     or define('LIB_PATH',       THINK_PATH.'Library/'); // 系统核心类库目录
 defined('CORE_PATH')    or define('CORE_PATH',      LIB_PATH.'Think/'); // 第三方类库目录
@@ -75,7 +75,7 @@ if(!IS_CLI) {
 
 // 加载公共函数
 require THINK_PATH.'Common/common.php';
-// 加载核心Think表
+// 加载核心Think类
 require CORE_PATH.'Think.class.php';
 // 应用初始化 
 Think\Think::start();

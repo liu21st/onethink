@@ -139,16 +139,16 @@ class Think {
      */
     static public function appException($e) {
         $error = array();
-        $error['message']   = $e->getMessage();
-        $trace  =   $e->getTrace();
+        $error['message']   =   $e->getMessage();
+        $trace              =   $e->getTrace();
         if('E'==$trace[0]['function']) {
             $error['file']  =   $trace[0]['file'];
             $error['line']  =   $trace[0]['line'];
         }else{
-            $error['file']      = $e->getFile();
-            $error['line']      = $e->getLine();
+            $error['file']  =   $e->getFile();
+            $error['line']  =   $e->getLine();
         }
-        $error['trace'] = $e->getTraceAsString();
+        $error['trace']     =   $e->getTraceAsString();
         Log::record($error['message'],Log::ERR);
         // 发送404信息
         header('HTTP/1.1 404 Not Found');

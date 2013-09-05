@@ -392,9 +392,10 @@ function alias_import($alias, $classfile='') {
 function D($name='',$layer='') {
     if(empty($name)) return new Think\Model;
     static $_model  =   array();
-    $layer          =   $layer?$layer:C('DEFAULT_M_LAYER');
-    if(isset($_model[$name.$layer]))   return $_model[$name.$layer];
-    $class   =   parse_res_name($name,$layer);
+    $layer          =   $layer? $layer : C('DEFAULT_M_LAYER');
+    if(isset($_model[$name.$layer]))   
+        return $_model[$name.$layer];
+    $class          =   parse_res_name($name,$layer);
     if(class_exists($class)) {
         $model      =   new $class(basename($name));
     }else {
@@ -461,9 +462,10 @@ function parse_res_name($name,$layer){
  */
 function A($name,$layer='') {
     static $_action = array();
-    $layer  =   $layer?$layer:C('DEFAULT_C_LAYER');
-    if(isset($_action[$name.$layer]))  return $_action[$name.$layer];
-    $class   =   parse_res_name($name,$layer);
+    $layer  =   $layer? $layer : C('DEFAULT_C_LAYER');
+    if(isset($_action[$name.$layer]))  
+        return $_action[$name.$layer];
+    $class  =   parse_res_name($name,$layer);
     if(class_exists($class)) {
         $action             =   new $class();
         $_action[$name.$layer]     =   $action;
@@ -590,10 +592,7 @@ function tag($tag, &$params=NULL) {
             trace('[ '.$tag.' ] --START--','','INFO');
         }
         // 执行扩展
-        foreach ($tags as $key=>$name) {
-            if(!is_int($key)) { // 指定行为类的完整路径 用于模式扩展
-                $name   = $key;
-            }
+        foreach ($tags as $name) {
             B($name, $params);
         }
         if(APP_DEBUG) { // 记录行为的执行日志

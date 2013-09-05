@@ -167,7 +167,9 @@ class App {
         // 项目开始标签
         tag('app_begin');
         // Session初始化
-        session(C('SESSION_OPTIONS'));
+        if(!IS_CLI){
+            session(C('SESSION_OPTIONS'));
+        }
         // 记录应用初始化时间
         G('initTime');
         App::exec();
