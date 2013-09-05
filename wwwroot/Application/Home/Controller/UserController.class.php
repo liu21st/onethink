@@ -41,7 +41,8 @@ class UserController extends HomeController {
 			}			
 
 			/* 调用注册接口注册用户 */
-			$uid = A('User/User', 'Api')->register($username, $password, $email);
+            $User = new UserApi;
+			$uid = $User->register($username, $password, $email);
 			if(0 < $uid){ //注册成功
 				//TODO: 发送验证邮件
 				echo '注册成功';
