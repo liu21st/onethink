@@ -36,10 +36,18 @@ class Log {
     const SAPI      = 4;
 
     // 日志信息
-    static $log     =  array();
+    static protected $log       =  array();
 
-    // 日期格式
-    static $format  =  '[ c ]';
+    // 日志存储
+    static protected $storage   =   null;
+
+    // 日志初始化
+    static public function init($config=array()){
+        $type   =   isset($config['type'])?$config['type']:'File';
+        $class  =   'Think\\Log\\Driver\\'. ucwords($type);
+        unset($config['type']);
+        self::$storage = new $class($config);
+    }
 
     /**
      * 记录日志 并且会过滤未经设置的级别
@@ -67,22 +75,18 @@ class Log {
      */
     static function save($type='',$destination='',$extra='') {
         if(empty(self::$log)) return ;
-        $type = $type?$type:C('LOG_TYPE');
-        if(self::FILE == $type) { // 文件方式记录日志信息
-            if(empty($destination))
-                $destination = C('LOG_PATH').date('y_m_d').'.log';
-            //检测日志文件大小，超过配置大小则备份日志文件重新生成
-            if(is_file($destination) && floor(C('LOG_FILE_SIZE')) <= filesize($destination) )
-                  rename($destination,dirname($destination).'/'.time().'-'.basename($destination));
-        }else{
-            $destination   =   $destination?$destination:C('LOG_DEST');
-            $extra   =  $extra?$extra:C('LOG_EXTRA');
+
+        if(empty($destination))
+            $destination = C('LOG_PATH').date('y_m_d').'.log';
+        if(!self::$storage){
+            $type = $type?$type:C('LOG_TYPE');
+            $class  =   'Think\\Log\\Driver\\'. ucwords($type);
+            self::$storage = new $class();            
         }
-        $now = date(self::$format);
-        error_log($now.' '.get_client_ip().' '.$_SERVER['REQUEST_URI']."\r\n".implode('',self::$log)."\r\n", $type,$destination ,$extra);
+        $message    =   implode('',self::$log);
+        self::$storage->write($message,$destination);
         // 保存后清空日志缓存
         self::$log = array();
-        //clearstatcache();
     }
 
     /**
@@ -93,23 +97,16 @@ class Log {
      * @param string $level  日志级别
      * @param integer $type 日志记录方式
      * @param string $destination  写入目标
-     * @param string $extra 额外参数
      * @return void
      */
-    static function write($message,$level=self::ERR,$type='',$destination='',$extra='') {
-        $now = date(self::$format);
-        $type = $type?$type:C('LOG_TYPE');
-        if(self::FILE == $type) { // 文件方式记录日志
-            if(empty($destination))
-                $destination = C('LOG_PATH').date('y_m_d').'.log';
-            //检测日志文件大小，超过配置大小则备份日志文件重新生成
-            if(is_file($destination) && floor(C('LOG_FILE_SIZE')) <= filesize($destination) )
-                  rename($destination,dirname($destination).'/'.time().'-'.basename($destination));
-        }else{
-            $destination   =   $destination?$destination:C('LOG_DEST');
-            $extra   =  $extra?$extra:C('LOG_EXTRA');
+    static function write($message,$level=self::ERR,$type='',$destination='') {
+        if(!self::$storage){
+            $type = $type?$type:C('LOG_TYPE');
+            $class  =   'Think\\Log\\Driver\\'. ucwords($type);
+            self::$storage = new $class();            
         }
-        error_log("{$now} {$level}: {$message}\r\n", $type,$destination,$extra );
-        //clearstatcache();
+        if(empty($destination))
+            $destination = C('LOG_PATH').date('y_m_d').'.log';        
+        self::$storage->write("{$level}: {$message}", $destination);
     }
 }

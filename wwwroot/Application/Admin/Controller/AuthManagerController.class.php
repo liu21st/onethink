@@ -139,7 +139,7 @@ class AuthManagerController extends AdminController{
                 '删除'=>'AuthManager/changeStatus?method=deleteGroup&id=$id',
             ),
             '授权'=>array(
-				'访问授权'=>'AuthManager/access?id=$id',
+				'访问授权'=>'AuthManager/access?group_name=$title&group_id=$id',
                 '成员授权'=>'AuthManager/user?group_name=$title&group_id=$id',
                 '分类授权'=>'AuthManager/category?group_name=$title&group_id=$id',
             ),
@@ -150,6 +150,7 @@ class AuthManagerController extends AdminController{
         $list = intToString($list);
         $this->assign( '_table_list', $this->tableList($list,$thead) );
         $this->nav(2,'权限管理');
+        cookie( 'auth_index',__SELF__);
         $this->display();
     }
 
@@ -186,7 +187,7 @@ class AuthManagerController extends AdminController{
     {
         $this->updateRules();
         $auth_group = D('AuthGroup')->where( array('module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
-                                    ->find( (int)$_GET['id'] );
+                                    ->find( (int)$_GET['group_id'] );
         $node_list   = $this->returnNodes();
         $map         = array('module'=>'admin','type'=>AuthRuleModel::RULE_MAIN,'status'=>1);
         $main_rules  = D('AuthRule')->where($map)->getField('name,id');
@@ -408,7 +409,7 @@ class AuthManagerController extends AdminController{
 
     public function test()
     {
-        $a = addons('Editor');
+        $a=C("COOKIE_PREFIX");
 
         dump($a);
     }

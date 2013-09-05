@@ -1,0 +1,86 @@
+<extend name="Base/common" />
+
+<block name="body">
+	<div class="wrapper">
+		<!-- 注册 -->
+		<div class="think-form mod">
+			<div class="main cf">
+				<form id="form" class="think-form cf" method="post" action="__SELF__">
+					<div class="login">
+						<div class="hd">
+							<strong>用户登录</strong>
+								<span>
+									还没有帐号？点击
+									<a href="{:U('register')}">注册</a>
+								</span>
+						</div>
+						<table class="bd">
+							<tbody>
+								<tr>
+									<th>用户名</th>
+									<td>
+										<input class="text" type="text" ajaxurl="/member/checkUserNameUnique.html" errormsg="请填写1-16位用户名" nullmsg="请填写用户名" datatype="*1-16" value="" name="username">
+										<span class="Validform_checktip"></span>
+									</td>
+								</tr>
+								<tr>
+									<th>密码</th>
+									<td>
+										<input class="text" type="password" errormsg="密码为6-20位" nullmsg="请填写密码" datatype="*6-20" name="password">
+										<span class="Validform_checktip"></span>
+									</td>
+								</tr>
+								<tr>
+									<th>验证码</th>
+									<td>
+										<input class="verify" type="text" errormsg="请填写5位验证码" nullmsg="请填写验证码" datatype="*5-5" name="verify">
+										<a class="reloadverify" title="换一张" href="javascript:void(0)">换一张？</a>
+										<span class="Validform_checktip"></span>
+										<br>
+										<img class="verifyimg reloadverify" alt="点击切换" src="{:U('verify')}">
+									</td>
+								</tr>
+								<tr>
+									<th> </th>
+									<td>
+										<input class="submit" type="submit" value="完成">
+									</td>
+								</tr>
+								<tr>
+									<th></th>
+									<td>
+										邮件激活失败？
+										<a class="o_link" href="/member/emailresend.html">重新激活</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="login-other">
+						<div class="hd">
+							<strong>使用其他帐号直接登录</strong>
+						</div>
+						<div class="bd">
+							<ul class="other-account">
+								<li><a class="qq" href="/oauth/index/type/qq.html">腾讯QQ登录</a></li>
+								<li><a class="tencent" href="/oauth/index/type/tencent.html">腾讯微博登录</a></li>
+								<li><a class="t163" href="/oauth/index/type/t163.html">网易微博登录</a></li>
+								<li><a class="sina" href="/oauth/index/type/sina.html">新浪微博登录</a></li>
+							</ul>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</block>
+
+<block name="script">
+	<script type="text/javascript">
+		$(function(){
+			//刷新验证码
+			var verifyimg = $(".verifyimg").attr("src");
+			$(".reloadverify").click(function(){$(".verifyimg").attr("src", verifyimg)});
+		});
+	</script>
+</block>
