@@ -114,13 +114,18 @@ class AdminController extends Action {
                     $cate_id = I('cate_id');
                     break;
                 case 'edit':
-                    $cate_id = I('id');
+                    $doc_id  = I('id');
+                    $cate_id = D('Document')->where(array('id'=>$doc_id))->getField('category_id');
                     break;
                 case 'setstatus':
-                    $cate_id = I('ids');
+                    $doc_id  = I('ids');
+                    $cate_id = D('Document')->where(array('id'=>array('in',implode(',',$doc_id))))->getField('category_id',true);
+                    $cate_id = array_unique($cate_id);
                     break;
             }
-            if( !$cate_id || ( !is_array($cate_id) && in_array($cate_id,$cates) ) ){
+            if(!$cate_id){
+                return null;
+            }elseif( !is_array($cate_id) && in_array($cate_id,$cates) ) {
                 return true;
             }elseif( is_array($cate_id) && $cate_id==array_intersect($cate_id,$cates) ){
                 return true;
