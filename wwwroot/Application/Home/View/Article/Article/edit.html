@@ -1,12 +1,14 @@
 <extend name="Base/edit"/>
 
 <block name="content">
-    <div class="cols">
-        <div class="infolabel"><i class="must">*</i>内&#12288;&#12288;容</div>
-        <div class="item description">
-        <textarea name="content" id="content" style="height:600px">{$info['content']}</textarea>
-        <input type="hidden" name="parse" value="0">
-        	{:hooks('documentEditFormContent', array('name'=>'content','value'=>$info['content']))}
-        </div>
-    </div>
+	<div class="form-item">
+		<label class="item-label"><b class="must">*</b>内容</label>
+		<div class="controls">
+			<label class="textarea">
+				<textarea name="description">{$info['content']}</textarea>
+				<input type="hidden" name="parse" value="0">
+        		{:hooks('documentEditFormContent', array('name'=>'content','value'=>$info['content']))}
+			</label>
+		</div>
+	</div>
 </block>

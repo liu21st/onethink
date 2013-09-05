@@ -8,11 +8,7 @@
 			<volist name="list" id="data">
 				<li>
 					<h3 class="ellipsis"><a href="{:U('detail?id='.$data['id'])}" title="{$data.title}">{$data.title}</a></h3>
-					<div class="taginfo">
-						<span> 
-							<i class="icon icon-sort"></i>
-							<a href="">{$data.category_id|get_category_title}</a>
-						</span>								
+					<div class="taginfo">							
 						<span> 
 							<i class="icon icon-comment"></i>
 							<a href="{:U('detail?id='.$data['id'])}#comment">{$data.comment}条评论</a>								
