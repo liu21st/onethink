@@ -106,7 +106,7 @@ class AdminController extends Action {
      * 检测是否是需要动态判断的权限
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
-    final private function checkDynamic(){
+    protected function checkDynamic(){
         if ( strtolower(CONTROLLER_NAME)=='article' ) {
             $cates = AuthGroupModel::getAuthCategories($this->uid);
             switch(strtolower(ACTION_NAME)){
