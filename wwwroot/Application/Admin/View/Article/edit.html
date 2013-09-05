@@ -2,20 +2,7 @@
 
 <!-- 子导航 -->
 <block name="sidebar">
-    <div id="subnav" class="subnav">
-        <volist name="nodes" id="sub_menu">
-            <!-- 子导航 -->
-            <notempty name="sub_menu">
-                <h3><i class="icon-s1"></i><a href="{$sub_menu.url|U}">{$sub_menu.title}</a></h3>
-                <ul <neq name="sub_menu['current']" value="1">class="subnav-off"</neq>>
-                    <volist name="sub_menu['_child']" id="menu">
-                        <li <eq name="menu['id']" value="$cate_id">class="current"</eq>><a href="{$menu.url|U}">{$menu.title}</a></li>
-                    </volist>
-                </ul>
-            </notempty>
-            <!-- /子导航 -->
-        </volist>
-    </div>
+    <include file="sidemenu" />
 </block>
 
 <block name="body">
@@ -95,7 +82,7 @@
 		<div class="form-item cf">
 			<label class="item-label"></label>
 			<div class="controls">
-				<button class="btn submit-btn" id="submit">确定</button>
+				<a class="btn submit-btn" id="submit" href="javascript:;">确定</a>
 				<a class="btn" href="{:U('article/index?cate_id='.$cate_id)}">返回列表</a>
 				<input type="hidden" name="id" value="{$id}"/>
 				<input type="hidden" name="model_id" value="{$model_id}"/>

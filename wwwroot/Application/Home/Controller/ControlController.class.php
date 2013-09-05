@@ -7,6 +7,8 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
+namespace Home\Controller;
+
 /**
  * 控制面板，仅管理员使用
  */

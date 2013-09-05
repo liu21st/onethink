@@ -7,6 +7,8 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
+namespace Home\Controller;
+
 /**
  * 文件控制器
  * 主要用于下载模型的文件上传和下载

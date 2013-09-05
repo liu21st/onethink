@@ -18,16 +18,17 @@
 					<volist name="node_list" id="node" >
 						<dl class="checkmod">
 							<dt class="hd">
-								<label class="checkbox"><input type="checkbox" name="rules[]" value=''>{$node.title}管理</label>
+								<label class="checkbox"><input class="auth_rules" type="checkbox" name="rules[]" value="<?php echo $main_rules[$node['url']] ?>">{$node.title}管理</label>
 							</dt>
 							<dd class="bd">
 								<volist name="node['child']" id="child" >
-									<label class="checkbox" <notempty name="child['tip']">title='{$child.tip}'</notempty>>
-			                           <input class="auth_rules" type="checkbox" name="rules[]" 
-			                           value="<?php echo $auth_rules[$child['url']] ?>"/>{$child.title}
-			                       </label>
+									<div>
+										<label class="checkbox" <notempty name="child['tip']">title='{$child.tip}'</notempty>>
+			                           <input class="auth_rules" type="checkbox" name="rules[]" value="<?php echo $auth_rules[$child['url']] ?>"/>{$child.title}
+				                    	</label>
+				                    </div>
 			                       <notempty name="child['operator']">
-				                       <span class="divsion">-</span>
+				                       <span class="divsion">&nbsp;</span>
 				                       <span>
 				                           <volist name="child['operator']" id="op">
 					                           <label class="checkbox" <notempty name="op['tip']">title='{$op.tip}'</notempty>>

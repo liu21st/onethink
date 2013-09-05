@@ -7,6 +7,8 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
+namespace Home\Controller;
+
 /**
  * 前台首页控制器
  * 主要获取首页聚合数据

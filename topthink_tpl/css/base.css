@@ -225,6 +225,39 @@ select {
 	text-decoration: none;
 	background-color: #2f81bf;
 }
+.btn-small {
+	padding: 3px 12px;
+	font-size: 14px;
+}
+.btn-mini {
+	padding: 1px 8px;
+	font-size: 14px;
+}
+
+/* 左右两列的媒体结构 */
+.media {
+	margin-bottom: 15px;
+}
+.media .media-avatar,
+.media .media-side {
+	float: left;
+	margin-right: 15px;
+}
+.media .media-avatar,
+.media .media-avatar img {
+	width: 52px;
+	height: 52px;
+	border-radius: 50%;
+}
+.media .media-avatar img,
+.media .media-side img {
+	display: block;
+}
+.media .media-body {
+	overflow: hidden;
+	line-height: 1.8;
+	word-break: break-all;
+}
 
 /* 实心小三角 */
 .arrow {

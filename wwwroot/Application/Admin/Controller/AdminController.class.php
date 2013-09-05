@@ -64,7 +64,7 @@ class AdminController extends Action {
         if( !$this->uid ){
             $this->redirect('Admin/Index/login');
         }
-        $this->root_user = is_administrator();
+        $this->root_user = ((int)($this->uid) === C('USER_ADMINISTRATOR'));
         $ac = $this->accessControl();
         if ( $ac===false ) {
             $this->error('403:禁止访问');
@@ -329,7 +329,7 @@ class AdminController extends Action {
                 $item['url'] = MODULE_NAME.'/'.$item['url'];
             }
             //非超级管理员需要判断节点权限
-            if ( /* !$this->root_user && */   !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null) ) {  //检测节点权限
+            if (  !$this->root_user &&  !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null) ) {  //检测节点权限
                 unset($menus['main'][$key]);
                 continue;//继续循环
             }
@@ -352,7 +352,7 @@ class AdminController extends Action {
                         //$value  分组数组
                         foreach ($value as $k=>$v){
                             //$v  节点配置
-                            if ( !empty($v['hide']) || ( /* !$this->root_user && */  !$this->checkRule($v['url'],AuthRuleModel::RULE_URL,null) ) ) {   //检测节点权限
+                            if ( !empty($v['hide']) || ( !$this->root_user && !$this->checkRule($v['url'],AuthRuleModel::RULE_URL,null) ) ) {   //检测节点权限
                                 unset($value[$k]);
                             }
                         }
@@ -474,7 +474,7 @@ class AdminController extends Action {
     protected function lists ($model,$where=array(),$order='')
     {
         $options = array();
-        $REQUEST = (array)I('get');
+        $REQUEST = (array)I('get.');
         if(is_string($model)){
             $model = D($model);
         }

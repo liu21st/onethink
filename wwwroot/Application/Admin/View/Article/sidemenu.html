@@ -1,0 +1,21 @@
+<div id="subnav" class="subnav">
+    <volist name="nodes" id="sub_menu">
+        <!-- 子导航 -->
+        <notempty name="sub_menu">
+            <h3>
+            	<i class="icon <neq name="sub_menu['current']" value="1">icon-fold</neq>"></i>
+            	<a href="{$sub_menu.url|U}">{$sub_menu.title}</a>
+            </h3>
+            <ul class="side-sub-menu <neq name='sub_menu["current"]' value="1">subnav-off</neq>">
+                <volist name="sub_menu['_child']" id="menu">
+                    <li <if condition="$menu['id'] eq $cate_id or $menu['current'] eq 1">class="current"</if>>
+                        <a class="item" href="{$menu.url|U}">{$menu.title}</a>
+                    </li>
+                </volist>
+            </ul>
+        </notempty>
+        <!-- /子导航 -->
+    </volist>
+    <!-- 回收站 -->
+    <h3><a href="{:U('article/recycle')}">回收站</a></h3>
+</div>

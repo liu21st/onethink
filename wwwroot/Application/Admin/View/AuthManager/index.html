@@ -4,18 +4,10 @@
 	<div class="main-title">
 		<h2>用户组管理</h2>
 		<div class="tools auth-botton">
-            <a id="add-group" class="btn" href="{:U('createGroup')}">
-            	<i class="icon-add"></i>添加
-            </a>
-            <button url="{:U('changestatus',array('method'=>'resumeGroup'))}" id="enable-group" class="btn">
-            	<i class="icon-right"></i>启用
-            </button>
-            <button url="{:U('changestatus',array('method'=>'forbidGroup'))}" id="disable-group" class="btn">
-            	<i class="icon-denied"></i>禁用
-            </button>
-            <button url="{:U('changestatus',array('method'=>'deleteGroup'))}" id="delete-group" class="btn">
-            	<i class="icon-delete"></i>删除
-            </button>
+            <a id="add-group" class="btn edit-group" href="{:U('createGroup')}">新建</a>
+            <a url="{:U('changestatus',array('method'=>'resumeGroup'))}" id="enable-group" class="btn" href="javascript:;">启用</a>
+            <a url="{:U('changestatus',array('method'=>'forbidGroup'))}" id="disable-group" class="btn" href="javascript:;">禁用</a>
+            <a url="{:U('changestatus',array('method'=>'deleteGroup'))}" id="delete-group" class="btn" href="javascript:;">删除</a>
 		</div>
 	</div>
 
@@ -23,6 +15,9 @@
 	<div class="data-table table-striped">
         {$_table_list}
 	</div>
+    <div>
+        {$_page}
+    </div>
 </block>
 
 <block name="script">
@@ -57,5 +52,23 @@
             $('.ids').prop('checked',this.checked);
         });
     }(jQuery)
+</script>
+<script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$(".edit-group").click(function(){
+            var id = $(this).attr('data-id');
+            var title =id?'编辑用户组':'新建用户组'; 
+			var thinkboxOption = {
+				title:title,
+				actions:['close'],
+				drag:true,
+				tools:true
+			}
+			var authorUrl = "{:U('AuthManager/editGroup')}"+'?id='+id;
+			$.thinkbox.load(authorUrl,thinkboxOption);
+            return false;
+		});
+	})
 </script>
 </block>

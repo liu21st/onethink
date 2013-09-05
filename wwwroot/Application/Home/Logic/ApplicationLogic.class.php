@@ -7,6 +7,8 @@
 // | Author: huajie <banhuajie@163.com> <http://www.thinkphp.cn>
 // +----------------------------------------------------------------------
 
+namespace Home\Logic;
+
 /**
  * 文档模型子模型 - 应用模型
  */

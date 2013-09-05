@@ -7,6 +7,9 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
+namespace Home\Model;
+use Think\Model;
+
 /**
  * 文件模型
  * 负责文件的下载和上传

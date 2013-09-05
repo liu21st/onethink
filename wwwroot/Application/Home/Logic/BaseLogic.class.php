@@ -7,6 +7,9 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
+namespace Home\Logic;
+use Think\Model;
+
 /**
  * 文档模型逻辑层公共模型
  * 所有逻辑层模型都需要继承此模型

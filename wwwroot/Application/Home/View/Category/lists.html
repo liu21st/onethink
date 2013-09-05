@@ -1,0 +1,7 @@
+<volist name="category" id="cate">
+	<eq name="current" value="$cate['id']">
+		<a href="javascript:;" class="selected">{$cate.title} <em>{$cate.id|get_list_count}</em></a>
+	<else/>
+		<a href="{:U('lists?category='.$cate['name'])}">{$cate.title} <em>{$cate.id|get_list_count}</em></a>
+	</eq>
+</volist>
