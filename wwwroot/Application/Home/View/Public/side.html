@@ -1,8 +1,10 @@
 <div class="side-container">
 	<!-- 发表话题 -->
-	<a class="release-btn" href="javascript:;">
-		<em>TOPIC</em><i class="icon-topic"></i>发表话题
-	</a>
+	<block name="plulish">
+		<a class="release-btn" href="{:U('edit?model=1&category='.$category['name'])}">
+			<em>TOPIC</em><i class="icon-topic"></i>发表{$category['title']}
+		</a>
+	</block>
 
 	<!-- 分享到 -->
 	<div class="shareto bt0 mod">
