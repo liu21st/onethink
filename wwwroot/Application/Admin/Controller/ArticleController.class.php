@@ -86,6 +86,10 @@ class ArticleController extends \Admin\Controller\AdminController {
 		$this->assign('child_cates', $child_cates);
 		$this->assign('cate_id', $this->cate_id);
 
+		//获取面包屑信息
+		$nav = get_parent_category($cate_id);
+		$this->assign('rightNav', $nav);
+
 		//权限判断
 		$cate_auth = AuthGroupModel::getAuthCategories(is_login());	//获取当前用户所有的内容权限节点
 		if(!in_array($cate_id, $cate_auth) && !is_administrator() && !empty($_GET)){
