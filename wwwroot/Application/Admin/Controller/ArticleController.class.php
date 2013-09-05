@@ -60,11 +60,14 @@ class ArticleController extends \Admin\Controller\AdminController {
     	$cate = M('Category')->where(array('display'=>1,'status'=>1))->field('id,title,pid')->order('sort')->select();
 
     	//没有权限的分类则不显示
-    	foreach ($cate as $key=>$value){
-    		if(!in_array($value['id'], $cate_auth)){
-    			unset($cate[$key]);
+    	if(!is_administrator()){
+    		foreach ($cate as $key=>$value){
+    			if(!in_array($value['id'], $cate_auth)){
+    				unset($cate[$key]);
+    			}
     		}
     	}
+
     	$cate = list_to_tree($cate);	//生成分类树
 
     	//获取分类id
