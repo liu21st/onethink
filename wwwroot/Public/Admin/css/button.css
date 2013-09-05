@@ -8,19 +8,18 @@
     padding: 4px 12px;
     font-size: 14px;
     line-height: 18px;
-    color: #444;
+    color: #efefef;
     text-align: center;
     vertical-align: middle;
     cursor: pointer;
-    border: 1px solid #CCC;
-    border-bottom-color: #b3b3b3;
-    background-color: #fdfdfe;
+    border: 0 none;
+    border-radius: 2px;
+    background-color: #2980b9;
 }
 .btn:hover {
-	color: #333;
+    color: #fff;
     text-decoration: none;
-    background-color: #fefefe;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+    background-color: #3498db;
 }
 .submit-btn {
     color: #fff;
