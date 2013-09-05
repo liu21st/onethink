@@ -835,3 +835,35 @@
 	min-width: 1000px;
 	background-color: #ebebeb;
 }
+.other dl{
+	float:left;
+	margin-right: 131px;
+}
+.other dt{
+	background: url("../images/help_more.png") no-repeat scroll 0 0 transparent;
+  float: left;
+  margin-right: 18px;
+  height: 54px;
+  width: 54px;
+}
+.other .edu {
+	background-position: 0 0;
+}
+.other .advice {
+	background-position: 0 -66px;
+}
+.other .invest {
+	background-position: 0 -138px;
+}
+.other dt a{
+	display: block;
+	width: 54px;
+	height:  54px;
+}
+.other dd{
+	font-size: 12px;
+}
+.ft-intro{
+	text-align: center;
+	padding-top:50px;
+}
