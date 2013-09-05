@@ -103,4 +103,10 @@
         })
     }(jQuery);
 </script>
+<script type="text/javascript" charset="utf-8">
+    //导航高亮
+    var cookie_prefix = '{:C("COOKIE_PREFIX")}';
+	var auth_index = $.cookies.get(cookie_prefix+'auth_index');
+    $('.side-sub-menu').find('a[href*="'+ auth_index+'"]').closest('li').addClass('current');
+</script>
 </block>
