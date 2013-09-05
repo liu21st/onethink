@@ -1,17 +1,15 @@
 <div id="auth_groups">
-    <form class="form-horizontal auth-form" action="{:U('addToGroup')}" method="post" enctype="application/x-www-form-urlencoded" >
-        <ul>
-            <volist name="auth_groups" id="vo">
-            <li class="form-item">
-                <label class="checkbox controls">
-                    <input class="auth_groups" type="checkbox" name="group_id[]" value="{$vo.id}">{$vo.title}
-                </label>
-            </li>
-            </volist>
-            <input type="hidden" name="uid" value="{:I('uid')}">
-            <input type="hidden" name="batch" value="true">
+    <form class="auth-form" action="{:U('addToGroup')}" method="post" enctype="application/x-www-form-urlencoded" >
+        <volist name="auth_groups" id="vo">
+            <label class="checkbox controls">
+                <input class="auth_groups" type="checkbox" name="group_id[]" value="{$vo.id}">{$vo.title}
+            </label>
+        </volist>
+        <input type="hidden" name="uid" value="{:I('uid')}">
+        <input type="hidden" name="batch" value="true">
+        <div style="text-align: right; margin-top: 10px;">
             <input class="btn" type="submit" value="保存">
-        </ul>
+        </div>
     </form>
 </div>
 

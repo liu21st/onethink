@@ -7,7 +7,12 @@
 
 <block name="body">
 	<div class="main-title cf">
-		<h2>文档编辑</h2>
+		<h2>
+		[
+		<volist name="rightNav" id="nav">
+		<a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a><if condition="count($rightNav) gt $i">-></if>
+		</volist>
+		]编辑文档
 	</div>
 	<!-- 标签页导航 -->
 <div class="tab-wrap">

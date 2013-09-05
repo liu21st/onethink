@@ -51,7 +51,7 @@
 					title:'用户授权',
 					actions:['close'],
 					drag:true,
-					tools:true
+					tools:false
 				}
 				var authorUrl = "{:U('AuthManager/group',array('uid'=>$user['uid']))}";
 				$.thinkbox.load(authorUrl,thinkboxOption);
