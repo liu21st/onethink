@@ -3,16 +3,16 @@
 <block name="body">
 	<div class="tab-wrap">
 		<ul class="tab-nav nav">
-			<li class="current"><a href="javascript:;">访问授权</a></li>
-			<li><a href="javascript:;">成员授权</a></li>
-			<li><a href="javascript:;">分类授权</a></li>
+			<li class="current fr"><a href="javascript:;">访问授权</a></li>
+            <li class="fr"><a href="{:U('AuthManager/user',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">成员授权</a></li>
+            <li class="fr"><a href="{:U('AuthManager/category',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">分类授权</a></li>
 		</ul>
+        <div class="main-title">
+            <h2>用户组:{:I('group_name')}</h2>
+        </div>
 		<div class="tab-content">
 			<!-- 访问授权 -->
 			<div class="tab-pane in">
-				<div class="main-title">
-					<h2>授权编辑</h2>
-				</div>
 				<form action="{:U('AuthManager/writeGroup')}" enctype="application/x-www-form-urlencoded" method="POST"
 		            class="form-horizontal auth-form">
 					<volist name="node_list" id="node" >

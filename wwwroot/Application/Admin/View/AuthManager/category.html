@@ -1,11 +1,16 @@
 <extend name="Public/base" />
 <block name="body">
-	<div class="main-title">
-		<h2>文档分类授权</h2>
-	</div>
-		
-	<!-- 表格列表 -->
-	<div class="tb-unit posr">
+<div class="tab-wrap">
+    <ul class="tab-nav nav">
+        <li class="fr"><a href="{:U('AuthManager/access',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">访问授权</a></li>
+        <li class="fr"><a href="{:U('AuthManager/user',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">成员授权</a></li>
+        <li class="current fr"><a href="javascript:;">分类授权</a></li>
+    </ul>
+    <!-- 表格列表 -->
+    <div class="main-title">
+        <h2>用户组:{:I('group_name')}</h2>
+    </div>
+    <div class="tb-unit posr">
         <form action="{:U('AuthManager/addToCategory')}" method="post" enctype="application/x-www-form-urlencoded">
             <input type="hidden" name="group_id" value="{:I('group_id')}">
             <div class="tb-unit-bar">
@@ -29,7 +34,8 @@
             </div>
         </form>
     </div>
-	<!-- /表格列表 -->
+</div>
+<!-- /表格列表 -->
 </block>
 <block name="script">
 <script type="text/javascript">
@@ -55,11 +61,6 @@
                 $(this).prop('checked',true);
             }
         });
-
-        //全选节点
-        //$('.rules_all').on('change',function(){
-        //   $(this).parents('.rules_row').find('input').prop('checked',this.checked);
-        // });
     }(jQuery);
 	</script>
 <script src="__STATIC__/jquery.cookies.2.2.0.min.js"></script>

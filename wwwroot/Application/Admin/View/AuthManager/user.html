@@ -1,8 +1,14 @@
 <extend name="Public/base" />
 <block name="body">
-	<!-- 标题栏 -->
-	<div class="main-title">
-        <h2>{:I('group_name')}列表</h2>
+<div class="tab-wrap">
+    <ul class="tab-nav nav">
+        <li class="fr"><a href="{:U('AuthManager/access',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">访问授权</a></li>
+        <li class="fr current"><a href="javascript:;">成员授权</a></li>
+            <li class="fr"><a href="{:U('AuthManager/category',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">分类授权</a></li>
+    </ul>
+    <!-- 标题栏 -->
+    <div class="main-title">
+        <h2>用户组:{:I('group_name')}</h2>
         <div id="add-to-group" class="tools ">
             <form action="{:U('addToGroup')}" method="post" enctype="application/x-www-form-urlencoded" >
                 <input class="text input-small" type="text" name="uid" placeholder="请输入uid">
@@ -10,15 +16,16 @@
                 <input class="btn" type="submit" value="添加">
             </form>
         </div>
-	</div>
+    </div>
 
-	<!-- 数据列表 -->
-	<div class="data-table table-striped">
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
         {$authed_user}
-	</div>
+    </div>
     <div>
         {$_page}
     </div>
+</div>
 </block>
 <block name="script">
 <script src="__STATIC__/jquery.cookies.2.2.0.min.js"></script>
