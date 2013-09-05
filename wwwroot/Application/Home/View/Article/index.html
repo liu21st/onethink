@@ -3,7 +3,6 @@
 <block name="category">
 	<div class="sort-box mod">
 		<div class="sort-hidden">
-			<a class="selected fl" href="{:U('index?category='.get_category_name($category['pid']))}">全部</a>
 			<div class="sub-sort">
 				{:W('Category/lists', array($category['id'], true))}
 			</div>
