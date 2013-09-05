@@ -118,7 +118,7 @@ class AdminController extends Action {
                     $cate_id = D('Document')->where(array('id'=>$doc_id))->getField('category_id');
                     break;
                 case 'setstatus':
-                    $doc_id  = I('ids');
+                    $doc_id  = (array)I('ids');
                     $cate_id = D('Document')->where(array('id'=>array('in',implode(',',$doc_id))))->getField('category_id',true);
                     $cate_id = array_unique($cate_id);
                     break;
