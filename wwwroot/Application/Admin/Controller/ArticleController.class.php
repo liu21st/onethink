@@ -129,6 +129,8 @@ class ArticleController extends \Admin\Controller\AdminController {
 		$this->assign('status', $status);
 		$this->assign('search', $search);
 		$this->assign('list', $list);
+
+		$this->meta_title = '文档列表';
 		$this->display();
 	}
 
@@ -177,6 +179,8 @@ class ArticleController extends \Admin\Controller\AdminController {
 
 		$this->assign('model_id', $model_id);
 		$this->assign('template', $template);
+
+		$this->meta_title = '新增文档';
 		$this->display();
 	}
 
@@ -201,6 +205,8 @@ class ArticleController extends \Admin\Controller\AdminController {
 		$data['template'] = strtolower(get_document_model($data['model_id'], 'name'));
 
 		$this->assign($data);
+
+		$this->meta_title = '编辑文档';
 		$this->display();
 	}
 
@@ -262,6 +268,8 @@ class ArticleController extends \Admin\Controller\AdminController {
 
         $this->assign('_table_class', 'data-table table-striped');
         $this->assign( '_table_list', $this->tableList($list,$thead) );
+
+        $this->meta_title = '回收站';
         $this->display();
 	}
 
