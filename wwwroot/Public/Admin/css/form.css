@@ -8,8 +8,6 @@
 .text,.textarea {
 	padding: 4px;
 	border: 1px solid #ccc;
-	border-radius: 2px;
-	box-shadow: 0 1px 1px rgba(0,0,0,.1) inset;
 	transition: all .3s linear;
 }
 .text {
