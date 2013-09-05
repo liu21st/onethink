@@ -25,6 +25,9 @@
 .main-nav {
 	float: left;
 }
+.main-nav li{
+	position: relative;
+}
 .main-nav a {
 	padding: 0 30px;
 	height: 66px;
@@ -39,6 +42,14 @@
 	color: #222;
 	border-bottom-color: #34b4e0;
 	background-color: #e1e1e1;
+}
+.main-nav .current .ico,.main-nav li:hover .ico{
+	width: 15px;
+	height: 17px;
+	position: absolute;
+	bottom: -7px; 
+	left:40%;
+	background: url(../images/ico.png) no-repeat bottom center;
 }
 .user-bar {
 	float: right;
@@ -138,7 +149,7 @@
 ------------------------------------------ */
 .sort-box {
 	position: relative;
-	padding: 15px 0 15px 15px;
+	padding: 15px 0 15px 25px;
 	line-height: 2;
 	overflow: hidden;
 }
@@ -148,8 +159,7 @@
 }
 .sort-box a {
 	display: inline-block;
-	margin-right: 20px;
-	width: 116px;
+	margin-right: 30px;
 	color: #666;
 }
 .sort-box a em {
@@ -157,10 +167,23 @@
 	font-weight: normal;
 	color: #999;
 }
+.sort-box i {
+	display: inline-block;
+	width: 18px;
+	height: 18px;
+	margin-right: 4px;
+	vertical-align: -3px;
+	background: url(../images/ico1.png) no-repeat 0 0;
+}
+.sort-box .selected .ico_1,.sort-box a:hover .ico_1{
+	background: url(../images/ico1_hover.png) no-repeat 0 0;
+}
 .sort-box .selected,
-.sort-box .selected em {
+.sort-box .selected em,
+.sort-box a:hover
+{
 	font-weight: bold;
-	color: #000;
+	color: #52B8E6;
 }
 .sort-box .sub-sort {
 	float: left;
@@ -831,39 +854,49 @@
 ------------------------------------------ */
 .footer {
 	margin-top: 10px;
-	padding: 30px 0 60px;
+	padding: 20px 0 20px;
 	min-width: 1000px;
 	background-color: #ebebeb;
 }
+.other{
+	padding: 0 100px;
+}
 .other dl{
 	float:left;
-	margin-right: 131px;
+	margin-right: 57px;
+	width: 228px;
 }
 .other dt{
 	background: url("../images/help_more.png") no-repeat scroll 0 0 transparent;
   float: left;
   margin-right: 18px;
-  height: 54px;
-  width: 54px;
+  height: 57px;
+  width: 57px;
 }
 .other .edu {
 	background-position: 0 0;
 }
 .other .advice {
-	background-position: 0 -66px;
+	background-position: 0 -69px;
 }
 .other .invest {
-	background-position: 0 -138px;
+	background-position: 0 -143px;
 }
 .other dt a{
 	display: block;
-	width: 54px;
-	height:  54px;
+	width: 57px;
+	height:  57px;
 }
 .other dd{
+	font-size: 11px;
+	line-height: 15px;
+}
+.other dd h3{
 	font-size: 12px;
+	margin-top: 6px;
 }
 .ft-intro{
 	text-align: center;
-	padding-top:50px;
+	padding-top:20px;
+	font-size: 12px;
 }
