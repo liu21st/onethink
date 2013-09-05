@@ -368,6 +368,9 @@ class AuthManagerController extends AdminController{
     {
         $uid = I('uid');
         $gid = I('group_id');
+        if( $uid==$this->getVal('uid') ){
+            $this->error('不允许解除自身授权');
+        }
         if( empty($uid) || empty($gid) ){
             $this->error('参数有误');
         }
