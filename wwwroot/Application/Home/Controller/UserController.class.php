@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 
 namespace Home\Controller;
+use User\Api\UserApi as UserApi;
 
 /**
  * 用户控制器
@@ -62,7 +63,8 @@ class UserController extends HomeController {
 			}
 
 			/* 调用UC登录接口登录 */
-			$uid = A('User/User', 'Api')->login($username, $password);
+			$user = new UserApi;
+			$uid = $user->login($username, $password);
 			if(0 < $uid){ //UC登录成功
 				/* 登录用户 */
 				$Member = D('Member');
@@ -99,8 +101,7 @@ class UserController extends HomeController {
 
 	/* 验证码，用于登录和注册 */
 	public function verify(){
-		import('COM.ThinkVerify.ThinkVerify');
-		$verify = new ThinkVerify();
+		$verify = new \COM\ThinkVerify\ThinkVerify();
 		$verify->entry(1);
 	}
 

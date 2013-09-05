@@ -19,8 +19,7 @@
  * @author 麦当苗儿 <zuojiazi.cn@gmail.com>
  */
 function check_verify($code, $id = 1){
-	import('COM.ThinkVerify.ThinkVerify');
-	$verify = new ThinkVerify();
+	$verify = new \COM\ThinkVerify\ThinkVerify();
 	return $verify->check($code, $id);
 }
 
