@@ -8,12 +8,13 @@
 // +----------------------------------------------------------------------
 namespace Admin\Controller;
 use Admin\Model\AuthGroupModel;
+use COM\Page;
 /**
  * 后台内容控制器
  * @author huajie <banhuajie@163.com>
  */
 
-class ArticleController extends AdminController {
+class ArticleController extends \Admin\Controller\AdminController {
 
 	/* 左侧节点菜单定义 */
 	static protected $nodes = array(
@@ -111,7 +112,7 @@ class ArticleController extends AdminController {
 		}
 		/*初始化分页类*/
 		$count = $Document->listCount($cate_id, array('gt', -1), $map);
-		$Page = new \COM\Page($count, 10);
+		$Page = new Page($count, 10);
 		$this->page = $Page->show();
 
 		//列表数据获取

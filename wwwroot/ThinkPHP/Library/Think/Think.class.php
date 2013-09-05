@@ -65,12 +65,10 @@ class Think {
         L(include THINK_PATH.'Lang/'.strtolower(C('DEFAULT_LANG')).'.php');
 
         // 加载模式系统行为定义
-        if(C('APP_TAGS_ON')) {
-            if(isset($mode['extends'])) {
-                C('extends',is_array($mode['extends'])?$mode['extends']:include $mode['extends']);
-            }else{ // 默认加载系统行为扩展定义
-                C('extends', include THINK_PATH.'Conf/tags.php');
-            }
+        if(isset($mode['extends'])) {
+            C('extends',is_array($mode['extends'])?$mode['extends']:include $mode['extends']);
+        }else{ // 默认加载系统行为扩展定义
+            C('extends', include THINK_PATH.'Conf/tags.php');
         }
 
         // 加载应用行为定义
@@ -81,7 +79,7 @@ class Think {
             C('tags', include COMMON_PATH.'Conf/tags.php');
         }
 
-        // 读取核心编译文件列表
+        // 读取核心文件列表
         if(isset($mode['core'])) {
             $list  =  $mode['core'];
         }else{
@@ -91,7 +89,7 @@ class Think {
         }
         if(is_array($list)){
             require_array($list);
-        }       
+        }
         
         // 加载模式别名定义
         if(isset($mode['alias'])) {

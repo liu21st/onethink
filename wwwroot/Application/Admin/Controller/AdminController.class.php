@@ -474,7 +474,7 @@ class AdminController extends Action {
     protected function lists ($model,$where=array(),$order='')
     {
         $options = array();
-        $REQUEST = (array)I('get');
+        $REQUEST = (array)I('get.');
         if(is_string($model)){
             $model = D($model);
         }
@@ -644,7 +644,7 @@ class AdminController extends Action {
                 }
             }
 			session( 'nav', $this->nav );
-            $this->assign('_nav',$arr);        
+            $this->assign('_nav',$arr);
             $this->assign('_show_nav',$show);
         }
     }

@@ -125,11 +125,11 @@ class AuthManagerController extends AdminController{
                 'td'=>'<input class="ids" type="checkbox" name="id[]" value="$id" />',
             ),
             'title'=>array(
-				'title'=>'用户组',
-				'tag'=>'a',
-                'class'=>'edit-group',
+				'title'  =>'用户组',
+				'tag'    =>'a',
+                'class'  =>'edit-group',
                 'data-id'=>'$id',
-				'href'=>'AuthManager/editgroup?id=$id',
+				'href'   =>'AuthManager/editgroup?id=$id',
 			),
             'description'=>'描述',
             'status_text'=>'状态',
@@ -145,6 +145,7 @@ class AuthManagerController extends AdminController{
             ),
         );
 
+        // dump($_GET);exit;
         $list = $this->lists('AuthGroup',array('module'=>'admin'),'id asc');
         $list = intToString($list);
         $this->assign( '_table_list', $this->tableList($list,$thead) );
@@ -259,8 +260,38 @@ class AuthManagerController extends AdminController{
         if(empty($group_id)){
             $this->error('参数错误');
         }
-        $authed_user = AuthGroupModel::memberInGroup((int)$group_id);
-        $this->assign('authed_user',intToString($authed_user));
+
+        $thead = array(
+            'uid'=>'UID',
+            'username'=>'用户名',
+            'last_login_time'=>array(
+                'title'=>'最后登陆时间',
+                'tag'=>'span',
+                'func'=>'date("Y-m-d h:i:s",$last_login_time)'
+            ),
+            'last_login_ip'=>array(
+                'title'=>'最后登陆ip',
+                'tag'=>'span',
+                'func'=>'long2ip($last_login_ip)'
+            ),
+            'status_text'=>'状态',
+            '操作'=>array(
+                '解除授权'=>'AuthManager/removeFromGroup?uid=$uid&group_id='.I('group_id'),
+            ),
+        );
+
+        $prefix   = C('DB_PREFIX');
+        $l_table  = $prefix.(AuthGroupModel::MEMBER);
+        $r_table  = $prefix.(AuthGroupModel::AUTH_GROUP_ACCESS);
+        $r_table2 = $prefix.(AuthGroupModel::UCENTER_MEMBER);
+        $list     = M() ->field('m.uid,u.username,m.last_login_time,m.last_login_ip,m.status')
+                       ->table($l_table.' m')
+                       ->join($r_table.' a ON m.uid=a.uid')
+                       ->join($r_table2.' u ON m.uid=u.id')
+                       ->where(array('a.group_id'=>$group_id));
+        $list = $this->lists($list);
+        $list = intToString($list);
+        $this->assign( 'authed_user', $this->tableList($list,$thead) );
         $this->nav(3,'成员授权');
         $this->display();
     }
@@ -377,7 +408,8 @@ class AuthManagerController extends AdminController{
 
     public function test()
     {
-        $a = AuthGroupModel::getAuthCategories(1);
+        $a = addons('Editor');
+
         dump($a);
     }
     

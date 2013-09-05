@@ -7,6 +7,9 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
+namespace Home\Model;
+use Think\Model;
+
 /**
  * 文档基础模型
  */

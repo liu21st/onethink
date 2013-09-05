@@ -7,6 +7,9 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
+namespace Home\Controller;
+use Think\Action;
+
 /**
  * 前台公共控制器
  * 为防止多分组Action名称冲突，公共Action名称统一使用分组名称
