@@ -419,6 +419,7 @@
 	float: left;
 	margin: 0 10px 0 0;
 }
+
 /*文档列表*/
 .media-list{
 	padding: 15px 0 15px 15px;
@@ -461,7 +462,31 @@
 .media-body span{
 	margin-right: 15px;
 }
-/* 注册 */
+
+/* 性能页面 */
+.proform {
+	padding: 50px 0;
+	background: url(../images/division.png) no-repeat center bottom;
+}
+.proform .media-side {
+	margin-right: 50px;
+}
+.proform .media-body {
+	padding-top: 30px;
+}
+.proform-pull-right .media-side {
+	float: right;
+	margin: 0 0 0 50px; 
+}
+.proform-pull-right .media-body {
+	text-align: right;
+}
+.proform .proform-heading {
+	font-size: 20px;
+	color: #067ac8;
+}
+
+/* 登陆注册 */
 .think-form{
 	padding: 15px;
 	font-size: 14px;

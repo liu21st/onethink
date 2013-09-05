@@ -118,25 +118,21 @@ body{
 .side-sub-menu {
     margin: 5px 0;
 }
-.side-sub-menu li {
+.side-sub-menu > li {
     position: relative;
     margin: 2px 0;
 }
-.side-sub-menu .item {
+.side-sub-menu > li > .item {
     padding:6px 0;
     line-height:20px;
     width:140px;
     padding-left: 45px;
     display:inline-block;
-}
-.side-sub-menu .item:link, 
-.side-sub-menu .item:visited {
     color: #2a72c5;
     text-decoration: none;
 }
-.side-sub-menu .item:hover, 
-.side-sub-menu .item:active, 
-.side-sub-menu .current .item {
+.side-sub-menu > li > .item:hover, 
+.side-sub-menu > .current > .item {
     color: #666666;
     text-decoration: none;
     background:#ffffff;
@@ -148,10 +144,13 @@ body{
     *border-bottom:1px solid #dbdcdc;
     *height:19px;
 }
-.side-sub-menu .current .item {
+.side-sub-menu > .current > .item,
+.side-sub-menu > .current > .item:hover {
     background: url(../images/subnav_current.png) no-repeat 150px 12px #FFF;
 }
-.side-sub-menu li .subitem {
+
+/* 电商式子菜单 */
+/*.side-sub-menu li .subitem {
     display: none;
     position: absolute;
     top: 0;
@@ -192,7 +191,43 @@ body{
     line-height: 14px;
     vertical-align: middle;
     border-left: 1px solid #ebebeb;
+}*/
+
+/* windows开始菜单式子菜单 */
+.side-sub-menu li .subitem {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 185px;
+    width: 150px;
+    border: 1px solid #ccc;
+    background-color: #fff;
 }
+.side-sub-menu .hover > .subitem {
+    display:  block;
+}
+/* 多级子菜单 */
+.side-sub-menu .subitem .subitem {
+    margin-top: -1px;
+    left: 150px;
+}
+.side-sub-menu .subitem .item {
+    display: block;
+    padding: 0 15px;
+    height: 30px;
+    line-height: 30px;
+}
+.side-sub-menu .subitem .item:hover {
+    text-decoration: none;
+    background: url(../images/subnav_current.png) no-repeat 130px 12px #f5f5f5;
+}
+.side-sub-menu .subitem > .item {
+    border-radius: 0;
+    border: 0 none;
+    width: auto;
+}
+
+
 /* 内容模块边栏子菜单 */
 .subnav-off {
     display: none;
