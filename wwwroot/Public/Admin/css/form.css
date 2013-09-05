@@ -126,16 +126,16 @@ label.textarea ~ .check-tips {
 	background-color: #f0f0f0;
 }
 .search-form input {
+	float: left;
 	padding: 2px 4px;
 	width: 180px;
 	height: 26px;
 	line-height: 26px;
-	vertical-align: middle;
 	border: 0 none;
 }
 .search-form .sch-btn {
-	display: inline-block;
-	margin-right: 2px;
+	float: left;
+	margin: 2px 2px 0 0;
 	padding: 0 10px;
 	height: 26px;
 	line-height: 26px;

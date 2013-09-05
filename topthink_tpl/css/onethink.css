@@ -11,11 +11,11 @@
 	height: 80px;
 	background-color: #ebebeb;
 }
-.logo {
+.logo ,.logo:hover{
 	float: left;
 	margin-right: 10px;
 	height: 80px;
-	line-height: 80px;
+	text-decoration:none;
 }
 .logo img {
 	vertical-align: middle;
@@ -29,7 +29,7 @@
 	padding: 0 30px;
 	height: 75px;
 	line-height: 75px;
-	font-size: 16px;
+	font-size: 14px;
 	color: #999;
 	border-bottom: 4px solid transparent;
 }
@@ -77,6 +77,7 @@
 }
 .user-pic {
 	display: block;
+	border-radius: 50%;
 }
 .user-pic:hover {
 	text-decoration: none;
@@ -85,6 +86,7 @@
 	width: 36px;
 	height: 36px;
 	overflow: hidden;
+	border-radius: 50%;
 	vertical-align: middle;
 }
 

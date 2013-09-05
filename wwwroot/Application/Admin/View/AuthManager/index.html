@@ -7,7 +7,7 @@
             <a id="add-group" class="btn edit-group" href="{:U('createGroup')}">新建</a>
             <a url="{:U('changestatus',array('method'=>'resumeGroup'))}" id="enable-group" class="btn" href="javascript:;">启用</a>
             <a url="{:U('changestatus',array('method'=>'forbidGroup'))}" id="disable-group" class="btn" href="javascript:;">禁用</a>
-            <a url="{:U('changestatus',array('method'=>'deleteGroup'))}" id="delete-group" class="btn" href="javascript:;">删除</a>
+            <a url="{:U('changestatus',array('method'=>'deleteGroup'))}" id="delete-group" class="btn auth-button" href="javascript:;">删除</a>
 		</div>
 	</div>
 
@@ -28,7 +28,7 @@
                 return false;
             }
         });
-        $('.auth-botton').find('button').on('click',function(){
+        $('.auth-button').on('click',function(){
             if( this.id=='delete-group' && !confirm('确认要删除吗?')){
                 return false;
             }
