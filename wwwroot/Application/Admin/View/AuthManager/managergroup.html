@@ -22,22 +22,24 @@
 							</dt>
 							<dd class="bd">
 								<volist name="node['child']" id="child" >
-									<div>
-										<label class="checkbox" <notempty name="child['tip']">title='{$child.tip}'</notempty>>
-			                           <input class="auth_rules rules_row" type="checkbox" name="rules[]" value="<?php echo $auth_rules[$child['url']] ?>"/>{$child.title}
-				                    	</label>
+                                    <div class="rule_check">
+                                        <div>
+                                            <label class="checkbox" <notempty name="child['tip']">title='{$child.tip}'</notempty>>
+                                           <input class="auth_rules rules_row" type="checkbox" name="rules[]" value="<?php echo $auth_rules[$child['url']] ?>"/>{$child.title}
+                                            </label>
+                                        </div>
+                                       <notempty name="child['operator']">
+                                           <span class="divsion">&nbsp;</span>
+                                           <span class="child_row">
+                                               <volist name="child['operator']" id="op">
+                                                   <label class="checkbox" <notempty name="op['tip']">title='{$op.tip}'</notempty>>
+                                                       <input class="auth_rules" type="checkbox" name="rules[]" 
+                                                       value="<?php echo $auth_rules[$op['url']] ?>"/>{$op.title}
+                                                   </label>
+                                               </volist>
+                                           </span>
+                                       </notempty>
 				                    </div>
-			                       <notempty name="child['operator']">
-				                       <span class="divsion">&nbsp;</span>
-				                       <span>
-				                           <volist name="child['operator']" id="op">
-					                           <label class="checkbox" <notempty name="op['tip']">title='{$op.tip}'</notempty>>
-					                               <input class="auth_rules rules_row" type="checkbox" name="rules[]" 
-					                               value="<?php echo $auth_rules[$op['url']] ?>"/>{$op.title}
-					                           </label>
-				                           </volist>
-				                       </span>
-			                       </notempty>
 								</volist>
 							</dd>
 						</dl>
@@ -77,6 +79,9 @@
         //全选节点
         $('.rules_all').on('change',function(){
             $(this).closest('dl').find('dd').find('input').prop('checked',this.checked);
+        });
+        $('.rules_row').on('change',function(){
+            $(this).closest('.rule_check').find('.child_row').find('input').prop('checked',this.checked);
         });
 
         $('.checkbox').each(function(){
