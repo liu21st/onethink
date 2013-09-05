@@ -10,6 +10,7 @@
 namespace Admin\Controller;
 use Think\Action;
 use Admin\Model\AuthRuleModel;
+use Admin\Model\AuthGroupModel;
 /**
  * 后台首页控制器
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
@@ -88,6 +89,9 @@ class AdminController extends Action {
      */
     final protected function checkRule($rule, $type=AuthRuleModel::RULE_URL, $mode='url')
     {
+        if( ($d=$this->checkDynamic())!==null){
+            return $d;
+        }
         static $Auth = null;
         if (!$Auth) {
             $Auth  = new \ORG\Util\Auth();
@@ -96,6 +100,35 @@ class AdminController extends Action {
             return false;
         }
         return true;
+    }
+
+    /**
+     * 检测是否是需要动态判断的权限
+     * @author 朱亚杰  <xcoolcc@gmail.com>
+     */
+    final private function checkDynamic(){
+        if ( strtolower(CONTROLLER_NAME)=='article' ) {
+            $cates = AuthGroupModel::getAuthCategories($this->uid);
+            switch(strtolower(ACTION_NAME)){
+                case 'index':
+                    $cate_id = I('cate_id');
+                    break;
+                case 'edit':
+                    $cate_id = I('id');
+                    break;
+                case 'setstatus':
+                    $cate_id = I('ids');
+                    break;
+            }
+            if( !$cate_id || ( !is_array($cate_id) && in_array($cate_id,$cates) ) ){
+                return true;
+            }elseif( is_array($cate_id) && $cate_id==array_intersect($cate_id,$cates) ){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return null;
     }
 
 
