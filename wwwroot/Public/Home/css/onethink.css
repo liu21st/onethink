@@ -468,6 +468,9 @@
     padding: 10px;
     width: 303px;
 }
+.book-list .item:hover{
+	background-color:#EAEAEA;
+}
 .book-list .item .image {
     background: url(../images/book.png) no-repeat;
     height: 144px;
@@ -487,10 +490,14 @@
     color: #333333;
     font-size: 14px;
     font-weight: 700;
-    padding-bottom: 24px;
+    padding-bottom: 32px;
+    padding-top: 10px;
+}
+.book-list .item dd{
+	font-size: 12px;
 }
 .book-list .item .action {
-    margin-top: 26px;
+    margin-top: 6px;
 }
 .book-list .item .download {
     background-position: 0 0;
@@ -511,6 +518,15 @@
 }
 .book-list .item  span:hover{
 	opacity: 0.8;
+}
+/*产品报价*/
+.expect{
+	width: 500px; 
+	margin: 0 auto;
+	font-size: 18px;
+}
+.expect img{
+	vertical-align: middle;
 }
 /*文档列表*/
 .media-list{
@@ -556,10 +572,14 @@
 }
 
 /* 性能页面 */
+.proform-list .media{
+		margin-bottom: 0;
+}
 .proform {
-	padding: 50px 0;
+	padding: 25px 50px;
 	background: url(../images/division.png) no-repeat center bottom;
 }
+
 .proform .media-side {
 	margin-right: 50px;
 }
