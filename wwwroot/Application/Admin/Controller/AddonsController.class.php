@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2012 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006-2013 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Author: yangweijie <yangweijiester@gmail.com> <code-tech.diandian.com>
 // +----------------------------------------------------------------------
@@ -196,7 +196,49 @@ str;
      * 插件列表
      */
     public function index(){
-        $this->assign('list',D('Addons')->getList());
+        // $this->assign('list',D('Addons')->getList());
+        $list = D('Addons')->getList();
+        $thead = array(
+            //元素value中的变量就是数据集中的字段,value必须使用单引号
+            //查询出的数据集中的字段=>字段的表头
+
+                'i'=>'序号',
+                'title'=>'名称',
+                'name'=>'标志',
+                'description'=>array(
+                    'title'=>'描述',
+                    'tip'=>'$description',
+                    'func'=>'mb_strimwidth($description, 0, 60,"utf-8")'
+                ),
+                'status_text'=>'状态',
+                'author'=>'作者',
+                'version'=>'版本',
+                '操作'=>array(
+                    '设置'=>array(
+                       'href'=>'config?id=$id',
+                       'condition'=>'count($config)>0 && empty($uninstall)'
+                    ),
+                    '启用'=>array(
+                        'href'=>'enable?id=$id',
+                        'condition'=>'$status==0 && empty($uninstall)'
+                    ),
+                    '禁用'=>array(
+                        'href'=>'disable?id=$id',
+                        'condition'=>'$status==1 && empty($uninstall)'
+                    ),
+                    '安装'=>array(
+                        'href'=>'install?id=$id',
+                        'condition'=>'$uninstall'
+                    ),
+                    '卸载'=>array(
+                        'href'=>'uninstall?id=$id',
+                        'condition'=>'$author!="thinkphp" && empty($uninstall)'
+                    )
+                )
+        );
+        $this->assign('_table_class', 'data-table table-striped');
+        $this->assign( '_table_list', $this->tableList($list,$thead) );
+
         $this->assign('creatable', is_writable(C('EXTEND_MODULE.Addons')));
         $this->display();
     }
@@ -324,9 +366,10 @@ str;
         $this->assign('jumpUrl',U('index'));
     	if(!$db_addons || !$addons)
     		$this->error('插件不存在');
+        session('addons_uninstall_error',null);
     	$uninstall_flag = $addons->uninstall();
 		if(!$uninstall_flag)
-			$this->error('执行插件预卸载操作失败');
+			$this->error('执行插件预卸载操作失败'.session('addons_uninstall_error'));
         $hooks_update = D('Hooks')->removeHooks($addons->getName());
         if($hooks_update === false){
             $this->error('卸载插件所挂载的钩子数据失败');
@@ -344,8 +387,28 @@ str;
      * 钩子列表
      */
     public function hooks(){
-        $order = $field = array();
-        $this->assign('list', D('Hooks')->field($field)->order($order)->select());
+        $field = array();
+        $order = 'id asc';
+        $list = $this->lists(D("Hooks")->field($fields),$map,$order);
+        $thead = array(
+            //元素value中的变量就是数据集中的字段,value必须使用单引号
+            //查询出的数据集中的字段=>字段的表头
+
+                'id'=>'序号',
+                'name'=>'名称',
+                'description'=>'描述',
+                'type_text'=>'类型',
+                '插件'=>array(
+                    '编辑'=>array(
+                        'tag'=>'a',
+                        'title'=>'$addons',
+                        'id'=>'$id',
+                        'class'=>'editAddons'
+                    )
+                )
+        );
+        $this->assign('_table_class', 'data-table table-striped');
+        $this->assign( '_table_list', $this->tableList($list,$thead) );
         $this->display();
     }
 

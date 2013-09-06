@@ -50,6 +50,22 @@ class Cache {
         return $cache;
     }
 
+    /**
+     * 取得缓存类实例
+     * @static
+     * @access public
+     * @return mixed
+     */
+    static function getInstance($type='',$options=array()) {
+		static $_instance	=	array();
+		$guid	=	$type.to_guid_string($options);
+		if(!isset($_instance[$guid])){
+			$obj	=	new Cache();
+			$_instance[$guid]	=	$obj->connect($type,$options);
+		}
+		return $_instance[$guid];
+    }
+
     public function __get($name) {
         return $this->get($name);
     }
@@ -67,17 +83,6 @@ class Cache {
 
     public function getOptions($name) {
         return $this->options[$name];
-    }
-
-    /**
-     * 取得缓存类实例
-     * @static
-     * @access public
-     * @return mixed
-     */
-    static function getInstance() {
-       $param = func_get_args();
-        return get_instance_of(__CLASS__,'connect',$param);
     }
 
     /**

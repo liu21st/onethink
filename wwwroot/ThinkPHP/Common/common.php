@@ -47,8 +47,9 @@ function T($template='',$layer=''){
     $layer  =   $layer?$layer:C('DEFAULT_V_LAYER');
 
     // 获取当前主题的模版路径
-    if(($list = C('EXTEND_MODULE')) && isset($list[$extend])){ // 扩展资源
-        $baseUrl    =   $list[$extend].$module.$layer.'/';
+    $auto   =   C('AUTOLOAD_NAMESPACE');
+    if($auto && isset($auto[$extend])){ // 扩展资源
+        $baseUrl    =   dirname($auto[$extend]).'/'.$module.$layer.'/';
     }else{ // 分组模式
         $baseUrl    =   APP_PATH.$module.$layer.'/';
     }
@@ -254,19 +255,6 @@ function require_cache($filename) {
 }
 
 /**
- * 批量导入文件 成功则返回
- * @param array $array 文件数组
- * @param boolean $return 加载成功后是否返回
- * @return boolean
- */
-function require_array($array,$return=false){
-    foreach ($array as $file){
-        if (require_cache($file) && $return) return true;
-    }
-    if($return) return false;
-}
-
-/**
  * 区分大小写的文件存在判断
  * @param string $filename 文件地址
  * @return boolean
@@ -289,7 +277,7 @@ function file_exists_case($filename) {
  * @param string $ext 导入的文件扩展名
  * @return boolean
  */
-function import($class, $baseUrl = '', $ext='.class.php') {
+function import($class, $baseUrl = '', $ext=EXT) {
     static $_file = array();
     $class = str_replace(array('.', '#'), array('/', '.'), $class);
     if (isset($_file[$class . $baseUrl]))
@@ -413,8 +401,7 @@ function parse_res_name($name,$layer){
         $extend  =   '';
     }
     if(strpos($name,'/')){ // 指定模块
-        $path   =   explode('/',$name);
-        $module =   $path[0];
+        list($module,$name) =  explode('/',$name);
     }else{
         $module =   MODULE_NAME;
     }

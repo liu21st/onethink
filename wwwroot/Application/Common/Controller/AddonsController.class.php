@@ -7,7 +7,8 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
-namespace Home\Controller;
+namespace Common\Controller;
+use Think\Action;
 
 /**
  * 扩展控制器
@@ -34,7 +35,10 @@ class AddonsController extends Action{
 		}
 
 		if(!empty($_addons) && !empty($_controller) && !empty($_action)){
-			$Addons = A("Addons://{$_addons}/{$_controller}")->setName($_addons)->$_action();
+            $class = "\\Addons\\{$_addons}\\Controller\\{$_controller}Controller";
+            $Addons = A("Addons://{$_addons}/{$_controller}");
+            dump($Addons);exit;
+			$Addons->setName($_addons)->$_action();
 		} else {
 			$this->error('没有指定插件名称，控制器或操作！');
 		}
@@ -58,31 +62,5 @@ class AddonsController extends Action{
     protected function setName($name){
     	$this->addons = $name;
     	return $this;
-    }
-
-    /**
-     * 获取所有钩子列表
-     */
-    static public function getHooks($field='', $order=''){
-    	return D('Hooks')->field($field)->order($order)->select();
-    }
-
-    /**
-     * 读取配置页
-     */
-    public function config(){
-    	$config = D('Addons')->where(array('id'=>I('get.id')))->getField('config');
-    	$this->assign('config', $config);
-    	$this->display('Config/config');
-    }
-
-    /**
-     * 保存插件配置
-     */
-    public function saveConfig(){
-    	$id = (int)I('post.id');
-    	if(!$id)
-    		$this->error('错误的主键');
-    	return D('Addons')->where("id={$id}")->setField('config',I('post.addons'));
     }
 }

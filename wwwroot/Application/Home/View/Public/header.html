@@ -6,12 +6,12 @@
 			<img src="__IMG__/onethink.png" alt="onethink">
 		</a>
 		
-		<ul class="main-nav nav">
-			<li class="current"><a href="{:U('Index/index')}">首页</a></li>
-			<li><a href="{:U('Article/lists?category=capability')}">产品</a></li>
-			<li><a href="{:U('Article/lists?category=template')}">应用</a></li>
-			<li><a href="{:U('Article/lists?category=template_topic')}">社区</a></li>
-			<li><a href="{:U('Article/lists?category=product_news')}">资讯</a></li>
+		<ul id="nav" class="main-nav nav" data-key="{$category.pid}">
+			<li data-key="0"><a href="{:U('Index/index')}">首页</a></li>
+			<li data-key="1"><a href="{:U('Article/lists?category=capability')}">产品</a></li>
+			<li data-key="2"><a href="{:U('Article/lists?category=template')}">应用</a></li>
+			<li data-key="3"><a href="{:U('Article/lists?category=template_topic')}">社区</a></li>
+			<li data-key="4"><a href="{:U('Article/lists?category=product_news')}">资讯</a></li>
 		</ul>
 
 		<div class="user-bar">

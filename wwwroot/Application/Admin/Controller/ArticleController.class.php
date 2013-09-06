@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2012 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006-2013 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Author: huajie <banhuajie@163.com>
 // +----------------------------------------------------------------------
@@ -146,7 +146,7 @@ class ArticleController extends \Admin\Controller\AdminController {
 		//获取对应分类下的模型
 		$models = get_category($cate_id, 'model');
 
-		$this->assign('model', implode(',', $models));
+		$this->assign('model', $models);
 		$this->assign('status', $status);
 		$this->assign('search', $search);
 		$this->assign('list', $list);
@@ -191,6 +191,7 @@ class ArticleController extends \Admin\Controller\AdminController {
 	public function add(){
 		$cate_id = I('get.cate_id','');
 		$model_id = I('get.model_id','');
+		$model_name = get_document_model($model_id, 'title');
 		if(empty($cate_id) || empty($model_id)){
 			$this->error('参数不能为空！');
 		}
@@ -199,9 +200,10 @@ class ArticleController extends \Admin\Controller\AdminController {
 		$template = strtolower(get_document_model($model_id, 'name'));
 
 		$this->assign('model_id', $model_id);
+		$this->assign('model_name', $model_name);
 		$this->assign('template', $template);
 
-		$this->meta_title = '新增文档';
+		$this->meta_title = '新增'.$model_name;
 		$this->display();
 	}
 

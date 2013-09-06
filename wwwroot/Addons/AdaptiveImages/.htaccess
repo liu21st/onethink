@@ -17,7 +17,7 @@
   # Send any GIF, JPG, or PNG request that IS NOT stored inside one of the above directories
   # to adaptive-images.php so we can select appropriately sized versions
 
-  RewriteRule \.(?:jpe?g|gif|png)$ index.php/Addons/AdaptiveImages/AdaptiveImages
+  RewriteRule \.(?:jpe?g|gif|png)$ /index.php?s=/admin/addons/execute/_addons/adaptiveimages/_controller/adaptive_images/_action/view
 
   # END Adaptive-Images
   -------------------------------------------------------------------------------
