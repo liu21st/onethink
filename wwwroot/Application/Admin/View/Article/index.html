@@ -10,11 +10,11 @@
 	<!-- 标题 -->
 	<div class="main-title">
 		<h2>
-		[
+		文档列表 [
 		<volist name="rightNav" id="nav">
-		<a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a><if condition="count($rightNav) gt $i">></if>
+		<a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a><if condition="count($rightNav) gt $i"> > </if>
 		</volist>
-		]列表
+		] 
 		</h2>
 	</div>
 
@@ -33,19 +33,19 @@
 				<!-- 操作按钮区 -->
 				<div class="cf">
 					<div class="fl">
-						<button class="btn" id="document_add" url="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$model[0]))}">新增</button>
-						<button class="btn" name="document_operate" status="-1">删除</button>
-						<button class="btn" name="document_operate" status="1">启用</button>
-						<button class="btn" name="document_operate" status="0">禁用</button>
+						<button class="btn" id="document_add" url="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$model[0]))}">新 增</button>
+						<button class="btn" name="document_operate" status="-1">删 除</button>
+						<button class="btn" name="document_operate" status="1">启 用</button>
+						<button class="btn" name="document_operate" status="0">禁 用</button>
 					</div>
 
 					<div class="tools fr">
 						<div class="search-form cf">
 							<div class="drop-down">
-								<span id="sch-sort-txt" class="sort-txt" data="{$status}"><if condition="get_status_title($status) eq ''">所有状态<else/>{:get_status_title($status)}</if></span>
+								<span id="sch-sort-txt" class="sort-txt" data="{$status}"><if condition="get_status_title($status) eq ''">所有<else/>{:get_status_title($status)}</if></span>
 								<i class="arrow arrow-down"></i>
 								<ul id="sub-sch-menu" class="nav-list hidden">
-									<li><a href="javascript:;" value="">所有状态</a></li>
+									<li><a href="javascript:;" value="">所有</a></li>
 									<li><a href="javascript:;" value="1">正常</a></li>
 									<li><a href="javascript:;" value="0">禁用</a></li>
 									<li><a href="javascript:;" value="2">待审核</a></li>

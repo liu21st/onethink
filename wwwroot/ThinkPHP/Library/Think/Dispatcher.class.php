@@ -166,7 +166,7 @@ class Dispatcher {
                 C(include MODULE_PATH.'Conf/config.php');
             // 加载模块别名定义
             if(is_file(MODULE_PATH.'Conf/alias.php'))
-                alias_import(include MODULE_PATH.'Conf/alias.php');
+                Think::addMap(include MODULE_PATH.'Conf/alias.php');
             // 加载模块tags文件定义
             if(is_file(MODULE_PATH.'Conf/tags.php'))
                 C('tags', include MODULE_PATH.'Conf/tags.php');

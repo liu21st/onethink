@@ -77,7 +77,6 @@ return array(
 	        'Think\Behavior\ContentReplace', // 模板输出替换
 	        'Think\Behavior\TokenBuild',   // 表单令牌
 	        'Think\Behavior\WriteHtmlCache', // 写入静态缓存
-	       // 'ShowRuntime', // 运行时间显示
 	    ),
 	    'view_end'      =>  array(),
 	),
