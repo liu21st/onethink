@@ -346,7 +346,26 @@ str;
      */
     public function hooks(){
         $order = $field = array();
-        $this->assign('list', D('Hooks')->field($field)->order($order)->select());
+        $list = $this->lists(D("Hooks")->field($fields),$map,$order);
+        $thead = array(
+            //元素value中的变量就是数据集中的字段,value必须使用单引号
+            //查询出的数据集中的字段=>字段的表头
+
+                'id'=>'序号',
+                'name'=>'名称',
+                'description'=>'描述',
+                'type_text'=>'类型',
+                '插件'=>array(
+                    '编辑'=>array(
+                        'tag'=>'a',
+                        'title'=>'$addons',
+                        'id'=>'$id',
+                        'class'=>'editAddons'
+                    )
+                )
+        );
+        $this->assign('_table_class', 'data-table table-striped');
+        $this->assign( '_table_list', $this->tableList($list,$thead) );
         $this->display();
     }
 
