@@ -1,8 +1,14 @@
 <extend name="Public/base" />
 <block name="body">
-	<!-- 标题栏 -->
-	<div class="main-title">
-        <h2>{:I('group_name')}列表</h2>
+<div class="tab-wrap">
+    <ul class="tab-nav nav">
+        <li class="fr"><a href="{:U('AuthManager/access',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">访问授权</a></li>
+        <li class="fr current"><a href="javascript:;">成员授权</a></li>
+        <li class="fr"><a href="{:U('AuthManager/category',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">分类授权</a></li>
+    </ul>
+    <!-- 标题栏 -->
+    <div class="main-title">
+        <h2>用户组:{:I('group_name')}</h2>
         <div id="add-to-group" class="tools ">
             <form action="{:U('addToGroup')}" method="post" enctype="application/x-www-form-urlencoded" >
                 <input class="text input-small" type="text" name="uid" placeholder="请输入uid">
@@ -10,35 +16,43 @@
                 <input class="btn" type="submit" value="添加">
             </form>
         </div>
-	</div>
+    </div>
 
-	<!-- 数据列表 -->
-	<div class="data-table table-striped">
-		<table>
-			<thead>
-				<tr>
-					<th>UID</th>
-                    <th>用户名</th>
-					<th>最后登陆时间</th>
-					<th>最后登陆IP</th>
-                    <th>会员状态</th>
-					<th>操作</th>
-				</tr>
-			</thead>
-			<tbody>
-				<volist name="authed_user" id="user">
-				<tr>
-					<td>{$user.uid}</td>
-                    <td>{$user.username}</td>
-					<td>{$user.last_login_time|date='Y-m-d H:i:s',###}</td>
-					<td>{$user.last_login_ip|long2ip}</td>
-                    <td>{$user.status_text}</td>
-                    <td>
-                        <a href="{:U('removeFromGroup',array('group_id'=>I('group_id'),'uid'=>$user['uid']))}">解除授权</a>
-                    </td>
-				</tr>
-				</volist>
-			</tbody>
-		</table>
-	</div>
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+        <?php
+            $thead = array(
+                'uid'=>'UID',
+                'username'=>'用户名',
+                'last_login_time'=>array(
+                    'title'=>'最后登陆时间',
+                    'tag'  =>'span',
+                    'func' =>'date("Y-m-d h:i:s",$last_login_time)'
+                ),
+                'last_login_ip'=>array(
+                    'title'=>'最后登陆ip',
+                    'tag'  =>'span',
+                    'func' =>'long2ip($last_login_ip)',
+                ),
+                'status_text'=>'状态',
+                '操作'=>array(
+                    '解除授权'=>'AuthManager/removeFromGroup?uid=$uid&group_id='.I('group_id'),
+                ),
+            );
+            echo $authed_user = $__controller__->tableList($_list,$thead);
+        ?>
+    </div>
+    <div class="page_nav">
+        {$_page}
+    </div>
+</div>
+</block>
+<block name="script">
+<script src="__STATIC__/jquery.cookies.2.2.0.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+    //导航高亮
+    var cookie_prefix = '{:C("COOKIE_PREFIX")}';
+	var auth_index = $.cookies.get(cookie_prefix+'auth_index');
+    $('.side-sub-menu').find('a[href*="'+ auth_index+'"]').closest('li').addClass('current');
+</script>
 </block>

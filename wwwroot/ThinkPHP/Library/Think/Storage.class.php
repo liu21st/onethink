@@ -13,38 +13,29 @@ namespace Think;
 class Storage {
 
     /**
+     * 操作句柄
+     * @var string
+     * @access protected
+     */
+    static protected $handler    ;
+
+    /**
      * 连接分布式文件系统
      * @access public
      * @param string $type 文件类型
      * @param array $options  配置数组
-     * @return object
+     * @return void
      */
-    public function connect($type,$options=array()) {
-        $class = 'Think\\Storage\\Driver\\'.ucwords($type);
-        if(class_exists($class)){
-            $cache = new $class($options);
-        }else{
-            function_exists('E')?E(L('_STORAGE_TYPE_INVALID_').':'.$type):exit('_STORAGE_TYPE_INVALID_:'.$type);
-        }
-        return $cache;
+    static public function connect($type='',$options=array()) {
+        $type   =   $type? $type : C('STORAGE_TYPE');
+        $class  =   'Think\\Storage\\Driver\\'.ucwords($type);
+        self::$handler = new $class($options);
     }
 
-    /**
-     * 取得分布式文件存储类实例
-     * @static
-     * @access public
-     * @return mixed
-     */
-    static function getInstance($type='File',$options=array()) {
-        static $_instance = null;
-        if(!is_null($_instance)){
-            return $_instance;
-        }else{
-            $class  =   new Storage();
-            $obj    =   $class->connect($type,$options);
-            $_instance   =   $obj;
-            return $obj;
+    static public function __callstatic($method,$args){
+        //调用缓存类型自己的方法
+        if(method_exists(self::$handler, $method)){
+           return call_user_func_array(array(self::$handler,$method), $args);
         }
     }
-
 }

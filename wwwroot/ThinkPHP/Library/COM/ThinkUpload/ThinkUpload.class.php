@@ -9,6 +9,7 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
+namespace COM\ThinkUpload;
 class ThinkUpload{
 	/**
 	 * 默认上传配置
@@ -56,7 +57,7 @@ class ThinkUpload{
 
         /* 检测上传根目录 */
         if(!$this->uploader->checkRootPath()){
-            throw new Exception($this->uploader->getError());
+            throw new \Think\Exception($this->uploader->getError());
         }
 
         /* 调整配置，把字符串配置参数转换为数组 */
@@ -190,10 +191,10 @@ class ThinkUpload{
         $file = dirname(__FILE__) . "/Driver/{$name}Upload.class.php";
         if(is_file($file)){
             require_once($file);
-            $class = "{$name}Upload";
+            $class = 'COM\\ThinkUpload\\Driver\\'."{$name}Upload";
             $this->uploader = new $class($this->rootPath, $config);
         } else {
-            throw new Exception("不存在上传驱动：{$name}");
+            throw new \Think\Exception("不存在上传驱动：{$name}");
         }
     }
 

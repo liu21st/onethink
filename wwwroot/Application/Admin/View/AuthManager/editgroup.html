@@ -1,25 +1,16 @@
 <!-- 管理员用户组新增和编辑页面 -->
-<extend name="Public/base" />
-<block name="body">
-    <div class="main-title cf">
-        <empty name="auth_group['id']">
-        <h2>新增用户组</h2>
-        <else />
-        <h2>编辑用户组</h2>
-        </empty>
-    </div>
     <form action="{:U('AuthManager/writeGroup')}" enctype="application/x-www-form-urlencoded" method="POST" 
             class="form-horizontal auth-form">
         <div class="form-item">
-            <label for="auth-title" class="item-label">管理员用户组：</label>
+            <label for="auth-title" class="item-label">用户组：</label>
             <div class="controls">
                 <input id="auth-title" type="text" name="title" class="text" value="{$auth_group.title}"/>
             </div>
         </div>
         <div class="form-item">
-            <label for="auth-description" class="item-label">用户组描述：</label>
+            <label for="auth-description" class="item-label">描述：</label>
             <div class="controls">
-                <input id="auth-description" type="text" name="description" class="text" value="{$auth_group.description}"/>
+                <textarea id="auth-description" type="text" name="description" class="textarea" >{$auth_group.description}</textarea>
             </div>
         </div>
         
@@ -31,4 +22,3 @@
             </div>
         </div>
     </form>
-</block>

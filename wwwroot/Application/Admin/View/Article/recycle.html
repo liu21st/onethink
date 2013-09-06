@@ -2,22 +2,7 @@
 
 <!-- 子导航 -->
 <block name="sidebar">
-    <div id="subnav" class="subnav">
-        <volist name="nodes" id="sub_menu">
-            <!-- 子导航 -->
-            <notempty name="sub_menu">
-                <h3><i class="icon-s1"></i><a href="{$sub_menu.url|U}">{$sub_menu.title}</a></h3>
-                <ul <neq name="sub_menu['current']" value="1">class="subnav-off"</neq>>
-                    <volist name="sub_menu['_child']" id="menu">
-                        <li <if condition="$menu['id'] eq $cate_id or $menu['current'] eq 1">class="current"</if>><a href="{$menu.url|U}">{$menu.title}</a></li>
-                    </volist>
-                </ul>
-            </notempty>
-            <!-- /子导航 -->
-        </volist>
-        <!-- 回收站 -->
-        <h3><i class="icon-s1"></i><a href="{:U('article/recycle')}">回收站</a></h3>
-    </div>
+    <include file="sidemenu" />
 </block>
 
 <block name="body">
@@ -25,12 +10,8 @@
 	<div class="main-title">
 		<h2>回收站管理</h2>
 		<div class="tools auth-botton">
-            <button url="{:U('article/clear')}" id="remove" class="btn">
-            	<i class="icon-right"></i>清空回收站
-            </button>
-            <button url="{:U('article/permit')}" id="restore" class="btn">
-            	<i class="icon-right"></i>还原数据
-            </button>
+            <button url="{:U('article/clear')}" id="remove" class="btn">清空回收站</button>
+            <button url="{:U('article/permit')}" id="restore" class="btn">还原数据</button>
 		</div>
 	</div>
 
@@ -38,6 +19,9 @@
 	<div class="data-table table-striped">
         {$_table_list}
 	</div>
+    <div class="page_nav">
+        {$_page}
+    </div>
 </block>
 
 <block name="script">
@@ -46,26 +30,15 @@ $(function(){
 	//批量还原
 	$("#restore").click(function(){
 		//获取选中的数据
-		var checked = $('input:checked');
-		var ids = new Array();
-		checked.each(function(i){
-			var id = $(this).val();
-			if(id != 'on'){
-				ids[ids.length] = id;
-			}
-		});
-		if(ids.length == 0){
+		var checked = $('.ids:checked');
+        var ids = checked.serialize();
+		if(checked.length == 0){
 			alert('请选择要操作的数据！');
 			return false;
 		}
 		//进行ajax操作
 		$.post(
-			"{:U('permit')}",
-			{
-				'ids' : ids,
-				'status' : status
-			},
-			function(data){
+			"{:U('permit')}",ids,function(data){
 				if(data.status == 1){
 					alert('设置成功！');
 					setTimeout(function(){window.location.reload()},1500);

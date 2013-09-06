@@ -8,8 +8,6 @@
 .text,.textarea {
 	padding: 4px;
 	border: 1px solid #ccc;
-	border-radius: 2px;
-	box-shadow: 0 1px 1px rgba(0,0,0,.1) inset;
 	transition: all .3s linear;
 }
 .text {
@@ -88,11 +86,62 @@ label.textarea ~ .check-tips {
 
 /* 搜索表单
 ------------------------------------------ */
-.search-form .text,
-.search-form select,
-.search-form .btn {
-	vertical-align: middle;
+.search-form {
+	border: 1px solid #ebebeb;
 }
-.search-form .btn {
-	padding: 2px 8px;
+
+.search-form .drop-down {
+	float: left;
+	width: 75px;
+	height: 30px;
+	line-height: 30px;
+}
+.search-form .sort-txt {
+	display: inline-block;
+	margin: 0 2px 0 4px;
+	width: 56px;
+	text-align: center;
+	cursor: pointer;
+}
+.search-form .drop-down ul {
+	position: absolute;
+	margin-left: -1px;
+	background-color: #fff;
+	border: 1px solid #ebebeb;
+}
+.search-form .drop-down ul li {
+	border-top: 1px solid #ebebeb;
+}
+.search-form .drop-down ul li:first-child {
+	border-top-width: 0;
+}
+.search-form .drop-down ul a {
+	padding: 0 10px;
+	height: 30px;
+	line-height: 30px;
+}
+.search-form .drop-down ul a:hover {
+	background-color: #f0f0f0;
+}
+.search-form input {
+	float: left;
+	padding: 2px 4px;
+	width: 180px;
+	height: 26px;
+	line-height: 26px;
+	border: 0 none;
+}
+.search-form .sch-btn {
+	float: left;
+	margin: 2px 2px 0 0;
+	padding: 0 10px;
+	height: 26px;
+	line-height: 26px;
+	vertical-align: middle;
+	color: #fff;
+	background-color: #087ff5;
+}
+.search-form .sch-btn:hover {
+	color: #fff;
+	text-decoration: none;
 }

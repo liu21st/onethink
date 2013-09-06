@@ -292,10 +292,6 @@ function file_exists_case($filename) {
 function import($class, $baseUrl = '', $ext='.class.php') {
     static $_file = array();
     $class = str_replace(array('.', '#'), array('/', '.'), $class);
-    if ('' === $baseUrl && false === strpos($class, '/')) {
-        // 检查别名导入
-        return alias_import($class);
-    }
     if (isset($_file[$class . $baseUrl]))
         return true;
     else
@@ -306,15 +302,11 @@ function import($class, $baseUrl = '', $ext='.class.php') {
             //加载当前模块的类库
             $baseUrl = MODULE_PATH;
             $class   = substr_replace($class, '', 0, strlen($class_strut[0]) + 1);
-        }elseif ('think' == strtolower($class_strut[0])){ // think 官方基类库
-            $baseUrl = CORE_PATH;
-            $class   = substr($class,6);
-        }elseif (in_array(strtolower($class_strut[0]), array('org', 'com'))) {
+        }if (in_array(strtolower($class_strut[0]), array('think','org', 'com'))) {
             // org 第三方公共类库 com 企业公共类库
-            $baseUrl = LIBRARY_PATH;
+            $baseUrl = LIB_PATH;
         }else { // 加载其他模块的类库
-            $class   = substr_replace($class, '', 0, strlen($class_strut[0]) + 1);
-            $baseUrl = APP_PATH . $class_strut[0] . '/';
+            $baseUrl = APP_PATH;
         }
     }
     if (substr($baseUrl, -1) != '/')
@@ -365,29 +357,6 @@ function vendor($class, $baseUrl = '', $ext='.php') {
 }
 
 /**
- * 快速定义和导入别名 支持批量定义
- * @param string|array $alias 类库别名
- * @param string $classfile 对应类库
- * @return boolean
- */
-function alias_import($alias, $classfile='') {
-    static $_alias = array();
-    if (is_string($alias)) {
-        if(isset($_alias[$alias])) {
-            return require_cache($_alias[$alias]);
-        }elseif ('' !== $classfile) {
-            // 定义别名导入
-            $_alias[$alias] = $classfile;
-            return;
-        }
-    }elseif (is_array($alias)) {
-        $_alias   =  array_merge($_alias,$alias);
-        return;
-    }
-    return false;
-}
-
-/**
  * D函数用于实例化Model 格式 目录://模块/模型
  * @param string $name Model资源地址
  * @param string $layer 业务层名称
@@ -396,9 +365,10 @@ function alias_import($alias, $classfile='') {
 function D($name='',$layer='') {
     if(empty($name)) return new Think\Model;
     static $_model  =   array();
-    $layer          =   $layer?$layer:C('DEFAULT_M_LAYER');
-    if(isset($_model[$name.$layer]))   return $_model[$name.$layer];
-    $class   =   parse_res_name($name,$layer);
+    $layer          =   $layer? $layer : C('DEFAULT_M_LAYER');
+    if(isset($_model[$name.$layer]))   
+        return $_model[$name.$layer];
+    $class          =   parse_res_name($name,$layer);
     if(class_exists($class)) {
         $model      =   new $class(basename($name));
     }else {
@@ -465,9 +435,10 @@ function parse_res_name($name,$layer){
  */
 function A($name,$layer='') {
     static $_action = array();
-    $layer  =   $layer?$layer:C('DEFAULT_C_LAYER');
-    if(isset($_action[$name.$layer]))  return $_action[$name.$layer];
-    $class   =   parse_res_name($name,$layer);
+    $layer  =   $layer? $layer : C('DEFAULT_C_LAYER');
+    if(isset($_action[$name.$layer]))  
+        return $_action[$name.$layer];
+    $class  =   parse_res_name($name,$layer);
     if(class_exists($class)) {
         $action             =   new $class();
         $_action[$name.$layer]     =   $action;
@@ -594,10 +565,7 @@ function tag($tag, &$params=NULL) {
             trace('[ '.$tag.' ] --START--','','INFO');
         }
         // 执行扩展
-        foreach ($tags as $key=>$name) {
-            if(!is_int($key)) { // 指定行为类的完整路径 用于模式扩展
-                $name   = $key;
-            }
+        foreach ($tags as $name) {
             B($name, $params);
         }
         if(APP_DEBUG) { // 记录行为的执行日志

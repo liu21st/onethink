@@ -336,17 +336,16 @@ function S($name,$value='',$options=null) {
 function F($name, $value='', $path=DATA_PATH) {
     static $_cache  =   array();
     $filename       =   $path . $name . '.php';
-    $storage        =   Think\Storage::getInstance();
     if ('' !== $value) {
         if (is_null($value)) {
             // 删除缓存
             if(false !== strpos($name,'*')){
                 return false; // TODO 
             }else{
-                return $storage->unlink($filename);
+                return Think\Storage::unlink($filename);
             }
         } else {
-            $storage->put($filename,serialize($value));
+            Think\Storage::put($filename,serialize($value));
             // 缓存数据
             $_cache[$name]  =   $value;
             return ;
@@ -355,8 +354,8 @@ function F($name, $value='', $path=DATA_PATH) {
     // 获取缓存数据
     if (isset($_cache[$name]))
         return $_cache[$name];
-    if ($storage->has($filename)){
-        $value      =   unserialize($storage->read($filename));
+    if (Think\Storage::has($filename)){
+        $value      =   unserialize(Think\Storage::read($filename));
         $_cache[$name]  =   $value;
     } else {
         $value          =   false;

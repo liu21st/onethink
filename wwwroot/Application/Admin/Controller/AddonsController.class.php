@@ -100,7 +100,7 @@ str;
  * @author {$data['info']['author']}
  */
 
-    class {$data['info']['name']}Addons extends Addons{
+    class {$data['info']['name']}Addons extends Common\Controller\Addons{
 
         public \$info = array(
             'name'=>'{$data['info']['name']}',
@@ -291,10 +291,11 @@ str;
 		$info = $addons->info;
 		if(!$info || !$addons->checkInfo())//检测信息的正确性
 			$this->error('插件信息缺失');
+        session('addons_install_error',null);
 		$install_flag = $addons->install();
-		if(!$install_flag)
-			$this->error('执行插件预安装操作失败');
-
+		if(!$install_flag){
+			$this->error('执行插件预安装操作失败'.session('addons_install_error'));
+        }
 		$addonsModel = D('Addons');
 		$data = $addonsModel->create($info);
 		if(!$data)

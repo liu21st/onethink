@@ -81,6 +81,8 @@ $thead = array(
 
 * $where  可选参数:自定义查询条件,数组,与Model::where()的参数格式相同,会与基本条件array('status'=>array('egt',0))做array_merge后作为最终的查询条件
     * lists方法会自动使用url中的参数作为查询条件:例如`aaa.html?title=sometitle`,会被转换为array('title'=>'sometitle')作为查询条件,所以可以直接作为搜索方法使用
+    * 例如:`index.html?id[0]=egt&id[1]=5`即表示列出id值大于或等于5的数据列表;
+    * 上面的get参数不易理解,但你可以自己设计get传参方式,只需在调用lists()方法之前,把get参数转换成where参数传给lists()方法,同时unset掉不需要的get参数即可.
 
 * $order  可选参数:排序条件,默认为:'id desc'. 
     * lists方法支持通过url控制表格排序,通过`_field`参数指定排序的依据字段,通过`_order`指定排序的方式asc或desc;例如`aaa.html?_field=id&_order=asc`即表示根据id字段进行升序排列
@@ -128,3 +130,7 @@ $this->dispaly();
 
 > 通过url参数`r`可以控制每页显示的行数,例如:`aaa.html?r=20`表示每页显示20行数据
 
+高级搜索
+-------------
+
+通过get传参即可

@@ -5,7 +5,7 @@
 	<div class="main-title">
 		<h2>用户列表</h2>
 		<div class="tools">
-			<button class="btn" id="add-member"><i class="icon-add"></i>添加</button>
+			<button class="btn" id="add-member">添加</button>
 		</div>
 	</div>
 
@@ -51,7 +51,7 @@
 					title:'用户授权',
 					actions:['close'],
 					drag:true,
-					tools:true
+					tools:false
 				}
 				var authorUrl = "{:U('AuthManager/group',array('uid'=>$user['uid']))}";
 				$.thinkbox.load(authorUrl,thinkboxOption);

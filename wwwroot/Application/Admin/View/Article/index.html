@@ -2,29 +2,21 @@
 
 <!-- 子导航 -->
 <block name="sidebar">
-    <div id="subnav" class="subnav">
-        <volist name="nodes" id="sub_menu">
-            <!-- 子导航 -->
-            <notempty name="sub_menu">
-                <h3><i class="icon-fold"></i><a href="{$sub_menu.url|U}">{$sub_menu.title}</a></h3>
-                <ul <neq name="sub_menu['current']" value="1">class="subnav-off"</neq>>
-                    <volist name="sub_menu['_child']" id="menu">
-                        <li <if condition="$menu['id'] eq $cate_id or $menu['current'] eq 1">class="current"</if>><a href="{$menu.url|U}">{$menu.title}</a></li>
-                    </volist>
-                </ul>
-            </notempty>
-            <!-- /子导航 -->
-        </volist>
-        <!-- 回收站 -->
-        <h3><i class="icon-fold"></i><a href="{:U('article/recycle')}">回收站</a></h3>
-    </div>
+    <include file="sidemenu" />
 </block>
 
 
 <block name="body">
 	<!-- 标题 -->
 	<div class="main-title">
-		<h2>文档列表</h2>
+		<h2>
+		文档列表 [
+		<volist name="rightNav" id="nav">
+		<a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a>
+			<if condition="count($rightNav) gt $i"><i class="ca"></i></if>
+		</volist>
+		]
+		</h2>
 	</div>
 
 	<!-- 标签页导航 -->
@@ -42,23 +34,27 @@
 				<!-- 操作按钮区 -->
 				<div class="cf">
 					<div class="fl">
-						<button class="btn" id="document_add" url="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$model[0]))}">新增</button>
-						<button class="btn" name="document_operate" status="-1">删除</button>
-						<button class="btn" name="document_operate" status="1">启用</button>
-						<button class="btn" name="document_operate" status="0">禁用</button>
+						<button class="btn" id="document_add" url="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$model[0]))}">新 增</button>
+						<button class="btn" name="document_operate" status="-1">删 除</button>
+						<button class="btn" name="document_operate" status="1">启 用</button>
+						<button class="btn" name="document_operate" status="0">禁 用</button>
 					</div>
 
 					<div class="tools fr">
-						<form method="get" class="search-form">
-							<input type="text" name="search" class="text" placeholder="请输入关键字" value="{$search}">
-							<select name="status">
-								<option value="">所有状态</option>
-								<option value="1" <eq name="status" value="1">selected="selected"</eq>>启用</option>
-								<option value="0" <heq name="status" value="0">selected="selected"</heq>>禁用</option>
-								<option value="2" <eq name="status" value="2">selected="selected"</eq>>待审核</option>
-							</select>
-							<input type="button" value="查询" class="btn" id="search" url="{:U('article/index','cate_id='.$cate_id,false)}">
-						</form>
+						<div class="search-form cf">
+							<div class="drop-down">
+								<span id="sch-sort-txt" class="sort-txt" data="{$status}"><if condition="get_status_title($status) eq ''">所有<else/>{:get_status_title($status)}</if></span>
+								<i class="arrow arrow-down"></i>
+								<ul id="sub-sch-menu" class="nav-list hidden">
+									<li><a href="javascript:;" value="">所有</a></li>
+									<li><a href="javascript:;" value="1">正常</a></li>
+									<li><a href="javascript:;" value="0">禁用</a></li>
+									<li><a href="javascript:;" value="2">待审核</a></li>
+								</ul>
+							</div>
+							<input type="text" name="search" value="{$search}">
+							<a class="sch-btn" href="javascript:;" id="search" url="{:U('article/index','cate_id='.$cate_id,false)}">高级搜索</a>
+						</div>
 					</div>
 				</div>
 
@@ -114,9 +110,10 @@
 <block name="script">
 <script type="text/javascript">
 $(function(){
+	//搜索功能
 	$("#search").click(function(){
 		var url = $(this).attr('url');
-		var status = $('select[name=status]').val();
+		var status = $("#sch-sort-txt").attr("data");
 		var search = $('input[name=search]').val();
 		if(status != ''){
 			url += '/status/' + status;
@@ -126,9 +123,11 @@ $(function(){
 		}
 		window.location.href = url;
 	});
+	//新增功能
 	$("#document_add").click(function(){
 		window.location.href = $(this).attr('url');
 	})
+	//批量操作
 	$("button[name=document_operate]").click(function(){
 		var status = $(this).attr('status');
 		//获取选中的数据
@@ -161,6 +160,20 @@ $(function(){
 			},
 			'json'
 		);
+	});
+
+	/* 高级搜索子菜单 */
+	$(".search-form").find(".drop-down").hover(function(){
+		$("#sub-sch-menu").removeClass("hidden");
+	},function(){
+		$("#sub-sch-menu").addClass("hidden");
+	});
+	$("#sub-sch-menu li").find("a").each(function(){
+		$(this).click(function(){
+			var text = $(this).text();
+			$("#sch-sort-txt").text(text).attr("data",$(this).attr("value"));
+			$("#sub-sch-menu").addClass("hidden");
+		})
 	});
 })
 </script>

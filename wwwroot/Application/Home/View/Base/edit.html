@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<include file="Public/head"/>
+</head>
+<body>
+	<!-- 头部 -->
+	<include file="Public/header"/>
+	<!-- /头部 -->
+
+	<!-- 主体 -->
+	<div class="wrapper cf">
+        <!-- 左边 -->
+		<div class="cont-container">
+			<div class="add-mod mod">
+				<div class="media">
+					<div class="media-avatar"><img src="__IMG__/default.png" alt=""></div>
+					<div class="media-body">
+						<div>
+							<strong>Administrator</strong>
+							<span>{:date('Y-m-d H:i:s')}</span>
+						</div> 
+						<div>发布{$category.title}</div>
+					</div>
+				</div>
+				<form action="#" method="post" class="form-horizontal">
+					<div class="form-item">
+						<label class="item-label"><b class="must">*</b>标识</label>
+						<div class="controls">
+							<input type="text" class="text" name="name">
+						</div>
+					</div>
+					<div class="form-item">
+						<label class="item-label"><b class="must">*</b>标题</label>
+						<div class="controls">
+							<input type="text" class="text" name="title">
+						</div>
+					</div>
+					<div class="form-item">
+						<label class="item-label"><b class="must">*</b>描述</label>
+						<div class="controls">
+							<label class="textarea">
+								<textarea name="description"></textarea>
+							</label>
+						</div>
+					</div>
+					
+					<block name="content"></block>
+					
+					<div class="form-item">
+						<label class="item-label"></label>
+						<div class="controls">
+							<button class="btn" type="submit">确定</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+        <!-- /左边 -->
+
+        <!-- 右边 -->
+		<div class="side-container">
+			<div class="columns mod">
+				<div class="hd">发布话题</div>
+				<div class="bd">
+					<ul class="dot-list">
+        	            <li>请完整输入话题的标题和内容，并选择恰当的分类；</li>
+            			<li>标签是可选项，多个标签使用空格分隔</li>        
+            		</ul>
+				</div>
+			</div>
+
+			<div class="columns mod">
+				<div class="hd">快捷键小贴士</div>
+				<div class="bd">
+					<div class="alert-info">选中文字后使用键盘快捷键</div>
+					<ul class="key-list">
+						<li>Ctrl+B：字体加粗</li>
+						<li>Alt+U：添加超链接</li>
+						<li>Alt+C：添加代码</li>
+					</ul>
+				</div>
+			</div>
+		</div><!-- end .side-container -->
+    </div>
+	<!-- /主体 -->
+
+	<!-- 底部 -->
+	<include file="Public/footer"/>
+	<!-- /底部 -->
+</body>
+</html>

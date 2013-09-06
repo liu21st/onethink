@@ -9,6 +9,8 @@
 
 namespace User\Api;
 use User\Api\Api;
+use User\Model\UcenterMemberModel;
+
 //require_cache(dirname(__FILE__) . '/Api.class.php');
 
 class UserApi extends Api{
@@ -16,7 +18,7 @@ class UserApi extends Api{
 	 * 构造方法，实例化操作模型
 	 */
 	protected function _init(){
-		$this->model = D('User/UcenterMember', UC_API_TYPE);
+		$this->model = new UcenterMemberModel();
 	}
 
 	/**
@@ -78,5 +80,5 @@ class UserApi extends Api{
 	public function checkMobile($mobile){
 		return $this->model->checkField($mobile, 3);
 	}
-	
+
 }

@@ -7,6 +7,7 @@
 // | Author: huajie <banhuajie@163.com>
 // +----------------------------------------------------------------------
 namespace Admin\Model;
+use Admin\Model\AuthGroupModel;
 /**
  * 文档基础模型
  */
@@ -159,7 +160,7 @@ class DocumentModel extends CmsadminModel{
 		$logic = $this->logic($data['model_id']);
 		if(!$logic->update($id)){
 			if(isset($id)){ //新增失败，删除基础数据
-				$this->delete($data['id']);
+				$this->delete($id);
 			}
 			$this->error = $logic->getError();
 			return false;
@@ -356,8 +357,13 @@ class DocumentModel extends CmsadminModel{
 	 */
 	public function remove(){
 		//查询假删除的基础数据
-		$base_list = $this->where(array('status'=>-1))->field('id,model_id')->select();
-
+        if ( is_administrator() ) {
+            $map = array('status'=>-1);
+        }else{
+            $cate_ids = AuthGroupModel::getAuthCategories(is_login());
+            $map = array('status'=>-1,'category_id'=>array('IN',implode(',',$cate_ids)));
+        }
+		$base_list = $this->where($map)->field('id,model_id')->select();
 		//删除扩展模型数据
 		foreach ($base_list as $key=>$value){
 			$logic = $this->logic($value['model_id']);
@@ -365,7 +371,7 @@ class DocumentModel extends CmsadminModel{
 		}
 
 		//删除基础数据
-		$res = $this->where(array('status'=>-1))->delete();
+		$res = $this->where($map)->delete();
 		return $res;
 	}
 

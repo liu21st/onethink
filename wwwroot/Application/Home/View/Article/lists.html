@@ -1,0 +1,38 @@
+<extend name="Base/article"/>
+
+<block name="body">
+	<taglib name="article"/>
+	<div class="news mod">
+		<div class="hd">新闻列表</div>
+		<ul class="bd info-list">
+			<volist name="list" id="data">
+				<li>
+					<h3 class="ellipsis"><a href="{:U('detail?id='.$data['id'])}" title="{$data.title}">{$data.title}</a></h3>
+					<div class="taginfo">							
+						<span> 
+							<i class="icon icon-comment"></i>
+							<a href="{:U('detail?id='.$data['id'])}#comment">{$data.comment}条评论</a>								
+						</span>
+						<span>
+							<i class="icon icon-view"></i> <em>{$data.view}人围观</em>
+						</span>
+						<span>
+							<i class="icon icon-clock"></i> <em>{$data.create_time|date='m-d',###}</em>
+						</span>
+					</div>
+					<dl class="media">
+						<dt class="media-side">
+							<a href="javascript:;"><img src="images/temporary/1.jpg" alt=""></a>
+						</dt>
+						<dd class="media-body">{$data.description}</dd>
+					</dl>
+				</li>
+			</volist>
+		</ul>
+	</div>
+
+	<div class="page mt">
+		<article:page cate="$category['id']" listrow="$category['list_row']" />
+	</div>
+
+</block>

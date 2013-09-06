@@ -65,22 +65,6 @@ abstract class Action {
     }
 
     /**
-     * 是否AJAX请求
-     * @access protected
-     * @return bool
-     */
-    protected function isAjax() {
-        if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) ) {
-            if('xmlhttprequest' == strtolower($_SERVER['HTTP_X_REQUESTED_WITH']))
-                return true;
-        }
-        if(!empty($_POST[C('VAR_AJAX_SUBMIT')]) || !empty($_GET[C('VAR_AJAX_SUBMIT')]))
-            // 判断Ajax方式提交
-            return true;
-        return false;
-    }
-
-    /**
      * 模板显示 调用内置的模板引擎显示方法，
      * @access protected
      * @param string $templateFile 指定要调用的模板文件
@@ -132,10 +116,10 @@ abstract class Action {
      * @return string
      */
     protected function buildHtml($htmlfile='',$htmlpath='',$templateFile='') {
-        $content = $this->fetch($templateFile);
-        $htmlpath   = !empty($htmlpath)?$htmlpath:HTML_PATH;
-        $htmlfile =  $htmlpath.$htmlfile.C('HTML_FILE_SUFFIX');
-        Storage::getInstance()->put($htmlfile , $content);
+        $content    =   $this->fetch($templateFile);
+        $htmlpath   =   !empty($htmlpath)?$htmlpath:HTML_PATH;
+        $htmlfile   =   $htmlpath.$htmlfile.C('HTML_FILE_SUFFIX');
+        Storage::put($htmlfile , $content);
         return $content;
     }
 
@@ -211,60 +195,6 @@ abstract class Action {
             }else{
                 E(L('_ERROR_ACTION_').':'.ACTION_NAME);
             }
-        }else{
-            switch(strtolower($method)) {
-                // 判断提交方式
-                case 'ispost'   :
-                case 'isget'    :
-                case 'ishead'   :
-                case 'isdelete' :
-                case 'isput'    :
-                    return strtolower($_SERVER['REQUEST_METHOD']) == strtolower(substr($method,2));
-                // 获取变量 支持过滤和默认值 调用方式 $this->_post($key,$filter,$default);
-                case '_get'     :   $input =& $_GET;break;
-                case '_post'    :   $input =& $_POST;break;
-                case '_put'     :   parse_str(file_get_contents('php://input'), $input);break;
-                case '_param'   :  
-                    switch($_SERVER['REQUEST_METHOD']) {
-                        case 'POST':
-                            $input  =  $_POST;
-                            break;
-                        case 'PUT':
-                            parse_str(file_get_contents('php://input'), $input);
-                            break;
-                        default:
-                            $input  =  $_GET;
-                    }
-                    if(C('VAR_URL_PARAMS') && isset($_GET[C('VAR_URL_PARAMS')])){
-                        $input  =   array_merge($input,$_GET[C('VAR_URL_PARAMS')]);
-                    }
-                    break;
-                case '_request' :   $input =& $_REQUEST;   break;
-                case '_session' :   $input =& $_SESSION;   break;
-                case '_cookie'  :   $input =& $_COOKIE;    break;
-                case '_server'  :   $input =& $_SERVER;    break;
-                case '_globals' :   $input =& $GLOBALS;    break;
-                default:
-                    E(__CLASS__.':'.$method.L('_METHOD_NOT_EXIST_'));
-            }
-            if(!isset($args[0])) { // 获取全局变量
-                $data       =   $input; // 由VAR_FILTERS配置进行过滤
-            }elseif(isset($input[$args[0]])) { // 取值操作
-                $data       =	$input[$args[0]];
-                $filters    =   isset($args[1])?$args[1]:C('DEFAULT_FILTER');
-                if($filters) {// 2012/3/23 增加多方法过滤支持
-                    $filters    =   explode(',',$filters);
-                    foreach($filters as $filter){
-                        if(function_exists($filter)) {
-                            $data   =   is_array($data)?array_map($filter,$data):$filter($data); // 参数过滤
-                        }
-                    }
-                }
-            }else{ // 变量默认值
-                $data       =	 isset($args[2])?$args[2]:NULL;
-            }
-            Log::record('建议使用I方法替代'.$method,Log::NOTICE);
-            return $data;
         }
     }
 
@@ -300,16 +230,6 @@ abstract class Action {
      * @return void
      */
     protected function ajaxReturn($data,$type='') {
-        if(func_num_args()>2) {// 兼容3.0之前用法
-            $args           =   func_get_args();
-            array_shift($args);
-            $info           =   array();
-            $info['data']   =   $data;
-            $info['info']   =   array_shift($args);
-            $info['status'] =   array_shift($args);
-            $data           =   $info;
-            $type           =   $args?array_shift($args):'';
-        }
         if(empty($type)) $type  =   C('DEFAULT_AJAX_RETURN');
         switch (strtoupper($type)){
             case 'JSON' :

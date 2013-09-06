@@ -1,0 +1,14 @@
+<extend name="Base/article"/>
+
+<block name="category">
+	<div class="sort-box mod">
+		<div class="sort-hidden">
+			<div class="sub-sort">
+				{:W('Category/lists', array($category['id'], true))}
+			</div>
+		</div>
+		<a href="javascript:;" class="slide-arrow">
+			<!-- <b class="pillar"></b><i class="icon-arrow"></i> -->
+		</a>
+	</div>
+</block>

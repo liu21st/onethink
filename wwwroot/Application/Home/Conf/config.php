@@ -42,10 +42,10 @@ return array(
     /* 模板相关配置 */
     'TMPL_PARSE_STRING' => array(
         '__STATIC__' => __ROOT__ . '/Public/static',
-        '__ADDONS__' => __ROOT__ . '/Public/Home/Addons',
-        '__IMG__'    => __ROOT__ . '/Public/Home/images',
-        '__CSS__'    => __ROOT__ . '/Public/Home/css',
-        '__JS__'     => __ROOT__ . '/Public/Home/js',
+        '__ADDONS__' => __ROOT__ . '/Public/' . MODULE_NAME . '/Addons',
+        '__IMG__'    => __ROOT__ . '/Public/' . MODULE_NAME . '/images',
+        '__CSS__'    => __ROOT__ . '/Public/' . MODULE_NAME . '/css',
+        '__JS__'     => __ROOT__ . '/Public/' . MODULE_NAME . '/js',
     ),
 
     /* SESSION 和 COOKIE 配置 */
@@ -57,12 +57,24 @@ return array(
      * 附件是规划在插件中的，所以附件的配置暂时写到这里
      * 后期会移动到数据库进行管理
      */
+    // 'ATTACHMENT_DEFAULT' => array(
+    //     'is_upload'     => true,
+    //     'allow_type'    => '0,1,2', //允许的附件类型 (0-目录，1-外链，2-文件)
+    //     'driver'        => 'Local', //上传驱动
+    //     'driver_config' => null, //驱动配置
+    // ), //附件默认配置
+
     'ATTACHMENT_DEFAULT' => array(
         'is_upload'     => true,
         'allow_type'    => '0,1,2', //允许的附件类型 (0-目录，1-外链，2-文件)
-        'driver'        => 'Local', //上传驱动
-        'driver_config' => null, //驱动配置
-    ), //附件默认配置
+        'driver'        => 'Bcs', //上传驱动
+        'driver_config' => array(
+            'AccessKey'  =>'3321f2709bffb9b7af32982b1bb3179f',
+            'SecretKey'  =>'67485cd6f033ffaa0c4872c9936f8207',
+            'bucket'     =>'test-upload',
+            'size'      =>'104857600'
+        ), //驱动配置
+    ),
     'ATTACHMENT_UPLOAD' => array(
         'mimes'    => '', //允许上传的文件MiMe类型
         'maxSize'  => 5*1024*1024, //上传的文件大小限制 (0-不做限制)

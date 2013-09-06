@@ -10,6 +10,7 @@
 namespace Admin\Controller;
 use Think\Action;
 use Admin\Model\AuthRuleModel;
+use Admin\Model\AuthGroupModel;
 /**
  * 后台首页控制器
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
@@ -17,7 +18,7 @@ use Admin\Model\AuthRuleModel;
 class AdminController extends Action {
 
     /* 保存禁止通过url访问的公共方法,例如定义在控制器中的工具方法 ;deny优先级高于allow*/
-    static protected $deny  = array('getMenus');
+    static protected $deny  = array('getMenus','tableList');
 
     /* 保存允许所有管理员访问的公共方法 */
     static protected $allow = array( 'login','logout', 'test');
@@ -64,7 +65,7 @@ class AdminController extends Action {
         if( !$this->uid ){
             $this->redirect('Admin/Index/login');
         }
-        $this->root_user = is_administrator();
+        $this->root_user = ((int)($this->uid) === C('USER_ADMINISTRATOR'));
         $ac = $this->accessControl();
         if ( $ac===false ) {
             $this->error('403:禁止访问');
@@ -76,7 +77,7 @@ class AdminController extends Action {
         }
         $this->assign('__controller__', $this);
         $this->checkNodes();
-        $this->_nav();
+        // $this->_nav();//面包屑导航,暂不需要
     }
 
     /**
@@ -88,6 +89,9 @@ class AdminController extends Action {
      */
     final protected function checkRule($rule, $type=AuthRuleModel::RULE_URL, $mode='url')
     {
+        if( ($d=$this->checkDynamic())!==null){
+            return $d;
+        }
         static $Auth = null;
         if (!$Auth) {
             $Auth  = new \ORG\Util\Auth();
@@ -96,6 +100,41 @@ class AdminController extends Action {
             return false;
         }
         return true;
+    }
+
+    /**
+     * 检测是否是需要动态判断的权限
+     * @author 朱亚杰  <xcoolcc@gmail.com>
+     */
+    protected function checkDynamic(){
+        if ( strtolower(CONTROLLER_NAME)=='article' ) {
+            $cates = AuthGroupModel::getAuthCategories($this->uid);
+            switch(strtolower(ACTION_NAME)){
+                case 'index':
+                    $cate_id = I('cate_id');
+                    break;
+                case 'edit':
+                    $doc_id  = I('id');
+                    $cate_id = D('Document')->where(array('id'=>$doc_id))->getField('category_id');
+                    break;
+                case 'setstatus':
+                case 'permit':
+                    $doc_id  = (array)I('ids');
+                    $cate_id = D('Document')->where(array('id'=>array('in',implode(',',$doc_id))))->getField('category_id',true);
+                    $cate_id = array_unique($cate_id);
+                    break;
+            }
+            if(!$cate_id){
+                return null;
+            }elseif( !is_array($cate_id) && in_array($cate_id,$cates) ) {
+                return true;
+            }elseif( is_array($cate_id) && $cate_id==array_intersect($cate_id,$cates) ){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return null;
     }
 
 
@@ -329,7 +368,7 @@ class AdminController extends Action {
                 $item['url'] = MODULE_NAME.'/'.$item['url'];
             }
             //非超级管理员需要判断节点权限
-            if ( /* !$this->root_user && */   !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null) ) {  //检测节点权限
+            if (  !$this->root_user &&  !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null) ) {  //检测节点权限
                 unset($menus['main'][$key]);
                 continue;//继续循环
             }
@@ -352,7 +391,7 @@ class AdminController extends Action {
                         //$value  分组数组
                         foreach ($value as $k=>$v){
                             //$v  节点配置
-                            if ( !empty($v['hide']) || ( /* !$this->root_user && */  !$this->checkRule($v['url'],AuthRuleModel::RULE_URL,null) ) ) {   //检测节点权限
+                            if ( !empty($v['hide']) || ( !$this->root_user && !$this->checkRule($v['url'],AuthRuleModel::RULE_URL,null) ) ) {   //检测节点权限
                                 unset($value[$k]);
                             }
                         }
@@ -368,7 +407,6 @@ class AdminController extends Action {
             }
         }
 //        S('base_menu'.CONTROLLER_NAME,$menus);
-        // dump($menus);
         return $menus;
     }
 
@@ -474,7 +512,7 @@ class AdminController extends Action {
     protected function lists ($model,$where=array(),$order='')
     {
         $options = array();
-        $REQUEST = (array)I('get');
+        $REQUEST = (array)I('get.');
         if(is_string($model)){
             $model = D($model);
         }
@@ -519,7 +557,7 @@ class AdminController extends Action {
      *
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    protected function tableList($list,$thead)
+    public function tableList($list,$thead)
     {
         $keys = array_keys($thead);
         array_walk($list,function(&$v,$k) use($keys,$thead) {
@@ -644,7 +682,7 @@ class AdminController extends Action {
                 }
             }
 			session( 'nav', $this->nav );
-            $this->assign('_nav',$arr);        
+            $this->assign('_nav',$arr);
             $this->assign('_show_nav',$show);
         }
     }

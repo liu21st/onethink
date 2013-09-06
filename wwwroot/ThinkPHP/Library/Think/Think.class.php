@@ -19,6 +19,10 @@ namespace Think;
  */
 class Think {
 
+    // 类映射
+    private static $_map      = array();
+
+    // 实例化对象
     private static $_instance = array();
 
     /**
@@ -27,119 +31,106 @@ class Think {
      * @return void
      */
     static public function start() {
-        // 设定错误和异常处理
-        register_shutdown_function(array('Think\Think','fatalError'));
-        set_error_handler(array('Think\Think','appError'));
-        set_exception_handler(array('Think\Think','appException'));
-        // 注册AUTOLOAD方法
-        spl_autoload_register(array('Think\Think', 'autoload'));
-        //[RUNTIME]
-        self::buildApp();         // 预编译项目
-        //[/RUNTIME]
-        // 运行应用
-        App::run();
-        return ;
+      // 设定错误和异常处理
+      register_shutdown_function(array('Think\Think','fatalError'));
+      set_error_handler(array('Think\Think','appError'));
+      set_exception_handler(array('Think\Think','appException'));
+      // 注册AUTOLOAD方法
+      spl_autoload_register(array('Think\Think', 'autoload'));
+
+      // 读取应用模式
+      $mode   =   include THINK_PATH.'Conf/Mode/'.APP_MODE.'.php';
+      
+      // 加载配置文件
+      foreach ($mode['config'] as $key=>$file){
+          is_numeric($key)?C(include $file):C($key,include $file);
+      }
+
+      // 加载核心文件
+      foreach ($mode['core'] as $file){
+          include $file;
+      }
+
+      // 加载别名定义
+      foreach($mode['alias'] as $alias){
+          self::addMap(is_array($alias)?$alias:include $alias);
+      }
+            
+      // 加载模式系统行为定义
+      if(isset($mode['extends'])) {
+          C('extends',is_array($mode['extends'])?$mode['extends']:include $mode['extends']);
+      }
+
+      // 加载应用行为定义
+      if(isset($mode['tags'])) {
+          C('tags', is_array($mode['tags'])?$mode['tags']:include $mode['tags']);
+      }
+
+      // 加载框架底层语言包
+      L(include THINK_PATH.'Lang/'.strtolower(C('DEFAULT_LANG')).'.php');
+
+  	  // 初始化文件存储方式
+  	  Storage::connect();
+
+      // 检查项目目录结构 如果不存在则自动创建
+      if(!is_dir(RUNTIME_PATH)) {
+          // 创建项目目录结构
+          require THINK_PATH.'Common/build.php';
+      }
+
+      if(APP_DEBUG){
+          // 调试模式加载系统默认的配置文件
+          C(include THINK_PATH.'Conf/debug.php');
+          // 读取调试模式的应用状态
+          $status  =  C('APP_STATUS');
+          // 加载对应的项目配置文件
+          if(is_file(COMMON_PATH.'Conf/'.$status.'.php'))
+              // 允许项目增加开发模式配置定义
+              C(include COMMON_PATH.'Conf/'.$status.'.php');          
+      }
+
+      // 记录加载文件时间
+      G('loadTime');
+      // 运行应用
+      App::run();
     }
 
-    //[RUNTIME]
-    /**
-     * 读取配置信息 编译项目
-     * @access private
-     * @return string
-     */
-    static private function buildApp() {
-        
-        // 读取运行模式
-        if(defined('MODE_NAME')) { // 读取模式的设置
-            $mode   = include MODE_PATH.strtolower(MODE_NAME).'.php';
+    // 注册classmap
+    static public function addMap($class, $map=''){
+        if(is_array($class)){
+            self::$_map = array_merge(self::$_map, $class);
         }else{
-            $mode   =  array();
-        }
-        if(isset($mode['config'])) {// 加载模式配置文件
-            C( is_array($mode['config'])?$mode['config']:include $mode['config'] );
-        }
-
-        // 加载项目配置文件
-        if(is_file(COMMON_PATH.'Conf/config.php'))
-            C(include COMMON_PATH.'Conf/config.php');
-
-        // 加载框架底层语言包
-        L(include THINK_PATH.'Lang/'.strtolower(C('DEFAULT_LANG')).'.php');
-
-        // 加载模式系统行为定义
-        if(C('APP_TAGS_ON')) {
-            if(isset($mode['extends'])) {
-                C('extends',is_array($mode['extends'])?$mode['extends']:include $mode['extends']);
-            }else{ // 默认加载系统行为扩展定义
-                C('extends', include THINK_PATH.'Conf/tags.php');
-            }
-        }
-
-        // 加载应用行为定义
-        if(isset($mode['tags'])) {
-            C('tags', is_array($mode['tags'])?$mode['tags']:include $mode['tags']);
-        }elseif(is_file(COMMON_PATH.'Conf/tags.php')){
-            // 默认加载项目配置目录的tags文件定义
-            C('tags', include COMMON_PATH.'Conf/tags.php');
-        }
-
-        $compile   = '';
-        // 读取核心编译文件列表
-        if(isset($mode['core'])) {
-            $list  =  $mode['core'];
-        }else{
-            $list  =  array(
-                THINK_PATH.'Common/functions.php', // 标准模式函数库
-            );
-        }
-
-        foreach ($list as $file){
-            if(is_file($file))  {
-                require_cache($file);
-                if(!APP_DEBUG)   $compile .= compile($file);
-            }
-        }
-        
-        // 加载模式别名定义
-        if(isset($mode['alias'])) {
-            $alias = is_array($mode['alias'])?$mode['alias']:include $mode['alias'];
-            alias_import($alias);
-            if(!APP_DEBUG) $compile .= 'alias_import('.var_export($alias,true).');';               
-        }
-     
-        if(APP_DEBUG) {
-            // 调试模式加载系统默认的配置文件
-            C(include THINK_PATH.'Conf/debug.php');
-        }
-        return ;
+            self::$_map[$class] = $_map;
+        }        
     }
-    //[/RUNTIME]
 
     /**
-     * 系统自动加载ThinkPHP类库
-     * 并且支持配置自动加载路径
+     * 类库自动加载
      * @param string $class 对象类名
      * @return void
      */
     public static function autoload($class) {
-        // 检查是否存在别名定义
-        if(alias_import($class)) return ;
-        $name     = strstr($class, '\\', true);
-        $namespace =    C('AUTOLOAD_NAMESPACE');
-        if(isset($namespace[$name])){ // 注册的命名空间
-            $path   =   dirname($namespace[$name]) . '/';
-        }elseif(is_dir(LIB_PATH.$name)){ // Library目录下面的命名空间自动定位
-            $path   =   LIB_PATH;
-        }else{ // 模块的命名空间
-            $path   =   APP_PATH;
-        }
-        $filename = $path . str_replace('\\', '/', $class) . '.class.php';
-        if(is_file($filename)) {
-            // Win环境下面严格区分大小写
-            if (IS_WIN && false === strpos(str_replace('/', '\\', realpath($filename)), $class . '.class.php')){
-                return ;
-            }
-            include $filename;
+        // 检查是否存在映射
+        if(isset(self::$_map[$class])) {
+            include self::$_map[$class];
+        }else{
+          $name     = strstr($class, '\\', true);
+          $namespace =    C('AUTOLOAD_NAMESPACE');
+          if(isset($namespace[$name])){ // 注册的命名空间
+              $path   =   dirname($namespace[$name]) . '/';
+          }elseif(is_dir(LIB_PATH.$name)){ // Library目录下面的命名空间自动定位
+              $path   =   LIB_PATH;
+          }else{ // 模块的命名空间
+              $path   =   APP_PATH;
+          }
+          $filename = $path . str_replace('\\', '/', $class) . '.class.php';
+          if(is_file($filename)) {
+              // Win环境下面严格区分大小写
+              if (IS_WIN && false === strpos(str_replace('/', '\\', realpath($filename)), $class . '.class.php')){
+                  return ;
+              }
+              include $filename;
+          }
         }
     }
 
@@ -172,16 +163,16 @@ class Think {
      */
     static public function appException($e) {
         $error = array();
-        $error['message']   = $e->getMessage();
-        $trace  =   $e->getTrace();
+        $error['message']   =   $e->getMessage();
+        $trace              =   $e->getTrace();
         if('E'==$trace[0]['function']) {
             $error['file']  =   $trace[0]['file'];
             $error['line']  =   $trace[0]['line'];
         }else{
-            $error['file']      = $e->getFile();
-            $error['line']      = $e->getLine();
+            $error['file']  =   $e->getFile();
+            $error['line']  =   $e->getLine();
         }
-        $error['trace'] = $e->getTraceAsString();
+        $error['trace']     =   $e->getTraceAsString();
         Log::record($error['message'],Log::ERR);
         // 发送404信息
         header('HTTP/1.1 404 Not Found');

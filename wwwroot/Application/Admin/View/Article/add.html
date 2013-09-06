@@ -1,31 +1,24 @@
 <extend name="Public/base" />
 <!-- 子导航 -->
 <block name="sidebar">
-    <div id="subnav" class="subnav">
-        <volist name="nodes" id="sub_menu">
-            <!-- 子导航 -->
-            <notempty name="sub_menu">
-                <h3><i class="icon-s1"></i><a href="{$sub_menu.url|U}">{$sub_menu.title}</a></h3>
-                <ul <neq name="sub_menu['current']" value="1">class="subnav-off"</neq>>
-                    <volist name="sub_menu['_child']" id="menu">
-                        <li <eq name="menu['id']" value="$cate_id">class="current"</eq>><a href="{$menu.url|U}">{$menu.title}</a></li>
-                    </volist>
-                </ul>
-            </notempty>
-            <!-- /子导航 -->
-        </volist>
-    </div>
+    <include file="sidemenu" />
 </block>
 
 <block name="body">
 	<div class="main-title cf">
-		<h2>新增文档</h2>
+		<h2>
+		新增文档 [
+		<volist name="rightNav" id="nav">
+		<a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a>
+		<if condition="count($rightNav) gt $i"><i class="ca"></i></if>
+		</volist>
+		]
 	</div>
 	<!-- 标签页导航 -->
 	<div class="tab-wrap">
 		<ul class="tab-nav nav">
-			<li data-tab="tab1" class="current"><a href="javascript:void(0);">基础</a></li>
-			<li data-tab="tab2"><a href="javascript:void(0);">扩展</a></li>
+			<li data-tab="tab1" class="current"><a href="javascript:void(0);">基 础</a></li>
+			<li data-tab="tab2"><a href="javascript:void(0);">扩 展</a></li>
 		</ul>
 		<div class="tab-content">
 			<form id="form" action="{:U('update')}" method="post" class="form-horizontal">
@@ -97,8 +90,8 @@
 			            <input type="hidden" name="type" value="2">
 			            <input type="hidden" name="category_id" value="{$cate_id}">
 			            <input type="hidden" name="model_id" value="{$model_id}">
-						<button class="btn" id="submit"><em>保存</em> </button>
-						<a class="btn" href="{:U('article/index?cate_id='.$cate_id)}"> <i class="icon-redo"></i><em>返回列表</em> </a>
+						<button class="btn" id="submit">保 存</button>
+						<a class="btn" href="{:U('article/index?cate_id='.$cate_id)}">返 回</a>
 					</div>
 				</div>
 			</form>

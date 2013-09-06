@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>用户管理中心 - 首页</title>
+    <title>{$meta_title|default='OneThink后台管理'}</title>
     <link rel="stylesheet" type="text/css" href="__CSS__/base.css" media="all">
     <link rel="stylesheet" type="text/css" href="__CSS__/common.css" media="all">
     <link rel="stylesheet" type="text/css" href="__CSS__/module.css">
@@ -36,12 +36,12 @@
 
         <!-- 用户栏 -->
         <div class="user-bar">
-            你好，<strong>admin</strong>
+            你好，<strong>{:get_username()}</strong>
             <a href="{:U('Index/logout')}">[退出]</a>
         </div>
     </div>
     <!-- /头部 -->
-
+    
     <!-- 边栏 -->
     <div class="sidebar">
         <!-- 子导航 -->
@@ -55,9 +55,11 @@
                     <!-- 子导航 -->
                     <notempty name="sub_menu">
                         <h3><i class="icon icon-unfold"></i>{$key}</h3>
-                        <ul>
+                        <ul class="side-sub-menu">
                             <volist name="sub_menu" id="menu">
-                                <li><a href="{$menu.url|U}">{$menu.title}</a></li>
+                                <li>
+                                    <a class="item" href="{$menu.url|U}">{$menu.title}</a>
+                                </li>
                             </volist>
                         </ul>
                     </notempty>
@@ -68,7 +70,7 @@
         <!-- /子导航 -->
     </div>
     <!-- /边栏 -->
-
+    
     <!-- 内容区 -->
     <div id="main" class="main">
         <block name="nav">
@@ -80,7 +82,7 @@
             <foreach name="_nav" item="v" key="k">
                 <if condition="$i eq count($_nav)">
                 <span>{$v}</span>
-                <else />   
+                <else />
                 <span><a href="{$k}">{$v}</a>&gt;</span>
                 </if>
                 <assign name="i" value="$i+1" />
@@ -107,6 +109,13 @@
             /* 左边菜单显示收起 */
             $("#subnav h3").find("i").click(function(){
                 $(this).parent().next().toggle("fast","linear");
+                $(this).toggleClass("icon-fold");
+            });
+
+            $(".side-sub-menu li").hover(function(){
+                $(this).addClass("hover").siblings().removeClass("hover");
+            },function(){
+                $(this).removeClass("hover");
             })
         }();
     </script>

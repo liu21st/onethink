@@ -9,7 +9,6 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 namespace Think\Session\Driver;
-defined('THINK_PATH') or exit();
 /**
  * 数据库方式Session驱动
  *    CREATE TABLE think_session (
