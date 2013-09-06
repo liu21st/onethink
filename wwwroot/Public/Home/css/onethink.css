@@ -124,6 +124,7 @@
 	right: 0;
 	z-index: 8;
 	width: 80px;
+	display: none;
 	background-color: #fefefe;
 	border: 1px solid #ebebeb;
 	border-bottom-width: 0;
