@@ -123,10 +123,10 @@ class Think {
           }else{ // 模块的命名空间
               $path   =   APP_PATH;
           }
-          $filename = $path . str_replace('\\', '/', $class) . '.class.php';
+          $filename = $path . str_replace('\\', '/', $class) . EXT;
           if(is_file($filename)) {
               // Win环境下面严格区分大小写
-              if (IS_WIN && false === strpos(str_replace('/', '\\', realpath($filename)), $class . '.class.php')){
+              if (IS_WIN && false === strpos(str_replace('/', '\\', realpath($filename)), $class . EXT)){
                   return ;
               }
               include $filename;
