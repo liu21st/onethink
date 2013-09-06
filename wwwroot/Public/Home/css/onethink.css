@@ -120,7 +120,7 @@
 /* 用户菜单 */
 .user-menu {
 	position: absolute;
-	top: 60px;
+	top: 45px;
 	right: 0;
 	z-index: 8;
 	width: 180px;
@@ -460,7 +460,58 @@
 	float: left;
 	margin: 0 10px 0 0;
 }
-
+/*下载*/
+.book-list .item {
+    background: none repeat scroll 0 0 #F1F1F1;
+    height: 170px;
+    margin: 0 5px 10px;
+    padding: 10px;
+    width: 303px;
+}
+.book-list .item .image {
+    background: url(../images/book.png) no-repeat;
+    height: 144px;
+    line-height: 20px;
+    margin-right: 6px;
+    padding: 15px 10px 10px 20px;
+    width: 104px;
+}
+.book-list .item .summary {
+    width: 160px;
+}
+.book-list .item dl {
+    color: #666666;
+    line-height: 20px;
+}
+.book-list .item dt {
+    color: #333333;
+    font-size: 14px;
+    font-weight: 700;
+    padding-bottom: 24px;
+}
+.book-list .item .action {
+    margin-top: 26px;
+}
+.book-list .item .download {
+    background-position: 0 0;
+}
+.book-list .item span a {
+    display: inline-block;
+    height: 24px;
+    overflow: hidden;
+    width: 48px;
+}
+.book-list .item span {
+    background: url(../images/button.png) no-repeat;
+    display: inline-block;
+    height: 35px;
+}
+.book-list .item .read {
+    background-position: 0 -82px;
+}
+.book-list .item  span:hover{
+	opacity: 0.8;
+}
 /*文档列表*/
 .media-list{
 	padding: 15px 0 15px 15px;
