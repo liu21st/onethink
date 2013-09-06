@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>系统安装</title>
+    <link rel="stylesheet" href="__PUBLIC__/Css/install.css">
+</head>
+<body>
+    <div class="system-install system-step">
+        <div class="sihead">
+            <!--安装图标-->
+            <div class="install-logo">
+                <h3>discuz! 安装向导</h3>
+            </div>
+            <!--/安装图标-->
+            <!--安装描述-->
+            <div class="install-summary">
+                Discuz!X2.5 简体中文 UTF8 版 20130222
+            </div>
+            <!--/安装描述-->
+        </div>
+        <div class="sibody">
+            <!--安装步骤-->
+            <div class="step-install">
+                <div class="install-current">
+                    <i class="step1">1.</i>     
+                    <h3>环境检测</h3>
+                    <p>环境以及文件目录权限检查</p>
+                </div>
+                <div class="install-total cf">
+                    <span class="current"><i class="ico">&nbsp;</i><b>检查安装设置</b></span>
+                    <span><i class="ico">&nbsp;</i><b>设置运行环境</b></span>
+                    <span><i class="ico">&nbsp;</i><b>创建数据库</b></span>
+                    <span class="last"><i class="ico">&nbsp;</i><b>安装</b></span>
+                </div>
+            </div>
+            <!--/安装步骤-->
+            <!--安装检测-->
+            <div class="step-check">
+                <div class="check-table">
+                    <table>
+                        <caption>环境检查</caption>
+                        <tr>
+                            <th>项目</th>
+                            <th>Discuz! 所需配置</th>
+                            <th>Discuz! 最佳</th>
+                            <th>当前服务器</th>    
+                        </tr>
+                        <volist name="env" id="item">
+                            <tr>
+                                <td>{$item[0]}</td>
+                                <td>{$item[1]}</td>
+                                <td>{$item[2]}</td>
+                                <td><i class="ico-{$item[4]}">&nbsp;</i>{$item[3]}</td>       
+                            </tr>
+                        </volist>
+                    </table>
+                </div>
+                <div class="check-table">
+                    <table>
+                        <caption>目录、文件权限检查</caption>
+                        <tr>
+                            <th>目录文件</th>
+                            <th>所需状态</th>
+                            <th>当前状态</th>    
+                        </tr>
+                        <volist name="dirfile" id="item">
+                            <tr>
+                                <td>{$item[3]}</td>
+                                <td><i class="ico-success">&nbsp;</i>可写</td>
+                                <td><i class="ico-{$item[2]}">&nbsp;</i>{$item[1]}</td>   
+                            </tr>
+                        </volist>
+                    </table>
+                </div>
+                <div class="check-table">
+                    <table>
+                        <caption>函数依赖性检查</caption>
+                        <tr>
+                            <th>函数名称</th>
+                            <th>检查结果</th>
+                            <th>建议</th>    
+                        </tr>
+                        <volist name="func" id="item">
+                            <tr>
+                                <td>{$item[0]}()</td>
+                                <td><i class="ico-{$item[2]}">&nbsp;</i>{$item[1]}</td>
+                                <td>{$item[3]}</td>   
+                            </tr>
+                        </volist>
+                    </table>
+                </div>
+            </div>
+            <!--/安装检测-->
+            <!--安装跳转-->
+            <div class="step-jump">
+                <a class="widget-btn" href="{:U('Index/index')}">上一步</a>
+                <a class="widget-btn" href="{:U('step2')}">下一步</a>
+            </div>
+            <!--/安装跳转-->
+        </div>
+        <div class="sifoot">
+            <!--安装版权-->
+            <div class="install-copyright">
+                ©2001 - 2012 <a href="#">Comsenz</a> Inc.
+            </div>
+            <!--/安装版权-->
+        </div>
+    </div>
+</body>
+</html>

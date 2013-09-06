@@ -19,6 +19,10 @@ namespace Think;
  */
 class Think {
 
+    // 类映射
+    private static $_map      = array();
+
+    // 实例化对象
     private static $_instance = array();
 
     /**
@@ -33,6 +37,7 @@ class Think {
       set_exception_handler(array('Think\Think','appException'));
       // 注册AUTOLOAD方法
       spl_autoload_register(array('Think\Think', 'autoload'));
+
       // 读取应用模式
       $mode   =   include THINK_PATH.'Conf/Mode/'.APP_MODE.'.php';
       
@@ -40,13 +45,15 @@ class Think {
       foreach ($mode['config'] as $key=>$file){
           is_numeric($key)?C(include $file):C($key,include $file);
       }
+
       // 加载核心文件
       foreach ($mode['core'] as $file){
           include $file;
       }
+
       // 加载别名定义
       foreach($mode['alias'] as $alias){
-          alias_import(is_array($alias)?$alias:include $alias);
+          self::addMap(is_array($alias)?$alias:include $alias);
       }
             
       // 加载模式系统行为定义
@@ -58,13 +65,19 @@ class Think {
       if(isset($mode['tags'])) {
           C('tags', is_array($mode['tags'])?$mode['tags']:include $mode['tags']);
       }
+
       // 加载框架底层语言包
       L(include THINK_PATH.'Lang/'.strtolower(C('DEFAULT_LANG')).'.php');
+
+  	  // 初始化文件存储方式
+  	  Storage::connect();
+
       // 检查项目目录结构 如果不存在则自动创建
       if(!is_dir(RUNTIME_PATH)) {
           // 创建项目目录结构
           require THINK_PATH.'Common/build.php';
       }
+
       if(APP_DEBUG){
           // 调试模式加载系统默认的配置文件
           C(include THINK_PATH.'Conf/debug.php');
@@ -82,31 +95,42 @@ class Think {
       App::run();
     }
 
+    // 注册classmap
+    static public function addMap($class, $map=''){
+        if(is_array($class)){
+            self::$_map = array_merge(self::$_map, $class);
+        }else{
+            self::$_map[$class] = $_map;
+        }        
+    }
+
     /**
-     * 系统自动加载ThinkPHP类库
-     * 并且支持配置自动加载路径
+     * 类库自动加载
      * @param string $class 对象类名
      * @return void
      */
     public static function autoload($class) {
-        // 检查是否存在别名定义
-        if(alias_import($class)) return ;
-        $name     = strstr($class, '\\', true);
-        $namespace =    C('AUTOLOAD_NAMESPACE');
-        if(isset($namespace[$name])){ // 注册的命名空间
-            $path   =   dirname($namespace[$name]) . '/';
-        }elseif(is_dir(LIB_PATH.$name)){ // Library目录下面的命名空间自动定位
-            $path   =   LIB_PATH;
-        }else{ // 模块的命名空间
-            $path   =   APP_PATH;
-        }
-        $filename = $path . str_replace('\\', '/', $class) . '.class.php';
-        if(is_file($filename)) {
-            // Win环境下面严格区分大小写
-            if (IS_WIN && false === strpos(str_replace('/', '\\', realpath($filename)), $class . '.class.php')){
-                return ;
-            }
-            include $filename;
+        // 检查是否存在映射
+        if(isset(self::$_map[$class])) {
+            include self::$_map[$class];
+        }else{
+          $name     = strstr($class, '\\', true);
+          $namespace =    C('AUTOLOAD_NAMESPACE');
+          if(isset($namespace[$name])){ // 注册的命名空间
+              $path   =   dirname($namespace[$name]) . '/';
+          }elseif(is_dir(LIB_PATH.$name)){ // Library目录下面的命名空间自动定位
+              $path   =   LIB_PATH;
+          }else{ // 模块的命名空间
+              $path   =   APP_PATH;
+          }
+          $filename = $path . str_replace('\\', '/', $class) . '.class.php';
+          if(is_file($filename)) {
+              // Win环境下面严格区分大小写
+              if (IS_WIN && false === strpos(str_replace('/', '\\', realpath($filename)), $class . '.class.php')){
+                  return ;
+              }
+              include $filename;
+          }
         }
     }
 
