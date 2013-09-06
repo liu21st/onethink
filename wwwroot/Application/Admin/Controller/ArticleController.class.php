@@ -253,7 +253,13 @@ class ArticleController extends \Admin\Controller\AdminController {
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function recycle(){
-		$list = D('Document')->where(array('status'=>-1))->field('id,title,uid,create_time')->select();
+        if ( is_administrator() ) {
+            $map = array('status'=>-1);
+        }else{
+            $cate_auth = AuthGroupModel::getAuthCategories(is_login());
+            $map = array('status'=>-1,'category_id'=>array('IN',implode(',',$cate_auth)));
+        }
+        $list = D('Document')->where($map)->field('id,title,uid,create_time')->select();
 		//处理列表数据
 		foreach ($list as $k=>&$v){
 			$v['username'] = get_username($v['uid']);
@@ -267,7 +273,7 @@ class ArticleController extends \Admin\Controller\AdminController {
             //所有 _ 下划线开头的元素用于使用html代码生成th和td
             '_html'=>array(
                 'th'=>'<input class="check-all" type="checkbox"/>',
-                'td'=>'<input class="ids" type="checkbox" name="id[]" value="$id" />',
+                'td'=>'<input class="ids" type="checkbox" name="ids[]" value="$id" />',
             ),
             //查询出的数据集中的字段=>字段的表头
             'id'=>'编号',

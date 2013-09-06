@@ -77,7 +77,7 @@ class AdminController extends Action {
         }
         $this->assign('__controller__', $this);
         $this->checkNodes();
-        $this->_nav();
+        // $this->_nav();//面包屑导航,暂不需要
     }
 
     /**
@@ -118,6 +118,7 @@ class AdminController extends Action {
                     $cate_id = D('Document')->where(array('id'=>$doc_id))->getField('category_id');
                     break;
                 case 'setstatus':
+                case 'permit':
                     $doc_id  = (array)I('ids');
                     $cate_id = D('Document')->where(array('id'=>array('in',implode(',',$doc_id))))->getField('category_id',true);
                     $cate_id = array_unique($cate_id);
@@ -406,7 +407,6 @@ class AdminController extends Action {
             }
         }
 //        S('base_menu'.CONTROLLER_NAME,$menus);
-        // dump($menus);
         return $menus;
     }
 
