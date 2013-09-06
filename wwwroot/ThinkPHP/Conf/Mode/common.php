@@ -43,7 +43,6 @@ return array(
 		THINK_PATH.'Common/functions.php',
 		COMMON_PATH.'Common/function.php',
 		CORE_PATH . 'App.class.php',
-		CORE_PATH . 'Log.class.php',
 		CORE_PATH . 'Exception.class.php',
 		CORE_PATH . 'Model.class.php',
 		CORE_PATH . 'Db.class.php',
