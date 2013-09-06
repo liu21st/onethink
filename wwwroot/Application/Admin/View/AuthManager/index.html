@@ -20,17 +20,17 @@
                     'td'=>'<input class="ids" type="checkbox" name="id[]" value="$id" />',
                 ),
                 'title'=>array(
-                    'title'  =>'用户组',
+                    '_title'  =>'用户组',
                     'tag'    =>'a',
                     'class'  =>'edit-group',
                     'data-id'=>'$id',
                     'href'   =>'AuthManager/editgroup?id=$id',
                 ),
                 'description'=>array(
-                    'title' =>'描述',
+                    '_title'=>'描述',
                     'tag'   =>'span',
-                    'tip'   =>'$description',
-                    'func'  => 'mb_strimwidth($description,0,30,"...","utf-8")',
+                    'title' =>'$description',
+                    'func'  => 'mb_strimwidth($description,0,60,"...","utf-8")',
                 ),
                 'status_text'=>'状态',
                 '操作'=>array(
