@@ -114,6 +114,7 @@ class AdminController extends Action {
                     $cate_id = I('cate_id');
                     break;
                 case 'edit':
+                case 'update':
                     $doc_id  = I('id');
                     $cate_id = D('Document')->where(array('id'=>$doc_id))->getField('category_id');
                     break;
