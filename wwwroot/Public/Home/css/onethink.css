@@ -127,6 +127,7 @@
 	background-color: #fefefe;
 	border: 1px solid #ebebeb;
 	border-bottom-width: 0;
+	display: none;
 }
 .user-menu li {
 	border-bottom: 1px solid #ebebeb;
@@ -138,6 +139,7 @@
 	height: 35px;
 	line-height: 35px;
 	overflow: hidden;
+	text-align:center;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
@@ -462,7 +464,8 @@
 }
 /*下载*/
 .book-list{
-	padding: 40px 0;
+	padding: 10px 0;
+	margin-bottom: 150px;
 }
 .book-list .item {
     background: none repeat scroll 0 0 #F1F1F1;
@@ -474,13 +477,18 @@
 .book-list .item:hover{
 	background-color:#EAEAEA;
 }
-.book-list .item .image {
-    background: url(../images/book.png) no-repeat;
-    height: 144px;
-    line-height: 20px;
-    margin-right: 6px;
-    padding: 15px 10px 10px 20px;
-    width: 104px;
+.book-list .item .image{
+	height: 144px;
+  line-height: 20px;
+  margin-right: 6px;
+  padding: 15px 10px 10px 20px;
+  width: 104px;
+}
+.book-list .item .template-image {
+    background: url(../images/template.png) no-repeat;   
+}
+.book-list .item .addons-image {
+    background: url(../images/addons.png) no-repeat;   
 }
 .book-list .item .summary {
     width: 160px;
@@ -502,7 +510,7 @@
 .book-list .item .action {
     margin-top: 6px;
 }
-.book-list .item .action a{
+.book-list .item .action .btn-mr16{
 	margin-right: 16px;
 }
 .book-list .item .read {
@@ -522,7 +530,10 @@
 	width: 500px; 
 	margin: 0 auto;
 	font-size: 18px;
-	padding: 60px 0;
+	padding: 70px 0;
+}
+.expect-mt20{
+	padding: 93px 0;
 }
 .expect img{
 	vertical-align: middle;
