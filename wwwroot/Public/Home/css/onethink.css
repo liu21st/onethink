@@ -976,10 +976,11 @@
   width: 57px;
 }
 .other .edu {
-	background-position: 0 0;
+	background-position: 0 -69px;
+	
 }
 .other .advice {
-	background-position: 0 -69px;
+	background-position: 0 0;
 }
 .other .invest {
 	background-position: 0 -143px;
