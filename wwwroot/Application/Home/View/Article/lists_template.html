@@ -54,24 +54,17 @@
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript">
-	$(function(){
-		$('#detailed').click(function() {
-        detailed_content();
-        return false;
+	
+<script type="text/javascript">
+function detailed_content(){
+    $.ThinkBox.load('{:U("detailed_content")}', {
+        'title': '',
+        'fixed': true,
+        'modal': true,
+        'drag': false,
+        'modalClose': false
     });
-	});
-	</script>
-	<script type="text/javascript">
-  function detailed_content(){
-      $.ThinkBox.load('{:U("detailed_content")}', {
-          'title': '',
-          'fixed': true,
-          'modal': true,
-          'drag': false,
-          'modalClose': false
-      });
-      return false;
-  }
+    return false;
+}
 </script>
 </block>

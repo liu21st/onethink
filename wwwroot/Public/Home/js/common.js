@@ -6,3 +6,9 @@ $(function(){
 		$(this).children(".user-menu").hide();
 	});
 });
+$(function(){
+	$('#detailed').click(function() {
+      detailed_content();
+      return false;
+  });
+});
