@@ -19,6 +19,7 @@ body{
     height: 49px;
     line-height: 49px;
     background-color: #333;
+    overflow: hidden;
 }
 .header .logo {
     float: left;
@@ -75,6 +76,7 @@ body{
     padding-top: 30px;
     width: 200px;
     height: 100%;
+    border-right: 1px solid #ccc;
     background-color: #f0f0f0;
 }
 .subnav {
@@ -116,7 +118,7 @@ body{
 }
 .side-sub-menu > li {
     position: relative;
-    margin: 2px 0;
+    margin: 2px -1px 2px 0;
 }
 .side-sub-menu > li > .item {
     padding:6px 0;

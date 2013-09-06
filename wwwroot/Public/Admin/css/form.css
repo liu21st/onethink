@@ -6,14 +6,16 @@
 /* 表单组件
 ------------------------------------------ */
 .text,.textarea {
-	padding: 4px;
-	border: 1px solid #ccc;
+	padding: 6px 4px;
+	border: 1px solid #ebebeb;
 	transition: all .3s linear;
 }
 .text {
 	width: 220px;
 	height: 16px;
 	vertical-align: middle;
+}
+.text:focus {
 }
 .textarea {
 	display: block;
@@ -64,13 +66,14 @@ select {
 	float: left;
 	margin-right: 5px;
 	width: 90px;
-	height: 30px;
-	line-height: 30px;
+	height: 40px;
+	line-height: 40px;
 	text-align: right;
 }
 .form-horizontal .controls {
 	overflow: hidden;
 	padding: 5px;
+	line-height: 30px;
 	*zoom: 1;
 }
 .form-horizontal .controls label + label {
