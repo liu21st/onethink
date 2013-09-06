@@ -1,0 +1,54 @@
+<extend name="Base/edit"/>
+
+<block name="addons"></block>
+
+<block name="content">
+	<div class="form-item">
+		<label class="item-label"><b class="must">*</b>文件</label>
+		<div class="controls">
+			<input id="download-file" type="file">
+			<input name="file" type="hidden" value="{$file|default=''}">
+		</div>
+	</div>
+	<div class="form-item">
+		<label class="item-label"><b class="must">*</b>说明</label>
+		<div class="controls">
+			<label class="textarea">
+				<textarea name="content">{$info['content']}</textarea>
+				<input type="hidden" name="parse" value="0">
+        		{:hooks('documentEditFormContent', array('name'=>'content','value'=>$info['content']))}
+			</label>
+		</div>
+	</div>
+</block>
+
+<block name="style">
+	<link rel="stylesheet" type="text/css" href="__STATIC__/uploadify/uploadify.css" />
+</block>
+
+<block name="script">
+	<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>>
+	<script type="text/javascript">
+	(function($){
+		/* 初始化上传插件 */
+		$("#download-file").uploadify({
+	        "height"          : 30,
+	        "swf"             : "__STATIC__/uploadify/uploadify.swf",
+	        "fileObjName"     : "download",
+	        "uploader"        : "{:U('File/upload')}",
+	        "width"           : 120,
+	        "onUploadSuccess" : uploadSuccess
+	    });
+
+		/* 文件上传成功回调函数 */
+	    function uploadSuccess(file, data){
+	    	var data = $.parseJSON(data);
+	        if(data.status){
+	        	$("input[name=file]").val(data.data);
+	        } else {
+	        	alert(data.info);
+	        }
+	    }
+	})(jQuery);
+	</script>
+</block>

@@ -4,9 +4,11 @@
 
 /* 头部Logo,主导航
 --------------------------------------*/
+html {
+    height: 100%;
+}
 body{
     padding: 50px 0 0 200px;
-    background: url(../images/overview_bg.png) repeat-y;
 }
 .header {
     position: fixed;
@@ -16,9 +18,7 @@ body{
     width: 100%;
     height: 49px;
     line-height: 49px;
-    border-bottom: 1px solid #2078c7;
-    background-color: #3E94E1;
-    box-shadow: 0 2px 2px rgba(0,0,0,.1);
+    background-color: #333;
 }
 .header .logo {
     float: left;
@@ -35,29 +35,24 @@ body{
 .main-nav li {
     float: left;
     width: 90px;
-    border-left: 1px solid #2078c7;
 }
 .main-nav a {
     display: block;
     height: 49px;
     line-height: 49px;
-    font-size: 18px;
+    font-size: 20px;
     color: #FFF;
     text-align: center;
 }
 .main-nav a:hover {
     text-decoration: none;
-    background-color:#348dde;
+    background-color:#656565;
 }
 .main-nav .current{
-    background-color: #1667ca;
+    background-color: #656565;
 }
 .main-nav .current a {
-    background-color: #2076d2;
-    background: -webkit-gradient(linear, 0 0, 100% 100%, from(rgba(34,126,210,0.5)), to(rgba(53,144,227,0.5)));
-    background: -moz-linear-gradient(top,rgba(34,126,210,0.5),rgba(53,144,227,0.5));
-    background: -ms-linear-gradient(top,rgba(34,126,210,0.5),rgba(53,144,227,0.5));
-    box-shadow: inset 0px -4px 10px rgba(0, 49, 115, 0.2);
+    background-color: #656565;
 }
 
 /* 用户 */
@@ -79,6 +74,8 @@ body{
     z-index: 0;
     padding-top: 30px;
     width: 200px;
+    height: 100%;
+    background-color: #f0f0f0;
 }
 .subnav {
     padding: 0 0 66px 15px;
@@ -94,7 +91,6 @@ body{
     font-weight: 400;
     color: #666;
     cursor: pointer;
-    background: url(../images/overview_nav_bg.png) no-repeat 0 34px;
 }
 .subnav h3 a:hover {
     text-decoration: none;
@@ -130,19 +126,15 @@ body{
     display:inline-block;
     color: #2a72c5;
     text-decoration: none;
+    border-bottom: 1px solid transparent;
 }
 .side-sub-menu > li > .item:hover, 
 .side-sub-menu > .current > .item {
     color: #666666;
     text-decoration: none;
     background:#ffffff;
+    border-bottom: 1px solid #ccc;
     border-radius: 3px 0 0 3px;
-    box-shadow: -1px 1px 1px rgba(0, 0, 0, 0.2);
-    border-left:1px solid #dbdcdc\9;
-    border-bottom:1px solid #dbdcdc\9;
-    *border-left:1px solid #dbdcdc;
-    *border-bottom:1px solid #dbdcdc;
-    *height:19px;
 }
 .side-sub-menu > .current > .item,
 .side-sub-menu > .current > .item:hover {
@@ -253,7 +245,7 @@ body{
 }
 .main-title h2 {
     float: left;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 400;
     color: #445566;   
 }

@@ -13,7 +13,34 @@
 
 	<!-- 数据列表 -->
 	<div class="data-table table-striped">
-        {$_table_list}
+        <?php
+            $thead = array(
+                '_html'=>array(
+                    'th'=>'<input class="check-all" type="checkbox"/>',
+                    'td'=>'<input class="ids" type="checkbox" name="id[]" value="$id" />',
+                ),
+                'title'=>array(
+                    'title'  =>'用户组',
+                    'tag'    =>'a',
+                    'class'  =>'edit-group',
+                    'data-id'=>'$id',
+                    'href'   =>'AuthManager/editgroup?id=$id',
+                ),
+                'description'=>'描述',
+                'status_text'=>'状态',
+                '操作'=>array(
+                    '禁用'=>array( 'href' => 'AuthManager/changeStatus?method=forbidGroup&id=$id', 'condition'=>'$status==1',), 
+                    '启用'=>array( 'href' => 'AuthManager/changeStatus?method=resumeGroup&id=$id', 'condition'=>'$status==0',), 
+                    '删除'=>array( 'href' => 'AuthManager/changeStatus?method=deleteGroup&id=$id', 'class'=>'confirm' ),
+                ),
+                '授权'=>array(
+                    '访问授权'=>'AuthManager/access?group_name=$title&group_id=$id',
+                    '成员授权'=>'AuthManager/user?group_name=$title&group_id=$id',
+                    '分类授权'=>'AuthManager/category?group_name=$title&group_id=$id',
+                ),
+            );
+            echo $_table_list = $__controller__->tableList($_list,$thead);
+        ?>
 	</div>
     <div>
         {$_page}
@@ -37,20 +64,15 @@
             if (!ids) {
                 //TODO: 错误提示
                	return false;
-                // console.warn('没有选择内容')
             }
             $.post(url,ids).success(function(data){
                 location.reload();
             }).error(function(data){
                 //TODO: 错误提示
                 return false;
-                // console.error(data);
             });
         });
         //全选节点
-        $('.check-all').on('change',function(){
-            $('.ids').prop('checked',this.checked);
-        });
     }(jQuery)
 </script>
 <script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>

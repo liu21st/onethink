@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>用户管理中心 - 首页</title>
+    <title>{$meta_title|default='OneThink后台管理'}</title>
     <link rel="stylesheet" type="text/css" href="__CSS__/base.css" media="all">
     <link rel="stylesheet" type="text/css" href="__CSS__/common.css" media="all">
     <link rel="stylesheet" type="text/css" href="__CSS__/module.css">
@@ -36,7 +36,7 @@
 
         <!-- 用户栏 -->
         <div class="user-bar">
-            你好，<strong>admin</strong>
+            你好，<strong>{:get_username()}</strong>
             <a href="{:U('Index/logout')}">[退出]</a>
         </div>
     </div>
@@ -124,7 +124,7 @@
             <foreach name="_nav" item="v" key="k">
                 <if condition="$i eq count($_nav)">
                 <span>{$v}</span>
-                <else />   
+                <else />
                 <span><a href="{$k}">{$v}</a>&gt;</span>
                 </if>
                 <assign name="i" value="$i+1" />

@@ -27,81 +27,59 @@ class Think {
      * @return void
      */
     static public function start() {
-        // 设定错误和异常处理
-        register_shutdown_function(array('Think\Think','fatalError'));
-        set_error_handler(array('Think\Think','appError'));
-        set_exception_handler(array('Think\Think','appException'));
-        // 注册AUTOLOAD方法
-        spl_autoload_register(array('Think\Think', 'autoload'));
-        // 加载项目文件
-        self::buildApp(); 
-        // 运行应用
-        App::run();
-        return ;
-    }
+      // 设定错误和异常处理
+      register_shutdown_function(array('Think\Think','fatalError'));
+      set_error_handler(array('Think\Think','appError'));
+      set_exception_handler(array('Think\Think','appException'));
+      // 注册AUTOLOAD方法
+      spl_autoload_register(array('Think\Think', 'autoload'));
+      // 读取应用模式
+      $mode   =   include THINK_PATH.'Conf/Mode/'.APP_MODE.'.php';
+      
+      // 加载配置文件
+      foreach ($mode['config'] as $key=>$file){
+          is_numeric($key)?C(include $file):C($key,include $file);
+      }
+      // 加载核心文件
+      foreach ($mode['core'] as $file){
+          include $file;
+      }
+      // 加载别名定义
+      foreach($mode['alias'] as $alias){
+          alias_import(is_array($alias)?$alias:include $alias);
+      }
+            
+      // 加载模式系统行为定义
+      if(isset($mode['extends'])) {
+          C('extends',is_array($mode['extends'])?$mode['extends']:include $mode['extends']);
+      }
 
-    /**
-     * 读取配置信息 加载模式文件
-     * @access private
-     * @return void
-     */
-    static private function buildApp() {
-        
-        // 读取运行模式
-        if(defined('MODE_NAME')) { // 读取模式的设置
-            $mode   = include MODE_PATH.strtolower(MODE_NAME).'.php';
-        }else{
-            $mode   =  array();
-        }
-        if(isset($mode['config'])) {// 加载模式配置文件
-            C( is_array($mode['config'])?$mode['config']:include $mode['config'] );
-        }
+      // 加载应用行为定义
+      if(isset($mode['tags'])) {
+          C('tags', is_array($mode['tags'])?$mode['tags']:include $mode['tags']);
+      }
+      // 加载框架底层语言包
+      L(include THINK_PATH.'Lang/'.strtolower(C('DEFAULT_LANG')).'.php');
+      // 检查项目目录结构 如果不存在则自动创建
+      if(!is_dir(RUNTIME_PATH)) {
+          // 创建项目目录结构
+          require THINK_PATH.'Common/build.php';
+      }
+      if(APP_DEBUG){
+          // 调试模式加载系统默认的配置文件
+          C(include THINK_PATH.'Conf/debug.php');
+          // 读取调试模式的应用状态
+          $status  =  C('APP_STATUS');
+          // 加载对应的项目配置文件
+          if(is_file(COMMON_PATH.'Conf/'.$status.'.php'))
+              // 允许项目增加开发模式配置定义
+              C(include COMMON_PATH.'Conf/'.$status.'.php');          
+      }
 
-        // 加载项目配置文件
-        if(is_file(COMMON_PATH.'Conf/config.php'))
-            C(include COMMON_PATH.'Conf/config.php');
-
-        // 加载框架底层语言包
-        L(include THINK_PATH.'Lang/'.strtolower(C('DEFAULT_LANG')).'.php');
-
-        // 加载模式系统行为定义
-        if(isset($mode['extends'])) {
-            C('extends',is_array($mode['extends'])?$mode['extends']:include $mode['extends']);
-        }else{ // 默认加载系统行为扩展定义
-            C('extends', include THINK_PATH.'Conf/tags.php');
-        }
-
-        // 加载应用行为定义
-        if(isset($mode['tags'])) {
-            C('tags', is_array($mode['tags'])?$mode['tags']:include $mode['tags']);
-        }elseif(is_file(COMMON_PATH.'Conf/tags.php')){
-            // 默认加载项目配置目录的tags文件定义
-            C('tags', include COMMON_PATH.'Conf/tags.php');
-        }
-
-        // 读取核心文件列表
-        if(isset($mode['core'])) {
-            $list  =  $mode['core'];
-        }else{
-            $list  =  array(
-                THINK_PATH.'Common/functions.php', // 标准模式函数库
-            );
-        }
-        if(is_array($list)){
-            require_array($list);
-        }
-        
-        // 加载模式别名定义
-        if(isset($mode['alias'])) {
-            $alias = is_array($mode['alias'])?$mode['alias']:include $mode['alias'];
-            alias_import($alias);
-        }
-     
-        if(APP_DEBUG) {
-            // 调试模式加载系统默认的配置文件
-            C(include THINK_PATH.'Conf/debug.php');
-        }
-        return ;
+      // 记录加载文件时间
+      G('loadTime');
+      // 运行应用
+      App::run();
     }
 
     /**
@@ -161,16 +139,16 @@ class Think {
      */
     static public function appException($e) {
         $error = array();
-        $error['message']   = $e->getMessage();
-        $trace  =   $e->getTrace();
+        $error['message']   =   $e->getMessage();
+        $trace              =   $e->getTrace();
         if('E'==$trace[0]['function']) {
             $error['file']  =   $trace[0]['file'];
             $error['line']  =   $trace[0]['line'];
         }else{
-            $error['file']      = $e->getFile();
-            $error['line']      = $e->getLine();
+            $error['file']  =   $e->getFile();
+            $error['line']  =   $e->getLine();
         }
-        $error['trace'] = $e->getTraceAsString();
+        $error['trace']     =   $e->getTraceAsString();
         Log::record($error['message'],Log::ERR);
         // 发送404信息
         header('HTTP/1.1 404 Not Found');

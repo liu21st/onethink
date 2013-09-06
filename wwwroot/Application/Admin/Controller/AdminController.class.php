@@ -10,6 +10,7 @@
 namespace Admin\Controller;
 use Think\Action;
 use Admin\Model\AuthRuleModel;
+use Admin\Model\AuthGroupModel;
 /**
  * 后台首页控制器
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
@@ -17,7 +18,7 @@ use Admin\Model\AuthRuleModel;
 class AdminController extends Action {
 
     /* 保存禁止通过url访问的公共方法,例如定义在控制器中的工具方法 ;deny优先级高于allow*/
-    static protected $deny  = array('getMenus');
+    static protected $deny  = array('getMenus','tableList');
 
     /* 保存允许所有管理员访问的公共方法 */
     static protected $allow = array( 'login','logout', 'test');
@@ -88,6 +89,9 @@ class AdminController extends Action {
      */
     final protected function checkRule($rule, $type=AuthRuleModel::RULE_URL, $mode='url')
     {
+        if( ($d=$this->checkDynamic())!==null){
+            return $d;
+        }
         static $Auth = null;
         if (!$Auth) {
             $Auth  = new \ORG\Util\Auth();
@@ -96,6 +100,40 @@ class AdminController extends Action {
             return false;
         }
         return true;
+    }
+
+    /**
+     * 检测是否是需要动态判断的权限
+     * @author 朱亚杰  <xcoolcc@gmail.com>
+     */
+    protected function checkDynamic(){
+        if ( strtolower(CONTROLLER_NAME)=='article' ) {
+            $cates = AuthGroupModel::getAuthCategories($this->uid);
+            switch(strtolower(ACTION_NAME)){
+                case 'index':
+                    $cate_id = I('cate_id');
+                    break;
+                case 'edit':
+                    $doc_id  = I('id');
+                    $cate_id = D('Document')->where(array('id'=>$doc_id))->getField('category_id');
+                    break;
+                case 'setstatus':
+                    $doc_id  = (array)I('ids');
+                    $cate_id = D('Document')->where(array('id'=>array('in',implode(',',$doc_id))))->getField('category_id',true);
+                    $cate_id = array_unique($cate_id);
+                    break;
+            }
+            if(!$cate_id){
+                return null;
+            }elseif( !is_array($cate_id) && in_array($cate_id,$cates) ) {
+                return true;
+            }elseif( is_array($cate_id) && $cate_id==array_intersect($cate_id,$cates) ){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return null;
     }
 
 
@@ -519,7 +557,7 @@ class AdminController extends Action {
      *
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    protected function tableList($list,$thead)
+    public function tableList($list,$thead)
     {
         $keys = array_keys($thead);
         array_walk($list,function(&$v,$k) use($keys,$thead) {

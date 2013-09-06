@@ -17,18 +17,17 @@ $GLOBALS['_beginTime'] = microtime(TRUE);
 define('MEMORY_LIMIT_ON',function_exists('memory_get_usage'));
 if(MEMORY_LIMIT_ON) $GLOBALS['_startUseMems'] = memory_get_usage();
 
-// 系统目录定义
-defined('THINK_PATH') 	or define('THINK_PATH', dirname(__FILE__).'/');
-defined('APP_PATH') 	or define('APP_PATH', dirname($_SERVER['SCRIPT_FILENAME']).'/');
-defined('APP_DEBUG') 	or define('APP_DEBUG',false); // 是否调试模式
-// 路径设置 可在入口文件中重新定义 所有路径常量都必须以/ 结尾
+// 系统常量定义
+defined('THINK_PATH') 	or define('THINK_PATH',     dirname(__FILE__).'/');
+defined('APP_PATH') 	or define('APP_PATH',       dirname($_SERVER['SCRIPT_FILENAME']).'/');
+defined('APP_DEBUG') 	or define('APP_DEBUG',      false); // 是否调试模式
+defined('APP_MODE')     or define('APP_MODE',       'common'); // 应用模式 默认为普通模式
 defined('RUNTIME_PATH') or define('RUNTIME_PATH',   APP_PATH.'Runtime/');
 defined('LIB_PATH')     or define('LIB_PATH',       THINK_PATH.'Library/'); // 系统核心类库目录
 defined('CORE_PATH')    or define('CORE_PATH',      LIB_PATH.'Think/'); // 第三方类库目录
 defined('EXTEND_PATH')  or define('EXTEND_PATH',    THINK_PATH.'Extend/'); // 系统扩展目录
 defined('MODE_PATH')    or define('MODE_PATH',      EXTEND_PATH.'Mode/'); // 模式扩展目录
 defined('VENDOR_PATH')  or define('VENDOR_PATH',    LIB_PATH.'Vendor/'); // 第三方类库目录
-defined('LIBRARY_PATH') or define('LIBRARY_PATH',   EXTEND_PATH.'Library/'); // 扩展类库目录
 defined('COMMON_PATH')  or define('COMMON_PATH',    APP_PATH.'Common/'); // 项目公共目录
 defined('LANG_PATH')    or define('LANG_PATH',      COMMON_PATH.'Lang/'); // 项目语言目录
 defined('HTML_PATH')    or define('HTML_PATH',      APP_PATH.'Html/'); // 项目静态目录
@@ -73,20 +72,10 @@ if(!IS_CLI) {
     define('URL_REWRITE',     2);   //REWRITE模式
     define('URL_COMPAT',      3);   // 兼容模式
 }
+
 // 加载公共函数
 require THINK_PATH.'Common/common.php';
-// 加载惯例配置
-C(include THINK_PATH.'Conf/convention.php');
-// 读取核心文件列表
+// 加载核心Think类
 require CORE_PATH.'Think.class.php';
-// 加载系统类库别名定义
-alias_import(include THINK_PATH.'Conf/alias.php');
-// 检查项目目录结构 如果不存在则自动创建
-if(!is_dir(RUNTIME_PATH)) {
-    // 创建项目目录结构
-    require THINK_PATH.'Common/build.php';
-}
-// 记录加载文件时间
-G('loadTime');
-// 执行入口
-Think\Think::Start();
+// 应用初始化 
+Think\Think::start();

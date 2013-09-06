@@ -1,0 +1,14 @@
+<extend name="Base/edit"/>
+
+<block name="content">
+	<div class="form-item">
+		<label class="item-label"><b class="must">*</b>内容</label>
+		<div class="controls">
+			<label class="textarea">
+				<textarea name="content">{$info['content']}</textarea>
+				<input type="hidden" name="parse" value="0">
+        		{:hooks('documentEditFormContent', array('name'=>'content','value'=>$info['content']))}
+			</label>
+		</div>
+	</div>
+</block>

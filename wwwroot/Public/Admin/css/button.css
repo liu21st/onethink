@@ -5,31 +5,37 @@
 
 .btn {
     display: inline-block;
-    padding: 4px 12px;
+    padding: 6px 16px;
     font-size: 14px;
     line-height: 18px;
-    color: #444;
+    color: #fff;
     text-align: center;
     vertical-align: middle;
     cursor: pointer;
-    border: 1px solid #CCC;
-    border-bottom-color: #b3b3b3;
-    background-color: #fdfdfe;
+    border: 0 none;
+    border-radius: 2px;
+    background-color: #2980B9;
 }
 .btn:hover {
-	color: #333;
+    color: #fff;
     text-decoration: none;
-    background-color: #fefefe;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+    background-color: #3498DB;
 }
 .submit-btn {
+    padding: 10px 50px;
     color: #fff;
     border-color: transparent;
-    background-color: #0080FF;
+    background-color: #EE784C;
 }
 .submit-btn:hover {
     color: #fff;
-    background-color: #347ec7;
+    background-color: #E88B68;
+}
+.btn-xlarge {
+    padding: 10px 30px;
+}
+.btn-return {
+    background-color: #ABB4B4
 }
 
 /* 按钮组 */

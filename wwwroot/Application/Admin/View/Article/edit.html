@@ -10,7 +10,7 @@
 		<h2>
 		[
 		<volist name="rightNav" id="nav">
-		<a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a><if condition="count($rightNav) gt $i">-></if>
+		<a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a><if condition="count($rightNav) gt $i">></if>
 		</volist>
 		]编辑文档
 	</div>
@@ -88,7 +88,7 @@
 			<label class="item-label"></label>
 			<div class="controls">
 				<a class="btn submit-btn" id="submit" href="javascript:;">确定</a>
-				<a class="btn" href="{:U('article/index?cate_id='.$cate_id)}">返回列表</a>
+				<a class="btn btn-xlarge btn-return" href="{:U('article/index?cate_id='.$cate_id)}">返回</a>
 				<input type="hidden" name="id" value="{$id}"/>
 				<input type="hidden" name="model_id" value="{$model_id}"/>
 				<input type="hidden" name="category_id" value="{$category_id}">

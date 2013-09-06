@@ -44,57 +44,78 @@ class ArticleController extends \Admin\Controller\AdminController {
     	//调用父类的初始化方法
     	parent::_initialize();
 
-    	//获取动态节点
+		//获取左边菜单
+		if(ACTION_NAME == 'index' || ACTION_NAME == 'add' || ACTION_NAME == 'edit' || ACTION_NAME == 'recycle'){
+			$this->getMenu();
+		}
+    }
+
+    /**
+     * 显示左边菜单，进行权限控制
+     * @author huajie <banhuajie@163.com>
+     */
+    protected function getMenu(){
+    	//获取动态分类
+    	$cate_auth = AuthGroupModel::getAuthCategories(is_login());	//获取当前用户所有的内容权限节点
     	$cate = M('Category')->where(array('display'=>1,'status'=>1))->field('id,title,pid')->order('sort')->select();
-		$cate = list_to_tree($cate);
 
-		//获取分类id
-		$cate_id = I('param.cate_id') == '' ? $cate[0]['id'] : I('param.cate_id');
-		$this->cate_id = $cate_id;
+    	//没有权限的分类则不显示
+    	if(!is_administrator()){
+    		foreach ($cate as $key=>$value){
+    			if(!in_array($value['id'], $cate_auth)){
+    				unset($cate[$key]);
+    			}
+    		}
+    	}
 
-		//单独处理2级以下的分类
-		$child_cates = array();
+    	$cate = list_to_tree($cate);	//生成分类树
 
-		//生成每个分类的url
-		foreach ($cate as $key=>&$value){
-			$value['url'] = 'Article/index?cate_id='.$value['id'];
-			$value['level'] = 1;
-			if($cate_id == $value['id']){
-				$value['current'] = true;
-			}
-			foreach ($value['_child'] as $ka=>&$va){
-				$va['url'] = 'Article/index?cate_id='.$va['id'];
-				$va['level'] = 2;
-				foreach ($va['_child'] as $k=>&$v){
-					$v['url'] = 'Article/index?cate_id='.$v['id'];
-					$v['pid'] = $va['id'];
-					$v['level'] = 3;
-					if($v['id'] == $cate_id){
-						$is_child = true;
-					}
-				}
-				//展开子分类的父分类
-				if($va['id'] == $cate_id || $is_child){
-					$child_cates = $va['_child'];
-					$is_child = false;
-					$value['current'] = true;
-					$va['current'] = true;
-				}
-			}
-		}
-		$this->assign('nodes', $cate);
-		$this->assign('child_cates', $child_cates);
-		$this->assign('cate_id', $this->cate_id);
+    	//获取分类id
+    	$cate_id = I('param.cate_id') == '' ? $cate[0]['id'] : I('param.cate_id');
+    	$this->cate_id = $cate_id;
 
-		//获取面包屑信息
-		$nav = get_parent_category($cate_id);
-		$this->assign('rightNav', $nav);
+    	//权限判断
+    	if(!in_array($cate_id, $cate_auth) && !is_administrator() && !empty($_GET)){
+    		$this->error('没有权限！');
+    	}
 
-		//权限判断
-		$cate_auth = AuthGroupModel::getAuthCategories(is_login());	//获取当前用户所有的内容权限节点
-		if(!in_array($cate_id, $cate_auth) && !is_administrator() && !empty($_GET)){
-			$this->error('没有权限！');
-		}
+    	//单独处理2级以下的分类
+    	$child_cates = array();
+
+    	//生成每个分类的url
+    	foreach ($cate as $key=>&$value){
+    		$value['url'] = 'Article/index?cate_id='.$value['id'];
+    		$value['level'] = 1;
+    		if($cate_id == $value['id']){
+    			$value['current'] = true;
+    		}
+    		foreach ($value['_child'] as $ka=>&$va){
+    			$va['url'] = 'Article/index?cate_id='.$va['id'];
+    			$va['level'] = 2;
+    			foreach ($va['_child'] as $k=>&$v){
+    				$v['url'] = 'Article/index?cate_id='.$v['id'];
+    				$v['pid'] = $va['id'];
+    				$v['level'] = 3;
+    				if($v['id'] == $cate_id){
+    					$is_child = true;
+    				}
+    			}
+    			//展开子分类的父分类
+    			if($va['id'] == $cate_id || $is_child){
+    				$child_cates = $va['_child'];
+    				$is_child = false;
+    				$value['current'] = true;
+    				$va['current'] = true;
+    			}
+    		}
+    	}
+    	$this->assign('nodes', $cate);
+    	$this->assign('child_cates', $child_cates);
+    	$this->assign('cate_id', $this->cate_id);
+
+    	//获取面包屑信息
+    	$nav = get_parent_category($cate_id);
+    	$this->assign('rightNav', $nav);
     }
 
 	/**
@@ -129,6 +150,8 @@ class ArticleController extends \Admin\Controller\AdminController {
 		$this->assign('status', $status);
 		$this->assign('search', $search);
 		$this->assign('list', $list);
+
+		$this->meta_title = '文档列表';
 		$this->display();
 	}
 
@@ -177,6 +200,8 @@ class ArticleController extends \Admin\Controller\AdminController {
 
 		$this->assign('model_id', $model_id);
 		$this->assign('template', $template);
+
+		$this->meta_title = '新增文档';
 		$this->display();
 	}
 
@@ -201,6 +226,8 @@ class ArticleController extends \Admin\Controller\AdminController {
 		$data['template'] = strtolower(get_document_model($data['model_id'], 'name'));
 
 		$this->assign($data);
+
+		$this->meta_title = '编辑文档';
 		$this->display();
 	}
 
@@ -262,6 +289,8 @@ class ArticleController extends \Admin\Controller\AdminController {
 
         $this->assign('_table_class', 'data-table table-striped');
         $this->assign( '_table_list', $this->tableList($list,$thead) );
+
+        $this->meta_title = '回收站';
         $this->display();
 	}
 
