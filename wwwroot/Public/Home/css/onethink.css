@@ -259,7 +259,25 @@
 	border-left-color: #d4d4d4;
 	*margin-right: 3px;
 }
-
+/* One Think */
+.new-website{
+	position: relative;
+	height: 545px;
+	padding-top: 40px;
+}
+.new-website .website-img{
+	bottom: 0;
+	position: absolute;
+	left: -140px;
+}
+.new-website .website-version{
+	position: absolute;
+	right: 80px;
+	top: 100px;
+}
+.website-version h2{
+ font-size: 18px;
+}
 /* 详细页 */
 .detail-box {
 	padding: 15px;
