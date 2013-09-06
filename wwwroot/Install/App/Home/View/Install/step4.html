@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>系统安装</title>
+    <link rel="stylesheet" href="__PUBLIC__/Css/install.css">
+</head>
+<body>
+    <div class="system-install system-step">
+        <div class="sihead">
+            <!--安装图标-->
+            <div class="install-logo">
+                <h3>discuz! 安装向导</h3>
+            </div>
+            <!--/安装图标-->
+            <!--安装描述-->
+            <div class="install-summary">
+                Discuz!X2.5 简体中文 UTF8 版 20130222
+            </div>
+            <!--/安装描述-->
+        </div>
+        <div class="sibody">
+            <!--安装步骤-->
+            <div class="step-install">
+                <div class="install-current">
+                    <i class="step4">4.</i>     
+                    <h3>安装数据库</h3>
+                    <p>正在执行数据库安装</p>
+                </div>
+                <div class="install-total cf">
+                    <span class="pass"><i class="ico">&nbsp;</i><b>检查安装设置</b></span>
+                    <span class="pass"><i class="ico">&nbsp;</i><b>设置运行环境</b></span>
+                    <span class="pass"><i class="ico">&nbsp;</i><b>创建数据库</b></span>
+                    <span class="last current"><i class="ico">&nbsp;</i><b>安装</b></span>
+                </div>
+            </div>
+            <!--/安装步骤-->
+            <!--安装进度-->
+            <div id="scroll" class="install-progress">
+                <ul id="show-list"></ul>
+            </div>
+            <!--/安装进度-->
+            <!--安装跳转-->
+            <div class="install-jump">
+                <button class="widget-btn" type="button" disabled="disabled">正在安装...</button>
+            </div>
+            <!--/安装跳转-->
+        </div>
+        <div class="sifoot">
+            <!--安装版权-->
+            <div class="install-copyright">
+                ©2001 - 2012 <a href="#">Comsenz</a> Inc.
+            </div>
+            <!--/安装版权-->
+        </div>
+    </div>
+	<script type="text/javascript">
+		var list   = document.getElementById('show-list'),
+            scroll = document.getElementById('scroll');
+		function showmsg(msg, classname){
+			var li = document.createElement('li'); 
+			li.innerHTML = msg;
+            classname && li.setAttribute('class', classname);
+			list.appendChild(li);
+            scroll.scrollTop += 30;
+		}
+	</script>
+</body>
+</html>

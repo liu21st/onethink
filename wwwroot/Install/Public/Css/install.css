@@ -1,0 +1,100 @@
+body,div,h1,h2,h3,h4,h5,h6,p,dl,dt,dd,ul,li,ol,form,table,th,td{ padding: 0; margin: 0; }
+body{ font: 12px/1.5 Verdana,Tahoma,Arial,'Microsoft Yahei','Simsun'; background-color: #fff; color: #666; }
+ul{ list-style: none; }
+img{ border: 0; vertical-align: top; }
+table{ border-spacing: 0; empty-cells: show; border-collapse: collapse; }
+button::-moz-focus-inner{ padding: 0; border: 0; }
+a{ color: #2366A8; text-decoration: none; }
+a:hover{ text-decoration: underline; }
+/*清除浮动*/
+.cf{ zoom: 1; }
+.cf:after{ content: '.'; display: block; width: 0; height: 0; line-height: 0; font-size: 0; visibility: hidden; clear: both; }
+/*清除边框*/
+.cb{ border: 0!important; }
+.cbt{ border-top: 0!important; }
+.cbr{ border-right: 0!important; }
+.cbb{ border-bottom: 0!important; }
+.cbl{ border-left: 0!important; }
+/*清除内边距*/
+.cp{ padding: 0!important; }
+.cpt{ padding-top: 0!important; }
+.cpr{ padding-right: 0!important; }
+.cpb{ padding-bottom: 0!important; }
+.cpl{ padding-left: 0!important; }
+/*清除外边距*/
+.cm{ margin: 0!important; }
+.cmt{ margin-top: 0!important; }
+.cmr{ margin-right: 0!important; }
+.cmb{ margin-bottom: 0!important; }
+.cml{ margin-left: 0!important; }
+/*清除背景*/
+.cbi{ background-image: none!important; }
+.cbc{ background-color: none!important; }
+/*页面布局*/
+.system-install{ width: 700px; margin: 12px auto; border: 1px solid #B5CFD9; }
+.system-install .sihead{ height: 71px; padding: 0 18px; background: url(../Images/img2.gif) repeat-x 0 0; }
+.system-install .sibody{ padding: 18px; }
+.system-install .sifoot{ margin: -18px 18px 0; background: url(../Images/img1.gif) repeat-x 0 0; }
+/*安装图标*/
+.install-logo{ float: left; width: 225px; height: 26px; line-height: 9; overflow: hidden; margin-top: 20px; background: url(../Images/img3.gif) no-repeat 0 0; }
+/*安装描述*/
+.install-summary{ float: right; height: 24px; line-height: 24px; margin-top: 44px; }
+/*安装版权*/
+.install-copyright{ height: 42px; line-height: 42px; text-align: center; font-size: 11px; }
+/*服务协议*/
+.service-protocol .protocol-text{ height: 300px; padding: 12px; border: 1px solid #EEE; overflow: auto; }
+.service-protocol .protocol-text h1{ font-size: 14px; font-weight: 200px; text-align: center; }
+.service-protocol .protocol-text p{ line-height: 1.8em; text-indent: 2em; padding: 6px 0; }
+.service-protocol .protocol-check{ text-align: center; padding: 18px 0; }
+/*系统步骤*/
+.system-step{  }
+.system-step .sibody{ background: url(../Images/img2.gif) repeat-x 0 -71px #F7FBFE; }
+/*安装步骤*/
+.step-install{ padding: 0 60px; }
+.step-install .install-current{ margin-left: 136px; margin-bottom: 14px; padding-left: 72px; position: relative; height: 66px; }
+.step-install .install-current .step1,.step-install .install-current .step2,.step-install .install-current .step3,.step-install .install-current .step4{ display: inline-block; position: absolute; left: 0; top: 6px; width: 52px; height: 56px; line-height: 90; overflow: hidden; background: url(../Images/img4.gif) no-repeat; }
+.step-install .install-current .step1{ background-position: 0 0; }
+.step-install .install-current .step2{ background-position: 0 -101px; }
+.step-install .install-current .step3{ background-position: 0 -201px; }
+.step-install .install-current .step4{ background-position: 0 -301px; }
+.step-install .install-current h3{ color: #6CA1B4; font-size: 36px; line-height: 1.2em; }
+.step-install .install-current p{ color: #999; line-height: 1.8em; }
+.step-install .install-total span{ float: left; width: 152px; margin-left: -3px; padding-bottom: 12px; padding-left: 12px; position: relative; }
+.step-install .install-total b{ display: block; height: 20px; padding-left: 8px; font-weight: 200; line-height: 20px; border-bottom: 9px solid #DDD; }
+.step-install .install-total .ico{ position: absolute; left: 0; top: 17px; display: inline-block; width: 15px; height: 15px; background: url(../Images/img3.gif) no-repeat -61px -28px; }
+.step-install .install-total .last{ width: 48px; }
+.step-install .install-total .last b{ border-bottom: 0; }
+.step-install .install-total .pass b{ border-bottom-color: #81C6F0; }
+.step-install .install-total .pass .ico{ background-position: 0 -28px; }
+.step-install .install-total .current .ico{ width: 19px; height: 19px; top: 15px; background-position: -29px -26px; }
+/*安装检测*/
+.step-check{ padding: 0 60px; }
+.step-check .check-table{ padding: 6px 0; }
+.step-check .check-table table{ width: 100%; }
+.step-check .check-table caption{ height: 24px; line-height: 24px; text-align: left; font-weight: 700; }
+.step-check .check-table th{ color: #6CA1B4; text-align: left; height: 24px; line-height: 24px; }
+.step-check .check-table td{ padding: 3px 0; line-height: 18px; }
+.step-check .check-table .ico-success,.step-check .check-table .ico-error{ vertical-align: middle; margin-right: 4px; }
+/*步骤跳转*/
+.step-jump{ padding: 18px 0; text-align: center; }
+/*系统图标*/
+.ico-success{ display: inline-block; width: 14px; height: 14px; line-height: 9; overflow: hidden; background: url(../Images/img3.gif) no-repeat -92px -29px; }
+.ico-error{ display: inline-block; width: 14px; height: 14px; line-height: 9; overflow: hidden; background: url(../Images/img3.gif) no-repeat -124px -30px; }
+/*环境检测*/
+.install-milieu{ padding: 0 60px; margin-top: 6px; }
+.install-milieu .milieu-item{ height: 20px; line-height: 20px; padding: 8px 0; font-weight: 700; }
+.install-milieu .milieu-item .radio{ vertical-align: -2px; margin-right: 4px; }
+/*安装表单*/
+.install-form{ padding: 0 24px 0 60px; }
+.install-form .form-group{ padding: 6px 0; }
+.install-form table{ width: 100%; }
+.install-form caption{ font-weight: 700; height: 36px; line-height: 36px; text-align: left; }
+.install-form th{ text-align: left; font-weight: 200; padding: 3px 0 3px 1em; }
+.install-form td{ padding: 3px 0; }
+.install-form .form-jump{ padding: 12px 0 18px 132px; }
+/*安装进度*/
+.install-progress{ margin: 24px 24px 0; border: 1px solid #B5CFD9; height: 360px; overflow: auto; }
+.install-progress li{ height: 20px; line-height: 20px; overflow: hidden; padding: 0 6px; }
+.install-progress .error{ color: red; }
+/*安装跳转*/
+.install-jump{ padding: 18px 0; text-align: center; }
