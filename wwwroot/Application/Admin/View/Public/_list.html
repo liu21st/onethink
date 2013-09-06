@@ -53,13 +53,13 @@
 
                         foreach ($_thead[$key] as $k=>$v) {
                             if(strtolower($k)!='title' && strtolower($k)!='tag' && strtolower($k)!='func'){
-                                $v = preg_replace_callback('/\$(\w+)/',function($matches) use($row) {
+                                $v2 = preg_replace_callback('/\$(\w+)/',function($matches) use($row) {
                                     return ($row[$matches[1]]);
                                 },$v);
                                 if( strtolower($k)=='url' || strtolower($k)=='href' ){
-                                    $v = U($v);
+                                    $v2 = U($v2);
                                 }
-                                $ele->setAttribute($k,$v);
+                                $ele->setAttribute($k,$v2);
                             }
                         }
                         $Doc->appendChild($ele);
@@ -84,31 +84,46 @@
                             $ele = $Doc->createElement($v['tag'],$k);
 
                             foreach ($v as $attr=>$value){
-                                $value = preg_replace_callback('/\$(\w+)/',function($matches) use($row) {
+                                if ( $attr=='condition' ) {
+                                    dump($value);
+                                }
+                                $value2 = preg_replace_callback('/\$(\w+)/',function($matches) use($row,$attr) {
+                                    if ( $attr=='condition' ) {
+                                        dump($matches);
+                                        exit;
+                                    }
+                                    if ( $row[$matches[0]] ) {
+                                        return '$not_exist';
+                                    }
                                     return ($row[$matches[1]]);
                                 },$value);
 
+                                if ( $attr=='condition' ) {
+                                    dump($value2);
+                                    exit;
+                                }
                                 if( strtolower($attr)=='condition'){
-                                    $c = eval( 'return '.$value.';' );
+                                    dump($value2);
+                                    $c = eval( 'return '.$value2.';' );
                                     if (!$c){
                                         continue 2;
                                     }
                                 }
                                 if( strtolower($attr)!='tag' && strtolower($attr)!='condition' ){
                                     if( strtolower($attr)=='url' || strtolower($attr)=='href' ){
-                                        $value = U($value);
+                                        $value2 = U($value2);
                                     }
-                                    $ele->setAttribute($attr,$value);
+                                    $ele->setAttribute($attr,$value2);
                                 }
                             }
                             $Doc->appendChild($ele);
                             echo $Doc->saveHTML();
                         }else{
-                            $v = preg_replace_callback('/\$(\w+)/',function($matches) use($row) {
+                            $v2 = preg_replace_callback('/\$(\w+)/',function($matches) use($row) {
                                 return ($row[$matches[1]]);
                             },$v);
-                            $v = U($v);
-                            echo "<a href='$v'>".$k.'</a>'.PHP_EOL;
+                            $v2 = U($v2);
+                            echo "<a href='$v2'>".$k.'</a>'.PHP_EOL;
                         }
                     }
                     ?>
