@@ -48,7 +48,7 @@ class Think {
 
       // 加载核心文件
       foreach ($mode['core'] as $file){
-          include $file;
+          if(is_file($file)) include $file;
       }
 
       // 加载别名定义

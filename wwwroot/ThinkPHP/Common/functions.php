@@ -238,19 +238,6 @@ function W($name, $data=array()) {
 }
 
 /**
- * 过滤器方法 引用传值
- * @param string $name 过滤器名称
- * @param string $content 要过滤的内容
- * @return void
- */
-function filter($name, &$content) {
-    $class      =   $name . 'Filter';
-    require_cache(MODULE_PATH . 'Filter/' . $class . EXT);
-    $filter     =   new $class();
-    $content    =   $filter->run($content);
-}
-
-/**
  * 判断是否SSL协议
  * @return boolean
  */
@@ -361,35 +348,6 @@ function F($name, $value='', $path=DATA_PATH) {
         $value          =   false;
     }
     return $value;
-}
-
-/**
- * 取得对象实例 支持调用类的静态方法
- * @param string $name 类名
- * @param string $method 方法名，如果为空则返回实例化对象
- * @param array $args 调用参数
- * @return object
- */
-function get_instance_of($name, $method='', $args=array()) {
-    static $_instance = array();
-    $identify = empty($args) ? $name . $method : $name . $method . to_guid_string($args);
-    if (!isset($_instance[$identify])) {
-        if (class_exists($name)) {
-            $o = new $name();
-            if (method_exists($o, $method)) {
-                if (!empty($args)) {
-                    $_instance[$identify] = call_user_func_array(array(&$o, $method), $args);
-                } else {
-                    $_instance[$identify] = $o->$method();
-                }
-            }
-            else
-                $_instance[$identify] = $o;
-        }
-        else
-            E(L('_CLASS_NOT_EXIST_') . ':' . $name);
-    }
-    return $_instance[$identify];
 }
 
 /**

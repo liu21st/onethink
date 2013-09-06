@@ -61,9 +61,14 @@ class Db {
      * @access public
      * @return mixed 返回数据库驱动类
      */
-    public static function getInstance() {
-        $args = func_get_args();
-        return get_instance_of(__CLASS__,'factory',$args);
+    public static function getInstance($db_config='') {
+		static $_instance	=	array();
+		$guid	=	to_guid_string($db_config);
+		if(!isset($_instance[$guid])){
+			$obj	=	new Db();
+			$_instance[$guid]	=	$obj->factory($db_config);
+		}
+		return $_instance[$guid];
     }
 
     /**
