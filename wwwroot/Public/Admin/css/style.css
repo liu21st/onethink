@@ -138,7 +138,7 @@ body{
 }
 .side-sub-menu > .current > .item,
 .side-sub-menu > .current > .item:hover {
-    background: url(../images/subnav_current.png) no-repeat 150px 12px #FFF;
+    background: url(../images/subnav_current.png) no-repeat 165px 12px #FFF;
 }
 
 /* windows开始菜单式子菜单 */
