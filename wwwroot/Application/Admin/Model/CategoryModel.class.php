@@ -64,7 +64,7 @@ class CategoryModel extends Model{
 		$map  = array('status' => 1);
 		$list = $this->field($field)->where($map)->order('sort')->select();
 		$list = list_to_tree($list, $pk = 'id', $pid = 'pid', $child = '_', $root = $id);
-		
+
 		/* 获取返回数据 */
 		if(isset($info)){ //指定分类则返回当前分类极其子分类
 			$info['_'] = $list;
@@ -79,7 +79,7 @@ class CategoryModel extends Model{
 	 * 获取指定分类的同级分类
 	 * @param  integer $id    分类ID
 	 * @param  boolean $field 查询字段
-	 * @return array         
+	 * @return array
 	 */
 	public function getSameLevel($id, $field = true){
 		$info = $this->info($id, 'pid');
@@ -98,7 +98,16 @@ class CategoryModel extends Model{
 		}
 
 		/* 添加或更新数据 */
-		return empty($data['id']) ? $this->add() : $this->save();
+		if(empty($data['id'])){
+			$res = $this->add();
+		}else{
+			$res = $this->save();
+		}
+
+		//更新分类缓存
+		S('sys_category_list', null);
+
+		return $res;
 	}
 
 	/**
