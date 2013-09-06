@@ -490,6 +490,9 @@
 .book-list .item .addons-image {
     background: url(../images/addons.png) no-repeat;   
 }
+.book-list .item .book-image {
+    background: url(../images/book.png) no-repeat;   
+}
 .book-list .item .summary {
     width: 160px;
 }
@@ -586,7 +589,7 @@
 		margin-bottom: 0;
 }
 .proform {
-	padding: 25px 50px;
+	padding: 15px 50px;
 	background: url(../images/division.png) no-repeat center bottom;
 }
 
