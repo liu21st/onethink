@@ -99,6 +99,7 @@ class AuthManagerController extends AdminController{
         }
         if ( count($ids) ) {
             $AuthRule->where( array( 'id'=>array('IN',implode(',',$ids)) ) )->save(array('status'=>-1));
+            //删除规则是否需要从每个用户组的访问授权表中移除该规则?
         }
         if( count($data) ){
             $AuthRule->addAll(array_values($data));
@@ -365,7 +366,7 @@ class AuthManagerController extends AdminController{
 
     public function test()
     {
-        $a=C("COOKIE_PREFIX");
+        $a = AuthGroupModel::getAuthCategories(14);
 
         dump($a);
     }
