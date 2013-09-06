@@ -141,50 +141,6 @@ body{
     background: url(../images/subnav_current.png) no-repeat 150px 12px #FFF;
 }
 
-/* 电商式子菜单 */
-/*.side-sub-menu li .subitem {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 185px;
-    padding: 15px;
-    width: 500px;
-    border: 1px solid #ccc;
-    background-color: #fff;
-}
-.side-sub-menu .hover .subitem,
-.side-sub-menu .current .subitem {
-    display: block;
-}
-.side-sub-menu .subitem dl {
-    line-height: 30px;
-    border-top: 1px solid #ebebeb;
-}
-.side-sub-menu .subitem dl:first-child {
-    border-top-width: 0; 
-}
-.side-sub-menu .subitem dt {
-    float: left;
-    margin-right: 10px;
-    text-align: right;
-}
-.side-sub-menu .subitem dt a {
-    font-weight: bold;
-    color: #0261C0;
-}
-.side-sub-menu .subitem dd {
-    overflow: hidden;
-    *zoom: 1;
-}
-.side-sub-menu .subitem dd span {
-    display: inline-block;
-    padding: 0 8px;
-    height: 14px;
-    line-height: 14px;
-    vertical-align: middle;
-    border-left: 1px solid #ebebeb;
-}*/
-
 /* windows开始菜单式子菜单 */
 .side-sub-menu li .subitem {
     display: none;

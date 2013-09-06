@@ -10,6 +10,35 @@
                 <volist name="sub_menu['_child']" id="menu">
                     <li <if condition="$menu['id'] eq $cate_id or $menu['current'] eq 1">class="current"</if>>
                         <a class="item" href="{$menu.url|U}">{$menu.title}</a>
+                        
+                        <!-- 一级子菜单 -->
+                        <ul class="subitem">
+                            <li>
+                                <a class="item" href="javascript:;">顶想信息</a>
+                                <!-- 二级子菜单 -->
+                                <ul class="subitem">
+                                    <li>
+                                        <a class="item" href="javascript:;">顶想信息</a>
+                                        <!-- 三级子菜单 -->
+                                        <ul class="subitem">
+                                            <li><a class="item" href="javascript:;">顶想信息</a></li>
+                                            <li><a class="item" href="javascript:;">顶想信息</a></li>
+                                            <li><a class="item" href="javascript:;">顶想信息</a></li>
+                                            <li><a class="item" href="javascript:;">顶想信息</a></li>
+                                        </ul>
+                                        <!-- end 三级子菜单 -->
+                                    </li>
+                                    <li><a class="item" href="javascript:;">顶想信息</a></li>
+                                    <li><a class="item" href="javascript:;">顶想信息</a></li>
+                                    <li><a class="item" href="javascript:;">顶想信息</a></li>
+                                </ul>
+                                <!-- end 二级子菜单 -->
+                            </li>
+                            <li><a class="item" href="javascript:;">顶想信息</a></li>
+                            <li><a class="item" href="javascript:;">顶想信息</a></li>
+                            <li><a class="item" href="javascript:;">顶想信息</a></li>
+                        </ul> 
+                        <!-- end 一级子菜单 -->
                     </li>
                 </volist>
             </ul>
