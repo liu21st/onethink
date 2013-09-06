@@ -260,9 +260,9 @@ class AdminController extends Action {
      *
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    final protected function getDeny()
+    final static protected function getDeny($controller=CONTROLLER_NAME)
     {
-        $controller = 'Admin\\Controller\\'.CONTROLLER_NAME.'Controller';
+        $controller = 'Admin\\Controller\\'.$controller.'Controller';
         $data = array();
         if ( is_array( $controller::$deny) ) {
             $deny = array_merge( $controller::$deny, self::$deny );
@@ -282,9 +282,9 @@ class AdminController extends Action {
      *
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    final protected function getAllow()
+    final static protected function getAllow($controller=CONTROLLER_NAME)
     {
-        $controller = 'Admin\\Controller\\'.CONTROLLER_NAME.'Controller';
+        $controller = 'Admin\\Controller\\'.$controller.'Controller';
         $data = array();
         if ( is_array( $controller::$allow) ) {
             $allow = array_merge( $controller::$allow, self::$allow );
@@ -581,18 +581,15 @@ class AdminController extends Action {
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     protected function checkNodes(){
-        if ( APP_DEBUG!=true ){
+        if ( APP_DEBUG!=true || $i ==1 ){
             return;
         }
-
-        $CReflection = new \ReflectionClass('Admin\\Controller\\'.CONTROLLER_NAME.'Controller');
-        $public = $CReflection->getMethods( \ReflectionMethod::IS_PUBLIC );
-        $static = $CReflection->getMethods( \ReflectionMethod::IS_STATIC );
-        $method = array_diff($public,$static);
-        $deny   = $this->getDeny();
-        $allow  = $this->getAllow();
-        $deny_allow = array_merge($deny,$allow,array('__get','__set','__call','__construct','__destruct','__isset','__sleep','__wakeup','__clone'));
-
+        $controllers = array();
+        foreach ($this->menus as $value){
+           $con =  explode(',',$value['controllers']);
+           $controllers = array_merge($controllers,$con);
+        }
+        
         $nodes  = M('AuthRule')->where(array('module'=>'admin','status'=>1))->getField('name',true);
         foreach ($nodes as $k=>$n){
             if( ($pos = strpos($n,'?'))>0){
@@ -601,26 +598,38 @@ class AdminController extends Action {
             $nodes[$k] = strtolower($n);
         }
 
-        $collect = array();
-        foreach ($method as $value){
-            if($value->class=='Think\\Action' || (strpos($value->name,'_')===0) ){
-                continue;
-            }
-            if( in_array( strtolower($value->name),$deny_allow) ){
-                continue;
-            }else{
-                $name = strtolower(MODULE_NAME.'/'.CONTROLLER_NAME.'/'.$value->name);
-                if( in_array($name,$nodes) ){
+        foreach ($controllers as $controller){
+            $CReflection = new \ReflectionClass('Admin\\Controller\\'.$controller.'Controller');
+            $public = $CReflection->getMethods( \ReflectionMethod::IS_PUBLIC );
+            $static = $CReflection->getMethods( \ReflectionMethod::IS_STATIC );
+            $method = array_diff($public,$static);
+            $class  = 'Admin\\Controller\\'.$controller.'Controller';
+            
+            $deny   = $class::getDeny($controller);
+            $allow  = $class::getAllow($controller);
+            $deny_allow = array_merge($deny,$allow,array('__get','__set','__call','__construct','__destruct','__isset','__sleep','__wakeup','__clone'));
+
+            $collect = array();
+            foreach ($method as $value){
+                if($value->class=='Think\\Action' || (strpos($value->name,'_')===0) ){
+                    continue;
+                }
+                if( in_array( strtolower($value->name),$deny_allow) ){
                     continue;
                 }else{
-                    $collect[]=$value->name;
+                    $name = strtolower(MODULE_NAME.'/'.$controller.'/'.$value->name);
+                    if( in_array($name,$nodes) ){
+                        continue;
+                    }else{
+                        $collect[]=$value->name;
+                    }
                 }
             }
-        }
-        if( count($collect) ){
-            C('TRACE_PAGE_TABS', array('BASE'=>'基本','FILE'=>'文件','INFO'=>'流程','ERR|NOTIC'=>'错误','SQL'=>'SQL','DEBUG'=>'调试','DEV'=>'开发提示'));
-            foreach ($collect as $value){
-                trace(" 公共方法 '{$value}' 尚未进行任何权限配置!",CONTROLLER_NAME,'dev');
+            if( count($collect) ){
+                C('TRACE_PAGE_TABS', array('BASE'=>'基本','FILE'=>'文件','INFO'=>'流程','ERR|NOTIC'=>'错误','SQL'=>'SQL','DEBUG'=>'调试','DEV'=>'开发提示'));
+                foreach ($collect as $value){
+                    trace(" 公共方法 '{$value}' 尚未进行任何权限配置!",$controller.'Controller','dev');
+                }
             }
         }
     }
