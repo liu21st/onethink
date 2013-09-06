@@ -461,6 +461,9 @@
 	margin: 0 10px 0 0;
 }
 /*下载*/
+.book-list{
+	padding: 40px 0;
+}
 .book-list .item {
     background: none repeat scroll 0 0 #F1F1F1;
     height: 170px;
@@ -499,31 +502,27 @@
 .book-list .item .action {
     margin-top: 6px;
 }
-.book-list .item .download {
-    background-position: 0 0;
-}
-.book-list .item span a {
-    display: inline-block;
-    height: 24px;
-    overflow: hidden;
-    width: 48px;
-}
-.book-list .item span {
-    background: url(../images/button.png) no-repeat;
-    display: inline-block;
-    height: 35px;
+.book-list .item .action a{
+	margin-right: 16px;
 }
 .book-list .item .read {
     background-position: 0 -82px;
 }
-.book-list .item  span:hover{
+.book-list .item span:hover{
 	opacity: 0.8;
+}
+.btn-gr:hover{
+	background-color:#2BAF3A;
+}
+.btn-gr{
+	background-color:#6EAF3A;
 }
 /*产品报价*/
 .expect{
 	width: 500px; 
 	margin: 0 auto;
 	font-size: 18px;
+	padding: 60px 0;
 }
 .expect img{
 	vertical-align: middle;
@@ -925,7 +924,7 @@
 ------------------------------------------ */
 .footer {
 	margin-top: 10px;
-	padding: 20px 0 20px;
+	padding: 30px 0;
 	min-width: 1000px;
 	background-color: #ebebeb;
 }

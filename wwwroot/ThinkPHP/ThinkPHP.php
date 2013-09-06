@@ -17,6 +17,18 @@ $GLOBALS['_beginTime'] = microtime(TRUE);
 define('MEMORY_LIMIT_ON',function_exists('memory_get_usage'));
 if(MEMORY_LIMIT_ON) $GLOBALS['_startUseMems'] = memory_get_usage();
 
+// 版本信息
+const THINK_VERSION     =   '3.2.0RC1';
+
+// URL 模式定义
+const URL_COMMON        =   0;  //普通模式
+const URL_PATHINFO      =   1;  //PATHINFO模式
+const URL_REWRITE       =   2;  //REWRITE模式
+const URL_COMPAT        =   3;  // 兼容模式
+
+// 类文件后缀
+const EXT               =   '.class.php'; 
+
 // 系统常量定义
 defined('THINK_PATH') 	or define('THINK_PATH',     dirname(__FILE__).'/');
 defined('APP_PATH') 	or define('APP_PATH',       dirname($_SERVER['SCRIPT_FILENAME']).'/');
@@ -35,9 +47,6 @@ defined('LOG_PATH')     or define('LOG_PATH',       RUNTIME_PATH.'Logs/'); // �
 defined('TEMP_PATH')    or define('TEMP_PATH',      RUNTIME_PATH.'Temp/'); // 项目缓存目录
 defined('DATA_PATH')    or define('DATA_PATH',      RUNTIME_PATH.'Data/'); // 项目数据目录
 defined('CACHE_PATH')   or define('CACHE_PATH',     RUNTIME_PATH.'Cache/'); // 项目模板缓存目录
-
-// 版本信息
-define('THINK_VERSION', '3.2.0beta');
 
 // 系统信息
 if(version_compare(PHP_VERSION,'5.4.0','<')) {
@@ -65,17 +74,11 @@ if(!IS_CLI) {
         $_root  =   rtrim(dirname(_PHP_FILE_),'/');
         define('__ROOT__',  (($_root=='/' || $_root=='\\')?'':$_root));
     }
-
-    //支持的URL模式
-    define('URL_COMMON',      0);   //普通模式
-    define('URL_PATHINFO',    1);   //PATHINFO模式
-    define('URL_REWRITE',     2);   //REWRITE模式
-    define('URL_COMPAT',      3);   // 兼容模式
 }
 
 // 加载公共函数
 require THINK_PATH.'Common/common.php';
 // 加载核心Think类
-require CORE_PATH.'Think.class.php';
+require CORE_PATH.'Think'.EXT;
 // 应用初始化 
 Think\Think::start();

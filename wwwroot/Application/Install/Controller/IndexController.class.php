@@ -7,9 +7,12 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
-/**
- * 前台别名加载定义
- */
-return array(
-    'BaseLogic' => MODULE_PATH . 'Logic/BaseLogic.class.php',
-);
+namespace Install\Controller;
+use Think\Action;
+
+class IndexController extends Action{
+	//安装首页
+	public function index(){
+		$this->display();
+	}
+}

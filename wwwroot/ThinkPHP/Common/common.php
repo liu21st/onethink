@@ -254,19 +254,6 @@ function require_cache($filename) {
 }
 
 /**
- * 批量导入文件 成功则返回
- * @param array $array 文件数组
- * @param boolean $return 加载成功后是否返回
- * @return boolean
- */
-function require_array($array,$return=false){
-    foreach ($array as $file){
-        if (require_cache($file) && $return) return true;
-    }
-    if($return) return false;
-}
-
-/**
  * 区分大小写的文件存在判断
  * @param string $filename 文件地址
  * @return boolean
@@ -289,7 +276,7 @@ function file_exists_case($filename) {
  * @param string $ext 导入的文件扩展名
  * @return boolean
  */
-function import($class, $baseUrl = '', $ext='.class.php') {
+function import($class, $baseUrl = '', $ext=EXT) {
     static $_file = array();
     $class = str_replace(array('.', '#'), array('/', '.'), $class);
     if (isset($_file[$class . $baseUrl]))

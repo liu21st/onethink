@@ -22,18 +22,18 @@ return array(
 	// 别名定义
 	'alias'		=>	array(
 		array(
-		    'Think\App'               => CORE_PATH . 'App.class.php',
-		    'Think\Log'               => CORE_PATH . 'Log.class.php',
-		    'Think\Log\Driver\File'   => CORE_PATH . 'Log/Driver/File.class.php',
-		    'Think\Exception'         => CORE_PATH . 'Exception.class.php',
-		    'Think\Model'             => CORE_PATH . 'Model.class.php',
-		    'Think\Db'                => CORE_PATH . 'Db.class.php',
-		    'Think\Template'          => CORE_PATH . 'Template.class.php',
-		    'Think\Cache'             => CORE_PATH . 'Cache.class.php',
-		    'Think\Cache\Driver\File' => CORE_PATH . 'Cache/Driver/File.class.php',
-		    'Think\Storage'           => CORE_PATH . 'Storage.class.php',
-		    'Think\Action'            => CORE_PATH . 'Action.class.php',
-		    'Think\View'              => CORE_PATH . 'View.class.php',
+		    'Think\App'               => CORE_PATH . 'App'.EXT,
+		    'Think\Log'               => CORE_PATH . 'Log'.EXT,
+		    'Think\Log\Driver\File'   => CORE_PATH . 'Log/Driver/File'.EXT,
+		    'Think\Exception'         => CORE_PATH . 'Exception'.EXT,
+		    'Think\Model'             => CORE_PATH . 'Model'.EXT,
+		    'Think\Db'                => CORE_PATH . 'Db'.EXT,
+		    'Think\Template'          => CORE_PATH . 'Template'.EXT,
+		    'Think\Cache'             => CORE_PATH . 'Cache'.EXT,
+		    'Think\Cache\Driver\File' => CORE_PATH . 'Cache/Driver/File'.EXT,
+		    'Think\Storage'           => CORE_PATH . 'Storage'.EXT,
+		    'Think\Action'            => CORE_PATH . 'Action'.EXT,
+		    'Think\View'              => CORE_PATH . 'View'.EXT,
 	    ),
 	    COMMON_PATH.'Conf/alias.php',
 	),
@@ -42,15 +42,9 @@ return array(
 	'core'		=>	array(
 		THINK_PATH.'Common/functions.php',
 		COMMON_PATH.'Common/function.php',
-		CORE_PATH . 'App.class.php',
-		CORE_PATH . 'Exception.class.php',
-		CORE_PATH . 'Model.class.php',
-		CORE_PATH . 'Db.class.php',
-		CORE_PATH . 'Template.class.php',
-		CORE_PATH . 'Cache.class.php',
-		CORE_PATH . 'Storage.class.php',
-		CORE_PATH . 'Action.class.php',
-		CORE_PATH . 'View.class.php'
+		CORE_PATH . 'App'.EXT,
+		CORE_PATH . 'Action'.EXT,
+		CORE_PATH . 'View'.EXT
 	),
 	// 行为扩展定义
 	'extends'	=>	array(
@@ -72,8 +66,10 @@ return array(
 	    'view_parse'    =>  array(
 	        'Think\Behavior\ParseTemplate', // 模板解析 支持PHP、内置模板引擎和第三方模板引擎
 	    ),
-	    'view_filter'   =>  array(
+	    'template_filter'=> array(
 	        'Think\Behavior\ContentReplace', // 模板输出替换
+	    ),
+	    'view_filter'   =>  array(
 	        'Think\Behavior\TokenBuild',   // 表单令牌
 	        'Think\Behavior\WriteHtmlCache', // 写入静态缓存
 	    ),

@@ -245,7 +245,7 @@ function W($name, $data=array()) {
  */
 function filter($name, &$content) {
     $class      =   $name . 'Filter';
-    require_cache(MODULE_PATH . 'Filter/' . $class . '.class.php');
+    require_cache(MODULE_PATH . 'Filter/' . $class . EXT);
     $filter     =   new $class();
     $content    =   $filter->run($content);
 }
