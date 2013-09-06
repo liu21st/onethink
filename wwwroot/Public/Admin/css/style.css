@@ -122,9 +122,8 @@ body{
 .side-sub-menu > li > .item {
     padding:6px 0;
     line-height:20px;
-    width:140px;
     padding-left: 26px;
-    display:inline-block;
+    display:block;
     color: #2a72c5;
     text-decoration: none;
     border-bottom: 1px solid transparent;
@@ -199,7 +198,6 @@ body{
 .side-sub-menu .hover > .subitem {
     display:  block;
 }
-/* 多级子菜单 */
 .side-sub-menu .subitem .subitem {
     margin-top: -1px;
     left: 150px;
