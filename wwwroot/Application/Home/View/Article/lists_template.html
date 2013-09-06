@@ -15,7 +15,7 @@
 					<dd>需要版本：3.0或者更高</dd>
 					<dd class="action">
 						<a class="btn btn-gr btn-mini" title="下载" href="#">下载</a>
-						<a id="detailed" class="btn btn-mini" title="详细">详细</a>
+						<a class="btn detailed btn-mini" title="详细">详细</a>
 						<a class="btn btn-gr  btn-mini" title="预览" href="#">预览</a>
 					</dd>
 				</dl>
@@ -31,7 +31,7 @@
 					<dd>需要版本：3.0或者更高</dd>
 					<dd class="action">
 						<a class="btn btn-gr btn-mini" title="下载" href="#">下载</a>
-						<a id="detailed" class="btn btn-mini" title="详细">详细</a>
+						<a class="btn detailed btn-mini" title="详细">详细</a>
 						<a class="btn btn-gr  btn-mini" title="预览" href="#">预览</a>
 					</dd>
 				</dl>
@@ -47,7 +47,7 @@
 					<dd>需要版本：3.0或者更高</dd>
 					<dd class="action">
 						<a class="btn btn-gr btn-mini" title="下载" href="#">下载</a>
-						<a id="detailed" class="btn btn-mini" title="详细">详细</a>
+						<a class="btn detailed btn-mini" title="详细">详细</a>
 						<a class="btn btn-gr  btn-mini" title="预览" href="#">预览</a>
 					</dd>
 				</dl>
@@ -58,11 +58,12 @@
 <script type="text/javascript">
 function detailed_content(){
     $.thinkbox.load('{:U("detailed_content")}', {
-        'title': '',
+        'title': '详细',
         'fixed': true,
         'modal': true,
         'drag': false,
-        'modalClose': false
+        'modalClose': true,
+        'actions' : ['close']
     });
     return false;
 }
