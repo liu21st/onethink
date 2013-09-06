@@ -1,0 +1,50 @@
+<div class="form-item cf">
+	<label class="item-label">响应式宽度边界:</label>
+	<div class="controls">
+		<input type="text" name="config[0]" class="text" value="1382, 992, 768, 480">
+		<span class="check-tips">,分割</span>
+	</div>
+</div>
+<div class="form-item cf">
+	<label class="item-label">缓存图片的路径：</label>
+	<div class="controls">
+		<input type="text" name="config[0]" class="text" value="/Public/ai-cache">
+		<span class="check-tips">要有可写权限</span>
+	</div>
+</div>
+<div class="form-item cf">
+	<label class="item-label">图像质量</label>
+	<div class="controls">
+		<input type="text" name="config[0]" class="text" value="75">
+		<span class="check-tips">1-100</span>
+	</div>
+</div>
+<div class="form-item cf">
+	<label class="item-label">是否锐化</label>
+	<div class="controls">
+		<label class="radio">
+			<input type="radio" name="config[sharpen]" value="0" checked>否
+			</label>
+			<label class="radio">
+			<input type="radio" name="config[sharpen]" value="1" >是</label>
+	</div>
+</div>
+<div class="form-item cf">
+	<label class="item-label">是否监视源文件更新</label>
+	<div class="controls">
+		<label class="radio">
+			<input type="radio" name="config[watch_cache]" value="0" checked>否
+		</label>
+		<label class="radio">
+			<input type="radio" name="config[watch_cache]" value="1" >是
+		</label>
+		<span class="check-tips">是的话,源文件更新后缓存会下次访问时重新生成</span>
+	</div>
+</div>
+<div class="form-item cf">
+	<label class="item-label">浏览器缓存时间</label>
+	<div class="controls">
+		<input type="text" name="config[0]" class="text" value="604800">
+		<span class="check-tips">单位:秒</span>
+	</div>
+</div>

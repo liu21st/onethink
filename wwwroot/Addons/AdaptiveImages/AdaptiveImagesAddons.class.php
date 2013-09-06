@@ -15,6 +15,8 @@
             'version'=>'0.1'
         );
 
+        public $custom_config = 'config.html';
+
         public function install(){
             if(file_exists('.htaccess')){
                 $content = file_get_contents('.htaccess');
