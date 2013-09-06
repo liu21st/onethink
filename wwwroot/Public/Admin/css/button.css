@@ -24,6 +24,7 @@
 .submit-btn {
     padding: 10px 50px;
     color: #fff;
+    font-weight: bold;
     border-color: transparent;
     background-color: #EE784C;
 }
@@ -55,14 +56,31 @@
 .btn-group {
 	display: inline-block;
 	position: relative;
+    vertical-align: middle;
 }
-.btn-group .drop-pannel {
+.btn-group .icon-arrowdown {
+    display: inline-block;
+    margin-left: 10px;
+    width: 10px;
+    height: 5px;
+    vertical-align: middle;
+    background: url(../images/angle-down.png) no-repeat 0 0;
+}
+.btn-group .dropdown {
+    /*display: none;*/
 	position: absolute;
 	top: 30px;
 	right: 0;
-	padding: 15px;
-	min-width: 200px;
-	min-height: 50px;
+    margin-top: 3px;
+	min-width: 120px;
 	border: 1px solid #ccc;
-	background-color: #f5f5f5;
+	background-color: #fff;
+}
+.btn-group .dropdown a {
+    padding: 6px 15px;
+    height: 18px;
+    line-height: 18px;
+}
+.btn-group .dropdown a:hover {
+    background-color: #eee;
 }
