@@ -19,6 +19,9 @@
 	<div class="data-table table-striped">
         {$_table_list}
 	</div>
+    <div class="page_nav">
+        {$_page}
+    </div>
 </block>
 
 <block name="script">
@@ -27,26 +30,15 @@ $(function(){
 	//批量还原
 	$("#restore").click(function(){
 		//获取选中的数据
-		var checked = $('input:checked');
-		var ids = new Array();
-		checked.each(function(i){
-			var id = $(this).val();
-			if(id != 'on'){
-				ids[ids.length] = id;
-			}
-		});
-		if(ids.length == 0){
+		var checked = $('.ids:checked');
+        var ids = checked.serialize();
+		if(checked.length == 0){
 			alert('请选择要操作的数据！');
 			return false;
 		}
 		//进行ajax操作
 		$.post(
-			"{:U('permit')}",
-			{
-				'ids' : ids,
-				'status' : status
-			},
-			function(data){
+			"{:U('permit')}",ids,function(data){
 				if(data.status == 1){
 					alert('设置成功！');
 					setTimeout(function(){window.location.reload()},1500);
