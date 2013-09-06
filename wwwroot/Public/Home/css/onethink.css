@@ -1003,3 +1003,17 @@
 	padding-top:20px;
 	font-size: 12px;
 }
+/*弹出框样式*/
+.detailed-content{
+	width: 500px; 
+	margin: 0 auto;
+	padding: 20px;
+}
+.detailed-content h2{
+	font-size: 14px;
+	margin-bottom: 10px;
+}
+.detailed-content span{
+	float:left;
+	height: 80px;
+}

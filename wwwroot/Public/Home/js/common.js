@@ -7,8 +7,10 @@ $(function(){
 	});
 });
 $(function(){
-	$('#detailed').click(function() {
+	$('.action .detailed').each(function(){
+		$(this).click(function() {
       detailed_content();
       return false;
-  });
+  	});
+	})
 });
