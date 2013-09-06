@@ -7,7 +7,7 @@
 <block name="body">
 	<div class="main-title cf">
 		<h2>
-		新增{$model_id|get_document_model='title'} [
+		新增{$model_name} [
 		<volist name="rightNav" id="nav">
 		<a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a>
 		<if condition="count($rightNav) gt $i"><i class="ca"></i></if>
