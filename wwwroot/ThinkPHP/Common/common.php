@@ -400,8 +400,7 @@ function parse_res_name($name,$layer){
         $extend  =   '';
     }
     if(strpos($name,'/')){ // 指定模块
-        $path   =   explode('/',$name);
-        $module =   $path[0];
+        list($module,$name) =  explode('/',$name);
     }else{
         $module =   MODULE_NAME;
     }
