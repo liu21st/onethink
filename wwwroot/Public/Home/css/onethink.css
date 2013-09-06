@@ -123,11 +123,10 @@
 	top: 45px;
 	right: 0;
 	z-index: 8;
-	width: 180px;
+	width: 80px;
 	background-color: #fefefe;
 	border: 1px solid #ebebeb;
 	border-bottom-width: 0;
-	display: none;
 }
 .user-menu li {
 	border-bottom: 1px solid #ebebeb;
@@ -135,7 +134,7 @@
 }
 .user-menu li a {
 	padding: 0 12px;
-	width: 156px;
+	width: 56px;
 	height: 35px;
 	line-height: 35px;
 	overflow: hidden;
