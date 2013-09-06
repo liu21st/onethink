@@ -34,7 +34,13 @@
 				<!-- 操作按钮区 -->
 				<div class="cf">
 					<div class="fl">
-						<button class="btn" id="document_add" url="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$model[0]))}">新 增</button>
+						<div class="btn-group">
+							<button class="btn" id="document_add" url="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$model[0]))}">新 增<i class="icon-arrowdown"></i></button>
+							<ul class="dropdown nav-list">
+								<li><a href="javascript:;">asdf</a></li>
+								<li><a href="javascript:;">asdf</a></li>
+							</ul>
+						</div>
 						<button class="btn" name="document_operate" status="-1">删 除</button>
 						<button class="btn" name="document_operate" status="1">启 用</button>
 						<button class="btn" name="document_operate" status="0">禁 用</button>
