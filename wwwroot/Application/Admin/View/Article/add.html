@@ -9,7 +9,8 @@
 		<h2>
 		新增文档 [
 		<volist name="rightNav" id="nav">
-		<a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a><if condition="count($rightNav) gt $i"> > </if>
+		<a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a>
+		<if condition="count($rightNav) gt $i"><i class="ca"></i></if>
 		</volist>
 		]
 	</div>

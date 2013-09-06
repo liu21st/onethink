@@ -81,7 +81,7 @@ function build_app_dir() {
 
 // 创建测试Action
 function build_first_action() {
-    $file   =   APP_PATH.C('DEFAULT_MODULE').'/Controller/IndexController.class.php';
+    $file   =   APP_PATH.C('DEFAULT_MODULE').'/Controller/IndexController'.EXT;
     if(!is_file($file)){
         $content = file_get_contents(THINK_PATH.'Tpl/default_index.tpl');
         file_put_contents($file,$content);
