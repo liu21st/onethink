@@ -196,7 +196,49 @@ str;
      * 插件列表
      */
     public function index(){
-        $this->assign('list',D('Addons')->getList());
+        // $this->assign('list',D('Addons')->getList());
+        $list = D('Addons')->getList();
+        $thead = array(
+            //元素value中的变量就是数据集中的字段,value必须使用单引号
+            //查询出的数据集中的字段=>字段的表头
+
+                'i'=>'序号',
+                'title'=>'名称',
+                'name'=>'标志',
+                'description'=>array(
+                    'title'=>'描述',
+                    'tip'=>'$description',
+                    'func'=>'mb_strimwidth($description, 0, 60,"utf-8")'
+                ),
+                'status_text'=>'状态',
+                'author'=>'作者',
+                'version'=>'版本',
+                '操作'=>array(
+                    '设置'=>array(
+                       'href'=>'config?id=$id',
+                       'condition'=>'count($config)>0 && empty($uninstall)'
+                    ),
+                    '启用'=>array(
+                        'href'=>'enable?id=$id',
+                        'condition'=>'$status==0 && empty($uninstall)'
+                    ),
+                    '禁用'=>array(
+                        'href'=>'disable?id=$id',
+                        'condition'=>'$status==1 && empty($uninstall)'
+                    ),
+                    '安装'=>array(
+                        'href'=>'install?id=$id',
+                        'condition'=>'$uninstall'
+                    ),
+                    '卸载'=>array(
+                        'href'=>'uninstall?id=$id',
+                        'condition'=>'$author!="thinkphp" && empty($uninstall)'
+                    )
+                )
+        );
+        $this->assign('_table_class', 'data-table table-striped');
+        $this->assign( '_table_list', $this->tableList($list,$thead) );
+
         $this->assign('creatable', is_writable(C('EXTEND_MODULE.Addons')));
         $this->display();
     }
@@ -345,7 +387,8 @@ str;
      * 钩子列表
      */
     public function hooks(){
-        $order = $field = array();
+        $field = array();
+        $order = 'id asc';
         $list = $this->lists(D("Hooks")->field($fields),$map,$order);
         $thead = array(
             //元素value中的变量就是数据集中的字段,value必须使用单引号
