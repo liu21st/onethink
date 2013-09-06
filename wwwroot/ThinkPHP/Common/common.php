@@ -292,10 +292,6 @@ function file_exists_case($filename) {
 function import($class, $baseUrl = '', $ext='.class.php') {
     static $_file = array();
     $class = str_replace(array('.', '#'), array('/', '.'), $class);
-    if ('' === $baseUrl && false === strpos($class, '/')) {
-        // 检查别名导入
-        return alias_import($class);
-    }
     if (isset($_file[$class . $baseUrl]))
         return true;
     else
@@ -358,29 +354,6 @@ function vendor($class, $baseUrl = '', $ext='.php') {
     if (empty($baseUrl))
         $baseUrl = VENDOR_PATH;
     return import($class, $baseUrl, $ext);
-}
-
-/**
- * 快速定义和导入别名 支持批量定义
- * @param string|array $alias 类库别名
- * @param string $classfile 对应类库
- * @return boolean
- */
-function alias_import($alias, $classfile='') {
-    static $_alias = array();
-    if (is_string($alias)) {
-        if(isset($_alias[$alias])) {
-            return require_cache($_alias[$alias]);
-        }elseif ('' !== $classfile) {
-            // 定义别名导入
-            $_alias[$alias] = $classfile;
-            return;
-        }
-    }elseif (is_array($alias)) {
-        $_alias   =  array_merge($_alias,$alias);
-        return;
-    }
-    return false;
 }
 
 /**

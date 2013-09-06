@@ -43,7 +43,6 @@ return array(
 		THINK_PATH.'Common/functions.php',
 		COMMON_PATH.'Common/function.php',
 		CORE_PATH . 'App.class.php',
-		CORE_PATH . 'Log.class.php',
 		CORE_PATH . 'Exception.class.php',
 		CORE_PATH . 'Model.class.php',
 		CORE_PATH . 'Db.class.php',
@@ -77,7 +76,6 @@ return array(
 	        'Think\Behavior\ContentReplace', // 模板输出替换
 	        'Think\Behavior\TokenBuild',   // 表单令牌
 	        'Think\Behavior\WriteHtmlCache', // 写入静态缓存
-	       // 'ShowRuntime', // 运行时间显示
 	    ),
 	    'view_end'      =>  array(),
 	),
