@@ -10,7 +10,7 @@
 class AdaptiveImagesController extends AddonsController{
 
 	public function view(){
-
+		file_put_contents('./debug.php', 'in');
 		$addon = addons('AdaptiveImages');
 		$config = $addon->getConfig();
 		$resolutions = explode(',', $config['resolutions']);
@@ -134,12 +134,11 @@ class AdaptiveImagesController extends AddonsController{
 		$file = $this->generateImage($source_file, $cache_file, $resolution);
 		$this->sendImage($file, $browser_cache);
 
-
-
 	}
 
 	//是否是手机端
 	private function is_mobile(){
+		return true;
 		$userAgent = strtolower($_SERVER['HTTP_USER_AGENT']);
 		return strpos($userAgent, 'mobile');
 	}

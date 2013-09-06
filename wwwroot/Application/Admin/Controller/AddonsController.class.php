@@ -324,9 +324,10 @@ str;
         $this->assign('jumpUrl',U('index'));
     	if(!$db_addons || !$addons)
     		$this->error('插件不存在');
+        session('addons_uninstall_error',null);
     	$uninstall_flag = $addons->uninstall();
 		if(!$uninstall_flag)
-			$this->error('执行插件预卸载操作失败');
+			$this->error('执行插件预卸载操作失败'.session('addons_uninstall_error'));
         $hooks_update = D('Hooks')->removeHooks($addons->getName());
         if($hooks_update === false){
             $this->error('卸载插件所挂载的钩子数据失败');
