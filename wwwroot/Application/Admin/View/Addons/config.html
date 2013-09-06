@@ -12,13 +12,13 @@
 					<div class="controls">
 						<switch name="form.type">
 							<case value="text">
-								<input type="text" name="config[{$key}]" class="text" value="{$form.value}">
+								<input type="text" name="config[{$o_key}]" class="text" value="{$form.value}">
 							</case>
 							<case value="password">
-								<input type="password" name="config[{$key}]" class="text" value="{$form.value}">
+								<input type="password" name="config[{$o_key}]" class="text" value="{$form.value}">
 							</case>
 							<case value="hidden">
-								<input type="hidden" name="config[{$key}]" value="{$form.value}">
+								<input type="hidden" name="config[{$o_key}]" value="{$form.value}">
 							</case>
 							<case value="radio">
 								<foreach name="form.options" item="opt" key="opt_k">
@@ -35,7 +35,7 @@
 								</foreach>
 							</case>
 							<case value="select">
-								<select name="config[{$key}]">
+								<select name="config[{$o_key}]">
 									<volist name="form.options" id="opt" key="opt_k">
 										<option value="{$opt_k}" <eq name="form.value" value="$opt_k"> selected</eq>>{$opt}</option>
 									</volist>
@@ -43,7 +43,7 @@
 							</case>
 							<case value="textarea">
 								<label class="textarea">
-									<textarea name="config[{$key}]">{$form.value}</textarea>
+									<textarea name="config[{$o_key}]">{$form.value}</textarea>
 								</label>
 							</case>
 						</switch>

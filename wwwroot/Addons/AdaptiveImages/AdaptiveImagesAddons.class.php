@@ -18,14 +18,14 @@
         public $custom_config = 'config.html';
 
         public function install(){
-            if(file_exists('.htaccess')){
-                $content = file_get_contents('.htaccess');
-                if(stripos($content, 'AdaptiveImages') !== false){
-                    session('addons_uninstall_error', ',失败原因，站点.htaccess文件里人没有插件相关代码，请手动添加，参见插件目录下的.htaccess文件里的内容');
+            if(file_exists('./.htaccess')){
+                $content = file_get_contents('./.htaccess');
+                if(stripos($content, 'AdaptiveImages') == false){
+                    session('addons_install_error', ',失败原因，站点.htaccess文件里人没有插件相关代码，请手动添加，参见插件目录下的.htaccess文件里的内容');
                     return false;
                 }
             }else{
-                if(!copy($this->addons_path.'', './.htaccess')){
+                if(!copy($this->addons_path.'', '.htaccess')){
                     session('addons_install_error', ',失败原因，创建站点.htaccess文件失败，请手动将插件目录下的.htaccess文件里的内容，添加到站点根目录');
                     return false;
                 }
@@ -35,7 +35,7 @@
         }
 
         public function uninstall(){
-            if(file_exists('.htaccess')){
+            if(file_exists('./.htaccess')){
                 $content = file_get_contents('.htaccess');
                 if(stripos($content, 'AdaptiveImages') !== false){
                     session('addons_uninstall_error', ',失败原因，站点.htaccess文件里人有插件相关代码，请手动去除，参见插件目录下的.htaccess文件里的内容');

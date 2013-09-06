@@ -324,9 +324,10 @@ str;
         $this->assign('jumpUrl',U('index'));
     	if(!$db_addons || !$addons)
     		$this->error('插件不存在');
+        session('addons_uninstall_error',null);
     	$uninstall_flag = $addons->uninstall();
 		if(!$uninstall_flag)
-			$this->error('执行插件预卸载操作失败');
+			$this->error('执行插件预卸载操作失败'.session('addons_uninstall_error'));
         $hooks_update = D('Hooks')->removeHooks($addons->getName());
         if($hooks_update === false){
             $this->error('卸载插件所挂载的钩子数据失败');
@@ -345,7 +346,26 @@ str;
      */
     public function hooks(){
         $order = $field = array();
-        $this->assign('list', D('Hooks')->field($field)->order($order)->select());
+        $list = $this->lists(D("Hooks")->field($fields),$map,$order);
+        $thead = array(
+            //元素value中的变量就是数据集中的字段,value必须使用单引号
+            //查询出的数据集中的字段=>字段的表头
+
+                'id'=>'序号',
+                'name'=>'名称',
+                'description'=>'描述',
+                'type_text'=>'类型',
+                '插件'=>array(
+                    '编辑'=>array(
+                        'tag'=>'a',
+                        'title'=>'$addons',
+                        'id'=>'$id',
+                        'class'=>'editAddons'
+                    )
+                )
+        );
+        $this->assign('_table_class', 'data-table table-striped');
+        $this->assign( '_table_list', $this->tableList($list,$thead) );
         $this->display();
     }
 

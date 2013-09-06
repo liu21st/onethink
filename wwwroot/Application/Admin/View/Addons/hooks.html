@@ -11,36 +11,7 @@
 
 	<!-- 数据列表 -->
 	<div class="data-table table-striped">
-		<table>
-			<thead>
-				<tr>
-					<th>序号</th>
-					<th>名称</th>
-					<th>描述</th>
-					<th>类型</th>
-					<th>插件</th>
-				</tr>
-			</thead>
-			<tbody>
-				<volist name="list" id="vo">
-				<tr>
-					<td>{$vo.id}</td>
-					<td>{$vo.name}</td>
-					<td>{$vo.description}</td>
-					<td>{$vo.type_text}</td>
-					<td>
-						<notempty name="vo.addons">
-							<a class="editAddons" title="{$vo.addons}" id="{$vo.id}">
-								编辑
-							</a>
-						<else />
-							无
-						</notempty>
-					</td>
-				</tr>
-				</volist>
-			</tbody>
-		</table>
+		{$_table_list}
 	</div>
 </block>
 
