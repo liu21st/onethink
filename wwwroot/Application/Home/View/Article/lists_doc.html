@@ -6,33 +6,7 @@
 	</a>
 </block>
 
-<block name="body">
+<block name="container">
 	<taglib name="article"/>
-	<div class="media-list mod">
-		<volist name="list" id="data">
-			<div class="media">
-				<div class="media-side">
-					<a class="img" href="#"><img src="__IMG__/temporary/1.jpg" alt=""></a>
-					<div class="side-btn">
-						<a href="#" class="btn btn-small">下载</a>
-						<a href="{:U('detail?id='.$data['id'])}" class="btn btn-small">阅读</a>
-					</div>
-				</div>
-				<div class="media-body">
-					<div class="title"><h3>{$data.title}</h3></div>
-					<div class="explain cf">
-						<span>文档说明：</span><i>{$data.description}</i>
-					</div>
-					<div class="time">
-						<span>更新时间：{$data.create_time|date='m-d',###}</span>
-						<span>文件大小：1.4M</span>
-						<span>文件格式：PDF</span>
-					</div>
-					<div class="down">
-						<span>下载次数：{$data.comment}次</span><span>浏览次数：{$data.view}次</span>
-					</div>
-				</div>
-			</div>
-		</volist>
-	</div>
+	
 </block>
