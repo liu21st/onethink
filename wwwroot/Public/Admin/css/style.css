@@ -129,7 +129,8 @@ body{
     border-bottom: 1px solid transparent;
 }
 .side-sub-menu > li > .item:hover, 
-.side-sub-menu > .current > .item {
+.side-sub-menu > .current > .item,
+.side-sub-menu > .hover > .item {
     color: #666666;
     text-decoration: none;
     background:#ffffff;
@@ -138,7 +139,7 @@ body{
 }
 .side-sub-menu > .current > .item,
 .side-sub-menu > .current > .item:hover {
-    background: url(../images/subnav_current.png) no-repeat 150px 12px #FFF;
+    background: url(../images/subnav_current.png) no-repeat 165px 12px #FFF;
 }
 
 /* windows开始菜单式子菜单 */

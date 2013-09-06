@@ -38,14 +38,14 @@
                     }else if( is_array($_thead[$key]) ) { 
 
                         if ( array_key_exists('func',$_thead[$key]) ) {
-                            $_thead[$key]['func'] = preg_replace_callback('/\$(\w+)/',function($matches) use($row) {
+                            $func = preg_replace_callback('/\$(\w+)/',function($matches) use($row) {
                                 return ('"'.$row[$matches[1]].'"');
                             },$_thead[$key]['func']);
 
-                            if ( substr($_thead[$key]['func'],-1)!=';' ) {
-                                $_thead[$key]['func'].=';';
+                            if ( substr($func,-1)!=';' ) {
+                                $func.=';';
                             }
-                            @eval('$td ='. $_thead[$key]['func'] );
+                            @eval('$td ='. $func );
                         }
 
                         $Doc = new DOMDocument('1.0','utf-8');

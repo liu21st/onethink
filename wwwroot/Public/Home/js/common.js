@@ -6,3 +6,11 @@ $(function(){
 		$(this).children(".user-menu").hide();
 	});
 });
+$(function(){
+	$('.action .detailed').each(function(){
+		$(this).click(function() {
+      detailed_content();
+      return false;
+  	});
+	})
+});
