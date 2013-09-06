@@ -7,11 +7,12 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
-/**
- * 安装程序配置文件
- */
+namespace Install\Controller;
+use Think\Action;
 
-return array(
-    /* URL配置 */
-    'DEFAULT_MODULE' => 'Home',
-);
+class IndexController extends Action{
+	//安装首页
+	public function index(){
+		$this->display();
+	}
+}
