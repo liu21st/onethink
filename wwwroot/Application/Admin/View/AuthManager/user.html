@@ -2,9 +2,14 @@
 <block name="body">
 <div class="tab-wrap">
     <ul class="tab-nav nav">
-        <li class="fr"><a href="{:U('AuthManager/access',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">访问授权</a></li>
-        <li class="fr current"><a href="javascript:;">成员授权</a></li>
-        <li class="fr"><a href="{:U('AuthManager/category',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">分类授权</a></li>
+        <li><a href="{:U('AuthManager/access',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">访问授权</a></li>
+        <li class="current"><a href="javascript:;">成员授权</a></li>
+        <li><a href="{:U('AuthManager/category',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">分类授权</a></li>
+	    <li class="fr">
+		    <select name="group" id="">
+			    <option value=""> 用户组:{:I('group_name')} </option>
+		    </select>
+	    </li>
     </ul>
     <!-- 标题栏 -->
     <div class="main-title">
