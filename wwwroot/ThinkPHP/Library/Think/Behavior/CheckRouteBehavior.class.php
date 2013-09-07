@@ -170,11 +170,7 @@ class CheckRouteBehavior extends Behavior {
             $var   =   array_merge($matches,$var);
             // 解析剩余的URL参数
             if(!empty($paths)) {
-                for ($i=0, $count = count($paths); $i < $count; $i += 2) { 
-                    if(preg_match('/^\w+$/', $paths[$i]) && isset($paths[$i + 1])){
-                        $var[strtolower($paths[$i])] = strip_tags($paths[$i + 1]);
-                    }
-                }
+                preg_replace_callback('/(\w+)\/([^\/]+)/', function($match) use(&$var){ $var[strtolower($match[1])]=strip_tags($match[2]);}, implode('/',$paths));
             }
             // 解析路由自动传入参数
             if(is_array($route) && isset($route[1])) {
@@ -207,12 +203,7 @@ class CheckRouteBehavior extends Behavior {
             // 解析剩余的URL参数
             $regx =  substr_replace($regx,'',0,strlen($matches[0]));
             if($regx) {
-                $regx = explode('/', $regx);
-                for ($i=0, $count = count($regx); $i < $count; $i += 2) { 
-                    if(preg_match('/^\w+$/', $regx[$i]) && isset($regx[$i + 1])){
-                        $var[strtolower($regx[$i])] = strip_tags($regx[$i + 1]);
-                    }
-                }
+                preg_replace_callback('/(\w+)\/([^\/]+)/', function($matach) use(&$var){$var[strtolower($match[1])]=strip_tags($match[2]);}, $regx);
             }
             // 解析路由自动传入参数
             if(is_array($route) && isset($route[1])) {
