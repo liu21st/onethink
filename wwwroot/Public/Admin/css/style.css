@@ -76,8 +76,7 @@ body{
     padding-top: 30px;
     width: 200px;
     height: 100%;
-    border-right: 1px solid #ccc;
-    background-color: #f0f0f0;
+	background-color: #f0f0f0;
 }
 .subnav {
     padding: 0 0 66px 15px;
@@ -134,8 +133,7 @@ body{
     color: #666666;
     text-decoration: none;
     background:#ffffff;
-    border-bottom: 1px solid #ccc;
-    border-radius: 3px 0 0 3px;
+	border-radius: 3px 0 0 3px;
 }
 .side-sub-menu > .current > .item,
 .side-sub-menu > .current > .item:hover {
