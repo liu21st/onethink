@@ -62,7 +62,7 @@ class CheckRouteBehavior extends Behavior {
                             }
                         }
                         $match  =  $this->checkUrlMatch($regx,$rule);
-                        if($match)  {
+                        if(false !== $match)  {
                             if($route instanceof \Closure) {
                                 // 执行闭包并中止
                                 $this->invokeRule($route, $match);
