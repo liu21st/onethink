@@ -77,6 +77,7 @@ class Dispatcher {
                 }
                 if(!empty($array)) {
                     $_GET[$varModule]   =   array_pop($array);
+                    define('BIND_MODULE',$_GET[$varModule]);
                     $domainModule            =   true;
                 }
                 if(isset($rule[1])) { // 传入参数
@@ -84,6 +85,9 @@ class Dispatcher {
                     $_GET   =  array_merge($_GET,$parms);
                 }
             }
+        }elseif(isset($_GET[$varModule])){
+            // 绑定模块
+            define('BIND_MODULE',$_GET[$varModule]);
         }
         // 分析PATHINFO信息
         if(!isset($_SERVER['PATH_INFO'])) {

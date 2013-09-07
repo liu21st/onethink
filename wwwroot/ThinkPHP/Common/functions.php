@@ -172,7 +172,7 @@ function U($url='',$vars='',$suffix=true,$redirect=false,$domain=false) {
             if(C('URL_CASE_INSENSITIVE')) {
                 $var[C('VAR_CONTROLLER')]   =   parse_name($var[C('VAR_CONTROLLER')]);
             }
-            if(!C('APP_SUB_DOMAIN_DEPLOY')) {
+            if(!defined('BIND_MODULE')) {
                 if(!empty($path)) {
                     $module                  =   array_pop($path);
                     $var[C('VAR_MODULE')]    =   $module;
