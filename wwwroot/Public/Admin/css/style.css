@@ -16,8 +16,8 @@ body{
     left: 0;
     z-index: 99;
     width: 100%;
-    height: 49px;
-    line-height: 49px;
+    height: 50px;
+    line-height: 50px;
     background-color: #333;
     overflow: hidden;
 }
@@ -35,15 +35,15 @@ body{
 }
 .main-nav li {
     float: left;
-    width: 90px;
+    width: 100px;
 }
 .main-nav a {
     display: block;
-    height: 49px;
-    line-height: 49px;
-    font-size: 20px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 16px;
     color: #FFF;
-    text-align: center;
+    text-align: center; font-weight: bold;
 }
 .main-nav a:hover {
     text-decoration: none;
