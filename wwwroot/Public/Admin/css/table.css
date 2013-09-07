@@ -6,12 +6,6 @@
 .row-selected {
     width: 15px;
 }
-
-/* 隔行变色 */
-.table-striped tbody tr:nth-child(even) {
-    background-color: #f5f5f5;
-}
-
 /* 数据表格
 ------------------------------------------------- */
 .data-table {
@@ -20,7 +14,11 @@
 .data-table table {
     width: 100%;
     border-collapse: collapse;
-    border: 1px solid #E1E1E1;
+    /*border: 1px solid #000000;*/
+}
+.data-table tbody tr {
+	background-color: #ffffff;
+	color: #686868;
 }
 .data-table caption {
     height: 30px;
@@ -33,18 +31,33 @@
     height: 19px;
     line-height: 19px;
     font-weight: 400;
-    color:#444;
     overfow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    border-bottom: 1px solid #e1e1e1;
+    border-bottom: 1px solid #f4f4f4;
 }
 .data-table thead th {
     text-align: left;
-    -webkit-box-shadow: 0px 1px 0 rgba(255, 255, 255, 1.0) inset;
-    -moz-box-shadow: 0px 1px 0 rgba(255, 255, 255, 1.0) inset;
-    box-shadow: 0px 1px 0 rgba(255, 255, 255, 1.0) inset;
-    background-color:#f5f5f5;
+	color:#fff;
+    /*-webkit-box-shadow: 0px 1px 0 rgba(255, 255, 255, 1.0) inset;*/
+    /*-moz-box-shadow: 0px 1px 0 rgba(255, 255, 255, 1.0) inset;*/
+    /*box-shadow: 0px 1px 0 rgba(255, 255, 255, 1.0) inset;*/
+    background-color: #000000;
+	opacity: 0.9;
+}
+/* 隔行变色 */
+.table-striped tbody tr {
+	background-color: #fefefe;
+	color: #686868;
+}
+/* 隔行变色 */
+.table-striped tbody tr:nth-child(even) {
+	/*color: #444444;*/
+	background-color: #f4f4f4;
+}
+
+.table-striped tbody td {
+	border-bottom: none;
 }
 
 /* 数据表格
