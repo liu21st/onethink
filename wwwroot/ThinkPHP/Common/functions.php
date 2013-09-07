@@ -200,9 +200,9 @@ function U($url='',$vars='',$suffix=true,$redirect=false,$domain=false) {
         }
     }else{ // PATHINFO模式或者兼容URL模式
         if(isset($route)) {
-            $url    =   __APP__.'/'.$module.'/'.rtrim($url,$depr);
+            $url    =   __APP__.'/'.$module.MODULE_PATHINFO_DEPR.rtrim($url,$depr);
         }else{
-            $url    =   __APP__.'/'.$module.'/'.implode($depr,array_reverse($var));
+            $url    =   __APP__.'/'.$module.MODULE_PATHINFO_DEPR.implode($depr,array_reverse($var));
         }
         if(!empty($vars)) { // 添加参数
             foreach ($vars as $var => $val){

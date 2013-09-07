@@ -91,6 +91,7 @@ class Dispatcher {
             }
         }
         $depr = C('URL_PATHINFO_DEPR');
+        define('MODULE_PATHINFO_DEPR',$depr);
         if(!empty($_SERVER['PATH_INFO'])) {
             $paths = explode($depr,trim($_SERVER['PATH_INFO'],'/'));
             if (C('MULTI_MODULE') && !isset($_GET[$varModule])){ // 获取模块
