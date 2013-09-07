@@ -259,7 +259,7 @@ class  Template {
             // 替换block标签
             $content = $this->replaceBlock($content);
         }else{
-            $content    =   preg_replace_callback('/'.$begin.'block\sname=(.+?)\s*?'.$end.'(.*?)'.$begin.'\/block'.$end.'/is', create_function('$match', 'return stripslashes($match[2]);'), $content);            
+            $content    =   preg_replace_callback('/'.$begin.'block\sname=(.+?)\s*?'.$end.'(.*?)'.$begin.'\/block'.$end.'/is', function($match){return stripslashes($match[2]);}, $content);            
         }
         return $content;
     }
@@ -409,29 +409,16 @@ class  Template {
                 $this->tempVar = array($tagLib, $tag);
 
                 if (!$closeTag){
-                    if ( version_compare(PHP_VERSION,'5.3.0')<0 ) {
-                        $patterns       = '/'.$begin.$parseTag.$n1.'\/(\s*?)'.$end.'/eis';
-                        $replacement    = "\$this->parseXmlTag('$tagLib','$tag','$1','')";
-                        $content        = preg_replace($patterns, $replacement,$content);
-                    }else{
-                        $patterns       = '/'.$begin.$parseTag.$n1.'\/(\s*?)'.$end.'/is';
-                        $content        = preg_replace_callback($patterns, function($matches) use($tagLib,$tag,$that){
+                    $patterns       = '/'.$begin.$parseTag.$n1.'\/(\s*?)'.$end.'/is';
+                    $content        = preg_replace_callback($patterns, function($matches) use($tagLib,$tag,$that){
+                        return $that->parseXmlTag($tagLib,$tag,$matches[1],$matches[2]);
+                    },$content);
+                }else{
+                    $patterns       = '/'.$begin.$parseTag.$n1.$end.'(.*?)'.$begin.'\/'.$parseTag.'(\s*?)'.$end.'/is';
+                    for($i=0;$i<$level;$i++) {
+                        $content=preg_replace_callback($patterns,function($matches) use($tagLib,$tag,$that){
                             return $that->parseXmlTag($tagLib,$tag,$matches[1],$matches[2]);
                         },$content);
-                    }
-                }else{
-                    if ( version_compare(PHP_VERSION,'5.3.0')<0 ) {
-                        $patterns       = '/'.$begin.$parseTag.$n1.$end.'(.*?)'.$begin.'\/'.$parseTag.'(\s*?)'.$end.'/eis';
-                        $replacement    = "\$this->parseXmlTag('$tagLib','$tag','$1','$2')";
-                        for($i=0;$i<$level;$i++) 
-                            $content=preg_replace($patterns,$replacement,$content);
-                    }else{
-                        $patterns       = '/'.$begin.$parseTag.$n1.$end.'(.*?)'.$begin.'\/'.$parseTag.'(\s*?)'.$end.'/is';
-                        for($i=0;$i<$level;$i++) {
-                            $content=preg_replace_callback($patterns,function($matches) use($tagLib,$tag,$that){
-                                return $that->parseXmlTag($tagLib,$tag,$matches[1],$matches[2]);
-                            },$content);
-                        }
                     }
                 }
             }

@@ -606,8 +606,7 @@ class Db {
             }
         }
 		//将__TABLE_NAME__这样的字符串替换成正规的表名,并且带上前缀和后缀
-        $callback = create_function('$match', 'return C(\'DB_PREFIX\').strtolower($match[1]);');
-		$joinStr  = preg_replace_callback("/__([A-Z_-]+)__/sU", $callback, $joinStr);
+		$joinStr  = preg_replace_callback("/__([A-Z_-]+)__/sU", function($match){ return C('DB_PREFIX').strtolower($match[1]);}, $joinStr);
         return $joinStr;
     }
 

@@ -152,8 +152,8 @@ class CheckRouteBehavior extends Behavior {
 
         if(0=== strpos($url,'/') || 0===strpos($url,'http')) { // 路由重定向跳转
             if(strpos($url,':')) { // 传递动态参数
-                $this->matcheValues = array_values($matches);
-                $url = preg_replace_callback('/:(\d+)/', array($this, 'parseRuleValue'), $url);
+                $values = array_values($matches);
+                $url = preg_replace_callback('/:(\d+)/', function($match)use($values){return $values[$match[1] - 1];}, $url);
             }
             header("Location: $url", true,(is_array($route) && isset($route[1]))?$route[1]:301);
             exit;
@@ -186,15 +186,6 @@ class CheckRouteBehavior extends Behavior {
         return true;
     }
 
-    /**
-     * 返回参数，用于preg_replace_callback
-     * @param  array $match preg_replace_callback 匹配结果
-     * @return string
-     */
-    private function parseRuleValue($match){
-        return $this->matcheValues[$match[1] - 1];
-    }
-
     // 解析正则路由
     // '路由正则'=>'[分组/模块/操作]?参数1=值1&参数2=值2...'
     // '路由正则'=>array('[分组/模块/操作]?参数1=值1&参数2=值2...','额外参数1=值1&额外参数2=值2...')
@@ -205,9 +196,8 @@ class CheckRouteBehavior extends Behavior {
     // '/new\/(\d+)/'=>array('/new.php?id=:1&page=:2&status=1','301'), 重定向
     private function parseRegex($matches,$route,$regx) {
         // 获取路由地址规则
-        $this->matcheValues = $matches;
         $url   =  is_array($route)?$route[0]:$route;
-        $url   =  preg_replace_callback('/:(\d+)/', array($this, 'parseRegexValue'), $url); 
+        $url   =  preg_replace_callback('/:(\d+)/', function($match)use($matches){return $matches[$match[1]];}, $url); 
         if(0=== strpos($url,'/') || 0===strpos($url,'http')) { // 路由重定向跳转
             header("Location: $url", true,(is_array($route) && isset($route[1]))?$route[1]:301);
             exit;
@@ -232,14 +222,5 @@ class CheckRouteBehavior extends Behavior {
             $_GET   =  array_merge($var,$_GET);
         }
         return true;
-    }
-
-    /**
-     * 返回参数，用于preg_replace_callback
-     * @param  array $match preg_replace_callback 匹配结果
-     * @return string
-     */
-    private function parseRegexValue($match){
-        return $this->matcheValues[$match[1]];
     }
 }

@@ -229,8 +229,7 @@ function N($key, $step=0,$save=false) {
  */
 function parse_name($name, $type=0) {
     if ($type) {
-        $callback = create_function('$match', 'return strtoupper($match[1]);');
-        return ucfirst(preg_replace_callback('/_([a-zA-Z])/', $callback, $name));
+        return ucfirst(preg_replace_callback('/_([a-zA-Z])/', function($match){return strtoupper($match[1]);}, $name));
     } else {
         return strtolower(trim(preg_replace("/[A-Z]/", "_\\0", $name), "_"));
     }
