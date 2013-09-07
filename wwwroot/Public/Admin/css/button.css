@@ -13,8 +13,7 @@
     vertical-align: middle;
     cursor: pointer;
     border: 0 none;
-    border-radius: 2px;
-    background-color: #2980B9;
+	background-color: #41A300;
 }
 .btn:hover {
     color: #fff;
