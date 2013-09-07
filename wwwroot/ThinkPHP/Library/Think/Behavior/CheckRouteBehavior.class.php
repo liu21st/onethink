@@ -231,10 +231,10 @@ class CheckRouteBehavior extends Behavior {
     }
 
     // 执行正则匹配下的闭包方法 支持参数调用
-    static private function invokeRegx($closure, $var = []) {
+    static private function invokeRegx($closure, $var = array()) {
         $reflect = new \ReflectionFunction($closure);
         $params  = $reflect->getParameters();
-        $args    = [];
+        $args    = array();
         array_shift($var);
         foreach ($params as $param){
             $name = $param->getName();
@@ -248,10 +248,10 @@ class CheckRouteBehavior extends Behavior {
     }
 
     // 执行规则匹配下的闭包方法 支持参数调用
-    static private function invokeRule($closure, $var = []) {
+    static private function invokeRule($closure, $var = array()) {
         $reflect = new \ReflectionFunction($closure);
         $params  = $reflect->getParameters();
-        $args    = [];
+        $args    = array();
         foreach ($params as $param){
             $name = $param->getName();
             if(isset($var[$name])) {
