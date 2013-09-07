@@ -976,10 +976,11 @@
   width: 57px;
 }
 .other .edu {
-	background-position: 0 0;
+	background-position: 0 -69px;
+	
 }
 .other .advice {
-	background-position: 0 -69px;
+	background-position: 0 0;
 }
 .other .invest {
 	background-position: 0 -143px;
@@ -1001,4 +1002,18 @@
 	text-align: center;
 	padding-top:20px;
 	font-size: 12px;
+}
+/*弹出框样式*/
+.detailed-content{
+	width: 500px; 
+	margin: 0 auto;
+	padding: 20px;
+}
+.detailed-content h2{
+	font-size: 14px;
+	margin-bottom: 10px;
+}
+.detailed-content span{
+	float:left;
+	height: 80px;
 }

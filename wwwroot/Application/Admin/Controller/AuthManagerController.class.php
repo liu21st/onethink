@@ -122,6 +122,7 @@ class AuthManagerController extends AdminController{
         $list = $this->lists('AuthGroup',array('module'=>'admin'),'id asc');
         $list = intToString($list);
         $this->assign( '_list', $list );
+        $this->assign( '_use_tip', true );
         $this->nav(2,'权限管理');
         cookie( 'auth_index',__SELF__);
         $this->display();

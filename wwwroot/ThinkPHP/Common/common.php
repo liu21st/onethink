@@ -47,8 +47,9 @@ function T($template='',$layer=''){
     $layer  =   $layer?$layer:C('DEFAULT_V_LAYER');
 
     // 获取当前主题的模版路径
-    if(($list = C('EXTEND_MODULE')) && isset($list[$extend])){ // 扩展资源
-        $baseUrl    =   $list[$extend].$module.$layer.'/';
+    $auto   =   C('AUTOLOAD_NAMESPACE');
+    if($auto && isset($auto[$extend])){ // 扩展资源
+        $baseUrl    =   dirname($auto[$extend]).'/'.$module.$layer.'/';
     }else{ // 分组模式
         $baseUrl    =   APP_PATH.$module.$layer.'/';
     }
@@ -400,8 +401,7 @@ function parse_res_name($name,$layer){
         $extend  =   '';
     }
     if(strpos($name,'/')){ // 指定模块
-        $path   =   explode('/',$name);
-        $module =   $path[0];
+        list($module,$name) =  explode('/',$name);
     }else{
         $module =   MODULE_NAME;
     }
