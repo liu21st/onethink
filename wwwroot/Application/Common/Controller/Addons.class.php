@@ -82,9 +82,10 @@ namespace Common\Controller;
 		//用于显示模板的方法
 		final protected function fetch($templateFile = CONTROLLER_NAME){
 			if(!is_file($templateFile)){
+				dump($templateFile);die;
 				$templateFile = $this->addon_path.$templateFile.C('TMPL_TEMPLATE_SUFFIX');
 				if(!is_file($templateFile)){
-					throw new Exception("模板不存在:$templateFile");
+					throw new \Think\Exception("模板不存在:$templateFile");
 				}
 			}
 			return $this->view->fetch($templateFile);
