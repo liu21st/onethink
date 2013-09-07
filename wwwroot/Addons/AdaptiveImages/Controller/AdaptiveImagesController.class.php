@@ -10,7 +10,7 @@
 class AdaptiveImagesController extends AddonsController{
 
 	public function view(){
-		file_put_contents('./debug.php', 'in');
+		error_reporting(0);
 		$addon = addons('AdaptiveImages');
 		$config = $addon->getConfig();
 		$resolutions = explode(',', $config['resolutions']);
@@ -120,6 +120,7 @@ class AdaptiveImagesController extends AddonsController{
 		}
 
 		$cache_file = $document_root."/$cache_path/$resolution/".$requested_uri;
+		$cache_file = str_replace('//', '/', $cache_file);
 
 		/* 使用响应值作为路径变量，并且检测同名图片是否存在其中 */
 		if (file_exists($cache_file)) {
