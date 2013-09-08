@@ -6,8 +6,10 @@
         <li><a href="{:U('AuthManager/user',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">成员授权</a></li>
         <li class="current"><a href="javascript:;">分类授权</a></li>
 	    <li class="fr">
-		    <select name="group" id="">
-			    <option value=""> 用户组:{:I('group_name')} </option>
+		    <select name="group">
+			    <volist name="auth_group" id="vo">
+				    <option value="{:U('AuthManager/category',array('group_id'=>$vo['id'],'group_name'=>$vo['title']))}" <eq name="vo['id']" value="$this_group['id']">selected</eq> >{$vo.title}</option>
+			    </volist>
 		    </select>
 	    </li>
     </ul>
@@ -15,9 +17,6 @@
     <div class="tb-unit posr">
         <form action="{:U('AuthManager/addToCategory')}" method="post" enctype="application/x-www-form-urlencoded">
             <input type="hidden" name="group_id" value="{:I('group_id')}">
-            <div class="tb-unit-bar">
-                <button class="btn">保存</button>
-            </div>
             <div class="category">
                 <div class="hd cf">
                     <div class="fold">折叠</div>
@@ -59,6 +58,9 @@
                 $(this).prop('checked',true);
             }
         });
+	    $('select[name=group]').change(function(){
+		    location.href = this.value;
+	    });
     }(jQuery);
 	</script>
 <script src="__STATIC__/jquery.cookies.2.2.0.min.js"></script>
