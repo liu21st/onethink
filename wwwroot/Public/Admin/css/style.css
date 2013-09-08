@@ -93,6 +93,10 @@ body{
     color: #ffffff;
     cursor: pointer;
 }
+.subnav h3 a {
+	color:#fff;
+	text-decoration: none;
+}
 .subnav h3 a:hover {
     text-decoration: none;
 }
@@ -124,7 +128,7 @@ body{
     line-height:20px;
     padding-left: 26px;
     display:block;
-    color: #dcdcdc;
+    color: #f1f1f1;
     text-decoration: none;
     border-bottom: 1px solid transparent;
 }
