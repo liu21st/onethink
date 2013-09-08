@@ -42,7 +42,7 @@
     /*-webkit-box-shadow: 0px 1px 0 rgba(255, 255, 255, 1.0) inset;*/
     /*-moz-box-shadow: 0px 1px 0 rgba(255, 255, 255, 1.0) inset;*/
     /*box-shadow: 0px 1px 0 rgba(255, 255, 255, 1.0) inset;*/
-    background-color: #000000;
+    background-color: #222;
 	opacity: 0.9;
 }
 /* 隔行变色 */
@@ -53,7 +53,8 @@
 /* 隔行变色 */
 .table-striped tbody tr:nth-child(even) {
 	/*color: #444444;*/
-	background-color: #f4f4f4;
+	background-color: #f2f2f2;
+
 }
 
 .table-striped tbody td {

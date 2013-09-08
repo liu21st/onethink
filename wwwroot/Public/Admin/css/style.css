@@ -18,7 +18,7 @@ body{
     width: 100%;
     height: 50px;
     line-height: 50px;
-    background-color: #333;
+    background-color: #222;
     overflow: hidden;
 	opacity: 0.90;
 }
@@ -145,7 +145,7 @@ body{
 .side-sub-menu > .current > .item,
 .side-sub-menu > .current > .item:hover {
 	color: #414141;
-    background: url(../images/subnav_current.png) no-repeat 165px 12px #FFF;
+    background: url(../images/subnav_current.png) no-repeat 165px 12px #f6f6f6;
 }
 
 /* windows开始菜单式子菜单 */

@@ -27,11 +27,11 @@ img {
 	border:0 none;
 }
 a {
-	color: #507dff;
+	color: #2d7200;
 	text-decoration:none;
 }
 a:hover{
-	color: #0922ff;
+	color: #4bbd00;
 	border-bottom: 1px solid;
 }
 input,button,textarea,select,option {
