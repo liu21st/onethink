@@ -7,12 +7,12 @@
 ------------------------------------------ */
 .text,.textarea {
 	padding: 4px;
-	border: 1px solid #ccc;
+	border: 1px solid transparent;
 	transition: all .3s linear;
 }
 .text {
 	width: 220px;
-	height: 16px;
+	height: 20px;
 	vertical-align: middle;
 }
 .textarea {
