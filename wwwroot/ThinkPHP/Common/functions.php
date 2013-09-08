@@ -168,17 +168,22 @@ function U($url='',$vars='',$suffix=true,$redirect=false,$domain=false) {
                 if($controller = array_search(strtolower($var[C('VAR_CONTROLLER')]),$maps)){
                     $var[C('VAR_CONTROLLER')] = $controller;
                 }
-            }            
+            }
             if(C('URL_CASE_INSENSITIVE')) {
                 $var[C('VAR_CONTROLLER')]   =   parse_name($var[C('VAR_CONTROLLER')]);
             }
+            $module =   '';
             if(!defined('BIND_MODULE')) {
                 if(!empty($path)) {
-                    $module                  =   array_pop($path);
-                    $var[C('VAR_MODULE')]    =   $module;
+                    $var[C('VAR_MODULE')]    =   array_pop($path);
                 }else{
                     if(C('MULTI_MODULE')) {
                         $var[C('VAR_MODULE')]=   MODULE_NAME;
+                    }
+                }
+                if($maps = C('URL_MODULE_MAP')) {
+                    if($_module = array_search(strtolower($var[C('VAR_MODULE')]),$maps)){
+                        $var[C('VAR_MODULE')] = $_module;
                     }
                 }
                 if(C('URL_CASE_INSENSITIVE') && isset($var[C('VAR_MODULE')])) {
@@ -200,9 +205,9 @@ function U($url='',$vars='',$suffix=true,$redirect=false,$domain=false) {
         }
     }else{ // PATHINFO模式或者兼容URL模式
         if(isset($route)) {
-            $url    =   __APP__.'/'.$module.MODULE_PATHINFO_DEPR.rtrim($url,$depr);
+            $url    =   __APP__.'/'.($module?$module.MODULE_PATHINFO_DEPR:'').rtrim($url,$depr);
         }else{
-            $url    =   __APP__.'/'.$module.MODULE_PATHINFO_DEPR.implode($depr,array_reverse($var));
+            $url    =   __APP__.'/'.($module?$module.MODULE_PATHINFO_DEPR:'').implode($depr,array_reverse($var));
         }
         if(!empty($vars)) { // 添加参数
             foreach ($vars as $var => $val){
