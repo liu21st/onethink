@@ -24,10 +24,6 @@ return  array(
     /* 项目设定 */
     'APP_STATUS'            =>  'debug',  // 应用调试模式状态 调试模式开启后有效 默认为debug 可扩展 并自动加载对应的配置文件
     'APP_FILE_CASE'         =>  false,   // 是否检查文件的大小写 对Windows平台有效
-    'APP_AUTOLOAD_PATH'     =>  '',// 自动加载机制的自动搜索路径,注意搜索顺序
-    'APP_AUTOLOAD_LAYER'    =>  'Model,Controller', // 自动加载的类库层
-    'APP_AUTOLOAD_DRIVER'   =>  'Db,TagLib,Cache,Template,Storage', // 自动加载的驱动类库
-    'APP_TAGS_ON'           =>  true, // 系统标签扩展开关
     'APP_SUB_DOMAIN_DEPLOY' =>  false,   // 是否开启子域名部署
     'APP_SUB_DOMAIN_RULES'  =>  array(), // 子域名部署规则
     'APP_SUB_DOMAIN_DENY'   =>  array(), //  子域名禁用列表
@@ -98,7 +94,6 @@ return  array(
     /* 日志设置 */
     'LOG_RECORD'            =>  false,   // 默认不记录日志
     'LOG_TYPE'              =>  'File', // 日志记录类型 默认为文件方式
-    'LOG_DEST'              =>  '', // 日志记录目标
     'LOG_LEVEL'             =>  'EMERG,ALERT,CRIT,ERR',// 允许记录的日志级别
     'LOG_FILE_SIZE'         =>  2097152,	// 日志文件大小限制
     'LOG_EXCEPTION_RECORD'  =>  false,    // 是否记录异常信息日志
