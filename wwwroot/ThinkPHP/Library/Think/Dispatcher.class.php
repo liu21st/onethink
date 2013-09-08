@@ -168,7 +168,12 @@ class Dispatcher {
             $paths = explode($depr,$_SERVER['PATH_INFO']);
 
             if(!isset($_GET[$varController])) {// 获取控制器
-                $_GET[$varController]  =   array_shift($paths);
+                if(C('CONTROLLER_LEVEL')>1){// 控制器层次
+                    $_GET[$varController]   =   implode('/',array_slice($paths,0,C('CONTROLLER_LEVEL')));
+                    $paths  =   array_slice($paths, C('CONTROLLER_LEVEL'));
+                }else{
+                    $_GET[$varController]   =   array_shift($paths);
+                }                
             }
             // 获取操作
             $_GET[$varAction]  =   array_shift($paths);
@@ -176,7 +181,7 @@ class Dispatcher {
             $var  =  array();
             preg_replace_callback('/(\w+)\/([^\/]+)/', function($match) use(&$var){$var[$match[1]]=strip_tags($match[2]);}, implode('/',$paths));
             $_GET   =  array_merge($var,$_GET);
-        }
+        }dump($_GET);
         define('CONTROLLER_NAME',   self::getController($varController));
         define('ACTION_NAME',       self::getAction($varAction));
         
