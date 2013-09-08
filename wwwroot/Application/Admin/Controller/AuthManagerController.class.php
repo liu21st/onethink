@@ -160,8 +160,8 @@ class AuthManagerController extends AdminController{
     public function access()
     {
         $this->updateRules();
-        $auth_group = D('AuthGroup')->where( array('module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
-                                    ->find( (int)$_GET['group_id'] );
+        $auth_group = D('AuthGroup')->where( array('status'=>1,'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
+									->getfield('id,id,title,rules');
         $node_list   = $this->returnNodes();
         $map         = array('module'=>'admin','type'=>AuthRuleModel::RULE_MAIN,'status'=>1);
         $main_rules  = D('AuthRule')->where($map)->getField('name,id');
@@ -172,6 +172,7 @@ class AuthManagerController extends AdminController{
         $this->assign('auth_rules',$child_rules);
         $this->assign('node_list',$node_list);
         $this->assign('auth_group',$auth_group);
+		$this->assign('this_group',$auth_group[(int)$_GET['group_id']]);
         $this->nav(3,'访问授权');
         $this->display('managergroup');
     }
@@ -236,6 +237,8 @@ class AuthManagerController extends AdminController{
             $this->error('参数错误');
         }
 
+		$auth_group = D('AuthGroup')->where( array('status'=>1,'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
+			->getfield('id,id,title,rules');
         $prefix   = C('DB_PREFIX');
         $l_table  = $prefix.(AuthGroupModel::MEMBER);
         $r_table  = $prefix.(AuthGroupModel::AUTH_GROUP_ACCESS);
@@ -248,6 +251,8 @@ class AuthManagerController extends AdminController{
         $list = $this->lists($list);
         $list = intToString($list);
         $this->assign( '_list', $list );
+		$this->assign('auth_group',$auth_group);
+		$this->assign('this_group',$auth_group[(int)$_GET['group_id']]);
         $this->nav(3,'成员授权');
         $this->display();
     }
@@ -257,10 +262,14 @@ class AuthManagerController extends AdminController{
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     public function category(){
+		$auth_group = D('AuthGroup')->where( array('status'=>1,'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
+			->getfield('id,id,title,rules');
         $group_list   = D('Category')->getTree();
         $authed_group = AuthGroupModel::getCategoryOfGroup(I('group_id'));
         $this->assign('authed_group',implode(',',(array)$authed_group));
         $this->assign('group_list',$group_list);
+		$this->assign('auth_group',$auth_group);
+		$this->assign('this_group',$auth_group[(int)$_GET['group_id']]);
         $this->nav(3,'分类授权');
         $this->display();
     }

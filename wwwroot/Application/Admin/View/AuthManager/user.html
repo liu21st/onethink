@@ -6,14 +6,15 @@
         <li class="current"><a href="javascript:;">成员授权</a></li>
         <li><a href="{:U('AuthManager/category',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">分类授权</a></li>
 	    <li class="fr">
-		    <select name="group" id="">
-			    <option value=""> 用户组:{:I('group_name')} </option>
+		    <select name="group">
+			    <volist name="auth_group" id="vo">
+				    <option value="{:U('AuthManager/user',array('group_id'=>$vo['id'],'group_name'=>$vo['title']))}" <eq name="vo['id']" value="$this_group['id']">selected</eq> >{$vo.title}</option>
+			    </volist>
 		    </select>
 	    </li>
     </ul>
     <!-- 标题栏 -->
     <div class="main-title">
-        <h2>用户组:{:I('group_name')}</h2>
         <div id="add-to-group" class="tools ">
             <form action="{:U('addToGroup')}" method="post" enctype="application/x-www-form-urlencoded" >
                 <input class="text input-small" type="text" name="uid" placeholder="请输入uid">
@@ -55,6 +56,9 @@
 <block name="script">
 <script src="__STATIC__/jquery.cookies.2.2.0.min.js"></script>
 <script type="text/javascript" charset="utf-8">
+	$('select[name=group]').change(function(){
+		location.href = this.value;
+	});
     //导航高亮
     var cookie_prefix = '{:C("COOKIE_PREFIX")}';
 	var auth_index = $.cookies.get(cookie_prefix+'auth_index');

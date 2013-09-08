@@ -7,8 +7,10 @@
             <li><a href="{:U('AuthManager/user',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">成员授权</a></li>
             <li><a href="{:U('AuthManager/category',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">分类授权</a></li>
 			<li class="fr">
-				<select name="group" id="">
-					<option value=""> 用户组:{:I('group_name')} </option>
+				<select name="group">
+					<volist name="auth_group" id="vo">
+						<option value="{:U('AuthManager/access',array('group_id'=>$vo['id'],'group_name'=>$vo['title']))}" <eq name="vo['id']" value="$this_group['id']">selected</eq> >{$vo.title}</option>
+					</volist>
 				</select>
 			</li>
 		</ul>
@@ -47,7 +49,7 @@
 						</dl>
 					</volist>
 
-			        <input type="hidden" name="id" value="{$auth_group.id}" />
+			        <input type="hidden" name="id" value="{$this_group.id}" />
 			        <input type="submit" class="btn" value="保存" />
 			    </form>
 			</div>
@@ -68,7 +70,7 @@
 <link rel="stylesheet" type="text/css" href="__STATIC__/qtip/jquery.qtip.min.css" media="all">
 <script type="text/javascript" charset="utf-8">
     +function($){
-        var rules = [{$auth_group.rules}];
+        var rules = [{$this_group.rules}];
         $('.auth_rules').each(function(){
             if( $.inArray( parseInt(this.value,10),rules )>-1 ){
                 $(this).prop('checked',true);
@@ -107,7 +109,11 @@
                     }
                 }
             });
-        })
+        });
+
+        $('select[name=group]').change(function(){
+			location.href = this.value;
+        });
     }(jQuery);
 </script>
 <script type="text/javascript" charset="utf-8">
