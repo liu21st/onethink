@@ -436,12 +436,6 @@ class  Template {
      * @return string|false
      */
     public function parseXmlTag($tagLib,$tag,$attr,$content) {
-        //if (MAGIC_QUOTES_GPC) {
-        if (version_compare(PHP_VERSION,'5.3.0')<0) {
-            $attr   = stripslashes($attr);
-            $content= stripslashes($content);
-        } 
-        //}
         if(ini_get('magic_quotes_sybase'))
             $attr   =  str_replace('\"','\'',$attr);
         $tLib       =  Think::instance('Think\\Template\TagLib\\'.ucwords(strtolower($tagLib)));

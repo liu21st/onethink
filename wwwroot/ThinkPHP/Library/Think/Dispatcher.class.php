@@ -132,25 +132,28 @@ class Dispatcher {
         }else{
             E(L('_MODULE_NOT_EXIST_').':'.MODULE_NAME);
         }
-        $urlMode        =   C('URL_MODEL');
-        if($urlMode == URL_COMPAT ){
-            // 兼容模式判断
-            define('PHP_FILE',_PHP_FILE_.'?'.$varPath.'=');
-        }elseif($urlMode == URL_REWRITE ) {
-            //当前项目地址
-            $url    =   dirname(_PHP_FILE_);
-            if($url == '/' || $url == '\\')
-                $url    =   '';
-            define('PHP_FILE',$url);
-        }else {
-            //当前项目地址
-            define('PHP_FILE',_PHP_FILE_);
+        if(!IS_CLI){
+            $urlMode        =   C('URL_MODEL');
+            if($urlMode == URL_COMPAT ){
+                // 兼容模式判断
+                define('PHP_FILE',_PHP_FILE_.'?'.$varPath.'=');
+            }elseif($urlMode == URL_REWRITE ) {
+                //当前项目地址
+                $url    =   dirname(_PHP_FILE_);
+                if($url == '/' || $url == '\\')
+                    $url    =   '';
+                define('PHP_FILE',$url);
+            }else {
+                //当前项目地址
+                define('PHP_FILE',_PHP_FILE_);
+            }
+            // 当前项目地址
+            define('__APP__',strip_tags(PHP_FILE));
+            // 模块URL地址
+            $moduleName    =   defined('MODULE_ALIAS')?MODULE_ALIAS:MODULE_NAME;
+            define('__MODULE__',(!empty($domainModule) || !C('MULTI_MODULE'))?__APP__ : __APP__.'/'.(C('URL_CASE_INSENSITIVE') ? strtolower($moduleName) : $moduleName));            
         }
-        // 当前项目地址
-        define('__APP__',strip_tags(PHP_FILE));
-        // 模块URL地址
-        $moduleName    =   defined('MODULE_ALIAS')?MODULE_ALIAS:MODULE_NAME;
-        define('__MODULE__',(!empty($domainModule) || !C('MULTI_MODULE'))?__APP__ : __APP__.'/'.(C('URL_CASE_INSENSITIVE') ? strtolower($moduleName) : $moduleName));
+
         if(!self::routerCheck()){   // 检测路由规则 如果没有则按默认规则调度URL
             tag('path_info');
             // 检查禁止访问的URL后缀
@@ -184,13 +187,15 @@ class Dispatcher {
         }
         define('CONTROLLER_NAME',   self::getController($varController));
         define('ACTION_NAME',       self::getAction($varAction));
-        
-        // 当前控制器地址
-        $controllerName    =   defined('CONTROLLER_ALIAS')?CONTROLLER_ALIAS:CONTROLLER_NAME;
-        define('__CONTROLLER__',!empty($domainController)?__MODULE__.$depr : __MODULE__.$depr.( C('URL_CASE_INSENSITIVE') ? strtolower($controllerName) : $controllerName ) );
+        if(!IS_CLI){
+            // 当前控制器地址
+            $controllerName    =   defined('CONTROLLER_ALIAS')?CONTROLLER_ALIAS:CONTROLLER_NAME;
+            define('__CONTROLLER__',!empty($domainController)?__MODULE__.$depr : __MODULE__.$depr.( C('URL_CASE_INSENSITIVE') ? strtolower($controllerName) : $controllerName ) );
 
-        // 当前操作地址
-        define('__ACTION__',__CONTROLLER__.$depr.(defined('ACTION_ALIAS')?ACTION_ALIAS:ACTION_NAME));
+            // 当前操作地址
+            define('__ACTION__',__CONTROLLER__.$depr.(defined('ACTION_ALIAS')?ACTION_ALIAS:ACTION_NAME));            
+        }
+
         //保证$_REQUEST正常取值
         $_REQUEST = array_merge($_POST,$_GET);
     }
@@ -208,7 +213,7 @@ class Dispatcher {
     }
 
     /**
-     * 获得实际的模块名称
+     * 获得实际的控制器名称
      * @access private
      * @return string
      */
@@ -219,16 +224,16 @@ class Dispatcher {
             if(isset($maps[strtolower($controller)])) {
                 // 记录当前别名
                 define('CONTROLLER_ALIAS',strtolower($controller));
-                // 获取实际的模块名
+                // 获取实际的控制器名
                 return   $maps[CONTROLLER_ALIAS];
             }elseif(array_search(strtolower($controller),$maps)){
-                // 禁止访问原始模块
+                // 禁止访问原始控制器
                 return   '';
             }
         }
         if(C('URL_CASE_INSENSITIVE')) {
             // URL地址不区分大小写
-            // 智能识别方式 index.php/user_type/index/ 识别到 UserTypeAction 模块
+            // 智能识别方式 user_type 识别到 UserTypeController 控制器
             $controller = ucfirst(parse_name($controller,1));
         }
         return strip_tags($controller);

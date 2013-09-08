@@ -25,8 +25,7 @@ class Model {
     const MUST_VALIDATE         =   1;// 必须验证
     const EXISTS_VALIDATE       =   0;// 表单存在字段则验证
     const VALUE_VALIDATE        =   2;// 表单值不为空则验证
-    // 当前使用的扩展模型
-    private   $_extModel        =   null;
+
     // 当前数据库操作对象
     protected $db               =   null;
     // 主键名称
@@ -156,27 +155,6 @@ class Model {
             $db   =  $this->dbName?$this->dbName:C('DB_NAME');
             F('_fields/'.strtolower($db.'.'.$this->name),$this->fields);
         }
-    }
-
-    /**
-     * 动态切换扩展模型
-     * @access public
-     * @param string $type 模型类型名称
-     * @param mixed $vars 要传入扩展模型的属性变量
-     * @return Model
-     */
-    public function switchModel($type,$vars=array()) {
-        $class = ucwords(strtolower($type)).'Model';
-        if(!class_exists($class))
-            E($class.L('_MODEL_NOT_EXIST_'));
-        // 实例化扩展模型
-        $this->_extModel   = new $class($this->name);
-        if(!empty($vars)) {
-            // 传入当前模型的属性到扩展模型
-            foreach ($vars as $var)
-                $this->_extModel->setProperty($var,$this->$var);
-        }
-        return $this->_extModel;
     }
 
     /**
