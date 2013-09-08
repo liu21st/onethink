@@ -7,7 +7,7 @@
 ------------------------------------------ */
 .text,.textarea {
 	padding: 4px;
-	border: 1px solid transparent;
+	border: 1px solid #eeeeee;
 	transition: all .3s linear;
 }
 .text {
@@ -92,7 +92,7 @@ label.textarea ~ .check-tips {
 
 .search-form .drop-down {
 	float: left;
-	width: 75px;
+	width: 81px;
 	height: 30px;
 	line-height: 30px;
 }
@@ -119,9 +119,11 @@ label.textarea ~ .check-tips {
 	padding: 0 10px;
 	height: 30px;
 	line-height: 30px;
+	width:60px;
 }
 .search-form .drop-down ul a:hover {
 	background-color: #f0f0f0;
+	border:none;
 }
 .search-form input {
 	float: left;

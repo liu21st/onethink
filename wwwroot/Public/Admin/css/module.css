@@ -25,7 +25,7 @@
 	border-top-width: 2px;
 }
 .tab-nav .current a {
-	border-color: #34b4e0 #e0e0e0 #fff;
+	border-color: #34b4e0 #e0e0e0 #f6f6f6;
 }
 .tab-content .tab-pane {
 	display: none;
@@ -196,20 +196,21 @@
 ------------------------------------------ */
 .category {
 	margin: 10px 0;
-	border: 1px solid #d4d4d4;
+	/*border: 1px solid #d4d4d4;*/
 	border-bottom-width: 0; 
 }
 .category .hd {
 	font-weight: bold;
 	border-bottom: 1px solid #d4d4d4;
-	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#FAFAFA), to(#F3F3F3));
-	background-image: -moz-linear-gradient(top, #FAFAFA, #F3F3F3);
-	background-image: -o-linear-gradient(top, #FAFAFA, #F3F3F3);
-	background-image: linear-gradient(top, #FAFAFA, #F3F3F3);
-	background-color: #F8F8F8;
+	/*background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#FAFAFA), to(#F3F3F3));*/
+	/*background-image: -moz-linear-gradient(top, #FAFAFA, #F3F3F3);*/
+	/*background-image: -o-linear-gradient(top, #FAFAFA, #F3F3F3);*/
+	/*background-image: linear-gradient(top, #FAFAFA, #F3F3F3);*/
+	color:#fff;
+	background-color: #353535;
 }
 .category .cate-item dt {
-	border-bottom: 1px solid #d4d4d4;
+	border-bottom: 1px solid #E7E7E7;
 }
 .category dl,
 .category dd,
@@ -313,4 +314,12 @@
 }
 .category > dl > dd > dl:last-child > dd > dl:last-child > dt .tab-sign {
 	background-position: 0 -120px;
+}
+
+.category input{
+	height: 16px;
+}
+
+.auth-category >dl>dt{
+	background: #eee;
 }

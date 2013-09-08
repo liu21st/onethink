@@ -75,7 +75,7 @@ textarea {
 .nav-list li a:hover {
 	display: block;
 	text-decoration: none;
-	border-bottom: 0 none;
+	outline: none;
 }
 .fl{
 	float: left!important;
