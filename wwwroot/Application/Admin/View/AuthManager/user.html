@@ -13,17 +13,6 @@
 		    </select>
 	    </li>
     </ul>
-    <!-- 标题栏 -->
-    <div class="main-title">
-        <div id="add-to-group" class="tools ">
-            <form action="{:U('addToGroup')}" method="post" enctype="application/x-www-form-urlencoded" >
-                <input class="text input-small" type="text" name="uid" placeholder="请输入uid">
-                <input type="hidden" name="group_id" value="{:I('group_id')}">
-                <input class="btn" type="submit" value="添加">
-            </form>
-        </div>
-    </div>
-
     <!-- 数据列表 -->
     <div class="data-table table-striped">
         <?php
@@ -48,9 +37,19 @@
             echo $authed_user = $__controller__->tableList($_list,$thead);
         ?>
     </div>
-    <div class="page_nav">
-        {$_page}
-    </div>
+	<div class="main-title">
+		<div class="page_nav fl">
+			{$_page}
+		</div>
+		<div id="add-to-group" class="tools fr">
+			<form action="{:U('addToGroup')}" method="post" enctype="application/x-www-form-urlencoded" >
+				<input class="text input-small" type="text" name="uid" placeholder="请输入uid">
+				<input type="hidden" name="group_id" value="{:I('group_id')}">
+				<input class="btn" type="submit" value="添加">
+			</form>
+		</div>
+	</div>
+
 </div>
 </block>
 <block name="script">
