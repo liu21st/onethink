@@ -358,6 +358,7 @@
 	color: #666;
 	word-wrap: break-word;
 	word-break: break-all;
+	padding: 0 15px;
 }
 
 /* 标签页 */
@@ -407,6 +408,7 @@
 	margin-top: 10px;
 	padding-top: 10px;
 	border-top: 1px dashed #ebebeb;
+	padding: 0 10px;
 }
 .info-list li:first-child {
 	border-top: 0 none;
@@ -439,6 +441,7 @@
 }
 .info-list .media-body {
 	color: #999;
+	text-align: justify;
 }
 .icon {
 	display: inline-block;

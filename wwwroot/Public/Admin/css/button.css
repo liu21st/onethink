@@ -59,6 +59,7 @@
 /* 带下拉框的按钮组 */
 .btn-group {
 	display: inline-block;
+    *display: inline;
 	position: relative;
     vertical-align: middle;
 }
@@ -71,7 +72,7 @@
     background: url(../images/angle-down.png) no-repeat 0 0;
 }
 .btn-group .dropdown {
-    /*display: none;*/
+    display: none;
 	position: absolute;
 	top: 30px;
 	right: 0;

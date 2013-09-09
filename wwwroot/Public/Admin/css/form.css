@@ -59,19 +59,18 @@ select {
 ------------------------------------------ */
 .form-horizontal .form-item {
 	margin-bottom: 5px;
+	font-size: 14px;
 }
 .form-horizontal .item-label {
-	float: left;
+	display: block;
 	margin-right: 5px;
-	width: 90px;
 	height: 30px;
 	line-height: 30px;
-	text-align: right;
+	font-weight: bold;
 }
 .form-horizontal .controls {
 	overflow: hidden;
-	padding: 5px;
-	*zoom: 1;
+	padding: 5px 5px 5px 0;
 }
 .form-horizontal .controls label + label {
 	margin-left: 15px;
