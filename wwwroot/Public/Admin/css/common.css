@@ -170,10 +170,10 @@ i[class^="icon"],
     right: -21px;
     font: bold 20px/20px arial; 
 	color: #c09853;
-    opacity: 0.2;
+    opacity: 0.4;
 }
 .alert .close:hover {
-	opacity: 0.4;
+	opacity: 0.6;
 }
 button.close {
     padding: 0;
@@ -181,9 +181,10 @@ button.close {
     border: 0 none;
 	background: none;
 }
-.alert-success {
-	border-color: ;
-	background-color: #d9edf7;
+.alert-info {
+	background-color: #D9EDF7;
+    border-color: #BCE8F1;
+    color: #3A87AD;
 }
 .alert-error {
 	color: #b94a48;
