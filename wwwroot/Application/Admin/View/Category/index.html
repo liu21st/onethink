@@ -68,7 +68,15 @@
 					);
 					return false;
 				})
-				.on("blur", "input", function(){$(this).closest("form").submit()});
+                .on("focus","input",function(){
+                    $(this).data('param',$(this).closest("form").serialize());
+
+                })
+                .on("blur", "input", function(){
+                    if($(this).data('param')!=$(this).closest("form").serialize()){
+                        $(this).closest("form").submit();
+                    }
+                });
 		})(jQuery);
 	</script>
 </block>
