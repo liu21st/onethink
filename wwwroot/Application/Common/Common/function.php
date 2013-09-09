@@ -192,17 +192,15 @@ function get_redirect_url(){
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 function hooks($hook, $params = array()) {
-    $hooks = S('hooks');
+//     $hooks = S('hooks');TODO:开发阶段不使用缓存，后期去掉注释
     if(!$hooks){
         $hooks = D('Hooks')->getField('name,addons');
         foreach ($hooks as $key => $value) {
             $hooks[$key] = explode(',', $value);
         }
-        S('hooks',$hooks);
+//         S('hooks',$hooks);TODO:开发阶段不使用缓存，后期去掉注释
     }
     $addons = $hooks[$hook];
-    // $addons = D('Hooks')->where("name='{$hook}'")->getField('addons');
-    // $addons = explode(',', $addons);
     if(!empty($addons)) {
         if(APP_DEBUG) {
             G($hook.'Start');
