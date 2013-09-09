@@ -52,18 +52,6 @@ abstract class Action {
             $this->_initialize();
     }
 
-   /**
-     * 获取当前Action名称
-     * @access protected
-     */
-    protected function getActionName() {
-        if(empty($this->name)) {
-            // 获取Action名称
-            $this->name     =   substr(get_class($this),0,-6);
-        }
-        return $this->name;
-    }
-
     /**
      * 模板显示 调用内置的模板引擎显示方法，
      * @access protected

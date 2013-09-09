@@ -29,12 +29,6 @@ class Log {
     const DEBUG     = 'DEBUG';  // 调试: 调试信息
     const SQL       = 'SQL';  // SQL：SQL语句 注意只在调试模式开启时有效
 
-    // 日志记录方式
-    const SYSTEM    = 0;
-    const MAIL      = 1;
-    const FILE      = 3;
-    const SAPI      = 4;
-
     // 日志信息
     static protected $log       =  array();
 

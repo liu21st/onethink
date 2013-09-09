@@ -135,7 +135,7 @@ function I($name,$default='',$filter=null) {
             }
         }        
     }elseif(isset($input[$name])) { // 取值操作
-        $data       =	$input[$name];
+        $data       =   $input[$name];
         $filters    =   isset($filter)?$filter:C('DEFAULT_FILTER');
         if($filters) {
             $filters    =   explode(',',$filters);
@@ -145,13 +145,13 @@ function I($name,$default='',$filter=null) {
                 }else{
                     $data   =   filter_var($data,is_int($filter)?$filter:filter_id($filter));
                     if(false === $data) {
-                        return	 isset($default)?$default:NULL;
+                        return   isset($default)?$default:NULL;
                     }
                 }
             }
         }
     }else{ // 变量默认值
-        $data       =	 isset($default)?$default:NULL;
+        $data       =    isset($default)?$default:NULL;
     }
     return $data;
 }
@@ -229,8 +229,7 @@ function N($key, $step=0,$save=false) {
  */
 function parse_name($name, $type=0) {
     if ($type) {
-        $callback = create_function('$match', 'return strtoupper($match[1]);');
-        return ucfirst(preg_replace_callback('/_([a-zA-Z])/', $callback, $name));
+        return ucfirst(preg_replace_callback('/_([a-zA-Z])/', function($match){return strtoupper($match[1]);}, $name));
     } else {
         return strtolower(trim(preg_replace("/[A-Z]/", "_\\0", $name), "_"));
     }
@@ -394,18 +393,22 @@ function M($name='', $tablePrefix='',$connection='') {
  * @param string $layer 分层名称
  * @return string
  */
-function parse_res_name($name,$layer){
+function parse_res_name($name,$layer,$level=1){
     if(strpos($name,'://')) {// 指定扩展资源
         list($extend,$name)  =   explode('://',$name);
     }else{
         $extend  =   '';
     }
-    if(strpos($name,'/')){ // 指定模块
-        list($module,$name) =  explode('/',$name);
+    if(strpos($name,'/') && substr_count($name, '/')>=$level){ // 指定模块
+        list($module,$name) =  explode('/',$name,2);
     }else{
         $module =   MODULE_NAME;
     }
-    $class  =   $module.'\\'.$layer.'\\'.parse_name($name, 1);
+    $array  =   explode('/',$name);
+    $class  =   $module.'\\'.$layer;
+    foreach($array as $name){
+        $class  .=   '\\'.parse_name($name, 1);
+    }
     // 导入资源类库
     if($extend){ // 扩展资源
         $class      =   $extend.'\\'.$class;
@@ -417,15 +420,16 @@ function parse_res_name($name,$layer){
  * A函数用于实例化Action 格式：[资源://][模块/]控制器
  * @param string $name 资源地址
  * @param string $layer 控制层名称
- * @param boolean $common 是否公共目录
+ * @param integer $level 控制器层次
  * @return Action|false
  */
-function A($name,$layer='') {
+function A($name,$layer='',$level='') {
     static $_action = array();
     $layer  =   $layer? $layer : C('DEFAULT_C_LAYER');
+    $level  =   $level? $level : C('CONTROLLER_LEVEL');
     if(isset($_action[$name.$layer]))  
         return $_action[$name.$layer];
-    $class  =   parse_res_name($name,$layer);
+    $class  =   parse_res_name($name,$layer,$level);
     if(class_exists($class)) {
         $action             =   new $class();
         $_action[$name.$layer]     =   $action;
