@@ -23,6 +23,23 @@ function detailed_content(){
     return false;
 }
 </script>
+<script type="text/javascript">
+function thinkbox_image(){
+    $.thinkbox.load('{:U("thinkbox_image")}', {
+        'fixed': true,
+        'modal': true,
+        'drag': false,
+        'modalClose': true,
+        afterShow:function(){
+        	var box = this;
+	        	this.find('.delete').click(function(){
+	        	box.hide();
+        	});
+        }
+    });
+    return false;
+}
+</script>
 <!--<![endif]-->
 <!-- 页面header钩子，一般用于加载插件CSS文件和代码 -->
 {:hooks('pageHeader')}
