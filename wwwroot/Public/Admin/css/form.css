@@ -66,6 +66,7 @@ select {
 	margin-right: 5px;
 	height: 30px;
 	line-height: 30px;
+	font-weight: bold;
 }
 .form-horizontal .controls {
 	overflow: hidden;
