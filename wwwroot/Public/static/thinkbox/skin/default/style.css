@@ -50,7 +50,7 @@
 	border-top-left-radius: 6px;
 }
 .thinkbox-default .thinkbox-top-right{
-	background-position: -6px -60px;
+	border-top-right-radius: 6px;
 }
 .thinkbox-default .thinkbox-bottom-left{
 	border-bottom-left-radius: 6px;

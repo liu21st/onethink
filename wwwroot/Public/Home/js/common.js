@@ -13,6 +13,13 @@ $(function(){
         });
   	});
 
+	$('.action .thinkbox-image').each(function(){
+		$(this).click(function() {
+        	thinkbox_image();
+        	return false;
+        });
+  	});
+
 	(function(){
 		var $nav = $("#nav"), $current = $nav.children("[data-key=" + $nav.data("key") + "]");
 		if($nav.length){

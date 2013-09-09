@@ -17,4 +17,17 @@
 		});
 	});
 
+	(function(){
+		//按钮组
+		$(".btn-group").mouseenter(function(){
+			var userMenu = $(this).children(".dropdown ");
+			userMenu.show();
+			clearTimeout(userMenu.data("timeout"));
+		}).mouseleave(function(){
+			var userMenu = $(this).children(".dropdown");
+			userMenu.data("timeout") && clearTimeout(userMenu.data("timeout"));
+			userMenu.data("timeout", setTimeout(function(){userMenu.hide()}, 100));
+		});
+	})();
 });
+

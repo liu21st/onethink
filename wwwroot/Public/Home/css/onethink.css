@@ -360,6 +360,12 @@
 	word-break: break-all;
 	padding: 0 15px;
 }
+.submit-box {
+	margin-top: 10px;
+}
+.submit-box .btn {
+	margin-right: 15px;
+}
 
 /* 标签页 */
 .tab-nav {
@@ -408,7 +414,7 @@
 	margin-top: 10px;
 	padding-top: 10px;
 	border-top: 1px dashed #ebebeb;
-	padding: 0 10px;
+	padding: 10px 10px 0;
 }
 .info-list li:first-child {
 	border-top: 0 none;
@@ -1053,4 +1059,19 @@
 .detailed-content span{
 	float:left;
 	height: 80px;
+}
+/*预览图*/
+.thinkbox-image {
+	position: relative;
+}
+.thinkbox-image img{
+	width: 420px;
+}
+.thinkbox-image .delete{
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 32px;
+	height: 32px;
+	cursor: pointer;
 }
