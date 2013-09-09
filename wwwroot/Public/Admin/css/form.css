@@ -59,7 +59,7 @@ select {
 ------------------------------------------ */
 .form-horizontal .form-item {
 	margin-bottom: 5px;
-	font-size: 14px;
+	/*font-size: 14px;*/
 }
 .form-horizontal .item-label {
 	display: block;
