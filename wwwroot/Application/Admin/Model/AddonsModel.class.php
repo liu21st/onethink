@@ -20,17 +20,6 @@ class AddonsModel extends Model {
 	 */
 	protected function _after_find(&$result,$options) {
 		$addons = addons($result['name']);
-// 		if($addons && $addons->config_file){
-// 			$data = include $addons->config_file;
-// 			if($data && $result['config']){
-// 				if(is_string($result['config']))
-// 					$result['config'] = json_decode($result['config'], TRUE);
-// 				foreach ($result['config'] as $key => $value) {
-// 					$data[$key]['value'] = $value;
-// 				}
-// 			}
-// 			$result['config'] = $data;
-// 		}
 		$result['addon_path'] = $addons->addon_path;
 		$result['custom_config'] = $addons->custom_config;
 	}
