@@ -7,22 +7,14 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
+namespace Addons\Attachment\Model;
+use Think\Model;
+
+
 /**
  * 分类模型
  */
 class AttachmentModel extends Model{
-	protected function _after_find(&$result,$options) {
-		$result['update_time_text'] = date('Y-m-d H:i:s', $result['update_time']);
-		$result['document_title'] = D('Document')->getFieldById($result['record_id'], 'title');
-		$result['size'] = format_bytes($result['size']);
-	}
-
-	protected function _after_select(&$result,$options){
-		foreach($result as &$record){
-			$this->_after_find($record,$options);
-		}
-	}
-
 	/**
 	 * 附件模型自动完成
 	 * @var array
@@ -35,6 +27,18 @@ class AttachmentModel extends Model{
 		array('update_time', NOW_TIME, self::MODEL_BOTH),
 		array('status', 1, self::MODEL_BOTH),
 	);
+
+	protected function _after_find(&$result,$options) {
+		$result['update_time_text'] = date('Y-m-d H:i:s', $result['update_time']);
+		$result['document_title'] = D('Document')->getFieldById($result['record_id'], 'title');
+		$result['size'] = format_bytes($result['size']);
+	}
+
+	protected function _after_select(&$result,$options){
+		foreach($result as &$record){
+			$this->_after_find($record,$options);
+		}
+	}
 
 	/**
 	 * 保存文件附件到数据库
