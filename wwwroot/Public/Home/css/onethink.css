@@ -360,6 +360,12 @@
 	word-break: break-all;
 	padding: 0 15px;
 }
+.submit-box {
+	margin-top: 10px;
+}
+.submit-box .btn {
+	margin-right: 15px;
+}
 
 /* 标签页 */
 .tab-nav {
