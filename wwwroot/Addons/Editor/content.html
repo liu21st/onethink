@@ -35,20 +35,31 @@
 		{// UBB 官网http://www.ubbeditor.com/cn}
 		<script charset="utf-8" src="__STATIC__/ubbeditor/ubbeditor.js"></script>
 		<script type="text/javascript">
-			var nEditor = new ubbEditor('{$data.name}');
-			nEditor.tLang = 'zh-cn';
-			nEditor.tInit('nEditor', '__STATIC__/ubbeditor/');
+			$(function(){
+				$('textarea[name="{$data.name}"]').attr('id', '{$data.name}').css(
+					'height','{$config.editor_height}'
+				);
+				var nEditor = new ubbEditor('{$data.name}');
+				nEditor.tLang = 'zh-cn';
+				nEditor.tInit('nEditor', '__STATIC__/ubbeditor/');
+			})
 		</script>
 		<input type="hidden" name="parse" value="1">
 	</case>
 	<case value="4">
 		{// markdown }
+		<script type="text/javascript" src="__STATIC__/jquery-migrate-1.2.1.min.js"></script>
 		<script charset="utf-8" src="__STATIC__/xheditor/xheditor-1.2.1.min.js"></script>
 		<script charset="utf-8" src="__STATIC__/xheditor/xheditor_lang/zh-cn.js"></script>
 		<script type="text/javascript" src="__STATIC__/xheditor/xheditor_plugins/showdown.js"></script>
 		<script type="text/javascript" src="__STATIC__/xheditor/xheditor_plugins/htmldomparser.js"></script>
 		<script type="text/javascript" src="__STATIC__/xheditor/xheditor_plugins/html2markdown.js"></script>
 		<script type="text/javascript">
+			$(function(){
+				$('textarea[name="{$data.name}"]').attr('id', '{$data.name}').css(
+					'height','{$config.editor_height}'
+				);
+			})
 			var markdownConverter = new Showdown.converter();
 			function Md2HTML(md){
 				return markdownConverter.makeHtml(md);
