@@ -134,7 +134,7 @@ str;
     public function checkForm(){
         $data = $_POST;
         //检测插件名是否合法
-        $addons_dir = C('EXTEND_MODULE.Addons');
+        $addons_dir = C('AUTOLOAD_NAMESPACE.Addons');
         if(file_exists("{$addons_dir}{$data['info']['name']}")){
             $this->error('插件已经存在了');
         }
@@ -158,7 +158,7 @@ str;
     public function build(){
         $addonFile = $this->preview(false);
         $data = $_POST;
-        $addons_dir = C('EXTEND_MODULE.Addons');
+        $addons_dir = C('AUTOLOAD_NAMESPACE.Addons');
         //创建目录结构
         $files = array();
         $addon_dir = "$addons_dir{$data['info']['name']}/";
@@ -197,7 +197,7 @@ str;
      */
     public function index(){
         $this->assign('list',D('Addons')->getList());
-        $this->assign('creatable', is_writable(C('EXTEND_MODULE.Addons')));
+        $this->assign('creatable', is_writable(C('AUTOLOAD_NAMESPACE.Addons')));
         $this->display();
     }
 
@@ -217,6 +217,12 @@ str;
         if($addon->custom_adminlist)
             $this->assign('custom_adminlist', $addon->addon_path.$addon->custom_adminlist);
         $this->assign($param);
+        if(!$fields)
+            $fields = '*';
+        if(!$map)
+            $map = array();
+        if(!$order)
+            $order = array();
         $list = $this->lists(D("Addons://{$model}/{$model}")->field($fields),$map,$order);
         $thead = array(
             //元素value中的变量就是数据集中的字段,value必须使用单引号
@@ -356,7 +362,7 @@ str;
      * 钩子列表
      */
     public function hooks(){
-        $order = $field = array();
+        $map = $order = $fields = array();
         $list = $this->lists(D("Hooks")->field($fields),$map,$order);
         $thead = array(
             //元素value中的变量就是数据集中的字段,value必须使用单引号
