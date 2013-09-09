@@ -4,41 +4,79 @@
 	<!-- 标题栏 -->
 	<div class="main-title">
 		<h2>用户列表</h2>
-		<div class="tools">
-			<button class="btn" id="add-member">添加</button>
-		</div>
 	</div>
+<div class="cf">
+					<div class="fl">
+                        <button class="btn" id="add-member" url="{:U('User/addUser')}">新 增</button>
+						<button class="btn ajax-post" url="{:U('User/changeStatus',array('method'=>'resumeUser'))}" target-form="ids">启 用</button>
+						<button class="btn ajax-post" url="{:U('User/changeStatus',array('method'=>'deleteUser'))}" target-form="ids">删 除</button>
+						<button class="btn ajax-post confirm" url="{:U('User/changeStatus',array('method'=>'forbidUser'))}" target-form="ids">禁 用</button>
+					</div>
 
+					<div class="tools fr">
+						<div class="search-form cf">
+							<div class="drop-down">
+								<span id="sch-sort-txt" class="sort-txt" data="">所有</span>
+								<i class="arrow arrow-down"></i>
+								<ul id="sub-sch-menu" class="nav-list hidden">
+									<li><a href="javascript:;" value="">所有</a></li>
+									<li><a href="javascript:;" value="1">正常</a></li>
+									<li><a href="javascript:;" value="0">禁用</a></li>
+									<li><a href="javascript:;" value="2">待审核</a></li>
+								</ul>
+							</div>
+							<input type="text" name="search" value="">
+							<a class="sch-btn" href="javascript:;" id="search" url="">高级搜索</a>
+						</div>
+					</div>
+				</div>
 	<!-- 数据列表 -->
 	<div class="data-table table-striped">
-		<table>
-			<thead>
-				<tr>
-					<th>UID</th>
-					<th>注册时间</th>
-					<th>注册IP</th>
-					<th>最后登陆时间</th>
-					<th>最后登陆IP</th>
-					<th>操作</th>
-				</tr>
-			</thead>
-			<tbody>
-				<volist name="list" id="user">
-				<tr>
-					<td>{$user.uid}</td>
-					<td>{$user.reg_time|date='Y-m-d H:i:s',###}</td>
-					<td>{$user.reg_ip|long2ip}</td>
-					<td>{$user.last_login_time|date='Y-m-d H:i:s',###}</td>
-					<td>{$user.last_login_ip|long2ip}</td>
-                    <td>
-                        <a class="authorize" href="javascript:;">授权</a>
-                        <!-- <a href="{:U('AuthManager/group',array('uid'=>$user['uid']))}">授权</a> -->
-                    </td>
-				</tr>
-				</volist>
-			</tbody>
-		</table>
+        <?php
+            $thead = array(
+                '_html'=>array(
+                    '_th'=>'row-selected',
+                    'th'=>'<input class="check-all" type="checkbox"/>',
+                    'td'=>'<input class="ids" type="checkbox" name="id[]" value="$id" />',
+                ),
+                'uid'  => 'UID',
+                // 'username'=>array(
+                    // '_title'  =>'昵称',
+                    // 'tag'    =>'a',
+                    // 'class'  =>'edit-user',
+                    // 'href'   =>'User/edit?id=$id',
+                // ),
+                'score'=>'积分',
+                'login'=>'登陆次数',
+                'last_login_ip'=>array(
+                    '_title'=>'最后登陆ip',
+                    'tag'   =>'span',
+                    'func'  => 'long2ip($last_login_ip)',
+                ),
+                'last_login_ip'=>array(
+                    '_title'=>'最后登陆ip',
+                    'tag'   =>'span',
+                    'func'  => 'long2ip($last_login_ip)',
+                ),
+                'last_login_time'=>array(
+                    '_title'=>'最后登陆时间',
+                    'tag'   =>'span',
+                    'func'  => 'date("Y-m-d H:i:s",$last_login_time)',
+                ),
+                'status_text'=>'状态',
+                '操作'=>array(
+                    '禁用'=>array( 'href' => 'User/changeStatus?method=forbidUser&id=$uid', 'class'=>'ajax-get', 'condition'=>'$status==1',), 
+                    '启用'=>array( 'href' => 'User/changeStatus?method=resumeUser&id=$uid', 'class'=>'ajax-get', 'condition'=>'$status==0',), 
+                    '删除'=>array( 'href' => 'User/changeStatus?method=deleteUser&id=$uid', 'class'=>'confirm ajax-get' ),
+                    '授权'=>array( 'href' => 'AuthManager/group?uid=$uid', 'class'=>'ajax-get'),
+                ),
+            );
+            echo $_table_list = $__controller__->tableList($_list,$thead);
+        ?>
 	</div>
+    <div class="page_nav">
+        {$_page}
+    </div>
 </block>
 
 <block name="script">
@@ -57,5 +95,31 @@
 				$.thinkbox.load(authorUrl,thinkboxOption);
 			});
 		})
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+		var status = $("#sch-sort-txt").attr("data");
+		var search = $('input[name=search]').val();
+		if(status != ''){
+			url += '/status/' + status;
+		}
+		if(search != ''){
+			url += '/search/' + encodeURIComponent(search);
+		}
+		window.location.href = url;
+	});
+	/* 高级搜索子菜单 */
+	$(".search-form").find(".drop-down").hover(function(){
+		$("#sub-sch-menu").removeClass("hidden");
+	},function(){
+		$("#sub-sch-menu").addClass("hidden");
+	});
+	$("#sub-sch-menu li").find("a").each(function(){
+		$(this).click(function(){
+			var text = $(this).text();
+			$("#sch-sort-txt").text(text).attr("data",$(this).attr("value"));
+			$("#sub-sch-menu").addClass("hidden");
+		})
+	});
 	</script>
 </block>
