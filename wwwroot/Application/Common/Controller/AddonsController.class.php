@@ -35,9 +35,7 @@ class AddonsController extends Action{
 		}
 
 		if(!empty($_addons) && !empty($_controller) && !empty($_action)){
-            $class = "\\Addons\\{$_addons}\\Controller\\{$_controller}Controller";
             $Addons = A("Addons://{$_addons}/{$_controller}");
-            dump($Addons);exit;
 			$Addons->setName($_addons)->$_action();
 		} else {
 			$this->error('没有指定插件名称，控制器或操作！');
@@ -46,9 +44,9 @@ class AddonsController extends Action{
 
 	protected function display($templateFile='',$charset='',$contentType='',$content='',$prefix='') {
 		if(!is_file($templateFile)){
-			$templateFile = T("Addons://{$this->addons}@{$templateFile}");
+			$templateFile = T("Addons://{$this->addons}/{$templateFile}");
 			if(!is_file($templateFile)){
-				throw new Exception("模板不存在:$templateFile");
+				throw new \Exception("模板不存在:$templateFile");
 			}
 		}
 

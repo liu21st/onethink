@@ -8,13 +8,10 @@
 	<!-- 表格列表 -->
 	<div class="tb-unit posr">
 		<div class="tb-unit-bar">
-			<a class="btn" href="{:U('edit')}">
-				<i class="icon-plus"></i>新增分类
-			</a>
+			<a class="btn" href="{:U('edit')}">新增分类</a>
 		</div>
 		<div class="category">
 			<div class="hd cf">
-				<div class="opt">操作</div>
 				<div class="fold">折叠</div>
 				<div class="order">排序</div>
 				<div class="name">模块名称</div>
@@ -23,9 +20,7 @@
 		</div>
 		
 		<div class="tb-unit-bar">
-			<a class="btn btn-small" href="{:U('edit')}">
-				<i class="icon-plus"></i>新增分类
-			</a>
+			<a class="btn btn-small" href="{:U('edit')}">新增分类</a>
 		</div>
 	</div>
 	<!-- /表格列表 -->
@@ -51,6 +46,13 @@
 
 			/* 三级分类删除新增按钮 */
 			$(".category dd dd .add-sub").remove();
+
+			//鼠标悬浮显示操作按钮
+			$(".category .cate-item").find("dt").hover(function(){
+				$(this).find(".opt-btn").show();
+			},function(){
+				$(this).find(".opt-btn").hide();
+			})
 
 			/* 实时更新分类信息 */
 			$(".category")

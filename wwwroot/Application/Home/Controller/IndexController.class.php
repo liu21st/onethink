@@ -16,8 +16,7 @@ namespace Home\Controller;
 class IndexController extends HomeController {
 
     public function test(){
-        $this->assign("list", array(1,2,3,4,5,6,7));
-        $this->display("Index/a");
+        echo T('Addons://Attachment@Article/detail');
     }
 
 	//系统首页
