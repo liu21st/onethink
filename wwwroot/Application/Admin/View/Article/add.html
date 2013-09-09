@@ -9,10 +9,10 @@
 		<h2>
 		新增{$model_name} [
 		<volist name="rightNav" id="nav">
-		<a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a>
-		<if condition="count($rightNav) gt $i"><i class="ca"></i></if>
+			<a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a>
+			<if condition="count($rightNav) gt $i"><i class="ca"></i></if>
 		</volist>
-		]
+		]</h2>
 	</div>
 	<!-- 标签页导航 -->
 	<div class="tab-wrap">
@@ -90,8 +90,8 @@
 			            <input type="hidden" name="type" value="2">
 			            <input type="hidden" name="category_id" value="{$cate_id}">
 			            <input type="hidden" name="model_id" value="{$model_id}">
-						<button class="btn hidden" id="submit">保 存</button>
-						<button class="btn" id="submit">下一步</button>
+						<a class="btn hidden" id="submit" href="javascript:;">保 存</a>
+						<a class="btn" id="submit-next" href="javascript:;">下一步</a>
 						<a class="btn" href="{:U('article/index?cate_id='.$cate_id)}">返 回</a>
 					</div>
 				</div>
@@ -129,6 +129,7 @@ $('#submit').click(function(){
         }
     }
 })(jQuery);
+
 $(function(){
 	$(".tab-nav li").click(function(){
 		var id = $(this).data("tab");
@@ -137,6 +138,7 @@ $(function(){
 		$("#tab1,#tab2").attr("class", "tab-pane");
 		$("#" + id).attr("class", "tab-pane in");
 	});
+	
 });
 </script>
 </block>
