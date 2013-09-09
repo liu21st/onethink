@@ -1054,3 +1054,18 @@
 	float:left;
 	height: 80px;
 }
+/*预览图*/
+.thinkbox-image {
+	position: relative;
+}
+.thinkbox-image img{
+	width: 400px;
+}
+.thinkbox-image .delete{
+	position: absolute;
+	top:0;
+	right:0;
+	width: 32px;
+	height: 32px;
+	cursor: pointer;
+}
