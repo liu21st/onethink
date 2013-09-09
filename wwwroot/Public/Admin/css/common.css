@@ -155,3 +155,39 @@ i[class^="icon"],
 	background: url(../images/mask.png) repeat 0 0;
 }
 
+/* 提醒框 */
+.alert {
+	margin-bottom: 5px;
+	padding: 8px 35px 8px 14px;
+	color: #c09853;
+	border: 1px solid #fbeed5;
+	background-color: #fcf8e3;
+}
+.alert .close {
+    float: right;
+    position: relative;
+    top: -2px;
+    right: -21px;
+    font: bold 20px/20px arial; 
+	color: #c09853;
+    opacity: 0.2;
+}
+.alert .close:hover {
+	opacity: 0.4;
+}
+button.close {
+    padding: 0;
+    cursor: pointer;
+    border: 0 none;
+	background: none;
+}
+.alert-success {
+	border-color: ;
+	background-color: #d9edf7;
+}
+.alert-error {
+	color: #b94a48;
+	border-color: #eed3d7;
+	background-color: #f2dede;
+}
+

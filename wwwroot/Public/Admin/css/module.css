@@ -232,8 +232,11 @@
 	text-align: center;
 }
 .opt-btn {
-	float: right;
-	margin: 5px 10px 0 0;
+	/*float: right;
+	margin: 5px 10px 0 0;*/
+	display: none;
+	float: left;
+	margin: 5px 0 0 10px;
 }
 .category .check {
 	width: 40px;
