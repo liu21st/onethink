@@ -34,9 +34,6 @@
     line-height: 19px;
     font-weight: 400;
     color:#444;
-    overfow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
     border-bottom: 1px solid #e1e1e1;
 }
 .data-table thead th {

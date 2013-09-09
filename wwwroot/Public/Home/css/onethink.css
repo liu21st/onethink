@@ -271,12 +271,46 @@
 	left: -140px;
 }
 .new-website .website-version{
+	padding-top: 40px;
 	position: absolute;
-	right: 80px;
-	top: 100px;
+	right: 0;
+	top: 40px;
+	border: 1px solid #F1F1F1;
+	width: 313px; 
+	height: 406px;
 }
 .website-version h2{
- font-size: 18px;
+	position: absolute;
+	height: 37px;
+	line-height: 37px; 
+	width: 162px;
+	left: -10px;
+	padding-left: 16px;
+	background: url(../images/one_thinktit.png) no-repeat;
+  font-size: 18px;
+  font-weight: normal;
+  color:#41B3E4;
+}
+.website-version dl{
+	position: absolute;
+	top: 120px;
+	left: 34px;
+}
+.website-version dt{
+	font-size: 16px;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+.website-version dd{
+	line-height: 26px;
+}
+.website-version .version-btn {
+	position: absolute;
+	top: 330px;
+	left: 34px;
+}
+.website-version .version-btn .btn{
+	width: 160px;
 }
 /* 详细页 */
 .detail-box {
@@ -324,6 +358,7 @@
 	color: #666;
 	word-wrap: break-word;
 	word-break: break-all;
+	padding: 0 15px;
 }
 
 /* 标签页 */
@@ -373,6 +408,7 @@
 	margin-top: 10px;
 	padding-top: 10px;
 	border-top: 1px dashed #ebebeb;
+	padding: 0 10px;
 }
 .info-list li:first-child {
 	border-top: 0 none;
@@ -405,6 +441,7 @@
 }
 .info-list .media-body {
 	color: #999;
+	text-align: justify;
 }
 .icon {
 	display: inline-block;

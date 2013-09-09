@@ -44,6 +44,11 @@ class CheckRouteBehavior extends Behavior {
             $regx = str_replace($depr,'/',$regx);
             foreach ($routes as $rule=>$route){
                 if(0===strpos($rule,'/') && preg_match($rule,$regx.(defined('__EXT__')?'.'.__EXT__:''),$matches)) { // 正则路由
+                    if($route instanceof \Closure) {
+                        // 执行闭包并中止
+                        $this->invokeRegx($route, $matches);
+                        exit;
+                    }
                     return $return = $this->parseRegex($matches,$route,$regx);
                 }else{ // 规则路由
                     $len1   =   substr_count($regx,'/');
@@ -57,7 +62,14 @@ class CheckRouteBehavior extends Behavior {
                             }
                         }
                         $match  =  $this->checkUrlMatch($regx,$rule);
-                        if($match)  return $return = $this->parseRule($rule,$route,$regx);
+                        if(false !== $match)  {
+                            if($route instanceof \Closure) {
+                                // 执行闭包并中止
+                                $this->invokeRule($route, $match);
+                                exit;
+                            }
+                            return $return = $this->parseRule($rule,$route,$regx);
+                        }
                     }
                 }
             }
@@ -69,28 +81,31 @@ class CheckRouteBehavior extends Behavior {
     private function checkUrlMatch($regx,$rule) {
         $m1 = explode('/',$regx);
         $m2 = explode('/',$rule);
-        $match = true; // 是否匹配
+        $var = array();         
         foreach ($m2 as $key=>$val){
             if(':' == substr($val,0,1)) {// 动态变量
                 if(strpos($val,'\\')) {
                     $type = substr($val,-1);
                     if('d'==$type && !is_numeric($m1[$key])) {
-                        $match = false;
-                        break;
+                        return false;
                     }
+                    $name = substr($val, 1, -2);
                 }elseif(strpos($val,'^')){
                     $array   =  explode('|',substr(strstr($val,'^'),1));
                     if(in_array($m1[$key],$array)) {
-                        $match = false;
-                        break;
+                        return false;
                     }
+                    $name = substr($val, 1, $pos - 1);
+                }else{
+                    $name = substr($val, 1);
                 }
+                $var[$name] = $m1[$key];
             }elseif(0 !== strcasecmp($val,$m1[$key])){
-                $match = false;
-                break;
+                return false;
             }
         }
-        return $match;
+        // 成功匹配后返回URL中的动态变量数组
+        return $var;
     }
 
     // 解析规范的路由地址
@@ -152,8 +167,8 @@ class CheckRouteBehavior extends Behavior {
 
         if(0=== strpos($url,'/') || 0===strpos($url,'http')) { // 路由重定向跳转
             if(strpos($url,':')) { // 传递动态参数
-                $this->matcheValues = array_values($matches);
-                $url = preg_replace_callback('/:(\d+)/', array($this, 'parseRuleValue'), $url);
+                $values = array_values($matches);
+                $url = preg_replace_callback('/:(\d+)/', function($match) use($values){ return $values[$match[1] - 1]; }, $url);
             }
             header("Location: $url", true,(is_array($route) && isset($route[1]))?$route[1]:301);
             exit;
@@ -170,11 +185,7 @@ class CheckRouteBehavior extends Behavior {
             $var   =   array_merge($matches,$var);
             // 解析剩余的URL参数
             if(!empty($paths)) {
-                for ($i=0, $count = count($paths); $i < $count; $i += 2) { 
-                    if(preg_match('/^\w+$/', $paths[$i]) && isset($paths[$i + 1])){
-                        $var[strtolower($paths[$i])] = strip_tags($paths[$i + 1]);
-                    }
-                }
+                preg_replace_callback('/(\w+)\/([^\/]+)/', function($match) use(&$var){ $var[strtolower($match[1])]=strip_tags($match[2]);}, implode('/',$paths));
             }
             // 解析路由自动传入参数
             if(is_array($route) && isset($route[1])) {
@@ -184,15 +195,6 @@ class CheckRouteBehavior extends Behavior {
             $_GET   =  array_merge($var,$_GET);
         }
         return true;
-    }
-
-    /**
-     * 返回参数，用于preg_replace_callback
-     * @param  array $match preg_replace_callback 匹配结果
-     * @return string
-     */
-    private function parseRuleValue($match){
-        return $this->matcheValues[$match[1] - 1];
     }
 
     // 解析正则路由
@@ -205,9 +207,8 @@ class CheckRouteBehavior extends Behavior {
     // '/new\/(\d+)/'=>array('/new.php?id=:1&page=:2&status=1','301'), 重定向
     private function parseRegex($matches,$route,$regx) {
         // 获取路由地址规则
-        $this->matcheValues = $matches;
         $url   =  is_array($route)?$route[0]:$route;
-        $url   =  preg_replace_callback('/:(\d+)/', array($this, 'parseRegexValue'), $url); 
+        $url   =  preg_replace_callback('/:(\d+)/', function($match) use($matches){return $matches[$match[1]];}, $url); 
         if(0=== strpos($url,'/') || 0===strpos($url,'http')) { // 路由重定向跳转
             header("Location: $url", true,(is_array($route) && isset($route[1]))?$route[1]:301);
             exit;
@@ -217,12 +218,7 @@ class CheckRouteBehavior extends Behavior {
             // 解析剩余的URL参数
             $regx =  substr_replace($regx,'',0,strlen($matches[0]));
             if($regx) {
-                $regx = explode('/', $regx);
-                for ($i=0, $count = count($regx); $i < $count; $i += 2) { 
-                    if(preg_match('/^\w+$/', $regx[$i]) && isset($regx[$i + 1])){
-                        $var[strtolower($regx[$i])] = strip_tags($regx[$i + 1]);
-                    }
-                }
+                preg_replace_callback('/(\w+)\/([^\/]+)/', function($matach) use(&$var){$var[strtolower($match[1])]=strip_tags($match[2]);}, $regx);
             }
             // 解析路由自动传入参数
             if(is_array($route) && isset($route[1])) {
@@ -234,12 +230,36 @@ class CheckRouteBehavior extends Behavior {
         return true;
     }
 
-    /**
-     * 返回参数，用于preg_replace_callback
-     * @param  array $match preg_replace_callback 匹配结果
-     * @return string
-     */
-    private function parseRegexValue($match){
-        return $this->matcheValues[$match[1]];
+    // 执行正则匹配下的闭包方法 支持参数调用
+    static private function invokeRegx($closure, $var = array()) {
+        $reflect = new \ReflectionFunction($closure);
+        $params  = $reflect->getParameters();
+        $args    = array();
+        array_shift($var);
+        foreach ($params as $param){
+            $name = $param->getName();
+            if(!empty($var)) {
+                $args[] = array_shift($var);
+            }elseif($param->isDefaultValueAvailable()){
+                $args[] = $param->getDefaultValue();
+            }
+        }
+        $reflect->invokeArgs($args);
+    }
+
+    // 执行规则匹配下的闭包方法 支持参数调用
+    static private function invokeRule($closure, $var = array()) {
+        $reflect = new \ReflectionFunction($closure);
+        $params  = $reflect->getParameters();
+        $args    = array();
+        foreach ($params as $param){
+            $name = $param->getName();
+            if(isset($var[$name])) {
+                $args[] = $var[$name];
+            }elseif($param->isDefaultValueAvailable()){
+                $args[] = $param->getDefaultValue();
+            }
+        }
+        $reflect->invokeArgs($args);
     }
 }

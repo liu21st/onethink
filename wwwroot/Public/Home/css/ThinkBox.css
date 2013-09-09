@@ -1,0 +1,248 @@
+/**********************************************
+ ****************** 全局样式 ******************
+ **********************************************/
+/* 弹出框属性 */
+.ThinkBox-wrapper{
+    position:absolute;
+    width: auto;
+}
+.ThinkBox-wrapper table{
+    width: auto;
+}
+.ThinkBox-wrapper.fixed{
+    position:fixed;
+}
+.ThinkBox-modal-blackout{
+    position:absolute;
+    left:0; 
+    top:0;
+}
+
+/**********************************************
+ **************** 默认皮肤样式 ****************
+ **********************************************/
+
+/* 默认模态窗口背景样式 */ 
+.ThinkBox-modal-blackout.default{
+    background-color: #000;
+    opacity: .5;
+    filter:alpha(opacity=50);
+} 
+.ThinkBox-default{
+    box-shadow: 0 0 6px rgba(0,0,0,0.6);
+    border-radius: 6px 6px 6px 6px;
+    border: 1px solid #BEBEBE;
+}
+/* 默认边框样式 */
+.ThinkBox-default .box-top-left, 
+.ThinkBox-default .box-top-right, 
+.ThinkBox-default .box-bottom-right, 
+.ThinkBox-default .box-bottom-left{
+    width: 6px;
+    height: 6px;
+}
+.ThinkBox-default .box-top-left{
+    border-top-left-radius: 6px;
+    background: #F3F3F3;
+}
+.ThinkBox-default .box-top-right{
+    border-top-right-radius: 6px;
+    background: #F3F3F3;
+}
+.ThinkBox-default .box-top,.ThinkBox-default .box-bottom,
+.ThinkBox-default .box-title-left,.ThinkBox-default .box-title-right,
+.ThinkBox-default .box-tools-left,.ThinkBox-default .box-tools-right{
+    background: #F3F3F3;
+}
+.ThinkBox-default .box-title-left,.ThinkBox-default .box-title-right{
+    border-bottom: 1px solid #E5E5E5;
+}
+.ThinkBox-default .box-tools-left,.ThinkBox-default .box-tools-right{
+    border-top: 1px solid #E5E5E5;
+}
+.ThinkBox-default .box-left,.ThinkBox-default .box-right{
+    background: #fff;
+}
+.ThinkBox-default .box-bottom-right{
+    border-bottom-right-radius: 6px;
+    background: #F3F3F3;
+}
+.ThinkBox-default .box-bottom-left{
+    border-bottom-left-radius: 6px;
+    background: #F3F3F3;
+}
+.ThinkBox-default .box-top, 
+.ThinkBox-default .box-bottom{
+    height: 6px;
+    padding:0;
+}
+.ThinkBox-default .box-left, 
+.ThinkBox-default .box-right{
+    width: 0;
+    padding:0;
+}
+
+/* 默认标题栏样式 */
+.ThinkBox-default .ThinkBox-title-inner{
+    background-color:#F3F3F3;
+    padding-left: 6px;
+    text-align: left;
+    line-height: 18px;
+    height: 18px;
+    padding-bottom: 6px;
+    color: #ff0099; 
+    font-weight: bold;
+    border-bottom: 1px solid #E5E5E5;
+}
+.ThinkBox-default .ThinkBox-title-inner.dragging{
+    cursor:move;
+}
+.ThinkBox-default .ThinkBox-title-inner span{
+    font-size:14px;
+    color: #4C4C4C;
+    margin:0;
+    padding:0;
+}
+
+/* 默工具栏样式 */
+.ThinkBox-default .ThinkBox-tools .box-tools-left, 
+.ThinkBox-default .ThinkBox-tools .box-tools-right{
+    width: 0;
+}
+.ThinkBox-default .ThinkBox-tools-inner{
+    background-color:#F3F3F3;
+    padding: 6px 6px 0;
+    text-align: right;
+    height: 30px;
+    color: #ff0099;
+    font-weight: bold;
+    border-top: 1px solid #E5E5E5;
+}
+
+
+/* 默认内容区域样式 */
+.ThinkBox-default .ThinkBox-inner{
+    background-color:#FFF;
+    padding:0;
+    vertical-align: top;
+}
+
+/* 默认关闭按钮样式 */
+.ThinkBox-default .ThinkBox-close{
+    height: 9px;
+    width: 9px;
+    background: url(../img/close.png) no-repeat 0 0;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    line-height: 99px;
+    overflow: hidden;
+}
+.ThinkBox-default .ThinkBox-close:hover{
+    background-position: -21px 0;
+}
+/**********************************************
+ ************** ThinkBox1皮肤样式 *************
+ **********************************************/
+.ThinkBox-ThinkBox1 .ThinkBox-inner{ background: #fff; }
+.ThinkBox-ThinkBox1 .box-top-left,.ThinkBox-ThinkBox1 .box-top-right,.ThinkBox-ThinkBox1 .box-bottom-left,.ThinkBox-ThinkBox1 .box-bottom-right{ width: 6px; height: 6px; overflow: hidden; background: #000; opacity: 0.2; filter: alpha(opacity=20); }
+.ThinkBox-ThinkBox1 .box-top,.ThinkBox-ThinkBox1 .box-bottom{ height: 6px; overflow: hidden; background: #000; opacity: 0.2; filter: alpha(opacity=20); }
+.ThinkBox-ThinkBox1 .box-left,.ThinkBox-ThinkBox1 .box-right,.ThinkBox-ThinkBox1 .box-title-left,.ThinkBox-ThinkBox1 .box-title-right{ width: 6px; overflow: hidden; background: #000; opacity: 0.2; filter: alpha(opacity=20); }
+.ThinkBox-ThinkBox1 .ThinkBox-close{ display: inline-block; position: absolute; line-height: 9999px; overflow: hidden; top: 12px; right: 15px; width: 18px; height: 18px; cursor: pointer; background: url(../img/close1.gif) no-repeat 0 0; }
+.ThinkBox-ThinkBox1 .ThinkBox-close:hover{ background-position: 0 -20px; }
+.ThinkBox-ThinkBox1 .ThinkBox-title-inner{ height: 30px; line-height: 30px; text-indent: 12px; font-size: 14px; font-weight: bold; background: #F2F2F2; border-bottom: 1px solid #CCCCCC; }
+/**********************************************
+ *************** 无边框皮肤样式 ***************
+ **********************************************/
+
+/* 无边框皮肤边框样式 */
+.ThinkBox-wrapper.bordernone .box-top-left, 
+.ThinkBox-wrapper.bordernone .box-top-right, 
+.ThinkBox-wrapper.bordernone .box-bottom-right, 
+.ThinkBox-wrapper.bordernone .box-bottom-left{
+    width: 0;
+    height: 0;
+    padding: 0;
+}
+.ThinkBox-wrapper.bordernone .box-top, 
+.ThinkBox-wrapper.bordernone .box-bottom{
+    height: 0;
+    padding:0
+}
+.ThinkBox-wrapper.bordernone .box-left, 
+.ThinkBox-wrapper.bordernone .box-right{
+    width: 0;
+    padding:0
+}
+
+
+/**********************************************
+ ************** ThinkBox ui 样式 **************
+ **********************************************/
+/* 提示框样式 */
+.ThinkBox-tips{
+    height: 62px;
+    background-image: url(../img/tips-bg.gif);
+    padding: 0 20px 0 70px;;
+    background-repeat: no-repeat;
+    line-height: 62px;
+    font-size: 14px;
+    font-weight: 700;
+    width: auto;
+	white-space: nowrap;
+}
+/* 弹出成功框样式 */
+.ThinkBox-success{
+    color: green;
+}
+/*加载中样式*/
+.ThinkBox-load-loading{ width: 280px;height: 80px; line-height: 9999px; overflow: hidden; background: url(../img/tips_loading.gif) no-repeat center center; }
+/* 弹出错误框样式 */
+.ThinkBox-error{
+    color: red;
+    background-position: 0 -62px;
+}
+/* 弹出加载框样式 */
+.ThinkBox-loading{
+    color: black;
+    background-image: url(../img/tips_loading.gif);
+    background-position: 20px 15px;
+}
+/*确认提示信息*/
+.ThinkBox-wrapper .confirm{
+    width: auto!important;
+    width: 180px;
+    min-width: 180px; 
+    margin: 12px 6px;
+    padding: 12px 0 0 40px;
+    color: #333;
+    line-height: 20px;
+    min-height: 40px;
+    height: auto!important;
+    height: 40px;
+    background: url(../img/ico.png) no-repeat 0 -42px;
+}
+/*表情*/
+.ThinkBox-face .face-group:after{ display: block; height: 0; width: 0; font-size: 0; line-height: 0; clear: both; visibility: hidden; }
+.ThinkBox-face .face-group{ padding-top: 6px; border-bottom: 1px solid #ccc; zoom: 1; margin: 6px 6px; }
+.ThinkBox-face .face-group li{ margin-left: 6px; margin-bottom: -1px; cursor: pointer; line-height: 24px; float: left; height: 24px; padding: 1px 12px; font-size: 14px; }
+.ThinkBox-face .face-group .ac{ border: 1px solid #ccc; border-bottom-color: #fff; padding: 0 11px; font-weight: bold; }
+.ThinkBox-face table{ margin: 6px; }
+.ThinkBox-face table td{ padding: 2px; }
+/*视频*/
+.plugin-video{ padding: 6px 12px 12px; line-height: 20px; }
+.plugin-video .text{ height: 16px; line-height: 16px; padding: 3px; width: 180px; border: 1px solid #ccc; vertical-align: top; }
+.plugin-video .button{ width: 48px; height: 24px; color: #fff; background: #51ABE5; border: 1px solid #549CD8; vertical-align: top; margin-left: 6px; }
+/*音乐*/
+.plugin-music{ padding: 6px 12px 12px; line-height: 20px; }
+.plugin-music .text{ height: 16px; line-height: 16px; padding: 3px; width: 180px; border: 1px solid #ccc; vertical-align: top; }
+.plugin-music .button{ width: 48px; height: 24px; color: #fff; background: #51ABE5; border: 1px solid #549CD8; vertical-align: top; margin-left: 6px; }
+/*图片*/
+.plugin-images{ padding: 6px 12px 0; line-height: 20px; }
+/*默认弹出层工具条*/
+.ThinkBox-default .ThinkBox-tools-inner .ok{ cursor: pointer; width: 48px; height: 24px; border: 1px solid #3079ED; border-radius: 3px; background: #4889F2; color: #fff; margin-right: 6px; }
+.ThinkBox-default .ThinkBox-tools-inner .cancel,.ThinkBox-default .ThinkBox-tools-inner .no{ cursor: pointer; width: 48px; height: 24px; border: 1px solid #C0C0C0; background: #DCDCDC; border-radius: 3px; }
+/*alert弹出框样式*/
+.ThinkBox-default .alert{ padding: 12px; line-height: 24px; }
+

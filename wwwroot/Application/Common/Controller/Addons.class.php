@@ -42,7 +42,7 @@ namespace Common\Controller;
 			// 	$this->error('非插件内部访问');
 			// }
 			$this->view = \Think\Think::instance('Think\View');
-			$this->addon_path = C('EXTEND_MODULE.Addons').$this->getName().'/';
+			$this->addon_path = C('AUTOLOAD_NAMESPACE.Addons').$this->getName().'/';
 			if(is_file($this->addon_path.'config.php')){
 				$this->config_file = $this->addon_path.'config.php';
 			}
@@ -84,7 +84,7 @@ namespace Common\Controller;
 			if(!is_file($templateFile)){
 				$templateFile = $this->addon_path.$templateFile.C('TMPL_TEMPLATE_SUFFIX');
 				if(!is_file($templateFile)){
-					throw new Exception("模板不存在:$templateFile");
+					throw new \Exception("模板不存在:$templateFile");
 				}
 			}
 			return $this->view->fetch($templateFile);
@@ -112,7 +112,11 @@ namespace Common\Controller;
 			if($config['config'] && is_string($config['config'])){
 				$config['config'] = json_decode($config['config'], 1);
 			}else{
-				$config['config'] = include $this->config_file;
+				$temp_arr = include $this->config_file;
+				$config['config'] = array();
+				foreach ($temp_arr as $key => $value) {
+					$config['config'][$key] = $temp_arr[$key]['value'];
+				}
 			}
 			$config['config']['status'] = $config['status'];
 			return $config['config'];

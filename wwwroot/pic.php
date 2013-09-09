@@ -7,18 +7,32 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
-class AdaptiveImagesController extends AddonsController{
+
+
+class AdaptiveImages{
 
 	public function view(){
 		error_reporting(0);
-		$addon = addons('AdaptiveImages');
-		$config = $addon->getConfig();
+
+//		file_put_contents('./debug2.php', 'in');
+//		$addon = addons('AdaptiveImages');
+		$config = array(
+			'resolutions'=>'1382,992,768,480',
+			'cache_path'=>'/Public/ai-cache',
+			'jpg_quality'=>75,
+			'sharpen'=>0,
+			'watch_cache'=>0,
+			'browser_cache'=>'604800'
+		);
 		$resolutions = explode(',', $config['resolutions']);
 		$cache_path = $config['cache_path'];
-		$jpg_quality = $config['jpg_quality'];
-		$sharpen = $config['sharpen'];
+		$this->jpg_quality = $config['jpg_quality'];
+		$this->sharpen = $config['sharpen'];
 		$watch_cache = $config['watch_cache'];
 		$browser_cache = $config['browser_cache'];
+
+		$_root  =   rtrim(dirname(__FILE__),'/');
+        define('__ROOT__',  (($_root=='/' || $_root=='\\')?'':$_root));
 
 		$document_root  = __ROOT__;
 		$requested_uri  = parse_url(urldecode($_SERVER['REQUEST_URI']), PHP_URL_PATH);
@@ -121,7 +135,6 @@ class AdaptiveImagesController extends AddonsController{
 
 		$cache_file = $document_root."/$cache_path/$resolution/".$requested_uri;
 		$cache_file = str_replace('//', '/', $cache_file);
-
 		/* 使用响应值作为路径变量，并且检测同名图片是否存在其中 */
 		if (file_exists($cache_file)) {
 			if ($watch_cache) { //监视原图改变的话
@@ -138,14 +151,14 @@ class AdaptiveImagesController extends AddonsController{
 	}
 
 	//是否是手机端
-	private function is_mobile(){
+	public function is_mobile(){
 		return true;
 		$userAgent = strtolower($_SERVER['HTTP_USER_AGENT']);
 		return strpos($userAgent, 'mobile');
 	}
 
 	/* helper function: Send headers and returns an image. */
-	private function sendImage($filename, $browser_cache) {
+	public function sendImage($filename, $browser_cache) {
 		$extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 		if (in_array($extension, array('png', 'gif', 'jpeg'))) {
 			header("Content-Type: image/".$extension);
@@ -155,19 +168,19 @@ class AdaptiveImagesController extends AddonsController{
 		header("Cache-Control: private, max-age=".$browser_cache);
 		header('Expires: '.gmdate('D, d M Y H:i:s', time()+$browser_cache).' GMT');
 		header('Content-Length: '.filesize($filename));
-		readfile($filename);
+		$content = readfile($filename);
 		exit();
 	}
 
 	/* helper function: Create and send an image with an error message. */
-	private function sendErrorImage($message) {
+	public function sendErrorImage($message) {
 		/* get all of the required data from the HTTP request */
 		$document_root  = $_SERVER['DOCUMENT_ROOT'];
 		$requested_uri  = parse_url(urldecode($_SERVER['REQUEST_URI']), PHP_URL_PATH);
 		$requested_file = basename($requested_uri);
 		$source_file    = $document_root.$requested_uri;
 
-		if(!is_mobile()){
+		if(!$this->is_mobile()){
 			$is_mobile = "FALSE";
 		} else {
 			$is_mobile = "TRUE";
@@ -196,7 +209,7 @@ class AdaptiveImagesController extends AddonsController{
 	}
 
 	/* 锐化图片函数 */
-	private function findSharp($intOrig, $intFinal) {
+	public function findSharp($intOrig, $intFinal) {
 		$intFinal = $intFinal * (750.0 / $intOrig);
 		$intA     = 52;
 		$intB     = -0.27810650887573124;
@@ -207,7 +220,7 @@ class AdaptiveImagesController extends AddonsController{
 
 
 	/* 刷新过期图片的缓存 */
-	private function refreshCache($source_file, $cache_file, $resolution) {
+	public function refreshCache($source_file, $cache_file, $resolution) {
 		if (file_exists($cache_file)) {
     		// 未修改原图
 			if (filemtime($cache_file) >= filemtime($source_file)) {
@@ -221,10 +234,9 @@ class AdaptiveImagesController extends AddonsController{
 	}
 
 	/* 生成所给文件和响应式尺寸的缓存文件 */
-	private function generateImage($source_file, $cache_file, $resolution) {
+	public function generateImage($source_file, $cache_file, $resolution) {
 		global $sharpen, $jpg_quality;
-		dump($sharpen);
-		dump($jpg_quality);die;
+
 		$extension = strtolower(pathinfo($source_file, PATHINFO_EXTENSION));
 
 	  	// Check the image dimensions
@@ -268,7 +280,7 @@ class AdaptiveImagesController extends AddonsController{
 
 		// 锐化图片?
 		// NOTE: requires PHP compiled with the bundled version of GD (see http://php.net/manual/en/function.imageconvolution.php)
-		if($sharpen == TRUE && function_exists('imageconvolution')) {
+		if($this->sharpen == TRUE && function_exists('imageconvolution')) {
 			$intSharpness = $this->findSharp($width, $new_width);
 			$arrMatrix = array(
 				array(-1, -2, -1),
@@ -305,7 +317,7 @@ class AdaptiveImagesController extends AddonsController{
 				$gotSaved = ImageGif($dst, $cache_file);
 				break;
 			default:
-				$gotSaved = ImageJpeg($dst, $cache_file, $jpg_quality);
+				$gotSaved = ImageJpeg($dst, $cache_file, $this->jpg_quality);
 				break;
 		}
 		ImageDestroy($dst);
@@ -318,3 +330,7 @@ class AdaptiveImagesController extends AddonsController{
 	}
 
 }
+
+$ai = new AdaptiveImages();
+// $ai->sendImage('./Public/ai-cache/480/upload/52154c4ccf5f3.jpg',12312312312);
+$ai->view();

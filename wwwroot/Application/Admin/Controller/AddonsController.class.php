@@ -134,7 +134,7 @@ str;
     public function checkForm(){
         $data = $_POST;
         //检测插件名是否合法
-        $addons_dir = C('EXTEND_MODULE.Addons');
+        $addons_dir = C('AUTOLOAD_NAMESPACE.Addons');
         if(file_exists("{$addons_dir}{$data['info']['name']}")){
             $this->error('插件已经存在了');
         }
@@ -158,7 +158,7 @@ str;
     public function build(){
         $addonFile = $this->preview(false);
         $data = $_POST;
-        $addons_dir = C('EXTEND_MODULE.Addons');
+        $addons_dir = C('AUTOLOAD_NAMESPACE.Addons');
         //创建目录结构
         $files = array();
         $addon_dir = "$addons_dir{$data['info']['name']}/";
@@ -196,50 +196,8 @@ str;
      * 插件列表
      */
     public function index(){
-        // $this->assign('list',D('Addons')->getList());
-        $list = D('Addons')->getList();
-        $thead = array(
-            //元素value中的变量就是数据集中的字段,value必须使用单引号
-            //查询出的数据集中的字段=>字段的表头
-
-                'i'=>'序号',
-                'title'=>'名称',
-                'name'=>'标志',
-                'description'=>array(
-                    'title'=>'描述',
-                    'tip'=>'$description',
-                    'func'=>'mb_strimwidth($description, 0, 60,"utf-8")'
-                ),
-                'status_text'=>'状态',
-                'author'=>'作者',
-                'version'=>'版本',
-                '操作'=>array(
-                    '设置'=>array(
-                       'href'=>'config?id=$id',
-                       'condition'=>'count($config)>0 && empty($uninstall)'
-                    ),
-                    '启用'=>array(
-                        'href'=>'enable?id=$id',
-                        'condition'=>'$status==0 && empty($uninstall)'
-                    ),
-                    '禁用'=>array(
-                        'href'=>'disable?id=$id',
-                        'condition'=>'$status==1 && empty($uninstall)'
-                    ),
-                    '安装'=>array(
-                        'href'=>'install?id=$id',
-                        'condition'=>'$uninstall'
-                    ),
-                    '卸载'=>array(
-                        'href'=>'uninstall?id=$id',
-                        'condition'=>'$author!="thinkphp" && empty($uninstall)'
-                    )
-                )
-        );
-        $this->assign('_table_class', 'data-table table-striped');
-        $this->assign( '_table_list', $this->tableList($list,$thead) );
-
-        $this->assign('creatable', is_writable(C('EXTEND_MODULE.Addons')));
+        $this->assign('list',D('Addons')->getList());
+        $this->assign('creatable', is_writable(C('AUTOLOAD_NAMESPACE.Addons')));
         $this->display();
     }
 
@@ -259,6 +217,12 @@ str;
         if($addon->custom_adminlist)
             $this->assign('custom_adminlist', $addon->addon_path.$addon->custom_adminlist);
         $this->assign($param);
+        if(!$fields)
+            $fields = '*';
+        if(!$map)
+            $map = array();
+        if(!$order)
+            $order = array();
         $list = $this->lists(D("Addons://{$model}/{$model}")->field($fields),$map,$order);
         $thead = array(
             //元素value中的变量就是数据集中的字段,value必须使用单引号
@@ -272,7 +236,6 @@ str;
         );
         if($listKey)
             $thead = array_merge($thead, $listKey);
-        $this->assign('_table_class', 'data-table table-striped');
         $this->assign( '_table_list', $this->tableList($list,$thead) );
         $this->display();
     }
@@ -301,6 +264,15 @@ str;
     public function config(){
         $id = (int)I('id');
         $addon = D('Addons')->find($id);
+        $addon_class = addons($addon['name']);
+        $db_config = $addon['config'];
+        $addon['config'] = include $addon_class->config_file;
+        if($db_config){
+            $db_config = json_decode($db_config, true);
+            foreach ($addon['config'] as $key => $value) {
+                $addon['config'][$key]['value'] = $db_config[$key];
+            }
+        }
         if(!$addon)
             $this->error('插件未安装');
         $this->assign('data',$addon);
@@ -327,7 +299,8 @@ str;
      * 安装插件
      */
     public function install(){
-    	$addons = addons(trim(I('addon_name')));
+        $addon_name = trim(I('addon_name'));
+    	$addons = addons($addon_name);
     	if(!$addons)
     		$this->error('插件不存在');
 		$info = $addons->info;
@@ -343,6 +316,8 @@ str;
 		if(!$data)
 			$this->error($addonsModel->getError());
 		if($addonsModel->add()){
+            $config = array('config'=>json_encode($addons->getConfig()));
+            $addonsModel->where("name='{$addon_name}'")->save($config);
             if($hooks_update = D('Hooks')->updateHooks($addons->getName())){
                 S('hooks', null);
                 $this->success('安装成功');
@@ -387,8 +362,7 @@ str;
      * 钩子列表
      */
     public function hooks(){
-        $field = array();
-        $order = 'id asc';
+        $map = $order = $fields = array();
         $list = $this->lists(D("Hooks")->field($fields),$map,$order);
         $thead = array(
             //元素value中的变量就是数据集中的字段,value必须使用单引号

@@ -14,10 +14,7 @@
 
 	<!-- 数据列表 -->
 	<div class="data-table table-striped">
-		{$_table_list}
-	</div>
-</block>
-<table>
+		<table>
 			<thead>
 				<tr>
 					<th>序号</th>
@@ -42,7 +39,8 @@
 					<td>{$vo.version}</td>
 					<td>
 						<empty name="vo.uninstall">
-							<?php if (count($vo['config'])>0): ?>
+							<?php $addon = addons($vo['name']); $has_config = count($addon->getConfig());?>
+							<?php if ($has_config): ?>
 								<a href="{:U('config',array('id'=>$vo['id']))}">设置</a>
 							<?php endif ?>
 						<?php if ($vo['status'] >=0): ?>
@@ -63,3 +61,5 @@
 				</volist>
 			</tbody>
 		</table>
+	</div>
+</block>
