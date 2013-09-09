@@ -160,7 +160,7 @@ class AuthManagerController extends AdminController{
     public function access()
     {
         $this->updateRules();
-        $auth_group = D('AuthGroup')->where( array('status'=>1,'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
+        $auth_group = D('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
 									->getfield('id,id,title,rules');
         $node_list   = $this->returnNodes();
         $map         = array('module'=>'admin','type'=>AuthRuleModel::RULE_MAIN,'status'=>1);
@@ -213,18 +213,18 @@ class AuthManagerController extends AdminController{
      */
     public function changeStatus($method=null)
     {
-        switch ( $method ){
+        switch ( strtolower($method) ){
             case 'forbidgroup':
-                $this->forbid('AuthGroup');    
+                $this->forbid('AuthGroup');
                 break;
             case 'resumegroup':
-                $this->resume('AuthGroup');    
+                $this->resume('AuthGroup');
                 break;
             case 'deletegroup':
-                $this->delete('AuthGroup');    
+                $this->delete('AuthGroup');
                 break;
             default:
-                $this->error('参数非法');
+                $this->error($method.'参数非法');
         }
     }
 
@@ -237,7 +237,7 @@ class AuthManagerController extends AdminController{
             $this->error('参数错误');
         }
 
-		$auth_group = D('AuthGroup')->where( array('status'=>1,'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
+		$auth_group = D('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
 			->getfield('id,id,title,rules');
         $prefix   = C('DB_PREFIX');
         $l_table  = $prefix.(AuthGroupModel::MEMBER);
@@ -262,7 +262,7 @@ class AuthManagerController extends AdminController{
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     public function category(){
-		$auth_group = D('AuthGroup')->where( array('status'=>1,'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
+		$auth_group = D('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
 			->getfield('id,id,title,rules');
         $group_list   = D('Category')->getTree();
         $authed_group = AuthGroupModel::getCategoryOfGroup(I('group_id'));
