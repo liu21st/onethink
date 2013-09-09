@@ -49,7 +49,7 @@ function T($template='',$layer=''){
     // 获取当前主题的模版路径
     $auto   =   C('AUTOLOAD_NAMESPACE');
     if($auto && isset($auto[$extend])){ // 扩展资源
-        $baseUrl    =   dirname($auto[$extend]).'/'.$module.$layer.'/';
+        $baseUrl    =   $auto[$extend].$module.$layer.'/';
     }else{ // 分组模式
         $baseUrl    =   APP_PATH.$module.$layer.'/';
     }
