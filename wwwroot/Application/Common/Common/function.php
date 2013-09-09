@@ -201,8 +201,6 @@ function hooks($hook, $params = array()) {
 //         S('hooks',$hooks);TODO:开发阶段不使用缓存，后期去掉注释
     }
     $addons = $hooks[$hook];
-    // $addons = D('Hooks')->where("name='{$hook}'")->getField('addons');
-    // $addons = explode(',', $addons);
     if(!empty($addons)) {
         if(APP_DEBUG) {
             G($hook.'Start');
