@@ -13,9 +13,9 @@
  */
 return array(
     /* 模块相关配置 */
-    'AUTOLOAD_NAMESPACE' => array('Addons' => './Addons/'),
-    'DEFAULT_MODULE'     => 'Admin',
-    'MODULE_DENY_LIST'   => array('Common', 'User'),
+    'EXTEND_MODULE'  => array('Addons' => './Addons/'), //扩展模块列表
+    'DEFAULT_MODULE' => 'Admin',
+    'MODULE_DENY_LIST' => array('Common', 'User'),
 
     /* 调试配置 */
     'SHOW_PAGE_TRACE' => true,
@@ -30,10 +30,10 @@ return array(
     /* 数据库配置 */
     'DB_TYPE'   => 'mysqli', // 数据库类型
     'DB_HOST'   => '192.168.1.200'/*'localhost'*/, // 服务器地址
-    // 'DB_HOST'   => 'localhost',
     'DB_NAME'   => 'thinkcms', // 数据库名
     'DB_USER'   => 'root', // 用户名
     'DB_PWD'    => '', // 密码
     'DB_PORT'   => '3306', // 端口
     'DB_PREFIX' => 'think_', // 数据库表前缀
+    'LIST_ROWS' => 15,//列表默认行数
 );
