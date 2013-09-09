@@ -414,7 +414,7 @@
 	margin-top: 10px;
 	padding-top: 10px;
 	border-top: 1px dashed #ebebeb;
-	padding: 0 10px;
+	padding: 10px 10px 0;
 }
 .info-list li:first-child {
 	border-top: 0 none;
@@ -1065,12 +1065,12 @@
 	position: relative;
 }
 .thinkbox-image img{
-	width: 400px;
+	width: 420px;
 }
 .thinkbox-image .delete{
 	position: absolute;
-	top:0;
-	right:0;
+	top: 0;
+	right: 0;
 	width: 32px;
 	height: 32px;
 	cursor: pointer;
