@@ -274,7 +274,7 @@
 	padding-top: 40px;
 	position: absolute;
 	right: 0;
-	top: 100px;
+	top: 40px;
 	border: 1px solid #F1F1F1;
 	width: 313px; 
 	height: 406px;
@@ -293,7 +293,7 @@
 }
 .website-version dl{
 	position: absolute;
-	top: 142px;
+	top: 120px;
 	left: 34px;
 }
 .website-version dt{
