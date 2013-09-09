@@ -134,7 +134,7 @@ str;
     public function checkForm(){
         $data = $_POST;
         //检测插件名是否合法
-        $addons_dir = C('EXTEND_MODULE.Addons');
+        $addons_dir = C('AUTOLOAD_NAMESPACE.Addons');
         if(file_exists("{$addons_dir}{$data['info']['name']}")){
             $this->error('插件已经存在了');
         }
@@ -158,7 +158,7 @@ str;
     public function build(){
         $addonFile = $this->preview(false);
         $data = $_POST;
-        $addons_dir = C('EXTEND_MODULE.Addons');
+        $addons_dir = C('AUTOLOAD_NAMESPACE.Addons');
         //创建目录结构
         $files = array();
         $addon_dir = "$addons_dir{$data['info']['name']}/";
@@ -197,7 +197,7 @@ str;
      */
     public function index(){
         $this->assign('list',D('Addons')->getList());
-        $this->assign('creatable', is_writable(C('EXTEND_MODULE.Addons')));
+        $this->assign('creatable', is_writable(C('AUTOLOAD_NAMESPACE.Addons')));
         $this->display();
     }
 
