@@ -15,7 +15,7 @@
     </ul>
     <!-- 表格列表 -->
     <div class="tb-unit posr">
-        <form action="{:U('AuthManager/addToCategory')}" method="post" enctype="application/x-www-form-urlencoded">
+        <form class="save-category" action="{:U('AuthManager/addToCategory')}" method="post" enctype="application/x-www-form-urlencoded">
             <input type="hidden" name="group_id" value="{:I('group_id')}">
             <div class="category auth-category">
                 <div class="hd cf">
@@ -27,7 +27,7 @@
             </div>
 
             <div class="tb-unit-bar">
-                <button class="btn">保存</button>
+                <button class="btn save-form" target-form="save-category">保存</button>
             </div>
         </form>
     </div>

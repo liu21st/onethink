@@ -49,7 +49,7 @@
 			<label class="item-label"></label>
 			<div class="controls">
 				<input type="hidden" name="id" value="{$id}"/>
-				<button class="btn" id="submit">确定 </button>
+				<input class="btn save-form" type="submit" target-form="form-horizontal" value="确定" />
 			</div>
 		</div>
 	</form>
@@ -57,9 +57,4 @@
 
 <block name="script">
 <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
-<script type="text/javascript">
-$('#submit').click(function(){
-	$('#form').submit();
-});
-</script>
 </block>

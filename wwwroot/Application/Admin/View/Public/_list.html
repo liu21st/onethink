@@ -1,8 +1,11 @@
 <notempty name="_thead">
-<php> $operator=array(); </php>
+<php> $operator=array(); $i=1;</php>
 <table class="{$_table_class|default=""}">
     <thead>
         <tr>
+<?php
+
+?>
         <foreach name="_thead" item="th" key="key">
         <th>
             <if condition="!is_array($th)">
@@ -153,7 +156,6 @@
 <link rel="stylesheet" type="text/css" href="/Public/static/qtip/jquery.qtip.min.css" media="all">
 <script type="text/javascript">
 $('td').children().each(function(){
-console.log($(this).html());
             $(this).qtip({
                 content: {
                     text: $(this).attr('title'),

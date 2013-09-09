@@ -6,9 +6,9 @@
 		<h2>行为列表</h2>
 		<div class="tools">
 			<button class="btn" id="action_add" url="{:U('user/addaction')}">新增</button>
-			<button class="btn" name="action_operate" status="-1">删除</button>
-			<button class="btn" name="action_operate" status="1">启用</button>
-			<button class="btn" name="action_operate" status="0">禁用</button>
+            <button class="btn ajax-post confirm" target-form="ids" url="{:U('setStatus',array('status'=>-1))}">删除</button>
+			<button class="btn ajax-post" target-form="ids" url="{:u('setstatus',array('status'=>1))}" >启用</button>
+			<button class="btn ajax-post" target-form="ids" url="{:u('setstatus',array('status'=>0))}">禁用</button>
 		</div>
 	</div>
 
@@ -17,7 +17,7 @@
 		<table>
 			<thead>
 				<tr>
-					<th class="row-selected"><input type="checkbox" id="selectall"/></th>
+					<th class="row-selected"><input class="check-all" type="checkbox" id="selectall"/></th>
 					<th>编号</th>
 					<th>行为标识</th>
 					<th>标题</th>
@@ -29,20 +29,20 @@
 			<tbody>
 				<volist name="list" id="vo">
 				<tr>
-					<td><input type="checkbox" value="{$vo.id}" class="child_checkbox"/></td>
+					<td><input type="checkbox" name="ids[]" value="{$vo.id}" class="ids child_checkbox"/></td>
 					<td>{$vo.id}</td>
 					<td>{$vo.name}</td>
 					<td><a href="{:U('editAction',array('id'=>$vo['id']))}">{$vo.title}</a></td>
 					<td>{$vo.remark}</td>
 					<td>{$vo.status|get_status_title}</td>
 					<td>
-						<a href="{:U('editAction',array('id'=>$vo['id']))}">编辑</a>
 						<eq name="vo['status']" value="0">
-							<a href="{:U('setStatus',array('status'=>1,'ids'=>$vo['id']))}">启用</a>
+							<a class="ajax-get" href="{:U('setStatus',array('status'=>1,'ids'=>$vo['id']))}">启用</a>
 						</eq>
 						<eq name="vo['status']" value="1">
-							<a href="{:U('setStatus',array('status'=>0,'ids'=>$vo['id']))}">禁用</a>
+							<a class="ajax-get" href="{:U('setStatus',array('status'=>0,'ids'=>$vo['id']))}">禁用</a>
 						</eq>
+                        <a class="ajax-get confirm" href="{:U('setStatus',array('ids'=>$vo['id'],'status'=>-1))}">删除</a>
 					</td>
 				</tr>
 				</volist>
@@ -60,39 +60,6 @@ $(function(){
 	$("#action_add").click(function(){
 		window.location.href = $(this).attr('url');
 	})
-	$("button[name=action_operate]").click(function(){
-		var status = $(this).attr('status');
-		//获取选中的数据
-		var checked = $('input:checked');
-		var ids = new Array();
-		checked.each(function(i){
-			var id = $(this).val();
-			if(id != 'on'){
-				ids[ids.length] = id;
-			}
-		});
-		if(ids.length == 0){
-			alert('请选择要操作的数据！');
-			return false;
-		}
-		//进行ajax操作
-		$.post(
-			"{:U('setStatus')}",
-			{
-				'ids' : ids,
-				'status' : status
-			},
-			function(data){
-				if(data.status == 1){
-					alert('设置成功！');
-					setTimeout(function(){window.location.reload()},1500);
-				}else{
-					alert('操作失败！');
-				}
-			},
-			'json'
-		);
-	});
 })
 </script>
 </block>
