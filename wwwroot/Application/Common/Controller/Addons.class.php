@@ -112,7 +112,11 @@ namespace Common\Controller;
 			if($config['config'] && is_string($config['config'])){
 				$config['config'] = json_decode($config['config'], 1);
 			}else{
-				$config['config'] = include $this->config_file;
+				$temp_arr = include $this->config_file;
+				$config['config'] = array();
+				foreach ($temp_arr as $key => $value) {
+					$config['config'][$key] = $temp_arr[$key]['value'];
+				}
 			}
 			$config['config']['status'] = $config['status'];
 			return $config['config'];
