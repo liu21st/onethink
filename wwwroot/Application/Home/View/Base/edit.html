@@ -47,6 +47,12 @@
 					</div>
 					
 					<block name="content"></block>
+
+					<block name="addons">
+	                    <div class="plugin-info">
+	                        {:hooks('documentEditForm', $info)}
+	                    </div>
+	                </block>
 					
 					<div class="form-item">
 						<label class="item-label"></label>
