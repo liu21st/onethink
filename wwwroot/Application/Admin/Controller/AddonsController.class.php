@@ -217,6 +217,12 @@ str;
         if($addon->custom_adminlist)
             $this->assign('custom_adminlist', $addon->addon_path.$addon->custom_adminlist);
         $this->assign($param);
+        if(!$fields)
+            $fields = '*';
+        if(!$map)
+            $map = array();
+        if(!$order)
+            $order = array();
         $list = $this->lists(D("Addons://{$model}/{$model}")->field($fields),$map,$order);
         $thead = array(
             //元素value中的变量就是数据集中的字段,value必须使用单引号
@@ -356,7 +362,7 @@ str;
      * 钩子列表
      */
     public function hooks(){
-        $order = $field = array();
+        $map = $order = $fields = array();
         $list = $this->lists(D("Hooks")->field($fields),$map,$order);
         $thead = array(
             //元素value中的变量就是数据集中的字段,value必须使用单引号

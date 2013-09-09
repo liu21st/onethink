@@ -13,12 +13,12 @@
  */
 return array(
     /* 模块相关配置 */
-    'AUTOLOAD_NAMESPACE' => array('Addons' => './Addons/'), 
+    'AUTOLOAD_NAMESPACE' => array('Addons' => './Addons/'),
     'DEFAULT_MODULE'     => 'Admin',
     'MODULE_DENY_LIST'   => array('Common', 'User'),
 
     /* 调试配置 */
-    // 'SHOW_PAGE_TRACE' => true,
+    'SHOW_PAGE_TRACE' => true,
 
     /* URL配置 */
     'URL_CASE_INSENSITIVE' => true, //默认false 表示URL区分大小写 true则表示不区分大小写
