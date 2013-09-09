@@ -30,32 +30,33 @@
 .thinkbox-default .thinkbox-bottom,
 .thinkbox-default .thinkbox-bottom-right{
 	height: 6px;
+    padding: 0;
 }
 .thinkbox-default .thinkbox-top-left,
 .thinkbox-default .thinkbox-top-right,
 .thinkbox-default .thinkbox-bottom-left,
 .thinkbox-default .thinkbox-bottom-right{
-	background: url(bg.png) no-repeat;
+	background: none repeat scroll 0 0 #F3F3F3;
 }
 .thinkbox-default .thinkbox-left,
 .thinkbox-default .thinkbox-right{
-	background: url(horizontal.png) repeat-y;
+	background: none repeat scroll 0 0 #F3F3F3;
 }
 .thinkbox-default .thinkbox-top,
 .thinkbox-default .thinkbox-bottom{
-	background: url(vertical.png) repeat-x;
+	background: none repeat scroll 0 0 #F3F3F3;
 }
 .thinkbox-default .thinkbox-top-left{
-	background-position: 0 -60px;
+	border-top-left-radius: 6px;
 }
 .thinkbox-default .thinkbox-top-right{
 	background-position: -6px -60px;
 }
 .thinkbox-default .thinkbox-bottom-left{
-	background-position: 0 -66px;
+	border-bottom-left-radius: 6px;
 }
 .thinkbox-default .thinkbox-bottom-right{
-	background-position: -6px -66px;
+	border-bottom-right-radius: 6px;
 }
 .thinkbox-default .thinkbox-left{
 	background-position: left;
@@ -75,20 +76,21 @@
 }
 /*弹出层头部*/
 .thinkbox-default .thinkbox-title{
-	height: 22px;
-	line-height: 22px;
-	position: relative;
-	color: #000;
-	background-color: #1D5891;
-	font-size: 14px;
-	padding: 2px;
-	text-shadow: 0 0 5px #FFF, 0 0 10px #FFF, 0 0 15px #FFF;
+	background-color: #F3F3F3;
+    border-bottom: 1px solid #E5E5E5;
+    color: #4C4C4C;
+    font-weight: bold;
+    height: 18px;
+    line-height: 18px;
+    padding-bottom: 6px;
+    padding-left: 6px;
+    text-align: left;
 }
 /* 弹出层窗口动作 */
 .thinkbox-default .thinkbox-window-actions{
 	position: absolute;
 	right: 0;
-	top: -5px;
+	top: 0;
 	height: 20px;
 }
 .thinkbox-default .thinkbox-window-actions button{
@@ -134,9 +136,9 @@
 /*弹出层内容*/
 .thinkbox-default .thinkbox-body{
     position: relative;
-	border: 1px solid #1E3E58;
+	border: 1px solid #ccc;
 	background-color: #FFF;
-	margin: 1px;
+	/*margin: 1px;*/
 }
 /*弹出层工具*/
 .thinkbox-default .thinkbox-tools{
