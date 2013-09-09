@@ -99,8 +99,8 @@ class UserController extends AdminController {
 	 */
 	public function setStatus(){
 		/*参数过滤*/
-		$ids = I('param.ids');
-		$status = I('param.status');
+		$ids = I('request.ids');
+		$status = I('request.status');
 		if(empty($ids) || !isset($status)){
 			$this->error('请选择要操作的数据');
 		}
