@@ -10,7 +10,6 @@
 namespace Addons\Attachment\Model;
 use Think\Model;
 
-
 /**
  * 分类模型
  */
