@@ -19,15 +19,15 @@
 
 	(function(){
 		//按钮组
-		var timer;
-		$(".btn-group").hover(function(){
-			$(this).find(".dropdown").show();
-		
-		},function(){
-			timer = setTimeout(function(){
-				$(this).find(".dropdown").hide();
-			},1000)
-		})
+		$(".btn-group").mouseenter(function(){
+			var userMenu = $(this).children(".dropdown ");
+			userMenu.show();
+			clearTimeout(userMenu.data("timeout"));
+		}).mouseleave(function(){
+			var userMenu = $(this).children(".dropdown");
+			userMenu.data("timeout") && clearTimeout(userMenu.data("timeout"));
+			userMenu.data("timeout", setTimeout(function(){userMenu.hide()}, 100));
+		});
 	})();
 });
 
