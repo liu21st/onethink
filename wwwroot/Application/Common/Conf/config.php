@@ -13,9 +13,9 @@
  */
 return array(
     /* 模块相关配置 */
-    'EXTEND_MODULE'  => array('Addons' => './Addons/'), //扩展模块列表
-    'DEFAULT_MODULE' => 'Admin',
-    'MODULE_DENY_LIST' => array('Common', 'User'),
+    'AUTOLOAD_NAMESPACE' => array('Addons' => './Addons/'), 
+    'DEFAULT_MODULE'     => 'Admin',
+    'MODULE_DENY_LIST'   => array('Common', 'User'),
 
     /* 调试配置 */
     // 'SHOW_PAGE_TRACE' => true,
