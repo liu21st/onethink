@@ -23,6 +23,12 @@
 					uploadJson : '{:U('uploadJson')}'
 				});
 			});
+
+			$(function(){
+				$('textarea[name="{$data.name}"]').closest('form').submit(function(){
+					editor.sync();
+				});
+			})
 		</script>
 	</case>
 	<case value="3">
