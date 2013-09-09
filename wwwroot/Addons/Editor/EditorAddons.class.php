@@ -40,4 +40,14 @@
 			$this->assign('config', $this->getConfig());
 			$this->display('content');
 		}
+
+		/**
+		 * 编辑器挂载的后台文档模型文章内容钩子
+		 * @param array('name'=>'表单name','value'=>'表单对应的值')
+		 */
+		public function adminArticleEdit($data){
+			$this->assign('data', $data);
+			$this->assign('config', $this->getConfig());
+			$this->display('content');
+		}
 	}
