@@ -293,7 +293,8 @@ str;
      * 安装插件
      */
     public function install(){
-    	$addons = addons(trim(I('addon_name')));
+        $addon_name = trim(I('addon_name'));
+    	$addons = addons($addon_name);
     	if(!$addons)
     		$this->error('插件不存在');
 		$info = $addons->info;
@@ -309,7 +310,8 @@ str;
 		if(!$data)
 			$this->error($addonsModel->getError());
 		if($addonsModel->add()){
-            $addonsModel->setField('config', $addons->getConfig());
+            $config = array('config'=>json_encode($addons->getConfig()));
+            $addonsModel->where("name='{$addon_name}'")->save($config);
             if($hooks_update = D('Hooks')->updateHooks($addons->getName())){
                 S('hooks', null);
                 $this->success('安装成功');
