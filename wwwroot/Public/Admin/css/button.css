@@ -20,6 +20,7 @@
     color: #fff;
     text-decoration: none;
     background-color: #3498DB;
+    border-bottom: 0 none;
 }
 .submit-btn {
     padding: 10px 50px;
@@ -31,6 +32,9 @@
 .submit-btn:hover {
     color: #fff;
     background-color: #E88B68;
+}
+.btn-mini {
+    padding: 4px 10px;
 }
 .btn-xlarge {
     padding: 10px 30px;
