@@ -258,6 +258,15 @@ str;
     public function config(){
         $id = (int)I('id');
         $addon = D('Addons')->find($id);
+        $addon_class = addons($addon['name']);
+        $db_config = $addon['config'];
+        $addon['config'] = include $addon_class->config_file;
+        if($db_config){
+            $db_config = json_decode($db_config, true);
+            foreach ($addon['config'] as $key => $value) {
+                $addon['config'][$key]['value'] = $db_config[$key];
+            }
+        }
         if(!$addon)
             $this->error('插件未安装');
         $this->assign('data',$addon);
@@ -284,7 +293,8 @@ str;
      * 安装插件
      */
     public function install(){
-    	$addons = addons(trim(I('addon_name')));
+        $addon_name = trim(I('addon_name'));
+    	$addons = addons($addon_name);
     	if(!$addons)
     		$this->error('插件不存在');
 		$info = $addons->info;
@@ -300,6 +310,8 @@ str;
 		if(!$data)
 			$this->error($addonsModel->getError());
 		if($addonsModel->add()){
+            $config = array('config'=>json_encode($addons->getConfig()));
+            $addonsModel->where("name='{$addon_name}'")->save($config);
             if($hooks_update = D('Hooks')->updateHooks($addons->getName())){
                 S('hooks', null);
                 $this->success('安装成功');

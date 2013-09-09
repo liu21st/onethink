@@ -17,14 +17,16 @@
 	margin-bottom: -1px;
 	margin-left: -1px;
 }
-.tab-nav li a {
+.tab-nav li a,
+.tab-nav li a:hover {
 	padding: 0 20px;
 	height: 35px;
 	line-height: 35px;
 	border: 1px solid transparent;
 	border-top-width: 2px;
 }
-.tab-nav .current a {
+.tab-nav .current a,
+.tab-nav .current a:hover {
 	border-color: #34b4e0 #e0e0e0 #fff;
 }
 .tab-content .tab-pane {

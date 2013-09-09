@@ -230,7 +230,7 @@ function addons($name){
     static $_action = array();
     $class = "{$name}Addons";
     if(isset($_action[$name]))  return $_action[$name];
-    import($class,C('EXTEND_MODULE.Addons')."{$name}/");
+    import($class,C('AUTOLOAD_NAMESPACE.Addons')."{$name}/");
     if(class_exists($class,false)) {
         $action = new $class();
         $_action[$name] = $action;
