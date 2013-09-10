@@ -42,9 +42,9 @@
 								</volist>
 							</ul>
 						</div>
-						<button class="btn" name="document_operate" status="-1">删 除</button>
-						<button class="btn" name="document_operate" status="1">启 用</button>
-						<button class="btn" name="document_operate" status="0">禁 用</button>
+                        <button class="btn ajax-post" target-form="ids" url="{:U("Article/setStatus",array("status"=>1))}">启 用</button>
+						<button class="btn ajax-post" target-form="ids" url="{:U("Article/setStatus",array("status"=>0))}">禁 用</button>
+						<button class="btn ajax-post confirm" target-form="ids" url="{:U("Article/setStatus",array("status"=>-1))}">删 除</button>
 					</div>
 
 					<div class="tools fr">
@@ -65,53 +65,46 @@
 					</div>
 				</div>
 
-				<!-- 数据列表 -->
-				<div class="data-table">
-					<table>
-						<thead>
-							<tr>
-								<th class="row-selected"><input type="checkbox" class="check-all"/></th>
-								<th>标题</th>
-								<th>创建者</th>
-								<th>创建时间</th>
-								<th>状态</th>
-								<th>操作</th>
-							</tr>
-						</thead>
-						<tbody>
-							<volist name="list" id="vo">
-							<tr>
-								<td><input type="checkbox" value="{$vo.id}" class="ids"/></td>
-								<td><a href="{:U('edit',array('id'=>$vo['id'],'cate_id'=>$cate_id))}">{$vo.title}</a></td>
-								<td>{$vo.uid|get_username}</td>
-								<td>{$vo.create_time|time_format}</td>
-								<td>{$vo.status|get_status_title}</td>
-								<td>
-									<a href="{:U('edit',array('id'=>$vo['id'],'cate_id'=>$cate_id))}">编辑</a>
-									<a href="{:U('setStatus',array('ids'=>$vo['id'],'status'=>-1))}">删除</a>
-									<eq name="vo['status']" value="0">
-										<a href="{:U('setStatus',array('ids'=>$vo['id'],'status'=>1))}">启用</a>
-									</eq>
-									<eq name="vo['status']" value="1">
-										<a href="{:U('setStatus',array('ids'=>$vo['id'],'status'=>0))}">禁用</a>
-									</eq>
-									<eq name="vo['status']" value="2">
-										<a href="{:U('setStatus',array('ids'=>$vo['id'],'status'=>1))}">审核</a>
-									</eq>
-								</td>
-							</tr>
-							</volist>
-						</tbody>
-					</table>
-				</div>
+    <div class="data-table">
 
-				<!-- 分页 -->
-				<div class="page">{$page}</div>
-			</div>
-		</div>
+        <?php
+            $thead = array(
+                '_html'=>array(
+                    '_th'=>'row-selected',
+                    'th'=>'<input class="check-all" type="checkbox"/>',
+                    'td'=>'<input class="ids" type="checkbox" name="ids[]" value="$id" />',
+                ),
+                'title'=>array(
+                    '_title'=>'标题',
+                    'tag'   =>'a',
+                    'href'  =>'Article/edit?id=$id',
+                ),
+                'uid'  =>array(
+                    '_title'=>'创建者',
+                    'func'  =>'get_username($uid)',
+                ),
+                'create_time'=>array(
+                    '_title'=>'创建时间',
+                    'tag'   =>'span',
+                    'func'  => 'date("Y-m-d H:i:s",$create_time)',
+                ),
+                'status_text'=>'状态',
+                'view'=>'浏览量',
+                'comment'=>'评论数',
+                '操作'=>array(
+                    '禁用'=>array( 'href' => 'Article/setStatus?status=1&ids=$id', 'class'=>'ajax-get', 'condition'=>'$status==2',), 
+                    '禁用'=>array( 'href' => 'Article/setStatus?status=0&ids=$id', 'class'=>'ajax-get', 'condition'=>'$status==1',), 
+                    '启用'=>array( 'href' => 'Article/setStatus?status=1&ids=$id', 'class'=>'ajax-get', 'condition'=>'$status==0',), 
+                    '删除'=>array( 'href' => 'Article/setStatus?status=-1&ids=$id', 'class'=>'confirm ajax-get' ),
+                ),
+            );
+            echo $_table_list = $__controller__->tableList($list,$thead);
+        ?>
 	</div>
-
-
+    <div class="page_nav">
+        {$_page}
+    </div>
+	</div>
 
 </block>
 <block name="script">
@@ -129,40 +122,6 @@ $(function(){
 			url += '/search/' + encodeURIComponent(search);
 		}
 		window.location.href = url;
-	});
-	//批量操作
-	$("button[name=document_operate]").click(function(){
-		var status = $(this).attr('status');
-		//获取选中的数据
-		var checked = $('input:checked');
-		var ids = new Array();
-		checked.each(function(i){
-			var id = $(this).val();
-			if(id != 'on'){
-				ids[ids.length] = id;
-			}
-		});
-		if(ids.length == 0){
-			alert('请选择要操作的数据！');
-			return false;
-		}
-		//进行ajax操作
-		$.post(
-			"{:U('setStatus')}",
-			{
-				'ids' : ids,
-				'status' : status
-			},
-			function(data){
-				if(data.status == 1){
-					alert('设置成功！');
-					setTimeout(function(){window.location.reload()},1500);
-				}else{
-					alert('操作失败！');
-				}
-			},
-			'json'
-		);
 	});
 
 	/* 高级搜索子菜单 */
