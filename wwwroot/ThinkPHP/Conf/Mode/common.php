@@ -53,9 +53,6 @@ return array(
 	    'app_begin'     =>  array(
 	        'Think\Behavior\ReadHtmlCache', // 读取静态缓存
 	    ),
-	    'route_check'   =>  array(
-	        'Think\Behavior\CheckRoute', // 路由检测
-	    ), 
 	    'app_end'       =>  array(
 	        'Think\Behavior\ShowPageTrace', // 页面Trace显示
 	    ),
