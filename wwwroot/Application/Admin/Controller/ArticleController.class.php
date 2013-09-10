@@ -21,7 +21,7 @@ class ArticleController extends \Admin\Controller\AdminController {
 			array(
 					'title'=>'文档列表', 'url'=>'article/index', 'group'=>'内容','hide'=>true,
 					'operator'=>array(
-							//权限管理页面的五种按钮
+							//权限管理页面的按钮
 							array('title'=>'新增','url'=>'article/add'),
 							array('title'=>'编辑','url'=>'article/edit'),
 							array('title'=>'改变状态','url'=>'article/setStatus'),
