@@ -74,10 +74,6 @@ class ArticleController extends \Admin\Controller\AdminController {
     	$cate_id = I('param.cate_id') == '' ? $cate[0]['id'] : I('param.cate_id');
     	$this->cate_id = $cate_id;
 
-    	//权限判断
-    	if(!in_array($cate_id, $cate_auth) && !is_administrator() && !empty($_GET)){
-    		$this->error('没有权限！');
-    	}
 
     	//单独处理2级以下的分类
     	$child_cates = array();
@@ -123,25 +119,20 @@ class ArticleController extends \Admin\Controller\AdminController {
 	 * @param $cate_id 分类id
 	 * @author huajie <banhuajie@163.com>
 	 */
-	public function index($cate_id = null, $status = null, $search = null){
+	public function index($cate_id = null, $status = null, $title = null){
 		$cate_id = $this->cate_id;
-		$Document = D('Document');
 
 		/* 查询条件初始化 */
 		$map = array();
-		if(isset($status)){
-			$map['status'] = $status;
+		if(isset($title)){
+			$map['title'] = array('like', '%'.$title.'%');
 		}
-		if(isset($search)){
-			$map['title'] = array('like', '%'.$search.'%');
-		}
-		/*初始化分页类*/
-		$count = $Document->listCount($cate_id, array('gt', -1), $map);
-		$Page = new Page($count, 10);
-		$this->page = $Page->show();
 
-		//列表数据获取
-		$list = $Document->lists($cate_id, 'id DESC', array('gt', -1), 'id,uid,title,create_time,status', $Page->firstRow. ',' . $Page->listRows, $map);
+		// 构建列表数据
+		$Document = D('Document');
+        $map['category_id'] = $cate_id;
+        $list = $this->lists($Document,$map);
+        intToString($list);
 
 		//获取对应分类下的模型
 		$models = get_category($cate_id, 'model');
@@ -161,8 +152,8 @@ class ArticleController extends \Admin\Controller\AdminController {
 	 */
 	public function setStatus(){
 		/*参数过滤*/
-		$ids = I('param.ids');
-		$status = I('param.status');
+		$ids = I('request.ids');
+		$status = I('request.status');
 		if(empty($ids) || !isset($status)){
 			$this->error('请选择要操作的数据');
 		}
