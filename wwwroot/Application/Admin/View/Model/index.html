@@ -40,7 +40,6 @@
                     '操作'=>array(
                         '禁用'=>array( 'href' => 'Model/setStatus?id=$id&status=0', 'class'=>'ajax-get', 'condition'=>'$status==1',), 
                         '启用'=>array( 'href' => 'Model/setStatus?id=$id&status=1', 'class'=>'ajax-get', 'condition'=>'$status==0',), 
-                        '删除'=>array( 'href' => 'Model/setStatus?id=$id&status=-1', 'class'=>'confirm ajax-get' ),
                     ),
                 );
                 echo $_table_list = $__controller__->tableList($_list,$thead);
