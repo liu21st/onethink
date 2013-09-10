@@ -308,7 +308,7 @@ class AuthManagerController extends AdminController{
     {
         $uid = I('uid');
         $gid = I('group_id');
-        if( empty($uid) || empty($gid) ){
+        if( empty($uid) ){
             $this->error('参数有误');
         }
         if ( C('USER_ADMINISTRATOR')==$uid ) {
@@ -318,7 +318,8 @@ class AuthManagerController extends AdminController{
         if( !M('Member')->where(array('uid'=>$uid))->find() ){
             $this->error('管理员用户不存在');
         }
-        if(!$AuthGroup->checkGroupId($gid)){
+
+        if( $gid && !$AuthGroup->checkGroupId($gid)){
             $this->error($AuthGroup->error);
         }
         if ( $AuthGroup->addToGroup($uid,$gid) ){
@@ -361,14 +362,14 @@ class AuthManagerController extends AdminController{
     {
         $cid = I('cid');
         $gid = I('group_id');
-        if( empty($cid) || empty($gid) ){
+        if( empty($gid) ){
             $this->error('参数有误');
         }
         $AuthGroup = D('AuthGroup');
         if( !$AuthGroup->find($gid)){
             $this->error('用户组不存在');
         }
-        if(!$AuthGroup->checkCategoryId($cid)){
+        if( $cid && !$AuthGroup->checkCategoryId($cid)){
             $this->error($AuthGroup->error);
         }
         if ( $AuthGroup->addToCategory($gid,$cid) ){
