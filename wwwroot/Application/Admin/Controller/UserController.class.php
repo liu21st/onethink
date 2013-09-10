@@ -44,6 +44,7 @@ class UserController extends AdminController {
         $list   = $this->lists($Member);
         intToString($list);
 		$this->assign('_list', $list);
+		$this->meta_title = '用户-用户信息';
 		$this->display();
 	}
 
@@ -57,6 +58,7 @@ class UserController extends AdminController {
         $list   = $this->lists($Action);
         intToString($list);
 		$this->assign('_list', $list);
+		$this->meta_title = '用户-用户行为';
 		$this->display();
 	}
 
