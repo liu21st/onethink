@@ -2,7 +2,6 @@
  * 描述：定义按钮样式
  * 作用范围: 公共，按钮组，单独按钮
  */
-
 .btn {
     display: inline-block;
     padding: 6px 16px;
