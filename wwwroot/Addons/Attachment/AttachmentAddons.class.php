@@ -7,11 +7,14 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
+namespace Addons\Attachment;
+use Common\Controller\Addons;
+
 /**
  * 附件插件
  * @author 麦当苗儿 <zuojiazi.cn@gmail.com>
  */
-class AttachmentAddons extends Common\Controller\Addons{
+class AttachmentAddons extends Addons{
 
 	public $info = array(
 		'name'        => 'Attachment',
@@ -46,7 +49,7 @@ class AttachmentAddons extends Common\Controller\Addons{
 	/* 显示文档模型编辑页插件扩展信息表单 */
 	public function documentEditForm($param = array()){
 		$this->assign($param);
-		$this->display(T('Addons://Attachment/Article/edit'));
+		$this->display(T('Addons://Attachment@Article/edit'));
 	}
 
 	/* 文档末尾显示附件列表 */
@@ -64,8 +67,8 @@ class AttachmentAddons extends Common\Controller\Addons{
 		}
 
 		/* 模板赋值并渲染模板 */
-		$this->assign('list', $list);
-		//$this->display(T('Addons://Attachment@Article/detail'));
+		$this->assign('list', $list); 
+		$this->display(T('Addons://Attachment@Article/detail'));
 	}
 
 	/**

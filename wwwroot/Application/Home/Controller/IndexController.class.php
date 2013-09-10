@@ -35,14 +35,13 @@ class IndexController extends HomeController {
 
     public function upload(){
     	if(IS_POST){
-    		import('COM.ThinkUpload.ThinkUpload');
             $config = array(
                 'host'     => 'http://v0.api.upyun.com', //又拍云服务器
                 'username' => 'zuojiazi', //又拍云用户
                 'password' => 'thinkphp2013', //又拍云密码
                 'bucket'   => 'thinkphp-static', //空间名称
             );
-    		$upload = new ThinkUpload(array('rootPath' => 'image/'), 'Upyun', $config);
+    		$upload = new \COM\ThinkUpload\ThinkUpload(array('rootPath' => 'image/'), 'Upyun', $config);
     		$info   = $upload->upload($_FILES);
     		dump($upload->getError());
     		dump($info);

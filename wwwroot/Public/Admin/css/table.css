@@ -34,9 +34,6 @@
     line-height: 19px;
     font-weight: 400;
     color:#444;
-    overfow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
     border-bottom: 1px solid #e1e1e1;
 }
 .data-table thead th {
@@ -46,6 +43,3 @@
     box-shadow: 0px 1px 0 rgba(255, 255, 255, 1.0) inset;
     background-color:#f5f5f5;
 }
-
-/* 数据表格
-------------------------------------------------- 

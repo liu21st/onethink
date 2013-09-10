@@ -1,6 +1,6 @@
 $(function(){
 	var win = $(window);
-	var gototopHtml = '<div id="topcontrol"><a href="#top" class="top_stick">&nbsp;</a></div>';
+	var gototopHtml = '<div id="topcontrol"><a href="javascript:void(0);" class="top_stick">&nbsp;</a></div>';
 	$("body").append(gototopHtml);
 
 	$("#topcontrol").css({
@@ -25,6 +25,6 @@ $(function(){
 	});
 
 	$("#topcontrol").click(function(){
-		$(this).animate({scrollTop: 0}, 1000);
+		$('body,html').animate({scrollTop: 0}, 500);
 	})
 })

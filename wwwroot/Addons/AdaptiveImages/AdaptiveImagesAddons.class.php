@@ -4,7 +4,10 @@
  * @author yangweijie
  */
 
-    class AdaptiveImagesAddons extends Common\Controller\Addons{
+namespace Addons\AdaptiveImages;
+use Common\Controller\Addons;
+
+    class AdaptiveImagesAddons extends Addons{
 
         public $info = array(
             'name'=>'AdaptiveImages',

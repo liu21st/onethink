@@ -9,10 +9,10 @@
 		<h2>
 		新增{$model_name} [
 		<volist name="rightNav" id="nav">
-		<a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a>
-		<if condition="count($rightNav) gt $i"><i class="ca"></i></if>
+			<a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a>
+			<if condition="count($rightNav) gt $i"><i class="ca"></i></if>
 		</volist>
-		]
+		]</h2>
 	</div>
 	<!-- 标签页导航 -->
 	<div class="tab-wrap">
@@ -90,8 +90,8 @@
 			            <input type="hidden" name="type" value="2">
 			            <input type="hidden" name="category_id" value="{$cate_id}">
 			            <input type="hidden" name="model_id" value="{$model_id}">
-						<button class="btn hidden" id="submit">保 存</button>
-						<button class="btn" id="submit">下一步</button>
+						<a class="btn hidden" id="submit" href="javascript:;">保 存</a>
+						<a class="btn" id="submit-next" href="javascript:;">下一步</a>
 						<a class="btn" href="{:U('article/index?cate_id='.$cate_id)}">返 回</a>
 					</div>
 				</div>
@@ -129,14 +129,27 @@ $('#submit').click(function(){
         }
     }
 })(jQuery);
+
 $(function(){
+	//初始化通过锚点判断显示哪个标签页
+	var local = location.hash.split("#", 2)[1];
+	if(local == 'tab2'){
+		$(".tab-nav li").removeClass('current');
+		$(".tab-nav li:last").addClass('current');
+		$("#tab1,#tab2").attr("class", "tab-pane");
+		$("#tab2").attr("class", "tab-pane in");
+	}
 	$(".tab-nav li").click(function(){
 		var id = $(this).data("tab");
 		$(this).addClass("current");
 		$(this).siblings().removeClass('current');
+		//获取锚点
+		var local = location.hash.split("#", 2)[1];
+		window.location.href = location.hash.split("#", 2)[0] + '#' + id;
 		$("#tab1,#tab2").attr("class", "tab-pane");
 		$("#" + id).attr("class", "tab-pane in");
 	});
+	
 });
 </script>
 </block>

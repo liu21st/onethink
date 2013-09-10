@@ -251,6 +251,13 @@
 .category .fold i {
 	vertical-align: middle;
 	cursor: pointer;
+	background: url(../images/fold_icon.png) no-repeat;
+}
+.category .fold .icon-fold {
+	background-position: 0 0;
+}
+.category .fold .icon-unfold {
+	background-position: -16px 0;
 }
 .category .order,
 .category .order input {
