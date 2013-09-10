@@ -124,6 +124,8 @@ return  array(
     'URL_DENY_SUFFIX'       =>  'ico|png|gif|jpg', // URL禁止访问的后缀设置
     'URL_PARAMS_BIND'       =>  true, // URL变量绑定到Action方法参数
     'URL_404_REDIRECT'      =>  '', // 404 跳转页面 部署模式有效
+	'URL_ROUTER_ON'         =>	false,   // 是否开启URL路由
+	'URL_ROUTE_RULES'       =>	array(), // 默认路由规则 针对模块
 
     /* 系统变量名称设置 */
     'VAR_MODULE'            =>  'm',     // 默认分组获取变量

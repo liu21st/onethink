@@ -17,7 +17,6 @@
 }
 .textarea {
 	display: block;
-	max-width: 350px;
 }
 .textarea textarea {
 	width: 100%;
@@ -44,6 +43,9 @@ select {
 	line-height: 27px;
 	border: 1px solid #ccc;
 	border-radius: 3px;
+}
+.input-large {
+	width: 390px;
 }
 .input-mid {
 	width: 150px

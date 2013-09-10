@@ -20,11 +20,7 @@ class AddonsController extends Action{
 	public function __construct(){
 		parent::__construct();
 		$class = get_class($this);
-		if(substr($class, -10) == 'Controller'){
-			$this->addons = substr($class, 0, -10);
-		} elseif(substr($class, -6) == 'Widget') {
-			$this->addons = substr($class, 0, -6);
-		}
+		$this->addons = substr(basename($class), 0, -6);
 	}
 
 	public function execute($_addons = null, $_controller = null, $_action = null){
@@ -60,29 +56,4 @@ class AddonsController extends Action{
     	return $this;
     }
 
-    /**
-     * 获取所有钩子列表
-     */
-    static public function getHooks($field='', $order=''){
-    	return D('Hooks')->field($field)->order($order)->select();
-    }
-
-    /**
-     * 读取配置页
-     */
-    public function config(){
-    	$config = D('Addons')->where(array('id'=>I('get.id')))->getField('config');
-    	$this->assign('config', $config);
-    	$this->display('Config/config');
-    }
-
-    /**
-     * 保存插件配置
-     */
-    public function saveConfig(){
-    	$id = (int)I('post.id');
-    	if(!$id)
-    		$this->error('错误的主键');
-    	return D('Addons')->where("id={$id}")->setField('config',I('post.addons'));
-    }
 }

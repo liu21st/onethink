@@ -42,9 +42,8 @@ class FileModel extends Model{
 	 */
 	public function upload($files, $setting, $driver = 'Local', $config = null){
 		/* 上传文件 */
-		import('COM.ThinkUpload.ThinkUpload');
 		$setting['callback'] = array($this, 'isFile');
-		$ThinkUpload = new ThinkUpload($setting, $driver, $config);
+		$ThinkUpload = new \COM\ThinkUpload\ThinkUpload($setting, $driver, $config);
 		$info   = $ThinkUpload->upload($files);
 
 		/* 设置文件保存位置 */

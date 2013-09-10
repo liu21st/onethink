@@ -7,12 +7,15 @@
 // | Author: yangweijie <yangweijiester@gmail.com> <code-tech.diandian.com>
 // +----------------------------------------------------------------------
 
+namespace Addons\Editor;
+use Common\Controller\Addons;
+
 /**
  * 编辑器插件
  * @author yangweijie <yangweijiester@gmail.com>
  */
 
-	class EditorAddons extends Common\Controller\Addons{
+	class EditorAddons extends Addons{
 
 		public $info = array(
 				'name'=>'Editor',

@@ -210,9 +210,14 @@ function hooks($hook, $params = array()) {
         foreach ($addons as $key => $name) {
             if($name){
                 $addons_class = addons($name);
-                $config = $addons_class->getConfig();
-                if(method_exists($addons_class, $hook) && $config['status'] == 1)
-                    $addons_class->$hook($params);
+                if($addons_class){
+                    $config = $addons_class->getConfig();
+                    if(method_exists($addons_class, $hook) && $config['status'] == 1)
+                        $addons_class->$hook($params);
+                } else {
+                    E("插件 {$name} 入口文件不存在");
+                }
+                
             }
         }
         if(APP_DEBUG) { // 记录钩子的执行日志
@@ -228,10 +233,9 @@ function hooks($hook, $params = array()) {
  */
 function addons($name){
     static $_action = array();
-    $class = "{$name}Addons";
+    $class = "Addons\\{$name}\\{$name}Addons";
     if(isset($_action[$name]))  return $_action[$name];
-    import($class,C('AUTOLOAD_NAMESPACE.Addons')."{$name}/");
-    if(class_exists($class,false)) {
+    if(class_exists($class)) {
         $action = new $class();
         $_action[$name] = $action;
         return $action;
