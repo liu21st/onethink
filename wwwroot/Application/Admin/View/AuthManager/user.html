@@ -48,7 +48,7 @@
 			<form class="add-user" action="{:U('addToGroup')}" method="post" enctype="application/x-www-form-urlencoded" >
 				<input class="text input-small" type="text" name="uid" placeholder="请输入uid">
 				<input type="hidden" name="group_id" value="{:I('group_id')}">
-                <input type="submit" class="btn save-form" target-form="add-user" value="添加" />
+                <input type="submit" class="btn ajax-post" target-form="add-user" value="添加" />
 			</form>
 		</div>
 	</div>

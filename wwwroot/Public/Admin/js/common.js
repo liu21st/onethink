@@ -42,7 +42,7 @@
     $('.ajax-post').click(function(){
         var target,query,form;
         var target_form = $(this).attr('target-form');
-        if( (this.type=='submit') || (target = $(this).attr('href')) || (target = $(this).attr('url')) ){
+        if( ($(this).attr('type')=='submit') || (target = $(this).attr('href')) || (target = $(this).attr('url')) ){
             form = $('.'+target_form);
             if ( form.get(0).nodeName=='FORM' ){
                 target = form.get(0).action;
