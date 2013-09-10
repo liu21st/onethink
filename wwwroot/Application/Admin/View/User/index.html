@@ -9,8 +9,8 @@
 					<div class="fl">
                         <button class="btn" id="add-member" url="{:U('User/addUser')}">新 建</button>
 						<button class="btn ajax-post" url="{:U('User/changeStatus',array('method'=>'resumeUser'))}" target-form="ids">启 用</button>
-						<button class="btn ajax-post confirm" url="{:U('User/changeStatus',array('method'=>'forbidUser'))}" target-form="ids">禁 用</button>
-						<button class="btn ajax-post" url="{:U('User/changeStatus',array('method'=>'deleteUser'))}" target-form="ids">删 除</button>
+						<button class="btn ajax-post" url="{:U('User/changeStatus',array('method'=>'forbidUser'))}" target-form="ids">禁 用</button>
+						<button class="btn ajax-post confirm" url="{:U('User/changeStatus',array('method'=>'deleteUser'))}" target-form="ids">删 除</button>
 					</div>
 
 					<div class="tools fr">
