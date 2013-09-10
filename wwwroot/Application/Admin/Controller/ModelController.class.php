@@ -47,20 +47,10 @@ class ModelController extends AdminController {
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function index(){
-		$Model = D('DocumentModel');
-
-		/* 查询条件初始化 */
 		$map = array('status'=>array('gt',-1));
-
-		/*初始化分页类*/
-		$count = $Model->where($map)->count('id');
-		$Page = new \COM\Page($count, 10);
-		$this->page = $Page->show();
-
-		//列表数据获取
-		$list = $Model->where($map)->limit($Page->firstRow. ',' . $Page->listRows)->select();
-
-		$this->assign('list', $list);
+        $list = $this->lists('DocumentModel',$map);
+        intToString($list);
+		$this->assign('_list', $list);
 		$this->display();
 	}
 
@@ -70,8 +60,8 @@ class ModelController extends AdminController {
 	 */
 	public function setStatus(){
 		/*参数过滤*/
-		$ids = I('param.ids');
-		$status = I('param.status');
+		$ids = I('request.id');
+		$status = I('request.status');
 		if(empty($ids) || !isset($status)){
 			$this->error('请选择要操作的数据');
 		}

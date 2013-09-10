@@ -19,7 +19,7 @@ foreach ($_thead as $key => $th){
         echo $th['th'];
     }else if( isset($th['_title'] )){
         echo $th['_title'];
-        if ( isset($th['tag']) ) {
+        if ( !isset($th['tag']) ) {
             $_thead[$key]['tag'] = 'a';
         }
     }else{

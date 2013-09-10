@@ -38,19 +38,19 @@
 <script type="text/javascript">
     +function($){
         /* 分类展开收起 */
-        $(".category dd").prev().find(".fold i").addClass("icon-minus")
-        .click(function(){
-            var self = $(this);
-            if(self.hasClass("icon-minus")){
-                self.closest("dt").next().slideUp("fast", function(){
-                    self.removeClass("icon-minus").addClass("icon-plus");
-                });
-            } else {
-                self.closest("dt").next().slideDown("fast", function(){
-                    self.removeClass("icon-plus").addClass("icon-minus");
-                });
-            }
-        });
+        $(".category dd").prev().find(".fold i").addClass("icon-unfold")
+            .click(function(){
+                var self = $(this);
+                if(self.hasClass("icon-unfold")){
+                    self.closest("dt").next().slideUp("fast", function(){
+                        self.removeClass("icon-unfold").addClass("icon-fold");
+                    });
+                } else {
+                    self.closest("dt").next().slideDown("fast", function(){
+                        self.removeClass("icon-fold").addClass("icon-unfold");
+                    });
+                }
+            });
 
         var auth_groups = [{$authed_group}];
         $('.cate_id').each(function(){

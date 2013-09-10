@@ -40,7 +40,8 @@ class UserController extends AdminController {
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function index(){
-		$list = D("Member")->lists();
+		$Member = D("Member")->field(true)->where(array('status'=>array('egt',0)))->order('uid DESC');
+        $list   = $this->lists($Member);
         intToString($list);
 		$this->assign('_list', $list);
 		$this->display();
@@ -52,7 +53,8 @@ class UserController extends AdminController {
 	 */
 	public function action(){
 		//获取列表数据
-		$list = M('Action')->where(array('status'=>array('gt',-1)))->select();
+		$Action = M('Action')->where(array('status'=>array('gt',-1)));
+        $list   = $this->lists($Action);
         intToString($list);
 		$this->assign('_list', $list);
 		$this->display();

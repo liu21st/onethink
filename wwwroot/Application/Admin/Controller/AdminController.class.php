@@ -21,7 +21,7 @@ class AdminController extends Action {
     static protected $deny  = array('getMenus','tableList');
 
     /* 保存允许所有管理员访问的公共方法 */
-    static protected $allow = array( 'login','logout', 'test');
+    static protected $allow = array( 'login','logout');
 
     /**
      * 节点配置
