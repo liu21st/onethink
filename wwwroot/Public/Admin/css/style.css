@@ -448,3 +448,8 @@ body{
 .checkmod dd .divsion {
     margin-right: 20px;
 }
+
+.thinkbox-content{
+    padding: 15px;
+    min-width: 100px;
+}
