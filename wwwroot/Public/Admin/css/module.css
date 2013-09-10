@@ -332,3 +332,40 @@
 .auth-category >dl>dt{
 	background: #eee;
 }
+
+#top-alert {
+    width: 100%;
+    top: 50px;
+    z-index: 10;
+    display: block;
+    overflow: hidden;
+}
+button.close {
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    -webkit-appearance: none;
+}
+.close {
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 20px;
+    color: #000000;
+    text-shadow: 0 1px 0 #ffffff;
+    opacity: 0.2;
+    filter: alpha(opacity=20);
+}
+
+#top-alert .close{
+    right:8px;
+    position: fixed;
+    top:50px;
+}
+
+.alert-content{
+    max-width:600px;
+    word-wrap: break-word;
+    word-break: break-word;
+}
