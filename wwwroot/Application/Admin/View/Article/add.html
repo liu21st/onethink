@@ -23,7 +23,7 @@
 		<div class="tab-content">
 			<form id="form" action="{:U('update')}" method="post" class="form-horizontal">
 				<!-- 基础文档模型 -->
-				<div id="tab1" class="tab-pane in">
+				<div class="tab-pane in tab1">
 					<div class="form-item cf">
 						<label class="item-label">文档标识：</label>
 						<div class="controls">
@@ -79,7 +79,7 @@
 				</div>
 
 				<!-- 引入扩展文档模型 -->
-				<div id="tab2" class="tab-pane">
+				<div class="tab-pane tab2">
 					<include file="$template"/>
 				</div>
 
@@ -132,24 +132,17 @@ $('#submit').click(function(){
 
 $(function(){
 	//初始化通过锚点判断显示哪个标签页
-	var local = location.hash.split("#", 2)[1];
-	if(local == 'tab2'){
-		$(".tab-nav li").removeClass('current');
-		$(".tab-nav li:last").addClass('current');
-		$("#tab1,#tab2").attr("class", "tab-pane");
-		$("#tab2").attr("class", "tab-pane in");
-	}
 	$(".tab-nav li").click(function(){
-		var id = $(this).data("tab");
-		$(this).addClass("current");
-		$(this).siblings().removeClass('current');
-		//获取锚点
-		var local = location.hash.split("#", 2)[1];
-		window.location.href = location.hash.split("#", 2)[0] + '#' + id;
-		$("#tab1,#tab2").attr("class", "tab-pane");
-		$("#" + id).attr("class", "tab-pane in");
+		var self = $(this), target = self.data("tab");
+		self.addClass("current").siblings(".current").removeClass("current");
+		window.location.hash = "#" + target.substr(3);
+		$(".tab-pane.in").removeClass("in");
+		$("." + target).addClass("in");
+	}).filter("[data-tab=tab" + window.location.hash.substr(1) + "]").click();
+
+	$("#submit-next").click(function(){
+		$(".tab-nav li.current").next().click();
 	});
-	
 });
 </script>
 </block>
