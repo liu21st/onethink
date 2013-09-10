@@ -1,4 +1,9 @@
 <?php
+namespace COM\ThinkUpload\Driver\Bcs;
+use COM\ThinkUpload\Driver\Bcs\BCS_MimeTypes;
+use COM\ThinkUpload\Driver\Bcs\BCS_RequestCore;
+use COM\ThinkUpload\Driver\Bcs\BCS_ResponseCore;
+
 if (! defined ( 'BCS_API_PATH' )) {
 	define ( 'BCS_API_PATH', dirname ( __FILE__ ) );
 }
@@ -17,7 +22,7 @@ require_once (BCS_API_PATH . '/mimetypes.class.php');
 /**
  * Default BCS Exception.
  */
-class BCS_Exception extends Exception {
+class BCS_Exception extends \Exception {
 }
 /**
  * BCS API
@@ -234,6 +239,7 @@ class BaiduBCS {
 			$request->set_curlopts ( $opt ['curlopts'] );
 		}
 		$request->send_request ();
+		require_once(dirname(__FILE__). "/requestcore.class.php");
 		return new BCS_ResponseCore ( $request->get_response_header (), $request->get_response_body (), $request->get_response_code () );
 	}
 

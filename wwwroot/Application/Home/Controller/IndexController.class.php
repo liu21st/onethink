@@ -35,13 +35,22 @@ class IndexController extends HomeController {
 
     public function upload(){
     	if(IS_POST){
+            //又拍云
+            // $config = array(
+            //     'host'     => 'http://v0.api.upyun.com', //又拍云服务器
+            //     'username' => 'zuojiazi', //又拍云用户
+            //     'password' => 'thinkphp2013', //又拍云密码
+            //     'bucket'   => 'thinkphp-static', //空间名称
+            // );
+            // $upload = new \COM\ThinkUpload\ThinkUpload(array('rootPath' => 'image/'), 'Upyun', $config);
+            //百度云存储
             $config = array(
-                'host'     => 'http://v0.api.upyun.com', //又拍云服务器
-                'username' => 'zuojiazi', //又拍云用户
-                'password' => 'thinkphp2013', //又拍云密码
-                'bucket'   => 'thinkphp-static', //空间名称
+                'AccessKey'  =>'3321f2709bffb9b7af32982b1bb3179f',
+                'SecretKey'  =>'67485cd6f033ffaa0c4872c9936f8207',
+                'bucket'     =>'test-upload',
+                'size'      =>'104857600'
             );
-    		$upload = new \COM\ThinkUpload\ThinkUpload(array('rootPath' => 'image/'), 'Upyun', $config);
+    		$upload = new \COM\ThinkUpload\ThinkUpload(array('rootPath' => './Uploads/bcs'), 'Bcs', $config);
     		$info   = $upload->upload($_FILES);
     		dump($upload->getError());
     		dump($info);
@@ -66,5 +75,5 @@ class IndexController extends HomeController {
         $this->assign('sign', $sign);
         $this->display();
     }
-    
+
 }

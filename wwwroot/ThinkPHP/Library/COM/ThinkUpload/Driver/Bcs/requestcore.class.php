@@ -1,4 +1,9 @@
 <?php
+namespace COM\ThinkUpload\Driver\Bcs;
+use COM\ThinkUpload\Driver\Bcs\BCS_RequestCore;
+use COM\ThinkUpload\Driver\Bcs\BCS_ResponseCore;
+use COM\ThinkUpload\Driver\Bcs\BCS_RequestCore_Exception;
+
 /**
  * Handles all HTTP requests using cURL and manages the responses.
  *
@@ -643,7 +648,8 @@ class BCS_RequestCore {
 			$this->response_headers ['_info'] = $this->response_info;
 			$this->response_headers ['_info'] ['method'] = $this->method;
 			if ($curl_handle && $response) {
-				return new $this->response_class ( $this->response_headers, $this->response_body, $this->response_code, $this->curl_handle );
+				$class='\COM\ThinkUpload\Driver\Bcs\\'. $this->response_class;
+				return new  $class ( $this->response_headers, $this->response_body, $this->response_code, $this->curl_handle );
 			}
 		}
 		// Return false
@@ -830,5 +836,5 @@ class BCS_ResponseCore {
 /**
  * Default BCS_RequestCore Exception.
  */
-class BCS_RequestCore_Exception extends Exception {
+class BCS_RequestCore_Exception extends \Exception {
 }
