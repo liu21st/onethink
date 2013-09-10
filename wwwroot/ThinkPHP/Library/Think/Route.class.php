@@ -8,33 +8,23 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-namespace Think\Behavior;
-use Think\Behavior;
-defined('THINK_PATH') or exit();
+namespace Think;
 /**
- * 系统行为扩展：路由检测
+ * ThinkPHP内置路由解析类
  * @category   Think
  * @package  Think
- * @subpackage  Behavior
- * @author   liu21st <liu21st@gmail.com>
+ * @subpackage  Core
+ * @author    liu21st <liu21st@gmail.com>
  */
-class CheckRouteBehavior extends Behavior {
+class Route {
     
-    private $matcheValues = array();
-    
-    // 行为参数定义（默认值） 可在项目配置中覆盖
-    protected $options   =  array(
-        'URL_ROUTER_ON'         => false,   // 是否开启URL路由
-        'URL_ROUTE_RULES'       => array(), // 默认路由规则，注：分组配置无法替代
-        );
-
-    // 行为扩展的执行入口必须是run
-    public function run(&$return){
+    // 路由检测
+    public static function check(){
         // 优先检测是否存在PATH_INFO
         $regx = trim($_SERVER['PATH_INFO'],'/');
-        if(empty($regx)) return $return = true;
+        if(empty($regx)) return true;
         // 是否开启路由使用
-        if(!C('URL_ROUTER_ON')) return $return = false;
+        if(!C('URL_ROUTER_ON')) return false;
         // 路由定义文件优先于config中的配置定义
         $routes = C('URL_ROUTE_RULES');
         // 路由处理
@@ -46,10 +36,10 @@ class CheckRouteBehavior extends Behavior {
                 if(0===strpos($rule,'/') && preg_match($rule,$regx.(defined('__EXT__')?'.'.__EXT__:''),$matches)) { // 正则路由
                     if($route instanceof \Closure) {
                         // 执行闭包并中止
-                        $this->invokeRegx($route, $matches);
+                        self::invokeRegx($route, $matches);
                         exit;
                     }
-                    return $return = $this->parseRegex($matches,$route,$regx);
+                    return $return = self::parseRegex($matches,$route,$regx);
                 }else{ // 规则路由
                     $len1   =   substr_count($regx,'/');
                     $len2   =   substr_count($rule,'/');
@@ -61,24 +51,24 @@ class CheckRouteBehavior extends Behavior {
                                 $rule =  substr($rule,0,-1);
                             }
                         }
-                        $match  =  $this->checkUrlMatch($regx,$rule);
+                        $match  =  self::checkUrlMatch($regx,$rule);
                         if(false !== $match)  {
                             if($route instanceof \Closure) {
                                 // 执行闭包并中止
-                                $this->invokeRule($route, $match);
+                                self::invokeRule($route, $match);
                                 exit;
                             }
-                            return $return = $this->parseRule($rule,$route,$regx);
+                            return $return = self::parseRule($rule,$route,$regx);
                         }
                     }
                 }
             }
         }
-        $return = false;
+        return false;
     }
 
     // 检测URL和规则路由是否匹配
-    private function checkUrlMatch($regx,$rule) {
+    private static function checkUrlMatch($regx,$rule) {
         $m1 = explode('/',$regx);
         $m2 = explode('/',$rule);
         $var = array();         
@@ -110,7 +100,7 @@ class CheckRouteBehavior extends Behavior {
 
     // 解析规范的路由地址
     // 地址格式 [分组/模块/操作?]参数1=值1&参数2=值2...
-    private function parseUrl($url) {
+    private static function parseUrl($url) {
         $var  =  array();
         if(false !== strpos($url,'?')) { // [分组/模块/操作?]参数1=值1&参数2=值2...
             $info   =  parse_url($url);
@@ -142,7 +132,7 @@ class CheckRouteBehavior extends Behavior {
     // 外部地址中可以用动态变量 采用 :1 :2 的方式
     // 'news/:month/:day/:id'=>array('News/read?cate=1','status=1'),
     // 'new/:id'=>array('/new.php?id=:1',301), 重定向
-    private function parseRule($rule,$route,$regx) {
+    private static function parseRule($rule,$route,$regx) {
         // 获取路由地址规则
         $url   =  is_array($route)?$route[0]:$route;
         // 获取URL地址中的参数
@@ -174,7 +164,7 @@ class CheckRouteBehavior extends Behavior {
             exit;
         }else{
             // 解析路由地址
-            $var  =  $this->parseUrl($url);
+            $var  =  self::parseUrl($url);
             // 解析路由地址里面的动态参数
             $values  =  array_values($matches);
             foreach ($var as $key=>$val){
@@ -205,7 +195,7 @@ class CheckRouteBehavior extends Behavior {
     // 参数值和外部地址中可以用动态变量 采用 :1 :2 的方式
     // '/new\/(\d+)\/(\d+)/'=>array('News/read?id=:1&page=:2&cate=1','status=1'),
     // '/new\/(\d+)/'=>array('/new.php?id=:1&page=:2&status=1','301'), 重定向
-    private function parseRegex($matches,$route,$regx) {
+    private static function parseRegex($matches,$route,$regx) {
         // 获取路由地址规则
         $url   =  is_array($route)?$route[0]:$route;
         $url   =  preg_replace_callback('/:(\d+)/', function($match) use($matches){return $matches[$match[1]];}, $url); 
@@ -214,7 +204,7 @@ class CheckRouteBehavior extends Behavior {
             exit;
         }else{
             // 解析路由地址
-            $var  =  $this->parseUrl($url);
+            $var  =  self::parseUrl($url);
             // 解析剩余的URL参数
             $regx =  substr_replace($regx,'',0,strlen($matches[0]));
             if($regx) {
