@@ -263,36 +263,6 @@ class ArticleController extends \Admin\Controller\AdminController {
 			$v['create_time'] = time_format($v['create_time']);
 		}
 		$this->assign('list', $list);
-
-		$thead = array(
-            //元素value中的变量就是数据集中的字段,value必须使用单引号
-
-            //所有 _ 下划线开头的元素用于使用html代码生成th和td
-            '_html'=>array(
-                'th'=>'<input class="check-all" type="checkbox"/>',
-                'td'=>'<input class="ids" type="checkbox" name="ids[]" value="$id" />',
-            ),
-            //查询出的数据集中的字段=>字段的表头
-            'id'=>'编号',
-            'username'=>'创建者',
-			'title'=>'标题',
-            'create_time'=>'创建时间',
-            //操作配置
-            '操作'=>array(
-                //操作按钮=>'按钮链接'
-                //符合条件才显示的操作按钮
-                '还原'=>array(
-                    // 'tag'=>'a',//按钮的包裹元素,默认为 a 标签
-                    // 标签上的attr,需要什么设置什么,此处设置了a标签的href属性
-                    'href' =>'article/permit?ids=$id',
-                    // 按钮显示的条件,支持 == != > < 比较运算
-                ),
-            ),
-        );
-
-        $this->assign('_table_class', 'data-table table-striped');
-        $this->assign( '_table_list', $this->tableList($list,$thead) );
-
         $this->meta_title = '回收站';
         $this->display();
 	}
