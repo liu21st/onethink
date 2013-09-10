@@ -513,7 +513,7 @@ class AdminController extends Action {
     protected function lists ($model,$where=array(),$order='')
     {
         $options = array();
-        $REQUEST = (array)I('get.');
+        $REQUEST = (array)I('request.');
         if(is_string($model)){
             $model = D($model);
         }
@@ -531,7 +531,13 @@ class AdminController extends Action {
         }
         unset($REQUEST['_order'],$REQUEST['_field']);
 
-        $options['where'] = array_filter(array_merge( array('status'=>array('egt',0)), $REQUEST,  $where ));
+        $options['where'] = array_filter(array_merge( array('status'=>array('egt',0)), $REQUEST,  $where ),function($val){
+            if($val===''||$val===null){
+                return false;
+            }else{
+                return true;
+            }
+        });
         $options          = array_merge( $options , (array)$OPT->getValue($model) );
 
 		$total = $model->where($options['where'])->count();
