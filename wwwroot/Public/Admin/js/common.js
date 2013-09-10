@@ -27,11 +27,20 @@
         }
         if ( (target = $(this).attr('href')) || (target = $(this).attr('url')) ) {
             $.get(target).success(function(data){
-
                 if (data.status==1) {
-                    location.reload();
+                    if (data.url) {
+                        updateAlert(data.info + ' 页面即将自动跳转~','alert-success');
+                    }else{
+                        updateAlert(data.info + ' 页面即将自动刷新~','alert-success');
+                    }
+                    setTimeout(function(){
+                        if (data.url) {
+                            location.href=data.url;
+                        }
+                        location.reload();
+                    },1500);
                 }else{
-                    //TODO: 错误提示
+                    updateAlert(data.info);
                 }
             });
           
@@ -60,14 +69,54 @@
             }
             $.post(target,query).success(function(data){
                 if (data.status==1) {
-                    location.reload();
+                    if (data.url) {
+                        updateAlert(data.info + ' 页面即将自动跳转~','alert-success');
+                    }else{
+                        updateAlert(data.info + ' 页面即将自动刷新~','alert-success');
+                    }
+                    setTimeout(function(){
+                        if (data.url) {
+                            location.href=data.url;
+                        }
+                        location.reload();
+                    },1500);
                 }else{
-                    //TODO: 错误提示
+                    updateAlert(data.info);
                 }
             });
         }
         return false;
     });
+
+	/**顶部警告栏*/
+	var content = $('#main');
+	var top_alert = $('#top-alert');
+	top_alert.find('.close').on('click', function () {
+		top_alert.removeClass('block').slideUp(200);
+		content.animate({marginTop:'-=36'},200);
+	});
+
+    window.updateAlert = function (text,c) {
+		text = text||'default';
+		c = c||false;
+		if ( text!='default' ) {
+            top_alert.find('.alert-content').text(text);
+			if (top_alert.hasClass('block')) {
+			} else {
+				top_alert.addClass('block').slideDown(200);
+				content.animate({marginTop:'+=36'},200);
+			}
+		} else {
+			if (top_alert.hasClass('block')) {
+				top_alert.removeClass('block').slideUp(200);
+				content.animate({marginTop:'-=36'},200);
+			}
+		}
+		if ( c!=false ) {
+            top_alert.removeClass('alert-error alert-warn alert-info alert-success').addClass(c);
+		}
+	};
+
 	(function(){
 		//按钮组
 		$(".btn-group").mouseenter(function(){
