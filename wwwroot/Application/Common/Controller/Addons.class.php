@@ -109,6 +109,7 @@ namespace Common\Controller;
 		 */
 		final public function getConfig(){
 			$config = D('Addons')->where("name='{$this->getName()}'")->find();
+
 			if($config['config'] && is_string($config['config'])){
 				$config['config'] = json_decode($config['config'], 1);
 			}else{
