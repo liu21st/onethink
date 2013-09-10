@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<form action="http://v0.api.upyun.com/thinkphp-static/" method="post" enctype="Multipart/form-data">
+		<input type="hidden" name="policy" value="{$policy}">
+		<input type="hidden" name="signature" value="{$sign}">
+		<input type="file" name="file">
+		<input type="submit">
+	</form>
+</body>
+</html>
