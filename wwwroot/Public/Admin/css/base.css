@@ -85,6 +85,10 @@ textarea {
 	float: right!important;
 }
 
+.fixed{
+    position: fixed!important;
+}
+
 .text-center{
 	text-align: center!important;
 }
