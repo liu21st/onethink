@@ -39,7 +39,7 @@ function T($template='',$layer=''){
     // 解析模版资源地址
     if(false === strpos($template,'://')){
         $template   =   'http://'.str_replace(':', '/',$template);
-    }        
+    }
     $info   =   parse_url($template);
     $file   =   $info['host'].(isset($info['path'])?$info['path']:'');
     $module =   isset($info['user'])?$info['user'].'/':MODULE_NAME.'/';
@@ -77,7 +77,7 @@ function T($template='',$layer=''){
  * I('id',0); 获取id参数 自动判断get或者post
  * I('post.name','','htmlspecialchars'); 获取$_POST['name']
  * I('get.'); 获取$_GET
- * </code> 
+ * </code>
  * @param string $name 变量的名称 支持指定类型
  * @param mixed $default 不存在的时候默认值
  * @param mixed $filter 参数过滤方法
@@ -93,7 +93,7 @@ function I($name,$default='',$filter=null) {
         case 'get'     :   $input =& $_GET;break;
         case 'post'    :   $input =& $_POST;break;
         case 'put'     :   parse_str(file_get_contents('php://input'), $input);break;
-        case 'param'   :  
+        case 'param'   :
             switch($_SERVER['REQUEST_METHOD']) {
                 case 'POST':
                     $input  =  $_POST;
@@ -126,14 +126,14 @@ function I($name,$default='',$filter=null) {
         }
     }
     if(empty($name)) { // 获取全部变量
-        $data       =   $input; 
+        $data       =   $input;
         $filters    =   isset($filter)?$filter:C('DEFAULT_FILTER');
         if($filters) {
             $filters    =   explode(',',$filters);
             foreach($filters as $filter){
                 $data   =   array_map($filter,$data); // 参数过滤
             }
-        }        
+        }
     }elseif(isset($input[$name])) { // 取值操作
         $data       =   $input[$name];
         $filters    =   isset($filter)?$filter:C('DEFAULT_FILTER');
@@ -170,7 +170,7 @@ function I($name,$default='',$filter=null) {
  * </code>
  * @param string $start 开始标签
  * @param string $end 结束标签
- * @param integer|string $dec 小数位或者m 
+ * @param integer|string $dec 小数位或者m
  * @return mixed
  */
 function G($start,$end='',$dec=4) {
@@ -182,11 +182,11 @@ function G($start,$end='',$dec=4) {
         if(!isset($_info[$end])) $_info[$end]       =  microtime(TRUE);
         if(MEMORY_LIMIT_ON && $dec=='m'){
             if(!isset($_mem[$end])) $_mem[$end]     =  memory_get_usage();
-            return number_format(($_mem[$end]-$_mem[$start])/1024);          
+            return number_format(($_mem[$end]-$_mem[$start])/1024);
         }else{
             return number_format(($_info[$end]-$_info[$start]),$dec);
-        }       
-            
+        }
+
     }else{ // 记录时间和内存使用
         $_info[$start]  =  microtime(TRUE);
         if(MEMORY_LIMIT_ON) $_mem[$start]           =  memory_get_usage();
@@ -201,7 +201,7 @@ function G($start,$end='',$dec=4) {
  * N('read',1); // 记录读取次数
  * echo N('db'); // 获取当前页面数据库的所有操作次数
  * echo N('read'); // 获取当前页面读取次数
- * </code> 
+ * </code>
  * @param string $key 标识位置
  * @param integer $step 步进值
  * @return mixed
@@ -334,7 +334,7 @@ function load($name, $baseUrl='', $ext='.php') {
  * 快速导入第三方框架类库 所有第三方框架的类库文件统一放到 系统的Vendor目录下面
  * @param string $class 类库
  * @param string $baseUrl 基础目录
- * @param string $ext 类库后缀 
+ * @param string $ext 类库后缀
  * @return boolean
  */
 function vendor($class, $baseUrl = '', $ext='.php') {
@@ -353,7 +353,7 @@ function D($name='',$layer='') {
     if(empty($name)) return new Think\Model;
     static $_model  =   array();
     $layer          =   $layer? $layer : C('DEFAULT_M_LAYER');
-    if(isset($_model[$name.$layer]))   
+    if(isset($_model[$name.$layer]))
         return $_model[$name.$layer];
     $class          =   parse_res_name($name,$layer);
     if(class_exists($class)) {
@@ -387,7 +387,7 @@ function M($name='', $tablePrefix='',$connection='') {
 }
 
 /**
- * 解析资源地址并导入类库文件 
+ * 解析资源地址并导入类库文件
  * 例如 module/controller addon://module/behavior
  * @param string $name 资源地址 格式：[扩展://][模块/]资源名
  * @param string $layer 分层名称
@@ -427,7 +427,7 @@ function A($name,$layer='',$level='') {
     static $_action = array();
     $layer  =   $layer? $layer : C('DEFAULT_C_LAYER');
     $level  =   $level? $level : C('CONTROLLER_LEVEL');
-    if(isset($_action[$name.$layer]))  
+    if(isset($_action[$name.$layer]))
         return $_action[$name.$layer];
     $class  =   parse_res_name($name,$layer,$level);
     if(class_exists($class)) {
@@ -442,7 +442,7 @@ function A($name,$layer='',$level='') {
 /**
  * 远程调用模块的操作方法 URL 参数格式 [项目://][分组/]模块/操作
  * @param string $url 调用地址
- * @param string|array $vars 调用参数 支持字符串和数组 
+ * @param string|array $vars 调用参数 支持字符串和数组
  * @param string $layer 要调用的控制层名称
  * @return mixed
  */
@@ -571,7 +571,7 @@ function tag($tag, &$params=NULL) {
  * 动态添加行为扩展到某个标签
  * @param string $tag 标签名称
  * @param string $behavior 行为名称
- * @param string $path 行为路径 
+ * @param string $path 行为路径
  * @return void
  */
 function add_tag_behavior($tag,$behavior,$path='') {
@@ -666,7 +666,7 @@ function strip_whitespace($content) {
  * 添加和获取页面Trace记录
  * @param string $value 变量
  * @param string $label 标签
- * @param string $level 日志级别 
+ * @param string $level 日志级别
  * @param boolean $record 是否记录日志
  * @return void
  */
