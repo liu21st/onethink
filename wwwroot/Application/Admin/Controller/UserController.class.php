@@ -38,8 +38,8 @@ class UserController extends AdminController {
 	 */
 	public function index(){
 		$list = D("Member")->lists();
-
-		$this->assign('list', $list);
+        intToString($list);
+		$this->assign('_list', $list);
 		$this->display();
 	}
 
@@ -120,5 +120,28 @@ class UserController extends AdminController {
 			default : $this->error('参数错误');break;
 		}
 	}
+
+    /**
+     * 会员状态修改
+     * @author 朱亚杰 <zhuyajie@topthink.net>
+     */
+    public function changeStatus($method=null)
+    {
+        $id    = array_unique((array)I('id',0));
+        $id    = is_array($id) ? implode(',',$id) : $id;
+        switch ( strtolower($method) ){
+            case 'forbiduser':
+                $this->forbid('Member', array('uid'=>array('in',$id)) );    
+                break;
+            case 'resumeuser':
+                $this->resume('Member', array('uid'=>array('in',$id)) );    
+                break;
+            case 'deleteuser':
+                $this->delete('Member', array('uid'=>array('in',$id)) );    
+                break;
+            default:
+                $this->error('参数非法');
+        }
+    }
 
 }

@@ -20,17 +20,6 @@ class AddonsModel extends Model {
 	 */
 	protected function _after_find(&$result,$options) {
 		$addons = addons($result['name']);
-		if($addons && $addons->config_file){
-			$data = include $addons->config_file;
-			if($data && $result['config']){
-				if(is_string($result['config']))
-					$result['config'] = json_decode($result['config'], TRUE);
-				foreach ($result['config'] as $key => $value) {
-					$data[$key]['value'] = $value;
-				}
-			}
-			$result['config'] = $data;
-		}
 		$result['addon_path'] = $addons->addon_path;
 		$result['custom_config'] = $addons->custom_config;
 	}
@@ -55,7 +44,7 @@ class AddonsModel extends Model {
 	 */
 	public function getList($addon_dir = ''){
 		if(!$addon_dir)
-			$addon_dir = C('EXTEND_MODULE.Addons');
+			$addon_dir = C('AUTOLOAD_NAMESPACE.Addons');
 		$addons_names = glob($addon_dir.'*', GLOB_ONLYDIR);
 		if($addons_names === FALSE || !file_exists($addon_dir)){
 			$this->error = '插件目录不可读或者不存在';
@@ -70,7 +59,7 @@ class AddonsModel extends Model {
 	}
 
 	public function getAdminList(){
-		$addon_dir = C('EXTEND_MODULE.Addons');
+		$addon_dir = C('AUTOLOAD_NAMESPACE.Addons');
 		$addons_names = glob($addon_dir.'*', GLOB_ONLYDIR);
 		if($addons_names === FALSE || !file_exists($addon_dir)){
 			$this->error = '插件目录不可读或者不存在';

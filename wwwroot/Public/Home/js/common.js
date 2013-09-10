@@ -8,15 +8,24 @@ $(function(){
 
 	$('.action .detailed').each(function(){
 		$(this).click(function() {
-        detailed_content();
-        return false;
+        	detailed_content();
+        	return false;
+        });
   	});
 
-	var $nav = $("#nav"), $current = $nav.children("[data-key=" + $nav.data("key") + "]");
-	if($nav.length){
-		$current.addClass("current");
-	} else {
-		$("#nav").children().first().addClass("current");
-	}
+	$('.action .thinkbox-image').each(function(){
+		$(this).click(function() {
+        	thinkbox_image();
+        	return false;
+        });
+  	});
 
+	(function(){
+		var $nav = $("#nav"), $current = $nav.children("[data-key=" + $nav.data("key") + "]");
+		if($nav.length){
+			$current.addClass("current");
+		} else {
+			$("#nav").children().first().addClass("current");
+		}
+	})();
 });

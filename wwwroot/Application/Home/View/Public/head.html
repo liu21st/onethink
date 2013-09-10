@@ -10,6 +10,36 @@
 <!--[if gte IE 9]><!-->
 <script type="text/javascript" src="__STATIC__/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+<script type="text/javascript">
+function detailed_content(){
+    $.thinkbox.load('{:U("detailed_content")}', {
+        'title': '详细',
+        'fixed': true,
+        'modal': true,
+        'drag': false,
+        'modalClose': true,
+        'actions' : ['close']
+    });
+    return false;
+}
+</script>
+<script type="text/javascript">
+function thinkbox_image(){
+    $.thinkbox.load('{:U("thinkbox_image")}', {
+        'fixed': true,
+        'modal': true,
+        'drag': false,
+        'modalClose': true,
+        afterShow:function(){
+        	var box = this;
+	        	this.find('.delete').click(function(){
+	        	box.hide();
+        	});
+        }
+    });
+    return false;
+}
+</script>
 <!--<![endif]-->
 <!-- 页面header钩子，一般用于加载插件CSS文件和代码 -->
 {:hooks('pageHeader')}

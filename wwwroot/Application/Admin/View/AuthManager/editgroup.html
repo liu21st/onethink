@@ -18,13 +18,13 @@
             <label class="item-label"></label>
             <div class="controls">
                 <input type="hidden" name="id" value="{$auth_group.id}" />
-                <input type="submit" class="btn save-form" target-form="auth-form" value="保存" />
+                <input type="submit" class="btn ajax-post" target-form="auth-form" value="保存" />
             </div>
         </div>
     </form>
     <script type="text/javascript" charset="utf-8">
     //ajax post submit请求
-    $('.save-form').click(function(){
+    $('.ajax-post').click(function(){
         var target,query,form;
         var target_form = $(this).attr('target-form');
         if( (this.type=='submit') || (target = $(this).attr('href')) || (target = $(this).attr('url')) ){

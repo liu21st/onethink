@@ -17,7 +17,7 @@
 	margin-bottom: -1px;
 	margin-left: -1px;
 }
-.tab-nav li a {
+.tab-nav li a,
 	padding: 0 20px;
 	height: 35px;
 	line-height: 35px;
@@ -247,6 +247,13 @@
 .category .fold i {
 	vertical-align: middle;
 	cursor: pointer;
+	background: url(../images/fold_icon.png) no-repeat;
+}
+.category .fold .icon-fold {
+	background-position: 0 0;
+}
+.category .fold .icon-unfold {
+	background-position: -16px 0;
 }
 .category .order,
 .category .order input {

@@ -24,7 +24,7 @@
 						<div>发布{$category.title}</div>
 					</div>
 				</div>
-				<form action="#" method="post" class="form-horizontal">
+				<form action="{:U('Article/save')}" method="post" class="form-horizontal">
 					<div class="form-item">
 						<label class="item-label"><b class="must">*</b>标识</label>
 						<div class="controls">
@@ -47,10 +47,20 @@
 					</div>
 					
 					<block name="content"></block>
+
+					<block name="addons">
+	                    <div class="plugin-info">
+	                        {:hooks('documentEditForm', $info)}
+	                    </div>
+	                </block>
 					
 					<div class="form-item">
 						<label class="item-label"></label>
 						<div class="controls">
+							<input type="hidden" name="pid" value="0">
+	                        <input type="hidden" name="type" value="2">
+	                        <input type="hidden" name="category_id" value="{$category.id}">
+	                        <input type="hidden" name="model_id" value="{$info.model_id}">
 							<button class="btn" type="submit">确定</button>
 						</div>
 					</div>

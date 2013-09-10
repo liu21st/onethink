@@ -8,12 +8,12 @@
 <block name="body">
 	<div class="main-title cf">
 		<h2>
-		编辑{$model_id|get_document_model='title'} [
-		<volist name="rightNav" id="nav">
-		<a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a>
-		<if condition="count($rightNav) gt $i"><i class="ca"></i></if>
-		</volist>
-		]
+			编辑{$model_id|get_document_model='title'} [
+			<volist name="rightNav" id="nav">
+			<a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a>
+			<if condition="count($rightNav) gt $i"><i class="ca"></i></if>
+			</volist>
+			]
 		</h2>
 	</div>
 	<!-- 标签页导航 -->
@@ -130,10 +130,21 @@ $('#submit').click(function(){
     }
 })(jQuery);
 $(function(){
+	//初始化通过锚点判断显示哪个标签页
+	var local = location.hash.split("#", 2)[1];
+	if(local == 'tab2'){
+		$(".tab-nav li").removeClass('current');
+		$(".tab-nav li:last").addClass('current');
+		$("#tab1,#tab2").attr("class", "tab-pane");
+		$("#tab2").attr("class", "tab-pane in");
+	}
 	$(".tab-nav li").click(function(){
 		var id = $(this).data("tab");
 		$(this).addClass("current");
 		$(this).siblings().removeClass('current');
+		//获取锚点
+		var local = location.hash.split("#", 2)[1];
+		window.location.href = location.hash.split("#", 2)[0] + '#' + id;
 		$("#tab1,#tab2").attr("class", "tab-pane");
 		$("#" + id).attr("class", "tab-pane in");
 	});

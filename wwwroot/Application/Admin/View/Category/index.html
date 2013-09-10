@@ -3,23 +3,24 @@
 <block name="body">
 	<div class="main-title">
 		<h2>TopThink 管理中心</h2>
-		<div class="tools">
-			<a class="btn" href="{:U('edit')}">
-				新增分类
-			</a>
-		</div>
 	</div>
 		
 	<!-- 表格列表 -->
 	<div class="tb-unit posr">
+		<div class="tb-unit-bar">
+			<a class="btn" href="{:U('edit')}">新增分类</a>
+		</div>
 		<div class="category">
 			<div class="hd cf">
-				<div class="opt">操作</div>
 				<div class="fold">折叠</div>
 				<div class="order">排序</div>
 				<div class="name">模块名称</div>
 			</div>
 			{:R('Category/tree', array($tree))}
+		</div>
+		
+		<div class="tb-unit-bar">
+			<a class="btn btn-small" href="{:U('edit')}">新增分类</a>
 		</div>
 	</div>
 	<!-- /表格列表 -->
@@ -29,16 +30,16 @@
 	<script type="text/javascript">
 		(function($){
 			/* 分类展开收起 */
-			$(".category dd").prev().find(".fold i").addClass("icon-minus")
+			$(".category dd").prev().find(".fold i").addClass("icon-unfold")
 				.click(function(){
 					var self = $(this);
-					if(self.hasClass("icon-minus")){
+					if(self.hasClass("icon-unfold")){
 						self.closest("dt").next().slideUp("fast", function(){
-							self.removeClass("icon-minus").addClass("icon-plus");
+							self.removeClass("icon-unfold").addClass("icon-fold");
 						});
 					} else {
 						self.closest("dt").next().slideDown("fast", function(){
-							self.removeClass("icon-plus").addClass("icon-minus");
+							self.removeClass("icon-fold").addClass("icon-unfold");
 						});
 					}
 				});

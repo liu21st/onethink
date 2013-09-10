@@ -168,37 +168,46 @@ function U($url='',$vars='',$suffix=true,$redirect=false,$domain=false) {
                 if($controller = array_search(strtolower($var[C('VAR_CONTROLLER')]),$maps)){
                     $var[C('VAR_CONTROLLER')] = $controller;
                 }
-            }            
+            }
             if(C('URL_CASE_INSENSITIVE')) {
                 $var[C('VAR_CONTROLLER')]   =   parse_name($var[C('VAR_CONTROLLER')]);
             }
-            if(!C('APP_SUB_DOMAIN_DEPLOY')) {
+            $module =   '';
+            if(!defined('BIND_MODULE')) {
                 if(!empty($path)) {
-                    $module                  =   array_pop($path);
-                    $var[C('VAR_MODULE')]    =   $module;
+                    $var[C('VAR_MODULE')]    =   array_pop($path);
                 }else{
                     if(C('MULTI_MODULE')) {
                         $var[C('VAR_MODULE')]=   MODULE_NAME;
                     }
                 }
+                if($maps = C('URL_MODULE_MAP')) {
+                    if($_module = array_search(strtolower($var[C('VAR_MODULE')]),$maps)){
+                        $var[C('VAR_MODULE')] = $_module;
+                    }
+                }
                 if(C('URL_CASE_INSENSITIVE') && isset($var[C('VAR_MODULE')])) {
                     $var[C('VAR_MODULE')]    =  strtolower($var[C('VAR_MODULE')]);
+                }
+                if(isset($var[C('VAR_MODULE')])){
+                    $module =   $var[C('VAR_MODULE')];
+                    unset($var[C('VAR_MODULE')]);
                 }
             }
         }
     }
 
     if(C('URL_MODEL') == 0) { // 普通模式URL转换
-        $url        =   __APP__.'?'.http_build_query(array_reverse($var));
+        $url        =   __APP__.'/'.$module.'?'.http_build_query(array_reverse($var));
         if(!empty($vars)) {
             $vars   =   urldecode(http_build_query($vars));
             $url   .=   '&'.$vars;
         }
     }else{ // PATHINFO模式或者兼容URL模式
         if(isset($route)) {
-            $url    =   __APP__.'/'.rtrim($url,$depr);
+            $url    =   __APP__.'/'.($module?$module.MODULE_PATHINFO_DEPR:'').rtrim($url,$depr);
         }else{
-            $url    =   __APP__.'/'.implode($depr,array_reverse($var));
+            $url    =   __APP__.'/'.($module?$module.MODULE_PATHINFO_DEPR:'').implode($depr,array_reverse($var));
         }
         if(!empty($vars)) { // 添加参数
             foreach ($vars as $var => $val){
@@ -606,7 +615,7 @@ function load_ext_file() {
  * @return mixed
  */
 function get_client_ip($type = 0) {
-	$type       =  $type ? 1 : 0;
+    $type       =  $type ? 1 : 0;
     static $ip  =   NULL;
     if ($ip !== NULL) return $ip[$type];
     if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
