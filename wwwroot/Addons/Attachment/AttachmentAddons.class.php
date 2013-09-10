@@ -7,11 +7,14 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
+namespace Addons\Attachment;
+use Common\Controller\Addons;
+
 /**
  * 附件插件
  * @author 麦当苗儿 <zuojiazi.cn@gmail.com>
  */
-class AttachmentAddons extends Common\Controller\Addons{
+class AttachmentAddons extends Addons{
 
 	public $info = array(
 		'name'        => 'Attachment',
@@ -64,7 +67,7 @@ class AttachmentAddons extends Common\Controller\Addons{
 		}
 
 		/* 模板赋值并渲染模板 */
-		$this->assign('list', $list);
+		$this->assign('list', $list); 
 		$this->display(T('Addons://Attachment@Article/detail'));
 	}
 

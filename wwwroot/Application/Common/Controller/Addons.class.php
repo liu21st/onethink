@@ -92,7 +92,7 @@ namespace Common\Controller;
 
 		final public function getName(){
 			$class = get_class($this);
-			return substr($class, 0, -6);//插件类必须为XXAddons为后缀
+			return substr(basename($class), 0, -6);//插件类必须为XXAddons为后缀
 		}
 
 		final public function checkInfo(){
@@ -109,7 +109,6 @@ namespace Common\Controller;
 		 */
 		final public function getConfig(){
 			$config = D('Addons')->where("name='{$this->getName()}'")->find();
-
 			if($config['config'] && is_string($config['config'])){
 				$config['config'] = json_decode($config['config'], 1);
 			}else{

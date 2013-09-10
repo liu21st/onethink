@@ -49,15 +49,20 @@
 		</article:partlist>
 	</ul>
 	
-	<form action="#" method="post" class="media">
+	<form action="{:U('save')}" method="post" class="media">
 		<div class="media-avatar">
 			<img alt="" src="/Public/Home/images/default.png">
 		</div>
 		<div class="media-body">
 			<label class="textarea">
-				<textarea name="" placeholder="说几句呗..."></textarea>
+				<textarea name="content" placeholder="说几句呗..."></textarea>
 			</label>
 			<div class="submit-box">
+				<input type="hidden" name="model_id" value="1">
+				<input type="hidden" name="category_id" value="0">
+				<input type="hidden" name="pid" value="{$info.id}">
+				<input type="hidden" name="type" value="3">
+				<input type="hidden" name="parse" value="0">
 				<button class="btn">发表</button>
 				<span>支持使用markdown语法</span>
 			</div>
