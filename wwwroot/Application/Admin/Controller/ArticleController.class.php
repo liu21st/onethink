@@ -250,7 +250,11 @@ class ArticleController extends \Admin\Controller\AdminController {
             $map = array('status'=>-1);
         }else{
             $cate_auth = AuthGroupModel::getAuthCategories(is_login());
-            $map = array('status'=>-1,'category_id'=>array('IN',implode(',',$cate_auth)));
+            if($cate_auth){
+                $map = array('status'=>-1,'category_id'=>array('IN',implode(',',$cate_auth)));
+            }else{
+                $map = array( 'status'=>-1,'category_id'=>-1 );
+            }
         }
         $list = D('Document')->where($map)->field('id,title,uid,create_time')->select();
 		//处理列表数据
