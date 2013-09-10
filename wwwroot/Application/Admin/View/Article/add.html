@@ -25,24 +25,23 @@
 				<!-- 基础文档模型 -->
 				<div class="tab-pane in tab1">
 					<div class="form-item cf">
-						<label class="item-label">文档标识：</label>
+						<label class="item-label">文档标识：<span class="check-tips">请输入文档标识</span></label>
 						<div class="controls">
-							<input type="text" class="text" name="name">
-							<span class="check-tips">请输入文档标识</span>
+							<input type="text" class="text input-large" name="name">
 						</div>
 					</div>
 					<div class="form-item cf">
-						<label class="item-label">标题：</label>
+						<label class="item-label">标题：<span class="check-tips">请输入标题</span></label>
 						<div class="controls">
-							<input type="text" class="text" name="title">
-							<span class="check-tips">请输入标题</span>
+							<input type="text" class="text input-large" name="title">
 						</div>
 					</div>
 					<div class="form-item cf">
-						<label class="item-label">简介：</label>
+						<label class="item-label">简介：<span class="check-tips">请输入简介</span></label>
 						<div class="controls">
-							<label class="textarea"><textarea name="description"></textarea></label>
-							<span class="check-tips">请输入简介</span>
+							<label class="textarea">
+								<textarea name="description" class="input-large"></textarea>
+							</label>
 						</div>
 					</div>
 					<div class="form-item cf">
@@ -51,29 +50,25 @@
 							<label class="checkbox"><input type="checkbox" name="position[]" value="1" <if condition="check_document_position($position,1)">checked="checked"</if>>列表推荐</label>
 							<label class="checkbox"><input type="checkbox" name="position[]" value="2" <if condition="check_document_position($position,2)">checked="checked"</if>>频道页推荐</label>
 							<label class="checkbox"><input type="checkbox" name="position[]" value="4" <if condition="check_document_position($position,4)">checked="checked"</if>>首页推荐</label>
-							<span class="check-tips"></span>
 						</div>
 					</div>
 					<div class="form-item cf">
 						<label class="item-label">外链：</label>
 						<div class="controls">
-							<input type="text" class="text" name="link_id" value="0">
-							<span class="check-tips"></span>
+							<input type="text" class="text input-large" name="link_id" value="0">
 						</div>
 					</div>
 					<div class="form-item cf">
-						<label class="item-label">可见性：</label>
+						<label class="item-label">可见性：<span class="check-tips">可见性必选</span></label>
 						<div class="controls">
 							<label class="radio"><input type="radio" name="display" value="0" <eq name="display" value="0">checked="checked"</eq>>不可见</label>
 							<label class="radio"><input type="radio" name="display" value="1" <eq name="display" value="1">checked="checked"</eq>>所有人可见</label>
-							<span class="check-tips">可见性必选</span>
 						</div>
 					</div>
 					<div class="form-item cf">
 						<label class="item-label">截止时间：</label>
 						<div class="controls">
-							<input type="text" class="text" name="dateline" value="0">
-							<span class="check-tips"></span>
+							<input type="text" class="text input-large" name="dateline" value="0">
 						</div>
 					</div>
 				</div>
