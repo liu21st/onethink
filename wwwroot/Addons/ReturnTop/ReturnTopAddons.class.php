@@ -7,12 +7,15 @@
 // | Author: yangweijie <yangweijiester@gmail.com> <code-tech.diandian.com>
 // +----------------------------------------------------------------------
 
+namespace Addons\ReturnTop;
+use Common\Controller\Addons;
+
 /**
  * 编辑器插件
  * @author yangweijie <yangweijiester@gmail.com>
  */
 
-	class ReturnTopAddons extends Common\Controller\Addons{
+	class ReturnTopAddons extends Addons{
 
 		public $custom_config = 'config.html';
 

@@ -7,6 +7,9 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
+namespace Addons\Attachment\Controller;
+use Home\Controller\AddonsController; 
+
 class AttachmentController extends AddonsController{
 	
 	/* 附件下载 */
