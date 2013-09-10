@@ -76,6 +76,7 @@ textarea {
 	display: block;
 	text-decoration: none;
 	outline: none;
+	border-bottom: 0 none;
 }
 .fl{
 	float: left!important;

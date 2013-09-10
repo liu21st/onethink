@@ -8,6 +8,7 @@
 .text,.textarea {
 	padding: 4px;
 	border: 1px solid #eeeeee;
+	background-color: #fff;
 	transition: all .3s linear;
 }
 .text {
@@ -48,10 +49,10 @@ select {
 	width: 390px;
 }
 .input-mid {
-	width: 150px
+	width: 150px;
 }
 .input-small {
-	width: 100px
+	width: 100px;
 }
 .input-mini {
 	width: 50px;
