@@ -136,6 +136,9 @@ class UserController extends AdminController {
     {
         $id    = array_unique((array)I('id',0));
         $id    = is_array($id) ? implode(',',$id) : $id;
+        if ( empty($id) ) {
+            $this->error('请选择要操作的数据!');
+        }
         switch ( strtolower($method) ){
             case 'forbiduser':
                 $this->forbid('Member', array('uid'=>array('in',$id)) );    

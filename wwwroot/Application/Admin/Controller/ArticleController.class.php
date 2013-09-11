@@ -213,6 +213,7 @@ class ArticleController extends \Admin\Controller\AdminController {
 		if(!$data){
 			$this->error($Document->getError());
 		}
+        $data['dateline'] = date('Y-m-d',$data['dateline']);
 
 		/* 获取要编辑的模型模板 */
 		$data['template'] = strtolower(get_document_model($data['model_id'], 'name'));

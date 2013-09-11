@@ -419,7 +419,8 @@ body{
     min-width: 100px;
 }
 .thinkbox-default .thinkbox-tools {
-    display:none;
+    border:none!important; 
+    background-color: #fff!important;
 }
 .thinkbox-default .thinkbox-top-left {
     border-radius: 0!important;
@@ -445,8 +446,8 @@ body{
     background-color: #f6f6f6;
 }
 .copyright {
-    height: 40px;
-    line-height: 40px;
+    height: 39px;
+    line-height: 39px;
     text-align: center;
     border-top: 1px solid #ccc;
 }
