@@ -23,6 +23,7 @@ class SystemController extends AdminController {
         array( 'title' => '基本设置', 'url' => 'System/index', 'group' => '系统设置'),
         // array( 'title' => '静态规则设置', 'url' => 'System/index1', 'group' => '系统设置'),
         // array( 'title' => 'SEO优化设置', 'url' => 'System/index2', 'group' => '系统设置'),
+        array( 'title' => '配置管理', 'url' => 'System/config', 'group' => '系统设置'),
         
         /* 导航栏目设置 */
         array( 'title' => '导航管理', 'url' => 'System/channel', 'group' => '导航栏目设置'),
@@ -41,13 +42,24 @@ class SystemController extends AdminController {
 		$this->display();
 	}
 
-    /* 频道管理 */
+    /**
+     * 频道管理
+     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+     */
     public function channel(){
         /* 获取频道列表 */
         $map  = array('status' => 1);
         $list = M('Channel')->where($map)->select();
 
         $this->assign('list', $list);
+        $this->display();
+    }
+
+    /**
+     * 配置管理
+     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+     */
+    public function config(){
         $this->display();
     }
 
