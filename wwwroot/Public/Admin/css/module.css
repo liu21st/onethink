@@ -339,11 +339,15 @@
 }
 
 #top-alert {
-    width: 100%;
+	margin-top: 20px;
+	padding-top: 8px;
+	padding-bottom: 8px;
     top: 50px;
     z-index: 3000;
     display: block;
     overflow: hidden;
+    left: 220px;
+    right: 20px;
 }
 button.close {
     padding: 0;
@@ -364,12 +368,13 @@ button.close {
 }
 
 #top-alert .close{
-    right:8px;
+    right:35px;
     position: fixed;
-    top:50px;
+    top:75px;
 }
 
 .alert-content{
+	margin-left: 14px;
     max-width:600px;
     word-wrap: break-word;
     word-break: break-word;

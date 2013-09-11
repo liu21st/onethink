@@ -37,11 +37,13 @@
         <!-- 用户栏 -->
         <div class="user-bar">
             你好，<strong>{:get_username()}</strong>
+            <a href="{:U('User/updatePassword')}">[修改密码]</a>
+            <a href="{:U('User/updateNickname')}">[修改昵称]</a>
             <a href="{:U('Index/logout')}">[退出]</a>
         </div>
     </div>
     <!-- /头部 -->
-    
+
     <!-- 边栏 -->
     <div class="sidebar">
         <!-- 子导航 -->
@@ -70,7 +72,7 @@
         <!-- /子导航 -->
     </div>
     <!-- /边栏 -->
-    
+
     <!-- 内容区 -->
     <div id="main-content">
         <div id="top-alert" class="fixed alert alert-error" style="display: none;">
@@ -96,6 +98,7 @@
             </notempty>
             <!-- nav -->
             </block>
+
             <block name="body"> </block>
         </div>
         <div class="cont-ft">

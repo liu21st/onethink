@@ -31,8 +31,9 @@
                 'remark'=>'规则说明',
                 'status_text'=>'状态',
                 '操作'=>array(
-                    '禁用'=>array( 'href' => 'User/setStatus?status=0&ids=$id', 'class'=>'ajax-get', 'condition'=>'$status==1',), 
-                    '启用'=>array( 'href' => 'User/setStatus?status=1&ids=$id', 'class'=>'ajax-get', 'condition'=>'$status==0',), 
+                    '禁用'=>array( 'href' => 'User/setStatus?status=0&ids=$id', 'class'=>'ajax-get', 'condition'=>'$status==1',),
+                    '启用'=>array( 'href' => 'User/setStatus?status=1&ids=$id', 'class'=>'ajax-get', 'condition'=>'$status==0',),
+					'编辑'=>array( 'href' => 'User/editAction?id=$id'),
                     '删除'=>array( 'href' => 'User/setStatus?status=-1&ids=$id', 'class'=>'confirm ajax-get' ),
                 ),
             );

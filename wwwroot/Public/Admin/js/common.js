@@ -95,7 +95,7 @@
 	var top_alert = $('#top-alert');
 	top_alert.find('.close').on('click', function () {
 		top_alert.removeClass('block').slideUp(200);
-		content.animate({marginTop:'-=36'},200);
+		content.animate({paddingTop:'-=55'},200);
 	});
 
     window.updateAlert = function (text,c) {
@@ -106,12 +106,12 @@
 			if (top_alert.hasClass('block')) {
 			} else {
 				top_alert.addClass('block').slideDown(200);
-				content.animate({marginTop:'+=36'},200);
+				content.animate({paddingTop:'+=55'},200);
 			}
 		} else {
 			if (top_alert.hasClass('block')) {
 				top_alert.removeClass('block').slideUp(200);
-				content.animate({marginTop:'-=36'},200);
+				content.animate({paddingTop:'-=55'},200);
 			}
 		}
 		if ( c!=false ) {
@@ -119,17 +119,15 @@
 		}
 	};
 
-	(function(){
-		//按钮组
-		$(".btn-group").mouseenter(function(){
-			var userMenu = $(this).children(".dropdown ");
-			userMenu.show();
-			clearTimeout(userMenu.data("timeout"));
-		}).mouseleave(function(){
-			var userMenu = $(this).children(".dropdown");
-			userMenu.data("timeout") && clearTimeout(userMenu.data("timeout"));
-			userMenu.data("timeout", setTimeout(function(){userMenu.hide()}, 100));
-		});
-	})();
+	//按钮组
+	$(".btn-group").mouseenter(function(){
+		var userMenu = $(this).children(".dropdown ");
+		userMenu.show();
+		clearTimeout(userMenu.data("timeout"));
+	}).mouseleave(function(){
+		var userMenu = $(this).children(".dropdown");
+		userMenu.data("timeout") && clearTimeout(userMenu.data("timeout"));
+		userMenu.data("timeout", setTimeout(function(){userMenu.hide()}, 100));
+	});
 });
 
