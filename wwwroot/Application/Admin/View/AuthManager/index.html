@@ -2,11 +2,11 @@
 <block name="body">
 	<!-- 标题栏 -->
 	<div class="main-title">
-		<h2>用户组管理</h2>
+		<h2>权限管理</h2>
 	</div>
 
     <div class="tools auth-botton">
-        <a id="add-group" class="btn edit-group" href="{:U('createGroup')}">新 建</a>
+        <a id="add-group" class="btn" href="{:U('createGroup')}">新 建</a>
         <a url="{:U('changestatus',array('method'=>'resumeGroup'))}" class="btn ajax-post" target-form="ids" >启 用</a>
         <a url="{:U('changestatus',array('method'=>'forbidGroup'))}" class="btn ajax-post" target-form="ids" >禁 用</a>
         <a url="{:U('changestatus',array('method'=>'deleteGroup'))}" class="btn ajax-post confirm" target-form="ids" >删 除</a>
@@ -23,8 +23,6 @@
                 'title'=>array(
                     '_title'  =>'用户组',
                     'tag'    =>'a',
-                    'class'  =>'edit-group',
-                    'data-id'=>'$id',
                     'href'   =>'AuthManager/editgroup?id=$id',
                 ),
                 'description'=>array(
@@ -54,34 +52,6 @@
 </block>
 
 <block name="script">
-<script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
-<script type="text/javascript">
-	$(function(){
-		$(".edit-group").click(function(){
-            var authorUrl,id = $(this).attr('data-id');
-            var title =id?'编辑用户组':'新建用户组'; 
-			var thinkboxOption = {
-				title:title,
-				actions:['close'],
-				drag:true,
-				tools:true
-			}
-            if( this.id=="add-group" ){
-                authorUrl = "{:U('AuthManager/createGroup')}";
-            }else{
-                authorUrl = "{:U('AuthManager/editGroup')}"+'?id='+id;
-            }
-            $.get(authorUrl).success(function(data){
-                if(data.status==0){
-                    updateAlert(data.info);
-                }else{
-                    $.thinkbox(data,thinkboxOption);
-                }
-            });
-            return false;
-		});
-	})
-</script>
 <script type="text/javascript" charset="utf-8">
     //导航高亮
 $('.side-sub-menu').find('a[href="{:U('AuthManager/index')}"]').closest('li').addClass('current');

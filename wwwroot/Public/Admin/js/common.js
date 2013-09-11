@@ -31,16 +31,26 @@
                     if (data.url) {
                         updateAlert(data.info + ' 页面即将自动跳转~','alert-success');
                     }else{
-                        updateAlert(data.info + ' 页面即将自动刷新~','alert-success');
+                        updateAlert(data.info,'alert-success');
                     }
                     setTimeout(function(){
                         if (data.url) {
                             location.href=data.url;
+                        }else if( $(this).hasClass('no-refresh')){
+                            $('#top-alert').find('button').click();
+                        }else{
+                            location.reload();
                         }
-                        location.reload();
                     },1500);
                 }else{
                     updateAlert(data.info);
+                    setTimeout(function(){
+                        if (data.url) {
+                            location.href=data.url;
+                        }else{
+                            $('#top-alert').find('button').click();
+                        }
+                    },1500);
                 }
             });
           
@@ -52,13 +62,15 @@
     $('.ajax-post').click(function(){
         var target,query,form;
         var target_form = $(this).attr('target-form');
-        if ( $(this).hasClass('confirm') ) {
-            if(!confirm('确认要执行该操作吗?')){
-                return false;
-            }
-        }
         if( ($(this).attr('type')=='submit') || (target = $(this).attr('href')) || (target = $(this).attr('url')) ){
             form = $('.'+target_form);
+
+            if ( form.get(0) && $(this).hasClass('confirm') ) {
+                if(!confirm('确认要执行该操作吗?')){
+                    return false;
+                }
+            }
+
             if (form.get(0)==undefined){
                 return false;
             }else if ( form.get(0).nodeName=='FORM' ){
@@ -74,16 +86,26 @@
                     if (data.url) {
                         updateAlert(data.info + ' 页面即将自动跳转~','alert-success');
                     }else{
-                        updateAlert(data.info + ' 页面即将自动刷新~','alert-success');
+                        updateAlert(data.info ,'alert-success');
                     }
                     setTimeout(function(){
                         if (data.url) {
                             location.href=data.url;
+                        }else if( $(this).hasClass('no-refresh')){
+                            $('#top-alert').find('button').click();
+                        }else{
+                            location.reload();
                         }
-                        location.reload();
                     },1500);
                 }else{
                     updateAlert(data.info);
+                    setTimeout(function(){
+                        if (data.url) {
+                            location.href=data.url;
+                        }else{
+                            $('#top-alert').find('button').click();
+                        }
+                    },1500);
                 }
             });
         }
