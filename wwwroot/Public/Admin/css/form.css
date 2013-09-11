@@ -82,12 +82,18 @@ select {
 .input-x {
 	width: 50px;
 }
+.must {
+	margin: 3px;
+	color: #f00;
+	font-style: normal;
+	font-weight: normal;
+	vertical-align: middle;
+}
 
 /* 多行两列表单
 ------------------------------------------ */
 .form-horizontal .form-item {
 	margin-bottom: 5px;
-	/*font-size: 14px;*/
 }
 .form-horizontal .item-label {
 	display: block;
