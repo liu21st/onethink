@@ -47,13 +47,6 @@
 			/* 三级分类删除新增按钮 */
 			$(".category dd dd .add-sub").remove();
 
-			//鼠标悬浮显示操作按钮
-			$(".category .cate-item").find("dt").hover(function(){
-				$(this).find(".opt-btn").show();
-			},function(){
-				$(this).find(".opt-btn").hide();
-			})
-
 			/* 实时更新分类信息 */
 			$(".category")
 				.on("submit", "form", function(){
@@ -76,7 +69,15 @@
 					);
 					return false;
 				})
-				.on("blur", "input", function(){$(this).closest("form").submit()});
+                .on("focus","input",function(){
+                    $(this).data('param',$(this).closest("form").serialize());
+
+                })
+                .on("blur", "input", function(){
+                    if($(this).data('param')!=$(this).closest("form").serialize()){
+                        $(this).closest("form").submit();
+                    }
+                });
 		})(jQuery);
 	</script>
 </block>

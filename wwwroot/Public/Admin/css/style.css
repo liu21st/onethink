@@ -16,14 +16,15 @@ body{
     left: 0;
     z-index: 1000;
     width: 100%;
-    height: 49px;
-    line-height: 49px;
-    background-color: #333;
+    height: 50px;
+    line-height: 50px;
+    background-color: #222;
     overflow: hidden;
+	opacity: 0.90;
 }
 .header .logo {
     float: left;
-    margin-left: 15px;
+    margin-left: 16px;
     width: 184px;
     height: 49px;
     background: url(../images/logo.png) no-repeat 10px center;
@@ -35,15 +36,15 @@ body{
 }
 .main-nav li {
     float: left;
-    width: 90px;
+    width: 82px;
 }
 .main-nav a {
     display: block;
-    height: 49px;
-    line-height: 49px;
-    font-size: 20px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 16px;
     color: #FFF;
-    text-align: center;
+    text-align: center; font-weight: bold;
 }
 .main-nav a:hover {
     text-decoration: none;
@@ -53,7 +54,7 @@ body{
     background-color: #656565;
 }
 .main-nav .current a {
-    background-color: #656565;
+    background-color: #86db00;
 }
 
 /* 用户 */
@@ -76,8 +77,7 @@ body{
     padding-top: 30px;
     width: 200px;
     height: 100%;
-    border-right: 1px solid #ccc;
-    background-color: #f0f0f0;
+	background: #6b6b6b url("/Public/Admin/images/bg/bg.png");
 }
 .subnav {
     padding: 0 0 66px 15px;
@@ -89,9 +89,13 @@ body{
     height: 35px;
     line-height: 35px;
     font-size: 14px;
-    font-weight: 400;
-    color: #666;
+    /*font-weight: 400;*/
+    color: #ffffff;
     cursor: pointer;
+}
+.subnav h3 a {
+	color:#fff;
+	text-decoration: none;
 }
 .subnav h3 a:hover {
     text-decoration: none;
@@ -124,22 +128,28 @@ body{
     line-height:20px;
     padding-left: 26px;
     display:block;
-    color: #2a72c5;
+    color: #f1f1f1;
     text-decoration: none;
     border-bottom: 1px solid transparent;
 }
-.side-sub-menu > li > .item:hover, 
+.side-sub-menu > li > .item:hover{
+	color: #ffffff;
+	text-decoration: none;
+	background: #7c7c7c;
+	margin-right:1px;
+	/*border-radius: 3px 0 0 3px;*/
+}
 .side-sub-menu > .current > .item,
 .side-sub-menu > .hover > .item {
-    color: #666666;
+    color: #414141;
     text-decoration: none;
-    background:#ffffff;
-    border-bottom: 1px solid #ccc;
-    border-radius: 3px 0 0 3px;
+    /*background:#ffffff;*/
+	/*border-radius: 3px 0 0 3px;*/
 }
 .side-sub-menu > .current > .item,
 .side-sub-menu > .current > .item:hover {
-    background: url(../images/subnav_current.png) no-repeat 165px 12px #FFF;
+	color: #414141;
+    background: url(../images/subnav_current.png) no-repeat 165px 12px #f6f6f6;
 }
 
 /* windows开始菜单式子菜单 */
@@ -185,7 +195,8 @@ body{
 /* 后台内页模块样式
 ------------------------------------------------- */
 .main {
-    padding: 0 20px;
+    padding:20px;
+	background-color: #f6f6f6;
 }
 .main-title {
     padding: 10px 0;
@@ -425,7 +436,7 @@ body{
     line-height: 30px;
     font-weight: bold;
     border-bottom: 1px solid #ebebeb;
-    background-color: #f5f5f5;
+    background-color: #ECECEC;
 }
 .checkmod dd {
     padding-left: 10px;
@@ -436,4 +447,29 @@ body{
 }
 .checkmod dd .divsion {
     margin-right: 20px;
+}
+
+.thinkbox-content{
+    padding: 15px;
+    min-width: 100px;
+}
+.thinkbox-default .thinkbox-tools {
+    display:none;
+}
+.thinkbox-default .thinkbox-top-left {
+    border-radius: 0!important;
+}
+.thinkbox-default .thinkbox-top-right {
+    border-radius: 0!important;
+}
+.thinkbox-default .thinkbox-bottom-left {
+    border-radius: 0!important;
+}
+.thinkbox-default .thinkbox-bottom-right {
+    border-radius: 0!important;
+}
+.thinkbox-default .thinkbox-window-actions button {
+    margin-right: 6px!important;
+    /* background-image:none!important; */
+    /* background-color:#dd0000!important; */
 }

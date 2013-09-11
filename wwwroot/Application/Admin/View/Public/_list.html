@@ -1,25 +1,37 @@
 <notempty name="_thead">
-<php> $operator=array(); </php>
+<php> $operator=array(); $i=1;</php>
 <table class="{$_table_class|default=""}">
     <thead>
         <tr>
-        <foreach name="_thead" item="th" key="key">
-        <th>
-            <if condition="!is_array($th)">
-                {$th}
-            <elseif condition="strpos($key,'_')===0" />
-                {$th.th}
-            <elseif condition="isset($th['_title'])" />
-                {$th._title}
-                <if condition="!isset($th['tag'])">
-                <php>$_thead[$key]['tag'] = 'a';</php>
-                </if>
-            <else />
-                {$key}
-                <php>$operator[$key]=$th;</php>
-            </if>
-        </th>   
-        </foreach>
+<?php
+$i=1;
+foreach ($_thead as $key => $th){
+    if ( $i==1 ) {
+        $class = ' class="row-selected"'; 
+    }else{
+        $class='';
+    }
+    echo "<th $class>";
+
+    if ( !is_array($th) ) {
+        echo "$th";
+    }else if( strpos($key,'_')===0 ){
+        echo $th['th'];
+    }else if( isset($th['_title'] )){
+        echo $th['_title'];
+        if ( !isset($th['tag']) ) {
+            $_thead[$key]['tag'] = 'a';
+        }
+    }else{
+        echo $key;
+        $operator[$key]=$th;
+    }
+
+    echo '</th>';
+    $i++;
+}
+
+?>
         </tr>
     </thead>
     <notempty name="_list">
@@ -141,6 +153,10 @@
         </tr>
         </foreach>
     </tbody>
+    <else/>
+    <tbody>
+        <td colspan="{:count($_thead)}" class="text-center"> aOh! 暂时还没有内容! </td>
+    </tbody>
     </notempty>
 </table>
 </notempty>
@@ -149,7 +165,6 @@
 <link rel="stylesheet" type="text/css" href="/Public/static/qtip/jquery.qtip.min.css" media="all">
 <script type="text/javascript">
 $('td').children().each(function(){
-console.log($(this).html());
             $(this).qtip({
                 content: {
                     text: $(this).attr('title'),

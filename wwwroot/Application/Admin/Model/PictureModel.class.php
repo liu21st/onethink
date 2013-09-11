@@ -45,7 +45,7 @@ class PictureModel extends CmsadminModel{
 				}
 
 				/* 记录文件信息 */
-				$value['path'] = $setting['rootPath'].$value['savepath'].$value['savename'];
+				$value['path'] = substr($setting['rootPath'], 1).$value['savepath'].$value['savename'];	//在模板里的url路径
 				if($this->create($value) && ($id = $this->add())){
 					$value['id'] = $id;
 				} else {

@@ -1,9 +1,4 @@
-<extend name="Public/base" />
-
-<block name="body">
-	<div class="main-title cf">
-		<h2>新增模型</h2>
-	</div>
+<div class="thinkbox-content">
 	<!-- 表单 -->
 	<form id="form" action="{:U('update')}" method="post" class="form-horizontal doc-modal-form">
 		<div class="form-item cf">
@@ -23,16 +18,34 @@
 		<div class="form-item cf">
 			<label class="item-label"></label>
 			<div class="controls">
-				<button class="btn" id="submit">确定</button>
+				<button type="submit" class="btn ajax-post" target-form="form-horizontal" id="submit">确定</button>
 			</div>
 		</div>
 	</form>
-</block>
-
-<block name="script">
+</div>
 <script type="text/javascript">
-$('#submit').click(function(){
-	$('#form').submit();
+//ajax post submit请求
+$('.ajax-post').click(function(){
+    var target,query,form;
+    var target_form = $(this).attr('target-form');
+    if( (this.type=='submit') || (target = $(this).attr('href')) || (target = $(this).attr('url')) ){
+        form = $('.'+target_form);
+        if ( form.get(0).nodeName=='FORM' ){
+            target = form.get(0).action;
+            query = form.serialize();
+        }else if( form.get(0).nodeName=='INPUT' || form.get(0).nodeName=='SELECT' || form.get(0).nodeName=='TEXTAREA') {
+            query = form.serialize();
+        }else{
+            query = form.find('input,select,textarea').serialize();
+        }
+        $.post(target,query).success(function(data){
+            if (data.status==1) {
+                location.reload();
+            }else{
+                //TODO: 错误提示
+            }
+        });
+    }
+    return false;
 });
 </script>
-</block>

@@ -79,6 +79,14 @@
 					<span class="check-tips"></span>
 				</div>
 			</div>
+			<div class="form-item cf">
+				<label class="item-label">封面图片：</label>
+				<div class="controls">
+					<input type="file" id="upload_picture">
+					<input type="hidden" id="cover_id" name="cover_id" value="{$cover_id}"/>
+					<span class="check-tips"><img src="{$cover_id|get_cover='path'}"/></span>
+				</div>
+			</div>
 		</div>
 
 		<div id="tab2" class="tab-pane">
@@ -89,7 +97,7 @@
 		<div class="form-item cf">
 			<label class="item-label"></label>
 			<div class="controls">
-				<a class="btn submit-btn" id="submit" href="javascript:;">确定</a>
+				<button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal" href="javascript:;">确定</button>
 				<a class="btn btn-xlarge btn-return" href="{:U('article/index?cate_id='.$cate_id)}">返回</a>
 				<input type="hidden" name="id" value="{$id}"/>
 				<input type="hidden" name="model_id" value="{$model_id}"/>
@@ -109,6 +117,7 @@ $('#submit').click(function(){
 });
 
 (function($){
+	//上传附件
 	/* 初始化上传插件 */
 	$("#download-file").uploadify({
         "height"          : 30,
@@ -125,6 +134,26 @@ $('#submit').click(function(){
         if(data.status){
         	$("input[name=file]").val(data.data);
         	$("input[name=file]").parent().find('.check-tips').text(data.info);
+        } else {
+        	alert(data.info);
+        }
+    }
+
+  //上传图片
+    /* 初始化上传插件 */
+	$("#upload_picture").uploadify({
+        "height"          : 30,
+        "swf"             : "__STATIC__/uploadify/uploadify.swf",
+        "fileObjName"     : "download",
+        "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+        "width"           : 120,
+        "onUploadSuccess" : uploadPicture
+    });
+	function uploadPicture(file, data){
+    	var data = $.parseJSON(data);
+        if(data.status){
+        	$("#cover_id").val(data.id);
+        	$("#cover_id").parent().find('.check-tips').html('<img src="' + data.path + '"/>');
         } else {
         	alert(data.info);
         }

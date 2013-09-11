@@ -3,19 +3,19 @@
 <block name="body">
 	<div class="main-title">
 		<h2>频道管理</h2>
-	</div>
-	
-	<div class="toolbar">
-		<label class="checkbox"><input type="checkbox">全选</label>
-		<a class="btn" href="javascript:;">删除频道</a>
-		<a class="btn"href="javascript:;">添加频道</a>
+		<div class="tools">
+			<a class="btn" href="javascript:;">删除频道</a>
+			<a class="btn" href="javascript:;">添加频道</a>
+		</div>
 	</div>
 
 	<div class="data-table table-striped">
 		<table>
 			<thead>
 				<tr>
-					<th class="row-selected"></th>
+					<th class="row-selected">
+						<input class="checkbox check-all" type="checkbox">
+					</th>
 					<th>ID</th>
 					<th>频道名称</th>
 					<th>频道类型</th>
@@ -26,18 +26,14 @@
 			<tbody>
 				<volist name="list" id="channel">
 					<tr>
-						<td class="row-selected"> <input type="checkbox" name="" id=""> </td>
+						<td><input class="ids row-selected" type="checkbox" name="" id=""> </td>
 						<td>1</td>
 						<td><a href="javascript:;">{$channel.title}</a></td>
 						<td>系统频道</td>
 						<td><a href="#">{$channel.url}</a></td>
 						<td>
-							<div class="btn-toolbar">
-								<div class="btn-group">
 									<a title="编辑" href="#">编辑</a>
 									<a title="删除" href="#">删除</a>
-								</div>
-							</div>
 						</td>
 					</tr>
 				</volist>
@@ -45,12 +41,6 @@
 		</table>
 	</div>
 
-	<div class="toolbar">
-		<label class="checkbox"><input type="checkbox">全选</label>
-		<a class="btn" href="javascript:;">删除频道</a>
-		<a class="btn"href="javascript:;">添加频道</a>
-	</div>
-		
 	<!-- 编辑及新建频道弹出框 -->
 	<form action="#" method="post" class="form-horizontal add-pop-form">
 		<div class="form-item">

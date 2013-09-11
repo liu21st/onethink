@@ -2,6 +2,11 @@
 	<dl class="cate-item">
 		<dt class="cf">
 			<form action="{:U('edit')}" method="post">
+				<div class="btn-toolbar opt-btn cf">
+					<a title="添加子分类" href="{:U('edit?pid='.$list['id'])}"> 添加子分类 </a>
+					<a title="查看" href="{:U('edit?id='.$list['id'])}"> 查看 </a>
+					<a title="删除" href="javascript:;"> 删除 </a>
+				</div>
 				<div class="fold"><i></i></div>
 				<div class="order"><input type="text" name="sort" class="text input-mini" value="{$list.sort}"></div>
 				<div class="name">
@@ -9,11 +14,6 @@
 					<input type="hidden" name="id" value="{$list.id}">
 					<input type="text" name="title" class="text" value="{$list.title}">
 					<span class="help-inline msg"></span>
-				</div>
-				<div class="btn-toolbar opt-btn cf">
-					<a class="btn btn-mini" title="添加子分类" href="{:U('edit?pid='.$list['id'])}">新增</a>
-					<a class="btn btn-mini" title="查看" href="{:U('edit?id='.$list['id'])}">查看</a>
-					<a class="btn btn-mini" title="删除" href="javascript:;">删除</a>
 				</div>
 			</form>
 		</dt>

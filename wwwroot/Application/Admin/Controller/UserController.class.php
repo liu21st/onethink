@@ -24,10 +24,13 @@ class UserController extends AdminController {
         array( 'title' => '用户行为', 'url' => 'User/action', 'group' => '用户管理',
         		'operator'=>array(
         				//权限管理页面的五种按钮
-        				array('title'=>'新增','url'=>'user/addAction'),
-        				array('title'=>'编辑','url'=>'user/editAction'),
-        				array('title'=>'改变状态','url'=>'user/setStatus'),
-        				array('title'=>'保存数据','url'=>'user/saveAction'),
+        				array('title'=>'新增用户行为','url'=>'user/addAction','tip'=>'"用户->用户行为"中的新增'),
+        				array('title'=>'编辑用户行为','url'=>'user/editAction','tip'=>'"用户->用户行为"点击标题进行编辑'),
+        				array('title'=>'保存用户行为','url'=>'user/saveAction','tip'=>'"用户->用户行为"保存编辑和新增的用户行为'),
+        				array('title'=>'变更行为状态','url'=>'user/setStatus','tip'=>'"用户->用户行为"中的启用,禁用和删除权限'),
+        				array('title'=>'禁用会员','url'=>'user/changeStatus?method=forbidUser','tip'=>'"用户->用户信息"中的禁用'),
+        				array('title'=>'启用会员','url'=>'user/changeStatus?method=resumeUser','tip'=>'"用户->用户信息"中的启用'),
+        				array('title'=>'删除会员','url'=>'user/changeStatus?method=deleteUser','tip'=>'"用户->用户信息"中的删除'),
         		),
     	),
     );
@@ -37,9 +40,11 @@ class UserController extends AdminController {
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function index(){
-		$list = D("Member")->lists();
+		$Member = D("Member")->field(true)->where(array('status'=>array('egt',0)))->order('uid DESC');
+        $list   = $this->lists($Member);
         intToString($list);
 		$this->assign('_list', $list);
+		$this->meta_title = '用户-用户信息';
 		$this->display();
 	}
 
@@ -49,9 +54,11 @@ class UserController extends AdminController {
 	 */
 	public function action(){
 		//获取列表数据
-		$list = M('Action')->where(array('status'=>array('gt',-1)))->select();
-
-		$this->assign('list', $list);
+		$Action = M('Action')->where(array('status'=>array('gt',-1)));
+        $list   = $this->lists($Action);
+        intToString($list);
+		$this->assign('_list', $list);
+		$this->meta_title = '用户-用户行为';
 		$this->display();
 	}
 
