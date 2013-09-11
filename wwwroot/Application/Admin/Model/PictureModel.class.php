@@ -13,7 +13,7 @@ use COM\Upload;
  * 负责图片的上传
  */
 
-class PictureModel extends CmsadminModel{
+class PictureModel extends Model{
 	/**
 	 * 自动完成
 	 * @var array

@@ -14,7 +14,7 @@ use COM\Upload;
  * 负责文件的下载和上传
  */
 
-class FileModel extends CmsadminModel{
+class FileModel extends Model{
 	/**
 	 * 文件模型自动完成
 	 * @var array

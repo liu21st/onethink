@@ -12,7 +12,7 @@ namespace Admin\Model;
  * @author huajie <banhuajie@163.com>
  */
 
-class ActionModel extends CmsadminModel {
+class ActionModel extends Model {
 
 	/* 自动验证规则 */
 	protected $_validate = array(

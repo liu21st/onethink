@@ -13,7 +13,7 @@ use Think\Model;
  * Class AuthGroupModel 
  * @author 朱亚杰 <zhuyajie@topthink.net>
  */
-class AuthGroupModel extends CmsadminModel {
+class AuthGroupModel extends Model {
     const TYPE_ADMIN           = 1;                    //管理员用户组类型标识
     const MEMBER               = 'member';
     const UCENTER_MEMBER       = 'ucenter_member';
