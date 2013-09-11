@@ -32,10 +32,6 @@
                         updateAlert(data.info + ' 页面即将自动跳转~','alert-success');
                     }else{
                         updateAlert(data.info,'alert-success');
-                        setTimeout(function(){
-                            $('#top-alert').find('button').click();
-
-                        },1500);
                     }
                     setTimeout(function(){
                         if (data.url) {
