@@ -7,7 +7,7 @@
 // | Author: yangweijie <yangweijiester@gmail.com> <code-tech.diandian.com>
 // +----------------------------------------------------------------------
 
-namespace Addons\Editor;
+namespace Addons\EditorForAdmin;
 use Common\Controller\Addons;
 
 /**
@@ -15,16 +15,16 @@ use Common\Controller\Addons;
  * @author yangweijie <yangweijiester@gmail.com>
  */
 
-	class EditorAddons extends Addons{
+	class EditorForAdminAddons extends Addons{
 
 		public $info = array(
-				'name'=>'Editor',
-				'title'=>'前台编辑器',
-				'description'=>'用于增强整站长文本的输入和显示',
-				'status'=>1,
-				'author'=>'thinkphp',
-				'version'=>'0.1'
-			);
+			'name'=>'EditorForAdmin',
+			'title'=>'后台编辑器',
+			'description'=>'用于增强整站长文本的输入和显示',
+			'status'=>1,
+			'author'=>'thinkphp',
+			'version'=>'0.1'
+		);
 
 		public function install(){
 			return true;
@@ -35,13 +35,12 @@ use Common\Controller\Addons;
 		}
 
 		/**
-		 * 编辑器挂载的文章内容钩子
+		 * 编辑器挂载的后台文档模型文章内容钩子
 		 * @param array('name'=>'表单name','value'=>'表单对应的值')
 		 */
-		public function documentEditFormContent($data){
+		public function adminArticleEdit($data){
 			$this->assign('data', $data);
 			$this->assign('config', $this->getConfig());
 			$this->display('content');
 		}
-
 	}
