@@ -20,10 +20,7 @@ class SystemController extends AdminController {
      */
     static protected $nodes = array(
     	/* 系统设置 */
-        array( 'title' => '基本设置', 'url' => 'System/index', 'group' => '系统设置'),
-        // array( 'title' => '静态规则设置', 'url' => 'System/index1', 'group' => '系统设置'),
-        // array( 'title' => 'SEO优化设置', 'url' => 'System/index2', 'group' => '系统设置'),
-        array( 'title' => '配置管理', 'url' => 'System/config', 'group' => '系统设置'),
+        
         
         /* 导航栏目设置 */
         array( 'title' => '导航管理', 'url' => 'System/channel', 'group' => '导航栏目设置'),
@@ -34,13 +31,7 @@ class SystemController extends AdminController {
         // array( 'title' => '系统日志', 'url' => 'System/index7', 'group' => '其他设置'),
     );
 	
-	/**
-	 * 系统管理首页
-	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
-	 */
-	public function index(){
-		$this->display();
-	}
+	
 
     /**
      * 频道管理
@@ -53,56 +44,6 @@ class SystemController extends AdminController {
 
         $this->assign('list', $list);
         $this->display();
-    }
-
-    /**
-     * 配置管理
-     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
-     */
-    public function config(){
-        $list = D('Config')->where($map)->select();
-        $this->assign('list', $list);
-        $this->display();
-    }
-
-    /**
-     * 编辑配置
-     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
-     */
-    public function configEdit($id = 0){
-        if(IS_POST){
-            $Config = D('Config');
-            $data = $Config->create();
-            if($data){
-                if($data['id']){
-                    $status = $Config->save();
-                } else {
-                    $status = $Config->add(); 
-                }
-
-                if($status){
-                    $this->success('操作成功');
-                } else {
-                    $this->error('操作失败');
-                }
-
-            } else {
-                $this->error($Config->getError());
-            }
-        } else {
-            $info = array();
-            if($id){
-                /* 获取数据 */
-                $info = D('Config')->find($id);
-
-                if(false === $info){
-                    $this->error('获取配置信息错误');
-                }
-            }
-            
-            $this->assign('info', $info);
-            $this->display();
-        }
     }
 
 }

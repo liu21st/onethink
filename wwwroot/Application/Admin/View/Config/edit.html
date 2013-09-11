@@ -26,10 +26,11 @@
 		<div class="form-item">
 			<label class="item-label">说明<span class="check-tips">（配置详细说明）</span></label>
 			<div class="controls">
-				<label class="textarea"><textarea name="remark">{$info.remark|default=''}</textarea></label>
+				<input type="text" class="text" name="remark" value="{$info.remark|default=''}">
 			</div>
 		</div>
 		<div class="form-item">
+			<input type="hidden" name="id" value="{$info.id|default=''}">
 			<button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确定</button>
 			<a class="btn btn-xlarge btn-return" href="#">返回</a>
 		</div>
