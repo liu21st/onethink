@@ -125,8 +125,8 @@
     function uploadSuccess(file, data){
     	var data = $.parseJSON(data);
         if(data.status){
-        	$("#cover_id").val(data.id);
-        	$("#upload_picture").parent().find('.check-tips').html('<img src="' + data.path + '"/>');
+        	$("input[name=file]").val(data.data);
+        	$("input[name=file]").parent().find('.check-tips').text(data.info);
         } else {
         	alert(data.info);
         }
