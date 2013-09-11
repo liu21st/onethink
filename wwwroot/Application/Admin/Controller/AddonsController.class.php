@@ -59,7 +59,6 @@ class AddonsController extends AdminController {
     public function preview($output = true){
         $data = $_POST;
         $data['info']['status'] = (int)$data['info']['status'];
-        // exit(var_export($data,1));
         $extend = array();
         $custom_config = trim($data['custom_config']);
         if($data['has_config'] && $custom_config){
@@ -96,12 +95,16 @@ str;
         $extend = implode('', $extend);
         $tpl = <<<str
 <?php
+
+namespace Addons\\{$data['info']['name']};
+use Common\Controller\Addons;
+
 /**
  * {$data['info']['title']}插件
  * @author {$data['info']['author']}
  */
 
-    class {$data['info']['name']}Addons extends Common\Controller\Addons{
+    class {$data['info']['name']}Addons extends Addons{
 
         public \$info = array(
             'name'=>'{$data['info']['name']}',
@@ -187,6 +190,36 @@ str;
 
         //写文件
         file_put_contents("{$addon_dir}{$addon_name}", $addonFile);
+        if($data['has_outurl']){
+            $addonController = <<<str
+<?php
+
+namespace Addons\\{$data['info']['name']}\Controller;
+use Home\Controller\AddonsController;
+
+class {$data['info']['name']}Controller extends AddonsController{
+
+}
+
+str;
+            file_put_contents("{$addon_dir}Controller/{$data['info']['name']}Controller.class.php", $addonController);
+            $addonModel = <<<str
+<?php
+
+namespace Addons\\{$data['info']['name']}\Model;
+use Think\Model;
+
+/**
+ * 分类模型
+ */
+class {$data['info']['name']}Model extends Model{
+
+}
+
+str;
+            file_put_contents("{$addon_dir}Model/{$data['info']['name']}Model.class.php", $addonModel);
+        }
+
         if($data['has_config'] == 1)
             file_put_contents("{$addon_dir}config.php", $data['config']);
 
