@@ -510,7 +510,7 @@ class AdminController extends Action {
      * @return array|false
      * 返回数据集
      */
-    protected function lists ($model,$where=array(),$order='')
+    protected function lists ($model,$where=array(),$order='',$base = array('status'=>array('egt',0)))
     {
         $options = array();
         $REQUEST = (array)I('request.');
@@ -522,16 +522,18 @@ class AdminController extends Action {
         $OPT->setAccessible(true);
 
         $pk = $model->getPk();
-        if ( isset($REQUEST['_order']) && isset($REQUEST['_field']) && in_array(strtolower($REQUEST['_order']),array('desc','asc')) ) {
+        if($order===null){
+            //order置空
+        }else if ( isset($REQUEST['_order']) && isset($REQUEST['_field']) && in_array(strtolower($REQUEST['_order']),array('desc','asc')) ) {
             $options['order'] = '`'.$REQUEST['_field'].'` '.$REQUEST['_order'];
-        }elseif( empty($order) && empty($options['order']) && !empty($pk) ){
+        }elseif( $order==='' && empty($options['order']) && !empty($pk) ){
             $options['order'] = $pk.' desc';
         }elseif($order){
             $options['order'] = $order;
         }
         unset($REQUEST['_order'],$REQUEST['_field']);
 
-        $options['where'] = array_filter(array_merge( array('status'=>array('egt',0)), $REQUEST,  $where ),function($val){
+        $options['where'] = array_filter(array_merge( $base, $REQUEST,  $where ),function($val){
             if($val===''||$val===null){
                 return false;
             }else{
@@ -539,7 +541,6 @@ class AdminController extends Action {
             }
         });
         $options          = array_merge( (array)$OPT->getValue($model), $options );
-
 		$total = $model->where($options['where'])->count();
 
         if( isset($REQUEST['r']) ){
