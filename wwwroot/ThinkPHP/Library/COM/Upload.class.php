@@ -9,8 +9,8 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
-namespace COM\ThinkUpload;
-class ThinkUpload{
+namespace COM;
+class Upload{
 	/**
 	 * 默认上传配置
 	 * @var array
@@ -54,11 +54,6 @@ class ThinkUpload{
         /* 设置上传驱动 */
     	$driver = ucfirst(strtolower($driver));
     	$this->setDriver($driver, $driverConfig);
-
-        /* 检测上传根目录 */
-        if(!$this->uploader->checkRootPath()){
-            throw new \Think\Exception($this->uploader->getError());
-        }
 
         /* 调整配置，把字符串配置参数转换为数组 */
         if(!empty($this->mimes)){
@@ -109,6 +104,12 @@ class ThinkUpload{
     public function upload($files) {
         if(empty($files)){
             $this->error = '没有上传的文件！';
+            return false;
+        }
+
+        /* 检测上传根目录 */
+        if(!$this->uploader->checkRootPath()){
+            $this->error = $this->uploader->getError();
             return false;
         }
 
@@ -188,12 +189,9 @@ class ThinkUpload{
      * @param string $name 驱动名称
      */
     private function setDriver($name, $config){
-        $file = dirname(__FILE__) . "/Driver/{$name}Upload.class.php";
-        if(is_file($file)){
-            require_once($file);
-            $class = 'COM\\ThinkUpload\\Driver\\'."{$name}Upload";
-            $this->uploader = new $class($this->rootPath, $config);
-        } else {
+        $class = 'COM\\Upload\\Driver\\'."{$name}";
+        $this->uploader = new $class($this->rootPath, $config);
+        if(!$this->uploader){
             throw new \Think\Exception("不存在上传驱动：{$name}");
         }
     }

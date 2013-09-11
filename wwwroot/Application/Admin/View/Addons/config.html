@@ -8,7 +8,12 @@
 		<empty name="custom_config">
 			<foreach name="data['config']" item="form" key="o_key">
 				<div class="form-item cf">
-					<label class="item-label">{$form.title}</label>
+					<label class="item-label">
+						{$form.title}
+						<notempety name="form.tip">
+							<span class="check-tips">{$form.tip}</span>
+						</notempety>
+					</label>
 					<div class="controls">
 						<switch name="form.type">
 							<case value="text">
@@ -47,9 +52,7 @@
 								</label>
 							</case>
 						</switch>
-						<notempety name="form.tip">
-							<span class="check-tips">{$form.tip}</span>
-						</notempety>
+						
 					</div>
 				</div>
 			</foreach>
@@ -67,4 +70,9 @@
 	</form>
 </block>
 
-<block name="script"></block>
+<block name="script">
+<script type="text/javascript" charset="utf-8">
+    //导航高亮
+    $('.side-sub-menu').find('a[href="{:U('Addons/index')}"]').closest('li').addClass('current');
+</script>
+</block>

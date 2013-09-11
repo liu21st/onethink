@@ -48,7 +48,7 @@
             echo $_table_list = $__controller__->tableList($_list,$thead);
         ?>
 	</div>
-    <div class="page-box">
+    <div class="page">
         {$_page}
     </div>
 </block>
@@ -81,5 +81,9 @@
             return false;
 		});
 	})
+</script>
+<script type="text/javascript" charset="utf-8">
+    //导航高亮
+$('.side-sub-menu').find('a[href="{:U('AuthManager/index')}"]').closest('li').addClass('current');
 </script>
 </block>

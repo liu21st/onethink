@@ -43,8 +43,8 @@ class FileModel extends Model{
 	public function upload($files, $setting, $driver = 'Local', $config = null){
 		/* 上传文件 */
 		$setting['callback'] = array($this, 'isFile');
-		$ThinkUpload = new \COM\ThinkUpload\ThinkUpload($setting, $driver, $config);
-		$info   = $ThinkUpload->upload($files);
+		$Upload = new \COM\Upload($setting, $driver, $config);
+		$info   = $Upload->upload($files);
 
 		/* 设置文件保存位置 */
 		$this->_auto[] = array('location', 'Ftp' === $driver ? 1 : 0, self::MODEL_INSERT);
@@ -66,7 +66,7 @@ class FileModel extends Model{
 			}
 			return $info; //文件上传成功
 		} else {
-			$this->error = $ThinkUpload->getError();
+			$this->error = $Upload->getError();
 			return false;
 		}
 	}

@@ -9,8 +9,8 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
-namespace COM\ThinkUpload\Driver;
-class LocalUpload{
+namespace COM\Upload\Driver;
+class Ftp{
     /**
      * 上传文件根目录
      * @var string
@@ -24,11 +24,35 @@ class LocalUpload{
     private $error = ''; //上传错误信息
 
     /**
-     * 构造函数，用于设置上传根路径
-     * @param string $root 根目录
+     * FTP连接
+     * @var resource
      */
-	public function __construct($root, $config = null){
-        $this->rootPath = $root;
+    private $link;
+
+    private $config = array(
+        'host'     => '', //服务器
+        'port'     => 21, //端口
+        'timeout'  => 90, //超时时间
+        'username' => '', //用户名
+        'password' => '', //密码
+    );
+
+    /**
+     * 构造函数，用于设置上传根路径
+     * @param string $root   根目录
+     * @param array  $config FTP配置
+     */
+	public function __construct($root, $config){
+        /* 默认FTP配置 */
+        $this->config = array_merge($this->config, $config);
+
+        /* 登录FTP服务器 */
+        if(!$this->login()){
+            throw new Exception($this->error);
+        }
+        
+        /* 设置根目录 */
+        $this->rootPath = ftp_pwd($this->link) . '/' . ltrim($root, '/');
 	}
 
     /**
@@ -36,7 +60,7 @@ class LocalUpload{
      * @return boolean true-检测通过，false-检测失败
      */
     public function checkRootPath(){
-        if(!(is_dir($this->rootPath) && is_writable($this->rootPath))){
+        if(!@ftp_chdir($this->link, $this->rootPath)){
             $this->error = '上传根目录不存在！';
             return false;
         }
@@ -53,13 +77,8 @@ class LocalUpload{
     	if (!$this->mkdir($savepath)) {
     		return false;
     	} else {
-            /* 检测目录是否可写 */
-    		if (!is_writable($this->rootPath . $savepath)) {
-    			$this->error = '上传目录 ' . $savepath . ' 不可写！';
-    			return false;
-    		} else {
-                return true;
-            }
+            //TODO:检测目录是否可写
+    		return true;
     	}
     }
 
@@ -73,13 +92,13 @@ class LocalUpload{
         $filename = $this->rootPath . $file['savepath'] . $file['savename'];
 
         /* 不覆盖同名文件 */ 
-        if (!$replace && is_file($filename)) {
-            $this->error = '存在同名文件' . $file['savename'];
-            return false;
-        }
+        // if (!$replace && is_file($filename)) {
+        //     $this->error = '存在同名文件' . $file['savename'];
+        //     return false;
+        // }
 
         /* 移动文件 */
-        if (!move_uploaded_file($file['tmp_name'], $filename)) {
+        if (!ftp_put($this->link, $filename, $file['tmp_name'], FTP_BINARY)) {
             $this->error = '文件上传保存错误！';
             return false;
         }
@@ -94,11 +113,13 @@ class LocalUpload{
      */
     public function mkdir($savepath){
         $dir = $this->rootPath . $savepath;
-        if(is_dir($dir)){
+        if(ftp_chdir($this->link, $dir)){
             return true;
         }
 
-        if(mkdir($dir, 0777, true)){
+        if(ftp_mkdir($this->link, $dir)){
+            return true;
+        } elseif($this->mkdir(dirname($savepath)) && ftp_mkdir($this->link, $dir)) {
             return true;
         } else {
             $this->error = "目录 {$savepath} 创建失败！";
@@ -112,6 +133,32 @@ class LocalUpload{
      */
     public function getError(){
         return $this->error;
+    }
+
+    /**
+     * 登录到FTP服务器
+     * @return boolean true-登录成功，false-登录失败
+     */
+    private function login(){
+        extract($this->config);
+        $this->link = ftp_connect($host, $port, $timeout);
+        if($this->link) {
+            if (ftp_login($this->link, $username, $password)) {
+               return true;
+            } else {
+                $this->error = "无法登录到FTP服务器：username - {$username}";
+            }
+        } else {
+            $this->error = "无法连接到FTP服务器：{$host}";
+        }
+        return false;
+    }
+
+    /**
+     * 析构方法，用于断开当前FTP连接
+     */
+    public function __destruct() {
+        ftp_close($this->link);
     }
 
 }

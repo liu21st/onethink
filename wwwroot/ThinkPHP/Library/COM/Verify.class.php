@@ -8,8 +8,9 @@
  * @author 流水孟春 <cmpan(at)qq.com>
  * @copyright NEW BSD
  */
-namespace COM\ThinkVerify;
-class ThinkVerify {
+namespace COM;
+
+class Verify {
 	public $seKey     = 'ThinkPHP.CN'; //验证码加密密钥
 	public $expire    = 1800;     // 验证码过期时间（s）
 	public $useZh     = false;    // 使用中文验证码 
