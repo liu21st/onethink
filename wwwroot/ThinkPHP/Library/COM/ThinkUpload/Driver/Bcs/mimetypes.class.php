@@ -1,4 +1,5 @@
 <?php
+namespace COM\ThinkUpload\Driver\Bcs;
 class BCS_MimeTypes {
 	public static $mime_types = array (
 			'3gp' => 'video/3gpp', 'ai' => 'application/postscript',

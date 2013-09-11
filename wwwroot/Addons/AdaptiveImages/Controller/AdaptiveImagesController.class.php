@@ -7,44 +7,51 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
+namespace Addons\AdaptiveImages\Controller;
+use Home\Controller\AddonsController;
+
 class AdaptiveImagesController extends AddonsController{
 
 	public function view(){
 		error_reporting(0);
 		$addon = addons('AdaptiveImages');
 		$config = $addon->getConfig();
-		$resolutions = explode(',', $config['resolutions']);
-		$cache_path = $config['cache_path'];
-		$jpg_quality = $config['jpg_quality'];
-		$sharpen = $config['sharpen'];
-		$watch_cache = $config['watch_cache'];
-		$browser_cache = $config['browser_cache'];
-
 		$document_root  = __ROOT__;
+		$resolutions = $this->resolutions = explode(',', trim($config['resolutions']));
+		$this->cache_path = $config['cache_path'];
+		$this->jpg_quality = $config['jpg_quality'];
+		$this->sharpen = $config['sharpen'];
+		$this->watch_cache = $config['watch_cache'];
+		$this->browser_cache = $config['browser_cache'];
+
 		$requested_uri  = parse_url(urldecode($_SERVER['REQUEST_URI']), PHP_URL_PATH);
+		$requested_uri = str_replace($document_root, '', $requested_uri);
 		$requested_file = basename($requested_uri);
-		$source_file    = $document_root.$requested_uri;
-		$resolution     = FALSE;
+		$this->source_file = $source_file = '.'.$requested_uri;
+		$resolution = FALSE;
 
 		// 检测源文件是否存在
 		if (!file_exists($source_file)) {
 			header("Status: 404 Not Found");
 			exit();
+		}else{
+			if($config['status'] == 0)
+				$this->sendImage($this->source_file);
 		}
 
 		/* 检测环境里是否有GD库 */
 		if (!extension_loaded('gd')) {
 			if (!function_exists('dl') || !dl('gd.so')) {
 				trigger_error('你必须启用 GD 扩展来使用Adaptive Images', E_USER_WARNING);
-				$this->sendImage($source_file, $browser_cache);
+				$this->sendImage($source_file, $this->browser_cache);
 			}
 		}
 
 		//$cache_path是否已经存在?
-		if (!is_dir("$document_root/$cache_path")) { // no
-			if (!@mkdir("$document_root/$cache_path", 0755, true)) {
-				if (!is_dir("$document_root/$cache_path")) {
-					$this->sendErrorImage("Failed to create cache directory at: $document_root/$cache_path");
+		if (!is_dir($this->cache_path)) { // no
+			if (!@mkdir($this->cache_path, 0755, true)) {
+				if (!is_dir($this->cache_path)) {
+					$this->sendErrorImage("Failed to create cache directory at: $cache_path");
 				}
 			}
 		}
@@ -119,8 +126,7 @@ class AdaptiveImagesController extends AddonsController{
 		  $requested_uri = substr($requested_uri, 1);
 		}
 
-		$cache_file = $document_root."/$cache_path/$resolution/".$requested_uri;
-		$cache_file = str_replace('//', '/', $cache_file);
+		$cache_file = "$this->cache_path/$resolution/".$requested_uri;
 
 		/* 使用响应值作为路径变量，并且检测同名图片是否存在其中 */
 		if (file_exists($cache_file)) {
@@ -128,24 +134,24 @@ class AdaptiveImagesController extends AddonsController{
 				$cache_file = $this->refreshCache($source_file, $cache_file, $resolution);
 			}
 
-			$this->sendImage($cache_file, $browser_cache);
+			$this->sendImage($cache_file, $this->browser_cache);
 		}
 
 		/* 原图存在无缓存时创建缓存: */
 		$file = $this->generateImage($source_file, $cache_file, $resolution);
-		$this->sendImage($file, $browser_cache);
+		$this->sendImage($file, $this->browser_cache);
 
 	}
 
 	//是否是手机端
 	private function is_mobile(){
-		return true;
+		// return true;
 		$userAgent = strtolower($_SERVER['HTTP_USER_AGENT']);
 		return strpos($userAgent, 'mobile');
 	}
 
 	/* helper function: Send headers and returns an image. */
-	private function sendImage($filename, $browser_cache) {
+	private function sendImage($filename, $browser_cache = '604800') {
 		$extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 		if (in_array($extension, array('png', 'gif', 'jpeg'))) {
 			header("Content-Type: image/".$extension);
@@ -155,6 +161,8 @@ class AdaptiveImagesController extends AddonsController{
 		header("Cache-Control: private, max-age=".$browser_cache);
 		header('Expires: '.gmdate('D, d M Y H:i:s', time()+$browser_cache).' GMT');
 		header('Content-Length: '.filesize($filename));
+		$length = filesize($filename);
+		$result = readfile($filename);
 		readfile($filename);
 		exit();
 	}
@@ -165,7 +173,7 @@ class AdaptiveImagesController extends AddonsController{
 		$document_root  = $_SERVER['DOCUMENT_ROOT'];
 		$requested_uri  = parse_url(urldecode($_SERVER['REQUEST_URI']), PHP_URL_PATH);
 		$requested_file = basename($requested_uri);
-		$source_file    = $document_root.$requested_uri;
+		$source_file    = $this->source_file;
 
 		if(!is_mobile()){
 			$is_mobile = "FALSE";
@@ -223,8 +231,8 @@ class AdaptiveImagesController extends AddonsController{
 	/* 生成所给文件和响应式尺寸的缓存文件 */
 	private function generateImage($source_file, $cache_file, $resolution) {
 		global $sharpen, $jpg_quality;
-		dump($sharpen);
-		dump($jpg_quality);die;
+		$sharpen = $this->sharpen;
+		$jpg_quality = $this->jpg_quality;
 		$extension = strtolower(pathinfo($source_file, PATHINFO_EXTENSION));
 
 	  	// Check the image dimensions

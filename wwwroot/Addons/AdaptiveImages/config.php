@@ -3,7 +3,7 @@ return array(
 	'resolutions'=>array(//配置在表单中的键名 ,这个会是config[random]
 		'title'=>'响应式宽度边界:,分割',//表单的文字
 		'type'=>'text',		 //表单的类型：text、textarea、checkbox、radio、select等
-		'value'=>'1382, 992, 768, 480',	//表单的默认值
+		'value'=>'1382,992,768,480',	//表单的默认值
 	),
 	'cache_path'=>array(
 		'title'=>'缓存图片的路径：(要有可写权限)',

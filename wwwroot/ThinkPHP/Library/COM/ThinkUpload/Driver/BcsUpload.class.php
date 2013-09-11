@@ -9,13 +9,14 @@
 // | Author: Jay <yangweijiester@gmail.com> <http://code-tech.diandian.com>
 // +----------------------------------------------------------------------
 namespace COM\ThinkUpload\Driver;
+use COM\ThinkUpload\Driver\Bcs\BaiduBcs;
 class BcsUpload{
     /**
      * 上传文件根目录
      * @var string
      */
     private $rootPath;
-    final private $host = 'bcs.duapp.com';
+    const DEFAULT_URL = 'bcs.duapp.com';
 
     /**
      * 上传错误信息
@@ -23,7 +24,7 @@ class BcsUpload{
      */
     private $error = '';
 
-    private $config = array(
+    public $config = array(
     	'AccessKey'=> '',
         'SecretKey'=> '', //百度云服务器
         'bucket'   => '', //空间名称
@@ -31,7 +32,7 @@ class BcsUpload{
         'timeout'  => 3600, //超时时间
     );
 
-    private $bcs = null;
+    public $bcs = null;
 
     /**
      * 构造函数，用于设置上传根路径
@@ -43,8 +44,10 @@ class BcsUpload{
         $this->config = array_merge($this->config, $config);
         /* 设置根目录 */
         $this->rootPath = str_replace('./', '/', $root);
-        require './Bcs/bcs.class.php';
-        $this->bcs = new BaiduBCS ( $this->config['AccessKey'], $this->config['SecrectKey'], $this->host );
+        $bcsClass = dirname(__FILE__). "/Bcs/bcs.class.php";
+        if(is_file($bcsClass))
+            require_once($bcsClass);
+        $this->bcs = new BaiduBCS ( $this->config['AccessKey'], $this->config['SecretKey'], self:: DEFAULT_URL );
 	}
 
     /**
@@ -79,31 +82,20 @@ class BcsUpload{
      * @param  boolean $replace 同名文件是否覆盖
      * @return boolean          保存状态，true-成功，false-失败
      */
-    public function save($file, $replace) {
+    public function save($file) {
         $opt = array ();
         $opt ['acl'] = BaiduBCS::BCS_SDK_ACL_TYPE_PUBLIC_WRITE;
-        // $opt [BaiduBCS::IMPORT_BCS_LOG_METHOD] = "bs_log";
         $opt ['curlopts'] = array (
-                CURLOPT_CONNECTTIMEOUT => 10,
-                CURLOPT_TIMEOUT => 1800
+            CURLOPT_CONNECTTIMEOUT => 10,
+            CURLOPT_TIMEOUT => 1800
         );
-        $response = $this->bcs->create_object ( $this->config['bucket'], $file['tmp_name'], $fileUpload, $opt );
-        // $header['Content-Type'] = $file['type'];
-        // $header['Content-MD5'] = md5_file($file['md5']);
-        // $resource = fopen($file['tmp_name'], 'r');
-        // $savepath = str_replace('/', '-', ltrim($file['savepath'], '/'));
-        // $save = $savepath . $file['savename'];
-        // $path = $this->sign('PUT',$this->config['bucket'],$save);
-        file_put_contents('./debug2', var_export($file,1),FILE_APPEND);
-        // if($this->rename)
-        // 	$path .='&renametype='.$header['Content-MD5'];
-        // file_put_contents('./debug', var_export($path,1),FILE_APPEND);
-        // $data = $this->request($path, 'PUT', $header, $resource);
-        file_put_contents('./debug2', var_export($response,1),FILE_APPEND);
+        $object = "/{$file['savepath']}{$file['savename']}";
+        $response = $this->bcs->create_object ( $this->config['bucket'], $object, $file['tmp_name'], $opt );
+        $url = $this->download($object);
         return $response->isOK() ? true : false;
     }
 
-    public download($file){
+    public function download($file){
         $file = str_replace('./', '/', $file);
         $opt = array();
         $opt['time'] = time() + 3600; //有效时间1小时
@@ -218,7 +210,7 @@ class BcsUpload{
     		'sk'=>$this->config['SecretKey'],
     		'size'=>$size,
     		'bucket'=>$Bucket,
-    		'host'=>'bcs.duapp.com',
+    		'host'=>self :: DEFAULT_URL,
     		'date'=>time()+$this->config['timeout'],
     		'ip'=>'',
     		'object'=>$object
