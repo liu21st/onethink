@@ -59,7 +59,9 @@
         }
         if( ($(this).attr('type')=='submit') || (target = $(this).attr('href')) || (target = $(this).attr('url')) ){
             form = $('.'+target_form);
-            if ( form.get(0).nodeName=='FORM' ){
+            if (form.get(0)==undefined){
+                return false;
+            }else if ( form.get(0).nodeName=='FORM' ){
                 target = form.get(0).action;
                 query = form.serialize();
             }else if( form.get(0).nodeName=='INPUT' || form.get(0).nodeName=='SELECT' || form.get(0).nodeName=='TEXTAREA') {

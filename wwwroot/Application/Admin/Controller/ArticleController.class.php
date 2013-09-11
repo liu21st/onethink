@@ -139,7 +139,6 @@ class ArticleController extends \Admin\Controller\AdminController {
 
 		$this->assign('model', $models);
 		$this->assign('status', $status);
-		$this->assign('search', $search);
 		$this->assign('list', $list);
 
 		$this->meta_title = '文档列表';
