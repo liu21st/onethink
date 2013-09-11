@@ -25,8 +25,8 @@
 									<li><a href="javascript:;" value="2">待审核</a></li>
 								</ul>
 							</div>
-							<input type="text" name="search" value="">
-							<a class="sch-btn" href="javascript:;" id="search" url="">高级搜索</a>
+                            <input type="text" name="uid" value="{:I('uid')}" placeholder="请输入标题文档">
+							<a class="sch-btn" href="javascript:;" id="search" url="{:U('User/index','',false)}">高级搜索</a>
 						</div>
 					</div>
 				</div>
@@ -106,12 +106,12 @@
 	$("#search").click(function(){
 		var url = $(this).attr('url');
 		var status = $("#sch-sort-txt").attr("data");
-		var search = $('input[name=search]').val();
+		var search = $('input[name=uid]').val();
 		if(status != ''){
 			url += '/status/' + status;
 		}
 		if(search != ''){
-			url += '/search/' + encodeURIComponent(search);
+			url += '/uid/' + encodeURIComponent(search);
 		}
 		window.location.href = url;
 	});
