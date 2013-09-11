@@ -48,13 +48,17 @@
 							<li><a href="javascript:;" value="2">待审核</a></li>
 						</ul>
 					</div>
-					<input type="text" name="title" value="{:I('title')}" placeholder="请输入标题文档">
+					<input type="text" name="title" class="search-input" value="{:I('title')}" placeholder="请输入标题文档">
 					<a class="sch-btn" href="javascript:;" id="search" url="{:U('article/index','cate_id='.$cate_id,false)}"><i class="icon-search"></i></a>
 				</div>
-                <div class="btn-group fl">
+                <div class="btn-group adv-sch-pannel fl">
                     <button class="btn">高级<i class="icon-arrowdown"></i></button>
-                    <div class="dropdown adv-sch-pannel">
-                    	
+                    <div class="dropdown">
+                    	<div>
+                    		时间：
+                    		<input type="text" name="" class="text input-2x" value="2013-6-6"> - 
+                    		<input type="text" name="" class="text input-2x" value="2013-6-6">
+                    	</div>
                     </div>
                 </div>
 			</div>
