@@ -7,6 +7,7 @@
 // | Author: huajie <banhuajie@163.com>
 // +----------------------------------------------------------------------
 namespace Admin\Model;
+use Think\Model;
 /**
  * 文档基础模型
  */

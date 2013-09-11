@@ -7,6 +7,7 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 namespace Admin\Model;
+use Think\Model;
 use COM\Upload;
 
 /**

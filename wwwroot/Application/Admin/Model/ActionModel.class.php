@@ -7,6 +7,8 @@
 // | Author: huajie <banhuajie@163.com>
 // +----------------------------------------------------------------------
 namespace Admin\Model;
+use Think\Model;
+
 /**
  * 行为模型
  * @author huajie <banhuajie@163.com>
