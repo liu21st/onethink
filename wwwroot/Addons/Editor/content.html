@@ -46,15 +46,21 @@
 	</case>
 	<case value="3">
 		{// UBB 官网http://www.ubbeditor.com/cn}
-		<script charset="utf-8" src="__STATIC__/ubbeditor/ubbeditor.js"></script>
+
 		<script type="text/javascript">
 			$(function(){
-				$('textarea[name="{$data.name}"]').attr('id', 'editor_id_{$data.name}').css(
+				$('textarea[name="{$data.name}"]').css(
 					'height','{$config.editor_height}'
 				);
+				$('textarea[name="{$data.name}"]').attr('id', 'editor_id_{$data.name}');
+			});
+		</script>
+		<script charset="utf-8" src="__STATIC__/ubbeditor/ubbeditor.js"></script>
+		<script	>
+			$(function(){
 				var nEditor = new ubbEditor('editor_id_{$data.name}');
-				nEditor.tLang = 'zh-cn';
-				nEditor.tInit('nEditor', '__STATIC__/ubbeditor/');
+					nEditor.tLang = 'zh-cn';
+					nEditor.tInit('nEditor', '__STATIC__/ubbeditor/');
 			})
 		</script>
 		<input type="hidden" name="parse" value="1">
