@@ -4,13 +4,13 @@
         <div class="form-item">
             <label for="auth-title" class="item-label">用户组：</label>
             <div class="controls">
-                <input id="auth-title" type="text" name="title" class="text" value="{$auth_group.title}"/>
+                <input id="auth-title" type="text" name="title" class="text input-4x" value="{$auth_group.title}"/>
             </div>
         </div>
         <div class="form-item">
             <label for="auth-description" class="item-label">描述：</label>
             <div class="controls">
-                <textarea id="auth-description" type="text" name="description" class="textarea" >{$auth_group.description}</textarea>
+                <textarea id="auth-description" type="text" name="description" class="textarea input-4x" >{$auth_group.description}</textarea>
             </div>
         </div>
         
@@ -18,7 +18,43 @@
             <label class="item-label"></label>
             <div class="controls">
                 <input type="hidden" name="id" value="{$auth_group.id}" />
-                <input type="submit" class="btn" value="保存" />
+                <input type="submit" class="btn ajax-post" target-form="auth-form" value="保存" />
             </div>
         </div>
     </form>
+    <script type="text/javascript" charset="utf-8">
+    //ajax post submit请求
+    $('.ajax-post').click(function(){
+        var target,query,form;
+        var target_form = $(this).attr('target-form');
+        if( (this.type=='submit') || (target = $(this).attr('href')) || (target = $(this).attr('url')) ){
+            form = $(this).closest('.'+target_form);
+            if ( form.get(0).nodeName=='FORM' ){
+                target = form.get(0).action;
+                query = form.serialize();
+            }else if( form.get(0).nodeName=='INPUT' || form.get(0).nodeName=='SELECT' || form.get(0).nodeName=='TEXTAREA') {
+                query = form.serialize();
+            }else{
+                query = form.find('input,select,textarea').serialize();
+            }
+            $.post(target,query).success(function(data){
+                if (data.status==1) {
+                    if (data.url) {
+                        updateAlert(data.info + ' 页面即将自动跳转~','alert-success');
+                    }else{
+                        updateAlert(data.info + ' 页面即将自动刷新~','alert-success');
+                    }
+                    setTimeout(function(){
+                        if (data.url) {
+                            location.href=data.url;
+                        }
+                        location.reload();
+                    },1500);
+                }else{
+                    updateAlert(data.info);
+                }
+            });
+        }
+        return false;
+    });
+    </script>

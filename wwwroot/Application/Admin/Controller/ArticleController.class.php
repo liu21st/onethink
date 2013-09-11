@@ -74,10 +74,6 @@ class ArticleController extends \Admin\Controller\AdminController {
     	$cate_id = I('param.cate_id') == '' ? $cate[0]['id'] : I('param.cate_id');
     	$this->cate_id = $cate_id;
 
-    	//权限判断
-    	if(!in_array($cate_id, $cate_auth) && !is_administrator() && !empty($_GET)){
-    		$this->error('没有权限！');
-    	}
 
     	//单独处理2级以下的分类
     	$child_cates = array();
@@ -123,25 +119,20 @@ class ArticleController extends \Admin\Controller\AdminController {
 	 * @param $cate_id 分类id
 	 * @author huajie <banhuajie@163.com>
 	 */
-	public function index($cate_id = null, $status = null, $search = null){
+	public function index($cate_id = null, $status = null, $title = null){
 		$cate_id = $this->cate_id;
-		$Document = D('Document');
 
 		/* 查询条件初始化 */
 		$map = array();
-		if(isset($status)){
-			$map['status'] = $status;
+		if(isset($title)){
+			$map['title'] = array('like', '%'.$title.'%');
 		}
-		if(isset($search)){
-			$map['title'] = array('like', '%'.$search.'%');
-		}
-		/*初始化分页类*/
-		$count = $Document->listCount($cate_id, array('gt', -1), $map);
-		$Page = new Page($count, 10);
-		$this->page = $Page->show();
 
-		//列表数据获取
-		$list = $Document->lists($cate_id, 'id DESC', array('gt', -1), 'id,uid,title,create_time,status', $Page->firstRow. ',' . $Page->listRows, $map);
+		// 构建列表数据
+		$Document = D('Document');
+        $map['category_id'] = $cate_id;
+        $list = $this->lists($Document,$map);
+        intToString($list);
 
 		//获取对应分类下的模型
 		$models = get_category($cate_id, 'model');
@@ -161,8 +152,8 @@ class ArticleController extends \Admin\Controller\AdminController {
 	 */
 	public function setStatus(){
 		/*参数过滤*/
-		$ids = I('param.ids');
-		$status = I('param.status');
+		$ids = I('request.ids');
+		$status = I('request.status');
 		if(empty($ids) || !isset($status)){
 			$this->error('请选择要操作的数据');
 		}
@@ -259,7 +250,11 @@ class ArticleController extends \Admin\Controller\AdminController {
             $map = array('status'=>-1);
         }else{
             $cate_auth = AuthGroupModel::getAuthCategories(is_login());
-            $map = array('status'=>-1,'category_id'=>array('IN',implode(',',$cate_auth)));
+            if($cate_auth){
+                $map = array('status'=>-1,'category_id'=>array('IN',implode(',',$cate_auth)));
+            }else{
+                $map = array( 'status'=>-1,'category_id'=>-1 );
+            }
         }
         $list = D('Document')->where($map)->field('id,title,uid,create_time')->select();
 		//处理列表数据
@@ -268,36 +263,6 @@ class ArticleController extends \Admin\Controller\AdminController {
 			$v['create_time'] = time_format($v['create_time']);
 		}
 		$this->assign('list', $list);
-
-		$thead = array(
-            //元素value中的变量就是数据集中的字段,value必须使用单引号
-
-            //所有 _ 下划线开头的元素用于使用html代码生成th和td
-            '_html'=>array(
-                'th'=>'<input class="check-all" type="checkbox"/>',
-                'td'=>'<input class="ids" type="checkbox" name="ids[]" value="$id" />',
-            ),
-            //查询出的数据集中的字段=>字段的表头
-            'id'=>'编号',
-            'username'=>'创建者',
-			'title'=>'标题',
-            'create_time'=>'创建时间',
-            //操作配置
-            '操作'=>array(
-                //操作按钮=>'按钮链接'
-                //符合条件才显示的操作按钮
-                '还原'=>array(
-                    // 'tag'=>'a',//按钮的包裹元素,默认为 a 标签
-                    // 标签上的attr,需要什么设置什么,此处设置了a标签的href属性
-                    'href' =>'article/permit?ids=$id',
-                    // 按钮显示的条件,支持 == != > < 比较运算
-                ),
-            ),
-        );
-
-        $this->assign('_table_class', 'data-table table-striped');
-        $this->assign( '_table_list', $this->tableList($list,$thead) );
-
         $this->meta_title = '回收站';
         $this->display();
 	}

@@ -9,50 +9,36 @@
 	<!-- 标题栏 -->
 	<div class="main-title">
 		<h2>回收站管理</h2>
-		<div class="tools auth-botton">
-            <button url="{:U('article/clear')}" id="remove" class="btn">清空回收站</button>
-            <button url="{:U('article/permit')}" id="restore" class="btn">还原数据</button>
-		</div>
 	</div>
+
+    <div class="tools auth-botton">
+        <button url="{:U('article/clear')}" class="btn ajax-get">清空回收站</button>
+        <button url="{:U('article/permit')}" class="btn ajax-post" target-form="ids">还原数据</button>
+    </div>
 
 	<!-- 数据列表 -->
 	<div class="data-table table-striped">
-        {$_table_list}
+        <?php
+            $thead = array(
+                '_html'=>array(
+                    'th'=>'<input class="check-all" type="checkbox"/>',
+                    'td'=>'<input class="ids" type="checkbox" name="ids[]" value="$id" />',
+                ),
+                'id'=>'编号',
+                'username'=>'创建者',
+                'title'=>'标题',
+                'create_time'=>'创建时间',
+                '操作'=>array(
+                    '还原'=>array(
+                        'href' =>'article/permit?ids=$id',
+                        'class'=>'ajax-get',
+                    ),
+                ),
+            );
+            echo $_table_list = $__controller__->tableList($list,$thead);
+        ?>
 	</div>
-    <div class="page_nav">
+    <div class="page-box">
         {$_page}
     </div>
-</block>
-
-<block name="script">
-<script type="text/javascript">
-$(function(){
-	//批量还原
-	$("#restore").click(function(){
-		//获取选中的数据
-		var checked = $('.ids:checked');
-        var ids = checked.serialize();
-		if(checked.length == 0){
-			alert('请选择要操作的数据！');
-			return false;
-		}
-		//进行ajax操作
-		$.post(
-			"{:U('permit')}",ids,function(data){
-				if(data.status == 1){
-					alert('设置成功！');
-					setTimeout(function(){window.location.reload()},1500);
-				}else{
-					alert('操作失败！');
-				}
-			},
-			'json'
-		);
-	});
-	//清空回收站
-	$("#remove").click(function(){
-		window.location.href = $(this).attr("url");
-	});
-});
-</script>
 </block>

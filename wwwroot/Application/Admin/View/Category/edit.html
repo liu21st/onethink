@@ -144,7 +144,7 @@
 			<div class="controls">
 				<input type="hidden" name="id" value="{$info.id|default=''}">
 				<input type="hidden" name="pid" value="{$category['id']?$category['id']:$pid}">
-				<input type="submit" class="btn btn-primary" value="确定">
+				<input type="submit" class="btn btn-primary ajax-post" target-form="form-horizontal" value="确定">
 			</div>
 		</div>
 	</form>

@@ -4,50 +4,40 @@
 	<!-- 标题栏 -->
 	<div class="main-title">
 		<h2>行为列表</h2>
-		<div class="tools">
-			<button class="btn" id="action_add" url="{:U('user/addaction')}">新增</button>
-			<button class="btn" name="action_operate" status="-1">删除</button>
-			<button class="btn" name="action_operate" status="1">启用</button>
-			<button class="btn" name="action_operate" status="0">禁用</button>
-		</div>
 	</div>
 
+    <div class="tools">
+        <button class="btn" id="action_add" url="{:U('user/addaction')}">新 建</button>
+        <button class="btn ajax-post" target-form="ids" url="{:u('setstatus',array('status'=>1))}" >启 用</button>
+        <button class="btn ajax-post" target-form="ids" url="{:u('setstatus',array('status'=>0))}">禁 用</button>
+        <button class="btn ajax-post confirm" target-form="ids" url="{:U('setStatus',array('status'=>-1))}">删 除</button>
+    </div>
 	<!-- 数据列表 -->
 	<div class="data-table">
-		<table>
-			<thead>
-				<tr>
-					<th class="row-selected"><input type="checkbox" id="selectall"/></th>
-					<th>编号</th>
-					<th>行为标识</th>
-					<th>标题</th>
-					<th>日志规则</th>
-					<th>状态</th>
-					<th>操作</th>
-				</tr>
-			</thead>
-			<tbody>
-				<volist name="list" id="vo">
-				<tr>
-					<td><input type="checkbox" value="{$vo.id}" class="child_checkbox"/></td>
-					<td>{$vo.id}</td>
-					<td>{$vo.name}</td>
-					<td><a href="{:U('editAction',array('id'=>$vo['id']))}">{$vo.title}</a></td>
-					<td>{$vo.remark}</td>
-					<td>{$vo.status|get_status_title}</td>
-					<td>
-						<a href="{:U('editAction',array('id'=>$vo['id']))}">编辑</a>
-						<eq name="vo['status']" value="0">
-							<a href="{:U('setStatus',array('status'=>1,'ids'=>$vo['id']))}">启用</a>
-						</eq>
-						<eq name="vo['status']" value="1">
-							<a href="{:U('setStatus',array('status'=>0,'ids'=>$vo['id']))}">禁用</a>
-						</eq>
-					</td>
-				</tr>
-				</volist>
-			</tbody>
-		</table>
+        <?php
+            $thead = array(
+                '_html'=>array(
+                    '_th'=>'row-selected',
+                    'th'=>'<input class="check-all" type="checkbox"/>',
+                    'td'=>'<input class="ids" type="checkbox" name="ids[]" value="$id" />',
+                ),
+                'id'=>'编号',
+                'name'=>'行为标识',
+                'title'=>array(
+                    '_title'=>'标题',
+                    'tag'   =>'span',
+                    'href'  =>'editAction?id=$id'
+                ),
+                'remark'=>'规则说明',
+                'status_text'=>'状态',
+                '操作'=>array(
+                    '禁用'=>array( 'href' => 'User/setStatus?status=0&ids=$id', 'class'=>'ajax-get', 'condition'=>'$status==1',), 
+                    '启用'=>array( 'href' => 'User/setStatus?status=1&ids=$id', 'class'=>'ajax-get', 'condition'=>'$status==0',), 
+                    '删除'=>array( 'href' => 'User/setStatus?status=-1&ids=$id', 'class'=>'confirm ajax-get' ),
+                ),
+            );
+            echo $_table_list = $__controller__->tableList($_list,$thead);
+        ?>
 	</div>
 	<!-- 分页 -->
 	<div class="page">{$page}</div>
@@ -60,39 +50,6 @@ $(function(){
 	$("#action_add").click(function(){
 		window.location.href = $(this).attr('url');
 	})
-	$("button[name=action_operate]").click(function(){
-		var status = $(this).attr('status');
-		//获取选中的数据
-		var checked = $('input:checked');
-		var ids = new Array();
-		checked.each(function(i){
-			var id = $(this).val();
-			if(id != 'on'){
-				ids[ids.length] = id;
-			}
-		});
-		if(ids.length == 0){
-			alert('请选择要操作的数据！');
-			return false;
-		}
-		//进行ajax操作
-		$.post(
-			"{:U('setStatus')}",
-			{
-				'ids' : ids,
-				'status' : status
-			},
-			function(data){
-				if(data.status == 1){
-					alert('设置成功！');
-					setTimeout(function(){window.location.reload()},1500);
-				}else{
-					alert('操作失败！');
-				}
-			},
-			'json'
-		);
-	});
 })
 </script>
 </block>
