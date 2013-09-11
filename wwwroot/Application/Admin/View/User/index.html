@@ -73,25 +73,6 @@
 	<script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
 
 	<script type="text/javascript">
-		$(function(){
-			$(".authorize").click(function(){
-				var thinkboxOption = {
-					title:'用户授权',
-					actions:['close'],
-					drag:true,
-					tools:true
-				}
-				var authorUrl = this.href;
-                $.get(authorUrl).success(function(data){
-                    if(data.status==0){
-                        updateAlert(data.info);
-                    }else{
-                        $.thinkbox(data,thinkboxOption);
-                    }
-                });
-                return false;
-			});
-		})
 	//搜索功能
 	$("#search").click(function(){
 		var url = $(this).attr('url');

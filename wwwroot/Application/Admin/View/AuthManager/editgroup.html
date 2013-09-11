@@ -1,6 +1,12 @@
+<extend name="Public/base" />
 <!-- 管理员用户组新增和编辑页面 -->
+<block name="body">
+	<div class="main-title">
+		<h2>编辑用户组</h2>
+	</div>
+
     <form action="{:U('AuthManager/writeGroup')}" enctype="application/x-www-form-urlencoded" method="POST" 
-            class="form-horizontal auth-form">
+            class="form-horizontal">
         <div class="form-item">
             <label for="auth-title" class="item-label">用户组：</label>
             <div class="controls">
@@ -18,43 +24,14 @@
             <label class="item-label"></label>
             <div class="controls">
                 <input type="hidden" name="id" value="{$auth_group.id}" />
-                <input type="submit" class="btn ajax-post" target-form="auth-form" value="保存" />
+                <input type="submit" class="btn ajax-post" target-form="form-horizontal" value="保存" />
             </div>
         </div>
     </form>
-    <script type="text/javascript" charset="utf-8">
-    //ajax post submit请求
-    $('.ajax-post').click(function(){
-        var target,query,form;
-        var target_form = $(this).attr('target-form');
-        if( (this.type=='submit') || (target = $(this).attr('href')) || (target = $(this).attr('url')) ){
-            form = $(this).closest('.'+target_form);
-            if ( form.get(0).nodeName=='FORM' ){
-                target = form.get(0).action;
-                query = form.serialize();
-            }else if( form.get(0).nodeName=='INPUT' || form.get(0).nodeName=='SELECT' || form.get(0).nodeName=='TEXTAREA') {
-                query = form.serialize();
-            }else{
-                query = form.find('input,select,textarea').serialize();
-            }
-            $.post(target,query).success(function(data){
-                if (data.status==1) {
-                    if (data.url) {
-                        updateAlert(data.info + ' 页面即将自动跳转~','alert-success');
-                    }else{
-                        updateAlert(data.info + ' 页面即将自动刷新~','alert-success');
-                    }
-                    setTimeout(function(){
-                        if (data.url) {
-                            location.href=data.url;
-                        }
-                        location.reload();
-                    },1500);
-                }else{
-                    updateAlert(data.info);
-                }
-            });
-        }
-        return false;
-    });
-    </script>
+<block>
+<block name="script">
+<script type="text/javascript" charset="utf-8">
+    //导航高亮
+$('.side-sub-menu').find('a[href="{:U('AuthManager/index')}"]').closest('li').addClass('current');
+</script>
+</block>
