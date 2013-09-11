@@ -128,7 +128,7 @@
         	$("input[name=file]").val(data.data);
         	$("input[name=file]").parent().find('.check-tips').text(data.info);
         } else {
-        	alert(data.info);
+        	updateAlert(data.info);
         }
     }
 
@@ -148,7 +148,7 @@
         	$("#cover_id").val(data.id);
         	$("#cover_id").parent().find('.check-tips').html('<img src="' + data.path + '"/>');
         } else {
-        	alert(data.info);
+        	updateAlert(data.info);
         }
     }
 })(jQuery);
