@@ -589,7 +589,7 @@ class AdminController extends Action {
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     protected function checkNodes(){
-        if ( APP_DEBUG!=true || $i ==1 ){
+        if ( APP_DEBUG!=true ){
             return;
         }
         $controllers = array();

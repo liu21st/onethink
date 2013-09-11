@@ -27,7 +27,6 @@
                     'name'=>'文档模型',
                     'title'=>array(
                         '_title'=>'标题',
-                        'class' => 'edit-model',
                         'data-id'=>'$id',
                         'href'   =>'Model/edit?id=$id',
                     ),
@@ -38,8 +37,9 @@
                     ),
                     'status_text'=>'状态',
                     '操作'=>array(
-                        '禁用'=>array( 'href' => 'Model/setStatus?id=$id&status=0', 'class'=>'ajax-get', 'condition'=>'$status==1',), 
-                        '启用'=>array( 'href' => 'Model/setStatus?id=$id&status=1', 'class'=>'ajax-get', 'condition'=>'$status==0',), 
+                        '禁用'=>array( 'href' => 'Model/setStatus?id=$id&status=0', 'class'=>'ajax-get', 'condition'=>'$status==1',),
+                        '启用'=>array( 'href' => 'Model/setStatus?id=$id&status=1', 'class'=>'ajax-get', 'condition'=>'$status==0',),
+						'编辑'=>array( 'href' => 'Model/edit?id=$id'),
                     ),
                 );
                 echo $_table_list = $__controller__->tableList($_list,$thead);
@@ -68,19 +68,19 @@
     		window.location.href = url;
     	});
 
-        $(".edit-model").click(function(){
-            var authorUrl,id = $(this).attr('data-id');
-            var title = id?'编辑用户组':'新建用户组'; 
-            authorUrl = id?"{:U('Model/edit')}"+'?id='+id:"{:U('Model/add')}" ;
-            var thinkboxOption = {
-                title:title,
-                actions:['close'],
-                drag:true,
-                tools:true
-            }
-            $.thinkbox.load(authorUrl,thinkboxOption);
-            return false;
-        });
-    })
-    </script>
+    $(".edit-model").click(function(){
+        var authorUrl,id = $(this).attr('data-id');
+        var title = id?'编辑用户组':'新建用户组';
+        authorUrl = id?"{:U('Model/edit')}"+'?id='+id:"{:U('Model/add')}" ;
+        var thinkboxOption = {
+            title:title,
+            actions:['close'],
+            drag:true,
+            tools:true
+        }
+        $.thinkbox.load(authorUrl,thinkboxOption);
+        return false;
+    });
+})
+</script>
 </block>
