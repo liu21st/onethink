@@ -143,8 +143,8 @@ label.textarea ~ .check-tips {
 .search-form .sort-txt {
 	display: inline-block;
 	margin: 0 2px 0 4px;
-	width: 56px;
-	text-align: center;
+	padding-left: 6px;
+	width: 50px;
 	cursor: pointer;
 }
 .search-form .drop-down ul {
