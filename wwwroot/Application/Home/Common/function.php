@@ -19,7 +19,7 @@
  * @author 麦当苗儿 <zuojiazi.cn@gmail.com>
  */
 function check_verify($code, $id = 1){
-	$verify = new \COM\ThinkVerify\ThinkVerify();
+	$verify = new \COM\Verify();
 	return $verify->check($code, $id);
 }
 

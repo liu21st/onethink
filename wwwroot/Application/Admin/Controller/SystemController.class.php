@@ -60,6 +60,8 @@ class SystemController extends AdminController {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function config(){
+        $list = D('Config')->where($map)->select();
+        $this->assign('list', $list);
         $this->display();
     }
 
