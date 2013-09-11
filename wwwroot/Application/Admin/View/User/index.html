@@ -40,12 +40,7 @@
                     'td'=>'<input class="ids" type="checkbox" name="id[]" value="$uid" />',
                 ),
                 'uid'  => 'UID',
-                'nickname'=>array(
-                    '_title'  =>'昵称',
-                    'tag'    =>'a',
-                    'class'  =>'edit-user',
-                    'href'   =>'User/edit?id=$id',
-                ),
+                'nickname'=>'昵称',
                 'score'=>'积分',
                 'login'=>'登陆次数',
                 'last_login_ip'=>array(
@@ -69,6 +64,8 @@
                     '启用'=>array( 'href' => 'User/changeStatus?method=resumeUser&id=$uid', 'class'=>'ajax-get', 'condition'=>'$status==0',),
                     '删除'=>array( 'href' => 'User/changeStatus?method=deleteUser&id=$uid', 'class'=>'confirm ajax-get' ),
                     '授权'=>array( 'href' => 'AuthManager/group?uid=$uid', 'class'=>'authorize'),
+					'修改密码'=>array( 'href' => 'User/edit?uid=$uid', 'class'=>'authorize'),
+					'修改昵称'=>array( 'href' => 'AuthManager/group?uid=$uid', 'class'=>'authorize'),
                 ),
             );
             echo $_table_list = $__controller__->tableList($_list,$thead);
