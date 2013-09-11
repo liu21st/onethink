@@ -47,6 +47,9 @@
 								</label>
 							</case>
 						</switch>
+						<notempety name="form.tip">
+							<span class="check-tips">{$form.tip}</span>
+						</notempety>
 					</div>
 				</div>
 			</foreach>
@@ -57,7 +60,7 @@
 		</empty>
 
 		<input type="hidden" name="id" value="{:I('id')}" readonly>
-		<button type="submit" class="btn">提交</button>
+		<button type="submit" class="btn ajax-post" target-form="form-horizontal">提交</button>
 		<button type="reset" class="btn">重置</button>
 		<button class="btn" onclick="javascript:history.back(-1);return false;">返回</button>
 

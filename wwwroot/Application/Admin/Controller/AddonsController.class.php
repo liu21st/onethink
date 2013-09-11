@@ -49,6 +49,7 @@ class AddonsController extends AdminController {
 
     //创建向导首页
     public function create(){
+        $this->meta_title = '扩展-插件管理-创建向导';
         $hooks = D('Hooks')->field('name,description')->select();
         $this->assign('Hooks',$hooks);
         $this->display('create');
@@ -58,7 +59,6 @@ class AddonsController extends AdminController {
     public function preview($output = true){
         $data = $_POST;
         $data['info']['status'] = (int)$data['info']['status'];
-        // exit(var_export($data,1));
         $extend = array();
         $custom_config = trim($data['custom_config']);
         if($data['has_config'] && $custom_config){
@@ -95,12 +95,16 @@ str;
         $extend = implode('', $extend);
         $tpl = <<<str
 <?php
+
+namespace Addons\\{$data['info']['name']};
+use Common\Controller\Addons;
+
 /**
  * {$data['info']['title']}插件
  * @author {$data['info']['author']}
  */
 
-    class {$data['info']['name']}Addons extends Common\Controller\Addons{
+    class {$data['info']['name']}Addons extends Addons{
 
         public \$info = array(
             'name'=>'{$data['info']['name']}',
@@ -186,6 +190,36 @@ str;
 
         //写文件
         file_put_contents("{$addon_dir}{$addon_name}", $addonFile);
+        if($data['has_outurl']){
+            $addonController = <<<str
+<?php
+
+namespace Addons\\{$data['info']['name']}\Controller;
+use Home\Controller\AddonsController;
+
+class {$data['info']['name']}Controller extends AddonsController{
+
+}
+
+str;
+            file_put_contents("{$addon_dir}Controller/{$data['info']['name']}Controller.class.php", $addonController);
+            $addonModel = <<<str
+<?php
+
+namespace Addons\\{$data['info']['name']}\Model;
+use Think\Model;
+
+/**
+ * 分类模型
+ */
+class {$data['info']['name']}Model extends Model{
+
+}
+
+str;
+            file_put_contents("{$addon_dir}Model/{$data['info']['name']}Model.class.php", $addonModel);
+        }
+
         if($data['has_config'] == 1)
             file_put_contents("{$addon_dir}config.php", $data['config']);
 
@@ -196,6 +230,7 @@ str;
      * 插件列表
      */
     public function index(){
+        $this->meta_title = '扩展-插件管理-插件列表';
         $this->assign('list',D('Addons')->getList());
         $this->assign('creatable', is_writable(C('AUTOLOAD_NAMESPACE.Addons')));
         $this->display();
@@ -212,6 +247,7 @@ str;
         $param = $addon->admin_list;
         if(!$param)
             $this->error('插件列表信息不正确');
+        $this->meta_title = '扩展-已装插件后台-'.$addon->info['title'];
         extract($param);
         $this->assign('title', $addon->info['title']);
         if($addon->custom_adminlist)
@@ -265,6 +301,7 @@ str;
         $id = (int)I('id');
         $addon = D('Addons')->find($id);
         $addon_class = addons($addon['name']);
+        $this->meta_title = '扩展-插件管理-设置插件-'.$addon_class->info['title'];
         $db_config = $addon['config'];
         $addon['config'] = include $addon_class->config_file;
         if($db_config){
@@ -318,10 +355,12 @@ str;
 		if($addonsModel->add()){
             $config = array('config'=>json_encode($addons->getConfig()));
             $addonsModel->where("name='{$addon_name}'")->save($config);
-            if($hooks_update = D('Hooks')->updateHooks($addons->getName())){
+            $hooks_update = D('Hooks')->updateHooks($addons->getName());
+            if($hooks_update){
                 S('hooks', null);
                 $this->success('安装成功');
             }else{
+                $addonsModel->where("name='{$addon_name}'")->delete();
                 $this->error('更新钩子处插件失败,请卸载后尝试重新安装');
             }
 
@@ -350,7 +389,7 @@ str;
             $this->error('卸载插件所挂载的钩子数据失败');
         }
         S('hooks', null);
-		$delete = $addonsModel->delete($id);
+		$delete = $addonsModel->where("name='{$db_addons['name']}'")->delete();
 		if($delete === false){
 			$this->error('卸载插件失败');
 		}else{
@@ -362,6 +401,7 @@ str;
      * 钩子列表
      */
     public function hooks(){
+        $this->meta_title = '扩展-钩子列表';
         $map = $order = $fields = array();
         $list = $this->lists(D("Hooks")->field($fields),$map,$order);
         $thead = array(
