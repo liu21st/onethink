@@ -538,7 +538,7 @@ class AdminController extends Action {
                 return true;
             }
         });
-        $options          = array_merge( $options , (array)$OPT->getValue($model) );
+        $options          = array_merge( (array)$OPT->getValue($model), $options );
 
 		$total = $model->where($options['where'])->count();
 
