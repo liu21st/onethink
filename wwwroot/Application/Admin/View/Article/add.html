@@ -121,7 +121,6 @@ $('#submit').click(function(){
         "width"           : 120,
         "onUploadSuccess" : uploadSuccess
     });
-
 	/* 文件上传成功回调函数 */
     function uploadSuccess(file, data){
     	var data = $.parseJSON(data);
@@ -146,8 +145,8 @@ $('#submit').click(function(){
 	function uploadPicture(file, data){
     	var data = $.parseJSON(data);
         if(data.status){
-        	$("input[name=file]").val(data.data);
-        	$("input[name=file]").parent().find('.check-tips').text(data.info);
+        	$("#cover_id").val(data.id);
+        	$("#cover_id").parent().find('.check-tips').html('<img src="' + data.path + '"/>');
         } else {
         	alert(data.info);
         }
