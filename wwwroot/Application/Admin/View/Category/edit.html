@@ -4,6 +4,63 @@
 	<div class="main-title">
 		<h2>{$info['id']?'编辑':'新增'}分类</h2>
 	</div>
+	<div class="tab-wrap">
+		<ul class="tab-nav nav">
+			<li data-tab="tab1" class="current"><a href="javascript:void(0);">基础</a></li>
+			<li data-tab="tab2"><a href="javascript:void(0);">扩展</a></li>
+		</ul>
+		<div class="tab-content">
+			<form action="{:U('edit')}" method="post" class="form-horizontal">
+				<!-- 基础 -->
+				<div id="tab1" class="tab-pane in">
+					<div class="form-item">
+						<label class="item-label">
+							<em class="must">*</em>名称：<span class="check-tips">（名称不能为空）</span>
+						</label>
+						<div class="controls">
+							<input type="text" name="title" class="text input-large" value="{$info.title|default=''}">
+						</div>
+					</div>
+					<div class="form-item">
+						<label class="item-label">
+							<em class="must">*</em>标识：
+						</label>
+						<div class="controls">
+							<input type="text" name="name" class="text input-large" value="{$info.name|default=''}">
+						</div>
+					</div>
+					<div class="form-item">
+						<label class="item-label">
+							<em class="must">*</em>排序：<span class="check-tips">（排序对当前分类有效）</span>
+						</label>
+						<div class="controls">
+							<input type="text" name="sort" class="text input-large" value="{$info.sort|default=0}">
+						</div>
+					</div>
+					<div class="form-item">
+						<label class="item-label">
+							<em class="must">*</em>发布内容：
+						</label>
+						<div class="controls">
+							<label class="inline radio"><input type="radio" name="allow_publish" value="1" checked>允许</label>
+							<label class="inline radio"><input type="radio" name="allow_publish" value="0">不允许</label>
+						</div>
+					</div>
+					<div class="form-item">
+						<label class="item-label">
+							<em class="must">*</em>列表行数：
+						</label>
+						<div class="controls">
+							<input type="text" name="list_row" class="text input-large" value="{$info.list_row|default=10}">
+						</div>
+					</div>
+				</div>
+
+				<!-- 高级 -->
+				
+			</form>
+		</div>
+	</div>
 	<form action="{:U('edit')}" method="post" class="form-horizontal">
 		<div class="form-item">
 			<label class="item-label">上级分类：</label>
