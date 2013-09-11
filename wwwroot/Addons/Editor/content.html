@@ -5,54 +5,54 @@
 	</case>
 	<case value="2">
 		{// 富文本 }
+		<input type="hidden" name="parse" value="0">
 		<eq name="config.editor_wysiwyg" value="1">
-				<link rel="stylesheet" href="__STATIC__/kindeditor/default/default.css" />
-				<script charset="utf-8" src="__STATIC__/kindeditor/kindeditor-min.js"></script>
-				<script charset="utf-8" src="__STATIC__/kindeditor/zh_CN.js"></script>
-				<input type="hidden" name="parse" value="0">
-				<script type="text/javascript">
-					var editor;
-					KindEditor.ready(function(K) {
-						editor = K.create('textarea[name="{$data.name}"]', {
-							allowFileManager : true,
-							themesPath: K.basePath,
-							width: '100%',
-							height: '{$config.editor_height}',
-							resizeType: 0,
-							pasteType : 2,
-							fileManagerJson : '{:U('fileManagerJson')}',
-							uploadJson : '{:U('uploadJson')}'
-						});
+			<link rel="stylesheet" href="__STATIC__/kindeditor/default/default.css" />
+			<script charset="utf-8" src="__STATIC__/kindeditor/kindeditor-min.js"></script>
+			<script charset="utf-8" src="__STATIC__/kindeditor/zh_CN.js"></script>
+			<script type="text/javascript">
+				var editor;
+				KindEditor.ready(function(K) {
+					editor = K.create('textarea[name="{$data.name}"]', {
+						allowFileManager : true,
+						themesPath: K.basePath,
+						width: '100%',
+						height: '{$config.editor_height}',
+						resizeType: 0,
+						pasteType : 2,
+						fileManagerJson : '{:U('fileManagerJson')}',
+						uploadJson : '{:U('uploadJson')}'
 					});
+				});
 
-					$(function(){
-						$('textarea[name="{$data.name}"]').closest('form').submit(function(){
-							editor.sync();
-						});
-					})
-				</script>
+				$(function(){
+					$('textarea[name="{$data.name}"]').closest('form').submit(function(){
+						editor.sync();
+					});
+				})
+			</script>
 
-			<else />
-				<script type="text/javascript" charset="utf-8" src="__STATIC__/ueditor/ueditor.config.js"></script>
-			    <script type="text/javascript" charset="utf-8" src="__STATIC__/ueditor/ueditor.all.js"></script>
-			    <script type="text/javascript" charset="utf-8" src="__STATIC__/ueditor/lang/zh-cn/zh-cn.js"></script>
-			    <script type="text/javascript">
-			    	window.UEDITOR_HOME_URL = "__STATIC__/ueditor";
-			    	window.UEDITOR_CONFIG.initialFrameHeight = parseInt('{$config.editor_height}');
-	    			UE.getEditor('{$data.name}');
-	    			//TODO: 写统一上传时设置上传图片的url
-			    </script>
-			</eq>
+		<else />
+			<script type="text/javascript" charset="utf-8" src="__STATIC__/ueditor/ueditor.config.js"></script>
+			<script type="text/javascript" charset="utf-8" src="__STATIC__/ueditor/ueditor.all.js"></script>
+			<script type="text/javascript" charset="utf-8" src="__STATIC__/ueditor/lang/zh-cn/zh-cn.js"></script>
+			<script type="text/javascript">
+				$('textarea[name="{$data.name}"]').attr('id', 'editor_id_{$data.name}');
+				window.UEDITOR_HOME_URL = "__STATIC__/ueditor";
+				window.UEDITOR_CONFIG.initialFrameHeight = parseInt('{$config.editor_height}');
+				UE.getEditor('editor_id_{$data.name}');
+			</script>
+		</eq>
 	</case>
 	<case value="3">
 		{// UBB 官网http://www.ubbeditor.com/cn}
 		<script charset="utf-8" src="__STATIC__/ubbeditor/ubbeditor.js"></script>
 		<script type="text/javascript">
 			$(function(){
-				$('textarea[name="{$data.name}"]').attr('id', '{$data.name}').css(
+				$('textarea[name="{$data.name}"]').attr('id', 'editor_id_{$data.name}').css(
 					'height','{$config.editor_height}'
 				);
-				var nEditor = new ubbEditor('{$data.name}');
+				var nEditor = new ubbEditor('editor_id_{$data.name}');
 				nEditor.tLang = 'zh-cn';
 				nEditor.tInit('nEditor', '__STATIC__/ubbeditor/');
 			})
@@ -69,7 +69,7 @@
 		<script type="text/javascript" src="__STATIC__/xheditor/xheditor_plugins/html2markdown.js"></script>
 		<script type="text/javascript">
 			$(function(){
-				$('textarea[name="{$data.name}"]').attr('id', '{$data.name}').css(
+				$('textarea[name="{$data.name}"]').attr('id', 'editor_id_{$data.name}').css(
 					'height','{$config.editor_height}'
 				);
 			})
@@ -79,32 +79,32 @@
 			}
 			function HTML2Md(html){
 				var md = HTML2Markdown(html);
-			    md = md.replace(/&(lt|gt|amp|quot);/ig,function(all, t){
-			        return {'lt':'<','gt':'>','amp':'&','quot':'"'}[t.toLowerCase()];
-			    });
-			    return md;
+				md = md.replace(/&(lt|gt|amp|quot);/ig,function(all, t){
+					return {'lt':'<','gt':'>','amp':'&','quot':'"'}[t.toLowerCase()];
+				});
+				return md;
 			}
 
 			$(function(){
 				var markdownCSS = '<style>*{margin:0;padding:0;}p {margin:1em 0;line-height:1.5em;}table {font-size:inherit;font:100%;margin:1em;}table th{border-bottom:1px solid #bbb;padding:.2em 1em;}table td{border-bottom:1px solid #ddd;padding:.2em 1em;}input[type=text],input[type=password],input[type=image],textarea{font:99% helvetica,arial,freesans,sans-serif;}select,option{padding:0 .25em;}optgroup{margin-top:.5em;}img{border:0;max-width:100%;}abbr{border-bottom:none;}a{color:#4183c4;text-decoration:none;}a:hover{text-decoration:underline;}a code,a:link code,a:visited code{color:#4183c4;}h2,h3{margin:1em 0;}h1,h2,h3,h4,h5,h6{border:0;}h1{font-size:170%;border-bottom:4px solid #aaa;padding-bottom:.5em;margin-top:1.5em;}h1:first-child{margin-top:0;padding-top:.25em;border-top:none;}h2{font-size:150%;margin-top:1.5em;border-bottom:4px solid #e0e0e0;padding-bottom:.5em;}h3{margin-top:1em;}hr{border:1px solid #ddd;}ul{margin:1em 0 1em 2em;}ol{margin:1em 0 1em 2em;}ul li,ol li{margin-top:.5em;margin-bottom:.5em;}ul ul,ul ol,ol ol,ol ul{margin-top:0;margin-bottom:0;}blockquote{margin:1em 0;border-left:5px solid #ddd;padding-left:.6em;color:#555;}dt{font-weight:bold;margin-left:1em;}dd{margin-left:2em;margin-bottom:1em;}pre{margin-left:2em;border-left:3px solid #CCC;padding:0 1em;}</style>';
 				var plugins={
-				    Code:{c:'btnCode',t:'插入代码',h:1,e:function(){
-				        var _this=this;
-				        var htmlCode='<div><textarea id="xheCodeValue" wrap="soft" spellcheck="false" style="width:300px;height:100px;" /></div><div style="text-align:right;"><input type="button" id="xheSave" value="确定" /></div>';
-				        var jCode=$(htmlCode),
-				            jValue=$('#xheCodeValue',jCode),
-				            jSave=$('#xheSave',jCode);
-				        jSave.click(function(){
-				            _this.loadBookmark();
-				            _this.pasteHTML('<pre>'+_this.domEncode(jValue.val())+'</pre>');
-				            _this.hidePanel();
-				            return false;
-				        });
-				        _this.saveBookmark();
-				        _this.showDialog(jCode);
-				    }}
+					Code:{c:'btnCode',t:'插入代码',h:1,e:function(){
+						var _this=this;
+						var htmlCode='<div><textarea id="xheCodeValue" wrap="soft" spellcheck="false" style="width:300px;height:100px;" /></div><div style="text-align:right;"><input type="button" id="xheSave" value="确定" /></div>';
+						var jCode=$(htmlCode),
+							jValue=$('#xheCodeValue',jCode),
+							jSave=$('#xheSave',jCode);
+						jSave.click(function(){
+							_this.loadBookmark();
+							_this.pasteHTML('<pre>'+_this.domEncode(jValue.val())+'</pre>');
+							_this.hidePanel();
+							return false;
+						});
+						_this.saveBookmark();
+						_this.showDialog(jCode);
+					}}
 				};
-				$('#{$data.name}').xheditor({
+				$('#editor_id_{$data.name}').xheditor({
 					'height':'{$config.editor_height}',
 					'tools':'Cut,Copy,Paste,Pastetext,|,Blocktag,Bold,Italic,SelectAll,Removeformat,|,List,Outdent,Indent,|,Link,Unlink,Img,Hr,Code,map,|,Source,Print,Fullscreen',
 					'listBlocktag': [{n:'h1'},{n:'h2'},{n:'h3'},{n:'h4'},{n:'h5'},{n:'h6'}],
