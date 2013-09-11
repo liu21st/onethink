@@ -37,20 +37,22 @@
 
 		<div class="tools fr">
 			<div class="search-form cf">
-				<div class="drop-down">
-					<span id="sch-sort-txt" class="sort-txt" data="{$status}"><if condition="get_status_title($status) eq ''">所有<else/>{:get_status_title($status)}</if></span>
-					<i class="arrow arrow-down"></i>
-					<ul id="sub-sch-menu" class="nav-list hidden">
-						<li><a href="javascript:;" value="">所有</a></li>
-						<li><a href="javascript:;" value="1">正常</a></li>
-						<li><a href="javascript:;" value="0">禁用</a></li>
-						<li><a href="javascript:;" value="2">待审核</a></li>
-					</ul>
+				<div class="sleft">
+					<div class="drop-down">
+						<span id="sch-sort-txt" class="sort-txt" data="{$status}"><if condition="get_status_title($status) eq ''">所有<else/>{:get_status_title($status)}</if></span>
+						<i class="arrow arrow-down"></i>
+						<ul id="sub-sch-menu" class="nav-list hidden">
+							<li><a href="javascript:;" value="">所有</a></li>
+							<li><a href="javascript:;" value="1">正常</a></li>
+							<li><a href="javascript:;" value="0">禁用</a></li>
+							<li><a href="javascript:;" value="2">待审核</a></li>
+						</ul>
+					</div>
+					<input type="text" name="title" value="{:I('title')}" placeholder="请输入标题文档">
+					<a class="sch-btn" href="javascript:;" id="search" url="{:U('article/index','cate_id='.$cate_id,false)}"><i class="icon-search"></i></a>
 				</div>
-				<input type="text" name="title" value="{:I('title')}" placeholder="请输入标题文档">
-				<a class="sch-btn" href="javascript:;" id="search" url="{:U('article/index','cate_id='.$cate_id,false)}">搜索</a>
-                <div class="fr">
-                    <a class="sch-btn" href="javascript:;" >高级</a>
+                <div class="btn-group fl">
+                    <button class="btn">高级<i class="icon-arrowdown"></i></button>
                 </div>
 			</div>
 		</div>

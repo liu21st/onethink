@@ -131,9 +131,14 @@ label.textarea ~ .check-tips {
 /* 搜索表单
 ------------------------------------------ */
 .search-form {
-	border: 1px solid #ebebeb;
+	
 }
-
+.search-form .sleft {
+	margin-right: 10px;
+	float: left;
+	border: 1px solid #ebebeb;
+	background-color: #fff;
+}
 .search-form .drop-down {
 	float: left;
 	width: 81px;
@@ -143,8 +148,8 @@ label.textarea ~ .check-tips {
 .search-form .sort-txt {
 	display: inline-block;
 	margin: 0 2px 0 4px;
-	width: 56px;
-	text-align: center;
+	padding-left: 6px;
+	width: 45px;
 	cursor: pointer;
 }
 .search-form .drop-down ul {
@@ -184,10 +189,14 @@ label.textarea ~ .check-tips {
 	height: 26px;
 	line-height: 26px;
 	vertical-align: middle;
-	color: #fff;
-	background-color: #087ff5;
 }
 .search-form .sch-btn:hover {
 	color: #fff;
 	text-decoration: none;
+}
+.icon-search {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	background: url(../images/icon_search.png) no-repeat 0 0;
 }
