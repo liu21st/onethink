@@ -419,7 +419,8 @@ body{
     min-width: 100px;
 }
 .thinkbox-default .thinkbox-tools {
-    display:none;
+    border:none!important; 
+    background-color: #fff!important;
 }
 .thinkbox-default .thinkbox-top-left {
     border-radius: 0!important;
