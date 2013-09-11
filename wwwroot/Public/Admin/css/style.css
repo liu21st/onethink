@@ -442,9 +442,12 @@ body{
 
 /* 版权信息 */
 .copyright {
-    width: 100%;
+    padding: 0 15px;
     height: 40px;
     line-height: 40px;
     text-align: center;
     background-color: #f6f6f6;
+}
+.copyright a {
+    margin: 0 4px;
 }
