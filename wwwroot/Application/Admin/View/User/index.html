@@ -8,32 +8,32 @@
 	<div class="cf">
 		<div class="fl">
             <button class="btn" id="add-member" url="{:U('User/addUser')}">新 建</button>
-			<button class="btn ajax-post" url="{:U('User/changeStatus',array('method'=>'resumeUser'))}" target-form="ids">启 用</button>
-			<button class="btn ajax-post" url="{:U('User/changeStatus',array('method'=>'forbidUser'))}" target-form="ids">禁 用</button>
-			<button class="btn ajax-post confirm" url="{:U('User/changeStatus',array('method'=>'deleteUser'))}" target-form="ids">删 除</button>
-		</div>
+            <button class="btn ajax-post" url="{:U('User/changeStatus',array('method'=>'resumeUser'))}" target-form="ids">启 用</button>
+            <button class="btn ajax-post" url="{:U('User/changeStatus',array('method'=>'forbidUser'))}" target-form="ids">禁 用</button>
+            <button class="btn ajax-post confirm" url="{:U('User/changeStatus',array('method'=>'deleteUser'))}" target-form="ids">删 除</button>
+        </div>
 
-		<div class="tools fr">
-			<div class="search-form cf">
-				<div class="drop-down">
-					<span id="sch-sort-txt" class="sort-txt" data="">所有</span>
-					<i class="arrow arrow-down"></i>
-					<ul id="sub-sch-menu" class="nav-list hidden">
-						<li><a href="javascript:;" value="">所有</a></li>
-						<li><a href="javascript:;" value="1">正常</a></li>
-						<li><a href="javascript:;" value="0">禁用</a></li>
-						<li><a href="javascript:;" value="2">待审核</a></li>
-					</ul>
-				</div>
-				<input type="text" name="search" value="">
-				<a class="sch-btn" href="javascript:;" id="search" url="">高级搜索</a>
-			</div>
-		</div>
-	</div>
-	<!-- 数据列表 -->
-	<div class="data-table table-striped">
+        <div class="tools fr">
+            <div class="search-form cf">
+                <div class="drop-down">
+                    <span id="sch-sort-txt" class="sort-txt" data="">所有</span>
+                    <i class="arrow arrow-down"></i>
+                    <ul id="sub-sch-menu" class="nav-list hidden">
+                        <li><a href="javascript:;" value="">所有</a></li>
+                        <li><a href="javascript:;" value="1">正常</a></li>
+                        <li><a href="javascript:;" value="0">禁用</a></li>
+                        <li><a href="javascript:;" value="2">待审核</a></li>
+                    </ul>
+                </div>
+                <input type="text" name="uid" value="{:I('uid')}" placeholder="请输入UID">
+                <a class="sch-btn" href="javascript:;" id="search" url="{:U('User/index','',false)}">高级搜索</a>
+            </div>
+        </div>
+    </div>
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
         <?php
-            $thead = array(
+        $thead = array(
                 '_html'=>array(
                     '_th'=>'row-selected',
                     'th'=>'<input class="check-all" type="checkbox"/>',
@@ -48,11 +48,6 @@
                 ),
                 'score'=>'积分',
                 'login'=>'登陆次数',
-                'last_login_ip'=>array(
-                    '_title'=>'最后登陆ip',
-                    'tag'   =>'span',
-                    'func'  => 'long2ip($last_login_ip)',
-                ),
                 'last_login_ip'=>array(
                     '_title'=>'最后登陆IP',
                     'tag'   =>'span',
@@ -101,7 +96,6 @@
                 });
                 return false;
 			});
-<<<<<<< Updated upstream
 		})
 	//搜索功能
 	$("#search").click(function(){
@@ -131,35 +125,5 @@
 	});
     //导航高亮
     $('.side-sub-menu').find('a[href="{:U('User/index')}"]').closest('li').addClass('current');
-=======
-		});
-
-		//搜索功能
-		$("#search").click(function(){
-			var url = $(this).attr('url');
-			var status = $("#sch-sort-txt").attr("data");
-			var search = $('input[name=search]').val();
-			if(status != ''){
-				url += '/status/' + status;
-			}
-			if(search != ''){
-				url += '/search/' + encodeURIComponent(search);
-			}
-			window.location.href = url;
-		});
-		/* 高级搜索子菜单 */
-		$(".search-form").find(".drop-down").hover(function(){
-			$("#sub-sch-menu").removeClass("hidden");
-		},function(){
-			$("#sub-sch-menu").addClass("hidden");
-		});
-		$("#sub-sch-menu li").find("a").each(function(){
-			$(this).click(function(){
-				var text = $(this).text();
-				$("#sch-sort-txt").text(text).attr("data",$(this).attr("value"));
-				$("#sub-sch-menu").addClass("hidden");
-			})
-		});
->>>>>>> Stashed changes
 	</script>
 </block>
