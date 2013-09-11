@@ -47,12 +47,18 @@
 						<li><a href="javascript:;" value="2">待审核</a></li>
 					</ul>
 				</div>
-				<input type="text" name="search" value="{$search}" placeholder="请输入标题文档">
-				<a class="sch-btn" href="javascript:;" id="search" url="{:U('article/index','cate_id='.$cate_id,false)}">高级搜索</a>
+				<input type="text" name="title" value="{:I('title')}" placeholder="请输入标题文档">
+				<a class="sch-btn" href="javascript:;" id="search" url="{:U('article/index','cate_id='.$cate_id,false)}">搜索</a>
+                <div class="fr">
+                    <a class="sch-btn" href="javascript:;" >高级</a>
+                </div>
 			</div>
 		</div>
 	</div>
-		
+
+    <!-- 高级搜索 -->
+
+
 	<!-- 数据表格 -->
     <div class="data-table">
         <?php
@@ -69,6 +75,7 @@
                 ),
                 'uid'  =>array(
                     '_title'=>'创建者',
+                    'tag' =>'span',
                     'func'  =>'get_username($uid)',
                 ),
                 'create_time'=>array(
@@ -104,17 +111,17 @@ $(function(){
 	$("#search").click(function(){
 		var url = $(this).attr('url');
 		var status = $("#sch-sort-txt").attr("data");
-		var search = $('input[name=search]').val();
+		var search = $('input[name=title]').val();
 		if(status != ''){
 			url += '/status/' + status;
 		}
 		if(search != ''){
-			url += '/search/' + encodeURIComponent(search);
+			url += '/title/' + encodeURIComponent(search);
 		}
 		window.location.href = url;
 	});
 
-	/* 高级搜索子菜单 */
+	/* 状态搜索子菜单 */
 	$(".search-form").find(".drop-down").hover(function(){
 		$("#sub-sch-menu").removeClass("hidden");
 	},function(){
@@ -127,6 +134,8 @@ $(function(){
 			$("#sub-sch-menu").addClass("hidden");
 		})
 	});
+
+
 })
 </script>
 </block>

@@ -244,14 +244,12 @@ class AuthManagerController extends AdminController{
         $prefix   = C('DB_PREFIX');
         $l_table  = $prefix.(AuthGroupModel::MEMBER);
         $r_table  = $prefix.(AuthGroupModel::AUTH_GROUP_ACCESS);
-        $r_table2 = $prefix.(AuthGroupModel::UCENTER_MEMBER);
-        $list     = M() ->field('m.uid,u.username,m.last_login_time,m.last_login_ip,m.status')
+        $list     = M() ->field('m.uid,m.nickname,m.last_login_time,m.last_login_ip,m.status')
                        ->table($l_table.' m')
-                       ->join($r_table.' a ON m.uid=a.uid')
-                       ->join($r_table2.' u ON m.uid=u.id')
-                       ->where(array('a.group_id'=>$group_id));
-        $list = $this->lists($list);
-        $list = intToString($list);
+                       ->join($r_table.' a ON m.uid=a.uid');
+        $_REQUEST = array();
+        $list = $this->lists($list,array('a.group_id'=>$group_id,'m.status'=>array('egt',0)),'m.uid asc',array());
+        intToString($list);
         $this->assign( '_list', $list );
 		$this->assign('auth_group',$auth_group);
 		$this->assign('this_group',$auth_group[(int)$_GET['group_id']]);
