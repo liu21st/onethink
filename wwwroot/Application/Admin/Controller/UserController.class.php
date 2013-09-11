@@ -7,6 +7,7 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 namespace Admin\Controller;
+use User\Api\UserApi;
 /**
  * 后台用户控制器
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
@@ -21,6 +22,16 @@ class UserController extends AdminController {
     static protected $nodes = array(
     	/* 系统设置 */
         array( 'title' => '用户信息', 'url' => 'User/index', 'group' => '用户管理'),
+    	array( 'title' => '修改密码', 'url' => 'User/updatePassword', 'group' => '用户管理', 'hide'=>true,
+    			'operator'=>array(
+    				array('title'=>'修改密码','url'=>'user/submitPassword','tip'=>''),
+    			)
+    	),
+    	array( 'title' => '修改昵称', 'url' => 'User/updateNickname', 'group' => '用户管理', 'hide'=>true,
+    			'operator'=>array(
+    					array('title'=>'修改昵称','url'=>'user/submitNickname','tip'=>''),
+    			)
+    	),
         array( 'title' => '用户行为', 'url' => 'User/action', 'group' => '用户管理',
         		'operator'=>array(
         				//权限管理页面的五种按钮
@@ -46,6 +57,41 @@ class UserController extends AdminController {
 		$this->assign('_list', $list);
 		$this->meta_title = '用户-用户信息';
 		$this->display();
+	}
+
+	/**
+	 * 修改昵称初始化
+	 * @author huajie <banhuajie@163.com>
+	 */
+	public function updateNickname(){
+		$this->display();
+	}
+
+	/**
+	 * 修改密码初始化
+	 * @author huajie <banhuajie@163.com>
+	 */
+	public function updatePassword(){
+		$this->display();
+	}
+
+	/**
+	 * 修改密码提交
+	 * @author huajie <banhuajie@163.com>
+	 */
+	public function submitPassword(){
+		//获取参数
+		$uid = is_login();
+		$password = I('post.old');
+		$data['password'] = I('post.password');
+
+		$Api = new UserApi();
+		$res = $Api->updateInfo($uid, $password, $data);
+		if($res['status']){
+			$this->success('修改密码成功！');
+		}else{
+			$this->error($res['info']);
+		}
 	}
 
 	/**
@@ -138,13 +184,13 @@ class UserController extends AdminController {
         $id    = is_array($id) ? implode(',',$id) : $id;
         switch ( strtolower($method) ){
             case 'forbiduser':
-                $this->forbid('Member', array('uid'=>array('in',$id)) );    
+                $this->forbid('Member', array('uid'=>array('in',$id)) );
                 break;
             case 'resumeuser':
-                $this->resume('Member', array('uid'=>array('in',$id)) );    
+                $this->resume('Member', array('uid'=>array('in',$id)) );
                 break;
             case 'deleteuser':
-                $this->delete('Member', array('uid'=>array('in',$id)) );    
+                $this->delete('Member', array('uid'=>array('in',$id)) );
                 break;
             default:
                 $this->error('参数非法');
