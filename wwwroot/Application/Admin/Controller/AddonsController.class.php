@@ -49,6 +49,7 @@ class AddonsController extends AdminController {
 
     //创建向导首页
     public function create(){
+        $this->meta_title = '扩展-插件管理-创建向导';
         $hooks = D('Hooks')->field('name,description')->select();
         $this->assign('Hooks',$hooks);
         $this->display('create');
@@ -196,6 +197,7 @@ str;
      * 插件列表
      */
     public function index(){
+        $this->meta_title = '扩展-插件管理-插件列表';
         $this->assign('list',D('Addons')->getList());
         $this->assign('creatable', is_writable(C('AUTOLOAD_NAMESPACE.Addons')));
         $this->display();
@@ -212,6 +214,7 @@ str;
         $param = $addon->admin_list;
         if(!$param)
             $this->error('插件列表信息不正确');
+        $this->meta_title = '扩展-已装插件后台-'.$addon->info['title'];
         extract($param);
         $this->assign('title', $addon->info['title']);
         if($addon->custom_adminlist)
@@ -265,6 +268,7 @@ str;
         $id = (int)I('id');
         $addon = D('Addons')->find($id);
         $addon_class = addons($addon['name']);
+        $this->meta_title = '扩展-插件管理-设置插件-'.$addon_class->info['title'];
         $db_config = $addon['config'];
         $addon['config'] = include $addon_class->config_file;
         if($db_config){
@@ -362,6 +366,7 @@ str;
      * 钩子列表
      */
     public function hooks(){
+        $this->meta_title = '扩展-钩子列表';
         $map = $order = $fields = array();
         $list = $this->lists(D("Hooks")->field($fields),$map,$order);
         $thead = array(

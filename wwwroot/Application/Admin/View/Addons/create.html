@@ -127,7 +127,7 @@ return array(
 			<label class="item-label"></label>
 			<div class="controls">
 				<button class="btn" type="button" id="preview">预览</button>
-				<button class="btn" id="submit">确定</button>
+				<button class="btn ajax-post_custom" target-form="form-horizontal" id="submit">确定</button>
 			</div>
 		</div>
 	</form>
@@ -189,9 +189,10 @@ return array(
 			return false;
 		});
 
-		$('#form').submit(function(){
-			var check_url = '{:U('checkForm')}';
-			var flag = false;
+		$('.ajax-post_custom').click(function(){
+	        var target,query,form;
+	        var target_form = $(this).attr('target-form');
+	        var check_url = '{:U('checkForm')}';
 			$.ajax({
 			   type: "POST",
 			   url: check_url,
@@ -200,14 +201,42 @@ return array(
 			   data: $('#form').serialize(),
 			   success: function(data){
 			    	if(data.status){
-			    		flag = true;
+    			        if( ($(this).attr('type')=='submit') || (target = $(this).attr('href')) || (target = $(this).attr('url')) ){
+				            form = $('.'+target_form);
+				            if ( form.get(0).nodeName=='FORM' ){
+				                target = form.get(0).action;
+				                query = form.serialize();
+				            }else if( form.get(0).nodeName=='INPUT' || form.get(0).nodeName=='SELECT' || form.get(0).nodeName=='TEXTAREA') {
+				                query = form.serialize();
+				            }else{
+				                query = form.find('input,select,textarea').serialize();
+				            }
+				            $.post(target,query).success(function(data){
+				                if (data.status==1) {
+				                    if (data.url) {
+				                        updateAlert(data.info + ' 页面即将自动跳转~','alert-success');
+				                    }else{
+				                        updateAlert(data.info + ' 页面即将自动刷新~','alert-success');
+				                    }
+				                    setTimeout(function(){
+				                        if (data.url) {
+				                            location.href=data.url;
+				                        }
+				                        location.reload();
+				                    },1500);
+				                }else{
+				                    updateAlert(data.info);
+				                }
+				            });
+				        }
 			    	}else{
-						$.thinkbox.error(data.info);
-						return false;
+			    		updateAlert(data.info);
 					}
 			   }
 			});
-			return flag;
-		});
+
+	        return false;
+	    });
+
 	</script>
 </block>
