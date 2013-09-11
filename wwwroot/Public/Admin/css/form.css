@@ -7,12 +7,13 @@
 ------------------------------------------ */
 .text,.textarea {
 	padding: 4px;
-	border: 1px solid #ccc;
+	border: 1px solid #eeeeee;
+	background-color: #fff;
 	transition: all .3s linear;
 }
 .text {
 	width: 220px;
-	height: 16px;
+	height: 20px;
 	vertical-align: middle;
 }
 .textarea {
@@ -48,12 +49,36 @@ select {
 	width: 390px;
 }
 .input-mid {
-	width: 150px
+	width: 150px;
 }
 .input-small {
-	width: 100px
+	width: 100px;
 }
 .input-mini {
+	width: 50px;
+}
+.input-8x {
+	width: 400px;
+}
+.input-7x {
+	width: 350px;
+}
+.input-6x {
+	width: 300px;
+}
+.input-5x {
+	width: 250px;
+}
+.input-4x {
+	width: 200px;
+}
+.input-3x {
+	width: 150px;
+}
+.input-2x {
+	width: 100px;
+}
+.input-x {
 	width: 50px;
 }
 
@@ -93,7 +118,7 @@ label.textarea ~ .check-tips {
 
 .search-form .drop-down {
 	float: left;
-	width: 75px;
+	width: 81px;
 	height: 30px;
 	line-height: 30px;
 }
@@ -120,9 +145,11 @@ label.textarea ~ .check-tips {
 	padding: 0 10px;
 	height: 30px;
 	line-height: 30px;
+	width:60px;
 }
 .search-form .drop-down ul a:hover {
 	background-color: #f0f0f0;
+	border:none;
 }
 .search-form input {
 	float: left;

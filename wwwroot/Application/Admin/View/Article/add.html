@@ -39,8 +39,8 @@
 					<div class="form-item cf">
 						<label class="item-label">简介：<span class="check-tips">请输入简介</span></label>
 						<div class="controls">
-							<label class="textarea">
-								<textarea name="description" class="input-large"></textarea>
+							<label class="textarea input-large">
+								<textarea name="description"></textarea>
 							</label>
 						</div>
 					</div>
@@ -93,9 +93,9 @@
 			            <input type="hidden" name="type" value="2">
 			            <input type="hidden" name="category_id" value="{$cate_id}">
 			            <input type="hidden" name="model_id" value="{$model_id}">
-						<a class="btn hidden" id="submit" href="javascript:;">保 存</a>
-						<a class="btn" id="submit-next" href="javascript:;">下一步</a>
-						<a class="btn" href="{:U('article/index?cate_id='.$cate_id)}">返 回</a>
+						<button class="btn hidden ajax-post" type="submit" target-form="form-horizontal" id="submit">保 存</button>
+						<button class="btn" id="submit-next" type="button" href="javascript:;">下一步</button>
+						<a class="btn" type="button" href="{:U('article/index?cate_id='.$cate_id)}">返 回</a>
 					</div>
 				</div>
 			</form>
@@ -106,10 +106,6 @@
 <block name="script">
 <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
 <script type="text/javascript">
-$('#submit').click(function(){
-	$('#form').submit();
-});
-
 (function($){
 	//上传附件
 	/* 初始化上传插件 */
@@ -121,7 +117,6 @@ $('#submit').click(function(){
         "width"           : 120,
         "onUploadSuccess" : uploadSuccess
     });
-
 	/* 文件上传成功回调函数 */
     function uploadSuccess(file, data){
     	var data = $.parseJSON(data);
@@ -146,8 +141,8 @@ $('#submit').click(function(){
 	function uploadPicture(file, data){
     	var data = $.parseJSON(data);
         if(data.status){
-        	$("input[name=file]").val(data.data);
-        	$("input[name=file]").parent().find('.check-tips').text(data.info);
+        	$("#cover_id").val(data.id);
+        	$("#cover_id").parent().find('.check-tips').html('<img src="' + data.path + '"/>');
         } else {
         	alert(data.info);
         }
@@ -167,8 +162,8 @@ $(function(){
 	}).filter("[data-tab=tab" + window.location.hash.substr(1) + "]").click();
 
 	$("#submit-next").click(function(){
-		$(".tab-nav li.current").next().click();
-		showBtn();
+        $(".tab-nav li.current").next().click();
+        showBtn();
 	});
 
 	function showBtn() {

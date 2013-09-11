@@ -81,14 +81,14 @@ class FileController extends AdminController {
 
 		/* 记录图片信息 */
 		if($info){
-			$return['data'] = think_encrypt(json_encode($info['download']));
-			$return['info'] = $info['download']['name'];
+			$return['status'] = 1;
+			$return = array_merge($info['download'], $return);
 		} else {
 			$return['status'] = 0;
 			$return['info']   = $Picture->getError();
 		}
 
 		/* 返回JSON数据 */
-		$this->ajaxReturn($info);
+		$this->ajaxReturn($return);
 	}
 }
