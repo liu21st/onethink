@@ -4,7 +4,7 @@
  */
 
 /* 小图标icon */
-i[class^="icon"],
+/*i[class^="icon"],
 .icon {
 	display: inline-block;
 	margin-right: 2px;
@@ -13,7 +13,7 @@ i[class^="icon"],
 	vertical-align: middle;
 	background-image: url(../images/icon_bg.png);
 	background-repeat: no-repeat;
-}
+}*/
 .icon-add {
 	background-position: 0 0;
 }
