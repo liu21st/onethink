@@ -7,13 +7,14 @@
 // | Author: huajie <banhuajie@163.com>
 // +----------------------------------------------------------------------
 namespace Admin\Model;
+use Think\Model;
 use COM\Upload;
 /**
  * 图片模型
  * 负责图片的上传
  */
 
-class PictureModel extends CmsadminModel{
+class PictureModel extends Model{
 	/**
 	 * 自动完成
 	 * @var array

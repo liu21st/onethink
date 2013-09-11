@@ -102,7 +102,7 @@ class UserController extends HomeController {
 
 	/* 验证码，用于登录和注册 */
 	public function verify(){
-		$verify = new \COM\ThinkVerify\ThinkVerify();
+		$verify = new \COM\Verify();
 		$verify->entry(1);
 	}
 

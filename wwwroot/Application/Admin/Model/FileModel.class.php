@@ -7,6 +7,7 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 namespace Admin\Model;
+use Think\Model;
 use COM\Upload;
 
 /**
@@ -14,7 +15,7 @@ use COM\Upload;
  * 负责文件的下载和上传
  */
 
-class FileModel extends CmsadminModel{
+class FileModel extends Model{
 	/**
 	 * 文件模型自动完成
 	 * @var array

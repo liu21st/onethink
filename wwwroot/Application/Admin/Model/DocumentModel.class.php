@@ -7,11 +7,12 @@
 // | Author: huajie <banhuajie@163.com>
 // +----------------------------------------------------------------------
 namespace Admin\Model;
+use Think\Model;
 use Admin\Model\AuthGroupModel;
 /**
  * 文档基础模型
  */
-class DocumentModel extends CmsadminModel{
+class DocumentModel extends Model{
 
 	/* 自动验证规则 */
 	protected $_validate = array(
