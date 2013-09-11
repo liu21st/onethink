@@ -43,7 +43,11 @@ textarea {
 	overflow: auto;
 	resize: none;
 }
-
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
 /* 布局样式 */
 .cf,.nav {
 	*zoom: 1;

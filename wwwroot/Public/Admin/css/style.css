@@ -439,3 +439,12 @@ body{
     /* background-image:none!important; */
     /* background-color:#dd0000!important; */
 }
+
+/* 版权信息 */
+.copyright {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background-color: #f6f6f6;
+}
