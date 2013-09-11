@@ -90,7 +90,13 @@ class UserApi extends Api{
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function updateInfo($uid, $password, $data){
-		return $this->model->updateUserFields($uid, $password, $data);
+		if($this->model->updateUserFields($uid, $password, $data) !== false){
+			$return['status'] = true;
+		}else{
+			$return['status'] = false;
+			$return['info'] = $this->model->getError();
+		}
+		return $return;
 	}
 
 }
