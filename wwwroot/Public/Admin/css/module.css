@@ -336,7 +336,7 @@
 #top-alert {
     width: 100%;
     top: 50px;
-    z-index: 10;
+    z-index: 3000;
     display: block;
     overflow: hidden;
 }

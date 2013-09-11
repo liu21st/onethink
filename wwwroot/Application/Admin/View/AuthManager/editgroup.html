@@ -28,7 +28,7 @@
         var target,query,form;
         var target_form = $(this).attr('target-form');
         if( (this.type=='submit') || (target = $(this).attr('href')) || (target = $(this).attr('url')) ){
-            form = $('.'+target_form);
+            form = $(this).closest('.'+target_form);
             if ( form.get(0).nodeName=='FORM' ){
                 target = form.get(0).action;
                 query = form.serialize();
