@@ -21,6 +21,7 @@ class FileController extends AdminController {
 					'operator'=>array(
 							//权限管理页面的五种按钮
 							array('title'=>'上传','url'=>'file/upload'),
+							array('title'=>'上传图片','url'=>'file/uploadPicture'),
 							array('title'=>'下载','url'=>'file/download'),
 					),
 			),
@@ -61,5 +62,33 @@ class FileController extends AdminController {
 			$this->error($logic->getError());
 		}
 
+	}
+
+
+	/**
+	 * 上传图片
+	 * @author huajie <banhuajie@163.com>
+	 */
+	public function uploadPicture(){
+		//TODO: 用户登录检测
+
+		/* 返回标准数据 */
+		$return  = array('status' => 1, 'info' => '上传成功', 'data' => '');
+
+		/* 调用文件上传组件上传文件 */
+		$Picture = D('Picture');
+		$info = $Picture->upload($_FILES, C('PICTURE_UPLOAD')); //TODO:上传到远程服务器
+
+		/* 记录图片信息 */
+		if($info){
+			$return['data'] = think_encrypt(json_encode($info['download']));
+			$return['info'] = $info['download']['name'];
+		} else {
+			$return['status'] = 0;
+			$return['info']   = $Picture->getError();
+		}
+
+		/* 返回JSON数据 */
+		$this->ajaxReturn($info);
 	}
 }
