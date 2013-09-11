@@ -31,13 +31,20 @@
                     if (data.url) {
                         updateAlert(data.info + ' 页面即将自动跳转~','alert-success');
                     }else{
-                        updateAlert(data.info + ' 页面即将自动刷新~','alert-success');
+                        updateAlert(data.info,'alert-success');
+                        setTimeout(function(){
+                            $('#top-alert').find('button').click();
+
+                        },1500);
                     }
                     setTimeout(function(){
                         if (data.url) {
                             location.href=data.url;
+                        }else if( $(this).hasClass('no-refresh')){
+                            $('#top-alert').find('button').click();
+                        }else{
+                            location.reload();
                         }
-                        location.reload();
                     },1500);
                 }else{
                     updateAlert(data.info);
@@ -74,13 +81,16 @@
                     if (data.url) {
                         updateAlert(data.info + ' 页面即将自动跳转~','alert-success');
                     }else{
-                        updateAlert(data.info + ' 页面即将自动刷新~','alert-success');
+                        updateAlert(data.info ,'alert-success');
                     }
                     setTimeout(function(){
                         if (data.url) {
                             location.href=data.url;
+                        }else if( $(this).hasClass('no-refresh')){
+                            $('#top-alert').find('button').click();
+                        }else{
+                            location.reload();
                         }
-                        location.reload();
                     },1500);
                 }else{
                     updateAlert(data.info);
