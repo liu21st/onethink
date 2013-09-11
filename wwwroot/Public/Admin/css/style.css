@@ -18,9 +18,8 @@ body{
     width: 100%;
     height: 50px;
     line-height: 50px;
-    background-color: #222;
+    background-color: #383838;
     overflow: hidden;
-	opacity: 0.90;
 }
 .header .logo {
     float: left;
@@ -441,12 +440,15 @@ body{
 }
 
 /* 版权信息 */
+.cont-ft {
+    margin: 0 15px;
+}
 .copyright {
-    padding: 0 15px;
     height: 40px;
     line-height: 40px;
     text-align: center;
     background-color: #f6f6f6;
+    border-top: 1px solid #ccc;
 }
 .copyright a {
     margin: 0 4px;
