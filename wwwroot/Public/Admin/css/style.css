@@ -301,60 +301,37 @@ body{
 /* 分页 */
 .page {
     margin: 10px 0;
+    *zoom: 1;
 }
-.page .show-page {
+.page:before,
+.page:after {
+    display: table;
+    content: "";
+}
+.page:after {
+    clear:both;
+}
+.page a,
+.page span {
     float: left;
-    color: #999;
+    margin-right: 3px;
+    padding: 0 6px;
+    height: 24px;
+    line-height: 24px;
+    color: #fff;
+    background-color: #696969;
 }
-.page .page-box {
-    float: right;
-    font-size: 0;
-    height: 35px;
-}
-.page-box div {
-    border: 1px solid #d7d7d7;
-}
-.page-box a, .page-box span {
-    padding: 7px 12px 0;
-    height: 26px;
-    font-size: 12px;
-    font-family: "Tahoma";
-    display: inline-block;
-}
-.page-box a:link, .page-box a:visited {
-    color: #686868;
+.page a:hover,
+.page .current {
     text-decoration: none;
+    border-bottom: 0 none;
+    background-color: #a0a0a0;
 }
-.page-box a:active, .page-box a:hover {
-    border-left: 1px solid #d6d6d6;
-    border-right: 1px solid #d6d6d6;
-    text-decoration: none;
-    background-color: #fefefe;
-    padding:9px 11px 0;
-    height:26px;
-    background-image: -ms-linear-gradient(top, #fafafa, #ececec);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fafafa), to(#ececec));
-    background-image: -moz-linear-gradient(top, #fafafa, #ececec);
-    background-image: -o-linear-gradient(top, #fafafa, #ececec);
-    background-image: linear-gradient(top, #fafafa, #ececec);
-    background-repeat: repeat-x;
-    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#fafafa', endColorstr='#ececec', GradientType=0);
-    filter: progid:dximagetransform.microsoft.gradient(enabled=false);
-    background:#fafafa\9;
- 
+.page .next,
+.page .prev {
+    font-family: "宋体";
 }
-.page-box .current{
-    border-left: 1px solid #d6d6d6;
-    border-right: 1px solid #d6d6d6;
-    color:#333333;
-    font-weight:700;
-    border-top:2px solid #37adf0;
-    margin-top:-1px;
-    padding:8px 11px 0;
-    height:26px;
-    *padding:9px 11px 0;
-}
-.member-form{
+.member-form {
     display: none;
     width: 360px;
     padding: 12px 60px;
@@ -396,11 +373,6 @@ body{
 .config-form fieldset {
     margin-bottom: 20px;
 }
-.config-form .item-label {
-    padding-right: 10px;
-    min-width: 170px;
-}
-
 /* 授权表单 */
 .auth-form {
     padding: 15px;
@@ -415,12 +387,6 @@ body{
 .hooktpl .textarea {
     max-width: 500px;
 }
-
-/* 文档模型编辑页 */
-.doc-modal-form .item-label {
-    width: 100px;
-}
-
 .add-pop-form {
     width: 500px;
 }
