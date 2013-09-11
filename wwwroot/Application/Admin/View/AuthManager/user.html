@@ -55,15 +55,13 @@
 
 </div>
 </block>
+
 <block name="script">
-<script src="__STATIC__/jquery.cookies.2.2.0.min.js"></script>
 <script type="text/javascript" charset="utf-8">
 	$('select[name=group]').change(function(){
 		location.href = this.value;
 	});
     //导航高亮
-    var cookie_prefix = '{:C("COOKIE_PREFIX")}';
-	var auth_index = $.cookies.get(cookie_prefix+'auth_index');
-    $('.side-sub-menu').find('a[href*="'+ auth_index+'"]').closest('li').addClass('current');
+    $('.side-sub-menu').find('a[href="{:U('AuthManager/index')}"]').closest('li').addClass('current');
 </script>
 </block>
