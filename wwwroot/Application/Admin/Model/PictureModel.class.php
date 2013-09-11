@@ -7,7 +7,7 @@
 // | Author: huajie <banhuajie@163.com>
 // +----------------------------------------------------------------------
 namespace Admin\Model;
-use COM\ThinkUpload\ThinkUpload;
+use COM\Upload;
 /**
  * 图片模型
  * 负责图片的上传
@@ -34,8 +34,8 @@ class PictureModel extends CmsadminModel{
 	public function upload($files, $setting, $driver = 'Local', $config = null){
 		/* 上传文件 */
 		$setting['callback'] = array($this, 'isFile');
-		$ThinkUpload = new ThinkUpload($setting, $driver, $config);
-		$info   = $ThinkUpload->upload($files);
+		$Upload = new Upload($setting, $driver, $config);
+		$info   = $Upload->upload($files);
 
 		if($info){ //文件上传成功，记录文件信息
 			foreach ($info as $key => &$value) {
@@ -55,7 +55,7 @@ class PictureModel extends CmsadminModel{
 			}
 			return $info; //文件上传成功
 		} else {
-			$this->error = $ThinkUpload->getError();
+			$this->error = $Upload->getError();
 			return false;
 		}
 	}

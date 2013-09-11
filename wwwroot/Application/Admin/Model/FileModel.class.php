@@ -7,7 +7,8 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 namespace Admin\Model;
-use COM\ThinkUpload\ThinkUpload;
+use COM\Upload;
+
 /**
  * 文件模型
  * 负责文件的下载和上传
@@ -41,8 +42,8 @@ class FileModel extends CmsadminModel{
 	public function upload($files, $setting, $driver = 'Local', $config = null){
 		/* 上传文件 */
 		$setting['callback'] = array($this, 'isFile');
-		$ThinkUpload = new ThinkUpload($setting, $driver, $config);
-		$info   = $ThinkUpload->upload($files);
+		$Upload = new Upload($setting, $driver, $config);
+		$info   = $Upload->upload($files);
 
 		/* 设置文件保存位置 */
 		$this->_auto[] = array('location', 'Ftp' === $driver ? 1 : 0, self::MODEL_INSERT);
@@ -64,7 +65,7 @@ class FileModel extends CmsadminModel{
 			}
 			return $info; //文件上传成功
 		} else {
-			$this->error = $ThinkUpload->getError();
+			$this->error = $Upload->getError();
 			return false;
 		}
 	}
