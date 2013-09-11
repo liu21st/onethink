@@ -8,7 +8,7 @@
         <input type="hidden" name="uid" value="{:I('uid')}">
         <input type="hidden" name="batch" value="true">
         <div style="text-align: right; margin-top: 10px;">
-            <input class="btn ajax-post" target-form="auth-form" type="submit" value="保存">
+            <input class="btn ajax-save" target-form="auth-form" type="submit" value="保存">
         </div>
     </form>
 </div>
@@ -23,7 +23,7 @@
         });
     })
 //ajax post submit请求
-$('.ajax-post').click(function(){
+$('.ajax-save').click(function(){
     var target,query,form;
     var target_form = $(this).attr('target-form');
     if( (this.type=='submit') || (target = $(this).attr('href')) || (target = $(this).attr('url')) ){
@@ -38,9 +38,19 @@ $('.ajax-post').click(function(){
         }
         $.post(target,query).success(function(data){
             if (data.status==1) {
-                location.reload();
+                if (data.url) {
+                    updateAlert(data.info + ' 页面即将自动跳转~','alert-success');
+                }else{
+                    updateAlert(data.info + ' 页面即将自动刷新~','alert-success');
+                }
+                setTimeout(function(){
+                    if (data.url) {
+                        location.href=data.url;
+                    }
+                    location.reload();
+                },1500);
             }else{
-                //TODO: 错误提示
+                updateAlert(data.info);
             }
         });
     }

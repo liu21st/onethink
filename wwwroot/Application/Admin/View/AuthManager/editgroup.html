@@ -39,9 +39,19 @@
             }
             $.post(target,query).success(function(data){
                 if (data.status==1) {
-                    location.reload();
+                    if (data.url) {
+                        updateAlert(data.info + ' 页面即将自动跳转~','alert-success');
+                    }else{
+                        updateAlert(data.info + ' 页面即将自动刷新~','alert-success');
+                    }
+                    setTimeout(function(){
+                        if (data.url) {
+                            location.href=data.url;
+                        }
+                        location.reload();
+                    },1500);
                 }else{
-                    //TODO: 错误提示
+                    updateAlert(data.info);
                 }
             });
         }
