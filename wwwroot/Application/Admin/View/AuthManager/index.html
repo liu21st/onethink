@@ -3,19 +3,20 @@
 	<!-- 标题栏 -->
 	<div class="main-title">
 		<h2>用户组管理</h2>
-		<div class="tools auth-botton">
-            <a id="add-group" class="btn edit-group" href="{:U('createGroup')}">新建</a>
-            <a url="{:U('changestatus',array('method'=>'resumeGroup'))}" id="enable-group" class="btn" href="javascript:;">启用</a>
-            <a url="{:U('changestatus',array('method'=>'forbidGroup'))}" id="disable-group" class="btn" href="javascript:;">禁用</a>
-            <a url="{:U('changestatus',array('method'=>'deleteGroup'))}" id="delete-group" class="btn auth-button" href="javascript:;">删除</a>
-		</div>
 	</div>
 
+    <div class="tools auth-botton">
+        <a id="add-group" class="btn edit-group" href="{:U('createGroup')}">新 建</a>
+        <a url="{:U('changestatus',array('method'=>'resumeGroup'))}" class="btn ajax-post" target-form="ids" >启 用</a>
+        <a url="{:U('changestatus',array('method'=>'forbidGroup'))}" class="btn ajax-post" target-form="ids" >禁 用</a>
+        <a url="{:U('changestatus',array('method'=>'deleteGroup'))}" class="btn ajax-post confirm" target-form="ids" >删 除</a>
+    </div>
 	<!-- 数据列表 -->
 	<div class="data-table table-striped">
         <?php
             $thead = array(
                 '_html'=>array(
+                    '_th'=>'row-selected',
                     'th'=>'<input class="check-all" type="checkbox"/>',
                     'td'=>'<input class="ids" type="checkbox" name="id[]" value="$id" />',
                 ),
@@ -34,9 +35,9 @@
                 ),
                 'status_text'=>'状态',
                 '操作'=>array(
-                    '禁用'=>array( 'href' => 'AuthManager/changeStatus?method=forbidGroup&id=$id', 'condition'=>'$status==1',), 
-                    '启用'=>array( 'href' => 'AuthManager/changeStatus?method=resumeGroup&id=$id', 'condition'=>'$status==0',), 
-                    '删除'=>array( 'href' => 'AuthManager/changeStatus?method=deleteGroup&id=$id', 'class'=>'confirm' ),
+                    '禁用'=>array( 'href' => 'AuthManager/changeStatus?method=forbidGroup&id=$id', 'class'=>'ajax-get', 'condition'=>'$status==1',), 
+                    '启用'=>array( 'href' => 'AuthManager/changeStatus?method=resumeGroup&id=$id', 'class'=>'ajax-get', 'condition'=>'$status==0',), 
+                    '删除'=>array( 'href' => 'AuthManager/changeStatus?method=deleteGroup&id=$id', 'class'=>'confirm ajax-get' ),
                 ),
                 '授权'=>array(
                     '访问授权'=>'AuthManager/access?group_name=$title&group_id=$id',
@@ -47,44 +48,17 @@
             echo $_table_list = $__controller__->tableList($_list,$thead);
         ?>
 	</div>
-    <div class="page_nav">
+    <div class="page-box">
         {$_page}
     </div>
 </block>
 
 <block name="script">
-<script type="text/javascript">
-    +function($){
-        $('.confirm').on('click',function(){
-            if(!confirm('确认要删除吗?')){
-                return false;
-            }
-        });
-        $('.auth-button').on('click',function(){
-            if( this.id=='delete-group' && !confirm('确认要删除吗?')){
-                return false;
-            }
-            var url = $(this).attr('url');
-            var ids = $('.ids').serialize();
-            if (!ids) {
-                //TODO: 错误提示
-               	return false;
-            }
-            $.post(url,ids).success(function(data){
-                location.reload();
-            }).error(function(data){
-                //TODO: 错误提示
-                return false;
-            });
-        });
-        //全选节点
-    }(jQuery)
-</script>
 <script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
 <script type="text/javascript">
 	$(function(){
 		$(".edit-group").click(function(){
-            var id = $(this).attr('data-id');
+            var authorUrl,id = $(this).attr('data-id');
             var title =id?'编辑用户组':'新建用户组'; 
 			var thinkboxOption = {
 				title:title,
@@ -92,8 +66,18 @@
 				drag:true,
 				tools:true
 			}
-			var authorUrl = "{:U('AuthManager/editGroup')}"+'?id='+id;
-			$.thinkbox.load(authorUrl,thinkboxOption);
+            if( this.id=="add-group" ){
+                authorUrl = "{:U('AuthManager/createGroup')}";
+            }else{
+                authorUrl = "{:U('AuthManager/editGroup')}"+'?id='+id;
+            }
+            $.get(authorUrl).success(function(data){
+                if(data.status==0){
+                    updateAlert(data.info);
+                }else{
+                    $.thinkbox(data,thinkboxOption);
+                }
+            });
             return false;
 		});
 	})

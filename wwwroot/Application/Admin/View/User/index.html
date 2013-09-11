@@ -7,10 +7,10 @@
 	</div>
 <div class="cf">
 					<div class="fl">
-                        <button class="btn" id="add-member" url="{:U('User/addUser')}">新 增</button>
+                        <button class="btn" id="add-member" url="{:U('User/addUser')}">新 建</button>
 						<button class="btn ajax-post" url="{:U('User/changeStatus',array('method'=>'resumeUser'))}" target-form="ids">启 用</button>
-						<button class="btn ajax-post" url="{:U('User/changeStatus',array('method'=>'deleteUser'))}" target-form="ids">删 除</button>
-						<button class="btn ajax-post confirm" url="{:U('User/changeStatus',array('method'=>'forbidUser'))}" target-form="ids">禁 用</button>
+						<button class="btn ajax-post" url="{:U('User/changeStatus',array('method'=>'forbidUser'))}" target-form="ids">禁 用</button>
+						<button class="btn ajax-post confirm" url="{:U('User/changeStatus',array('method'=>'deleteUser'))}" target-form="ids">删 除</button>
 					</div>
 
 					<div class="tools fr">
@@ -37,7 +37,7 @@
                 '_html'=>array(
                     '_th'=>'row-selected',
                     'th'=>'<input class="check-all" type="checkbox"/>',
-                    'td'=>'<input class="ids" type="checkbox" name="id[]" value="$id" />',
+                    'td'=>'<input class="ids" type="checkbox" name="id[]" value="$uid" />',
                 ),
                 'uid'  => 'UID',
                 // 'username'=>array(
@@ -68,7 +68,7 @@
                     '禁用'=>array( 'href' => 'User/changeStatus?method=forbidUser&id=$uid', 'class'=>'ajax-get', 'condition'=>'$status==1',), 
                     '启用'=>array( 'href' => 'User/changeStatus?method=resumeUser&id=$uid', 'class'=>'ajax-get', 'condition'=>'$status==0',), 
                     '删除'=>array( 'href' => 'User/changeStatus?method=deleteUser&id=$uid', 'class'=>'confirm ajax-get' ),
-                    '授权'=>array( 'href' => 'AuthManager/group?uid=$uid', 'class'=>'ajax-get'),
+                    '授权'=>array( 'href' => 'AuthManager/group?uid=$uid', 'class'=>'authorize'),
                 ),
             );
             echo $_table_list = $__controller__->tableList($_list,$thead);
@@ -89,10 +89,17 @@
 					title:'用户授权',
 					actions:['close'],
 					drag:true,
-					tools:false
+					tools:true
 				}
-				var authorUrl = "{:U('AuthManager/group',array('uid'=>$user['uid']))}";
-				$.thinkbox.load(authorUrl,thinkboxOption);
+				var authorUrl = this.href;
+                $.get(authorUrl).success(function(data){
+                    if(data.status==0){
+                        updateAlert(data.info);
+                    }else{
+                        $.thinkbox(data,thinkboxOption);
+                    }
+                });
+                return false;
 			});
 		})
 	//搜索功能

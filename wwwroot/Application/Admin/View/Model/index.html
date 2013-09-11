@@ -5,61 +5,52 @@
 	<div class="main-title">
 		<h2>文档模型列表</h2>
 
-		<div class="tools">
-			<button class="btn" id="document_add" url="{:U('model/add')}">新增</button>
-			<button class="btn" name="document_operate" status="-1">删除</button>
-			<button class="btn" name="document_operate" status="1">启用</button>
-			<button class="btn" name="document_operate" status="0">禁用</button>
-		</div>
 	</div>
+    <div class="tools">
+        <button class="btn edit-model" url="{:U('Model/add')}">新 增</button>
+        <button class="btn ajax-post" target-form="ids" url="{:U('Model/setStatus',array('status'=>1))}">启 用</button>
+        <button class="btn ajax-post" target-form="ids" url="{:U('Model/setStatus',array('status'=>0))}">禁 用</button>
+        <button class="btn ajax-post confirm" target-form="ids" url="{:U('Model/setStatus',array('status'=>-1))}">删 除</button>
+    </div>
 
 	<!-- 数据列表 -->
 	<div class="data-table">
-		<table>
-			<thead>
-				<tr>
-					<th class="row-selected"><input type="checkbox" id="selectall"/></th>
-					<th>编号</th>
-					<th>文档模型</th>
-					<th>标题</th>
-					<th>创建时间</th>
-					<th>状态</th>
-					<th>操作</th>
-				</tr>
-			</thead>
-			<tbody>
-				<volist name="list" id="vo">
-				<tr>
-					<td><input type="checkbox" value="{$vo.id}" class="child_checkbox"/></td>
-					<td>{$vo.id}</td>
-					<td>{$vo.name}</td>
-					<td><a href="{:U('edit',array('id'=>$vo['id']))}">{$vo.title}</a></td>
-					<td>{$vo.create_time|time_format}</td>
-					<td>{$vo.status|get_status_title}</td>
-					<td>
-						<a href="{:U('edit',array('id'=>$vo['id']))}">编辑</a>
-						<a href="{:U('setStatus',array('ids'=>$vo['id'],'status'=>-1))}">删除</a>
-						<eq name="vo['status']" value="0">
-							<a href="{:U('setStatus',array('ids'=>$vo['id'],'status'=>1))}">启用</a>
-						</eq>
-						<eq name="vo['status']" value="1">
-							<a href="{:U('setStatus',array('ids'=>$vo['id'],'status'=>0))}">禁用</a>
-						</eq>
-						<eq name="vo['status']" value="2">
-							<a href="{:U('setStatus',array('ids'=>$vo['id'],'status'=>1))}">审核</a>
-						</eq>
-					</td>
-				</tr>
-				</volist>
-			</tbody>
-		</table>
-	</div>
-	<!-- 分页 -->
-	<div class="page">{$page}</div>
-	<!-- /分页 -->
-
+        <div class="data-table table-striped">
+            <?php
+                $thead = array(
+                    '_html'=>array(
+                        '_th'=>'row-selected',
+                        'th'=>'<input class="check-all" type="checkbox"/>',
+                        'td'=>'<input class="ids" type="checkbox" name="id[]" value="$id" />',
+                    ),
+                    'id'  => '编号',
+                    'name'=>'文档模型',
+                    'title'=>array(
+                        '_title'=>'标题',
+                        'class' => 'edit-model',
+                        'data-id'=>'$id',
+                        'href'   =>'Model/edit?id=$id',
+                    ),
+                    'create_time'=>array(
+                        '_title'=>'创建时间',
+                        'tag'   =>'span',
+                        'func'  => 'date("Y-m-d H:i:s",$create_time)',
+                    ),
+                    'status_text'=>'状态',
+                    '操作'=>array(
+                        '禁用'=>array( 'href' => 'Model/setStatus?id=$id&status=0', 'class'=>'ajax-get', 'condition'=>'$status==1',), 
+                        '启用'=>array( 'href' => 'Model/setStatus?id=$id&status=1', 'class'=>'ajax-get', 'condition'=>'$status==0',), 
+                    ),
+                );
+                echo $_table_list = $__controller__->tableList($_list,$thead);
+            ?>
+        </div>
+        <div class="page_nav">
+            {$_page}
+        </div>
 </block>
 <block name="script">
+<script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
 <script type="text/javascript">
 $(function(){
 	$("#search").click(function(){
@@ -74,42 +65,20 @@ $(function(){
 		}
 		window.location.href = url;
 	});
-	$("#document_add").click(function(){
-		window.location.href = $(this).attr('url');
-	})
-	$("button[name=document_operate]").click(function(){
-		var status = $(this).attr('status');
-		//获取选中的数据
-		var checked = $('input:checked');
-		var ids = new Array();
-		checked.each(function(i){
-			var id = $(this).val();
-			if(id != 'on'){
-				ids[ids.length] = id;
-			}
-		});
-		if(ids.length == 0){
-			alert('请选择要操作的数据！');
-			return false;
-		}
-		//进行ajax操作
-		$.post(
-			"{:U('setStatus')}",
-			{
-				'ids' : ids,
-				'status' : status
-			},
-			function(data){
-				if(data.status == 1){
-					alert('设置成功！');
-					setTimeout(function(){window.location.reload()},1500);
-				}else{
-					alert('操作失败！');
-				}
-			},
-			'json'
-		);
-	});
+
+    $(".edit-model").click(function(){
+        var authorUrl,id = $(this).attr('data-id');
+        var title = id?'编辑用户组':'新建用户组'; 
+        authorUrl = id?"{:U('Model/edit')}"+'?id='+id:"{:U('Model/add')}" ;
+        var thinkboxOption = {
+            title:title,
+            actions:['close'],
+            drag:true,
+            tools:true
+        }
+        $.thinkbox.load(authorUrl,thinkboxOption);
+        return false;
+    });
 })
 </script>
 </block>

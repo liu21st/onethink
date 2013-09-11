@@ -125,6 +125,7 @@ class AuthManagerController extends AdminController{
         $this->assign( '_use_tip', true );
         $this->nav(2,'权限管理');
         cookie( 'auth_index',__SELF__);
+		$this->meta_title = '权限管理';
         $this->display();
     }
 
@@ -160,8 +161,8 @@ class AuthManagerController extends AdminController{
     public function access()
     {
         $this->updateRules();
-        $auth_group = D('AuthGroup')->where( array('module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
-                                    ->find( (int)$_GET['group_id'] );
+        $auth_group = D('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
+									->getfield('id,id,title,rules');
         $node_list   = $this->returnNodes();
         $map         = array('module'=>'admin','type'=>AuthRuleModel::RULE_MAIN,'status'=>1);
         $main_rules  = D('AuthRule')->where($map)->getField('name,id');
@@ -172,7 +173,9 @@ class AuthManagerController extends AdminController{
         $this->assign('auth_rules',$child_rules);
         $this->assign('node_list',$node_list);
         $this->assign('auth_group',$auth_group);
+		$this->assign('this_group',$auth_group[(int)$_GET['group_id']]);
         $this->nav(3,'访问授权');
+		$this->meta_title = '权限管理-访问授权';
         $this->display('managergroup');
     }
     
@@ -212,18 +215,18 @@ class AuthManagerController extends AdminController{
      */
     public function changeStatus($method=null)
     {
-        switch ( $method ){
+        switch ( strtolower($method) ){
             case 'forbidgroup':
-                $this->forbid('AuthGroup');    
+                $this->forbid('AuthGroup');
                 break;
             case 'resumegroup':
-                $this->resume('AuthGroup');    
+                $this->resume('AuthGroup');
                 break;
             case 'deletegroup':
-                $this->delete('AuthGroup');    
+                $this->delete('AuthGroup');
                 break;
             default:
-                $this->error('参数非法');
+                $this->error($method.'参数非法');
         }
     }
 
@@ -236,6 +239,8 @@ class AuthManagerController extends AdminController{
             $this->error('参数错误');
         }
 
+		$auth_group = D('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
+			->getfield('id,id,title,rules');
         $prefix   = C('DB_PREFIX');
         $l_table  = $prefix.(AuthGroupModel::MEMBER);
         $r_table  = $prefix.(AuthGroupModel::AUTH_GROUP_ACCESS);
@@ -248,7 +253,10 @@ class AuthManagerController extends AdminController{
         $list = $this->lists($list);
         $list = intToString($list);
         $this->assign( '_list', $list );
+		$this->assign('auth_group',$auth_group);
+		$this->assign('this_group',$auth_group[(int)$_GET['group_id']]);
         $this->nav(3,'成员授权');
+		$this->meta_title = '权限管理-成员授权';
         $this->display();
     }
 
@@ -257,11 +265,16 @@ class AuthManagerController extends AdminController{
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     public function category(){
+		$auth_group = D('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
+			->getfield('id,id,title,rules');
         $group_list   = D('Category')->getTree();
         $authed_group = AuthGroupModel::getCategoryOfGroup(I('group_id'));
         $this->assign('authed_group',implode(',',(array)$authed_group));
         $this->assign('group_list',$group_list);
+		$this->assign('auth_group',$auth_group);
+		$this->assign('this_group',$auth_group[(int)$_GET['group_id']]);
         $this->nav(3,'分类授权');
+		$this->meta_title = '权限管理-分类授权';
         $this->display();
     }
 
@@ -295,7 +308,7 @@ class AuthManagerController extends AdminController{
     {
         $uid = I('uid');
         $gid = I('group_id');
-        if( empty($uid) || empty($gid) ){
+        if( empty($uid) ){
             $this->error('参数有误');
         }
         if ( C('USER_ADMINISTRATOR')==$uid ) {
@@ -305,7 +318,8 @@ class AuthManagerController extends AdminController{
         if( !M('Member')->where(array('uid'=>$uid))->find() ){
             $this->error('管理员用户不存在');
         }
-        if(!$AuthGroup->checkGroupId($gid)){
+
+        if( $gid && !$AuthGroup->checkGroupId($gid)){
             $this->error($AuthGroup->error);
         }
         if ( $AuthGroup->addToGroup($uid,$gid) ){
@@ -348,14 +362,14 @@ class AuthManagerController extends AdminController{
     {
         $cid = I('cid');
         $gid = I('group_id');
-        if( empty($cid) || empty($gid) ){
+        if( empty($gid) ){
             $this->error('参数有误');
         }
         $AuthGroup = D('AuthGroup');
         if( !$AuthGroup->find($gid)){
             $this->error('用户组不存在');
         }
-        if(!$AuthGroup->checkCategoryId($cid)){
+        if( $cid && !$AuthGroup->checkCategoryId($cid)){
             $this->error($AuthGroup->error);
         }
         if ( $AuthGroup->addToCategory($gid,$cid) ){

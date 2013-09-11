@@ -27,7 +27,7 @@
 }
 .tab-nav .current a,
 .tab-nav .current a:hover {
-	border-color: #34b4e0 #e0e0e0 #fff;
+	border-color: #34b4e0 #e0e0e0 #f6f6f6;
 }
 .tab-content .tab-pane {
 	display: none;
@@ -198,20 +198,21 @@
 ------------------------------------------ */
 .category {
 	margin: 10px 0;
-	border: 1px solid #d4d4d4;
+	/*border: 1px solid #d4d4d4;*/
 	border-bottom-width: 0; 
 }
 .category .hd {
 	font-weight: bold;
 	border-bottom: 1px solid #d4d4d4;
-	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#FAFAFA), to(#F3F3F3));
-	background-image: -moz-linear-gradient(top, #FAFAFA, #F3F3F3);
-	background-image: -o-linear-gradient(top, #FAFAFA, #F3F3F3);
-	background-image: linear-gradient(top, #FAFAFA, #F3F3F3);
-	background-color: #F8F8F8;
+	/*background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#FAFAFA), to(#F3F3F3));*/
+	/*background-image: -moz-linear-gradient(top, #FAFAFA, #F3F3F3);*/
+	/*background-image: -o-linear-gradient(top, #FAFAFA, #F3F3F3);*/
+	/*background-image: linear-gradient(top, #FAFAFA, #F3F3F3);*/
+	color:#fff;
+	background-color: #353535;
 }
 .category .cate-item dt {
-	border-bottom: 1px solid #d4d4d4;
+	border-bottom: 1px solid #E7E7E7;
 }
 .category dl,
 .category dd,
@@ -234,11 +235,8 @@
 	text-align: center;
 }
 .opt-btn {
-	/*float: right;
-	margin: 5px 10px 0 0;*/
-	display: none;
-	float: left;
-	margin: 5px 0 0 10px;
+	float: right;
+	margin: 5px 10px 0 0;
 }
 .category .check {
 	width: 40px;
@@ -325,4 +323,49 @@
 }
 .category > dl > dd > dl:last-child > dd > dl:last-child > dt .tab-sign {
 	background-position: 0 -120px;
+}
+
+.category input{
+	height: 16px;
+}
+
+.auth-category >dl>dt{
+	background: #eee;
+}
+
+#top-alert {
+    width: 100%;
+    top: 50px;
+    z-index: 3000;
+    display: block;
+    overflow: hidden;
+}
+button.close {
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    -webkit-appearance: none;
+}
+.close {
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 20px;
+    color: #000000;
+    text-shadow: 0 1px 0 #ffffff;
+    opacity: 0.2;
+    filter: alpha(opacity=20);
+}
+
+#top-alert .close{
+    right:8px;
+    position: fixed;
+    top:50px;
+}
+
+.alert-content{
+    max-width:600px;
+    word-wrap: break-word;
+    word-break: break-word;
 }

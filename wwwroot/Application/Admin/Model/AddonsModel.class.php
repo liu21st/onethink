@@ -86,7 +86,9 @@ class AddonsModel extends Model {
 			$addons = addons($name);
 			$info = $addons->info;
 			if($info)
-				$info['uninstall'] = 1;
+                $info['uninstall'] = 1;
+            else
+                $info['uninstall'] = 0;
 		}
 		return $info;
 	}

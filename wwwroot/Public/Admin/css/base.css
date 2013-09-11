@@ -27,10 +27,11 @@ img {
 	border:0 none;
 }
 a {
-	color: #08C;
+	color: #2d7200;
 	text-decoration:none;
 }
 a:hover{
+	color: #4bbd00;
 	border-bottom: 1px solid;
 }
 input,button,textarea,select,option {
@@ -55,12 +56,6 @@ textarea {
 .cf:after,.nav:after {
 	clear: both;
 }
-.fl {
-	float: left;
-}
-.fr {
-	float: right;
-}
 .wrapper {
 	margin-left: auto;
 	margin-right: auto;
@@ -80,5 +75,28 @@ textarea {
 .nav-list li a:hover {
 	display: block;
 	text-decoration: none;
+	outline: none;
 	border-bottom: 0 none;
+}
+.fl{
+	float: left!important;
+}
+.fr{
+	float: right!important;
+}
+
+.fixed{
+    position: fixed!important;
+}
+
+.text-center{
+	text-align: center!important;
+}
+
+.text-right{
+	text-align: right!important;
+}
+
+.text-left{
+	text-align: left!important;
 }

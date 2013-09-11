@@ -14,6 +14,7 @@ namespace Admin\Controller;
 
 class CategoryController extends AdminController {
 
+    static protected $allow = array( 'tree');
         /**
      * 左侧导航节点定义
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
@@ -21,7 +22,11 @@ class CategoryController extends AdminController {
     static protected $nodes = array(
         
         /* 导航栏目设置 */
-        array( 'title' => '分类管理', 'url' => 'Category/index', 'group' => '导航栏目设置'),
+        array( 'title' => '分类管理', 'url' => 'Category/index', 'group' => '导航栏目设置',
+            'operator'=>array(
+                array('title'=>'编辑','url'=>'Category/edit','tip'=>'新增编辑和保存栏目分类'),
+            ),
+        ),
     );
 
     /**

@@ -7,30 +7,28 @@
     padding: 6px 16px;
     font-size: 14px;
     line-height: 18px;
-    color: #fff;
+    color: #edffd1;
     text-align: center;
     vertical-align: middle;
     cursor: pointer;
     border: 0 none;
-    border-radius: 2px;
-    background-color: #2980B9;
+	background-color: #4bbd00;
 }
 .btn:hover {
-    color: #fff;
+    color: #ffffff;
     text-decoration: none;
-    background-color: #3498DB;
-    border-bottom: 0 none;
+    background-color: #4cdb00;
 }
 .submit-btn {
     padding: 10px 50px;
     color: #fff;
     font-weight: bold;
     border-color: transparent;
-    background-color: #EE784C;
+    background-color: #CC3900;
 }
 .submit-btn:hover {
     color: #fff;
-    background-color: #E88B68;
+    background-color: #ff2610;
 }
 .btn-mini {
     padding: 4px 10px;

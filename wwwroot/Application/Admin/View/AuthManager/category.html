@@ -2,21 +2,22 @@
 <block name="body">
 <div class="tab-wrap">
     <ul class="tab-nav nav">
-        <li class="fr"><a href="{:U('AuthManager/access',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">访问授权</a></li>
-        <li class="fr"><a href="{:U('AuthManager/user',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">成员授权</a></li>
-        <li class="current fr"><a href="javascript:;">分类授权</a></li>
+        <li><a href="{:U('AuthManager/access',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">访问授权</a></li>
+        <li><a href="{:U('AuthManager/user',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">成员授权</a></li>
+        <li class="current"><a href="javascript:;">分类授权</a></li>
+	    <li class="fr">
+		    <select name="group">
+			    <volist name="auth_group" id="vo">
+				    <option value="{:U('AuthManager/category',array('group_id'=>$vo['id'],'group_name'=>$vo['title']))}" <eq name="vo['id']" value="$this_group['id']">selected</eq> >{$vo.title}</option>
+			    </volist>
+		    </select>
+	    </li>
     </ul>
     <!-- 表格列表 -->
-    <div class="main-title">
-        <h2>用户组:{:I('group_name')}</h2>
-    </div>
     <div class="tb-unit posr">
-        <form action="{:U('AuthManager/addToCategory')}" method="post" enctype="application/x-www-form-urlencoded">
+        <form class="save-category" action="{:U('AuthManager/addToCategory')}" method="post" enctype="application/x-www-form-urlencoded">
             <input type="hidden" name="group_id" value="{:I('group_id')}">
-            <div class="tb-unit-bar">
-                <button class="btn">保存</button>
-            </div>
-            <div class="category">
+            <div class="category auth-category">
                 <div class="hd cf">
                     <div class="fold">折叠</div>
                     <div class="order">选择</div>
@@ -26,7 +27,7 @@
             </div>
 
             <div class="tb-unit-bar">
-                <button class="btn">保存</button>
+                <button class="btn ajax-post" type="submit" target-form="save-category">保存</button>
             </div>
         </form>
     </div>
@@ -37,19 +38,19 @@
 <script type="text/javascript">
     +function($){
         /* 分类展开收起 */
-        $(".category dd").prev().find(".fold i").addClass("icon-minus")
-        .click(function(){
-            var self = $(this);
-            if(self.hasClass("icon-minus")){
-                self.closest("dt").next().slideUp("fast", function(){
-                    self.removeClass("icon-minus").addClass("icon-plus");
-                });
-            } else {
-                self.closest("dt").next().slideDown("fast", function(){
-                    self.removeClass("icon-plus").addClass("icon-minus");
-                });
-            }
-        });
+        $(".category dd").prev().find(".fold i").addClass("icon-unfold")
+            .click(function(){
+                var self = $(this);
+                if(self.hasClass("icon-unfold")){
+                    self.closest("dt").next().slideUp("fast", function(){
+                        self.removeClass("icon-unfold").addClass("icon-fold");
+                    });
+                } else {
+                    self.closest("dt").next().slideDown("fast", function(){
+                        self.removeClass("icon-fold").addClass("icon-unfold");
+                    });
+                }
+            });
 
         var auth_groups = [{$authed_group}];
         $('.cate_id').each(function(){
@@ -57,6 +58,9 @@
                 $(this).prop('checked',true);
             }
         });
+	    $('select[name=group]').change(function(){
+		    location.href = this.value;
+	    });
     }(jQuery);
 	</script>
 <script src="__STATIC__/jquery.cookies.2.2.0.min.js"></script>
