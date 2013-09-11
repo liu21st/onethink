@@ -26,38 +26,33 @@
 	<!-- 表单 -->
 	<form id="form" action="{:U('build')}" method="post" class="form-horizontal doc-modal-form">
 		<div class="form-item cf">
-			<label class="item-label">标识名：</label>
+			<label class="item-label">标识名：<span class="check-tips">请输入插件标识</span></label>
 			<div class="controls">
 				<input type="text" class="text" name="info[name]" value="Example">
-				<span class="check-tips">请输入插件标识</span>
 			</div>
 		</div>
 		<div class="form-item cf">
-			<label class="item-label">插件名：</label>
+			<label class="item-label">插件名：<span class="check-tips">请输入插件名</span></label>
 			<div class="controls">
 				<input type="text" class="text" name="info[title]" value="示列">
-				<span class="check-tips">请输入插件名</span>
 			</div>
 		</div>
 		<div class="form-item cf">
-			<label class="item-label">版本：</label>
+			<label class="item-label">版本：<span class="check-tips">请输入插件名</span></label>
 			<div class="controls">
 				<input type="text" class="text" name="info[version]" value="0.1">
-				<span class="check-tips">请输入插件名</span>
 			</div>
 		</div>
 		<div class="form-item cf">
-			<label class="item-label">作者：</label>
+			<label class="item-label">作者：<span class="check-tips">请输入插件名</span></label>
 			<div class="controls">
 				<input type="text" class="text" name="info[author]" value="无名">
-				<span class="check-tips">请输入插件名</span>
 			</div>
 		</div>
 		<div class="form-item cf">
-			<label class="item-label">描述：</label>
+			<label class="item-label">描述：<span class="check-tips">请输入描述</span></label>
 			<div class="controls">
 				<textarea class="textarea" name="info[description]">这是一个临时描述</textarea>
-				<span class="check-tips">请输入描述</span>
 			</div>
 		</div>
 		<div class="form-item cf">
@@ -67,7 +62,10 @@
 			</div>
 		</div>
 		<div class="form-item cf">
-			<label class="item-label">是否需要配置：</label>
+			<label class="item-label">
+				是否需要配置：
+				<span class="check-tips has_config hidden">自定义模板,注意：自定义模板里的表单name必须为config[name]这种，获取保存后配置的值用$data.config.name</span>
+			</label>
 			<div class="controls">
 				<input type="checkbox" id="has_config" class="checkbox" name="has_config" value="1" />
 				<textarea class="textarea has_config hidden" name="config">
@@ -86,7 +84,6 @@ return array(
 				</textarea>
 				<br>
 				<input type="text" class="text has_config hidden" name="custom_config">
-				<span class="check-tips has_config hidden">自定义模板,注意：自定义模板里的表单name必须为config[name]这种，获取保存后配置的值用$data.config.name</span>
 			</div>
 		</div>
 		<div class="form-item cf">
@@ -96,8 +93,8 @@ return array(
 			</div>
 		</div>
 		<div class="form-item cf">
+			<label class="item-label">实现的钩子方法：</label>
 			<div class="controls">
-				<label class="item-label">实现的钩子方法：</label>
 				<select class="select" name="hook">
 					<volist name="Hooks" id="vo">
 						<option value="{$vo.name}" title="{$vo.description}">{$vo.name}</option>
