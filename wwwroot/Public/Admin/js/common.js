@@ -31,16 +31,26 @@
                     if (data.url) {
                         updateAlert(data.info + ' 页面即将自动跳转~','alert-success');
                     }else{
-                        updateAlert(data.info + ' 页面即将自动刷新~','alert-success');
+                        updateAlert(data.info,'alert-success');
                     }
                     setTimeout(function(){
                         if (data.url) {
                             location.href=data.url;
+                        }else if( $(this).hasClass('no-refresh')){
+                            $('#top-alert').find('button').click();
+                        }else{
+                            location.reload();
                         }
-                        location.reload();
                     },1500);
                 }else{
                     updateAlert(data.info);
+                    setTimeout(function(){
+                        if (data.url) {
+                            location.href=data.url;
+                        }else{
+                            $('#top-alert').find('button').click();
+                        }
+                    },1500);
                 }
             });
           
@@ -52,13 +62,15 @@
     $('.ajax-post').click(function(){
         var target,query,form;
         var target_form = $(this).attr('target-form');
-        if ( $(this).hasClass('confirm') ) {
-            if(!confirm('确认要执行该操作吗?')){
-                return false;
-            }
-        }
         if( ($(this).attr('type')=='submit') || (target = $(this).attr('href')) || (target = $(this).attr('url')) ){
             form = $('.'+target_form);
+
+            if ( form.get(0) && $(this).hasClass('confirm') ) {
+                if(!confirm('确认要执行该操作吗?')){
+                    return false;
+                }
+            }
+
             if (form.get(0)==undefined){
                 return false;
             }else if ( form.get(0).nodeName=='FORM' ){
@@ -74,16 +86,26 @@
                     if (data.url) {
                         updateAlert(data.info + ' 页面即将自动跳转~','alert-success');
                     }else{
-                        updateAlert(data.info + ' 页面即将自动刷新~','alert-success');
+                        updateAlert(data.info ,'alert-success');
                     }
                     setTimeout(function(){
                         if (data.url) {
                             location.href=data.url;
+                        }else if( $(this).hasClass('no-refresh')){
+                            $('#top-alert').find('button').click();
+                        }else{
+                            location.reload();
                         }
-                        location.reload();
                     },1500);
                 }else{
                     updateAlert(data.info);
+                    setTimeout(function(){
+                        if (data.url) {
+                            location.href=data.url;
+                        }else{
+                            $('#top-alert').find('button').click();
+                        }
+                    },1500);
                 }
             });
         }
@@ -129,5 +151,34 @@
 		userMenu.data("timeout") && clearTimeout(userMenu.data("timeout"));
 		userMenu.data("timeout", setTimeout(function(){userMenu.hide()}, 100));
 	});
+
+    //标签页切换
+    (function(){
+        //初始化通过锚点判断显示哪个标签页
+        var last = $(".tab-nav li:last");
+        $(".tab-nav li").click(function(){
+            var self = $(this), target = self.data("tab");
+            self.addClass("current").siblings(".current").removeClass("current");
+            window.location.hash = "#" + target.substr(3);
+            $(".tab-pane.in").removeClass("in");
+            $("." + target).addClass("in");
+            showBtn();
+        }).filter("[data-tab=tab" + window.location.hash.substr(1) + "]").click();
+
+        $("#submit-next").click(function(){
+            $(".tab-nav li.current").next().click();
+            showBtn();
+        });
+
+        function showBtn() {
+            if( last.hasClass("current") ) {
+                $("#submit").removeClass("hidden");
+                $("#submit-next").addClass("hidden");
+            } else {
+                $("#submit").addClass("hidden");
+                $("#submit-next").removeClass("hidden");
+            }
+        }
+    })() 
 });
 
