@@ -157,8 +157,6 @@
 
 /* 提醒框 */
 .alert {
-	margin-bottom: 5px;
-	padding: 8px 35px 8px 14px;
 	color: #c09853;
 	border: 1px solid #fbeed5;
 	background-color: #fcf8e3;
