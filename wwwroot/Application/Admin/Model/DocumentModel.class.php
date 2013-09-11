@@ -29,6 +29,7 @@ class DocumentModel extends Model{
 		array('category_id,type', 'checkCategory', '该分类不允许发布内容', self::MUST_VALIDATE , 'callback', self::MODEL_INSERT),
 		array('category_id', 'checkCategory', '该分类不允许发布内容', self::EXISTS_VALIDATE , 'callback', self::MODEL_UPDATE),
 		array('model_id,category_id', 'checkModel', '该分类没有绑定当前模型', self::MUST_VALIDATE , 'callback', self::MODEL_INSERT),
+		array('dateline', '/^\d{4,4}-\d{1,2}-\d{1,2}(\s\d{1,2}:\d{1,2}:\d{1,2})?$/', '日期格式不合法,请使用"年-月-日"格式,全部为数字', self::VALUE_VALIDATE  , 'regex', self::MODEL_BOTH),
 	);
 
 	/* 自动完成规则 */
