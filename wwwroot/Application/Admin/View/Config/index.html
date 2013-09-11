@@ -1,0 +1,44 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<div class="main-title">
+		<h2>配置管理</h2>
+	</div>
+
+	<div class="cf">
+		<a class="btn" href="{:U('edit')}">添加</a>
+		<a class="btn" href="javascript:;">删除</a>
+	</div>
+
+	<div class="data-table table-striped">
+		<table>
+			<thead>
+				<tr>
+					<th class="row-selected">
+						<input class="checkbox check-all" type="checkbox">
+					</th>
+					<th>ID</th>
+					<th>名称</th>
+					<th>标题</th>
+					<th>说明</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist name="list" id="config">
+					<tr>
+						<td><input class="ids row-selected" type="checkbox" name="" id=""></td>
+						<td>{$config.id}</td>
+						<td><a href="{:U('edit?id='.$config['id'])}">{$config.name}</a></td>
+						<td>{$config.title}</td>
+						<td>{$config.remark}</td>
+						<td>
+							<a title="编辑" href="{:U('edit?id='.$config['id'])}">编辑</a>
+							<a title="删除" href="#">删除</a>
+						</td>
+					</tr>
+				</volist>
+			</tbody>
+		</table>
+	</div>
+</block>
