@@ -1,0 +1,27 @@
+<?php
+	return array(
+		'editor_type'=>array(
+			'title'=>'编辑器类型:',
+			'type'=>'select',
+			'options'=>array(
+				'1'=>'普通文本',
+				'2'=>'富文本',
+				'3'=>'UBB解析',
+				'4'=>'Markdown编辑器'
+			),
+			'value'=>'1',
+		),
+		'editor_wysiwyg'=>array(
+			'title'=>'富文本编辑器:',
+			'type'=>'select',
+			'options'=>array(
+				'1'=>'Kindeditor',
+				'2'=>'Ueditor(百度编辑器)',
+			)
+		),
+		'editor_height'=>array(
+			'title'=>'编辑器高度:',
+			'type'=>'text',
+			'value'=>'500px'
+		)
+	);

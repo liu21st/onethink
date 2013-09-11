@@ -9,6 +9,7 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 namespace COM;
+
 class Page{
     public $firstRow; // 起始行数
     public $listRows; // 列表每页显示行数

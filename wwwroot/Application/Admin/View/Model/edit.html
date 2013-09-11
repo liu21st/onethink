@@ -41,11 +41,21 @@ $('.ajax-post').click(function(){
             query = form.find('input,select,textarea').serialize();
         }
         $.post(target,query).success(function(data){
-            if (data.status==1) {
-                location.reload();
-            }else{
-                //TODO: 错误提示
-            }
+	        if (data.status==1) {
+		        if (data.url) {
+			        updateAlert(data.info + ' 页面即将自动跳转~','alert-success');
+		        }else{
+			        updateAlert(data.info + ' 页面即将自动刷新~','alert-success');
+		        }
+		        setTimeout(function(){
+			        if (data.url) {
+				        location.href=data.url;
+			        }
+			        location.reload();
+		        },1500);
+	        }else{
+		        updateAlert(data.info);
+	        }
         });
     }
     return false;

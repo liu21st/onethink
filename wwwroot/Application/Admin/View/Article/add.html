@@ -59,6 +59,12 @@
 						</div>
 					</div>
 					<div class="form-item cf">
+						<label class="item-label">截止时间：</label>
+						<div class="controls">
+							<input id="dateline" type="text" class="text input-5x" name="dateline" value="">
+						</div>
+					</div>
+					<div class="form-item cf">
 						<label class="item-label">可见性：<span class="check-tips">（可见性必选）</span></label>
 						<div class="controls">
 							<label class="radio">
@@ -67,12 +73,6 @@
 							<label class="radio">
 								<input type="radio" name="display" value="1" <eq name="display" value="1">checked="checked"</eq>>所有人可见
 							</label>
-						</div>
-					</div>
-					<div class="form-item cf">
-						<label class="item-label">截止时间：</label>
-						<div class="controls">
-							<input type="text" class="text input-large" name="dateline" value="0">
 						</div>
 					</div>
 					<div class="form-item cf">
@@ -108,7 +108,9 @@
 </block>
 
 <block name="script">
+<link href="__JS__/glDatePicker/styles/glDatePicker.flatwhite.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+<script type="text/javascript" src="__JS__/glDatePicker/glDatePicker.js"></script>
 <script type="text/javascript">
 (function($){
 	//上传附件
@@ -128,7 +130,7 @@
         	$("input[name=file]").val(data.data);
         	$("input[name=file]").parent().find('.check-tips').text(data.info);
         } else {
-        	alert(data.info);
+        	updateAlert(data.info);
         }
     }
 
@@ -148,7 +150,7 @@
         	$("#cover_id").val(data.id);
         	$("#cover_id").parent().find('.check-tips').html('<img src="' + data.path + '"/>');
         } else {
-        	alert(data.info);
+        	updateAlert(data.info);
         }
     }
 })(jQuery);
@@ -179,6 +181,16 @@ $(function(){
 			$("#submit-next").removeClass("hidden");
 		}
 	}
+
+	$('#dateline').glDatePicker(
+	{
+		showAlways: false,
+        cssName: 'flatwhite',
+        onClick: (function(el, cell, date, data) {
+            el.val(date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate());
+        }),
+	});
 });
+
 </script>
 </block>

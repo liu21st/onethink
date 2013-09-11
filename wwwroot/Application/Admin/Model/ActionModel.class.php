@@ -7,12 +7,14 @@
 // | Author: huajie <banhuajie@163.com>
 // +----------------------------------------------------------------------
 namespace Admin\Model;
+use Think\Model;
+
 /**
  * 行为模型
  * @author huajie <banhuajie@163.com>
  */
 
-class ActionModel extends CmsadminModel {
+class ActionModel extends Model {
 
 	/* 自动验证规则 */
 	protected $_validate = array(

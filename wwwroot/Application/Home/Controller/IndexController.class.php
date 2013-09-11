@@ -42,7 +42,7 @@ class IndexController extends HomeController {
             //     'password' => 'thinkphp2013', //又拍云密码
             //     'bucket'   => 'thinkphp-static', //空间名称
             // );
-            // $upload = new \COM\ThinkUpload\ThinkUpload(array('rootPath' => 'image/'), 'Upyun', $config);
+            // $upload = new \COM\Upload(array('rootPath' => 'image/'), 'Upyun', $config);
             //百度云存储
             $config = array(
                 'AccessKey'  =>'3321f2709bffb9b7af32982b1bb3179f',
@@ -50,7 +50,7 @@ class IndexController extends HomeController {
                 'bucket'     =>'test-upload',
                 'size'      =>'104857600'
             );
-    		$upload = new \COM\ThinkUpload\ThinkUpload(array('rootPath' => './Uploads/bcs'), 'Bcs', $config);
+    		$upload = new \COM\Upload(array('rootPath' => './Uploads/bcs'), 'Bcs', $config);
     		$info   = $upload->upload($_FILES);
     		dump($upload->getError());
     		dump($info);

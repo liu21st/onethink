@@ -19,7 +19,7 @@ use Common\Controller\Addons;
 
 		public $info = array(
 				'name'=>'Editor',
-				'title'=>'编辑器',
+				'title'=>'前台编辑器',
 				'description'=>'用于增强整站长文本的输入和显示',
 				'status'=>1,
 				'author'=>'thinkphp',
@@ -44,13 +44,4 @@ use Common\Controller\Addons;
 			$this->display('content');
 		}
 
-		/**
-		 * 编辑器挂载的后台文档模型文章内容钩子
-		 * @param array('name'=>'表单name','value'=>'表单对应的值')
-		 */
-		public function adminArticleEdit($data){
-			$this->assign('data', $data);
-			$this->assign('config', $this->getConfig());
-			$this->display('content');
-		}
 	}

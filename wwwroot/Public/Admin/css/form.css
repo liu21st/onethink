@@ -21,6 +21,7 @@
 }
 .textarea textarea {
 	width: 100%;
+	height: 140px;
 	border: 0 none;
 }
 .checkbox + .checkbox,
@@ -81,12 +82,18 @@ select {
 .input-x {
 	width: 50px;
 }
+.must {
+	margin: 3px;
+	color: #f00;
+	font-style: normal;
+	font-weight: normal;
+	vertical-align: middle;
+}
 
 /* 多行两列表单
 ------------------------------------------ */
 .form-horizontal .form-item {
 	margin-bottom: 5px;
-	/*font-size: 14px;*/
 }
 .form-horizontal .item-label {
 	display: block;
@@ -114,13 +121,24 @@ select {
 label.textarea ~ .check-tips {
 	margin-left: 0;
 }
+.form-horizontal .controls .block.check-tips,
+.form-horizontal .controls .block.textarea {
+	display: block;
+	margin-left: 0;
+	margin-bottom: 10px;
+}
 
 /* 搜索表单
 ------------------------------------------ */
 .search-form {
-	border: 1px solid #ebebeb;
+	
 }
-
+.search-form .sleft {
+	margin-right: 10px;
+	float: left;
+	border: 1px solid #ebebeb;
+	background-color: #fff;
+}
 .search-form .drop-down {
 	float: left;
 	width: 81px;
@@ -130,8 +148,8 @@ label.textarea ~ .check-tips {
 .search-form .sort-txt {
 	display: inline-block;
 	margin: 0 2px 0 4px;
-	width: 56px;
-	text-align: center;
+	padding-left: 6px;
+	width: 45px;
 	cursor: pointer;
 }
 .search-form .drop-down ul {
@@ -171,10 +189,14 @@ label.textarea ~ .check-tips {
 	height: 26px;
 	line-height: 26px;
 	vertical-align: middle;
-	color: #fff;
-	background-color: #087ff5;
 }
 .search-form .sch-btn:hover {
 	color: #fff;
 	text-decoration: none;
+}
+.icon-search {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	background: url(../images/icon_search.png) no-repeat 0 0;
 }

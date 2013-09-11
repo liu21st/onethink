@@ -7,11 +7,12 @@
 // | Author: huajie <banhuajie@163.com>
 // +----------------------------------------------------------------------
 namespace Admin\Model;
+use Think\Model;
 use Admin\Model\AuthGroupModel;
 /**
  * 文档基础模型
  */
-class DocumentModel extends CmsadminModel{
+class DocumentModel extends Model{
 
 	/* 自动验证规则 */
 	protected $_validate = array(
@@ -28,6 +29,7 @@ class DocumentModel extends CmsadminModel{
 		array('category_id,type', 'checkCategory', '该分类不允许发布内容', self::MUST_VALIDATE , 'callback', self::MODEL_INSERT),
 		array('category_id', 'checkCategory', '该分类不允许发布内容', self::EXISTS_VALIDATE , 'callback', self::MODEL_UPDATE),
 		array('model_id,category_id', 'checkModel', '该分类没有绑定当前模型', self::MUST_VALIDATE , 'callback', self::MODEL_INSERT),
+		array('dateline', '/^\d{4,4}-\d{1,2}-\d{1,2}(\s\d{1,2}:\d{1,2}:\d{1,2})?$/', '日期格式不合法,请使用"年-月-日"格式,全部为数字', self::VALUE_VALIDATE  , 'regex', self::MODEL_BOTH),
 	);
 
 	/* 自动完成规则 */
@@ -43,6 +45,7 @@ class DocumentModel extends CmsadminModel{
 		array('update_time', NOW_TIME, self::MODEL_BOTH),
 		array('status', 'getStatus', self::MODEL_BOTH, 'callback'),
 		array('position', 'getPosition', self::MODEL_BOTH, 'callback'),
+		array('dateline', 'strtotime', self::MODEL_BOTH, 'function'),
 	);
 
 	/**
