@@ -142,8 +142,11 @@ function extra_menu($extra_menu,&$base_menu){
  * @author huajie <banhuajie@163.com>
  */
 function get_parent_category($cid){
+	if(empty($cid)){
+		return false;
+	}
 	$cates = M('Category')->where(array('status'=>1))->field('id,title,pid')->order('sort')->select();
-	$child = get_category($cid);
+	$child = get_category($cid);	//获取参数分类的信息
 	$pid = $child['pid'];
 	$temp = array();
 	$res[] = $child;
@@ -151,7 +154,7 @@ function get_parent_category($cid){
 		foreach ($cates as $key=>$cate){
 			if($cate['id'] == $pid){
 				$pid = $cate['pid'];
-				array_unshift($res, $cate);
+				array_unshift($res, $cate);	//将父分类插入到数组第一个元素前
 			}
 		}
 		if($pid == 0){
@@ -159,4 +162,19 @@ function get_parent_category($cid){
 		}
 	}
 	return $res;
+}
+
+/**
+ * 获取文档封面图片
+ * @param int $cover_id
+ * @param string $field
+ * @return 完整的数据  或者  指定的$field字段值
+ * @author huajie <banhuajie@163.com>
+ */
+function get_cover($cover_id, $field = null){
+	if(empty($cover_id)){
+		return false;
+	}
+	$picture = M('Picture')->where(array('status'=>1))->getById($cover_id);
+	return empty($field) ? $picture : $picture[$field];
 }
