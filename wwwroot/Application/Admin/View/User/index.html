@@ -44,7 +44,7 @@
                     '_title'  =>'昵称',
                     'tag'    =>'a',
                     'class'  =>'edit-user',
-                    'href'   =>'User/edit?id=$id',
+                    'href'   =>'User/edit?id=$uid',
                 ),
                 'score'=>'积分',
                 'login'=>'登陆次数',
@@ -128,5 +128,7 @@
 			$("#sub-sch-menu").addClass("hidden");
 		})
 	});
+    //导航高亮
+    $('.side-sub-menu').find('a[href="{:U('User/index')}"]').closest('li').addClass('current');
 	</script>
 </block>
