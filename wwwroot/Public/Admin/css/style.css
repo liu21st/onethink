@@ -199,7 +199,7 @@ body{
 	background-color: #f6f6f6;
 }
 .main-title {
-    padding: 10px 0;
+    padding-bottom: 20px;
     *zoom: 1;
 }
 .main-title:before,
