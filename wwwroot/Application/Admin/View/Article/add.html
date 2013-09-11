@@ -25,12 +25,6 @@
 				<!-- 基础文档模型 -->
 				<div class="tab-pane in tab1">
 					<div class="form-item cf">
-						<label class="item-label">文档标识：<span class="check-tips">（请输入文档标识）</span></label>
-						<div class="controls">
-							<input type="text" class="text input-large" name="name">
-						</div>
-					</div>
-					<div class="form-item cf">
 						<label class="item-label">标题：<span class="check-tips">（请输入标题）</span></label>
 						<div class="controls">
 							<input type="text" class="text input-large" name="title">
@@ -42,6 +36,12 @@
 							<label class="textarea input-large">
 								<textarea name="description"></textarea>
 							</label>
+						</div>
+					</div>
+					<div class="form-item cf">
+						<label class="item-label">文档标识：<span class="check-tips">（请输入文档标识）</span></label>
+						<div class="controls">
+							<input type="text" class="text input-large" name="name">
 						</div>
 					</div>
 					<div class="form-item cf">
@@ -164,6 +164,9 @@ $(function(){
             el.val(date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate());
         }),
 	});
+
+	// 标签页切换
+	nextTab();
 });
 
 </script>
