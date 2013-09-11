@@ -1,0 +1,20 @@
+<extend name="Public/base" />
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>修改昵称</h2>
+	</div>
+
+	<!-- 修改密码表单 -->
+	<form action="updateNickname" method="post">
+		原昵称：{$nickname}
+		新昵称：<input type="text" name="old">
+		<button type="submit">确认修改</button>
+	</form>
+
+</block>
+
+<block name="script">
+	<script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+</block>
