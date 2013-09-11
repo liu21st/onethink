@@ -92,7 +92,13 @@
 					tools:true
 				}
 				var authorUrl = this.href;
-				$.thinkbox.load(authorUrl,thinkboxOption);
+                $.get(authorUrl).success(function(data){
+                    if(data.status==0){
+                        updateAlert(data.info);
+                    }else{
+                        $.thinkbox(data,thinkboxOption);
+                    }
+                });
                 return false;
 			});
 		})
