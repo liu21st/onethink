@@ -70,19 +70,39 @@ class SystemController extends AdminController {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function configEdit($id = 0){
-        $info = array();
-        
-        if($id){
-            /* 获取数据 */
-            $info = D('Config')->find($id);
+        if(IS_POST){
+            $Config = D('Config');
+            $data = $Config->create();
+            if($data){
+                if($data['id']){
+                    $status = $Config->save();
+                } else {
+                    $status = $Config->add(); 
+                }
 
-            if(false === $info){
-                $this->error('获取配置信息错误');
+                if($status){
+                    $this->success('操作成功');
+                } else {
+                    $this->error('操作失败');
+                }
+
+            } else {
+                $this->error($Config->getError());
             }
+        } else {
+            $info = array();
+            if($id){
+                /* 获取数据 */
+                $info = D('Config')->find($id);
+
+                if(false === $info){
+                    $this->error('获取配置信息错误');
+                }
+            }
+            
+            $this->assign('info', $info);
+            $this->display();
         }
-        
-        $this->assign('info', $info);
-        $this->display();
     }
 
 }
