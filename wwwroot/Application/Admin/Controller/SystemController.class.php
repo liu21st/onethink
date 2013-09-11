@@ -65,4 +65,22 @@ class SystemController extends AdminController {
         $this->display();
     }
 
+    /**
+     * 编辑配置
+     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+     */
+    public function configEdit($id = 0){
+        $id || $this->error('缺少参数id');
+
+        /* 获取数据 */
+        $info = D('Config')->find($id);
+
+        if(false === $info){
+            $this->error('获取配置信息错误');
+        }
+
+        $this->assign('info', $info);
+        $this->display();
+    }
+
 }

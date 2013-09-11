@@ -6,8 +6,8 @@
 	</div>
 
 	<div class="cf">
-		<a class="btn" href="javascript:;">删除配置</a>
-		<a class="btn" href="javascript:;">添加配置</a>
+		<a class="btn" href="{:U('configEdit')}">添加</a>
+		<a class="btn" href="javascript:;">删除</a>
 	</div>
 
 	<div class="data-table table-striped">
@@ -29,7 +29,7 @@
 					<tr>
 						<td><input class="ids row-selected" type="checkbox" name="" id=""></td>
 						<td>{$config.id}</td>
-						<td><a href="javascript:;">{$config.name}</a></td>
+						<td><a href="{:U('configEdit?id='.$config['id'])}">{$config.name}</a></td>
 						<td>{$config.title}</td>
 						<td>{$config.remark}</td>
 						<td>

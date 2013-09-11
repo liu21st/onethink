@@ -1,0 +1,37 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<div class="main-title">
+		<h2>编辑/新增配置</h2>
+	</div>
+	<form action="__SELF__" method="post" class="form-horizontal">
+		<div class="form-item">
+			<label class="item-label">配置标识<span class="check-tips">（用于C函数调用，只能使用英文且不能重复）</span></label>
+			<div class="controls">
+				<input type="text" class="text" name="name" value="{$info.name}">
+			</div>
+		</div>
+		<div class="form-item">
+			<label class="item-label">配置标题<span class="check-tips">（用于后台显示的配置标题）</span></label>
+			<div class="controls">
+				<input type="text" class="text" name="title" value="{$info.title}">
+			</div>
+		</div>
+		<div class="form-item">
+			<label class="item-label">配置值<span class="check-tips">（配置值，不同类型有不同格式）</span></label>
+			<div class="controls">
+				<label class="textarea"><textarea name="value">{$info.value}</textarea></label>
+			</div>
+		</div>
+		<div class="form-item">
+			<label class="item-label">说明<span class="check-tips">（配置详细说明）</span></label>
+			<div class="controls">
+				<label class="textarea"><textarea name="remark">{$info.remark}</textarea></label>
+			</div>
+		</div>
+		<div class="form-item">
+			<button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal" href="javascript:;">确定</button>
+			<a class="btn btn-xlarge btn-return" href="#">返回</a>
+		</div>
+	</form>
+</block>
