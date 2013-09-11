@@ -30,7 +30,7 @@ class UcenterMemberModel extends Model{
 		array('username', '1,30', -1, self::EXISTS_VALIDATE, 'length'), //用户名长度不合法
 		array('username', 'checkDenyMember', -2, self::EXISTS_VALIDATE, 'callback'), //用户名禁止注册
 		array('username', '', -3, self::EXISTS_VALIDATE, 'unique'), //用户名被占用
-		
+
 		/* 验证密码 */
 		array('password', '6,30', -4, self::EXISTS_VALIDATE, 'length'), //密码长度不合法
 
@@ -45,10 +45,10 @@ class UcenterMemberModel extends Model{
 		array('mobile', 'checkDenyMobile', -10, self::EXISTS_VALIDATE, 'callback'), //手机禁止注册
 		array('mobile', '', -11, self::EXISTS_VALIDATE, 'unique'), //手机号被占用
 	);
-	
+
 	/* 用户模型自动完成 */
 	protected $_auto = array(
-		array('password', 'think_ucenter_md5', self::MODEL_INSERT, 'function'),
+		array('password', 'think_ucenter_md5', self::MODEL_BOTH, 'function'),
 		array('reg_time', NOW_TIME, self::MODEL_INSERT),
 		array('reg_ip', 'get_client_ip', self::MODEL_INSERT, 'function', 1),
 		array('update_time', NOW_TIME),
@@ -217,6 +217,49 @@ class UcenterMemberModel extends Model{
 			'last_login_ip'   => get_client_ip(1),
 		);
 		$this->save($data);
+	}
+
+	/**
+	 * 更新用户信息
+	 * @param int $uid 用户id
+	 * @param string $password 密码，用来验证
+	 * @param array $data 修改的字段数组
+	 * @return true 修改成功，false 修改失败
+	 * @author huajie <banhuajie@163.com>
+	 */
+	public function updateUserFields($uid, $password, $data){
+		if(empty($uid) || empty($password) || empty($data)){
+			$this->error = '参数错误！';
+			return false;
+		}
+
+		//更新前检查用户密码
+		if(!$this->verifyUser($uid, $password)){
+			$this->error = '验证出错：密码不正确！';
+			return false;
+		}
+
+		//更新用户信息
+		$data = $this->create($data);
+		if(data){
+			return $this->where(array('id'=>$uid))->save($data);
+		}
+		return false;
+	}
+
+	/**
+	 * 验证用户密码
+	 * @param int $uid 用户id
+	 * @param string $password_in 密码
+	 * @return true 验证成功，false 验证失败
+	 * @author huajie <banhuajie@163.com>
+	 */
+	protected function verifyUser($uid, $password_in){
+		$password = $this->getFieldById($uid, 'password');
+		if(think_ucenter_md5($password_in) === $password){
+			return true;
+		}
+		return false;
 	}
 
 }
