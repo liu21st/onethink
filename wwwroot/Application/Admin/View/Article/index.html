@@ -19,54 +19,42 @@
 		</h2>
 	</div>
 
-	<!-- 标签页导航 -->
-	<div class="tab-wrap">
-		<notempty name="child_cates">
-		<ul class="tab-nav nav">
-			<volist name="child_cates" id="child_cate">
-				<li <eq name="child_cate['id']" value="$cate_id">class="current"</eq>><a data-tab="tab" href="{$child_cate.url|U}">{$child_cate.title}</a></li>
-			</volist>
-		</ul>
-		</notempty>
-		<div class="tab-content">
-			<!-- 标签一内容 -->
-			<div id="tag1" class="tab-pane in">
-				<!-- 操作按钮区 -->
-				<div class="cf">
-					<div class="fl">
-						<div class="btn-group">
-							<button class="btn" id="document_add" url="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$model[0]))}">新 增<i class="icon-arrowdown"></i></button>
-							<ul class="dropdown nav-list">
-								<volist name="model" id="vo">
-								<li><a href="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$vo))}">{$vo|get_document_model='title'}</a></li>
-								</volist>
-							</ul>
-						</div>
-                        <button class="btn ajax-post" target-form="ids" url="{:U("Article/setStatus",array("status"=>1))}">启 用</button>
-						<button class="btn ajax-post" target-form="ids" url="{:U("Article/setStatus",array("status"=>0))}">禁 用</button>
-						<button class="btn ajax-post confirm" target-form="ids" url="{:U("Article/setStatus",array("status"=>-1))}">删 除</button>
-					</div>
+	<!-- 按钮工具栏 -->
+	<div class="cf">
+		<div class="fl">
+			<div class="btn-group">
+				<button class="btn" id="document_add" url="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$model[0]))}">新 增<i class="icon-arrowdown"></i></button>
+				<ul class="dropdown nav-list">
+					<volist name="model" id="vo">
+					<li><a href="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$vo))}">{$vo|get_document_model='title'}</a></li>
+					</volist>
+				</ul>
+			</div>
+            <button class="btn ajax-post" target-form="ids" url="{:U("Article/setStatus",array("status"=>1))}">启 用</button>
+			<button class="btn ajax-post" target-form="ids" url="{:U("Article/setStatus",array("status"=>0))}">禁 用</button>
+			<button class="btn ajax-post confirm" target-form="ids" url="{:U("Article/setStatus",array("status"=>-1))}">删 除</button>
+		</div>
 
-					<div class="tools fr">
-						<div class="search-form cf">
-							<div class="drop-down">
-								<span id="sch-sort-txt" class="sort-txt" data="{$status}"><if condition="get_status_title($status) eq ''">所有<else/>{:get_status_title($status)}</if></span>
-								<i class="arrow arrow-down"></i>
-								<ul id="sub-sch-menu" class="nav-list hidden">
-									<li><a href="javascript:;" value="">所有</a></li>
-									<li><a href="javascript:;" value="1">正常</a></li>
-									<li><a href="javascript:;" value="0">禁用</a></li>
-									<li><a href="javascript:;" value="2">待审核</a></li>
-								</ul>
-							</div>
-							<input type="text" name="search" value="{$search}" placeholder="请输入标题文档">
-							<a class="sch-btn" href="javascript:;" id="search" url="{:U('article/index','cate_id='.$cate_id,false)}">高级搜索</a>
-						</div>
-					</div>
+		<div class="tools fr">
+			<div class="search-form cf">
+				<div class="drop-down">
+					<span id="sch-sort-txt" class="sort-txt" data="{$status}"><if condition="get_status_title($status) eq ''">所有<else/>{:get_status_title($status)}</if></span>
+					<i class="arrow arrow-down"></i>
+					<ul id="sub-sch-menu" class="nav-list hidden">
+						<li><a href="javascript:;" value="">所有</a></li>
+						<li><a href="javascript:;" value="1">正常</a></li>
+						<li><a href="javascript:;" value="0">禁用</a></li>
+						<li><a href="javascript:;" value="2">待审核</a></li>
+					</ul>
 				</div>
-
+				<input type="text" name="search" value="{$search}" placeholder="请输入标题文档">
+				<a class="sch-btn" href="javascript:;" id="search" url="{:U('article/index','cate_id='.$cate_id,false)}">高级搜索</a>
+			</div>
+		</div>
+	</div>
+		
+	<!-- 数据表格 -->
     <div class="data-table">
-
         <?php
             $thead = array(
                 '_html'=>array(
@@ -101,10 +89,12 @@
             echo $_table_list = $__controller__->tableList($list,$thead);
         ?>
 	</div>
-    <div class="page_nav">
+
+	<!-- 分页 -->
+    <div class="page">
         {$_page}
     </div>
-	</div>
+</div>
 
 </block>
 <block name="script">
