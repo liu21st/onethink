@@ -44,6 +44,7 @@ class DocumentModel extends Model{
 		array('update_time', NOW_TIME, self::MODEL_BOTH),
 		array('status', 'getStatus', self::MODEL_BOTH, 'callback'),
 		array('position', 'getPosition', self::MODEL_BOTH, 'callback'),
+		array('dateline', 'strtotime', self::MODEL_BOTH, 'function'),
 	);
 
 	/**
