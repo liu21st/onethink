@@ -14,7 +14,6 @@
 .data-table table {
     width: 100%;
     border-collapse: collapse;
-    /*border: 1px solid #000000;*/
 }
 .data-table tbody tr {
 	background-color: #ffffff;
@@ -31,17 +30,11 @@
     height: 19px;
     line-height: 19px;
     font-weight: 400;
-    overfow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
     border-bottom: 1px solid #f4f4f4;
 }
 .data-table thead th {
     text-align: left;
 	color:#fff;
-    /*-webkit-box-shadow: 0px 1px 0 rgba(255, 255, 255, 1.0) inset;*/
-    /*-moz-box-shadow: 0px 1px 0 rgba(255, 255, 255, 1.0) inset;*/
-    /*box-shadow: 0px 1px 0 rgba(255, 255, 255, 1.0) inset;*/
     background-color: #353535;
 }
 /* 隔行变色 */
@@ -51,7 +44,6 @@
 }
 /* 隔行变色 */
 .table-striped tbody tr:nth-child(even) {
-	/*color: #444444;*/
 	background-color: #f2f2f2;
 
 }
