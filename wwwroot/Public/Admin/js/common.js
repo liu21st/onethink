@@ -44,6 +44,13 @@
                     },1500);
                 }else{
                     updateAlert(data.info);
+                    setTimeout(function(){
+                        if (data.url) {
+                            location.href=data.url;
+                        }else{
+                            $('#top-alert').find('button').click();
+                        }
+                    },1500);
                 }
             });
           
@@ -92,6 +99,13 @@
                     },1500);
                 }else{
                     updateAlert(data.info);
+                    setTimeout(function(){
+                        if (data.url) {
+                            location.href=data.url;
+                        }else{
+                            $('#top-alert').find('button').click();
+                        }
+                    },1500);
                 }
             });
         }
