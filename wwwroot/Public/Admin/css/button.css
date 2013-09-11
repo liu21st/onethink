@@ -18,6 +18,7 @@
     color: #ffffff;
     text-decoration: none;
     background-color: #4cdb00;
+    border-bottom: 0 none;
 }
 .submit-btn {
     padding: 10px 50px;
