@@ -95,6 +95,11 @@ select {
 	line-height: 30px;
 	font-weight: bold;
 }
+.form-horizontal .item-label .check-tips {
+	margin-left: 20px;
+	color: #aaa;
+	font-weight: normal;
+}
 .form-horizontal .controls {
 	overflow: hidden;
 	padding: 5px 5px 5px 0;
@@ -102,7 +107,7 @@ select {
 .form-horizontal .controls label + label {
 	margin-left: 15px;
 }
-.form-horizontal .check-tips {
+.form-horizontal .controls .check-tips {
 	margin-left: 20px;
 	color: #999;
 }
