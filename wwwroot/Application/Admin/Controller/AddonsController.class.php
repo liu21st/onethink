@@ -355,10 +355,12 @@ str;
 		if($addonsModel->add()){
             $config = array('config'=>json_encode($addons->getConfig()));
             $addonsModel->where("name='{$addon_name}'")->save($config);
-            if($hooks_update = D('Hooks')->updateHooks($addons->getName())){
+            $hooks_update = D('Hooks')->updateHooks($addons->getName());
+            if($hooks_update){
                 S('hooks', null);
                 $this->success('安装成功');
             }else{
+                $addonsModel->where("name='{$addon_name}'")->delete();
                 $this->error('更新钩子处插件失败,请卸载后尝试重新安装');
             }
 
@@ -387,7 +389,7 @@ str;
             $this->error('卸载插件所挂载的钩子数据失败');
         }
         S('hooks', null);
-		$delete = $addonsModel->delete($id);
+		$delete = $addonsModel->where("name='{$db_addons['name']}'")->delete();
 		if($delete === false){
 			$this->error('卸载插件失败');
 		}else{
