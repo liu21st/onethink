@@ -12,43 +12,50 @@
 			</div>
 		</div>
 		<div class="form-item">
-			<label class="item-label"><em class="must">*</em>名称：</label>
+			<label class="item-label">
+				<em class="must">*</em>名称：<span class="check-tips">（名称不能为空）</span>
+			</label>
 			<div class="controls">
-				<input type="text" name="title" class="text" value="{$info.title|default=''}">
-				<span class="check-tips">名称不能为空</span>
+				<input type="text" name="title" class="text input-large" value="{$info.title|default=''}">
 			</div>
 		</div>
 		<div class="form-item">
-			<label class="item-label"><em class="must">*</em>标识：</label>
+			<label class="item-label">
+				<em class="must">*</em>标识：
+			</label>
 			<div class="controls">
-				<input type="text" name="name" class="text" value="{$info.name|default=''}">
-				<span class="check-tips">标识正确</span>
+				<input type="text" name="name" class="text input-large" value="{$info.name|default=''}">
 			</div>
 		</div>
 		<div class="form-item">
-			<label class="item-label"><em class="must">*</em>排序：</label>
+			<label class="item-label">
+				<em class="must">*</em>排序：<span class="check-tips">（排序对当前分类有效）</span>
+			</label>
 			<div class="controls">
-				<input type="text" name="sort" class="text input-mini" value="{$info.sort|default=0}">
-				<span class="check-tips">排序对当前分类有效</span>
+				<input type="text" name="sort" class="text input-large" value="{$info.sort|default=0}">
 			</div>
 		</div>
 		<div class="form-item">
-			<label class="item-label"><em class="must">*</em>发布内容：</label>
+			<label class="item-label">
+				<em class="must">*</em>发布内容：
+			</label>
 			<div class="controls">
 				<label class="inline radio"><input type="radio" name="allow_publish" value="1" checked>允许</label>
 				<label class="inline radio"><input type="radio" name="allow_publish" value="0">不允许</label>
 			</div>
 		</div>
 		<div class="form-item">
-			<label class="item-label"><em class="must">*</em>列表行数：</label>
+			<label class="item-label">
+				<em class="must">*</em>列表行数：
+			</label>
 			<div class="controls">
-				<input type="text" name="list_row" class="text input-mini" value="{$info.list_row|default=10}">
+				<input type="text" name="list_row" class="text input-large" value="{$info.list_row|default=10}">
 			</div>
 		</div>
 		<div class="form-item">
 			<label class="item-label">关键字：</label>
 			<div class="controls">
-				<label class="textarea">
+				<label class="textarea input-large">
 					<textarea name="keywords">{$info.keywords|default=''}</textarea>
 				</label>
 			</div>
@@ -56,7 +63,7 @@
 		<div class="form-item">
 			<label class="item-label">描述：</label>
 			<div class="controls">
-				<label class="textarea">
+				<label class="textarea input-large">
 					<textarea name="description">{$info.description|default=''}</textarea>
 				</label>
 			</div>
@@ -64,25 +71,25 @@
 		<div class="form-item">
 			<label class="item-label">频道模板：</label>
 			<div class="controls">
-				<input type="text" name="template_index" class="text" value="{$info.template_index|default=''}">
+				<input type="text" name="template_index" class="text input-large" value="{$info.template_index|default=''}">
 			</div>
 		</div>
 		<div class="form-item">
 			<label class="item-label">列表模板：</label>
 			<div class="controls">
-				<input type="text" name="template_lists" class="text" value="{$info.template_lists|default=''}">
+				<input type="text" name="template_lists" class="text input-large" value="{$info.template_lists|default=''}">
 			</div>
 		</div>
 		<div class="form-item">
 			<label class="item-label">详情模板：</label>
 			<div class="controls">
-				<input type="text" name="template_detail" class="text" value="{$info.template_detail|default=''}">
+				<input type="text" name="template_detail" class="text input-large" value="{$info.template_detail|default=''}">
 			</div>
 		</div>
 		<div class="form-item">
 			<label class="item-label">编辑模板：</label>
 			<div class="controls">
-				<input type="text" name="template_edit" class="text" value="{$info.template_edit|default=''}">
+				<input type="text" name="template_edit" class="text input-large" value="{$info.template_edit|default=''}">
 			</div>
 		</div>
 		<div class="form-item">

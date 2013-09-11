@@ -3,9 +3,6 @@
 	<link rel="stylesheet" href="__PUBLIC__/admin/js/codemirror/codemirror.css">
 	<link rel="stylesheet" href="__PUBLIC__/admin/js/codemirror/theme/{:C('codemirror_theme')}.css">
 	<style>
-		.doc-modal-form .item-label {
-			width: 130px;
-		}
 		.CodeMirror,#preview_window{
 			width:700px;
 			height:500px;
@@ -26,51 +23,53 @@
 	<!-- 表单 -->
 	<form id="form" action="{:U('build')}" method="post" class="form-horizontal doc-modal-form">
 		<div class="form-item cf">
-			<label class="item-label">标识名：</label>
+			<label class="item-label">标识名：<span class="check-tips">（请输入插件标识）</span></label>
 			<div class="controls">
-				<input type="text" class="text" name="info[name]" value="Example">
-				<span class="check-tips">请输入插件标识</span>
+				<input type="text" class="text input-large" name="info[name]" value="Example">
 			</div>
 		</div>
 		<div class="form-item cf">
-			<label class="item-label">插件名：</label>
+			<label class="item-label">插件名：<span class="check-tips">（请输入插件名）</span></label>
 			<div class="controls">
-				<input type="text" class="text" name="info[title]" value="示列">
-				<span class="check-tips">请输入插件名</span>
+				<input type="text" class="text input-large" name="info[title]" value="示列">
 			</div>
 		</div>
 		<div class="form-item cf">
-			<label class="item-label">版本：</label>
+			<label class="item-label">版本：<span class="check-tips">（请输入插件名）</span></label>
 			<div class="controls">
-				<input type="text" class="text" name="info[version]" value="0.1">
-				<span class="check-tips">请输入插件名</span>
+				<input type="text" class="text input-large" name="info[version]" value="0.1">
 			</div>
 		</div>
 		<div class="form-item cf">
-			<label class="item-label">作者：</label>
+			<label class="item-label">作者：<span class="check-tips">（请输入插件名）</span></label>
 			<div class="controls">
-				<input type="text" class="text" name="info[author]" value="无名">
-				<span class="check-tips">请输入插件名</span>
+				<input type="text" class="text input-large" name="info[author]" value="无名">
 			</div>
 		</div>
 		<div class="form-item cf">
-			<label class="item-label">描述：</label>
+			<label class="item-label">描述：<span class="check-tips">（请输入描述）</span></label>
 			<div class="controls">
-				<textarea class="textarea" name="info[description]">这是一个临时描述</textarea>
-				<span class="check-tips">请输入描述</span>
+				<label class="textarea input-large">
+					<textarea name="info[description]">这是一个临时描述</textarea>
+				</label>
 			</div>
 		</div>
 		<div class="form-item cf">
+			<label class="item-label">安装后是否启用：</label>
 			<div class="controls">
-				<label class="item-label">安装后是否启用：</label>
-				<input type="checkbox" class="checkbox" name="info[status]" value="1" checked />
+				<label class="checkbox">
+					<input type="checkbox" name="info[status]" value="1" checked />
+				</label>
 			</div>
 		</div>
 		<div class="form-item cf">
-			<label class="item-label">是否需要配置：</label>
+			<label class="item-label">
+				是否需要配置：
+			</label>
 			<div class="controls">
-				<input type="checkbox" id="has_config" class="checkbox" name="has_config" value="1" />
-				<textarea class="textarea has_config hidden" name="config">
+				<label class="checkbox"><input type="checkbox" id="has_config" name="has_config" value="1" /></label>
+				<label class="textarea block input-large has_config hidden">
+					<textarea class="textarea" name="config">
 &lt;?php
 return array(
 	'random'=>array(//配置在表单中的键名 ,这个会是config[random]
@@ -83,10 +82,11 @@ return array(
 		'value'=>'1',			 //表单的默认值
 	),
 );
-				</textarea>
+					</textarea>
+				</label>
+				<input type="text" class="text input-large has_config hidden" name="custom_config">
 				<br>
-				<input type="text" class="text has_config hidden" name="custom_config">
-				<span class="check-tips has_config hidden">自定义模板,注意：自定义模板里的表单name必须为config[name]这种，获取保存后配置的值用$data.config.name</span>
+				<span class="check-tips block has_config hidden">自定义模板,注意：自定义模板里的表单name必须为config[name]这种，获取保存后配置的值用$data.config.name</span>
 			</div>
 		</div>
 		<div class="form-item cf">
@@ -96,8 +96,8 @@ return array(
 			</div>
 		</div>
 		<div class="form-item cf">
+			<label class="item-label">实现的钩子方法：</label>
 			<div class="controls">
-				<label class="item-label">实现的钩子方法：</label>
 				<select class="select" name="hook">
 					<volist name="Hooks" id="vo">
 						<option value="{$vo.name}" title="{$vo.description}">{$vo.name}</option>
@@ -108,26 +108,29 @@ return array(
 		<div class="form-item cf">
 			<label class="item-label">是否需要后台列表：</label>
 			<div class="controls">
-				<input type="checkbox" id="has_adminlist" class="checkbox" name="has_adminlist" value="1" />勾选，扩展里已装插件后台列表会出现插件名的列表菜单，如系统的附件
-				<textarea class="textarea has_adminlist hidden" name="admin_list">
-			'model'=>'Example',//要查的表
-			'fields'=>'*',//要查的字段
-			'map'=>'',//查询条件, 如果需要可以再插件类的构造方法里动态重置这个属性
-			'order'=>'id desc',//排序,
-			'listKey'=>array( //这里定义的是除了id序号外的表格里字段显示的表头名
-				'字段名'=>'表头显示名'
-			),
-				</textarea>
-				<br>
-				<input type="text" class="text  has_adminlist hidden" name="custom_adminlist">
-				<span class="check-tips has_adminlist hidden">自定义模板,注意：自定义模板里的列表变量为$_list这种,遍历后可以用listkey可以控制表头显示,也可以完全手写，分页变量用$_page</span>
+				<label class="checkbox">
+					<input type="checkbox" id="has_adminlist" name="has_adminlist" value="1" />勾选，扩展里已装插件后台列表会出现插件名的列表菜单，如系统的附件
+				</label>
+				<label class="textarea block input-large has_adminlist hidden">
+					<textarea name="admin_list">
+'model'=>'Example',		//要查的表
+'fields'=>'*',			//要查的字段
+'map'=>'',				//查询条件, 如果需要可以再插件类的构造方法里动态重置这个属性
+'order'=>'id desc',		//排序,
+'listKey'=>array( 		//这里定义的是除了id序号外的表格里字段显示的表头名
+	'字段名'=>'表头显示名'
+),
+					</textarea>
+				</label>
+				<input type="text" class="text has_adminlist hidden" name="custom_adminlist">
+				<span class="check-tips block has_adminlist hidden">自定义模板,注意：自定义模板里的列表变量为$_list这种,遍历后可以用listkey可以控制表头显示,也可以完全手写，分页变量用$_page</span>
 			</div>
 		</div>
 		<div class="form-item cf">
 			<label class="item-label"></label>
 			<div class="controls">
 				<button class="btn" type="button" id="preview">预览</button>
-				<button class="btn" id="submit">确定</button>
+				<button class="btn ajax-post_custom" target-form="form-horizontal" id="submit">确定</button>
 			</div>
 		</div>
 	</form>
@@ -189,9 +192,10 @@ return array(
 			return false;
 		});
 
-		$('#form').submit(function(){
-			var check_url = '{:U('checkForm')}';
-			var flag = false;
+		$('.ajax-post_custom').click(function(){
+	        var target,query,form;
+	        var target_form = $(this).attr('target-form');
+	        var check_url = '{:U('checkForm')}';
 			$.ajax({
 			   type: "POST",
 			   url: check_url,
@@ -200,14 +204,42 @@ return array(
 			   data: $('#form').serialize(),
 			   success: function(data){
 			    	if(data.status){
-			    		flag = true;
+    			        if( ($(this).attr('type')=='submit') || (target = $(this).attr('href')) || (target = $(this).attr('url')) ){
+				            form = $('.'+target_form);
+				            if ( form.get(0).nodeName=='FORM' ){
+				                target = form.get(0).action;
+				                query = form.serialize();
+				            }else if( form.get(0).nodeName=='INPUT' || form.get(0).nodeName=='SELECT' || form.get(0).nodeName=='TEXTAREA') {
+				                query = form.serialize();
+				            }else{
+				                query = form.find('input,select,textarea').serialize();
+				            }
+				            $.post(target,query).success(function(data){
+				                if (data.status==1) {
+				                    if (data.url) {
+				                        updateAlert(data.info + ' 页面即将自动跳转~','alert-success');
+				                    }else{
+				                        updateAlert(data.info + ' 页面即将自动刷新~','alert-success');
+				                    }
+				                    setTimeout(function(){
+				                        if (data.url) {
+				                            location.href=data.url;
+				                        }
+				                        location.reload();
+				                    },1500);
+				                }else{
+				                    updateAlert(data.info);
+				                }
+				            });
+				        }
 			    	}else{
-						$.thinkbox.error(data.info);
-						return false;
+			    		updateAlert(data.info);
 					}
 			   }
 			});
-			return flag;
-		});
+
+	        return false;
+	    });
+
 	</script>
 </block>

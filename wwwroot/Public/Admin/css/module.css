@@ -247,15 +247,20 @@
 	text-align: center;
 }
 .category .fold i {
+	display: inline-block;
 	vertical-align: middle;
+	width: 17px;
+	height: 17px;
 	cursor: pointer;
-	background: url(../images/fold_icon.png) no-repeat;
+	background-repeat: no-repeat;
 }
 .category .fold .icon-fold {
 	background-position: 0 0;
+	background-image: url(../images/fold_icon.png);
 }
 .category .fold .icon-unfold {
 	background-position: -16px 0;
+	background-image: url(../images/fold_icon.png);
 }
 .category .order,
 .category .order input {

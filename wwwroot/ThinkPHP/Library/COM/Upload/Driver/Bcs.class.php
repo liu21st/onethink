@@ -8,9 +8,9 @@
 // +----------------------------------------------------------------------
 // | Author: Jay <yangweijiester@gmail.com> <http://code-tech.diandian.com>
 // +----------------------------------------------------------------------
-namespace COM\ThinkUpload\Driver;
-use COM\ThinkUpload\Driver\Bcs\BaiduBcs;
-class BcsUpload{
+namespace COM\Upload\Driver;
+use COM\Upload\Driver\Bcs\BaiduBcs;
+class Bcs{
     /**
      * 上传文件根目录
      * @var string

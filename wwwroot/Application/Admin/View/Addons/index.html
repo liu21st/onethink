@@ -4,12 +4,12 @@
 	<!-- 标题栏 -->
 	<div class="main-title">
 		<h2>插件列表</h2>
-		<div class="tools">
-			<button id="add-member" class="btn">添加</button>
-			<?php if ($creatable): ?>
-			<a href="{:U('create')}"><button id="add-member" class="btn">创建</button></a>
-			<?php endif ?>
-		</div>
+	</div>
+	<div class="tools">
+		<button id="add-member" class="btn hidden">添加</button>
+		<?php if ($creatable): ?>
+		<a href="{:U('create')}"><button id="add-member" class="btn">创建</button></a>
+		<?php endif ?>
 	</div>
 
 	<!-- 数据列表 -->
@@ -45,16 +45,16 @@
 							<?php endif ?>
 						<?php if ($vo['status'] >=0): ?>
 							<eq name="vo.status" value="0">
-								<a href="{:U('enable',array('id'=>$vo['id']))}">启用</a>
+								<a class="ajax-get" href="{:U('enable',array('id'=>$vo['id']))}">启用</a>
 							<else />
-								<a href="{:U('disable',array('id'=>$vo['id']))}">禁用</a>
+								<a class="ajax-get" href="{:U('disable',array('id'=>$vo['id']))}">禁用</a>
 							</eq>
 						<?php endif ?>
 							{// <eq name="vo.author" value="thinkphp">}
-								<a href="{:U('uninstall?id='.$vo['id'])}">卸载</a>
+								<a class="ajax-get" href="{:U('uninstall?id='.$vo['id'])}">卸载</a>
 							{// </eq>}
 						<else />
-							<a href="{:U('install?addon_name='.$vo['name'])}">安装</a>
+							<a class="ajax-get" href="{:U('install?addon_name='.$vo['name'])}">安装</a>
 						</empty>
 					</td>
 				</tr>

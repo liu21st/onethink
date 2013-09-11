@@ -41,8 +41,8 @@ class HooksModel extends Model {
      * 更新插件里的所有钩子对应的插件
      */
     public function updateHooks($addons_name){
-    	$addons_class = addons($addons_name, 1);//获取插件名
-    	$methods = get_class_methods("{$addons_name}Addons");
+    	$addons_class = addons($addons_name);//获取插件名
+    	$methods = get_class_methods($addons_class);
         $hooks = $this->getField('name', true);
         $common = array_intersect($hooks, $methods);
     	if(!empty($common)){
@@ -76,8 +76,7 @@ class HooksModel extends Model {
     	$flag = D('Hooks')->where("name='{$hook_name}'")
     	->setField('addons',arr2str($addons));
     	if(false === $flag)
-    		D('Hooks')->where("name='{$hook_name}'")
-    	->setField('addons',arr2str($o_addons));
+    		D('Hooks')->where("name='{$hook_name}'")->setField('addons',arr2str($o_addons));
     	return $flag;
     }
 
@@ -85,7 +84,8 @@ class HooksModel extends Model {
      * 去除插件所有钩子里对应的插件数据
      */
     public function removeHooks($addons_name){
-    	$methods = get_class_methods("{$addons_name}Addons");
+        $addons_class = addons($addons_name);
+    	$methods = get_class_methods($addons_class);
         $hooks = $this->getField('name', true);
         $common = array_intersect($hooks, $methods);
     	if($common){
