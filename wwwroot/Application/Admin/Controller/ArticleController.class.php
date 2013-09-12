@@ -127,6 +127,17 @@ class ArticleController extends \Admin\Controller\AdminController {
 		if(isset($title)){
 			$map['title'] = array('like', '%'.$title.'%');
 		}
+        if ( isset($_GET['time-start']) ) {
+            $map['create_time'][] = array('egt',strtotime(I('time-start')));
+            
+        }
+        if ( isset($_GET['time-end']) ) {
+            $map['create_time'][] = array('elt',strtotime(I('time-end')));
+            
+        }
+        if ( isset($_GET['nickname']) ) {
+            $map['uid'] = M('Member')->where(array('nickname'=>I('nickname')))->getField('uid');
+        }
 
 		// 构建列表数据
 		$Document = D('Document');

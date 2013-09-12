@@ -375,3 +375,12 @@ button.close {
     word-wrap: break-word;
     word-break: break-word;
 }
+
+.adv-sch-pannel label{
+    width:70px;
+    display:inline-block;
+}
+
+.adv-sch-pannel .row{
+    margin-bottom:6px;
+}
