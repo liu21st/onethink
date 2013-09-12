@@ -7,29 +7,28 @@
 	<!-- 表单 -->
 	<form id="form" action="{:U('saveAction')}" method="post" class="form-horizontal">
 		<div class="form-item cf">
-			<label class="item-label">行为标识：<span class="check-tips">请输入行为标识</span></label>
+			<label class="item-label">行为标识：<span class="check-tips">（请输入行为标识）</span></label>
 			<div class="controls">
 				<input type="text" class="text input-large" value="{$name}" disabled="disabled">
 			</div>
 		</div>
 		<div class="form-item cf">
-			<label class="item-label">标题：<span class="check-tips">请输入标题</span></label>
+			<label class="item-label">标题：<span class="check-tips">（请输入标题）</span></label>
 			<div class="controls">
 				<input type="text" class="text input-large" name="title" value="{$title}">
 			</div>
 		</div>
 		<div class="form-item cf">
-			<label class="item-label">描述：<span class="check-tips">请输入行为描述</span></label>
+			<label class="item-label">描述：<span class="check-tips">（请输入行为描述）</span></label>
 			<div class="controls">
 				<input type="text" class="text" name="remark" value="{$remark}">
 			</div>
 		</div>
 		<div class="form-item cf">
-			<label class="item-label">行为规则：</label>
+			<label class="item-label">行为规则：<span class="check-tips">（请输入行为规则）</span></label>
 			<div class="controls">
 				<label class="textarea"><textarea name="rule">{$rule}</textarea></label>
 				<span class="check-tips">
-				请输入行为规则<br>
 				<br>规则定义  table:$table|field:$field|condition:$condition|rule:$rule[|cycle:$cycle|max:$max][;......]
 				<br>规则字段解释：table->要操作的数据表，不需要加表前缀；
 				<br>			field->要操作的字段；
@@ -41,7 +40,7 @@
 				</span>
 			</div>
 		</div>
-		
+
 		<div class="form-item">
 				<input type="hidden" name="id" value="{$id}"/>
 				<input class="btn submit-btn ajax-post" type="submit" target-form="form-horizontal" value="确定" />
