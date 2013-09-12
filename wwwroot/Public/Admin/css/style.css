@@ -135,11 +135,10 @@ body{
 .subnav h3 .icon,
 .subnav h3 .icon-fold,
 .subnav h3 .icon-recycle {
-    display: inline-block;
-    margin-right: 6px;
+    float: left;
+    margin: 10px 6px 0 0;
     width: 16px;
     height: 16px;
-    vertical-align: middle;
 }
 .subnav h3 .icon {
     background: url(../images/minus.png) no-repeat center center;
