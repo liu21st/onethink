@@ -15,7 +15,7 @@
 				<div id="tab1" class="tab-pane in tab1">
 					<div class="form-item">
 						<label class="item-label">
-							<em class="must">*</em>名称：<span class="check-tips">（名称不能为空）</span>
+							<em class="must">*</em>名称<span class="check-tips">（名称不能为空）</span>
 						</label>
 						<div class="controls">
 							<input type="text" name="title" class="text input-large" value="{$info.title|default=''}">
@@ -23,7 +23,7 @@
 					</div>
 					<div class="form-item">
 						<label class="item-label">
-							<em class="must">*</em>标识：
+							<em class="must">*</em>标识
 						</label>
 						<div class="controls">
 							<input type="text" name="name" class="text input-large" value="{$info.name|default=''}">
@@ -31,7 +31,7 @@
 					</div>
 					<div class="form-item">
 						<label class="item-label">
-							<em class="must">*</em>排序：<span class="check-tips">（排序对当前分类有效）</span>
+							<em class="must">*</em>排序<span class="check-tips">（排序对当前分类有效）</span>
 						</label>
 						<div class="controls">
 							<input type="text" name="sort" class="text input-large" value="{$info.sort|default=0}">
@@ -39,7 +39,7 @@
 					</div>
 					<div class="form-item">
 						<label class="item-label">
-							<em class="must">*</em>发布内容：
+							<em class="must">*</em>发布内容
 						</label>
 						<div class="controls">
 							<label class="inline radio"><input type="radio" name="allow_publish" value="1" checked>允许</label>
@@ -48,14 +48,14 @@
 					</div>
 					<div class="form-item">
 						<label class="item-label">
-							<em class="must">*</em>列表行数：
+							<em class="must">*</em>列表行数
 						</label>
 						<div class="controls">
 							<input type="text" name="list_row" class="text input-large" value="{$info.list_row|default=10}">
 						</div>
 					</div>
 					<div class="form-item">
-						<label class="item-label"><em class="must">*</em>绑定模型：</label>
+						<label class="item-label"><em class="must">*</em>绑定模型</label>
 						<div class="controls">
 							<volist name=":get_document_model()" id="list">
 								<label class="checkbox">
@@ -65,7 +65,7 @@
 						</div>
 					</div>
 					<div class="form-item">
-						<label class="item-label"><em class="must">*</em>可见性：</label>
+						<label class="item-label"><em class="must">*</em>可见性</label>
 						<div class="controls">
 							<select name="display">
 								<option value="0">不可见</option>
@@ -79,10 +79,12 @@
 				<!-- 高级 -->
 				<div id="tab2" class="tab-pane tab2">
 					<div class="form-item">
-						<label class="item-label">上级分类：<span class="check-tips">{$category?$category['title']:'无（新增顶级分类）'}</span></label>
+						<label class="item-label">上级分类
+							<span class="check-tips">{$category?$category['title']:'无（新增顶级分类）'}</span>
+						</label>
 					</div>
 					<div class="form-item">
-						<label class="item-label">关键字：</label>
+						<label class="item-label">关键字</label>
 						<div class="controls">
 							<label class="textarea input-large">
 								<textarea name="keywords">{$info.keywords|default=''}</textarea>
@@ -90,7 +92,7 @@
 						</div>
 					</div>
 					<div class="form-item">
-						<label class="item-label">描述：</label>
+						<label class="item-label">描述</label>
 						<div class="controls">
 							<label class="textarea input-large">
 								<textarea name="description">{$info.description|default=''}</textarea>
@@ -98,25 +100,25 @@
 						</div>
 					</div>
 					<div class="form-item">
-						<label class="item-label">频道模板：</label>
+						<label class="item-label">频道模板</label>
 						<div class="controls">
 							<input type="text" name="template_index" class="text input-large" value="{$info.template_index|default=''}">
 						</div>
 					</div>
 					<div class="form-item">
-						<label class="item-label">列表模板：</label>
+						<label class="item-label">列表模板</label>
 						<div class="controls">
 							<input type="text" name="template_lists" class="text input-large" value="{$info.template_lists|default=''}">
 						</div>
 					</div>
 					<div class="form-item">
-						<label class="item-label">详情模板：</label>
+						<label class="item-label">详情模板</label>
 						<div class="controls">
 							<input type="text" name="template_detail" class="text input-large" value="{$info.template_detail|default=''}">
 						</div>
 					</div>
 					<div class="form-item">
-						<label class="item-label">编辑模板：</label>
+						<label class="item-label">编辑模板</label>
 						<div class="controls">
 							<input type="text" name="template_edit" class="text input-large" value="{$info.template_edit|default=''}">
 						</div>
@@ -125,7 +127,7 @@
 
 				<div class="form-item">
 					<input type="hidden" name="id" value="{$info.id|default=''}">
-					<input type="hidden" name="pid" value="{$category['id']?$category['id']:$pid}">
+					<input type="hidden" name="pid" value="{$category['id']?$category['id']:$info['pid']}">
 					<button type="submit" id="submit" class="btn btn-primary ajax-post" target-form="form-horizontal">确定</button>
 				</div>
 			</form>
@@ -172,9 +174,9 @@
 
 <block name="script">
 	<script type="text/javascript">
-		// Think.setValue("allow_publish", {$info.allow_publish});
-		// Think.setValue("model[]", {$info.model|json_encode});
-		// Think.setValue("display", {$info.display});
+		Think.setValue("allow_publish", {$info.allow_publish});
+		Think.setValue("model[]", {$info.model|json_encode});
+		Think.setValue("display", {$info.display});
 		$(function(){
 			showTab();
 		})

@@ -15,6 +15,7 @@ use User\Api\UserApi;
 
 class UserController extends AdminController {
 
+    static protected $allow = array( 'updatePassword','updateNickname','submitPassword','submitNickname');
 	/**
      * 左侧导航节点定义
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
@@ -22,16 +23,6 @@ class UserController extends AdminController {
     static protected $nodes = array(
     	/* 系统设置 */
         array( 'title' => '用户信息', 'url' => 'User/index', 'group' => '用户管理'),
-    	array( 'title' => '修改密码', 'url' => 'User/updatePassword', 'group' => '用户管理', 'hide'=>true,
-    			'operator'=>array(
-    				array('title'=>'修改密码','url'=>'user/submitPassword','tip'=>''),
-    			)
-    	),
-    	array( 'title' => '修改昵称', 'url' => 'User/updateNickname', 'group' => '用户管理', 'hide'=>true,
-    			'operator'=>array(
-    					array('title'=>'修改昵称','url'=>'user/submitNickname','tip'=>''),
-    			)
-    	),
         array( 'title' => '用户行为', 'url' => 'User/action', 'group' => '用户管理',
         		'operator'=>array(
         				//权限管理页面的五种按钮

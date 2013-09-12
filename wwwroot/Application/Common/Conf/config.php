@@ -25,11 +25,14 @@ return array(
     'URL_MODEL'            => 1, //URL模式
     'VAR_URL_PARAMS'       => '', // PATHINFO URL参数变量
     'URL_PATHINFO_DEPR'    => '/', //PATHINFO URL分割符
+    
 
-    'DEFAULT_FILTER'        => '', //过滤函数
+    'DEFAULT_FILTER' => '', //过滤函数
+
     /* 数据库配置 */
     'DB_TYPE'   => 'mysqli', // 数据库类型
     'DB_HOST'   => '192.168.1.200'/*'localhost'*/, // 服务器地址
+    // 'DB_HOST'   => 'localhost', // 服务器地址
     'DB_NAME'   => 'thinkcms', // 数据库名
     'DB_USER'   => 'root', // 用户名
     'DB_PWD'    => '', // 密码

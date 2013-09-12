@@ -25,13 +25,13 @@
 				<!-- 基础文档模型 -->
 				<div class="tab-pane in tab1">
 					<div class="form-item cf">
-						<label class="item-label">标题：<span class="check-tips">（请输入标题）</span></label>
+						<label class="item-label">标题<span class="check-tips">（请输入标题）</span></label>
 						<div class="controls">
 							<input type="text" class="text input-large" name="title">
 						</div>
 					</div>
 					<div class="form-item cf">
-						<label class="item-label">简介：<span class="check-tips">（请输入简介）</span></label>
+						<label class="item-label">简介<span class="check-tips">（请输入简介）</span></label>
 						<div class="controls">
 							<label class="textarea input-large">
 								<textarea name="description"></textarea>
@@ -39,13 +39,13 @@
 						</div>
 					</div>
 					<div class="form-item cf">
-						<label class="item-label">文档标识：<span class="check-tips">（请输入文档标识）</span></label>
+						<label class="item-label">文档标识<span class="check-tips">（请输入文档标识）</span></label>
 						<div class="controls">
 							<input type="text" class="text input-large" name="name">
 						</div>
 					</div>
 					<div class="form-item cf">
-						<label class="item-label">推荐位：</label>
+						<label class="item-label">推荐位</label>
 						<div class="controls">
 							<label class="checkbox"><input type="checkbox" name="position[]" value="1" <if condition="check_document_position($position,1)">checked="checked"</if>>列表推荐</label>
 							<label class="checkbox"><input type="checkbox" name="position[]" value="2" <if condition="check_document_position($position,2)">checked="checked"</if>>频道页推荐</label>
@@ -53,19 +53,19 @@
 						</div>
 					</div>
 					<div class="form-item cf">
-						<label class="item-label">外链：</label>
+						<label class="item-label">外链</label>
 						<div class="controls">
 							<input type="text" class="text input-large" name="link_id" value="0">
 						</div>
 					</div>
 					<div class="form-item cf">
-						<label class="item-label">截止时间：</label>
+						<label class="item-label">截止时间</label>
 						<div class="controls">
-							<input id="dateline" type="text" class="text input-5x" name="dateline" value="">
+							<input id="dateline" type="text" class="text input-5x" name="dateline" value="" readonly>
 						</div>
 					</div>
 					<div class="form-item cf">
-						<label class="item-label">可见性：<span class="check-tips">（可见性必选）</span></label>
+						<label class="item-label">可见性<span class="check-tips">（可见性必选）</span></label>
 						<div class="controls">
 							<label class="radio">
 								<input type="radio" name="display" value="0" <eq name="display" value="0">checked="checked"</eq>>不可见
@@ -108,9 +108,18 @@
 </block>
 
 <block name="script">
-<link href="__JS__/glDatePicker/styles/glDatePicker.flatwhite.css" rel="stylesheet" type="text/css">
+<link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+<link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
-<script type="text/javascript" src="__JS__/glDatePicker/glDatePicker.js"></script>
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript">
+    $(".form_datetime").datetimepicker(
+        {format: "dd MM yyyy - hh:ii",
+        autoclose: true,
+        todayBtn: true,
+        pickerPosition: "bottom-left"}
+    );
+</script>  
 <script type="text/javascript">
 (function($){
 	//上传附件
@@ -156,15 +165,9 @@
 })(jQuery);
 
 $(function(){
-	$('#dateline').glDatePicker(
-	{
-		showAlways: false,
-        cssName: 'flatwhite',
-        onClick: (function(el, cell, date, data) {
-            el.val(date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate());
-        }),
-	});
-
+    $('#dateline').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii'
+    });
 	// 标签页切换
 	nextTab();
 });

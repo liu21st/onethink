@@ -148,7 +148,7 @@ body{
     margin-right: 6px;
     width: 16px;
     height: 16px;
-    vertical-align: -2px;
+    vertical-align: middle;
 }
 .subnav h3 .icon {
     background: url(../images/minus.png) no-repeat center center;

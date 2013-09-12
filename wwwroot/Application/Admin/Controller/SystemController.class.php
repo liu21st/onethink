@@ -40,10 +40,46 @@ class SystemController extends AdminController {
     public function channel(){
         /* 获取频道列表 */
         $map  = array('status' => 1);
-        $list = M('Channel')->where($map)->select();
+        $list = M('Channel')->where($map)->order('id DESC')->select();
 
         $this->assign('list', $list);
         $this->display();
+    }
+
+    public function channelEdit($id = 0){
+        if(IS_POST){
+            $Channel = D('Channel');
+            $data = $Channel->create();
+            if($data){
+                if($data['id']){
+                    $status = $Channel->save();
+                } else {
+                    $status = $Channel->add(); 
+                }
+
+                if($status){
+                    $this->success('操作成功', U('channel'));
+                } else {
+                    $this->error('操作失败');
+                }
+
+            } else {
+                $this->error($Channel->getError());
+            }
+        } else {
+            $info = array();
+            if($id){
+                /* 获取数据 */
+                $info = D('Channel')->find($id);
+
+                if(false === $info){
+                    $this->error('获取配置信息错误');
+                }
+            }
+            
+            $this->assign('info', $info);
+            $this->display();
+        }
     }
 
 }

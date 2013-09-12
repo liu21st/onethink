@@ -7,7 +7,7 @@
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com>
 // +----------------------------------------------------------------------
 
-namespace Admin\Model;
+namespace Home\Model;
 
 /**
  * 配置模型

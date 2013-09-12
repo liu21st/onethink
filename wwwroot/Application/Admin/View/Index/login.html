@@ -1,63 +1,52 @@
 <!doctype html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>topthink登陆页面</title>
-	<link rel="stylesheet" type="text/css" href="__CSS__/login.css" media="all">
-</head>
-<body>
-	<!-- 头部 -->
-	<div class="login-header">
-		<div class="login-main">
-			<a href="javascript:;"><img src="__IMG__/admin_login.png" alt=""></a>
-		</div>
-	</div>
-	
-	<!-- 主体 -->
-	<div class="login-body">
-		<div class="login-main pr">
-			<form action="{:U('login')}" method="post" class="login-form">
-				<h3>登录</h3>
-				<div id="itemBox" class="item-box">
-					<div class="item">
-						<i class="icon-login-user"></i>
-						<input type="text" name="username" placeholder="请填写用户名">
-					</div>
-					<div class="item b0">
-						<i class="icon-login-pwd"></i>
-						<input type="password" name="password" placeholder="请填写密码">
-					</div>
-					<div class="item verifycode">
-						<i class="icon-login-verifycode"></i>
-						<input type="text" name="" placeholder="请填写验证码">
-						<img src="__IMG__/verify.png">
-					</div>
-				</div>
-				<div class="login_btn_panel">
-					<button class="login-btn" type="submit">
-						<span class="in"><i class="icon-loading"></i>登录中...</span>
-						<span class="on">登录</span>
-					</button>
-					<span class="check-tips"></span>
-				</div>
-			</form>
-		</div>
-	</div>
-	
-	<!-- 底部 -->
-	<div class="login-footer">
-		<div class="login-main">
-			<p>Copyright © 2008-2013 REDINFO. All Rights Reserved.</p>
-			<p class="footer-link">
-				<a href="javascript:;">联系我们</a>
-				<span>|</span>
-				<a href="javascript:;">免责声明</a>
-				<span>|</span>
-				<a href="javascript:;">加入我们</a>
-			</p>
-		</div>
-	</div>
+    <head>
+        <meta charset="UTF-8">
+        <title>OneThink登陆页面</title>
+        <link rel="stylesheet" type="text/css" href="__CSS__/login.css" media="all">
+    </head>
+    <body>
+        <div id="main-content">
 
+            <!-- 主体 -->
+            <div class="login-body">
+                <div class="login-main pr">
+                    <form action="{:U('login')}" method="post" class="login-form">
+                        <h3>OneThink管理后台登录</h3>
+                        <div id="itemBox" class="item-box">
+                            <div class="item">
+                                <i class="icon-login-user"></i>
+                                <input type="text" name="username" placeholder="请填写用户名" autocomplete = "off" />
+                            </div>
+                            <div class="item b0">
+                                <i class="icon-login-pwd"></i>
+                                <input type="password" name="password" placeholder="请填写密码" autocomplete = "off" />
+                            </div>
+                            <div class="item verifycode">
+                                <i class="icon-login-verifycode"></i>
+                                <input type="text" name="" placeholder="请填写验证码">
+                                <img src="__IMG__/verify.png">
+                            </div>
+                        </div>
+                        <div class="login_btn_panel">
+                            <button class="login-btn" type="submit">
+                                <span class="in"><i class="icon-loading"></i>登录中...</span>
+                                <span class="on">登录</span>
+                            </button>
+                            <span class="check-tips"></span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- 底部 -->
+            <div class="login-footer">
+                <div class="login-main">
+                    <p>Copyright 上海顶想信息科技有限公司 © 2008-2013 REDINFO. All Rights Reserved.</p>
+                </div>
+            </div>
+
+        </div>
 	<!--[if lt IE 9]> 
     <script type="text/javascript" src="__STATIC__/jquery-1.10.2.min.js"></script>
     <![endif]-->

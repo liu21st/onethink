@@ -35,7 +35,7 @@ class ConfigController extends AdminController {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function index(){
-        $list = D('Config')->where($map)->select();
+        $list = D('Config')->where($map)->order('id DESC')->select();
         $this->assign('list', $list);
         $this->display();
     }
@@ -64,7 +64,7 @@ class ConfigController extends AdminController {
                 }
 
                 if($status){
-                    $this->success('操作成功');
+                    $this->success('操作成功', U('index'));
                 } else {
                     $this->error('操作失败');
                 }
