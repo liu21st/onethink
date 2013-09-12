@@ -51,7 +51,7 @@ class ArticleController extends \Admin\Controller\AdminController {
 
 		//获取回收站权限
 		$show_recycle = $this->checkRule('Admin/article/recycle');
-		$this->assign('show_recycle', $show_recycle);
+		$this->assign('show_recycle', is_administrator() || $show_recycle);
     }
 
     /**
