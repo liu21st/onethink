@@ -34,7 +34,7 @@ class DocumentModel extends Model{
 	/* 自动完成规则 */
 	protected $_auto = array(
 		array('uid', 'is_login', self::MODEL_INSERT, 'function'),
-		array('name', 'checkName', self::MODEL_BOTH, 'callback'),
+// 		array('name', 'checkName', self::MODEL_BOTH, 'callback'),
 		array('title', 'htmlspecialchars', self::MODEL_BOTH, 'function'),
 		array('description', 'htmlspecialchars', self::MODEL_BOTH, 'function'),
 		array('attach', 0, self::MODEL_INSERT),
