@@ -18,7 +18,7 @@
 						themesPath: K.basePath,
 						width: '100%',
 						height: '{$config.editor_height}',
-						resizeType: 0,
+						resizeType: <eq name="config.editor_resize_type" value="1">1<else />0</eq>,
 						pasteType : 2,
 						fileManagerJson : '{:U('fileManagerJson')}',
 						uploadJson : '{:U('uploadJson')}'
@@ -45,12 +45,13 @@
 				$('textarea[name="{$data.name}"]').attr('id', 'editor_id_{$data.name}');
 				window.UEDITOR_HOME_URL = "__STATIC__/ueditor";
 				window.UEDITOR_CONFIG.initialFrameHeight = parseInt('{$config.editor_height}');
+				window.UEDITOR_CONFIG.scaleEnabled = <eq name="config.editor_resize_type" value="1">true<else />false</eq>;
 				UE.getEditor('editor_id_{$data.name}');
 			</script>
 		</eq>
 	</case>
 	<case value="3">
-		{// UBB 官网http://www.ubbeditor.com/cn}
+		{// UBB 官网http://xheditor.com/demos/demo07.html}
 		<script type="text/javascript" src="__STATIC__/jquery-migrate-1.2.1.min.js"></script>
 		<script charset="utf-8" src="__STATIC__/xheditor/xheditor-1.2.1.min.js"></script>
 		<script charset="utf-8" src="__STATIC__/xheditor/xheditor_lang/zh-cn.js"></script>
