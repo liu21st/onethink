@@ -169,7 +169,6 @@
 		userMenu.data("timeout", setTimeout(function(){userMenu.hide()}, 100));
 	});
 
-
 });
 
 //标签页切换(无下一步)
