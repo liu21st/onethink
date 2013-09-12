@@ -334,10 +334,6 @@
 	height: 16px;
 }
 
-.auth-category >dl>dt{
-	background: #eee;
-}
-
 #top-alert {
 	margin-top: 20px;
 	padding-top: 8px;
@@ -378,4 +374,13 @@ button.close {
     max-width:600px;
     word-wrap: break-word;
     word-break: break-word;
+}
+
+.adv-sch-pannel label{
+    width:70px;
+    display:inline-block;
+}
+
+.adv-sch-pannel .row{
+    margin-bottom:6px;
 }
