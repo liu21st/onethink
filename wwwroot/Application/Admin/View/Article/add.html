@@ -122,11 +122,12 @@
 </script>  
 <script type="text/javascript">
 (function($){
-	//上传附件
+	//上传文件
 	/* 初始化上传插件 */
 	$("#download-file").uploadify({
         "height"          : 30,
         "swf"             : "__STATIC__/uploadify/uploadify.swf",
+        "buttonText"      : "上传文件",
         "fileObjName"     : "download",
         "uploader"        : "{:U('File/upload',array('session_id'=>session_id()))}",
         "width"           : 120,
@@ -148,6 +149,7 @@
 	$("#upload_picture").uploadify({
         "height"          : 30,
         "swf"             : "__STATIC__/uploadify/uploadify.swf",
+        "buttonText"      : "上传图片",
         "fileObjName"     : "download",
         "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
         "width"           : 120,
