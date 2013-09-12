@@ -58,15 +58,6 @@ body{
 }
 
 /* 用户 */
-/*.header .user-bar {
-    float: right;
-    margin-right: 15px;
-    color: #efefef;
-}
-.header .user-bar a {
-    margin: 0 5px;
-    color: #fff;
-}*/
 .header .user-bar {
     position: relative;
     float: right;
@@ -131,7 +122,6 @@ body{
     height: 35px;
     line-height: 35px;
     font-size: 14px;
-    /*font-weight: 400;*/
     color: #ffffff;
     cursor: pointer;
 }
@@ -183,14 +173,11 @@ body{
 	text-decoration: none;
 	background: #7c7c7c;
 	margin-right:1px;
-	/*border-radius: 3px 0 0 3px;*/
 }
 .side-sub-menu > .current > .item,
 .side-sub-menu > .hover > .item {
     color: #414141;
     text-decoration: none;
-    /*background:#ffffff;*/
-	/*border-radius: 3px 0 0 3px;*/
 }
 .side-sub-menu > .current > .item,
 .side-sub-menu > .current > .item:hover {
@@ -231,12 +218,10 @@ body{
     width: auto;
 }
 
-
 /* 内容模块边栏子菜单 */
 .subnav-off {
     display: none;
 }
-
 
 /* 后台内页模块样式
 ------------------------------------------------- */
@@ -344,7 +329,6 @@ body{
     *zoom: 1;
 }
 
-
 .member-form {
     display: none;
     width: 360px;
@@ -381,7 +365,6 @@ body{
     color: #666;
     padding-right: 6px;
 }
-
 
 /* 插件配置表单 */
 .config-form fieldset {
