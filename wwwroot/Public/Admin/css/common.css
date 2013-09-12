@@ -13,7 +13,7 @@
 	vertical-align: middle;
 	background-image: url(../images/icon_bg.png);
 	background-repeat: no-repeat;
-}*/
+}
 .icon-add {
 	background-position: 0 0;
 }
@@ -70,7 +70,7 @@
 }
 .icon-disabled {
 	background-position: -160px -20px;
-}
+}*/
 
 /* 实心小三角 */
 .arrow {

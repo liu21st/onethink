@@ -23,12 +23,14 @@
 	<div class="cf">
 		<div class="fl">
 			<div class="btn-group">
-				<button class="btn" id="document_add" url="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$model[0]))}">新 增<i class="icon-arrowdown"></i></button>
+				<button class="btn" id="document_add" <if condition="count($model) eq 1">url="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$model[0]))}"</if>>新 增<if condition="count($model) gt 1"><i class="icon-arrowdown"></i></if></button>
+				<if condition="count($model) gt 1">
 				<ul class="dropdown nav-list">
 					<volist name="model" id="vo">
 					<li><a href="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$vo))}">{$vo|get_document_model='title'}</a></li>
 					</volist>
 				</ul>
+				</if>
 			</div>
             <button class="btn ajax-post" target-form="ids" url="{:U("Article/setStatus",array("status"=>1))}">启 用</button>
 			<button class="btn ajax-post" target-form="ids" url="{:U("Article/setStatus",array("status"=>0))}">禁 用</button>
@@ -54,10 +56,14 @@
                 <div class="btn-group adv-sch-pannel fl">
                     <button class="btn">高级<i class="icon-arrowdown"></i></button>
                     <div class="dropdown">
-                    	<div>
-                    		时间：
-                    		<input type="text" name="" class="text input-2x" value="2013-6-6"> - 
-                    		<input type="text" name="" class="text input-2x" value="2013-6-6">
+                    	<div class="row">
+                    		<label>创建时间：</label> 
+                    		<input type="text" name="time-start" class="text input-2x" value="" placeholder="起始时间"> - 
+                    		<input type="text" name="time-end" class="text input-2x" value="" placeholder="结束时间">
+                    	</div>
+                    	<div class="row">
+                    		<label>创建者：</label> 
+                    		<input type="text" name="nickname" class="text input-2x" value="" placeholder="请输入用户名"> 
                     	</div>
                     </div>
                 </div>
@@ -121,13 +127,17 @@ $(function(){
 	$("#search").click(function(){
 		var url = $(this).attr('url');
 		var status = $("#sch-sort-txt").attr("data");
-		var search = $('input[name=title]').val();
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
 		if(status != ''){
-			url += '/status/' + status;
-		}
-		if(search != ''){
-			url += '/title/' + encodeURIComponent(search);
-		}
+			query += 'status=' + status + "&" + query;
+        }
+        if( url.indexOf('?')>0 ){
+            url += '&' + query; 
+        }else{
+            url += '?' + query; 
+        }
 		window.location.href = url;
 	});
 
@@ -145,6 +155,20 @@ $(function(){
 		})
 	});
 
+	//只有一个模型时，点击新增
+	$('#document_add').click(function(){
+		var url = $(this).attr('url');
+		if(url != undefined && url != ''){
+			window.location.href = url;
+		}
+	});
+    
+    //回车自动提交
+    $('.search-form').find('input').keyup(function(event){
+        if(event.keyCode===13){
+            $("#search").click();
+        }
+    });
 
 })
 </script>
