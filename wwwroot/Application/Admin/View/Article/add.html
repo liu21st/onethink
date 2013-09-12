@@ -25,12 +25,6 @@
 				<!-- 基础文档模型 -->
 				<div class="tab-pane in tab1">
 					<div class="form-item cf">
-						<label class="item-label">文档标识：<span class="check-tips">（请输入文档标识）</span></label>
-						<div class="controls">
-							<input type="text" class="text input-large" name="name">
-						</div>
-					</div>
-					<div class="form-item cf">
 						<label class="item-label">标题：<span class="check-tips">（请输入标题）</span></label>
 						<div class="controls">
 							<input type="text" class="text input-large" name="title">
@@ -42,6 +36,12 @@
 							<label class="textarea input-large">
 								<textarea name="description"></textarea>
 							</label>
+						</div>
+					</div>
+					<div class="form-item cf">
+						<label class="item-label">文档标识：<span class="check-tips">（请输入文档标识）</span></label>
+						<div class="controls">
+							<input type="text" class="text input-large" name="name">
 						</div>
 					</div>
 					<div class="form-item cf">
@@ -61,7 +61,7 @@
 					<div class="form-item cf">
 						<label class="item-label">截止时间：</label>
 						<div class="controls">
-							<input id="dateline" type="text" class="text input-5x" name="dateline" value="0">
+							<input id="dateline" type="text" class="text input-5x" name="dateline" value="">
 						</div>
 					</div>
 					<div class="form-item cf">
@@ -156,32 +156,6 @@
 })(jQuery);
 
 $(function(){
-	//初始化通过锚点判断显示哪个标签页
-	var last = $(".tab-nav li:last");
-	$(".tab-nav li").click(function(){
-		var self = $(this), target = self.data("tab");
-		self.addClass("current").siblings(".current").removeClass("current");
-		window.location.hash = "#" + target.substr(3);
-		$(".tab-pane.in").removeClass("in");
-		$("." + target).addClass("in");
-		showBtn();
-	}).filter("[data-tab=tab" + window.location.hash.substr(1) + "]").click();
-
-	$("#submit-next").click(function(){
-        $(".tab-nav li.current").next().click();
-        showBtn();
-	});
-
-	function showBtn() {
-		if( last.hasClass("current") ) {
-			$("#submit").removeClass("hidden");
-			$("#submit-next").addClass("hidden");
-		} else {
-			$("#submit").addClass("hidden");
-			$("#submit-next").removeClass("hidden");
-		}
-	}
-
 	$('#dateline').glDatePicker(
 	{
 		showAlways: false,
@@ -190,6 +164,9 @@ $(function(){
             el.val(date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate());
         }),
 	});
+
+	// 标签页切换
+	nextTab();
 });
 
 </script>

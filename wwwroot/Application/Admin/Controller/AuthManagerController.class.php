@@ -215,6 +215,9 @@ class AuthManagerController extends AdminController{
      */
     public function changeStatus($method=null)
     {
+        if ( empty($_GET['id']) ) {
+            $this->error('请选择要操作的数据!');
+        }
         switch ( strtolower($method) ){
             case 'forbidgroup':
                 $this->forbid('AuthGroup');
@@ -375,13 +378,6 @@ class AuthManagerController extends AdminController{
         }else{
             $this->error('操作失败');
         }
-    }
-
-    public function test()
-    {
-        $a = AuthGroupModel::getAuthCategories(14);
-
-        dump($a);
     }
     
 }

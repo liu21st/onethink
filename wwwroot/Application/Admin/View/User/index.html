@@ -13,22 +13,22 @@
             <button class="btn ajax-post confirm" url="{:U('User/changeStatus',array('method'=>'deleteUser'))}" target-form="ids">删 除</button>
         </div>
 
-        <div class="tools fr">
-            <div class="search-form cf">
-                <div class="drop-down">
-                    <span id="sch-sort-txt" class="sort-txt" data="">所有</span>
-                    <i class="arrow arrow-down"></i>
-                    <ul id="sub-sch-menu" class="nav-list hidden">
-                        <li><a href="javascript:;" value="">所有</a></li>
-                        <li><a href="javascript:;" value="1">正常</a></li>
-                        <li><a href="javascript:;" value="0">禁用</a></li>
-                        <li><a href="javascript:;" value="2">待审核</a></li>
-                    </ul>
-                </div>
-                <input type="text" name="uid" value="{:I('uid')}" placeholder="请输入UID">
-                <a class="sch-btn" href="javascript:;" id="search" url="{:U('User/index','',false)}">高级搜索</a>
-            </div>
-        </div>
+        <!-- <div class="tools fr"> -->
+            <!-- <div class="search-form cf"> -->
+                <!-- <div class="drop-down"> -->
+                    <!-- <span id="sch-sort-txt" class="sort-txt" data="">所有</span> -->
+                    <!-- <i class="arrow arrow-down"></i> -->
+                    <!-- <ul id="sub-sch-menu" class="nav-list hidden"> -->
+                        <!-- <li><a href="javascript:;" value="">所有</a></li> -->
+                        <!-- <li><a href="javascript:;" value="1">正常</a></li> -->
+                        <!-- <li><a href="javascript:;" value="0">禁用</a></li> -->
+                        <!-- <li><a href="javascript:;" value="2">待审核</a></li> -->
+                    <!-- </ul> -->
+                <!-- </div> -->
+                <!-- <input type="text" name="uid" value="{:I('uid')}" placeholder="请输入UID"> -->
+                <!-- <a class="sch-btn" href="javascript:;" id="search" url="{:U('User/index','',false)}">高级搜索</a> -->
+            <!-- </div> -->
+        <!-- </div> -->
     </div>
     <!-- 数据列表 -->
     <div class="data-table table-striped">
@@ -40,12 +40,7 @@
                     'td'=>'<input class="ids" type="checkbox" name="id[]" value="$uid" />',
                 ),
                 'uid'  => 'UID',
-                'nickname'=>array(
-                    '_title'  =>'昵称',
-                    'tag'    =>'a',
-                    'class'  =>'edit-user',
-                    'href'   =>'User/edit?id=$uid',
-                ),
+                'nickname'=>'昵称',
                 'score'=>'积分',
                 'login'=>'登陆次数',
                 'last_login_ip'=>array(
@@ -78,25 +73,6 @@
 	<script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
 
 	<script type="text/javascript">
-		$(function(){
-			$(".authorize").click(function(){
-				var thinkboxOption = {
-					title:'用户授权',
-					actions:['close'],
-					drag:true,
-					tools:true
-				}
-				var authorUrl = this.href;
-                $.get(authorUrl).success(function(data){
-                    if(data.status==0){
-                        updateAlert(data.info);
-                    }else{
-                        $.thinkbox(data,thinkboxOption);
-                    }
-                });
-                return false;
-			});
-		})
 	//搜索功能
 	$("#search").click(function(){
 		var url = $(this).attr('url');

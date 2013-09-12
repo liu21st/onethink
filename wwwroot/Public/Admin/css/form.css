@@ -130,9 +130,6 @@ label.textarea ~ .check-tips {
 
 /* 搜索表单
 ------------------------------------------ */
-.search-form {
-	
-}
 .search-form .sleft {
 	margin-right: 10px;
 	float: left;
@@ -174,7 +171,7 @@ label.textarea ~ .check-tips {
 	background-color: #f0f0f0;
 	border:none;
 }
-.search-form input {
+.search-form .search-input {
 	float: left;
 	padding: 2px 4px;
 	width: 180px;
@@ -199,4 +196,10 @@ label.textarea ~ .check-tips {
 	width: 16px;
 	height: 16px;
 	background: url(../images/icon_search.png) no-repeat 0 0;
+}
+.search-form .adv-sch-pannel .dropdown {
+	right: 0;
+	left: auto;
+	padding: 15px;
+	width: 281px;
 }

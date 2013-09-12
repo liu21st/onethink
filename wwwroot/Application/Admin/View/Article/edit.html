@@ -20,13 +20,13 @@
 <div class="tab-wrap">
 	<ul class="tab-nav nav">
 		<li data-tab="tab1" class="current"><a href="javascript:void(0);">基础</a></li>
-		<li data-tab="tab2"><a href="javascript:void(0);">扩展</a></li>
+		<li data-tab="tab2"><a href="javascript:void(0);">高级</a></li>
 	</ul>
 	<div class="tab-content">
 	<!-- 表单 -->
 	<form id="form" action="{:U('update')}" method="post" class="form-horizontal">
 		<!-- 基础文档模型 -->
-		<div id="tab1" class="tab-pane in">
+		<div id="tab1" class="tab-pane in tab1">
 			<div class="form-item cf">
 				<label class="item-label">文档标识：<span class="check-tips">（请输入文档标识）</span></label>
 				<div class="controls">
@@ -82,13 +82,14 @@
 			</div>
 		</div>
 
-		<div id="tab2" class="tab-pane">
+		<div id="tab2" class="tab-pane tab2">
 			<!-- 引入扩展文档模型 -->
 			<include file="$template"/>
 		</div>
 
 		<div class="form-item cf">
-			<button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal" href="javascript:;">确定</button>
+			<button class="btn submit-btn ajax-post" id="submit-next" type="submit" target-form="form-horizontal" href="javascript:;">下一步</button>
+			<button class="btn submit-btn ajax-post hidden" id="submit" type="submit" target-form="form-horizontal" href="javascript:;">确定</button>
 			<a class="btn btn-xlarge btn-return" href="{:U('article/index?cate_id='.$cate_id)}">返回</a>
 			<input type="hidden" name="id" value="{$id}"/>
 			<input type="hidden" name="model_id" value="{$model_id}"/>
@@ -152,24 +153,6 @@ $('#submit').click(function(){
     }
 })(jQuery);
 $(function(){
-	//初始化通过锚点判断显示哪个标签页
-	var local = location.hash.split("#", 2)[1];
-	if(local == 'tab2'){
-		$(".tab-nav li").removeClass('current');
-		$(".tab-nav li:last").addClass('current');
-		$("#tab1,#tab2").attr("class", "tab-pane");
-		$("#tab2").attr("class", "tab-pane in");
-	}
-	$(".tab-nav li").click(function(){
-		var id = $(this).data("tab");
-		$(this).addClass("current");
-		$(this).siblings().removeClass('current');
-		//获取锚点
-		var local = location.hash.split("#", 2)[1];
-		window.location.href = location.hash.split("#", 2)[0] + '#' + id;
-		$("#tab1,#tab2").attr("class", "tab-pane");
-		$("#" + id).attr("class", "tab-pane in");
-	});
 	$('#dateline').glDatePicker(
 	{
 		showAlways: false,
@@ -178,6 +161,8 @@ $(function(){
             el.val(date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate());
         }),
 	});
+
+	nextTab();
 });
 </script>
 </block>

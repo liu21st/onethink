@@ -15,7 +15,7 @@ namespace Admin\Controller;
 class CategoryController extends AdminController {
 
     static protected $allow = array( 'tree');
-        /**
+    /**
      * 左侧导航节点定义
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */

@@ -1,0 +1,34 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<div class="main-title">
+		<h2>基本设置</h2>
+	</div>
+	<form action="{:U('save')}" method="post" class="form-horizontal">
+		<div class="form-item">
+			<label class="item-label">站点名称<span class="check-tips">（该名称显示在浏览器窗口标题等位置）</span> </label>
+			<div class="controls">
+				<input type="text" class="text" name="config[WEB_SITE_TITLE]" value="{:C('WEB_SITE_TITLE')}">
+			</div>
+		</div>
+		<div class="form-item">
+			<label class="item-label">网站备案号<span class="check-tips">（设置在网站底部显示的备案号，如“沪ICP备12007941号-2）</span></label>
+			<div class="controls">
+				<input type="text" class="text" name="config[WEB_SITE_ICP]" value="{:C('WEB_SITE_ICP')}"> 
+			</div>
+		</div>
+		<div class="form-item">
+			<label class="item-label">站点关闭<span class="check-tips">（暂时关闭站点，其他人无法访问，但管理员可以）</span></label>
+			<div class="controls">
+				<label class="radio"><input type="radio" name="config[WEB_SITE_CLOSE]" value="1">是</label>
+				<label class="radio"><input type="radio" checked="checked" name="config[WEB_SITE_CLOSE]" value="0">否</label>
+			</div>
+		</div>
+		<div class="form-item">
+			<label class="item-label"></label>
+			<div class="controls">
+				<input type="submit" class="btn ajax-post" target-form="form-horizontal" value="确定">
+			</div>
+		</div>
+	</form>
+</block>

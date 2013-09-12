@@ -50,7 +50,7 @@ class AdminController extends Action {
         array( 'title'=>'内容','url'=>'Article/index','controllers'=>'Article',),
         array( 'title'=>'用户','url'=>'User/index','controllers'=>'User,AuthManager'),
         array( 'title'=>'扩展','url'=>'Addons/index','controllers'=>'Addons,Model',),
-        array( 'title'=>'系统','url'=>'System/index','controllers'=>'System,Category',),
+        array( 'title'=>'系统','url'=>'Config/base','controllers'=>'Config,System,Category',),
         array( 'title'=>'其他','url'=>'other','controllers'=>'File','hide'=>true),//专门放置不需要显示在任何菜单中的节点
     );
 
@@ -589,7 +589,7 @@ class AdminController extends Action {
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     protected function checkNodes(){
-        if ( APP_DEBUG!=true || $i ==1 ){
+        if ( APP_DEBUG!=true ){
             return;
         }
         $controllers = array();
