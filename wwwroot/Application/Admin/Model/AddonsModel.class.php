@@ -55,6 +55,7 @@ class AddonsModel extends Model {
 			$addons[] = $this->getAddonsInfo(basename($value));
 		}
 		intToString($addons, array('status'=>array(-1=>'损坏', 0=>'禁用', 1=>'启用')));
+		$addons = list_sort_by($addons,'uninstall','desc');
 		return $addons;
 	}
 
@@ -87,9 +88,10 @@ class AddonsModel extends Model {
 			$info = $addons->info;
 			if($info)
                 $info['uninstall'] = 1;
-            else
-                $info['uninstall'] = 0;
+		}else{
+			$info['uninstall'] = 0;
 		}
+
 		return $info;
 	}
 }
