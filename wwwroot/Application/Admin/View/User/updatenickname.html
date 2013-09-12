@@ -9,19 +9,19 @@
 	<!-- 修改密码表单 -->
 	<form action="submitNickname" method="post" class="form-horizontal">
 		<div class="form-item">
-			<label class="item-label">原昵称：</label>
-			<div class="controls">
-				<input type="text" name="" class="text input-large" value="{$nickname}" disabled>
-			</div>
-		</div>
-		<div class="form-item">
 			<label class="item-label">新昵称：</label>
 			<div class="controls">
 				<input type="text" name="nickname" class="text input-large">
 			</div>
 		</div>
 		<div class="form-item">
-			<button type="submit" class="btn submit-btn">确认修改</button>
+			<label class="item-label">密码：</label>
+			<div class="controls">
+				<input type="password" name="password" class="text input-large" >
+			</div>
+		</div>
+		<div class="form-item">
+			<button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确认修改</button>
 		</div>
 	</form>
 

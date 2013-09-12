@@ -5,7 +5,8 @@
 /* 头部Logo,主导航
 --------------------------------------*/
 html {
-    height: 100.2%;
+    height: 100%;
+    overflow-y: scroll;
 }
 body{
     padding: 50px 0 0 200px;

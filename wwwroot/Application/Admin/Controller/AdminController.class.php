@@ -71,7 +71,7 @@ class AdminController extends Action {
             $this->error('403:禁止访问');
         }elseif( $ac===null ){
             $rule  = strtolower(MODULE_NAME.'/'.CONTROLLER_NAME.'/'.ACTION_NAME);
-            if ( !$this->root_user && !$this->checkRule($rule,array('in','1,2')) ){
+            if ( !$this->root_user && !$this->checkRuleDynamic($rule,array('in','1,2')) ){
                 $this->error('提示:无权访问,您可能需要联系管理员为您授权!');
             }
         }
@@ -92,6 +92,18 @@ class AdminController extends Action {
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
     final protected function checkRule($rule, $type=AuthRuleModel::RULE_URL, $mode='url')
+    {
+        static $Auth = null;
+        if (!$Auth) {
+            $Auth  = new \ORG\Util\Auth();
+        }
+        if(!$Auth->check($rule,$this->uid,$type,$mode)){
+            return false;
+        }
+        return true;
+    }
+
+    final protected function checkRuleDynamic($rule, $type=AuthRuleModel::RULE_URL, $mode='url')
     {
         if( ($d=$this->checkDynamic())!==null){
             return $d;

@@ -3,34 +3,26 @@
 <block name="body">
 	<div class="main-title">
 		<h2>新增模型</h2>
-
 	</div>
 
-<div>
 	<!-- 表单 -->
 	<form id="form" action="{:U('update')}" method="post" class="form-horizontal doc-modal-form">
 		<div class="form-item cf">
-			<label class="item-label">文档模型标识：</label>
+			<label class="item-label">文档模型标识<span class="check-tips">请输入文档模型标识</span></label>
 			<div class="controls">
-				<input type="text" class="text" name="name">
-				<span class="check-tips">请输入文档模型标识</span>
+				<input type="text" class="text input-large" name="name">
 			</div>
 		</div>
 		<div class="form-item cf">
-			<label class="item-label">标题：</label>
+			<label class="item-label">标题<span class="check-tips">请输入标题</span></label>
 			<div class="controls">
-				<input type="text" class="text" name="title">
-				<span class="check-tips">请输入标题</span>
+				<input type="text" class="text input-large" name="title">
 			</div>
 		</div>
 		<div class="form-item cf">
-			<label class="item-label"></label>
-			<div class="controls">
-				<button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal" id="submit">确定</button>
-			</div>
+			<button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal" id="submit">确定</button>
 		</div>
 	</form>
-</div>
 </block>
 <block name="script">
 <script type="text/javascript" charset="utf-8">

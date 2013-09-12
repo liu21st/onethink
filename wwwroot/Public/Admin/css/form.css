@@ -139,8 +139,8 @@ label.textarea ~ .check-tips {
 .search-form .drop-down {
 	float: left;
 	width: 81px;
-	height: 30px;
-	line-height: 30px;
+	height: 28px;
+	line-height: 28px;
 }
 .search-form .sort-txt {
 	display: inline-block;
@@ -176,7 +176,7 @@ label.textarea ~ .check-tips {
 	float: left;
 	padding: 2px 4px;
 	width: 180px;
-	height: 26px;
+	height: 24px;
 	line-height: 26px;
 	border: 0 none;
 }
