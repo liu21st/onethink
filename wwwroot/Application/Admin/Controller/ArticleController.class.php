@@ -48,6 +48,10 @@ class ArticleController extends \Admin\Controller\AdminController {
 		if(ACTION_NAME == 'index' || ACTION_NAME == 'add' || ACTION_NAME == 'edit' || ACTION_NAME == 'recycle'){
 			$this->getMenu();
 		}
+
+		//获取回收站权限
+		$show_recycle = $this->checkRule('Admin/article/recycle');
+		$this->assign('show_recycle', $show_recycle);
     }
 
     /**
@@ -129,24 +133,27 @@ class ArticleController extends \Admin\Controller\AdminController {
 		}
         if ( isset($_GET['time-start']) ) {
             $map['create_time'][] = array('egt',strtotime(I('time-start')));
-            
+
         }
         if ( isset($_GET['time-end']) ) {
             $map['create_time'][] = array('elt',strtotime(I('time-end')));
-            
+
         }
         if ( isset($_GET['nickname']) ) {
             $map['uid'] = M('Member')->where(array('nickname'=>I('nickname')))->getField('uid');
         }
 
 		// 构建列表数据
-		$Document = D('Document');
-        $map['category_id'] = $cate_id;
-        $list = $this->lists($Document,$map);
-        intToString($list);
+		if(!empty($cate_id)){			//没有权限则不查询数据
+			$Document = D('Document');
+			$map['category_id'] = $cate_id;
+			$list = $this->lists($Document,$map);
+			intToString($list);
 
-		//获取对应分类下的模型
-		$models = get_category($cate_id, 'model');
+			//获取对应分类下的模型
+			$models = get_category($cate_id, 'model');
+		}
+
 
 		$this->assign('model', $models);
 		$this->assign('status', $status);
