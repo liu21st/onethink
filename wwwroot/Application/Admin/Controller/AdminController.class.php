@@ -71,7 +71,7 @@ class AdminController extends Action {
             $this->error('403:禁止访问');
         }elseif( $ac===null ){
             $rule  = strtolower(MODULE_NAME.'/'.CONTROLLER_NAME.'/'.ACTION_NAME);
-            if ( !$this->root_user && !$this->checkRule($rule,array('in','1,2')) ){
+            if ( !$this->root_user && !$this->checkRuleDynamic($rule,array('in','1,2')) ){
                 $this->error('提示:无权访问,您可能需要联系管理员为您授权!');
             }
         }
@@ -92,6 +92,18 @@ class AdminController extends Action {
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
     final protected function checkRule($rule, $type=AuthRuleModel::RULE_URL, $mode='url')
+    {
+        static $Auth = null;
+        if (!$Auth) {
+            $Auth  = new \ORG\Util\Auth();
+        }
+        if(!$Auth->check($rule,$this->uid,$type,$mode)){
+            return false;
+        }
+        return true;
+    }
+
+    final protected function checkRuleDynamic($rule, $type=AuthRuleModel::RULE_URL, $mode='url')
     {
         if( ($d=$this->checkDynamic())!==null){
             return $d;
@@ -156,6 +168,9 @@ class AdminController extends Action {
      */
     final protected function accessControl()
     {
+        if($this->root_user){
+            return true;//管理员允许访问任何页面
+        }
         $controller = 'Admin\\Controller\\'.CONTROLLER_NAME.'Controller';
         if ( !is_array($controller::$deny)||!is_array($controller::$allow) ){
             $this->error("内部错误:{$controller}控制器 deny和allow属性必须为数组");
@@ -163,12 +178,12 @@ class AdminController extends Action {
         $deny  = $this->getDeny();
         $allow = $this->getAllow();
         if ( !empty($deny)  && in_array(ACTION_NAME,$deny) ) {
-            return false;
+            return false;//非超管禁止访问deny中的方法
         }
         if ( !empty($allow) && in_array(ACTION_NAME,$allow) ) {
             return true;
         }
-        return null;
+        return null;//需要检测节点权限
     }
 
     /**

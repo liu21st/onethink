@@ -68,15 +68,27 @@ class UserController extends AdminController {
 		//获取参数
 		$uid = is_login();
 		$nickname = I('post.nickname');
+		$password = I('post.password');
+		empty($nickname) && $this->error('请输入新昵称');
+		empty($password) && $this->error('请输入原密码');
+
+		//密码验证
+		$User = new UserApi();
+		$uid = $User->login($uid, $password, 4);
+		($uid == -2) && $this->error('密码不正确');
 
 		$Member = D('Member');
 		$data = $Member->create(array('nickname'=>$nickname));
+		if(!$data){
+			$this->error($Member->getError());
+		}
+
 		$res = $Member->where(array('uid'=>$uid))->save($data);
 
 		if($res){
 			$this->success('修改昵称成功！');
 		}else{
-			$this->error($Member->getError());
+			$this->error('修改昵称失败！');
 		}
 	}
 
@@ -96,7 +108,15 @@ class UserController extends AdminController {
 		//获取参数
 		$uid = is_login();
 		$password = I('post.old');
+		empty($password) && $this->error('请输入原密码');
 		$data['password'] = I('post.password');
+		empty($data['password']) && $this->error('请输入新密码');
+		$repassword = I('post.repassword');
+		empty($repassword) && $this->error('请输入确认密码');
+
+		if($data['password'] !== $repassword){
+			$this->error('您输入的新密码与确认密码不一致');
+		}
 
 		$Api = new UserApi();
 		$res = $Api->updateInfo($uid, $password, $data);

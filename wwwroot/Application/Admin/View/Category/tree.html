@@ -3,7 +3,6 @@
 		<dt class="cf">
 			<form action="{:U('edit')}" method="post">
 				<div class="btn-toolbar opt-btn cf">
-					<!-- <a title="添加子分类" href="{:U('edit?pid='.$list['id'])}"> 添加子分类 </a> -->
 					<a title="编辑" href="{:U('edit?id='.$list['id'])}"> 编辑 </a>
 					<a title="删除" href="javascript:;"> 删除 </a>
 				</div>
@@ -13,7 +12,7 @@
 					<span class="tab-sign"></span>
 					<input type="hidden" name="id" value="{$list.id}">
 					<input type="text" name="title" class="text" value="{$list.title}">
-					<a class="add-sub-cate" title="添加子分类" href="{:U('edit?pid='.$list['id'])}"> 
+					<a class="add-sub-cate" title="添加子分类" href="{:U('add?pid='.$list['id'])}"> 
 						<i class="icon-add"></i> 
 					</a>
 					<span class="help-inline msg"></span>
