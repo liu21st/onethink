@@ -204,6 +204,10 @@ class ArticleController extends \Admin\Controller\AdminController {
 			$this->error('参数不能为空！');
 		}
 
+		//检查该分类是否允许发布
+		$allow_publish = D('Document')->checkCategory($cate_id);
+		!$allow_publish && $this->error('该分类不允许发布内容！');
+
 		/* 获取要编辑的模型模板 */
 		$template = strtolower(get_document_model($model_id, 'name'));
 		$extend = $this->fetch($template);
