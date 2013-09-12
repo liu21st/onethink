@@ -2,11 +2,11 @@
 
 <block name="body">
 	<div class="main-title">
-		<h2>频道管理</h2>
+		<h2>导航管理</h2>
 	</div>
 
 	<div class="cf">
-		<a class="btn" href="javascript:;">添加</a>
+		<a class="btn" href="{:U('channelEdit')}">添加</a>
 		<a class="btn" href="javascript:;">删除</a>
 	</div>
 
@@ -18,8 +18,8 @@
 						<input class="checkbox check-all" type="checkbox">
 					</th>
 					<th>ID</th>
-					<th>频道名称</th>
-					<th>频道地址</th>
+					<th>导航名称</th>
+					<th>导航地址</th>
 					<th>操作</th>
 				</tr>
 			</thead>
@@ -28,15 +28,53 @@
 					<tr>
 						<td><input class="ids row-selected" type="checkbox" name="" id=""> </td>
 						<td>{$channel.id}</td>
-						<td><a href="javascript:;">{$channel.title}</a></td>
-						<td><a href="#">{$channel.url}</a></td>
+						<td><a href="{:U('channelEdit?id='.$channel['id'])}">{$channel.title}</a></td>
+						<td>{$channel.url}</td>
 						<td>
-							<a title="编辑" href="#">编辑</a>
-							<a title="删除" href="#">删除</a>
+							<a title="编辑" href="{:U('channelEdit?id='.$channel['id'])}">编辑</a>
+							<a title="删除" href="{:U('channelDel?id='.$channel['id'])}">删除</a>
 						</td>
 					</tr>
 				</volist>
 			</tbody>
 		</table>
 	</div>
+
+	<!-- 编辑及新建频道弹出框 -->
+	<form action="#" method="post" class="form-horizontal add-pop-form">
+		<div class="form-item">
+			<label class="item-label">频道ID：</label>
+			<div class="controls">
+				<input type="text" class="text" value="1" disabled>
+			</div>
+		</div>
+		<div class="form-item">
+			<label class="item-label">频道名称：</label>
+			<div class="controls">
+				<input type="text" name="" class="text" value="">
+			</div>
+		</div>
+		<div class="form-item">
+			<label class="item-label">频道类型：</label>
+			<div class="controls">
+				<select>
+					<option value="">文档</option>
+					<option value="">视频</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-item">
+			<label class="item-label">频道地址：</label>
+			<div class="controls">
+				<input type="text" name="" class="text" value="wwww.thinkphp.cn">
+			</div>
+		</div>
+		<div class="form-item">
+			<label class="item-label"></label>
+			<div class="controls">
+				<input type="submit" value="保存" class="btn submit-btn">
+				<input type="reset" value="取消" class="btn btn-return">
+			</div>
+		</div>
+	</form>
 </block>

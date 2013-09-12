@@ -64,7 +64,7 @@ class ConfigController extends AdminController {
                 }
 
                 if($status){
-                    $this->success('操作成功');
+                    $this->success('操作成功', U('index'));
                 } else {
                     $this->error('操作失败');
                 }

@@ -22,50 +22,48 @@
 	</div>
 	<!-- 表单 -->
 	<form id="form" action="{:U('build')}" method="post" class="form-horizontal doc-modal-form">
-		<div class="form-item cf">
-			<label class="item-label">标识名：<span class="check-tips">（请输入插件标识）</span></label>
+		<div class="form-item">
+			<label class="item-label">标识名<span class="check-tips">（请输入插件标识）</span></label>
 			<div class="controls">
 				<input type="text" class="text input-large" name="info[name]" value="Example">
 			</div>
 		</div>
-		<div class="form-item cf">
-			<label class="item-label">插件名：<span class="check-tips">（请输入插件名）</span></label>
+		<div class="form-item">
+			<label class="item-label">插件名<span class="check-tips">（请输入插件名）</span></label>
 			<div class="controls">
 				<input type="text" class="text input-large" name="info[title]" value="示列">
 			</div>
 		</div>
-		<div class="form-item cf">
-			<label class="item-label">版本：<span class="check-tips">（请输入插件名）</span></label>
+		<div class="form-item">
+			<label class="item-label">版本<span class="check-tips">（请输入插件名）</span></label>
 			<div class="controls">
 				<input type="text" class="text input-large" name="info[version]" value="0.1">
 			</div>
 		</div>
-		<div class="form-item cf">
-			<label class="item-label">作者：<span class="check-tips">（请输入插件名）</span></label>
+		<div class="form-item">
+			<label class="item-label">作者<span class="check-tips">（请输入插件名）</span></label>
 			<div class="controls">
 				<input type="text" class="text input-large" name="info[author]" value="无名">
 			</div>
 		</div>
-		<div class="form-item cf">
-			<label class="item-label">描述：<span class="check-tips">（请输入描述）</span></label>
+		<div class="form-item">
+			<label class="item-label">描述<span class="check-tips">（请输入描述）</span></label>
 			<div class="controls">
 				<label class="textarea input-large">
 					<textarea name="info[description]">这是一个临时描述</textarea>
 				</label>
 			</div>
 		</div>
-		<div class="form-item cf">
-			<label class="item-label">安装后是否启用：</label>
+		<div class="form-item">
+			<label class="item-label">安装后是否启用</label>
 			<div class="controls">
 				<label class="checkbox">
 					<input type="checkbox" name="info[status]" value="1" checked />
 				</label>
 			</div>
 		</div>
-		<div class="form-item cf">
-			<label class="item-label">
-				是否需要配置：
-			</label>
+		<div class="form-item">
+			<label class="item-label">是否需要配置</label>
 			<div class="controls">
 				<label class="checkbox"><input type="checkbox" id="has_config" name="has_config" value="1" /></label>
 				<label class="textarea block input-large has_config hidden">
@@ -89,14 +87,14 @@ return array(
 				<span class="check-tips block has_config hidden">自定义模板,注意：自定义模板里的表单name必须为config[name]这种，获取保存后配置的值用$data.config.name</span>
 			</div>
 		</div>
-		<div class="form-item cf">
+		<div class="form-item">
 			<div class="controls">
-				<label class="item-label">是否需要外部访问：</label>
+				<label class="item-label">是否需要外部访问</label>
 				<input type="checkbox" class="checkbox" name="has_outurl" value="1" />
 			</div>
 		</div>
-		<div class="form-item cf">
-			<label class="item-label">实现的钩子方法：</label>
+		<div class="form-item">
+			<label class="item-label">实现的钩子方法</label>
 			<div class="controls">
 				<select class="select" name="hook">
 					<volist name="Hooks" id="vo">
@@ -105,8 +103,8 @@ return array(
 				</select>
 			</div>
 		</div>
-		<div class="form-item cf">
-			<label class="item-label">是否需要后台列表：</label>
+		<div class="form-item">
+			<label class="item-label">是否需要后台列表</label>
 			<div class="controls">
 				<label class="checkbox">
 					<input type="checkbox" id="has_adminlist" name="has_adminlist" value="1" />勾选，扩展里已装插件后台列表会出现插件名的列表菜单，如系统的附件
@@ -126,12 +124,9 @@ return array(
 				<span class="check-tips block has_adminlist hidden">自定义模板,注意：自定义模板里的列表变量为$_list这种,遍历后可以用listkey可以控制表头显示,也可以完全手写，分页变量用$_page</span>
 			</div>
 		</div>
-		<div class="form-item cf">
-			<label class="item-label"></label>
-			<div class="controls">
+		<div class="form-item">
 				<button class="btn btn-xlarge btn-return" type="button" id="preview">预览</button>
 				<button class="btn ajax-post_custom submit-btn" target-form="form-horizontal" id="submit">确定</button>
-			</div>
 		</div>
 	</form>
 </block>

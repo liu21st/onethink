@@ -15,7 +15,7 @@ use User\Api\UserApi;
 
 class UserController extends AdminController {
 
-    static protected $allow = array( 'updatePassword','updateNickname');
+    static protected $allow = array( 'updatePassword','updateNickname','submitPassword','submitNickname');
 	/**
      * 左侧导航节点定义
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
