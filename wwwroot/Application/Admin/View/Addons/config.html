@@ -17,10 +17,10 @@
 					<div class="controls">
 						<switch name="form.type">
 							<case value="text">
-								<input type="text" name="config[{$o_key}]" class="text" value="{$form.value}">
+								<input type="text" name="config[{$o_key}]" class="text input-large" value="{$form.value}">
 							</case>
 							<case value="password">
-								<input type="password" name="config[{$o_key}]" class="text" value="{$form.value}">
+								<input type="password" name="config[{$o_key}]" class="text input-large" value="{$form.value}">
 							</case>
 							<case value="hidden">
 								<input type="hidden" name="config[{$o_key}]" value="{$form.value}">
@@ -47,7 +47,7 @@
 								</select>
 							</case>
 							<case value="textarea">
-								<label class="textarea">
+								<label class="textarea input-large">
 									<textarea name="config[{$o_key}]">{$form.value}</textarea>
 								</label>
 							</case>
