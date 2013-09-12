@@ -3,18 +3,48 @@
 <block name="body">
 	<!-- 标题栏 -->
 	<div class="main-title cf">
-		<h2>编辑“{$data.name}”钩子处挂载的插件</h2>
+		<h2><present name="data">更新<else />添加</present>钩子</h2>
 	</div>
 
 	<!-- 修改密码表单 -->
-	<form action="{:U('updateSort')}" method="post" class="form-horizontal">
+	<form action="{:U('updateHook')}" method="post" class="form-horizontal">
 		<div class="form-item cf">
-			<label class="item-label">插件名称<span class="check-tips">（多个插件用,分割）</span></label>
+			<label class="item-label">钩子名称<span class="check-tips">（多个插件用,分割）</span></label>
 			<div class="controls">
-				<input type="text" value="{$data.addons}" name="addons" class="text">
+				<input type="text" value="{$data.name}" name="name" class="text">
+			</div>
+		</div>
+		<div class="form-item cf">
+			<label class="item-label">钩子描述<span class="check-tips">（多个插件用,分割）</span></label>
+			<div class="controls">
+				<input type="text" value="{$data.description}" name="description" class="text">
+			</div>
+		</div>
+		<div class="form-item cf">
+			<label class="item-label"钩子类型<span class="check-tips">（多个插件用,分割）</span></label>
+			<div class="controls">
+				<select name="type">
+					<option value="1" <eq name="data.type" value="1"> selected</eq>>view</option>
+					<option value="2" <eq name="data.type" value="2"> selected</eq>>controller</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-item cf">
+			<label class="item-label">钩子挂载的插件<span class="check-tips">（多个插件用,分割）</span></label>
+			<div class="controls">
+				<textarea class="textarea" name="addons" >{$data.addons}</textarea>
 			</div>
 		</div>
 		<input type="hidden" name="id" value="{$data.id}">
 		<button type="submit" class="submit-btn ajax-post" target-form="form-horizontal">保 存</button>
 	</form>
+</block>
+
+<block name="script">
+	<script type="text/javascript">
+		$(function(){
+			//导航高亮
+	    	$('.side-sub-menu').find('a[href="{:U('Addons/hooks')}"]').closest('li').addClass('current');
+		})
+	</script>
 </block>

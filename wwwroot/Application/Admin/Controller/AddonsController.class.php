@@ -34,13 +34,10 @@ class AddonsController extends AdminController {
             ),
         ),
         array( 'title'=>'钩子管理', 'url'=>'Addons/hooks', 'group'=>'扩展',
-            'operator'=>array(
-            //权限管理页面的五种按钮
-                array('title'=>'编辑钩子页面','url'=>'Addons/edithookaddons'),
-                array('title'=>'编辑','url'=>'Addons/updateSort','tip'=>'保存钩子的表单提交'),
-            ),
         ),
     );
+
+    static protected $deny  = array('addhook','edithook','delhook','updateHook');
 
     public function _initialize(){
         $this->assign('_extra_menu',array(
@@ -414,7 +411,12 @@ str;
                 'type_text'=>'类型',
                 '插件'=>array(
                     '编辑'=>array(
-                        'href'=>'edithookaddons?id=$id'
+                        'href'=>'edithook?id=$id'
+                    ),
+                    '删除'=>array(
+                        'href'=>'delhook?id=$id',
+                        'class'=>'ajax-get',
+                        'condition'=>'is_administrator()'
                     )
                 )
         );
@@ -423,11 +425,46 @@ str;
         $this->display();
     }
 
+    public function addhook(){
+        $this->display('edithook');
+    }
+
     //钩子出编辑挂载插件页面
-    public function edithookaddons($id){
+    public function edithook($id){
         $hook = D('Hooks')->find($id);
         $this->assign('data',$hook);
-        $this->display();
+        $this->display('edithook');
+    }
+
+    //超级管理员删除钩子
+    public function delhook($id){
+        if(D('Hooks')->delete($id) !== false){
+            $this->success('删除成功');
+        }else{
+            $this->error('删除失败');
+        }
+    }
+
+    public function updateHook(){
+        $hookModel = D('Hooks');
+        $data = $hookModel->create();
+        if($data){
+            if($data['id']){
+                $flag = $hookModel->save($data);
+                if($flag !== false)
+                    $this->success('更新成功', U('hooks'));
+                else
+                    $this->error('更新失败');
+            }else{
+                $flag = $hookModel->add($data);
+                if($flag)
+                    $this->success('新增成功', U('hooks'));
+                else
+                    $this->error('新增失败');
+            }
+        }else{
+            $this->error($hookModel->getError());
+        }
     }
 
     public function updateSort(){
