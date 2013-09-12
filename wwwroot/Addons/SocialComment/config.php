@@ -12,8 +12,8 @@ return array(
 	'comment_uid_youyan'=>array(
 		'title'=>'友言账号id:',
 		'type'=>'text',
-		'value'=>'',
-		'tip'=>'填写自己登录友言后的uid'
+		'value'=>'90040',
+		'tip'=>'填写自己登录友言后的uid,填写后可进相应官方后台'
 	),
 	'comment_short_name_duoshuo'=>array(
 		'title'=>'多说短域名',
@@ -41,6 +41,7 @@ return array(
 		'options'=>array(
 			'asc'=>'从旧到新',
 			'desc'=>'从新到旧'
-		)
+		),
+		'value'=>'asc'
 	)
 );
