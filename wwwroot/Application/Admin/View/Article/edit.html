@@ -20,7 +20,8 @@
 <div class="tab-wrap">
 	<ul class="tab-nav nav">
 		<li data-tab="tab1" class="current"><a href="javascript:void(0);">基础</a></li>
-		<li data-tab="tab2"><a href="javascript:void(0);">高级</a></li>
+		<li data-tab="tab2"><a href="javascript:void(0);">扩展</a></li>
+		<li data-tab="tab3"><a href="javascript:void(0);">高级</a></li>
 	</ul>
 	<div class="tab-content">
 	<!-- 表单 -->
@@ -47,6 +48,14 @@
 					</label>
 				</div>
 			</div>
+		</div>
+
+		<div id="tab2" class="tab-pane tab2">
+			<!-- 引入扩展文档模型 -->
+			{$extend}
+		</div>
+
+		<div id="tab3" class="tab-pane tab3">
 			<div class="form-item cf">
 				<label class="item-label">推荐位</label>
 				<div class="controls">
@@ -84,14 +93,9 @@
 			</div>
 		</div>
 
-		<div id="tab2" class="tab-pane tab2">
-			<!-- 引入扩展文档模型 -->
-			{$extend}
-		</div>
-
 		<div class="form-item cf">
-			<button class="btn submit-btn ajax-post" id="submit-next" type="submit" target-form="form-horizontal" href="javascript:;">下一步</button>
-			<button class="btn submit-btn ajax-post hidden" id="submit" type="submit" target-form="form-horizontal" href="javascript:;">确定</button>
+			<button class="btn submit-btn" id="submit-next" type="button">下一步</button>
+			<button class="btn submit-btn ajax-post hidden" id="submit" type="submit" target-form="form-horizontal">确定</button>
 			<a class="btn btn-return" href="{:U('article/index?cate_id='.$cate_id)}">返回</a>
 			<input type="hidden" name="id" value="{$id}"/>
 			<input type="hidden" name="model_id" value="{$model_id}"/>
