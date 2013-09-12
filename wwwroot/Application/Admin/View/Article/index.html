@@ -56,10 +56,14 @@
                 <div class="btn-group adv-sch-pannel fl">
                     <button class="btn">高级<i class="icon-arrowdown"></i></button>
                     <div class="dropdown">
-                    	<div>
-                    		时间：
-                    		<input type="text" name="" class="text input-2x" value="2013-6-6"> -
-                    		<input type="text" name="" class="text input-2x" value="2013-6-6">
+                    	<div class="row">
+                    		<label>创建时间：</label> 
+                    		<input type="text" name="time-start" class="text input-2x" value="" placeholder="起始时间"> - 
+                    		<input type="text" name="time-end" class="text input-2x" value="" placeholder="结束时间">
+                    	</div>
+                    	<div class="row">
+                    		<label>创建者：</label> 
+                    		<input type="text" name="nickname" class="text input-2x" value="" placeholder="请输入用户名"> 
                     	</div>
                     </div>
                 </div>
@@ -123,13 +127,13 @@ $(function(){
 	$("#search").click(function(){
 		var url = $(this).attr('url');
 		var status = $("#sch-sort-txt").attr("data");
-		var search = $('input[name=title]').val();
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/&(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
 		if(status != ''){
-			url += '/status/' + status;
-		}
-		if(search != ''){
-			url += '/title/' + encodeURIComponent(search);
-		}
+			url += '?status=' + status + "&" + query;
+        }else{
+            url = '?' + query;
+        }
 		window.location.href = url;
 	});
 
