@@ -46,21 +46,34 @@ class SystemController extends AdminController {
         $this->display();
     }
 
+    public function channelAdd(){
+        if(IS_POST){
+            $Channel = D('Channel');
+            $data = $Channel->create();
+            if($data){
+
+                if($Channel->add()){
+                    $this->success('新增成功', U('channel'));
+                } else {
+                    $this->error('新增失败');
+                }
+            } else {
+                $this->error($Channel->getError());
+            }
+        } else {
+            $this->display('channeledit');
+        }
+    }
+
     public function channelEdit($id = 0){
         if(IS_POST){
             $Channel = D('Channel');
             $data = $Channel->create();
             if($data){
-                if($data['id']){
-                    $status = $Channel->save();
+                if($Channel->save()){
+                    $this->success('编辑成功', U('channel'));
                 } else {
-                    $status = $Channel->add(); 
-                }
-
-                if($status){
-                    $this->success('操作成功', U('channel'));
-                } else {
-                    $this->error('操作失败');
+                    $this->error('编辑失败');
                 }
 
             } else {
@@ -68,13 +81,11 @@ class SystemController extends AdminController {
             }
         } else {
             $info = array();
-            if($id){
-                /* 获取数据 */
-                $info = D('Channel')->find($id);
+            /* 获取数据 */
+            $info = D('Channel')->find($id);
 
-                if(false === $info){
-                    $this->error('获取配置信息错误');
-                }
+            if(false === $info){
+                $this->error('获取配置信息错误');
             }
             
             $this->assign('info', $info);

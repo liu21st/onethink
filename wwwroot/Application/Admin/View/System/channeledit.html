@@ -8,19 +8,19 @@
 		<div class="form-item">
 			<label class="item-label">导航标题<span class="check-tips">（用于显示的文字）</span></label>
 			<div class="controls">
-				<input type="text" class="text" name="title" value="{$info.title|default=''}">
+				<input type="text" class="text input-large" name="title" value="{$info.title|default=''}">
 			</div>
 		</div>
 		<div class="form-item">
 			<label class="item-label">导航连接<span class="check-tips">（用于调转的URL，支持带http://的URL或U函数参数格式）</span></label>
 			<div class="controls">
-				<input type="text" class="text" name="url" value="{$info.url|default=''}">
+				<input type="text" class="text input-large" name="url" value="{$info.url|default=''}">
 			</div>
 		</div>
 		<div class="form-item">
 			<input type="hidden" name="id" value="{$info.id|default=''}">
 			<button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确定</button>
-			<a class="btn btn-xlarge btn-return" href="#">返回</a>
+			<a class="btn btn-return" href="#">返回</a>
 		</div>
 	</form>
 </block>

@@ -64,23 +64,38 @@
         var target,query,form;
         var target_form = $(this).attr('target-form');
         var that = this;
+        var nead_confirm=false;
         if( ($(this).attr('type')=='submit') || (target = $(this).attr('href')) || (target = $(this).attr('url')) ){
             form = $('.'+target_form);
-
-            if ( form.get(0) && $(this).hasClass('confirm') ) {
-                if(!confirm('确认要执行该操作吗?')){
-                    return false;
-                }
-            }
 
             if (form.get(0)==undefined){
                 return false;
             }else if ( form.get(0).nodeName=='FORM' ){
+                if ( $(this).hasClass('confirm') ) {
+                    if(!confirm('确认要执行该操作吗?')){
+                        return false;
+                    }
+                }
                 target = form.get(0).action;
                 query = form.serialize();
             }else if( form.get(0).nodeName=='INPUT' || form.get(0).nodeName=='SELECT' || form.get(0).nodeName=='TEXTAREA') {
+                form.each(function(k,v){
+                    if(v.type=='checkbox' && v.checked==true){
+                        nead_confirm = true;
+                    }
+                })
+                if ( nead_confirm && $(this).hasClass('confirm') ) {
+                    if(!confirm('确认要执行该操作吗?')){
+                        return false;
+                    }
+                }
                 query = form.serialize();
             }else{
+                if ( $(this).hasClass('confirm') ) {
+                    if(!confirm('确认要执行该操作吗?')){
+                        return false;
+                    }
+                }
                 query = form.find('input,select,textarea').serialize();
             }
             $.post(target,query).success(function(data){
@@ -153,7 +168,6 @@
 		userMenu.data("timeout") && clearTimeout(userMenu.data("timeout"));
 		userMenu.data("timeout", setTimeout(function(){userMenu.hide()}, 100));
 	});
-
 
 });
 

@@ -10,9 +10,12 @@
 			<li data-tab="tab2"><a href="javascript:void(0);">高级</a></li>
 		</ul>
 		<div class="tab-content">
-			<form action="{:U('edit')}" method="post" class="form-horizontal">
+			<form action="__SELF__" method="post" class="form-horizontal">
 				<!-- 基础 -->
 				<div id="tab1" class="tab-pane in tab1">
+					<div class="form-item">
+						<label class="item-label">上级分类<span class="check-tips">{$category?$category['title']:'无（新增顶级分类）'}</span></label>
+					</div>
 					<div class="form-item">
 						<label class="item-label">
 							<em class="must">*</em>名称<span class="check-tips">（名称不能为空）</span>
@@ -31,14 +34,6 @@
 					</div>
 					<div class="form-item">
 						<label class="item-label">
-							<em class="must">*</em>排序<span class="check-tips">（排序对当前分类有效）</span>
-						</label>
-						<div class="controls">
-							<input type="text" name="sort" class="text input-large" value="{$info.sort|default=0}">
-						</div>
-					</div>
-					<div class="form-item">
-						<label class="item-label">
 							<em class="must">*</em>发布内容
 						</label>
 						<div class="controls">
@@ -46,14 +41,7 @@
 							<label class="inline radio"><input type="radio" name="allow_publish" value="0">不允许</label>
 						</div>
 					</div>
-					<div class="form-item">
-						<label class="item-label">
-							<em class="must">*</em>列表行数
-						</label>
-						<div class="controls">
-							<input type="text" name="list_row" class="text input-large" value="{$info.list_row|default=10}">
-						</div>
-					</div>
+					
 					<div class="form-item">
 						<label class="item-label"><em class="must">*</em>绑定模型</label>
 						<div class="controls">
@@ -62,6 +50,26 @@
 									<input type="checkbox" name="model[]" value="{$list.id}">{$list.title}
 								</label>
 							</volist>
+						</div>
+					</div>
+				</div>
+
+				<!-- 高级 -->
+				<div id="tab2" class="tab-pane tab2">
+					<div class="form-item">
+						<label class="item-label">
+							<em class="must">*</em>排序<span class="check-tips">（排序对当前分类有效）</span>
+						</label>
+						<div class="controls">
+							<input type="text" name="sort" class="text input-large" value="{$info.sort|default=0}">
+						</div>
+					</div>
+					<div class="form-item">
+						<label class="item-label">
+							<em class="must">*</em>列表行数
+						</label>
+						<div class="controls">
+							<input type="text" name="list_row" class="text input-large" value="{$info.list_row|default=10}">
 						</div>
 					</div>
 					<div class="form-item">
@@ -78,11 +86,6 @@
 
 				<!-- 高级 -->
 				<div id="tab2" class="tab-pane tab2">
-					<div class="form-item">
-						<label class="item-label">上级分类
-							<span class="check-tips">{$category?$category['title']:'无（新增顶级分类）'}</span>
-						</label>
-					</div>
 					<div class="form-item">
 						<label class="item-label">关键字</label>
 						<div class="controls">
@@ -174,9 +177,9 @@
 
 <block name="script">
 	<script type="text/javascript">
-		Think.setValue("allow_publish", {$info.allow_publish});
+		Think.setValue("allow_publish", {$info.allow_publish|default=1});
 		Think.setValue("model[]", {$info.model|json_encode});
-		Think.setValue("display", {$info.display});
+		Think.setValue("display", {$info.display|default=0});
 		$(function(){
 			showTab();
 		})

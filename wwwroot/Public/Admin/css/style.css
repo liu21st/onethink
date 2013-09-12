@@ -58,15 +58,6 @@ body{
 }
 
 /* 用户 */
-/*.header .user-bar {
-    float: right;
-    margin-right: 15px;
-    color: #efefef;
-}
-.header .user-bar a {
-    margin: 0 5px;
-    color: #fff;
-}*/
 .header .user-bar {
     position: relative;
     float: right;
@@ -131,7 +122,6 @@ body{
     height: 35px;
     line-height: 35px;
     font-size: 14px;
-    /*font-weight: 400;*/
     color: #ffffff;
     cursor: pointer;
 }
@@ -145,11 +135,10 @@ body{
 .subnav h3 .icon,
 .subnav h3 .icon-fold,
 .subnav h3 .icon-recycle {
-    display: inline-block;
-    margin-right: 6px;
+    float: left;
+    margin: 10px 6px 0 0;
     width: 16px;
     height: 16px;
-    vertical-align: middle;
 }
 .subnav h3 .icon {
     background: url(../images/minus.png) no-repeat center center;
@@ -183,14 +172,11 @@ body{
 	text-decoration: none;
 	background: #7c7c7c;
 	margin-right:1px;
-	/*border-radius: 3px 0 0 3px;*/
 }
 .side-sub-menu > .current > .item,
 .side-sub-menu > .hover > .item {
     color: #414141;
     text-decoration: none;
-    /*background:#ffffff;*/
-	/*border-radius: 3px 0 0 3px;*/
 }
 .side-sub-menu > .current > .item,
 .side-sub-menu > .current > .item:hover {
@@ -231,12 +217,10 @@ body{
     width: auto;
 }
 
-
 /* 内容模块边栏子菜单 */
 .subnav-off {
     display: none;
 }
-
 
 /* 后台内页模块样式
 ------------------------------------------------- */
@@ -344,39 +328,6 @@ body{
     *zoom: 1;
 }
 
-/* 分页 */
-.page {
-    margin: 10px 0;
-    *zoom: 1;
-}
-.page:before,
-.page:after {
-    display: table;
-    content: "";
-}
-.page:after {
-    clear:both;
-}
-.page a,
-.page span {
-    float: left;
-    margin-right: 3px;
-    padding: 0 6px;
-    height: 24px;
-    line-height: 24px;
-    color: #fff;
-    background-color: #696969;
-}
-.page a:hover,
-.page .current {
-    text-decoration: none;
-    border-bottom: 0 none;
-    background-color: #a0a0a0;
-}
-.page .next,
-.page .prev {
-    font-family: "宋体";
-}
 .member-form {
     display: none;
     width: 360px;
@@ -414,7 +365,6 @@ body{
     padding-right: 6px;
 }
 
-
 /* 插件配置表单 */
 .config-form fieldset {
     margin-bottom: 20px;
@@ -435,6 +385,12 @@ body{
 }
 .add-pop-form {
     width: 500px;
+}
+
+/* 插件管理-返回顶部配置表单 */
+#style_list a:hover {
+    border-bottom: 0 none;
+    text-decoration: none;
 }
 
 /* 授权编辑页 */
