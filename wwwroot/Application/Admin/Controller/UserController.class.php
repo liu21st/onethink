@@ -69,8 +69,8 @@ class UserController extends AdminController {
 		$uid = is_login();
 		$nickname = I('post.nickname');
 		$password = I('post.password');
-		empty($nickname) && $this->error('请输入新昵称');
-		empty($password) && $this->error('请输入原密码');
+		empty($nickname) && $this->error('请输入昵称');
+		empty($password) && $this->error('请输入密码');
 
 		//密码验证
 		$User = new UserApi();
