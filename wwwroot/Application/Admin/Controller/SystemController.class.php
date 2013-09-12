@@ -40,7 +40,7 @@ class SystemController extends AdminController {
     public function channel(){
         /* 获取频道列表 */
         $map  = array('status' => 1);
-        $list = M('Channel')->where($map)->select();
+        $list = M('Channel')->where($map)->order('id DESC')->select();
 
         $this->assign('list', $list);
         $this->display();

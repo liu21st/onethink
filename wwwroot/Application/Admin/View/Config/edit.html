@@ -18,6 +18,18 @@
 			</div>
 		</div>
 		<div class="form-item">
+			<label class="item-label">配置类型<span class="check-tips">（系统会根据不同类型解析配置值）</span></label>
+			<div class="controls">
+				<select name="type">
+					<option value="0">数字</option>
+					<option value="1">字符</option>
+					<option value="2">文本</option>
+					<option value="3">数组</option>
+					<option value="3">枚举</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-item">
 			<label class="item-label">配置值<span class="check-tips">（配置值，不同类型有不同格式）</span></label>
 			<div class="controls">
 				<label class="textarea"><textarea name="value">{$info.value|default=''}</textarea></label>

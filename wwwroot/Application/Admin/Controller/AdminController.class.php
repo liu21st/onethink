@@ -78,6 +78,10 @@ class AdminController extends Action {
         $this->assign('__controller__', $this);
         $this->checkNodes();
         // $this->_nav();//面包屑导航,暂不需要
+        
+        /* 读取配置 */
+        $config = D('Config')->lists();
+        C($config); //添加配置
     }
 
     /**
