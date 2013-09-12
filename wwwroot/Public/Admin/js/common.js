@@ -20,6 +20,7 @@
     //ajax get请求
     $('.ajax-get').click(function(){
         var target;
+        var that = this;
         if ( $(this).hasClass('confirm') ) {
             if(!confirm('确认要执行该操作吗?')){
                 return false;
@@ -36,7 +37,7 @@
                     setTimeout(function(){
                         if (data.url) {
                             location.href=data.url;
-                        }else if( $(this).hasClass('no-refresh')){
+                        }else if( $(that).hasClass('no-refresh')){
                             $('#top-alert').find('button').click();
                         }else{
                             location.reload();
@@ -62,6 +63,7 @@
     $('.ajax-post').click(function(){
         var target,query,form;
         var target_form = $(this).attr('target-form');
+        var that = this;
         if( ($(this).attr('type')=='submit') || (target = $(this).attr('href')) || (target = $(this).attr('url')) ){
             form = $('.'+target_form);
 
@@ -91,7 +93,7 @@
                     setTimeout(function(){
                         if (data.url) {
                             location.href=data.url;
-                        }else if( $(this).hasClass('no-refresh')){
+                        }else if( $(that).hasClass('no-refresh')){
                             $('#top-alert').find('button').click();
                         }else{
                             location.reload();
@@ -152,33 +154,45 @@
 		userMenu.data("timeout", setTimeout(function(){userMenu.hide()}, 100));
 	});
 
-    //标签页切换
-    (function(){
-        //初始化通过锚点判断显示哪个标签页
-        var last = $(".tab-nav li:last");
-        $(".tab-nav li").click(function(){
-            var self = $(this), target = self.data("tab");
-            self.addClass("current").siblings(".current").removeClass("current");
-            window.location.hash = "#" + target.substr(3);
-            $(".tab-pane.in").removeClass("in");
-            $("." + target).addClass("in");
-            showBtn();
-        }).filter("[data-tab=tab" + window.location.hash.substr(1) + "]").click();
 
-        $("#submit-next").click(function(){
-            $(".tab-nav li.current").next().click();
-            showBtn();
-        });
-
-        function showBtn() {
-            if( last.hasClass("current") ) {
-                $("#submit").removeClass("hidden");
-                $("#submit-next").addClass("hidden");
-            } else {
-                $("#submit").addClass("hidden");
-                $("#submit-next").removeClass("hidden");
-            }
-        }
-    })() 
 });
 
+//标签页切换(无下一步)
+function showTab() {
+    $(".tab-nav li").click(function(){
+        var self = $(this), target = self.data("tab");
+        self.addClass("current").siblings(".current").removeClass("current");
+        window.location.hash = "#" + target.substr(3);
+        $(".tab-pane.in").removeClass("in");
+        $("." + target).addClass("in");
+    }).filter("[data-tab=tab" + window.location.hash.substr(1) + "]").click();
+}
+
+//标签页切换(有下一步)
+function nextTab() {
+     $(".tab-nav li").click(function(){
+        var self = $(this), target = self.data("tab");
+        self.addClass("current").siblings(".current").removeClass("current");
+        window.location.hash = "#" + target.substr(3);
+        $(".tab-pane.in").removeClass("in");
+        $("." + target).addClass("in");
+        showBtn();
+    }).filter("[data-tab=tab" + window.location.hash.substr(1) + "]").click();
+
+    $("#submit-next").click(function(){
+        $(".tab-nav li.current").next().click();
+        showBtn();
+    });
+}
+
+// 下一步按钮切换
+function showBtn() {
+    var lastTabItem = $(".tab-nav li:last");
+    if( lastTabItem.hasClass("current") ) {
+        $("#submit").removeClass("hidden");
+        $("#submit-next").addClass("hidden");
+    } else {
+        $("#submit").addClass("hidden");
+        $("#submit-next").removeClass("hidden");
+    }
+}

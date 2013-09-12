@@ -77,7 +77,7 @@
 				</div>
 
 				<!-- 高级 -->
-				<div id="tab2" class="tab-pane in tab2">
+				<div id="tab2" class="tab-pane tab2">
 					<div class="form-item">
 						<label class="item-label">上级分类：<span class="check-tips">{$category?$category['title']:'无（新增顶级分类）'}</span></label>
 					</div>
@@ -124,13 +124,9 @@
 				</div>
 
 				<div class="form-item">
-					<label class="item-label"></label>
-					<div class="controls">
-						<input type="hidden" name="id" value="{$info.id|default=''}">
-						<input type="hidden" name="pid" value="{$category['id']?$category['id']:$pid}">
-						<button type="submit" id="submit" class="btn btn-primary ajax-post hidden" target-form="form-horizontal">确定</button>
-						<button type="submit" id="submit-next" class="btn btn-primary ajax-post" target-form="form-horizontal">下一步</button>
-					</div>
+					<input type="hidden" name="id" value="{$info.id|default=''}">
+					<input type="hidden" name="pid" value="{$category['id']?$category['id']:$pid}">
+					<button type="submit" id="submit" class="btn btn-primary ajax-post" target-form="form-horizontal">确定</button>
 				</div>
 			</form>
 		</div>
@@ -179,5 +175,8 @@
 		// Think.setValue("allow_publish", {$info.allow_publish});
 		// Think.setValue("model[]", {$info.model|json_encode});
 		// Think.setValue("display", {$info.display});
+		$(function(){
+			showTab();
+		})
 	</script>
 </block>
