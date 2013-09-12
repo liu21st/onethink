@@ -36,10 +36,13 @@
 
         <!-- 用户栏 -->
         <div class="user-bar">
-            你好，<strong>{:get_username()}</strong>
-            <a href="{:U('User/updatePassword')}">[修改密码]</a>
-            <a href="{:U('User/updateNickname')}">[修改昵称]</a>
-            <a href="{:U('Index/logout')}">[退出]</a>
+            <a href="javascript:;" class="user-entrance"><i class="icon-user"></i></a>
+            <ul class="nav-list user-menu hidden">
+                <li class="manager">你好，<em>{:get_username()}</em></li>
+                <li><a href="{:U('User/updatePassword')}">修改密码</a></li>
+                <li><a href="{:U('User/updateNickname')}">修改昵称</a></li>
+                <li><a href="{:U('Index/logout')}">退出</a></li>
+            </ul>
         </div>
     </div>
     <!-- /头部 -->
@@ -132,6 +135,17 @@
             },function(){
                 $(this).removeClass("hover");
             })
+
+            /* 头部管理员菜单 */
+            $(".user-bar").mouseenter(function(){
+                var userMenu = $(this).children(".user-menu ");
+                userMenu.removeClass("hidden");
+                clearTimeout(userMenu.data("timeout"));
+            }).mouseleave(function(){
+                var userMenu = $(this).children(".user-menu");
+                userMenu.data("timeout") && clearTimeout(userMenu.data("timeout"));
+                userMenu.data("timeout", setTimeout(function(){userMenu.addClass("hidden")}, 100));
+            });
         }();
     </script>
     <block name="script"></block>
