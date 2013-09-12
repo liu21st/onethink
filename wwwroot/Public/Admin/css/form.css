@@ -166,6 +166,7 @@ label.textarea ~ .check-tips {
 	height: 30px;
 	line-height: 30px;
 	width:60px;
+	color: #404040;
 }
 .search-form .drop-down ul a:hover {
 	background-color: #f0f0f0;
