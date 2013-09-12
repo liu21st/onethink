@@ -101,97 +101,38 @@
 	border-left-color: #f60;
 }	
 
-/* 图片轮播（幻灯片）
------------------------------------------- */
-.slide-container {
-	position: relative;
-	width: 800px;
+/* 分页 */
+.page {
+    margin: 10px 0;
+    *zoom: 1;
 }
-
-/* 大图展示区 */
-.slide-pic-wrap {
-	width: 800px;	/* 宽高比 100:35 */
-	height: 280px;
-	overflow: hidden;
+.page:before,
+.page:after {
+    display: table;
+    content: "";
 }
-.slide-pic-wrap ul img {
-	vertical-align: top;
-
+.page:after {
+    clear:both;
 }
-
-/* 缩略图 */
-.slide-thumb {
-	margin-top: 6px;
-	width: 800px;
+.page a,
+.page span {
+    float: left;
+    margin-right: 3px;
+    padding: 0 6px;
+    height: 24px;
+    line-height: 24px;
+    color: #fff;
+    background-color: #696969;
 }
-.slide-thumb .prev,
-.slide-thumb .next {
-	float: left;
-	padding: 5px;
-	width: 6px;
-	height: 55px;
-	vertical-align: middle;
-	border: 1px solid #ccc;
+.page a:hover,
+.page .current {
+    text-decoration: none;
+    border-bottom: 0 none;
+    background-color: #a0a0a0;
 }
-.slide-thumb .prev i,
-.slide-thumb .next i {
-	display: inline-block;
-	width: 0;
-	height: 0;
-	line-height: 0;
-	vertical-align: middle;
-	border: 6px dashed transparent;
-}
-.slide-thumb .prev i {
-	border-left-width: 0;
-	border-right-style: solid;
-	border-right-color: #ccc;
-}
-.slide-thumb .next i {
-	border-right-width: 0;
-	border-left-style: solid;
-	border-left-color: #ccc;
-}
-.slide-thumb ul {
-	position: relative;		/* 解决IE7以下overflow：hidden失效 */
-	float: left;
-	margin-left: 4px;
-	width: 760px;
-	height: 67px;
-	overflow: hidden;
-}
-.slide-thumb ul li {
-	position: relative;		/* 用来支持半透明蒙板 */
-	margin-right: 5px;
-	padding: 1px;
-	width: 181px;		/* 宽高比与大图相同 100:35 */
-	height: 63px;
-	border: 1px solid #ccc;	
-}
-.slide-thumb li img {
-	vertical-align: top;
-}
-
-/* 幻灯数字或圆点列表 */
-.slide-numlist {
-	position: absolute;
-	right: 7px;
-	bottom: 15px;
-}
-.slide-numlist li a {
-	margin-right: 8px;
-	width: 12px;
-	height: 12px;
-	line-height: 0;
-	font-size: 0;
-	border-radius: 6px;
-	background-color: #fed;
-	background-color: rgba(255,255,255,.5);
-}
-.slide-numlist li a:hover,
-.slide-numlist .current a {
-	background-color: #fff;
-	background-color: rgba(255,255,255,.9);
+.page .next,
+.page .prev {
+    font-family: "宋体";
 }
 
 /* 分类管理树形菜单（目前只支持3级）

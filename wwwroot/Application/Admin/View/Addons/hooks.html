@@ -6,7 +6,9 @@
 		<h2>钩子列表</h2>
 	</div>
 	<div class="cf">
-		<button id="add-member" class="btn hidden">添加</button>
+		<?php if (is_administrator()): ?>
+			<a class="btn" href="{:U('addhook')}">添加</a>
+		<?php endif ?>
 	</div>
 
 	<!-- 数据列表 -->
