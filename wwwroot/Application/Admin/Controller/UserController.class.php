@@ -64,7 +64,29 @@ class UserController extends AdminController {
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function updateNickname(){
+		$nickname = M('Member')->getFieldByUid(is_login(), 'nickname');
+		$this->assign('nickname', $nickname);
 		$this->display();
+	}
+
+	/**
+	 * 修改昵称提交
+	 * @author huajie <banhuajie@163.com>
+	 */
+	public function submitNickname(){
+		//获取参数
+		$uid = is_login();
+		$nickname = I('post.nickname');
+
+		$Member = D('Member');
+		$data = $Member->create(array('nickname'=>$nickname));
+		$res = $Member->where(array('uid'=>$uid))->save($data);
+
+		if($res){
+			$this->success('修改昵称成功！');
+		}else{
+			$this->error($Member->getError());
+		}
 	}
 
 	/**
