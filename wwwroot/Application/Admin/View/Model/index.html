@@ -7,7 +7,7 @@
 
 	</div>
     <div class="tools">
-        <button class="btn edit-model" url="{:U('Model/add')}">新 增</button>
+        <a class="btn" href="{:U('Model/add')}">新 增</a>
         <button class="btn ajax-post" target-form="ids" url="{:U('Model/setStatus',array('status'=>1))}">启 用</button>
         <button class="btn ajax-post" target-form="ids" url="{:U('Model/setStatus',array('status'=>0))}">禁 用</button>
         <button class="btn ajax-post confirm" target-form="ids" url="{:U('Model/setStatus',array('status'=>-1))}">删 除</button>
@@ -67,20 +67,6 @@
     		}
     		window.location.href = url;
     	});
-
-    $(".edit-model").click(function(){
-        var authorUrl,id = $(this).attr('data-id');
-        var title = id?'编辑用户组':'新建用户组';
-        authorUrl = id?"{:U('Model/edit')}"+'?id='+id:"{:U('Model/add')}" ;
-        var thinkboxOption = {
-            title:title,
-            actions:['close'],
-            drag:true,
-            tools:true
-        }
-        $.thinkbox.load(authorUrl,thinkboxOption);
-        return false;
-    });
 })
 </script>
 </block>
