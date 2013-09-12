@@ -8,13 +8,13 @@
 		<div class="form-item">
 			<label class="item-label">配置标识<span class="check-tips">（用于C函数调用，只能使用英文且不能重复）</span></label>
 			<div class="controls">
-				<input type="text" class="text" name="name" value="{$info.name|default=''}">
+				<input type="text" class="text input-large" name="name" value="{$info.name|default=''}">
 			</div>
 		</div>
 		<div class="form-item">
 			<label class="item-label">配置标题<span class="check-tips">（用于后台显示的配置标题）</span></label>
 			<div class="controls">
-				<input type="text" class="text" name="title" value="{$info.title|default=''}">
+				<input type="text" class="text input-large" name="title" value="{$info.title|default=''}">
 			</div>
 		</div>
 		<div class="form-item">
@@ -32,13 +32,15 @@
 		<div class="form-item">
 			<label class="item-label">配置值<span class="check-tips">（配置值，不同类型有不同格式）</span></label>
 			<div class="controls">
-				<label class="textarea"><textarea name="value">{$info.value|default=''}</textarea></label>
+				<label class="textarea input-large">
+					<textarea name="value">{$info.value|default=''}</textarea>
+				</label>
 			</div>
 		</div>
 		<div class="form-item">
 			<label class="item-label">说明<span class="check-tips">（配置详细说明）</span></label>
 			<div class="controls">
-				<input type="text" class="text" name="remark" value="{$info.remark|default=''}">
+				<input type="text" class="text input-large" name="remark" value="{$info.remark|default=''}">
 			</div>
 		</div>
 		<div class="form-item">
