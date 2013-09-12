@@ -2,11 +2,11 @@
 
 <block name="body">
 	<div class="main-title">
-		<h2>频道管理</h2>
+		<h2>导航管理</h2>
 	</div>
 
 	<div class="cf">
-		<a class="btn" href="javascript:;">添加</a>
+		<a class="btn" href="{:U('channelEdit')}">添加</a>
 		<a class="btn" href="javascript:;">删除</a>
 	</div>
 
@@ -18,8 +18,8 @@
 						<input class="checkbox check-all" type="checkbox">
 					</th>
 					<th>ID</th>
-					<th>频道名称</th>
-					<th>频道地址</th>
+					<th>导航名称</th>
+					<th>导航地址</th>
 					<th>操作</th>
 				</tr>
 			</thead>
@@ -28,11 +28,11 @@
 					<tr>
 						<td><input class="ids row-selected" type="checkbox" name="" id=""> </td>
 						<td>{$channel.id}</td>
-						<td><a href="javascript:;">{$channel.title}</a></td>
-						<td><a href="#">{$channel.url}</a></td>
+						<td><a href="{:U('channelEdit?id='.$channel['id'])}">{$channel.title}</a></td>
+						<td>{$channel.url}</td>
 						<td>
-							<a title="编辑" href="#">编辑</a>
-							<a title="删除" href="#">删除</a>
+							<a title="编辑" href="{:U('channelEdit?id='.$channel['id'])}">编辑</a>
+							<a title="删除" href="{:U('channelDel?id='.$channel['id'])}">删除</a>
 						</td>
 					</tr>
 				</volist>
