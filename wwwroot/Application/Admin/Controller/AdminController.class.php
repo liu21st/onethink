@@ -168,6 +168,9 @@ class AdminController extends Action {
      */
     final protected function accessControl()
     {
+        if($this->root_user){
+            return true;//管理员允许访问任何页面
+        }
         $controller = 'Admin\\Controller\\'.CONTROLLER_NAME.'Controller';
         if ( !is_array($controller::$deny)||!is_array($controller::$allow) ){
             $this->error("内部错误:{$controller}控制器 deny和allow属性必须为数组");
@@ -175,12 +178,12 @@ class AdminController extends Action {
         $deny  = $this->getDeny();
         $allow = $this->getAllow();
         if ( !empty($deny)  && in_array(ACTION_NAME,$deny) ) {
-            return false;
+            return false;//非超管禁止访问deny中的方法
         }
         if ( !empty($allow) && in_array(ACTION_NAME,$allow) ) {
             return true;
         }
-        return null;
+        return null;//需要检测节点权限
     }
 
     /**
