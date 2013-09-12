@@ -256,7 +256,7 @@ class DocumentModel extends Model{
 	 * @param  integer $id 分类ID
 	 * @return boolean     true-允许发布内容，false-不允许发布内容
 	 */
-	protected function checkCategory($id){
+	public function checkCategory($id){
 		if(is_array($id)){
 			if($id['category_id'] == 0 && in_array($id['type'], array(1, 3))){ //段落和目录分类必须为0
 				return true;
