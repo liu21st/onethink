@@ -20,6 +20,7 @@
     //ajax get请求
     $('.ajax-get').click(function(){
         var target;
+        var that = this;
         if ( $(this).hasClass('confirm') ) {
             if(!confirm('确认要执行该操作吗?')){
                 return false;
@@ -36,7 +37,7 @@
                     setTimeout(function(){
                         if (data.url) {
                             location.href=data.url;
-                        }else if( $(this).hasClass('no-refresh')){
+                        }else if( $(that).hasClass('no-refresh')){
                             $('#top-alert').find('button').click();
                         }else{
                             location.reload();
@@ -62,6 +63,7 @@
     $('.ajax-post').click(function(){
         var target,query,form;
         var target_form = $(this).attr('target-form');
+        var that = this;
         if( ($(this).attr('type')=='submit') || (target = $(this).attr('href')) || (target = $(this).attr('url')) ){
             form = $('.'+target_form);
 
@@ -91,7 +93,7 @@
                     setTimeout(function(){
                         if (data.url) {
                             location.href=data.url;
-                        }else if( $(this).hasClass('no-refresh')){
+                        }else if( $(that).hasClass('no-refresh')){
                             $('#top-alert').find('button').click();
                         }else{
                             location.reload();
