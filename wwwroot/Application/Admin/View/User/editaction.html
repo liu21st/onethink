@@ -44,7 +44,7 @@
 		
 		<div class="form-item">
 				<input type="hidden" name="id" value="{$id}"/>
-				<input class="btn ajax-post" type="submit" target-form="form-horizontal" value="确定" />
+				<input class="btn submit-btn ajax-post" type="submit" target-form="form-horizontal" value="确定" />
 			</div>
 		</div>
 	</form>
@@ -52,4 +52,8 @@
 
 <block name="script">
 <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+    //导航高亮
+    $('.side-sub-menu').find('a[href="{:U('User/Action')}"]').closest('li').addClass('current');
+</script>
 </block>
