@@ -128,11 +128,15 @@ $(function(){
 		var url = $(this).attr('url');
 		var status = $("#sch-sort-txt").attr("data");
         var query  = $('.search-form').find('input').serialize();
-        query = query.replace(/&(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
 		if(status != ''){
-			url += '?status=' + status + "&" + query;
+			query += 'status=' + status + "&" + query;
+        }
+        if( url.indexOf('?')>0 ){
+            url += '&' + query; 
         }else{
-            url = '?' + query;
+            url += '?' + query; 
         }
 		window.location.href = url;
 	});
