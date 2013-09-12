@@ -27,7 +27,7 @@ class IndexController extends AdminController {
      * 登录页面不检查权限
      */
     protected function _initialize(){
-        if(ACTION_NAME !== 'login'){
+        if(ACTION_NAME !== 'login' && ACTION_NAME !=='verify'){
             parent::_initialize();
         }
     }
@@ -86,4 +86,10 @@ class IndexController extends AdminController {
             $this->redirect('login');
         }
     }
+
+	public function verify(){
+		$verify = new \COM\Verify();
+		$verify->entry(1);
+	}
+
 }
