@@ -144,13 +144,16 @@ class ArticleController extends \Admin\Controller\AdminController {
         }
 
 		// 构建列表数据
-		$Document = D('Document');
-        $map['category_id'] = $cate_id;
-        $list = $this->lists($Document,$map);
-        intToString($list);
+		if(!empty($cate_id)){			//没有权限则不查询数据
+			$Document = D('Document');
+			$map['category_id'] = $cate_id;
+			$list = $this->lists($Document,$map);
+			intToString($list);
 
-		//获取对应分类下的模型
-		$models = get_category($cate_id, 'model');
+			//获取对应分类下的模型
+			$models = get_category($cate_id, 'model');
+		}
+
 
 		$this->assign('model', $models);
 		$this->assign('status', $status);
