@@ -125,7 +125,7 @@
 
 				<div class="form-item">
 					<input type="hidden" name="id" value="{$info.id|default=''}">
-					<input type="hidden" name="pid" value="{$category['id']?$category['id']:$pid}">
+					<input type="hidden" name="pid" value="{$category['id']?$category['id']:$info['pid']}">
 					<button type="submit" id="submit" class="btn btn-primary ajax-post" target-form="form-horizontal">确定</button>
 				</div>
 			</form>
@@ -172,9 +172,9 @@
 
 <block name="script">
 	<script type="text/javascript">
-		// Think.setValue("allow_publish", {$info.allow_publish});
-		// Think.setValue("model[]", {$info.model|json_encode});
-		// Think.setValue("display", {$info.display});
+		Think.setValue("allow_publish", {$info.allow_publish});
+		Think.setValue("model[]", {$info.model|json_encode});
+		Think.setValue("display", {$info.display});
 		$(function(){
 			showTab();
 		})

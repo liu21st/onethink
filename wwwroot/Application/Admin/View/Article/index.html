@@ -58,8 +58,8 @@
                     <div class="dropdown">
                     	<div class="row">
                     		<label>创建时间：</label> 
-                    		<input type="text" name="time-start" class="text input-2x" value="" placeholder="起始时间"> - 
-                    		<input type="text" name="time-end" class="text input-2x" value="" placeholder="结束时间">
+                    		<input type="text" id="time-start" name="time-start" class="text input-2x" value="" placeholder="起始时间" readonly> - 
+                    		<input type="text" id="time-end" name="time-end" class="text input-2x" value="" placeholder="结束时间" readonly>
                     	</div>
                     	<div class="row">
                     		<label>创建者：</label> 
@@ -121,6 +121,9 @@
 
 </block>
 <block name="script">
+<link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+<link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript">
 $(function(){
 	//搜索功能
@@ -170,6 +173,13 @@ $(function(){
         }
     });
 
+    $('#time-start').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii'
+    });
+
+    $('#time-end').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii'
+    });
 })
 </script>
 </block>

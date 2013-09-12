@@ -4,6 +4,7 @@
  */
 .btn {
     display: inline-block;
+    margin-right: 10px;
     padding: 6px 16px;
     font-size: 14px;
     line-height: 18px;
@@ -20,11 +21,14 @@
     background-color: #4cdb00;
     border-bottom: 0 none;
 }
-.submit-btn {
+.submit-btn,
+.btn-return {
     padding: 10px 50px;
     color: #fff;
     font-weight: bold;
     border-color: transparent;
+}
+.submit-btn {
     background-color: #CC3900;
 }
 .submit-btn:hover {
@@ -37,8 +41,8 @@
 .btn-xlarge {
     padding: 10px 30px;
 }
-.btn-return {
-    background-color: #ABB4B4
+.btn.disabled {
+    backgruond-color: #8d8d8d;
 }
 
 /* 按钮组 */
