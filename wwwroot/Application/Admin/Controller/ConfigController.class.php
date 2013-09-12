@@ -49,6 +49,28 @@ class ConfigController extends AdminController {
 	}
 
     /**
+     * 新增配置
+     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+     */
+    public function add(){
+        if(IS_POST){
+            $Config = D('Config');
+            $data = $Config->create();
+            if($data){
+                if($Config->add()){
+                    $this->success('新增成功', U('index'));
+                } else {
+                    $this->error('新增失败');
+                }
+            } else {
+                $this->error($Config->getError());
+            }
+        } else {
+            $this->display('edit');
+        }
+    }
+
+    /**
      * 编辑配置
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
@@ -57,32 +79,22 @@ class ConfigController extends AdminController {
             $Config = D('Config');
             $data = $Config->create();
             if($data){
-                if($data['id']){
-                    $status = $Config->save();
+                if($Config->save()){
+                    $this->success('更新成功', U('index'));
                 } else {
-                    $status = $Config->add(); 
+                    $this->error('更新失败');
                 }
-
-                if($status){
-                    $this->success('操作成功', U('index'));
-                } else {
-                    $this->error('操作失败');
-                }
-
             } else {
                 $this->error($Config->getError());
             }
         } else {
             $info = array();
-            if($id){
-                /* 获取数据 */
-                $info = D('Config')->find($id);
+            /* 获取数据 */
+            $info = D('Config')->find($id);
 
-                if(false === $info){
-                    $this->error('获取配置信息错误');
-                }
+            if(false === $info){
+                $this->error('获取配置信息错误');
             }
-            
             $this->assign('info', $info);
             $this->display();
         }
