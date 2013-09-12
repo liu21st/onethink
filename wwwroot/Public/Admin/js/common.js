@@ -68,6 +68,7 @@
             form = $('.'+target_form);
 
             if ( form.get(0) && $(this).hasClass('confirm') ) {
+                console.log();
                 if(!confirm('确认要执行该操作吗?')){
                     return false;
                 }
