@@ -158,6 +158,14 @@ $(function(){
 			window.location.href = url;
 		}
 	});
+    
+    //回车自动提交
+    $('.search-form').find('input').keyup(function(event){
+        if(event.keyCode===13){
+            $("#search").click();
+        }
+    });
+
 })
 </script>
 </block>
