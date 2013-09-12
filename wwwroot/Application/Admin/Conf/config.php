@@ -71,4 +71,8 @@ return array(
     'COOKIE_PREFIX'  => 'think_cmsadmin_', // Cookie前缀 避免冲突
     'VAR_SESSION_ID'=> 'session_id',	//修复uploadify插件无法传递session_id的bug
 
+    'TMPL_ACTION_ERROR'     =>  MODULE_PATH.'Tpl/dispatch_jump.tpl', // 默认错误跳转对应的模板文件
+    'TMPL_ACTION_SUCCESS'   =>  MODULE_PATH.'Tpl/dispatch_jump.tpl', // 默认成功跳转对应的模板文件
+    'TMPL_EXCEPTION_FILE'   =>  MODULE_PATH.'Tpl/think_exception.tpl',// 异常页面的模板文件
+
 );
