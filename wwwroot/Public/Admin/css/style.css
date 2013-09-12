@@ -405,6 +405,12 @@ body{
     width: 500px;
 }
 
+/* 插件管理-返回顶部配置表单 */
+#style_list a:hover {
+    border-bottom: 0 none;
+    text-decoration: none;
+}
+
 /* 授权编辑页 */
 .checkmod {
     margin-bottom: 20px;
