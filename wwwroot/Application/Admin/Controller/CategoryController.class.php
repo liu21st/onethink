@@ -57,7 +57,7 @@ class CategoryController extends AdminController {
 
         if(IS_POST){ //提交表单
             if(false !== $Category->update()){
-                $this->success('保存成功！');
+                $this->success('编辑成功！', U('index'));
             } else {
                 $error = $Category->getError();
                 $this->error(empty($error) ? '未知错误！' : $error);
@@ -78,6 +78,33 @@ class CategoryController extends AdminController {
             $this->assign('info', $info);
             $this->assign('category', $cate);
             $this->display();
+        }
+    }
+
+    /* 新增分类 */
+    public function add($pid = 0){
+        $Category = D('Category');
+
+        if(IS_POST){ //提交表单
+            if(false !== $Category->update()){
+                $this->success('新增成功！', U('index'));
+            } else {
+                $error = $Category->getError();
+                $this->error(empty($error) ? '未知错误！' : $error);
+            }
+        } else {
+            $cate = array();
+            if($pid){
+                /* 获取上级分类信息 */
+                $cate = $Category->info($pid, 'id,name,title,status');
+                if(!($cate && 1 == $cate['status'])){
+                    $this->error('指定的上级分类不存在或被禁用！');
+                }
+            }
+
+            /* 获取分类信息 */
+            $this->assign('category', $cate);
+            $this->display('edit');
         }
     }
 }
