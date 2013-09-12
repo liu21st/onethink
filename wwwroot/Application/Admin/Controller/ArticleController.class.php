@@ -48,6 +48,10 @@ class ArticleController extends \Admin\Controller\AdminController {
 		if(ACTION_NAME == 'index' || ACTION_NAME == 'add' || ACTION_NAME == 'edit' || ACTION_NAME == 'recycle'){
 			$this->getMenu();
 		}
+
+		//获取回收站权限
+		$show_recycle = $this->checkRule('Admin/article/recycle');
+		$this->assign('show_recycle', $show_recycle);
     }
 
     /**
@@ -127,15 +131,29 @@ class ArticleController extends \Admin\Controller\AdminController {
 		if(isset($title)){
 			$map['title'] = array('like', '%'.$title.'%');
 		}
+        if ( isset($_GET['time-start']) ) {
+            $map['create_time'][] = array('egt',strtotime(I('time-start')));
+
+        }
+        if ( isset($_GET['time-end']) ) {
+            $map['create_time'][] = array('elt',strtotime(I('time-end')));
+
+        }
+        if ( isset($_GET['nickname']) ) {
+            $map['uid'] = M('Member')->where(array('nickname'=>I('nickname')))->getField('uid');
+        }
 
 		// 构建列表数据
-		$Document = D('Document');
-        $map['category_id'] = $cate_id;
-        $list = $this->lists($Document,$map);
-        intToString($list);
+		if(!empty($cate_id)){			//没有权限则不查询数据
+			$Document = D('Document');
+			$map['category_id'] = $cate_id;
+			$list = $this->lists($Document,$map);
+			intToString($list);
 
-		//获取对应分类下的模型
-		$models = get_category($cate_id, 'model');
+			//获取对应分类下的模型
+			$models = get_category($cate_id, 'model');
+		}
+
 
 		$this->assign('model', $models);
 		$this->assign('status', $status);
@@ -188,10 +206,12 @@ class ArticleController extends \Admin\Controller\AdminController {
 
 		/* 获取要编辑的模型模板 */
 		$template = strtolower(get_document_model($model_id, 'name'));
+		$extend = $this->fetch($template);
 
 		$this->assign('model_id', $model_id);
 		$this->assign('model_name', $model_name);
 		$this->assign('template', $template);
+		$this->assign('extend', $extend);
 
 		$this->meta_title = '新增'.$model_name;
 		$this->display();
@@ -219,6 +239,10 @@ class ArticleController extends \Admin\Controller\AdminController {
 		$data['template'] = strtolower(get_document_model($data['model_id'], 'name'));
 
 		$this->assign($data);
+
+		//获取扩展模板
+		$extend = $this->fetch($data['template']);
+		$this->assign('extend', $extend);
 
 		$this->meta_title = '编辑文档';
 		$this->display();

@@ -15,6 +15,7 @@ use User\Api\UserApi;
 
 class UserController extends AdminController {
 
+    static protected $allow = array( 'updatePassword','updateNickname');
 	/**
      * 左侧导航节点定义
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
@@ -22,16 +23,6 @@ class UserController extends AdminController {
     static protected $nodes = array(
     	/* 系统设置 */
         array( 'title' => '用户信息', 'url' => 'User/index', 'group' => '用户管理'),
-    	array( 'title' => '修改密码', 'url' => 'User/updatePassword', 'group' => '用户管理', 'hide'=>true,
-    			'operator'=>array(
-    				array('title'=>'修改密码','url'=>'user/submitPassword','tip'=>''),
-    			)
-    	),
-    	array( 'title' => '修改昵称', 'url' => 'User/updateNickname', 'group' => '用户管理', 'hide'=>true,
-    			'operator'=>array(
-    					array('title'=>'修改昵称','url'=>'user/submitNickname','tip'=>''),
-    			)
-    	),
         array( 'title' => '用户行为', 'url' => 'User/action', 'group' => '用户管理',
         		'operator'=>array(
         				//权限管理页面的五种按钮
@@ -64,7 +55,29 @@ class UserController extends AdminController {
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function updateNickname(){
+		$nickname = M('Member')->getFieldByUid(is_login(), 'nickname');
+		$this->assign('nickname', $nickname);
 		$this->display();
+	}
+
+	/**
+	 * 修改昵称提交
+	 * @author huajie <banhuajie@163.com>
+	 */
+	public function submitNickname(){
+		//获取参数
+		$uid = is_login();
+		$nickname = I('post.nickname');
+
+		$Member = D('Member');
+		$data = $Member->create(array('nickname'=>$nickname));
+		$res = $Member->where(array('uid'=>$uid))->save($data);
+
+		if($res){
+			$this->success('修改昵称成功！');
+		}else{
+			$this->error($Member->getError());
+		}
 	}
 
 	/**

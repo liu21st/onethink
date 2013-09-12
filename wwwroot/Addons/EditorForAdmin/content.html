@@ -26,7 +26,12 @@
 				});
 
 				$(function(){
+					//传统表单提交同步
 					$('textarea[name="{$data.name}"]').closest('form').submit(function(){
+						editor.sync();
+					});
+					//ajax提交之前同步
+					$('button[type="submit"],#submit,.ajax-post').click(function(){
 						editor.sync();
 					});
 				})
@@ -119,7 +124,8 @@
 					'listBlocktag': [{n:'h1'},{n:'h2'},{n:'h3'},{n:'h4'},{n:'h5'},{n:'h6'}],
 					'beforeSetSource': Md2HTML,
 					'beforeGetSource': HTML2Md,
-					'loadCSS': markdownCSS
+					'loadCSS': markdownCSS,
+					'width' :'100%'
 				});
 			});
 		</script>

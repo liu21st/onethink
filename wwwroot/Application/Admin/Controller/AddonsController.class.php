@@ -19,23 +19,25 @@ class AddonsController extends AdminController {
             'title'=>'插件管理', 'url'=>'Addons/index', 'group'=>'扩展',
             'operator'=>array(
                 //权限管理页面的五种按钮
-                array('title'=>'创建','url'=>'Addons/create'),
-                array('title'=>'检测创建','url'=>'Addons/checkForm'),
-                array('title'=>'预览','url'=>'Addons/preview'),
-                array('title'=>'快速生成插件','url'=>'Addons/build'),
-                array('title'=>'设置','url'=>'Addons/config'),
-                array('title'=>'禁用','url'=>'Addons/disable'),
-                array('title'=>'启用','url'=>'Addons/enable'),
-                array('title'=>'安装','url'=>'Addons/install'),
-                array('title'=>'卸载','url'=>'Addons/uninstall'),
-                array('title'=>'更新配置','url'=>'Addons/saveconfig'),
-                array('title'=>'插件后台列表','url'=>'Addons/adminList')
+                array('title'=>'创建','url'=>'Addons/create','tip'=>'服务器上创建插件结构向导'),
+                array('title'=>'检测创建','url'=>'Addons/checkForm','tip'=>'检测插件是否可以创建'),
+                array('title'=>'预览','url'=>'Addons/preview','tip'=>'预览插件定义类文件'),
+                array('title'=>'快速生成插件','url'=>'Addons/build','tip'=>'开始生成插件结构'),
+                array('title'=>'设置','url'=>'Addons/config','tip'=>'设置插件配置'),
+                array('title'=>'禁用','url'=>'Addons/disable','tip'=>'禁用插件'),
+                array('title'=>'启用','url'=>'Addons/enable','tip'=>'启用插件'),
+                array('title'=>'安装','url'=>'Addons/install','tip'=>'安装插件'),
+                array('title'=>'卸载','url'=>'Addons/uninstall','tip'=>'卸载插件'),
+                array('title'=>'更新配置','url'=>'Addons/saveconfig','tip'=>'更新插件配置处理'),
+                array('title'=>'插件后台列表','url'=>'Addons/adminList'),
+                array('title'=>'URL方式访问插件','url'=>'Addons/execute','tip'=>'控制是否有权限通过url访问插件控制器方法')
             ),
         ),
         array( 'title'=>'钩子管理', 'url'=>'Addons/hooks', 'group'=>'扩展',
             'operator'=>array(
             //权限管理页面的五种按钮
-                array('title'=>'编辑','url'=>'Addons/updateSort'),
+                array('title'=>'编辑钩子页面','url'=>'Addons/edithookaddons'),
+                array('title'=>'编辑','url'=>'Addons/updateSort','tip'=>'保存钩子的表单提交'),
             ),
         ),
     );
@@ -257,9 +259,7 @@ str;
             $fields = '*';
         if(!$map)
             $map = array();
-        if(!$order)
-            $order = array();
-        $list = $this->lists(D("Addons://{$model}/{$model}")->field($fields),$map,$order);
+        $list = $this->lists(D("Addons://{$model}/{$model}")->field($fields),$map);
         $thead = array(
             //元素value中的变量就是数据集中的字段,value必须使用单引号
 
@@ -326,7 +326,7 @@ str;
         $config = I('config');
         $flag = D('Addons')->where("id={$id}")->setField('config',json_encode($config));
         if($flag !== false){
-            $this->success('保存成功');
+            $this->success('保存成功', U('index'));
         }else{
             $this->error('保存失败');
         }
@@ -402,22 +402,19 @@ str;
      */
     public function hooks(){
         $this->meta_title = '扩展-钩子列表';
-        $map = $order = $fields = array();
-        $list = $this->lists(D("Hooks")->field($fields),$map,$order);
+        $map = $fields = array();
+        $list = $this->lists(D("Hooks")->field($fields),$map);
         $thead = array(
             //元素value中的变量就是数据集中的字段,value必须使用单引号
             //查询出的数据集中的字段=>字段的表头
 
-                'id'=>'序号',
+                'id'=>'',
                 'name'=>'名称',
                 'description'=>'描述',
                 'type_text'=>'类型',
                 '插件'=>array(
                     '编辑'=>array(
-                        'tag'=>'a',
-                        'title'=>'$addons',
-                        'id'=>'$id',
-                        'class'=>'editAddons'
+                        'href'=>'edithookaddons?id=$id'
                     )
                 )
         );
@@ -426,12 +423,19 @@ str;
         $this->display();
     }
 
+    //钩子出编辑挂载插件页面
+    public function edithookaddons($id){
+        $hook = D('Hooks')->find($id);
+        $this->assign('data',$hook);
+        $this->display();
+    }
+
     public function updateSort(){
         $addons = trim(I('addons'));
         $id = I('id');
         D('Hooks')->where("id={$id}")->setField('addons', $addons);
         S('hooks', null);//:TODO S方法更新缓存 前后台不一致，有BUG
-        $this->success('更新成功');
+        $this->success('更新成功', U('hooks'));
     }
 
     public function execute($_addons = null, $_controller = null, $_action = null){

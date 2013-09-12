@@ -276,6 +276,13 @@
 .category .name input {
 	margin-bottom: 2px;
 }
+.category .add-sub-cate {
+	margin-left: 10px;
+}
+.category .add-sub-cate:hover {
+	text-decoration: none;
+	border-bottom: 0 none;
+}
 .category .btn-mod {
 	margin-left: 15px;
 }
@@ -329,13 +336,15 @@
 .category > dl > dd > dl:last-child > dd > dl:last-child > dt .tab-sign {
 	background-position: 0 -120px;
 }
-
 .category input{
 	height: 16px;
 }
-
-.auth-category >dl>dt{
-	background: #eee;
+.icon-add {
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	vertical-align: middle;
+	background: url(../images/add.png) no-repeat 0 0;
 }
 
 #top-alert {
@@ -378,4 +387,13 @@ button.close {
     max-width:600px;
     word-wrap: break-word;
     word-break: break-word;
+}
+
+.adv-sch-pannel label{
+    width:70px;
+    display:inline-block;
+}
+
+.adv-sch-pannel .row{
+    margin-bottom:6px;
 }

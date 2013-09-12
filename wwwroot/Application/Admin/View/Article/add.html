@@ -61,7 +61,7 @@
 					<div class="form-item cf">
 						<label class="item-label">截止时间：</label>
 						<div class="controls">
-							<input id="dateline" type="text" class="text input-5x" name="dateline" value="">
+							<input id="dateline" type="text" class="text input-5x" name="dateline" value="" readonly>
 						</div>
 					</div>
 					<div class="form-item cf">
@@ -87,7 +87,7 @@
 
 				<!-- 引入扩展文档模型 -->
 				<div class="tab-pane tab2">
-					<include file="$template"/>
+					{$extend}
 				</div>
 
 				<div class="form-item cf">
@@ -97,9 +97,9 @@
 			            <input type="hidden" name="type" value="2">
 			            <input type="hidden" name="category_id" value="{$cate_id}">
 			            <input type="hidden" name="model_id" value="{$model_id}">
-						<button class="btn hidden ajax-post" type="submit" target-form="form-horizontal" id="submit">保 存</button>
-						<button class="btn" id="submit-next" type="button" href="javascript:;">下一步</button>
-						<a class="btn" type="button" href="{:U('article/index?cate_id='.$cate_id)}">返 回</a>
+						<button class="btn submit-btn hidden ajax-post" type="submit" target-form="form-horizontal" id="submit">保 存</button>
+						<button class="btn submit-btn" id="submit-next" type="button" href="javascript:;">下一步</button>
+						<a class="btn btn-return" type="button" href="{:U('article/index?cate_id='.$cate_id)}">返 回</a>
 					</div>
 				</div>
 			</form>
@@ -108,9 +108,18 @@
 </block>
 
 <block name="script">
-<link href="__JS__/glDatePicker/styles/glDatePicker.flatwhite.css" rel="stylesheet" type="text/css">
+<link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+<link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
-<script type="text/javascript" src="__JS__/glDatePicker/glDatePicker.js"></script>
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript">
+    $(".form_datetime").datetimepicker(
+        {format: "dd MM yyyy - hh:ii",
+        autoclose: true,
+        todayBtn: true,
+        pickerPosition: "bottom-left"}
+    );
+</script>  
 <script type="text/javascript">
 (function($){
 	//上传附件
@@ -156,15 +165,9 @@
 })(jQuery);
 
 $(function(){
-	$('#dateline').glDatePicker(
-	{
-		showAlways: false,
-        cssName: 'flatwhite',
-        onClick: (function(el, cell, date, data) {
-            el.val(date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate());
-        }),
-	});
-
+    $('#dateline').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii'
+    });
 	// 标签页切换
 	nextTab();
 });
