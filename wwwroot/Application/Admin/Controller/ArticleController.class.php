@@ -78,6 +78,10 @@ class ArticleController extends \Admin\Controller\AdminController {
     	$cate_id = I('param.cate_id') == '' ? $cate[0]['id'] : I('param.cate_id');
     	$this->cate_id = $cate_id;
 
+    	//未传参是否显示默认分类
+    	if(ACTION_NAME != 'recycle'){
+    		$hide_cate = true;
+    	}
 
     	//单独处理2级以下的分类
     	$child_cates = array();
