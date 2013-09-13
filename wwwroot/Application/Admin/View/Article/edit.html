@@ -129,12 +129,13 @@ $('#submit').click(function(){
 });
 
 (function($){
-	//上传附件
+	//上传文件
 	/* 初始化上传插件 */
 	$("#download-file").uploadify({
         "height"          : 30,
         "swf"             : "__STATIC__/uploadify/uploadify.swf",
         "fileObjName"     : "download",
+        "buttonText"      : "上传文件",
         "uploader"        : "{:U('File/upload',array('session_id'=>session_id()))}",
         "width"           : 120,
         'removeTimeout'	  : 1,
@@ -146,18 +147,19 @@ $('#submit').click(function(){
     	var data = $.parseJSON(data);
         if(data.status){
         	$("input[name=file]").val(data.data);
-        	$("input[name=file]").parent().find('.check-tips').text(data.info);
+        	$("input[name=file]").parent().find('.upload-img-box').text(data.info);
         } else {
         	updateAlert(data.info);
         }
     }
 
-  //上传图片
+  	//上传图片
     /* 初始化上传插件 */
 	$("#upload_picture").uploadify({
         "height"          : 30,
         "swf"             : "__STATIC__/uploadify/uploadify.swf",
         "fileObjName"     : "download",
+        "buttonText"      : "上传图片",
         "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
         "width"           : 120,
         'removeTimeout'	  : 1,
@@ -168,7 +170,7 @@ $('#submit').click(function(){
     	var data = $.parseJSON(data);
         if(data.status){
         	$("#cover_id").val(data.id);
-        	$("#cover_id").parent().find('.check-tips').html('<img src="' + data.path + '"/>');
+        	$("#cover_id").parent().find('.upload-img-box').html('<img src="' + data.path + '"/>');
         } else {
         	updateAlert(data.info);
         }
