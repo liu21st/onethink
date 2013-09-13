@@ -222,12 +222,11 @@
 		Think.setValue("reply", {$info.reply|default=0});
 		Think.setValue("reply_model[]", {$info.reply_model|json_encode} || [1]);
 		Think.setValue("reply_type[]", {$info.reply_type|json_encode} || [2]);
-		
 		$(function(){
 			showTab();
 			$("input[name=reply]").change(function(){
 				var $reply = $(".form-item.reply");
-				parseInt(this.value) ? $reply.removeClass("hidden") : $reply.addClass("hidden");
+				parseInt(this.value) ? $reply.show() : $reply.hide();
 			}).filter(":checked").change();
 		})
 	</script>
