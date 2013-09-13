@@ -178,3 +178,14 @@ function get_cover($cover_id, $field = null){
 	$picture = M('Picture')->where(array('status'=>1))->getById($cover_id);
 	return empty($field) ? $picture : $picture[$field];
 }
+
+/**
+ * 检测验证码
+ * @param  integer $id 验证码ID
+ * @return boolean     检测结果
+ * @author 麦当苗儿 <zuojiazi.cn@gmail.com>
+ */
+function check_verify($code, $id = 1){
+	$verify = new \COM\Verify();
+	return $verify->check($code, $id);
+}
