@@ -18,6 +18,7 @@
 						<input class="checkbox check-all" type="checkbox">
 					</th>
 					<th>ID</th>
+					<th>排序</th>
 					<th>导航名称</th>
 					<th>导航地址</th>
 					<th>操作</th>
@@ -28,6 +29,7 @@
 					<tr>
 						<td><input class="ids row-selected" type="checkbox" name="" id=""> </td>
 						<td>{$channel.id}</td>
+						<td>{$channel.sort}</td>
 						<td><a href="{:U('channelEdit?id='.$channel['id'])}">{$channel.title}</a></td>
 						<td>{$channel.url}</td>
 						<td>

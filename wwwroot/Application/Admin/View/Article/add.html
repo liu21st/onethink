@@ -176,7 +176,9 @@
 $(function(){
     $('#dateline').datetimepicker({
         format: 'yyyy-mm-dd hh:ii',
-        language:"zh-CN"
+        language:"zh-CN",
+	    minView:1,
+	    autoclose:true
     });
 	// 标签页切换
 	nextTab();

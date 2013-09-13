@@ -183,8 +183,10 @@ $('#submit').click(function(){
 })(jQuery);
 $(function(){
     $('#dateline').datetimepicker({
-        format: 'yyyy-mm-dd hh:ii',
-        language:"zh-CN"
+	    format: 'yyyy-mm-dd hh:ii',
+	    language:"zh-CN",
+	    minView:1,
+	    autoclose:true
     });
 	nextTab();
 });

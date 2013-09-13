@@ -382,3 +382,6 @@ button.close {
 .upload-img-box {
 	margin-top: 4px;
 }
+.upload-img-box  img {
+	max-width: 120px;
+}
