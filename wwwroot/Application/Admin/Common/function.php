@@ -113,6 +113,7 @@ function check_document_position($pos = 0, $contain = 0){
  *
  */
 function intToString(&$data,$map=array('status'=>array(1=>'正常',-1=>'已删除',0=>'已禁用',2=>'审核通过'))) {
+    $data = (array)$data;
     foreach ($data as $key => $row){
         foreach ($map as $col=>$pair){
             $data[$key][$col.'_text'] = $pair[$row[$col]];
