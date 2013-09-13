@@ -158,10 +158,11 @@
         "swf"             : "__STATIC__/uploadify/uploadify.swf",
         "buttonText"      : "上传图片",
         "fileObjName"     : "download",
+        "removeComplete"  : false,
         "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
         "width"           : 120,
-        'removeTimeout'	  : 1,
-        'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
+        'removeTimeout'   : 1,
+        'fileTypeExts'    : '*.jpg; *.png; *.gif;',
         "onUploadSuccess" : uploadPicture
     });
 	function uploadPicture(file, data){
