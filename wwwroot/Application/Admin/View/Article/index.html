@@ -58,8 +58,8 @@
                 <div class="dropdown cf">
                 	<div class="row">
                 		<label>创建时间：</label>
-                		<input type="text" id="time-start" name="time-start" class="text input-2x" value="" placeholder="起始时间" readonly> -
-                		<input type="text" id="time-end" name="time-end" class="text input-2x" value="" placeholder="结束时间" readonly>
+                		<input type="text" id="time-start" name="time-start" class="text input-2x" value="" placeholder="起始时间" /> -
+                		<input type="text" id="time-end" name="time-end" class="text input-2x" value="" placeholder="结束时间" />
                 	</div>
                 	<div class="row">
                 		<label>创建者：</label>
@@ -172,13 +172,17 @@ $(function(){
     });
 
     $('#time-start').datetimepicker({
-        format: 'yyyy-mm-dd hh:ii',
-        language:"zh-CN"
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+	    minView:2,
+	    autoclose:true
     });
 
     $('#time-end').datetimepicker({
-        format: 'yyyy-mm-dd hh:ii',
-        language:"zh-CN"
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+	    minView:2,
+	    autoclose:true
     });
 })
 </script>
