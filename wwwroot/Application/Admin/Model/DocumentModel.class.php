@@ -21,14 +21,14 @@ class DocumentModel extends Model{
 		array('name', '', '标识已经存在', self::VALUE_VALIDATE, 'unique', self::MODEL_BOTH),
 		array('title', 'require', '标题不能为空', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
 		array('title', '1,80', '标题长度不能超过80个字符', self::MUST_VALIDATE, 'length', self::MODEL_BOTH),
-		array('description', 'require', '简介不能为空', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
-		array('description', '1,140', '简介长度不能超过140个字符', self::MUST_VALIDATE, 'length', self::MODEL_BOTH),
+// 		array('description', 'require', '简介不能为空', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
+		array('description', '1,140', '简介长度不能超过140个字符', self::VALUE_VALIDATE, 'length', self::MODEL_BOTH),
 		array('category_id', 'require', '分类不能为空', self::MUST_VALIDATE , 'regex', self::MODEL_INSERT),
 		array('category_id', 'require', '分类不能为空', self::EXISTS_VALIDATE , 'regex', self::MODEL_UPDATE),
 		array('category_id,type', 'checkCategory', '该分类不允许发布内容', self::MUST_VALIDATE , 'callback', self::MODEL_INSERT),
 		array('category_id', 'checkCategory', '该分类不允许发布内容', self::EXISTS_VALIDATE , 'callback', self::MODEL_UPDATE),
 		array('model_id,category_id', 'checkModel', '该分类没有绑定当前模型', self::MUST_VALIDATE , 'callback', self::MODEL_INSERT),
-		array('dateline', '/^\d{4,4}-\d{1,2}-\d{1,2}(\s\d{1,2}:\d{1,2}:\d{1,2})?$/', '日期格式不合法,请使用"年-月-日"格式,全部为数字', self::VALUE_VALIDATE  , 'regex', self::MODEL_BOTH),
+		array('dateline', '/^\d{4,4}-\d{1,2}-\d{1,2}(\s\d{1,2}:\d{1,2}(:\d{1,2})?)?$/', '日期格式不合法,请使用"年-月-日 时:分"格式,全部为数字', self::VALUE_VALIDATE  , 'regex', self::MODEL_BOTH),
 	);
 
 	/* 自动完成规则 */
