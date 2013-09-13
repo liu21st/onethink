@@ -214,6 +214,9 @@ class UserController extends AdminController {
     public function changeStatus($method=null)
     {
         $id    = array_unique((array)I('id',0));
+        if( in_array(C('USER_ADMINISTRATOR'),$id)){
+            $this->error("不允许对超级管理员执行该操作!");
+        }
         $id    = is_array($id) ? implode(',',$id) : $id;
         if ( empty($id) ) {
             $this->error('请选择要操作的数据!');

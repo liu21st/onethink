@@ -586,6 +586,7 @@ class AdminController extends Action {
      */
     public function tableList($list,$thead)
     {
+        $list = (array)$list;
         $keys = array_keys($thead);
         array_walk($list,function(&$v,$k) use($keys,$thead) {
             $arr = array();
