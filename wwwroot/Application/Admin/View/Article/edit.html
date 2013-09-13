@@ -68,17 +68,17 @@
 			<div class="form-item cf">
 				<label class="item-label">外链</label>
 				<div class="controls">
-					<input type="text" class="text input-large" name="link_id" value="{$link_id}">
+					<input type="text" class="text input-large" name="link_id" value="{$link_id|get_link}">
 				</div>
 			</div>
 			<div class="form-item cf">
 				<label class="item-label">截止时间</label>
 				<div class="controls">
-					<input id="dateline" type="text" class="text input-large" name="dateline" value="" readonly>
+					<input id="dateline" type="text" class="text input-large" name="dateline" value="{$dateline}" readonly>
 				</div>
 			</div>
 			<div class="form-item cf">
-				<label class="item-label">可见性<span class="check-tips">（可见性必选）</span></label>
+				<label class="item-label">可见性</label>
 				<div class="controls">
 					<label class="radio"><input type="radio" name="display" value="0" <eq name="display" value="0">checked="checked"</eq>>不可见</label>
 					<label class="radio"><input type="radio" name="display" value="1" <eq name="display" value="1">checked="checked"</eq>>所有人可见</label>
@@ -126,6 +126,7 @@ $('#submit').click(function(){
         "fileObjName"     : "download",
         "uploader"        : "{:U('File/upload',array('session_id'=>session_id()))}",
         "width"           : 120,
+        'removeTimeout'	  : 1,
         "onUploadSuccess" : uploadSuccess
     });
 
@@ -148,6 +149,8 @@ $('#submit').click(function(){
         "fileObjName"     : "download",
         "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
         "width"           : 120,
+        'removeTimeout'	  : 1,
+        'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
         "onUploadSuccess" : uploadPicture
     });
 	function uploadPicture(file, data){
