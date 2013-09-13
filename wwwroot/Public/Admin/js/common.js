@@ -158,17 +158,31 @@
 		}
 	};
 
-	//按钮组
-	$(".btn-group").mouseenter(function(){
-		var userMenu = $(this).children(".dropdown ");
-		userMenu.show();
-		clearTimeout(userMenu.data("timeout"));
-	}).mouseleave(function(){
-		var userMenu = $(this).children(".dropdown");
-		userMenu.data("timeout") && clearTimeout(userMenu.data("timeout"));
-		userMenu.data("timeout", setTimeout(function(){userMenu.hide()}, 100));
-	});
+    //按钮组
+    (function(){
+        //按钮组(鼠标悬浮显示)
+        $(".btn-group").mouseenter(function(){
+            var userMenu = $(this).children(".dropdown ");
+            var icon = $(this).find(".btn i");
+            icon.addClass("btn-arrowup").removeClass("btn-arrowdown");
+            userMenu.show();
+            clearTimeout(userMenu.data("timeout"));
+        }).mouseleave(function(){
+            var userMenu = $(this).children(".dropdown");
+            var icon = $(this).find(".btn i");
+            icon.removeClass("btn-arrowup").addClass("btn-arrowdown");
+            userMenu.data("timeout") && clearTimeout(userMenu.data("timeout"));
+            userMenu.data("timeout", setTimeout(function(){userMenu.hide()}, 100));
+        });
 
+        //按钮组(鼠标点击显示)
+        $(".btn-group-click .btn").click(function(){
+            var userMenu = $(this).next(".dropdown ");
+            var icon = $(this).find("i");
+            icon.toggleClass("btn-arrowup");
+            userMenu.toggleClass("block");
+        });
+    })();
 });
 
 //标签页切换(无下一步)
