@@ -68,6 +68,9 @@ input::-moz-focus-inner {
 .hidden {
 	display: none!important;
 }
+.block {
+	display: block!important;
+}
 
 /* 导航列表 */
 .nav li {

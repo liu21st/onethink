@@ -237,7 +237,7 @@ class ArticleController extends \Admin\Controller\AdminController {
 		if(!$data){
 			$this->error($Document->getError());
 		}
-        $data['dateline'] = date('Y-m-d',$data['dateline']);
+        $data['dateline'] = date('Y-m-d H:i',$data['dateline']);
 
 		/* 获取要编辑的模型模板 */
 		$data['template'] = strtolower(get_document_model($data['model_id'], 'name'));
@@ -262,9 +262,9 @@ class ArticleController extends \Admin\Controller\AdminController {
 			$this->error(D('Document')->getError());
 		}else{
 			if($res['id']){
-				$this->success('更新成功');
+				$this->success('更新成功', '/'.MODULE_NAME.'/article/index/cate_id/'.$res['category_id']);
 			}else{
-				$this->success('新增成功');
+				$this->success('新增成功', '/'.MODULE_NAME.'/article/index/cate_id/'.$res['category_id']);
 			}
 		}
 	}

@@ -19,9 +19,9 @@
 	<!-- 标签页导航 -->
 <div class="tab-wrap">
 	<ul class="tab-nav nav">
-		<li data-tab="tab1" class="current"><a href="javascript:void(0);">基础</a></li>
-		<li data-tab="tab3"><a href="javascript:void(0);">高级</a></li>
-		<li data-tab="tab2"><a href="javascript:void(0);">扩展</a></li>
+		<li data-tab="tab1" class="current"><a href="javascript:void(0);">基 础</a></li>
+		<li data-tab="tab3"><a href="javascript:void(0);">高 级</a></li>
+		<li data-tab="tab2"><a href="javascript:void(0);">扩 展</a></li>
 	</ul>
 	<div class="tab-content">
 	<!-- 表单 -->
@@ -68,17 +68,17 @@
 			<div class="form-item cf">
 				<label class="item-label">外链</label>
 				<div class="controls">
-					<input type="text" class="text input-large" name="link_id" value="{$link_id}">
+					<input type="text" class="text input-large" name="link_id" value="{$link_id|get_link}">
 				</div>
 			</div>
 			<div class="form-item cf">
 				<label class="item-label">截止时间</label>
 				<div class="controls">
-					<input id="dateline" type="text" class="text input-large" name="dateline" value="" readonly>
+					<input id="dateline" type="text" class="text input-large" name="dateline" value="{$dateline}" readonly>
 				</div>
 			</div>
 			<div class="form-item cf">
-				<label class="item-label">可见性<span class="check-tips">（可见性必选）</span></label>
+				<label class="item-label">可见性</label>
 				<div class="controls">
 					<label class="radio"><input type="radio" name="display" value="0" <eq name="display" value="0">checked="checked"</eq>>不可见</label>
 					<label class="radio"><input type="radio" name="display" value="1" <eq name="display" value="1">checked="checked"</eq>>所有人可见</label>
@@ -96,8 +96,8 @@
 
 		<div class="form-item cf">
 			<button class="btn submit-btn" id="submit-next" type="button">下一步</button>
-			<button class="btn submit-btn ajax-post hidden" id="submit" type="submit" target-form="form-horizontal">确定</button>
-			<a class="btn btn-return" href="{:U('article/index?cate_id='.$cate_id)}">返回</a>
+			<button class="btn submit-btn ajax-post hidden" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+			<a class="btn btn-return" href="{:U('article/index?cate_id='.$cate_id)}">返 回</a>
 			<input type="hidden" name="id" value="{$id}"/>
 			<input type="hidden" name="model_id" value="{$model_id}"/>
 			<input type="hidden" name="category_id" value="{$category_id}">
@@ -126,6 +126,7 @@ $('#submit').click(function(){
         "fileObjName"     : "download",
         "uploader"        : "{:U('File/upload',array('session_id'=>session_id()))}",
         "width"           : 120,
+        'removeTimeout'	  : 1,
         "onUploadSuccess" : uploadSuccess
     });
 
@@ -148,6 +149,8 @@ $('#submit').click(function(){
         "fileObjName"     : "download",
         "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
         "width"           : 120,
+        'removeTimeout'	  : 1,
+        'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
         "onUploadSuccess" : uploadPicture
     });
 	function uploadPicture(file, data){

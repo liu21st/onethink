@@ -212,9 +212,7 @@
   padding-left: 20px;
 }
 
-.icon-arrow-right {
-    background-position: -264px -96px;
-}
+
 [class^="icon-"], [class*=" icon-"] {
     display: inline-block;
     width: 14px;
@@ -226,19 +224,9 @@
     background-position: 14px 14px;
     background-repeat: no-repeat;
 }
-
 .icon-arrow-left {
     background-position: -240px -96px;
 }
-
-[class^="icon-"], [class*=" icon-"] {
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    margin-top: 1px;
-    line-height: 14px;
-    vertical-align: text-top;
-    background-image: url("../img/glyphicons-halflings.png");
-    background-position: 14px 14px;
-    background-repeat: no-repeat;
+.icon-arrow-right {
+    background-position: -264px -96px;
 }
