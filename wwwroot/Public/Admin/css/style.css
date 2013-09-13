@@ -66,6 +66,7 @@ body{
 .header .user-bar .user-entrance {
     display: block;
     margin-top: 15px;
+    padding-bottom: 15px;
     width: 20px;
     height: 20px;
     background: url(../images/user.png) no-repeat 0 0;
