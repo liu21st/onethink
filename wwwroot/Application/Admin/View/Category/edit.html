@@ -6,8 +6,8 @@
 	</div>
 	<div class="tab-wrap">
 		<ul class="tab-nav nav">
-			<li data-tab="tab1" class="current"><a href="javascript:void(0);">基础</a></li>
-			<li data-tab="tab2"><a href="javascript:void(0);">高级</a></li>
+			<li data-tab="tab1" class="current"><a href="javascript:void(0);">基 础</a></li>
+			<li data-tab="tab2"><a href="javascript:void(0);">高 级</a></li>
 		</ul>
 		<div class="tab-content">
 			<form action="__SELF__" method="post" class="form-horizontal">
@@ -41,13 +41,22 @@
 							<label class="inline radio"><input type="radio" name="allow_publish" value="0">不允许</label>
 						</div>
 					</div>
-					
 					<div class="form-item">
 						<label class="item-label"><em class="must">*</em>绑定模型</label>
 						<div class="controls">
 							<volist name=":get_document_model()" id="list">
 								<label class="checkbox">
 									<input type="checkbox" name="model[]" value="{$list.id}">{$list.title}
+								</label>
+							</volist>
+						</div>
+					</div>
+					<div class="form-item">
+						<label class="item-label"><em class="must">*</em>允许的内容类型</label>
+						<div class="controls">
+							<volist name=":C('DOCUMENT_MODEL_TYPE')" id="type">
+								<label class="checkbox">
+									<input type="checkbox" name="type[]" value="{$key}">{$type}
 								</label>
 							</volist>
 						</div>
@@ -131,7 +140,7 @@
 				<div class="form-item">
 					<input type="hidden" name="id" value="{$info.id|default=''}">
 					<input type="hidden" name="pid" value="{$category['id']?$category['id']:$info['pid']}">
-					<button type="submit" id="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确定</button>
+					<button type="submit" id="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button>
 				</div>
 			</form>
 		</div>
@@ -180,6 +189,7 @@
 		Think.setValue("allow_publish", {$info.allow_publish|default=1});
 		Think.setValue("model[]", {$info.model|json_encode});
 		Think.setValue("display", {$info.display|default=0});
+		Think.setValue("type[]", {$info.type|json_encode} || [2]);
 		$(function(){
 			showTab();
 		})

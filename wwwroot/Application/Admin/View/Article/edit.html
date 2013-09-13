@@ -19,9 +19,9 @@
 	<!-- 标签页导航 -->
 <div class="tab-wrap">
 	<ul class="tab-nav nav">
-		<li data-tab="tab1" class="current"><a href="javascript:void(0);">基础</a></li>
-		<li data-tab="tab3"><a href="javascript:void(0);">高级</a></li>
-		<li data-tab="tab2"><a href="javascript:void(0);">扩展</a></li>
+		<li data-tab="tab1" class="current"><a href="javascript:void(0);">基 础</a></li>
+		<li data-tab="tab3"><a href="javascript:void(0);">高 级</a></li>
+		<li data-tab="tab2"><a href="javascript:void(0);">扩 展</a></li>
 	</ul>
 	<div class="tab-content">
 	<!-- 表单 -->
@@ -36,17 +36,27 @@
 				</div>
 			</div>
 			<div class="form-item cf">
+				<label class="item-label">文档标识<span class="check-tips">（文档标识主要用于URL优化，对文章的URL没有要求则可不填）</span></label>
+				<div class="controls">
+					<input type="text" class="text input-large" name="name" value="{$name}">
+				</div>
+			</div>
+			<div class="form-item cf">
+				<label class="item-label">文档类型<span class="check-tips">（文档类型标识了文档的显示结构，一般普通文章选择主题）</span></label>
+				<div class="controls">
+					<select name="type">
+						<volist name=":C('DOCUMENT_MODEL_TYPE')" id="type">
+							<option value="{$key}">{$type}</option>
+						</volist>
+					</select>
+				</div>
+			</div>
+			<div class="form-item cf">
 				<label class="item-label">简介<span class="check-tips">（请输入简介）</span></label>
 				<div class="controls">
 					<label class="textarea input-large">
 						<textarea name="description">{$description}</textarea>
 					</label>
-				</div>
-			</div>
-			<div class="form-item cf">
-				<label class="item-label">文档标识<span class="check-tips">（请输入文档标识）</span></label>
-				<div class="controls">
-					<input type="text" class="text input-large" name="name" value="{$name}">
 				</div>
 			</div>
 		</div>
@@ -96,8 +106,8 @@
 
 		<div class="form-item cf">
 			<button class="btn submit-btn" id="submit-next" type="button">下一步</button>
-			<button class="btn submit-btn ajax-post hidden" id="submit" type="submit" target-form="form-horizontal">确定</button>
-			<a class="btn btn-return" href="{:U('article/index?cate_id='.$cate_id)}">返回</a>
+			<button class="btn submit-btn ajax-post hidden" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+			<a class="btn btn-return" href="{:U('article/index?cate_id='.$cate_id)}">返 回</a>
 			<input type="hidden" name="id" value="{$id}"/>
 			<input type="hidden" name="model_id" value="{$model_id}"/>
 			<input type="hidden" name="category_id" value="{$category_id}">

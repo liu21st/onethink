@@ -192,9 +192,7 @@ img {
 }
 
 input:-webkit-autofill {
-    background-color: #ff0000!important;
-    background-image: none!important;
-    color: #ddd!important;
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
 }
 .logo-img {
     margin: -20px 0 9px 0;;
