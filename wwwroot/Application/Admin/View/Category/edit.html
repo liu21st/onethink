@@ -67,6 +67,35 @@
 				<div id="tab2" class="tab-pane tab2">
 					<div class="form-item">
 						<label class="item-label">
+							回复<span class="check-tips">（是否允许对内容进行回复，需要详情页模板支持回复显示与提交）</span>
+						</label>
+						<div class="controls">
+							<label class="inline radio"><input type="radio" name="reply" value="1" checked>允许</label>
+							<label class="inline radio"><input type="radio" name="reply" value="0">不允许</label>
+						</div>
+					</div>
+					<div class="form-item reply hidden">
+						<label class="item-label">回复允许的模型</label>
+						<div class="controls">
+							<volist name=":get_document_model()" id="list">
+								<label class="checkbox">
+									<input type="checkbox" name="reply_model[]" value="{$list.id}">{$list.title}
+								</label>
+							</volist>
+						</div>
+					</div>
+					<div class="form-item reply hidden">
+						<label class="item-label">回复允许的内容类型</label>
+						<div class="controls">
+							<volist name=":C('DOCUMENT_MODEL_TYPE')" id="type">
+								<label class="checkbox">
+									<input type="checkbox" name="reply_type[]" value="{$key}">{$type}
+								</label>
+							</volist>
+						</div>
+					</div>
+					<div class="form-item">
+						<label class="item-label">
 							<em class="must">*</em>排序<span class="check-tips">（排序对当前分类有效）</span>
 						</label>
 						<div class="controls">
@@ -187,11 +216,19 @@
 <block name="script">
 	<script type="text/javascript">
 		Think.setValue("allow_publish", {$info.allow_publish|default=1});
-		Think.setValue("model[]", {$info.model|json_encode});
-		Think.setValue("display", {$info.display|default=0});
+		Think.setValue("model[]", {$info.model|json_encode} || [1]);
 		Think.setValue("type[]", {$info.type|json_encode} || [2]);
+		Think.setValue("display", {$info.display|default=0});
+		Think.setValue("reply", {$info.reply|default=0});
+		Think.setValue("reply_model[]", {$info.reply_model|json_encode} || [1]);
+		Think.setValue("reply_type[]", {$info.reply_type|json_encode} || [2]);
+		
 		$(function(){
 			showTab();
+			$("input[name=reply]").change(function(){
+				var $reply = $(".form-item.reply");
+				parseInt(this.value) ? $reply.removeClass("hidden") : $reply.addClass("hidden");
+			}).filter(":checked").change();
 		})
 	</script>
 </block>
