@@ -15,10 +15,6 @@
     width: 100%;
     border-collapse: collapse;
 }
-.data-table tbody tr {
-	background-color: #ffffff;
-	color: #686868;
-}
 .data-table caption {
     height: 30px;
     line-height: 30px;
@@ -26,27 +22,20 @@
 }
 .data-table thead th,
 .data-table tbody td {
-	padding:8px;
+    padding:8px;
     height: 19px;
     line-height: 19px;
     font-weight: 400;
-    border-bottom: 1px solid #f4f4f4;
 }
 .data-table thead th {
     text-align: left;
-	color:#fff;
+    color:#fff;
     background-color: #353535;
 }
-/* 隔行变色 */
 .data-table tbody tr {
 	background-color: #fefefe;
 	color: #686868;
 }
-/* 隔行变色 */
 .data-table tbody tr:nth-child(even) {
 	background-color: #f2f2f2;
-}
-
-.data-table tbody td {
-	border-bottom: none;
 }
