@@ -38,19 +38,15 @@
     background-color: #353535;
 }
 /* 隔行变色 */
-.table-striped tbody tr {
+.data-table tbody tr {
 	background-color: #fefefe;
 	color: #686868;
 }
 /* 隔行变色 */
-.table-striped tbody tr:nth-child(even) {
+.data-table tbody tr:nth-child(even) {
 	background-color: #f2f2f2;
-
 }
 
-.table-striped tbody td {
+.data-table tbody td {
 	border-bottom: none;
 }
-
-/* 数据表格
-------------------------------------------------- 
