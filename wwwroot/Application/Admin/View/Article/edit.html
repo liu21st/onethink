@@ -32,20 +32,20 @@
 			<div class="form-item cf">
 				<label class="item-label">标题<span class="check-tips">（请输入标题）</span></label>
 				<div class="controls">
-					<input type="text" class="text input-large" name="title" value="{$title}">
+					<input type="text" class="text input-large" name="title" value="{$info.title}">
 				</div>
 			</div>
 			<div class="form-item cf">
 				<label class="item-label">文档标识<span class="check-tips">（文档标识主要用于URL优化，对文章的URL没有要求则可不填）</span></label>
 				<div class="controls">
-					<input type="text" class="text input-large" name="name" value="{$name}">
+					<input type="text" class="text input-large" name="name" value="{$info.name}">
 				</div>
 			</div>
 			<div class="form-item cf">
 				<label class="item-label">文档类型<span class="check-tips">（文档类型标识了文档的显示结构，一般普通文章选择主题）</span></label>
 				<div class="controls">
 					<select name="type">
-						<volist name=":C('DOCUMENT_MODEL_TYPE')" id="type">
+						<volist name="type_list" id="type">
 							<option value="{$key}">{$type}</option>
 						</volist>
 					</select>
@@ -55,7 +55,7 @@
 				<label class="item-label">简介<span class="check-tips">（请输入简介）</span></label>
 				<div class="controls">
 					<label class="textarea input-large">
-						<textarea name="description">{$description}</textarea>
+						<textarea name="description">{$info.description}</textarea>
 					</label>
 				</div>
 			</div>
@@ -78,13 +78,13 @@
 			<div class="form-item cf">
 				<label class="item-label">外链</label>
 				<div class="controls">
-					<input type="text" class="text input-large" name="link_id" value="{$link_id|get_link}">
+					<input type="text" class="text input-large" name="link_id" value="{$info.link_id|get_link}">
 				</div>
 			</div>
 			<div class="form-item cf">
 				<label class="item-label">截止时间</label>
 				<div class="controls">
-					<input id="dateline" type="text" class="text input-large" name="dateline" value="{$dateline}" readonly>
+					<input id="dateline" type="text" class="text input-large" name="dateline" value="{$info.dateline}" readonly>
 				</div>
 			</div>
 			<div class="form-item cf">
@@ -109,9 +109,9 @@
 			<button class="btn submit-btn" id="submit-next" type="button">下一步</button>
 			<button class="btn submit-btn ajax-post hidden" id="submit" type="submit" target-form="form-horizontal">确 定</button>
 			<a class="btn btn-return" href="{:U('article/index?cate_id='.$cate_id)}">返 回</a>
-			<input type="hidden" name="id" value="{$id}"/>
-			<input type="hidden" name="model_id" value="{$model_id}"/>
-			<input type="hidden" name="category_id" value="{$category_id}">
+			<input type="hidden" name="id" value="{$info.id}"/>
+			<input type="hidden" name="model_id" value="{$info.model_id}"/>
+			<input type="hidden" name="category_id" value="{$info.category_id}">
 		</div>
 	</form>
 	</div>
@@ -152,7 +152,7 @@ $('#submit').click(function(){
     	var data = $.parseJSON(data);
         if(data.status){
         	$("input[name=file]").val(data.data);
-        	$("input[name=file]").parent().find('.upload-img-box').text(data.info);
+        	$("input[name=file]").parent().find('.upload-img-box').html( data.info);
         } else {
         	updateAlert(data.info);
         }
@@ -175,7 +175,9 @@ $('#submit').click(function(){
     	var data = $.parseJSON(data);
         if(data.status){
         	$("#cover_id").val(data.id);
-        	$("#cover_id").parent().find('.upload-img-box').html('<img src="' + data.path + '"/>');
+        	$("#cover_id").parent().find('.upload-img-box').html(
+        		'<div class="upload-pre-item"><img src="' + data.path + '"/></div>'
+        	);
         } else {
         	updateAlert(data.info);
         }
