@@ -68,7 +68,7 @@
 		/* 验证info */
 		info.path || $.error("url格式错误！");
 		url = info.path;
-		
+
 		/* 组装URL */
 		if(0 === url.indexOf("/")){ //路由模式
 			this.MODEL[0] == 0 && $.error("该URL模式不支持使用路由!(" + url + ")");
@@ -84,11 +84,11 @@
 			path = url.split("/");
 			path = [path.pop(), path.pop(), path.pop()].reverse();
 			path[1] || $.error("ThinkPHP.U(" + url + ")没有指定控制器");
-			
+
 			if(path[0]){
 				param[this.VAR[0]] = this.MODEL[1] ? path[0].toLowerCase() : path[0];
 			}
-			
+
 			param[this.VAR[1]] = this.MODEL[1] ? this.parse_name(path[1]) : path[1];
 			param[this.VAR[2]] = path[2].toLowerCase();
 
@@ -132,7 +132,7 @@
 	/* 设置表单的值 */
 	ThinkPHP.setValue = function(name, value){
 		var first = name.substr(0,1), input, i = 0, val;
-		if(value == "") return;
+		if(value === "") return;
 		if("#" === first || "." === first){
 			input = $(name);
 		} else {
@@ -151,7 +151,7 @@
 			for(i = 0, len = val.length; i < len; i++){
 				input.filter("[value='" + val[i] + "']").each(function(){this.checked = true});
 			}
-		} else {  //其他表单选项直接设置值 
+		} else {  //其他表单选项直接设置值
 			input.val(value);
 		}
 	}
