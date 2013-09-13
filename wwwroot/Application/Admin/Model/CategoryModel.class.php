@@ -10,6 +10,7 @@ namespace Admin\Model;
 use Think\Model;
 /**
  * 分类模型
+ * @author 麦当苗儿 <zuojiazi.cn@gmail.com>
  */
 class CategoryModel extends Model{
 
@@ -22,6 +23,8 @@ class CategoryModel extends Model{
 	protected $_auto = array(
 		array('model', 'arr2str', self::MODEL_BOTH, 'function'),
 		array('model', null, self::MODEL_BOTH, 'ignore'),
+		array('type', 'arr2str', self::MODEL_BOTH, 'function'),
+		array('type', null, self::MODEL_BOTH, 'ignore'),
 		array('extend', 'json_encode', self::MODEL_BOTH, 'function'),
 		array('extend', null, self::MODEL_BOTH, 'ignore'),
 		array('create_time', NOW_TIME, self::MODEL_INSERT),
@@ -35,6 +38,7 @@ class CategoryModel extends Model{
 	 * @param  milit   $id 分类ID或标识
 	 * @param  boolean $field 查询字段
 	 * @return array     分类信息
+	 * @author 麦当苗儿 <zuojiazi.cn@gmail.com>
 	 */
 	public function info($id, $field = true){
 		/* 获取分类信息 */
@@ -52,6 +56,7 @@ class CategoryModel extends Model{
 	 * @param  integer $id    分类ID
 	 * @param  boolean $field 查询字段
 	 * @return array          分类树
+	 * @author 麦当苗儿 <zuojiazi.cn@gmail.com>
 	 */
 	public function getTree($id = 0, $field = true){
 		/* 获取当前分类信息 */
@@ -80,6 +85,7 @@ class CategoryModel extends Model{
 	 * @param  integer $id    分类ID
 	 * @param  boolean $field 查询字段
 	 * @return array
+	 * @author 麦当苗儿 <zuojiazi.cn@gmail.com>
 	 */
 	public function getSameLevel($id, $field = true){
 		$info = $this->info($id, 'pid');
@@ -90,6 +96,7 @@ class CategoryModel extends Model{
 	/**
 	 * 更新分类信息
 	 * @return boolean 更新状态
+	 * @author 麦当苗儿 <zuojiazi.cn@gmail.com>
 	 */
 	public function update(){
 		$data = $this->create();
@@ -113,11 +120,17 @@ class CategoryModel extends Model{
 	/**
 	 * 查询后解析扩展信息
 	 * @param  array $data 分类数据
+	 * @author 麦当苗儿 <zuojiazi.cn@gmail.com>
 	 */
 	protected function _after_find(&$data, $options){
 		/* 分割模型 */
 		if(!empty($data['model'])){
 			$data['model'] = explode(',', $data['model']);
+		}
+
+		/* 分割文档类型 */
+		if(!empty($data['type'])){
+			$data['type'] = explode(',', $data['type']);
 		}
 
 		/* 还原扩展数据 */

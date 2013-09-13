@@ -18,12 +18,13 @@
 	<div class="tab-wrap">
 		<ul class="tab-nav nav">
 			<li data-tab="tab1" class="current"><a href="javascript:void(0);">基 础</a></li>
+			<li data-tab="tab3"><a href="javascript:void(0);">高 级</a></li>
 			<li data-tab="tab2"><a href="javascript:void(0);">扩 展</a></li>
 		</ul>
 		<div class="tab-content">
 			<form id="form" action="{:U('update')}" method="post" class="form-horizontal">
 				<!-- 基础文档模型 -->
-				<div class="tab-pane in tab1">
+				<div id="tab1" class="tab-pane in tab1">
 					<div class="form-item cf">
 						<label class="item-label">标题<span class="check-tips">（请输入标题）</span></label>
 						<div class="controls">
@@ -44,6 +45,14 @@
 							<input type="text" class="text input-large" name="name">
 						</div>
 					</div>
+				</div>
+
+				<div id="tab2" class="tab-pane tab2">
+					<!-- 引入扩展文档模型 -->
+					{$extend}
+				</div>
+
+				<div id="tab3" class="tab-pane tab3">
 					<div class="form-item cf">
 						<label class="item-label">推荐位</label>
 						<div class="controls">
@@ -55,7 +64,7 @@
 					<div class="form-item cf">
 						<label class="item-label">外链</label>
 						<div class="controls">
-							<input type="text" class="text input-large" name="link_id" value="0">
+							<input type="text" class="text input-large" name="link_id" value="">
 						</div>
 					</div>
 					<div class="form-item cf">
@@ -65,13 +74,13 @@
 						</div>
 					</div>
 					<div class="form-item cf">
-						<label class="item-label">可见性<span class="check-tips">（可见性必选）</span></label>
+						<label class="item-label">可见性</label>
 						<div class="controls">
 							<label class="radio">
-								<input type="radio" name="display" value="0" <eq name="display" value="0">checked="checked"</eq>>不可见
+								<input type="radio" name="display" value="0">不可见
 							</label>
 							<label class="radio">
-								<input type="radio" name="display" value="1" <eq name="display" value="1">checked="checked"</eq>>所有人可见
+								<input type="radio" name="display" value="1" checked="checked">所有人可见
 							</label>
 						</div>
 					</div>
@@ -85,10 +94,7 @@
 					</div>
 				</div>
 
-				<!-- 引入扩展文档模型 -->
-				<div class="tab-pane tab2">
-					{$extend}
-				</div>
+
 
 				<div class="form-item cf">
 					<label class="item-label"></label>
@@ -112,6 +118,7 @@
 <link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
 <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
 <script type="text/javascript">
     $(".form_datetime").datetimepicker(
         {format: "dd MM yyyy - hh:ii",
@@ -119,17 +126,19 @@
         todayBtn: true,
         pickerPosition: "bottom-left"}
     );
-</script>  
+</script>
 <script type="text/javascript">
 (function($){
-	//上传附件
+	//上传文件
 	/* 初始化上传插件 */
 	$("#download-file").uploadify({
         "height"          : 30,
         "swf"             : "__STATIC__/uploadify/uploadify.swf",
+        "buttonText"      : "上传文件",
         "fileObjName"     : "download",
         "uploader"        : "{:U('File/upload',array('session_id'=>session_id()))}",
         "width"           : 120,
+        'removeTimeout'	  : 1,
         "onUploadSuccess" : uploadSuccess
     });
 	/* 文件上传成功回调函数 */
@@ -148,9 +157,12 @@
 	$("#upload_picture").uploadify({
         "height"          : 30,
         "swf"             : "__STATIC__/uploadify/uploadify.swf",
+        "buttonText"      : "上传图片",
         "fileObjName"     : "download",
         "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
         "width"           : 120,
+        'removeTimeout'	  : 1,
+        'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
         "onUploadSuccess" : uploadPicture
     });
 	function uploadPicture(file, data){
@@ -166,7 +178,8 @@
 
 $(function(){
     $('#dateline').datetimepicker({
-        format: 'yyyy-mm-dd hh:ii'
+        format: 'yyyy-mm-dd hh:ii',
+        language:"zh-CN"
     });
 	// 标签页切换
 	nextTab();

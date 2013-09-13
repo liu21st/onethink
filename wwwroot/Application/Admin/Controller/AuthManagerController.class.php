@@ -123,7 +123,6 @@ class AuthManagerController extends AdminController{
         $list = intToString($list);
         $this->assign( '_list', $list );
         $this->assign( '_use_tip', true );
-        $this->nav(2,'权限管理');
         cookie( 'auth_index',__SELF__);
 		$this->meta_title = '权限管理';
         $this->display();
@@ -174,7 +173,6 @@ class AuthManagerController extends AdminController{
         $this->assign('node_list',$node_list);
         $this->assign('auth_group',$auth_group);
 		$this->assign('this_group',$auth_group[(int)$_GET['group_id']]);
-        $this->nav(3,'访问授权');
 		$this->meta_title = '权限管理-访问授权';
         $this->display('managergroup');
     }
@@ -256,7 +254,6 @@ class AuthManagerController extends AdminController{
         $this->assign( '_list', $list );
 		$this->assign('auth_group',$auth_group);
 		$this->assign('this_group',$auth_group[(int)$_GET['group_id']]);
-        $this->nav(3,'成员授权');
 		$this->meta_title = '权限管理-成员授权';
         $this->display();
     }
@@ -274,7 +271,6 @@ class AuthManagerController extends AdminController{
         $this->assign('group_list',$group_list);
 		$this->assign('auth_group',$auth_group);
 		$this->assign('this_group',$auth_group[(int)$_GET['group_id']]);
-        $this->nav(3,'分类授权');
 		$this->meta_title = '权限管理-分类授权';
         $this->display();
     }

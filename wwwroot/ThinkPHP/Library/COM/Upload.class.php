@@ -122,6 +122,11 @@ class Upload{
         /* 逐个检测并上传文件 */
         $info = array();
         foreach ($files as $key => $file) {
+            /* 通过扩展获取文件类型，可解决FLASH上传$FILES数组返回文件类型错误的问题 */
+            if(function_exists('mime_content_type'){
+                $file['type'] = mime_content_type($file['tmp_name']);
+            }
+
             /* 文件上传检测 */
             if (!$this->check($file)){
                 continue;

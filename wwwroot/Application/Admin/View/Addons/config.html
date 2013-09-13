@@ -17,10 +17,10 @@
 					<div class="controls">
 						<switch name="form.type">
 							<case value="text">
-								<input type="text" name="config[{$o_key}]" class="text" value="{$form.value}">
+								<input type="text" name="config[{$o_key}]" class="text input-large" value="{$form.value}">
 							</case>
 							<case value="password">
-								<input type="password" name="config[{$o_key}]" class="text" value="{$form.value}">
+								<input type="password" name="config[{$o_key}]" class="text input-large" value="{$form.value}">
 							</case>
 							<case value="hidden">
 								<input type="hidden" name="config[{$o_key}]" value="{$form.value}">
@@ -47,7 +47,7 @@
 								</select>
 							</case>
 							<case value="textarea">
-								<label class="textarea">
+								<label class="textarea input-large">
 									<textarea name="config[{$o_key}]">{$form.value}</textarea>
 								</label>
 							</case>
@@ -62,9 +62,9 @@
 			</present>
 		</empty>
 		<input type="hidden" name="id" value="{:I('id')}" readonly>
-		<button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">提交</button>
-		<button type="reset" class="btn btn-return">重置</button>
-		<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返回</button>
+		<button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">提 交</button>
+		<button type="reset" class="btn btn-return">重 置</button>
+		<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
 
 	</form>
 </block>

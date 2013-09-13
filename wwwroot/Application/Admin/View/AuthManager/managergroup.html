@@ -17,8 +17,7 @@
 		<div class="tab-content">
 			<!-- 访问授权 -->
 			<div class="tab-pane in">
-				<form action="{:U('AuthManager/writeGroup')}" enctype="application/x-www-form-urlencoded" method="POST"
-		            class="form-horizontal auth-form">
+				<form action="{:U('AuthManager/writeGroup')}" enctype="application/x-www-form-urlencoded" method="POST" class="form-horizontal auth-form">
 					<volist name="node_list" id="node" >
 						<dl class="checkmod">
 							<dt class="hd">
@@ -50,14 +49,12 @@
 					</volist>
 
 			        <input type="hidden" name="id" value="{$this_group.id}" />
-			        <input type="submit" class="btn submit-btn ajax-post" target-form="auth-form" value="保存" />
+                    <button type="submit" class="btn submit-btn ajax-post" target-form="auth-form">保 存</button>
 			    </form>
 			</div>
 
 			<!-- 成员授权 -->
-			<div class="tab-pane">
-				<include file="user" />
-			</div>
+			<div class="tab-pane"></div>
 
 			<!-- 分类 -->
 			<div class="tab-pane"></div>

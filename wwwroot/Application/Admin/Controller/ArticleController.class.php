@@ -18,19 +18,19 @@ class ArticleController extends \Admin\Controller\AdminController {
 
 	/* 左侧节点菜单定义 */
 	static protected $nodes = array(
-			array(
-					'title'=>'文档列表', 'url'=>'article/index', 'group'=>'内容','hide'=>true,
-					'operator'=>array(
-							//权限管理页面的按钮
-							array('title'=>'新增','url'=>'article/add'),
-							array('title'=>'编辑','url'=>'article/edit'),
-							array('title'=>'改变状态','url'=>'article/setStatus'),
-							array('title'=>'保存数据','url'=>'article/update'),
-							array('title'=>'回收站','url'=>'article/recycle'),
-							array('title'=>'还原','url'=>'article/permit'),
-							array('title'=>'清空回收站','url'=>'article/clear'),
-					),
+		array(
+			'title'=>'文档列表', 'url'=>'article/index', 'group'=>'内容','hide'=>true,
+			'operator'=>array(
+				//权限管理页面的按钮
+				array('title'=>'新增','url'=>'article/add'),
+				array('title'=>'编辑','url'=>'article/edit'),
+				array('title'=>'改变状态','url'=>'article/setStatus'),
+				array('title'=>'保存数据','url'=>'article/update'),
+				array('title'=>'回收站','url'=>'article/recycle'),
+				array('title'=>'还原','url'=>'article/permit'),
+				array('title'=>'清空回收站','url'=>'article/clear'),
 			),
+		),
 	);
 
 	private $cate_id = null;	//文档分类id
@@ -204,6 +204,10 @@ class ArticleController extends \Admin\Controller\AdminController {
 			$this->error('参数不能为空！');
 		}
 
+		//检查该分类是否允许发布
+		$allow_publish = D('Document')->checkCategory($cate_id);
+		!$allow_publish && $this->error('该分类不允许发布内容！');
+
 		/* 获取要编辑的模型模板 */
 		$template = strtolower(get_document_model($model_id, 'name'));
 		$extend = $this->fetch($template);
@@ -233,7 +237,7 @@ class ArticleController extends \Admin\Controller\AdminController {
 		if(!$data){
 			$this->error($Document->getError());
 		}
-        $data['dateline'] = date('Y-m-d',$data['dateline']);
+        $data['dateline'] = date('Y-m-d H:i',$data['dateline']);
 
 		/* 获取要编辑的模型模板 */
 		$data['template'] = strtolower(get_document_model($data['model_id'], 'name'));
@@ -258,9 +262,9 @@ class ArticleController extends \Admin\Controller\AdminController {
 			$this->error(D('Document')->getError());
 		}else{
 			if($res['id']){
-				$this->success('更新成功');
+				$this->success('更新成功', '/'.MODULE_NAME.'/article/index/cate_id/'.$res['category_id']);
 			}else{
-				$this->success('新增成功');
+				$this->success('新增成功', '/'.MODULE_NAME.'/article/index/cate_id/'.$res['category_id']);
 			}
 		}
 	}

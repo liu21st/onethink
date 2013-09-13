@@ -113,6 +113,7 @@ function check_document_position($pos = 0, $contain = 0){
  *
  */
 function intToString(&$data,$map=array('status'=>array(1=>'正常',-1=>'已删除',0=>'已禁用',2=>'审核通过'))) {
+    $data = (array)$data;
     foreach ($data as $key => $row){
         foreach ($map as $col=>$pair){
             $data[$key][$col.'_text'] = $pair[$row[$col]];
@@ -177,4 +178,35 @@ function get_cover($cover_id, $field = null){
 	}
 	$picture = M('Picture')->where(array('status'=>1))->getById($cover_id);
 	return empty($field) ? $picture : $picture[$field];
+}
+
+/**
+ * 检测验证码
+ * @param  integer $id 验证码ID
+ * @return boolean     检测结果
+ * @author 麦当苗儿 <zuojiazi.cn@gmail.com>
+ */
+function check_verify($code, $id = 1){
+	$verify = new \COM\Verify();
+	return $verify->check($code, $id);
+}
+
+/**
+ * 获取链接信息
+ * @param int $link_id
+ * @param string $field
+ * @return 完整的链接信息或者某一字段
+ * @author huajie <banhuajie@163.com>
+ */
+function get_link($link_id = null, $field = 'url'){
+	$link = '';
+	if(empty($link_id)){
+		return $link;
+	}
+	$link = M('Url')->getById($link_id);
+	if(empty($field)){
+		return $link;
+	}else{
+		return $link[$field];
+	}
 }

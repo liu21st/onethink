@@ -23,7 +23,7 @@
 	<div class="cf">
 		<div class="fl">
 			<div class="btn-group">
-				<button class="btn" id="document_add" <if condition="count($model) eq 1">url="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$model[0]))}"</if>>新 增<if condition="count($model) gt 1"><i class="icon-arrowdown"></i></if></button>
+				<button class="btn" id="document_add" <if condition="count($model) eq 1">url="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$model[0]))}"</if>>新 增<if condition="count($model) gt 1"><i class="btn-arrowdown"></i></if></button>
 				<if condition="count($model) gt 1">
 				<ul class="dropdown nav-list">
 					<volist name="model" id="vo">
@@ -37,41 +37,38 @@
 			<button class="btn ajax-post confirm" target-form="ids" url="{:U("Article/setStatus",array("status"=>-1))}">删 除</button>
 		</div>
 
-		<div class="fr">
-			<div class="search-form cf">
-				<div class="sleft">
-					<div class="drop-down">
-						<span id="sch-sort-txt" class="sort-txt" data="{$status}"><if condition="get_status_title($status) eq ''">所有<else/>{:get_status_title($status)}</if></span>
-						<i class="arrow arrow-down"></i>
-						<ul id="sub-sch-menu" class="nav-list hidden">
-							<li><a href="javascript:;" value="">所有</a></li>
-							<li><a href="javascript:;" value="1">正常</a></li>
-							<li><a href="javascript:;" value="0">禁用</a></li>
-							<li><a href="javascript:;" value="2">待审核</a></li>
-						</ul>
-					</div>
-					<input type="text" name="title" class="search-input" value="{:I('title')}" placeholder="请输入标题文档">
-					<a class="sch-btn" href="javascript:;" id="search" url="{:U('article/index','cate_id='.$cate_id,false)}"><i class="icon-search"></i></a>
+		<!-- 高级搜索 -->
+		<div class="search-form fr cf">
+			<div class="sleft">
+				<div class="drop-down">
+					<span id="sch-sort-txt" class="sort-txt" data="{$status}"><if condition="get_status_title($status) eq ''">所有<else/>{:get_status_title($status)}</if></span>
+					<i class="arrow arrow-down"></i>
+					<ul id="sub-sch-menu" class="nav-list hidden">
+						<li><a href="javascript:;" value="">所有</a></li>
+						<li><a href="javascript:;" value="1">正常</a></li>
+						<li><a href="javascript:;" value="0">禁用</a></li>
+						<li><a href="javascript:;" value="2">待审核</a></li>
+					</ul>
 				</div>
-                <div class="btn-group adv-sch-pannel fl">
-                    <button class="btn">高级<i class="icon-arrowdown"></i></button>
-                    <div class="dropdown">
-                    	<div class="row">
-                    		<label>创建时间：</label> 
-                    		<input type="text" id="time-start" name="time-start" class="text input-2x" value="" placeholder="起始时间" readonly> - 
-                    		<input type="text" id="time-end" name="time-end" class="text input-2x" value="" placeholder="结束时间" readonly>
-                    	</div>
-                    	<div class="row">
-                    		<label>创建者：</label> 
-                    		<input type="text" name="nickname" class="text input-2x" value="" placeholder="请输入用户名"> 
-                    	</div>
-                    </div>
-                </div>
+				<input type="text" name="title" class="search-input" value="{:I('title')}" placeholder="请输入标题文档">
+				<a class="sch-btn" href="javascript:;" id="search" url="{:U('article/index','cate_id='.$cate_id,false)}"><i class="btn-search"></i></a>
 			</div>
+            <div class="btn-group-click adv-sch-pannel fl">
+                <button class="btn">高 级<i class="btn-arrowdown"></i></button>
+                <div class="dropdown cf">
+                	<div class="row">
+                		<label>创建时间：</label>
+                		<input type="text" id="time-start" name="time-start" class="text input-2x" value="" placeholder="起始时间" readonly> -
+                		<input type="text" id="time-end" name="time-end" class="text input-2x" value="" placeholder="结束时间" readonly>
+                	</div>
+                	<div class="row">
+                		<label>创建者：</label>
+                		<input type="text" name="nickname" class="text input-2x" value="" placeholder="请输入用户名">
+                	</div>
+                </div>
+            </div>
 		</div>
 	</div>
-
-    <!-- 高级搜索 -->
 
 
 	<!-- 数据表格 -->
@@ -96,7 +93,7 @@
                 'create_time'=>array(
                     '_title'=>'创建时间',
                     'tag'   =>'span',
-                    'func'  => 'date("Y-m-d H:i:s",$create_time)',
+                    'func'  => 'date("Y-m-d H:i",$create_time)',
                 ),
                 'status_text'=>'状态',
                 'view'=>'浏览量',
@@ -124,6 +121,7 @@
 <link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
 <link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
 <script type="text/javascript">
 $(function(){
 	//搜索功能
@@ -137,9 +135,9 @@ $(function(){
 			query += 'status=' + status + "&" + query;
         }
         if( url.indexOf('?')>0 ){
-            url += '&' + query; 
+            url += '&' + query;
         }else{
-            url += '?' + query; 
+            url += '?' + query;
         }
 		window.location.href = url;
 	});
@@ -165,7 +163,7 @@ $(function(){
 			window.location.href = url;
 		}
 	});
-    
+
     //回车自动提交
     $('.search-form').find('input').keyup(function(event){
         if(event.keyCode===13){
@@ -174,11 +172,13 @@ $(function(){
     });
 
     $('#time-start').datetimepicker({
-        format: 'yyyy-mm-dd hh:ii'
+        format: 'yyyy-mm-dd hh:ii',
+        language:"zh-CN"
     });
 
     $('#time-end').datetimepicker({
-        format: 'yyyy-mm-dd hh:ii'
+        format: 'yyyy-mm-dd hh:ii',
+        language:"zh-CN"
     });
 })
 </script>

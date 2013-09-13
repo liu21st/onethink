@@ -15,6 +15,8 @@ use User\Api\UserApi as UserApi;
  */
 class IndexController extends AdminController {
 
+    static protected $allow = array( 'verify');
+
     /**
      * 左侧导航节点定义
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
@@ -27,7 +29,7 @@ class IndexController extends AdminController {
      * 登录页面不检查权限
      */
     protected function _initialize(){
-        if(ACTION_NAME !== 'login'){
+        if(ACTION_NAME !== 'login' && ACTION_NAME !=='verify'){
             parent::_initialize();
         }
     }
@@ -44,12 +46,12 @@ class IndexController extends AdminController {
      * 后台用户登录
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
-    public function login($username = null, $password = null){
+    public function login($username = null, $password = null, $verify = null){
         if(IS_POST){
             /* 检测验证码 TODO: */
-            // if(!check_verify($verify)){
-            //     $this->error('验证码输入错误！');
-            // }
+            if(!check_verify($verify)){
+                $this->error('验证码输入错误！');
+            }
 
             /* 调用UC登录接口登录 */
             $User = new UserApi;
@@ -86,4 +88,10 @@ class IndexController extends AdminController {
             $this->redirect('login');
         }
     }
+
+	public function verify(){
+		$verify = new \COM\Verify();
+		$verify->entry(1);
+	}
+
 }

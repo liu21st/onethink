@@ -134,12 +134,11 @@ body{
 }
 .subnav h3 .icon,
 .subnav h3 .icon-fold,
-.subnav h3 .icon-recycle {
-    display: inline-block;
-    margin-right: 6px;
+.subnav h3 .recycle {
+    float: left;
+    margin: 10px 6px 0 0;
     width: 16px;
     height: 16px;
-    vertical-align: middle;
 }
 .subnav h3 .icon {
     background: url(../images/minus.png) no-repeat center center;
@@ -147,7 +146,7 @@ body{
 .subnav h3 .icon-fold {
     background: url(../images/plus.png) no-repeat center center;
 }
-.icon-recycle {
+.recycle {
     background: url(../images/recycle.png) no-repeat center center;
 }
 
