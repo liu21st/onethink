@@ -25,6 +25,10 @@ class CategoryModel extends Model{
 		array('model', null, self::MODEL_BOTH, 'ignore'),
 		array('type', 'arr2str', self::MODEL_BOTH, 'function'),
 		array('type', null, self::MODEL_BOTH, 'ignore'),
+		array('reply_model', 'arr2str', self::MODEL_BOTH, 'function'),
+		array('reply_model', null, self::MODEL_BOTH, 'ignore'),
+		array('reply_type', 'arr2str', self::MODEL_BOTH, 'function'),
+		array('reply_type', null, self::MODEL_BOTH, 'ignore'),
 		array('extend', 'json_encode', self::MODEL_BOTH, 'function'),
 		array('extend', null, self::MODEL_BOTH, 'ignore'),
 		array('create_time', NOW_TIME, self::MODEL_INSERT),
@@ -131,6 +135,16 @@ class CategoryModel extends Model{
 		/* 分割文档类型 */
 		if(!empty($data['type'])){
 			$data['type'] = explode(',', $data['type']);
+		}
+
+		/* 分割模型 */
+		if(!empty($data['reply_model'])){
+			$data['reply_model'] = explode(',', $data['reply_model']);
+		}
+
+		/* 分割文档类型 */
+		if(!empty($data['reply_type'])){
+			$data['reply_type'] = explode(',', $data['reply_type']);
 		}
 
 		/* 还原扩展数据 */
