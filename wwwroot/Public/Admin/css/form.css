@@ -201,6 +201,9 @@ label.textarea ~ .check-tips {
 }
 
 /* 高级搜索 */
+.search-form .adv-sch-pannel {
+	margin-right: 0;
+}
 .search-form .adv-sch-pannel .dropdown {
 	right: 0;
 	left: auto;
