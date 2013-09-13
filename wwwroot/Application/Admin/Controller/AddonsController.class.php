@@ -467,14 +467,6 @@ str;
         }
     }
 
-    public function updateSort(){
-        $addons = trim(I('addons'));
-        $id = I('id');
-        D('Hooks')->where("id={$id}")->setField('addons', $addons);
-        S('hooks', null);//:TODO S方法更新缓存 前后台不一致，有BUG
-        $this->success('更新成功', U('hooks'));
-    }
-
     public function execute($_addons = null, $_controller = null, $_action = null){
         if(C('URL_CASE_INSENSITIVE')){
             $_addons = ucfirst(strtolower($_addons));
