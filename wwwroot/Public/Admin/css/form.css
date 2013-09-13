@@ -199,9 +199,18 @@ label.textarea ~ .check-tips {
 	height: 16px;
 	background: url(../images/icon_search.png) no-repeat 0 0;
 }
+
+/* 高级搜索 */
 .search-form .adv-sch-pannel .dropdown {
 	right: 0;
 	left: auto;
-	padding: 15px;
-	width: 320px;
+	padding: 15px 0 15px 15px;
+}
+.adv-sch-pannel .row {
+    display: inline-block;
+    *display: inline;
+    margin-right: 15px;
+}
+.adv-sch-pannel .dropdown {
+    white-space: nowrap;
 }
