@@ -64,6 +64,7 @@
 	display: inline-block;
     *display: inline;
 	position: relative;
+    margin-right: 10px;
     vertical-align: middle;
 }
 .btn-group .btn,
