@@ -70,8 +70,14 @@ class AdminController extends Action {
         if ( $ac===false ) {
             $this->error('403:禁止访问');
         }elseif( $ac===null ){
-            $rule  = strtolower(MODULE_NAME.'/'.CONTROLLER_NAME.'/'.ACTION_NAME);
-            if ( !$this->root_user && !$this->checkRuleDynamic($rule,array('in','1,2')) ){
+            $dynamic = $this->checkDynamic();//检测分类栏目有关的各项动态权限
+            if( $dynamic===null ){
+                //检测非动态权限
+                $rule  = strtolower(MODULE_NAME.'/'.CONTROLLER_NAME.'/'.ACTION_NAME);
+                if ( !$this->checkRule($rule,array('in','1,2')) ){
+                    $this->error('提示:无权访问,您可能需要联系管理员为您授权!');
+                }
+            }elseif( $dynamic===false ){
                 $this->error('提示:无权访问,您可能需要联系管理员为您授权!');
             }
         }
@@ -93,21 +99,6 @@ class AdminController extends Action {
      */
     final protected function checkRule($rule, $type=AuthRuleModel::RULE_URL, $mode='url')
     {
-        static $Auth = null;
-        if (!$Auth) {
-            $Auth  = new \ORG\Util\Auth();
-        }
-        if(!$Auth->check($rule,$this->uid,$type,$mode)){
-            return false;
-        }
-        return true;
-    }
-
-    final protected function checkRuleDynamic($rule, $type=AuthRuleModel::RULE_URL, $mode='url')
-    {
-        if( ($d=$this->checkDynamic())!==null){
-            return $d;
-        }
         static $Auth = null;
         if (!$Auth) {
             $Auth  = new \ORG\Util\Auth();
@@ -142,16 +133,16 @@ class AdminController extends Action {
                     break;
             }
             if(!$cate_id){
-                return null;
+                return null;//不明,需checkRule
             }elseif( !is_array($cate_id) && in_array($cate_id,$cates) ) {
-                return true;
+                return true;//有权限
             }elseif( is_array($cate_id) && $cate_id==array_intersect($cate_id,$cates) ){
-                return true;
+                return true;//有权限
             }else{
-                return false;
+                return false;//无权限
             }
         }
-        return null;
+        return null;//不明,需checkRule
     }
 
 

@@ -14,17 +14,11 @@
 	</div>
 </div>
 <div class="form-item cf">
-	<label class="item-label">文件大小</label>
-	<div class="controls">
-		<input type="text" class="text input-large" name="size" value="{$size}">（单位：byte）
-	</div>
-</div>
-<div class="form-item cf">
-	<label class="item-label">附件</label>
+	<label class="item-label">上传文件</label>
 	<div class="controls">
 		<input type="file" id="download-file">
 		<input type="hidden" name="file" value="{$file}"/>
-		<span class="check-tips">{$file_id.name}</span>
+		<div class="upload-img-box">{$file_id.name}</div>
 	</div>
 </div>
 

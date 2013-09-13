@@ -33,7 +33,7 @@
 			<label class="item-label">配置值<span class="check-tips">（配置值，不同类型有不同格式）</span></label>
 			<div class="controls">
 				<label class="textarea input-large">
-					<textarea name="value">{$info.value|default=''}</textarea>
+					<textarea name="value">{$info.value|default=0}</textarea>
 				</label>
 			</div>
 		</div>
@@ -45,8 +45,8 @@
 		</div>
 		<div class="form-item">
 			<input type="hidden" name="id" value="{$info.id|default=''}">
-			<button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确定</button>
-			<a class="btn btn-return" href="#">返回</a>
+			<button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+			<a class="btn btn-return" href="#">返 回</a>
 		</div>
 	</form>
 </block>

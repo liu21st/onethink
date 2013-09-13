@@ -18,19 +18,19 @@ class ArticleController extends \Admin\Controller\AdminController {
 
 	/* 左侧节点菜单定义 */
 	static protected $nodes = array(
-			array(
-					'title'=>'文档列表', 'url'=>'article/index', 'group'=>'内容','hide'=>true,
-					'operator'=>array(
-							//权限管理页面的按钮
-							array('title'=>'新增','url'=>'article/add'),
-							array('title'=>'编辑','url'=>'article/edit'),
-							array('title'=>'改变状态','url'=>'article/setStatus'),
-							array('title'=>'保存数据','url'=>'article/update'),
-							array('title'=>'回收站','url'=>'article/recycle'),
-							array('title'=>'还原','url'=>'article/permit'),
-							array('title'=>'清空回收站','url'=>'article/clear'),
-					),
+		array(
+			'title'=>'文档列表', 'url'=>'article/index', 'group'=>'内容','hide'=>true,
+			'operator'=>array(
+				//权限管理页面的按钮
+				array('title'=>'新增','url'=>'article/add'),
+				array('title'=>'编辑','url'=>'article/edit'),
+				array('title'=>'改变状态','url'=>'article/setStatus'),
+				array('title'=>'保存数据','url'=>'article/update'),
+				array('title'=>'回收站','url'=>'article/recycle'),
+				array('title'=>'还原','url'=>'article/permit'),
+				array('title'=>'清空回收站','url'=>'article/clear'),
 			),
+		),
 	);
 
 	private $cate_id = null;	//文档分类id
@@ -78,6 +78,10 @@ class ArticleController extends \Admin\Controller\AdminController {
     	$cate_id = I('param.cate_id') == '' ? $cate[0]['id'] : I('param.cate_id');
     	$this->cate_id = $cate_id;
 
+    	//未传参是否显示默认分类
+    	if(ACTION_NAME != 'recycle'){
+    		$hide_cate = true;
+    	}
 
     	//单独处理2级以下的分类
     	$child_cates = array();

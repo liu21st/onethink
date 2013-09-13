@@ -89,15 +89,12 @@
 						<div class="controls">
 							<input type="file" id="upload_picture">
 							<input type="hidden" id="cover_id" name="cover_id" value="{$cover_id}"/>
-							<span class="check-tips">{$file_id.name}</span>
+							<div class="upload-img-box">{$file_id.name}</div>
 						</div>
 					</div>
 				</div>
 
-
-
 				<div class="form-item cf">
-					<label class="item-label"></label>
 					<div class="controls">
 						<input type="hidden" name="pid" value="0">
 			            <input type="hidden" name="type" value="2">
@@ -118,6 +115,7 @@
 <link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
 <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
 <script type="text/javascript">
     $(".form_datetime").datetimepicker(
         {format: "dd MM yyyy - hh:ii",
@@ -145,7 +143,7 @@
     	var data = $.parseJSON(data);
         if(data.status){
         	$("input[name=file]").val(data.data);
-        	$("input[name=file]").parent().find('.check-tips').text(data.info);
+        	$("input[name=file]").parent().find('.upload-img-box').text(data.info);
         } else {
         	updateAlert(data.info);
         }
@@ -160,15 +158,15 @@
         "fileObjName"     : "download",
         "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
         "width"           : 120,
-        'removeTimeout'	  : 1,
-        'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
-        "onUploadSuccess" : uploadPicture
+        'removeTimeout'   : 1,
+        'fileTypeExts'    : '*.jpg; *.png; *.gif;',
+        "onUploadSuccess" : uploadPicture,
     });
 	function uploadPicture(file, data){
     	var data = $.parseJSON(data);
         if(data.status){
         	$("#cover_id").val(data.id);
-        	$("#cover_id").parent().find('.check-tips').html('<img src="' + data.path + '"/>');
+        	$("#cover_id").parent().find('.upload-img-box').html('<img src="' + data.path + '"/>');
         } else {
         	updateAlert(data.info);
         }
@@ -177,7 +175,8 @@
 
 $(function(){
     $('#dateline').datetimepicker({
-        format: 'yyyy-mm-dd hh:ii'
+        format: 'yyyy-mm-dd hh:ii',
+        language:"zh-CN"
     });
 	// 标签页切换
 	nextTab();

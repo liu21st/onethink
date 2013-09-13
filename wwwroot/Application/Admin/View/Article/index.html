@@ -54,8 +54,8 @@
 				<a class="sch-btn" href="javascript:;" id="search" url="{:U('article/index','cate_id='.$cate_id,false)}"><i class="btn-search"></i></a>
 			</div>
             <div class="btn-group-click adv-sch-pannel fl">
-                <button class="btn">高级<i class="btn-arrowdown"></i></button>
-                <div class="dropdown">
+                <button class="btn">高 级<i class="btn-arrowdown"></i></button>
+                <div class="dropdown cf">
                 	<div class="row">
                 		<label>创建时间：</label>
                 		<input type="text" id="time-start" name="time-start" class="text input-2x" value="" placeholder="起始时间" readonly> -
@@ -121,6 +121,7 @@
 <link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
 <link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
 <script type="text/javascript">
 $(function(){
 	//搜索功能
@@ -171,11 +172,13 @@ $(function(){
     });
 
     $('#time-start').datetimepicker({
-        format: 'yyyy-mm-dd hh:ii'
+        format: 'yyyy-mm-dd hh:ii',
+        language:"zh-CN"
     });
 
     $('#time-end').datetimepicker({
-        format: 'yyyy-mm-dd hh:ii'
+        format: 'yyyy-mm-dd hh:ii',
+        language:"zh-CN"
     });
 })
 </script>
