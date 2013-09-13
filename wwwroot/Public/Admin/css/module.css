@@ -139,6 +139,7 @@
 .uploadify-button {
 	text-align: center;
 	color: #fff;
+	cursor: pointer;
 	background-color: #27ae60;
 }
 
