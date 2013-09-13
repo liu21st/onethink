@@ -190,3 +190,23 @@ function check_verify($code, $id = 1){
 	$verify = new \COM\Verify();
 	return $verify->check($code, $id);
 }
+
+/**
+ * 获取链接信息
+ * @param int $link_id
+ * @param string $field
+ * @return 完整的链接信息或者某一字段
+ * @author huajie <banhuajie@163.com>
+ */
+function get_link($link_id = null, $field = 'url'){
+	$link = '';
+	if(empty($link_id)){
+		return $link;
+	}
+	$link = M('Url')->getById($link_id);
+	if(empty($field)){
+		return $link;
+	}else{
+		return $link[$field];
+	}
+}
