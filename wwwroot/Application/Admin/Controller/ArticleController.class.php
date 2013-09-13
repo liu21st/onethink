@@ -226,8 +226,10 @@ class ArticleController extends \Admin\Controller\AdminController {
 		$template = strtolower(get_document_model($model_id, 'name'));
 		$extend = $this->fetch($template);
 
-		$this->assign('model_id', $model_id);
-		$this->assign('model_name', $model_name);
+		$info['model_id'] = $model_id;
+		$info['category_id'] = $cate_id;
+
+		$this->assign('info', $info);
 		$this->assign('template', $template);
 		$this->assign('extend', $extend);
 		$this->assign('type_list', get_type_bycate($cate_id));
@@ -258,6 +260,7 @@ class ArticleController extends \Admin\Controller\AdminController {
 		$data['template'] = strtolower(get_document_model($data['model_id'], 'name'));
 
 		$this->assign('info', $data);
+		$this->assign('model_id', $data['model_id']);
 
 		//获取扩展模板
 		$extend = $this->fetch($data['template']);
