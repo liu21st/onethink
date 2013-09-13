@@ -10,22 +10,19 @@
         <div class="form-item">
             <label for="auth-title" class="item-label">用户组</label>
             <div class="controls">
-                <input id="auth-title" type="text" name="title" class="text input-4x" value="{$auth_group.title}"/>
+                <input id="auth-title" type="text" name="title" class="text input-large" value="{$auth_group.title}"/>
             </div>
         </div>
         <div class="form-item">
             <label for="auth-description" class="item-label">描述</label>
             <div class="controls">
-                <textarea id="auth-description" type="text" name="description" class="textarea input-4x" >{$auth_group.description}</textarea>
+                <label class="textarea input-large"><textarea id="auth-description" type="text" name="description">{$auth_group.description}</textarea></label>
             </div>
         </div>
         
         <div class="form-item">
-            <label class="item-label"></label>
-            <div class="controls">
-                <input type="hidden" name="id" value="{$auth_group.id}" />
-                <input type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal" value="保存" />
-            </div>
+            <input type="hidden" name="id" value="{$auth_group.id}" />
+            <input type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal" value="保存" />
         </div>
     </form>
 <block>

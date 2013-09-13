@@ -79,14 +79,15 @@
 	top: 30px;
 	left: 0;
     margin-top: 3px;
-	min-width: 120px;
+	min-width: 82px;
 	border: 1px solid #ccc;
 	background-color: #fff;
 }
 .btn-group .dropdown a {
-    padding: 6px 15px;
+    padding: 6px 16px;
     height: 18px;
     line-height: 18px;
+    white-space: nowrap;
 }
 .btn-group .dropdown a:hover {
     background-color: #eee;

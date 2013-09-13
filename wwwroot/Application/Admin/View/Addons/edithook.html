@@ -11,13 +11,13 @@
 		<div class="form-item cf">
 			<label class="item-label">钩子名称<span class="check-tips">（多个插件用,分割）</span></label>
 			<div class="controls">
-				<input type="text" value="{$data.name}" name="name" class="text">
+				<input type="text" value="{$data.name}" name="name" class="text input-large">
 			</div>
 		</div>
 		<div class="form-item cf">
 			<label class="item-label">钩子描述<span class="check-tips">（多个插件用,分割）</span></label>
 			<div class="controls">
-				<input type="text" value="{$data.description}" name="description" class="text">
+				<input type="text" value="{$data.description}" name="description" class="text input-large">
 			</div>
 		</div>
 		<div class="form-item cf">
@@ -32,7 +32,7 @@
 		<div class="form-item cf">
 			<label class="item-label">钩子挂载的插件<span class="check-tips">（多个插件用,分割）</span></label>
 			<div class="controls">
-				<textarea class="textarea" name="addons" >{$data.addons}</textarea>
+				<label class="textarea input-large"><textarea name="addons" >{$data.addons}</textarea></label>
 			</div>
 		</div>
 		<input type="hidden" name="id" value="{$data.id}">

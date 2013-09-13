@@ -18,12 +18,13 @@
 	<div class="tab-wrap">
 		<ul class="tab-nav nav">
 			<li data-tab="tab1" class="current"><a href="javascript:void(0);">基 础</a></li>
+			<li data-tab="tab3"><a href="javascript:void(0);">高级</a></li>
 			<li data-tab="tab2"><a href="javascript:void(0);">扩 展</a></li>
 		</ul>
 		<div class="tab-content">
 			<form id="form" action="{:U('update')}" method="post" class="form-horizontal">
 				<!-- 基础文档模型 -->
-				<div class="tab-pane in tab1">
+				<div id="tab1" class="tab-pane in tab1">
 					<div class="form-item cf">
 						<label class="item-label">标题<span class="check-tips">（请输入标题）</span></label>
 						<div class="controls">
@@ -44,6 +45,14 @@
 							<input type="text" class="text input-large" name="name">
 						</div>
 					</div>
+				</div>
+
+				<div id="tab2" class="tab-pane tab2">
+					<!-- 引入扩展文档模型 -->
+					{$extend}
+				</div>
+
+				<div id="tab3" class="tab-pane tab3">
 					<div class="form-item cf">
 						<label class="item-label">推荐位</label>
 						<div class="controls">
@@ -85,10 +94,7 @@
 					</div>
 				</div>
 
-				<!-- 引入扩展文档模型 -->
-				<div class="tab-pane tab2">
-					{$extend}
-				</div>
+
 
 				<div class="form-item cf">
 					<label class="item-label"></label>
@@ -119,14 +125,15 @@
         todayBtn: true,
         pickerPosition: "bottom-left"}
     );
-</script>  
+</script>
 <script type="text/javascript">
 (function($){
-	//上传附件
+	//上传文件
 	/* 初始化上传插件 */
 	$("#download-file").uploadify({
         "height"          : 30,
         "swf"             : "__STATIC__/uploadify/uploadify.swf",
+        "buttonText"      : "上传文件",
         "fileObjName"     : "download",
         "uploader"        : "{:U('File/upload',array('session_id'=>session_id()))}",
         "width"           : 120,
@@ -148,6 +155,7 @@
 	$("#upload_picture").uploadify({
         "height"          : 30,
         "swf"             : "__STATIC__/uploadify/uploadify.swf",
+        "buttonText"      : "上传图片",
         "fileObjName"     : "download",
         "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
         "width"           : 120,

@@ -16,10 +16,9 @@ class DocumentModel extends Model{
 
 	/* 自动验证规则 */
 	protected $_validate = array(
-		array('name', 'require', '标识不能为空', self::MUST_VALIDATE , 'regex', self::MODEL_INSERT),
+// 		array('name', 'require', '标识不能为空', self::MUST_VALIDATE , 'regex', self::MODEL_INSERT),
 		array('name', '/^[a-zA-Z]\w{0,39}$/', '文档标识不合法', self::VALUE_VALIDATE, 'regex', self::MODEL_BOTH),
-		array('name', '', '标识已经存在', self::VALUE_VALIDATE, 'unique', self::MODEL_INSERT),
-		array('name', 'checkName', '标识已经存在1', self::VALUE_VALIDATE, 'callback', self::MODEL_UPDATE),
+		array('name', '', '标识已经存在', self::VALUE_VALIDATE, 'unique', self::MODEL_BOTH),
 		array('title', 'require', '标题不能为空', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
 		array('title', '1,80', '标题长度不能超过80个字符', self::MUST_VALIDATE, 'length', self::MODEL_BOTH),
 		array('description', 'require', '简介不能为空', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
@@ -35,6 +34,7 @@ class DocumentModel extends Model{
 	/* 自动完成规则 */
 	protected $_auto = array(
 		array('uid', 'is_login', self::MODEL_INSERT, 'function'),
+// 		array('name', 'checkName', self::MODEL_BOTH, 'callback'),
 		array('title', 'htmlspecialchars', self::MODEL_BOTH, 'function'),
 		array('description', 'htmlspecialchars', self::MODEL_BOTH, 'function'),
 		array('attach', 0, self::MODEL_INSERT),
@@ -256,7 +256,7 @@ class DocumentModel extends Model{
 	 * @param  integer $id 分类ID
 	 * @return boolean     true-允许发布内容，false-不允许发布内容
 	 */
-	protected function checkCategory($id){
+	public function checkCategory($id){
 		if(is_array($id)){
 			if($id['category_id'] == 0 && in_array($id['type'], array(1, 3))){ //段落和目录分类必须为0
 				return true;
@@ -325,13 +325,34 @@ class DocumentModel extends Model{
 	 * @return true无重复，false已存在
 	 * @author huajie <banhuajie@163.com>
 	 */
-	protected function checkName($name){
-		$id = I('post.id');
-		$last_id = $this->getFieldByName($name, 'id');
-		if($last_id == $id || empty($last_id)){
-			return true;
+	protected function checkName(){
+		$name = I('post.name');
+		if(empty($name)){
+			$name = $this->generateName();
 		}
-		return false;
+		return $name;
+	}
+
+	/**
+	 * 生成不重复的name标识
+	 * @author huajie <banhuajie@163.com>
+	 */
+	private function generateName(){
+		$str = 'abcdefghijklmnopqrstuvwxyz0123456789';	//源字符串
+		$min = 10;
+		$max = 39;
+		$name = false;
+		while (true){
+			$length = rand($min, $max);	//生成的标识长度
+			$name = substr(str_shuffle(substr($str,0,26)), 0, 1);	//第一个字母
+			$name .= substr(str_shuffle($str), 0, $length);
+			//检查是否已存在
+			$res = $this->getFieldByName($name, 'id');
+			if(!$res){
+				break;
+			}
+		}
+		return $name;
 	}
 
 	/**
