@@ -50,7 +50,7 @@ class Upload{
     public function __construct($config = array(), $driver = 'Local', $driverConfig = null){
     	/* 获取配置 */
         $this->config = array_merge($this->config, $config);
-        
+
         /* 设置上传驱动 */
     	$driver = ucfirst(strtolower($driver));
     	$this->setDriver($driver, $driverConfig);
@@ -118,12 +118,12 @@ class Upload{
             $this->error = $this->uploader->getError();
             return false;
         }
-        
+
         /* 逐个检测并上传文件 */
         $info = array();
         foreach ($files as $key => $file) {
             /* 通过扩展获取文件类型，可解决FLASH上传$FILES数组返回文件类型错误的问题 */
-            if(function_exists('mime_content_type'){
+            if(function_exists('mime_content_type')){
                 $file['type'] = mime_content_type($file['tmp_name']);
             }
 
@@ -149,7 +149,7 @@ class Upload{
                 $file['ext'] = pathinfo($file['name'], PATHINFO_EXTENSION);
             } else { //强制文件后缀
                 $file['ext'] = $this->saveExt;
-            }            
+            }
 
             /* 生成保存文件名 */
             $savename = $this->getSaveName($file);
@@ -176,7 +176,7 @@ class Upload{
                     continue;
                 }
             }
-                
+
             /* 保存文件 并记录保存成功的文件 */
             if ($this->uploader->save($file)) {
                 unset($file['error'], $file['tmp_name']);
@@ -185,9 +185,9 @@ class Upload{
                 $this->error = $this->uploader->getError();
             }
         }
-        
+
         return empty($info) ? false : $info;
-    }    
+    }
 
     /**
      * 设置上传驱动

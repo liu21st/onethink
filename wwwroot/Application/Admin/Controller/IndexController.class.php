@@ -15,6 +15,8 @@ use User\Api\UserApi as UserApi;
  */
 class IndexController extends AdminController {
 
+    static protected $allow = array( 'verify');
+
     /**
      * 左侧导航节点定义
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
