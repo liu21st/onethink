@@ -66,6 +66,10 @@
 	position: relative;
     vertical-align: middle;
 }
+.btn-group .btn,
+.btn-group-click .btn {
+    margin-right: 0;
+}
 .btn-arrowdown,
 .btn-arrowup {
     display: inline-block;
