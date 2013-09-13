@@ -140,7 +140,7 @@ class ArticleController extends \Admin\Controller\AdminController {
 
         }
         if ( isset($_GET['time-end']) ) {
-            $map['create_time'][] = array('elt',strtotime(I('time-end')));
+            $map['create_time'][] = array('elt',strtotime(I('time-end')+24*60*60));
 
         }
         if ( isset($_GET['nickname']) ) {
