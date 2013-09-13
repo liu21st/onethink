@@ -132,6 +132,7 @@
 	/* 设置表单的值 */
 	ThinkPHP.setValue = function(name, value){
 		var first = name.substr(0,1), input, i = 0, val;
+		if(value == "") return;
 		if("#" === first || "." === first){
 			input = $(name);
 		} else {
