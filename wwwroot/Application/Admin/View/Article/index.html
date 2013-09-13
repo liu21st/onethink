@@ -23,7 +23,7 @@
 	<div class="cf">
 		<div class="fl">
 			<div class="btn-group">
-				<button class="btn" id="document_add" <if condition="count($model) eq 1">url="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$model[0]))}"</if>>新 增<if condition="count($model) gt 1"><i class="icon-arrowdown"></i></if></button>
+				<button class="btn" id="document_add" <if condition="count($model) eq 1">url="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$model[0]))}"</if>>新 增<if condition="count($model) gt 1"><i class="btn-arrowdown"></i></if></button>
 				<if condition="count($model) gt 1">
 				<ul class="dropdown nav-list">
 					<volist name="model" id="vo">
@@ -51,10 +51,10 @@
 					</ul>
 				</div>
 				<input type="text" name="title" class="search-input" value="{:I('title')}" placeholder="请输入标题文档">
-				<a class="sch-btn" href="javascript:;" id="search" url="{:U('article/index','cate_id='.$cate_id,false)}"><i class="icon-search"></i></a>
+				<a class="sch-btn" href="javascript:;" id="search" url="{:U('article/index','cate_id='.$cate_id,false)}"><i class="btn-search"></i></a>
 			</div>
-            <div class="btn-group adv-sch-pannel fl">
-                <button class="btn">高级<i class="icon-arrowdown"></i></button>
+            <div class="btn-group-click adv-sch-pannel fl">
+                <button class="btn">高级<i class="btn-arrowdown"></i></button>
                 <div class="dropdown">
                 	<div class="row">
                 		<label>创建时间：</label> 
