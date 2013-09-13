@@ -3,75 +3,6 @@
  * 作用范围: 公共，独立样式
  */
 
-/* 小图标icon */
-/*i[class^="icon"],
-.icon {
-	display: inline-block;
-	margin-right: 2px;
-	width: 16px;
-	height: 16px;
-	vertical-align: middle;
-	background-image: url(../images/icon_bg.png);
-	background-repeat: no-repeat;
-}
-.icon-add {
-	background-position: 0 0;
-}
-.icon-remove {
-	background-position: -20px 0;
-}
-.icon-delete {
-	background-position: -40px 0;
-}
-.icon-ok {
-	background-position: -60px 0;
-}
-.icon-edit {
-	background-position: -80px 0;
-}
-.icon-denied {
-	background-position: -100px 0;
-}
-.icon-settings {
-	background-position: -120px 0;
-}
-.icon-lock {
-	background-position: -140px 0;
-}
-.icon-unlock {
-	background-position: -160px 0;
-}
-.icon-attachment {
-	background-position: -180px 0;
-}
-.icon-user {
-	background-position: 0 -20px;
-}
-.icon-tags {
-	background-position: -20px -20px;
-}
-.icon-home {
-	background-position: -40px -20px;
-}
-.icon-pic {
-	background-position: -60px -20px;
-}
-.icon-undo {
-	background-position: -80px -20px;
-}
-.icon-redo {
-	background-position: -100px -20px;
-}
-.icon-right {
-	background-position: -120px -20px;
-}
-.icon-error {
-	background-position: -140px -20px;
-}
-.icon-disabled {
-	background-position: -160px -20px;
-}*/
-
 /* 实心小三角 */
 .arrow {
 	display: inline-block;
@@ -158,6 +89,7 @@
 /* 提醒框 */
 .alert {
 	color: #c09853;
+	font-weight: bold;
 	border: 1px solid #fbeed5;
 	background-color: #fcf8e3;
 }
