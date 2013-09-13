@@ -78,7 +78,7 @@ class ArticleController extends \Admin\Controller\AdminController {
     	$cate_id = I('param.cate_id') == '' ? $cate[0]['id'] : I('param.cate_id');
     	$this->cate_id = $cate_id;
 
-    	//未传参是否显示默认分类
+    	//是否展开分类
     	if(ACTION_NAME != 'recycle'){
     		$hide_cate = true;
     	}
@@ -90,7 +90,7 @@ class ArticleController extends \Admin\Controller\AdminController {
     	foreach ($cate as $key=>&$value){
     		$value['url'] = 'Article/index?cate_id='.$value['id'];
     		$value['level'] = 1;
-    		if($cate_id == $value['id']){
+    		if($cate_id == $value['id'] && $hide_cate){
     			$value['current'] = true;
     		}
     		foreach ($value['_child'] as $ka=>&$va){
@@ -108,8 +108,10 @@ class ArticleController extends \Admin\Controller\AdminController {
     			if($va['id'] == $cate_id || $is_child){
     				$child_cates = $va['_child'];
     				$is_child = false;
-    				$value['current'] = true;
-    				$va['current'] = true;
+    				if($hide_cate){
+	    				$value['current'] = true;
+	    				$va['current'] = true;
+    				}
     			}
     		}
     	}
