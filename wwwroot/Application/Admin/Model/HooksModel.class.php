@@ -24,7 +24,7 @@ class HooksModel extends Model {
 	}
 
 	protected function _after_select(&$result,$options){
-        intToString($result, array('type'=>array( 1=>'view', 2=>'controller')));
+
 		foreach($result as &$record){
 			$this->_after_find($record,$options);
 		}
