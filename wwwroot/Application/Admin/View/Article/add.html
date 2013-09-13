@@ -160,7 +160,7 @@
         "width"           : 120,
         'removeTimeout'   : 1,
         'fileTypeExts'    : '*.jpg; *.png; *.gif;',
-        "onUploadSuccess" : uploadPicture,
+        "onUploadSuccess" : uploadPicture
     });
 	function uploadPicture(file, data){
     	var data = $.parseJSON(data);
@@ -176,7 +176,9 @@
 $(function(){
     $('#dateline').datetimepicker({
         format: 'yyyy-mm-dd hh:ii',
-        language:"zh-CN"
+        language:"zh-CN",
+	    minView:1,
+	    autoclose:true
     });
 	// 标签页切换
 	nextTab();

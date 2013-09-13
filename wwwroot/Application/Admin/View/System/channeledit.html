@@ -18,9 +18,21 @@
 			</div>
 		</div>
 		<div class="form-item">
+			<label class="item-label">排序<span class="check-tips">（导航显示顺序）</span></label>
+			<div class="controls">
+				<input type="text" class="text input-x" name="sort" value="{$info.sort|default='0'}">
+			</div>
+		</div>
+		<div class="form-item">
 			<input type="hidden" name="id" value="{$info.id|default=''}">
 			<button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
 			<a class="btn btn-return" href="#">返 回</a>
 		</div>
 	</form>
+</block>
+<block name="script">
+<script type="text/javascript" charset="utf-8">
+	//导航高亮
+	$('.side-sub-menu').find('a[href="{:U('System/channel')}"]').closest('li').addClass('current');
+</script>
 </block>

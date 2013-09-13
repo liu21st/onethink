@@ -16,6 +16,10 @@
 	height: 20px;
 	vertical-align: middle;
 }
+.focus {
+	border: 1px solid #a6e1f3;
+	box-shadow: 0 0 12px #baf7ff;
+}
 .textarea {
 	display: block;
 }
@@ -214,5 +218,10 @@ label.textarea ~ .check-tips {
     display: inline-block;
     *display: inline;
     margin-right: 15px;
-} 
+}
 
+/* 获得焦点边框 */
+.focus{
+	border: 1px solid #d1d1d1;
+	box-shadow: 0 0 12px #ECECEC;
+}

@@ -70,9 +70,9 @@
 			<div class="form-item cf">
 				<label class="item-label">推荐位</label>
 				<div class="controls">
-					<label class="checkbox"><input type="checkbox" name="position[]" value="1" <if condition="check_document_position($info['position'],1)">checked="checked"</if>>列表推荐</label>
-					<label class="checkbox"><input type="checkbox" name="position[]" value="2" <if condition="check_document_position($info['position'],2)">checked="checked"</if>>频道页推荐</label>
-					<label class="checkbox"><input type="checkbox" name="position[]" value="4" <if condition="check_document_position($info['position'],4)">checked="checked"</if>>首页推荐</label>
+					<volist name=":C('DOCUMENT_POSITION')" id="position">
+						<label class="checkbox"><input type="checkbox" name="position[]" value="{$key}">{$position}</label>
+					</volist>
 				</div>
 			</div>
 			<div class="form-item cf">
@@ -90,8 +90,9 @@
 			<div class="form-item cf">
 				<label class="item-label">可见性</label>
 				<div class="controls">
-					<label class="radio"><input type="radio" name="display" value="0">不可见</label>
-					<label class="radio"><input type="radio" name="display" value="1">所有人可见</label>
+					<volist name=":C('DOCUMENT_DISPLAY')" id="title">
+						<label class="radio"><input type="radio" name="display" value="{$key}">{$title}</label>
+					</volist>
 				</div>
 			</div>
 			<div class="form-item cf">
@@ -99,7 +100,7 @@
 				<div class="controls">
 					<input type="file" id="upload_picture">
 					<input type="hidden" id="cover_id" name="cover_id" value="{$cover_id}"/>
-					<span class="check-tips"><img src="{$info.cover_id|get_cover='path'}"/></span>
+					<div class="upload-img-box"><img src="{$cover_id|get_cover='path'}"/></div>
 				</div>
 			</div>
 		</div>
@@ -124,20 +125,22 @@
 <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
 <script type="text/javascript">
-Think.setValue("type", {$info['type']});
-Think.setValue("display", {$info['display']});
+
+Think.setValue("position[]", {$position|json_encode});
+Think.setValue("display", {$display|default=0});
 
 $('#submit').click(function(){
 	$('#form').submit();
 });
 
 (function($){
-	//上传附件
+	//上传文件
 	/* 初始化上传插件 */
 	$("#download-file").uploadify({
         "height"          : 30,
         "swf"             : "__STATIC__/uploadify/uploadify.swf",
         "fileObjName"     : "download",
+        "buttonText"      : "上传文件",
         "uploader"        : "{:U('File/upload',array('session_id'=>session_id()))}",
         "width"           : 120,
         'removeTimeout'	  : 1,
@@ -149,18 +152,19 @@ $('#submit').click(function(){
     	var data = $.parseJSON(data);
         if(data.status){
         	$("input[name=file]").val(data.data);
-        	$("input[name=file]").parent().find('.check-tips').text(data.info);
+        	$("input[name=file]").parent().find('.upload-img-box').text(data.info);
         } else {
         	updateAlert(data.info);
         }
     }
 
-  //上传图片
+  	//上传图片
     /* 初始化上传插件 */
 	$("#upload_picture").uploadify({
         "height"          : 30,
         "swf"             : "__STATIC__/uploadify/uploadify.swf",
         "fileObjName"     : "download",
+        "buttonText"      : "上传图片",
         "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
         "width"           : 120,
         'removeTimeout'	  : 1,
@@ -171,7 +175,7 @@ $('#submit').click(function(){
     	var data = $.parseJSON(data);
         if(data.status){
         	$("#cover_id").val(data.id);
-        	$("#cover_id").parent().find('.check-tips').html('<img src="' + data.path + '"/>');
+        	$("#cover_id").parent().find('.upload-img-box').html('<img src="' + data.path + '"/>');
         } else {
         	updateAlert(data.info);
         }
@@ -179,8 +183,10 @@ $('#submit').click(function(){
 })(jQuery);
 $(function(){
     $('#dateline').datetimepicker({
-        format: 'yyyy-mm-dd hh:ii',
-        language:"zh-CN"
+	    format: 'yyyy-mm-dd hh:ii',
+	    language:"zh-CN",
+	    minView:1,
+	    autoclose:true
     });
 	nextTab();
 });

@@ -139,16 +139,12 @@
 ------------------------------------------ */
 .category {
 	margin: 10px 0;
-	/*border: 1px solid #d4d4d4;*/
 	border-bottom-width: 0; 
+	background-color: #fff;
 }
 .category .hd {
 	font-weight: bold;
 	border-bottom: 1px solid #d4d4d4;
-	/*background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#FAFAFA), to(#F3F3F3));*/
-	/*background-image: -moz-linear-gradient(top, #FAFAFA, #F3F3F3);*/
-	/*background-image: -o-linear-gradient(top, #FAFAFA, #F3F3F3);*/
-	/*background-image: linear-gradient(top, #FAFAFA, #F3F3F3);*/
 	color:#fff;
 	background-color: #353535;
 }
@@ -385,4 +381,7 @@ button.close {
 }
 .upload-img-box {
 	margin-top: 4px;
+}
+.upload-img-box  img {
+	max-width: 120px;
 }

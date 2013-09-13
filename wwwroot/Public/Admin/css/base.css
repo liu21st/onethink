@@ -69,7 +69,7 @@ input::-moz-focus-inner {
 	display: none;
 }
 .block {
-	display: block;
+	display: block!important;
 }
 
 /* 导航列表 */

@@ -2,7 +2,7 @@
 
 <block name="body">
 	<div class="main-title">
-		<h2>编辑/新增配置</h2>
+		<h2>{$info['id']?'编辑':'新增'}配置</h2>
 	</div>
 	<form action="__SELF__" method="post" class="form-horizontal">
 		<div class="form-item">
@@ -21,11 +21,9 @@
 			<label class="item-label">配置类型<span class="check-tips">（系统会根据不同类型解析配置值）</span></label>
 			<div class="controls">
 				<select name="type">
-					<option value="0">数字</option>
-					<option value="1">字符</option>
-					<option value="2">文本</option>
-					<option value="3">数组</option>
-					<option value="3">枚举</option>
+					<volist name=":C('CONFIG_TYPE_LIST')" id="type">
+						<option value="{$key}">{$type}</option>
+					</volist>
 				</select>
 			</div>
 		</div>
@@ -54,5 +52,7 @@
 <block name="script">
 	<script type="text/javascript">
 		Think.setValue("type", {$info.type|default=0});
+		//导航高亮
+		$('.side-sub-menu').find('a[href="{:U('Config/index')}"]').closest('li').addClass('current');
 	</script>
 </block>
