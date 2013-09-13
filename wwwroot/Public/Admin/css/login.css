@@ -208,3 +208,8 @@ input:-webkit-autofill {
 .reloadverify{
     color:#69C3FF;
 }
+
+img.verifyimg{
+	border: 1px solid #ececec;
+	width: 100%;
+}
