@@ -286,12 +286,15 @@ class AuthManagerController extends AdminController{
      */
     public function group()
     {
+        $uid = I('uid');
         $auth_groups = D('AuthGroup')->getGroups();
-        $user_groups = AuthGroupModel::getUserGroup(I('uid'));
+        $user_groups = AuthGroupModel::getUserGroup($uid);
         $ids = array();
         foreach ($user_groups as $value){
             $ids[] = $value['group_id'];
         }
+        $nickname = D('Member')->getNickName($uid);
+        $this->assign('nickname',$nickname);
         $this->assign('auth_groups',$auth_groups);
         $this->assign('user_groups',implode(',',$ids));
         $this->display();
