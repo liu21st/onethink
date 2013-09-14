@@ -192,7 +192,7 @@
         $(this).addClass("focus");
     });
     $("textarea").focus(function(){
-        $(this).closet(".textarea").addClass("focus");
+        $(this).closest(".textarea").addClass("focus");
     });
 
     //上传点击放大

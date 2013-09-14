@@ -18,7 +18,7 @@ use Admin\Model\AuthGroupModel;
 class AdminController extends Action {
 
     /* 保存禁止通过url访问的公共方法,例如定义在控制器中的工具方法 ;deny优先级高于allow*/
-    static protected $deny  = array('getMenus','tableList');
+    static protected $deny  = array('getMenus','tableList','record_list');
 
     /* 保存允许所有管理员访问的公共方法 */
     static protected $allow = array( 'login','logout');
