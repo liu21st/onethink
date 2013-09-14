@@ -98,7 +98,7 @@
                 }
                 query = form.find('input,select,textarea').serialize();
             }
-            $(that).addClass('disabled').prop('disabled',true);
+            $(that).addClass('disabled').attr('autocomplete','off').prop('disabled',true);
             $.post(target,query).success(function(data){
                 if (data.status==1) {
                     if (data.url) {
