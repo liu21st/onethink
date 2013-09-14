@@ -19,10 +19,10 @@
                 <label class="textarea input-large"><textarea id="auth-description" type="text" name="description">{$auth_group.description}</textarea></label>
             </div>
         </div>
-        
         <div class="form-item">
             <input type="hidden" name="id" value="{$auth_group.id}" />
-            <button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">保 存</button>
+            <button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
         </div>
     </form>
 <block>
