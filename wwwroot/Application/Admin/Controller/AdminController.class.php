@@ -590,7 +590,7 @@ class AdminController extends Action {
                 }
             }
 
-            $keys = array_keys( $list[0] );
+            $keys = array_keys( reset($list) );
             foreach($list as $row){
                 $keys = array_intersect( $keys, array_keys($row) );
             }
