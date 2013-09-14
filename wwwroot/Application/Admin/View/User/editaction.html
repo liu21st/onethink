@@ -2,14 +2,14 @@
 
 <block name="body">
 	<div class="main-title cf">
-		<h2>编辑行为</h2>
+		<h2><if condition="ACTION_NAME eq 'addaction'">新增<else/>编辑</if>行为</h2>
 	</div>
 	<!-- 表单 -->
 	<form id="form" action="{:U('saveAction')}" method="post" class="form-horizontal">
 		<div class="form-item cf">
 			<label class="item-label">行为标识：<span class="check-tips">（请输入行为标识）</span></label>
 			<div class="controls">
-				<input type="text" class="text input-large" value="{$name}" disabled="disabled">
+				<input type="text" class="text input-large" name="name" value="{$name}">
 			</div>
 		</div>
 		<div class="form-item cf">
