@@ -419,7 +419,7 @@ str;
                     ),
                     '删除'=>array(
                         'href'=>'delhook?id=$id',
-                        'class'=>'ajax-get',
+                        'class'=>'confirm ajax-get',
                         'condition'=>'is_administrator()'
                     )
                 )
@@ -430,6 +430,7 @@ str;
     }
 
     public function addhook(){
+        $this->assign('data', null);
         $this->display('edithook');
     }
 
