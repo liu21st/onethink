@@ -19,9 +19,6 @@
 			<span>发布日期：{$info.create_time|date='Y/m/d',###}</span>
 			<span>分类：{$info.category_id|get_category_title}</span>
 		</div>
-		<div>
-			<img src="__ROOT__/upload/52154c4ccf5f3.jpg">
-		</div>
 		{:hooks('documentDetailBefore', $info)}
 		<div class="bd">{$info.content}</div>
 		{:hooks('documentDetailAfter', $info)}
