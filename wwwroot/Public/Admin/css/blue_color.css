@@ -5,15 +5,15 @@
  *******************************************/
 
 html,body {
-	color:#404040;
+	color: #635c73;
 	/*全局默认文字颜色*/
 }
 a {
-	color: #2d7200;
+	color: #7b66ab;
 	/*全局默认链接颜色*/
 }
 a:hover{
-	color: #4bbd00;
+	color: #a47fe5;
 	/*全局默认链接悬停颜色*/
 }
 
@@ -25,28 +25,18 @@ a:hover{
 
 /* 文章搜索/用户搜素 下拉弹出按钮 实心小箭头 */
 .arrow-down {
-	border-top-color: #000;
+	border-top-color: #3a2d44;
 }
 .arrow-up {
-	border-bottom-color: #000;
+	border-bottom-color: #3a2d44;
 }
 .arrow-left {
-	border-right-color: #000;
+	border-right-color: #3a2d44;
 }
 .arrow-right {
-	border-left-color: #000;
+	border-left-color: #3a2d44;
 }
 
-/* 没有使用 */
-.tips-arrow .outer {
-	color: red;
-}
-.tips-arrow .inner {
-	color: #fff;
-}
-.mask {
-	background: url(../images/mask.png) repeat 0 0;
-}
 
 /* 顶部信息提醒条 */
 .alert {
@@ -90,7 +80,7 @@ a:hover{
 }
 .tab-nav .current a,
 .tab-nav .current a:hover {
-	border-color: #34b4e0 #e0e0e0 #f6f6f6;
+	border-color: #7b66ab #e0e0e0 #f6f6f6;
 }
 
 
@@ -135,7 +125,7 @@ a:hover{
 /* uploadify插件上传按钮 */
 .uploadify-button {
 	color: #fff;
-	background-color: #27ae60;
+	background-color: #7963df;
 }
 
 /* 分类管理/分类授权 树形菜单（目前只支持3级）
@@ -234,8 +224,8 @@ select {
 }
 
 .focus{
-	border: 1px solid #d1d1d1;
-	box-shadow: 0 0 12px #ECECEC;
+	border-color: #dad6eb;
+	box-shadow: 0 0 12px #e5e2fc;
 }
 /*********************************************
  * table.css 
@@ -256,7 +246,7 @@ select {
 /* 表头配色 */
 .data-table thead th {
 	color:#fff;
-    background-color: #353535;
+    background-color: #4a4851;
 }
 /* 隔行变色 行默认颜色 */
 .table-striped tbody tr {
@@ -265,7 +255,7 @@ select {
 }
 /* 隔行变色 偶数行配色 */
 .table-striped tbody tr:nth-child(even) {
-	background-color: #f2f2f2;
+	background-color: rgba(243, 242, 255, 0.20);
 
 }
 
@@ -278,28 +268,30 @@ select {
 
 /* 普通按钮 */
 .btn {
-    color: #edffd1;
-	background-color: #4bbd00;
+    color: #ffffff;
+	background-color: #7963df;
 }
 .btn:hover {
     color: #ffffff;
-    background-color: #4cdb00;
-}
-
-/* 表单返回按钮 */
-.btn-return {
-	color: #fff;
+    background-color: #997eff;
 }
 
 /* 表单提交按钮(确定,保存,提交) */
 .submit-btn {
 	color: #fff;
-    background-color: #CC3900;
+    background-color: #df7003;
 }
 .submit-btn:hover {
     color: #fff;
-    background-color: #ff2610;
+    background-color: #f48a05;
 }
+
+/* 表单返回按钮 */
+.btn-return {
+	color: #fff;
+	background-color: #7963df;
+}
+
 /*高级搜索箭头*/
 .btn-arrowdown {
     background: url(../images/angle-down.png) no-repeat 0 0;
@@ -332,7 +324,7 @@ select {
 
 /* 头部Logo,主导航*/
 .header {
-    background-color: #383838;
+    background-color: #353535;
 }
 .header .logo {
     background: url(../images/logo.png) no-repeat 10px center;
@@ -342,13 +334,13 @@ select {
     color: #FFF;
 }
 .main-nav a:hover {
-    background-color:#656565;
+    background-color: #5b5d74;
 }
 .main-nav .current{
     background-color: #656565;
 }
 .main-nav .current a {
-    background-color: #86db00;
+    background-color: #7963df;
 }
 
 /* 顶部右侧 用户bar */
@@ -371,7 +363,9 @@ select {
 ------------------------------------------ */
 .sidebar {
 	/* 左侧栏背景 */
-	background: #6b6b6b url("/Public/Admin/images/bg/bg.png");
+	/*background-img:url("/Public/Admin/images/bg/bg.png");*/
+	background-image: none;
+	background-color: #4a4851;
 }
 /* 子导航Group标题栏 */
 .subnav h3 {
@@ -433,7 +427,7 @@ select {
 	background-color: #f6f6f6;
 }
 .main-title h2 {
-    color: #445566;   
+    color: #6e6b73;
 }
 .main-title .ca {
 	/* 内容列表 面包屑 */
@@ -490,7 +484,7 @@ select {
 }
 #login-page .login-form .icon-login-user,
 #login-page .login-form .icon-login-pwd,
-.#login-page login-form .icon-login-verifycode {
+#login-page login-form .icon-login-verifycode {
     background: url("../images/icon24_login.png") no-repeat;
 }
 #login-page .login-form .icon-login-user {

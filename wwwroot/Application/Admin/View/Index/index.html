@@ -1,68 +1,259 @@
-<extend name="Public/base" />
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{$meta_title|default='OneThink后台管理'}</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/base.css" media="all">
+    <link rel="stylesheet" type="text/css" href="__CSS__/common.css" media="all">
+    <link rel="stylesheet" type="text/css" href="__CSS__/module.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/form.css" media="all">
+    <link rel="stylesheet" type="text/css" href="__CSS__/table.css" media="all">
+    <link rel="stylesheet" type="text/css" href="__CSS__/button.css" media="all">
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" media="all">
+     <!--[if lt IE 9]>
+    <script type="text/javascript" src="__STATIC__/jquery-1.10.2.min.js"></script>
+    <![endif]--><!--[if gte IE 9]><!-->
+    <script type="text/javascript" src="__STATIC__/jquery-2.0.3.min.js"></script>
+    <!--<![endif]-->
+</head>
+<body class="index-body">
+    <!-- 头部 -->
+    <php>$__base_menu__ = $__controller__->getMenus();</php>
+    <div class="header">
+        <!-- Logo -->
+        <span class="logo"></span>
+        <!-- /Logo -->
 
-<block name="body">
-	<div class="main-title">
-		<h2>TopThink 管理中心</h2>
-	</div>
-	<div class="columns">
-		<div class="hd">在线成员</div>
-		<ul class="bd manager-list cf">
-			<li>admin</li>
-			<li>manager 1</li>
-			<li>manager 2</li>
-			<li>manager 3</li>
-		</ul>
-	</div>
+        <!-- 主导航 -->
+        <ul class="main-nav">
+            <volist name="__base_menu__.main" id="menu">
+                <li class="{$menu.class|default=''}"><a href="{$menu.url|U}">{$menu.title}</a></li>
+            </volist>
+        </ul>
+        <!-- /主导航 -->
 
-	<div class="columns">
-		<div class="hd">系统信息</div>
-		<ul class="bd sys-info">
-			<li class="cf">
-				<div class="labs">系统程序版本 </div>
-				<div class="des">Topthink v1.0 beta</div>
-			</li>
-			<li class="cf">
-				<div class="labs">服务器系统及PHP版本</div>
-				<div class="des">Linux/PHP v5.3.8</div>
-			</li>
-			<li class="cf">
-				<div class="labs">ThinkPHP版本</div>
-				<div class="des">ThinkPHP 3.1.3</div>
-			</li>
-			<li class="cf">
-				<div class="labs">服务器软件</div>
-				<div class="des">apache v2.2.1</div>
-			</li>
-			<li class="cf">
-				<div class="labs">服务器MySql版本</div>
-				<div class="des">MySql v5.5.16</div>
-			</li>
-			<li class="cf">
-				<div class="labs">上传许可</div>
-				<div class="des">2 MB</div>
-			</li>
-		</ul>
-	</div>
-	
-	<div class="columns">
-		<div class="hd">Topthink 开发团队</div>
-		<ul class="bd sys-info">
-			<li class="cf">
-				<div class="labs"><strong>版权所有</strong></div>
-				<div class="des"><strong>上海顶想信息科技有限公司</strong></div>
-			</li>
-			<li class="cf">
-				<div class="labs">总策划</div>
-				<div class="des"></div>
-			</li>
-			<li class="cf">
-				<div class="labs">产品设计及研发团队</div>
-				<div class="des"></div>
-			</li>
-			<li class="cf">
-				<div class="labs">界面及用户体验团队</div>
-				<div class="des"></div>
-			</li>
-		</ul>
-	</div>
-</block>
+        <!-- 用户栏 -->
+        <div class="user-bar">
+            <a href="javascript:;" class="user-entrance"><i class="icon-user"></i></a>
+            <ul class="nav-list user-menu hidden">
+                <li class="manager">你好，<em title="{:session('user_auth.username')}">{:session('user_auth.username')}</em></li>
+                <li><a href="{:U('User/updatePassword')}">修改密码</a></li>
+                <li><a href="{:U('User/updateNickname')}">修改昵称</a></li>
+                <li><a href="{:U('Index/logout')}">退出</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 主体 -->
+    <div class="index-main">
+        <!-- 顶部固定内容块 -->
+       <div class="span4">
+            <div class="top-columns">顶部内容</div>
+       </div>
+        
+        <!-- 行1（两列2:2） -->
+        <div class="row-span">
+            <div class="span2">
+                <div class="columns-mod">
+                    <div class="hd cf">
+                        <h5>系统信息</h5>
+                        <div class="title-opt">
+                            <a href="javascript:;">&times;</a>
+                        </div>
+                        
+                    </div>
+                    <div class="bd">
+                        <table class="sys-info">
+                            <tr>
+                                <th>系统程序版本</th>
+                                <td>Topthink v1.0 beta</td>
+                            </tr>
+                            <tr>
+                                <th>服务器系统及PHP版本</th>
+                                <td>Linux/PHP v5.3.8</td>
+                            </tr>
+                            <tr>
+                                <th>ThinkPHP版本</th>
+                                <td>ThinkPHP 3.1.3</td>
+                            </tr>
+                            <tr>
+                                <th>服务器软件</th>
+                                <td>apache v2.2.1</td>
+                            </tr>
+                            <tr>
+                                <th>服务器MySql版本</th>
+                                <td>MySql v5.5.16</td>
+                            </tr>
+                            <tr>
+                                <th>上传许可</th>
+                                <td>2 MB</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="span2">
+                <div class="columns-mod">
+                    <div class="hd cf">
+                        <h5>OneThink开发团队</h5>
+                        <div class="title-opt">
+                            <a href="javascript:;">&times;</a>
+                        </div>
+                    </div>
+                    <div class="bd">
+                        <table class="sys-info">
+                            <tr>
+                                <th>总策划</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>产品设计及研发团队</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>界面及用户体验团队</th>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 行2（两列3:1） -->
+        <div class="row-span">
+            <div class="span3">
+                <div class="columns-mod">
+                    <div class="hd cf">
+                        <h5>系统信息</h5>
+                        <div class="title-opt">
+                            <a href="javascript:;">&times;</a>
+                        </div>
+                        
+                    </div>
+                    <div class="bd"></div>
+                </div>
+            </div>
+            <div class="span1">
+                <div class="columns-mod">
+                    <div class="hd cf">
+                        <h5>OneThink开发团队</h5>
+                        <div class="title-opt">
+                            <a href="javascript:;">&times;</a>
+                        </div>
+                    </div>
+                    <div class="bd"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 行3（三列2:1:1） -->
+        <div class="row-span">
+            <div class="span2">
+                <div class="columns-mod">
+                    <div class="hd cf">
+                        <h5>系统信息</h5>
+                        <div class="title-opt">
+                            <a href="javascript:;">&times;</a>
+                        </div>
+                        
+                    </div>
+                    <div class="bd"></div>
+                </div>
+            </div>
+            <div class="span1">
+                <div class="columns-mod">
+                    <div class="hd cf">
+                        <h5>OneThink开发团队</h5>
+                        <div class="title-opt">
+                            <a href="javascript:;">&times;</a>
+                        </div>
+                    </div>
+                    <div class="bd"></div>
+                </div>
+            </div>
+            <div class="span1">
+                <div class="columns-mod">
+                    <div class="hd cf">
+                        <h5>OneThink开发团队</h5>
+                        <div class="title-opt">
+                            <a href="javascript:;">&times;</a>
+                        </div>
+                    </div>
+                    <div class="bd"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 行3（四列1:1:1:1） -->
+        <div class="row-span">
+            <div class="span1">
+                <div class="columns-mod">
+                    <div class="hd cf">
+                        <h5>系统信息</h5>
+                        <div class="title-opt">
+                            <a href="javascript:;">&times;</a>
+                        </div>
+                        
+                    </div>
+                    <div class="bd"></div>
+                </div>
+            </div>
+            <div class="span1">
+                <div class="columns-mod">
+                    <div class="hd cf">
+                        <h5>系统信息</h5>
+                        <div class="title-opt">
+                            <a href="javascript:;">&times;</a>
+                        </div>
+                        
+                    </div>
+                    <div class="bd"></div>
+                </div>
+            </div>
+            <div class="span1">
+                <div class="columns-mod">
+                    <div class="hd cf">
+                        <h5>OneThink开发团队</h5>
+                        <div class="title-opt">
+                            <a href="javascript:;">&times;</a>
+                        </div>
+                    </div>
+                    <div class="bd"></div>
+                </div>
+            </div>
+            <div class="span1">
+                <div class="columns-mod">
+                    <div class="hd cf">
+                        <h5>OneThink开发团队</h5>
+                        <div class="title-opt">
+                            <a href="javascript:;">&times;</a>
+                        </div>
+                    </div>
+                    <div class="bd"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        +function(){
+            var $window = $(window), $subnav = $("#subnav"), url;
+            $window.resize(function(){
+                $("#main").css("min-height", $window.height() - 130);
+            }).resize();
+
+            /* 头部管理员菜单 */
+            $(".user-bar").mouseenter(function(){
+                var userMenu = $(this).children(".user-menu ");
+                userMenu.removeClass("hidden");
+                clearTimeout(userMenu.data("timeout"));
+            }).mouseleave(function(){
+                var userMenu = $(this).children(".user-menu");
+                userMenu.data("timeout") && clearTimeout(userMenu.data("timeout"));
+                userMenu.data("timeout", setTimeout(function(){userMenu.addClass("hidden")}, 100));
+            });
+        }
+    </script>
+</body>
+</html>
