@@ -4,7 +4,7 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2006-2013 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
+// | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 namespace Admin\Controller;
 /**
@@ -35,6 +35,7 @@ class ConfigController extends AdminController {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function index(){
+        $map  = array('status' => 1);
         $list = D('Config')->where($map)->order('id DESC')->select();
         $this->assign('list', $list);
         $this->display();
@@ -113,5 +114,24 @@ class ConfigController extends AdminController {
     		}
     	}
     	$this->success('保存成功！');
+    }
+
+    /**
+     * 删除配置
+     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+     */
+    public function del(){
+        $id = array_unique((array)I('id',0));
+
+        if ( empty($id) ) {
+            $this->error('请选择要操作的数据!');
+        }
+
+        $map = array('id' => array('in', $id) );
+        if(D('Config')->where($map)->delete()){
+            $this->success('删除成功');
+        } else {
+            $this->error('删除失败！');
+        }
     }
 }

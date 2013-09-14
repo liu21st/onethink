@@ -91,9 +91,6 @@ class ArticleController extends \Admin\Controller\AdminController {
     		$hide_cate = true;
     	}
 
-    	//单独处理2级以下的分类
-    	$child_cates = array();
-
     	//生成每个分类的url
     	foreach ($cate as $key=>&$value){
     		$value['url'] = 'Article/index?cate_id='.$value['id'];
@@ -101,9 +98,11 @@ class ArticleController extends \Admin\Controller\AdminController {
     		if($cate_id == $value['id'] && $hide_cate){
     			$value['current'] = true;
     		}
+    		if(!empty($value['_child'])){
     		foreach ($value['_child'] as $ka=>&$va){
     			$va['url'] = 'Article/index?cate_id='.$va['id'];
     			$va['level'] = 2;
+    			if(!empty($va['_child'])){
     			foreach ($va['_child'] as $k=>&$v){
     				$v['url'] = 'Article/index?cate_id='.$v['id'];
     				$v['pid'] = $va['id'];
@@ -112,9 +111,9 @@ class ArticleController extends \Admin\Controller\AdminController {
     					$is_child = true;
     				}
     			}
+    			}
     			//展开子分类的父分类
     			if($va['id'] == $cate_id || $is_child){
-    				$child_cates = $va['_child'];
     				$is_child = false;
     				if($hide_cate){
 	    				$value['current'] = true;
@@ -122,9 +121,9 @@ class ArticleController extends \Admin\Controller\AdminController {
     				}
     			}
     		}
+    		}
     	}
     	$this->assign('nodes', $cate);
-    	$this->assign('child_cates', $child_cates);
     	$this->assign('cate_id', $this->cate_id);
 
     	//获取面包屑信息
@@ -167,7 +166,6 @@ class ArticleController extends \Admin\Controller\AdminController {
 			//获取对应分类下的模型
 			$models = get_category($cate_id, 'model');
 		}
-
 
 		$this->assign('model', $models);
 		$this->assign('status', $status);
