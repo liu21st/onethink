@@ -3,7 +3,7 @@
 		<dt class="cf">
 			<form action="{:U('edit')}" method="post">
 				<div class="btn-toolbar opt-btn cf">
-					<a title="编辑" href="{:U('edit?id='.$list['id'])}">编辑</a>
+					<a title="编辑" href="{:U('edit?id='.$list['id'].'&pid='.$list['pid'])}">编辑</a>
 					<a title="删除" href="{:U('remove?id='.$list['id'])}" class="confirm ajax-get">删除</a>
 				</div>
 				<div class="fold"><i></i></div>
