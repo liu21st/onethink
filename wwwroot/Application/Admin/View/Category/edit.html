@@ -228,6 +228,8 @@
 				var $reply = $(".form-item.reply");
 				parseInt(this.value) ? $reply.show() : $reply.hide();
 			}).filter(":checked").change();
-		})
+		});
+		//导航高亮
+		$('.side-sub-menu').find('a[href="{:U('Category/index')}"]').closest('li').addClass('current');
 	</script>
 </block>

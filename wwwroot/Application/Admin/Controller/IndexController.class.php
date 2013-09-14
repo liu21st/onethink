@@ -75,6 +75,9 @@ class IndexController extends AdminController {
                 $this->error($error);
             }
         } else {
+			if(is_login()){
+				$this->redirect('Admin/Index/index');
+			}
             $this->display();
         }
     }

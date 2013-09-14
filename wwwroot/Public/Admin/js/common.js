@@ -183,6 +183,19 @@
             userMenu.toggleClass("block");
         });
     })();
+
+    //表单获取焦点样式
+    $(".text").focus(function(){
+        $(this).addClass("focus");
+    });
+    $("textarea").focus(function(){
+        $(this).closet(".textarea").addClass("focus");
+    });
+
+    //上传点击放大
+    $(".upload-img-box").click(function(){
+        $(this).find(".upload-pre-item").toggleClass("proto");
+    })
 });
 
 //标签页切换(无下一步)

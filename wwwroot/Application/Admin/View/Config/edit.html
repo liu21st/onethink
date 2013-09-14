@@ -52,5 +52,7 @@
 <block name="script">
 	<script type="text/javascript">
 		Think.setValue("type", {$info.type|default=0});
+		//导航高亮
+		$('.side-sub-menu').find('a[href="{:U('Config/index')}"]').closest('li').addClass('current');
 	</script>
 </block>
