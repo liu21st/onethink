@@ -37,6 +37,7 @@ class CategoryController extends AdminController {
         $tree = D('Category')->getTree();
         $this->assign('tree', $tree);
         C('_SYS_GET_CATEGORY_TREE_', true); //标记系统获取分类树模板
+        $this->meta_title = '分类管理';
         $this->display();
     }
 
@@ -77,6 +78,7 @@ class CategoryController extends AdminController {
 
             $this->assign('info', $info);
             $this->assign('category', $cate);
+            $this->meta_title = '编辑分类';
             $this->display();
         }
     }
@@ -104,6 +106,7 @@ class CategoryController extends AdminController {
 
             /* 获取分类信息 */
             $this->assign('category', $cate);
+            $this->meta_title = '新增分类';
             $this->display('edit');
         }
     }
