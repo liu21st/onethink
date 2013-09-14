@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
-// | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
+// | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 // | ThinkImage.class.php 2013-03-05
 // +----------------------------------------------------------------------
@@ -37,7 +37,7 @@ define('THINKIMAGE_WATER_SOUTHEAST', 9); //常量，标识右下角水印
 /**
  * 图片处理驱动类，可配置图片处理库
  * 目前支持GD库和imagick
- * @author 麦当苗儿 <zuojiazi.cn@gmail.com>
+ * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 class ThinkImage{
     /**

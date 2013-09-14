@@ -4,7 +4,7 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2006-2013 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
+// | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
 namespace Admin\Controller;
@@ -84,7 +84,7 @@ class AdminController extends Action {
         $this->assign('__controller__', $this);
         $this->checkNodes();
         // $this->_nav();//面包屑导航,暂不需要
-        
+
         /* 读取配置 */
         $config = D('Config')->lists();
         C($config); //添加配置
@@ -559,12 +559,30 @@ class AdminController extends Action {
             $listRows = C('LIST_ROWS') > 0 ? C('LIST_ROWS') : 10;
         }
 		$page = new \COM\Page($total, $listRows, $REQUEST);
-		$this->assign('_page', $page->show());
+		$this->assign('_page', $page->show()? $page->show(): '');
         $options['limit'] = $page->firstRow.','.$page->listRows;
 
         $model->setProperty('options',$options);
 
 		return $model->select();
+    }
+
+    /**
+     * 数据集分页
+     * @param array $records 传入的数据集
+     */
+    public function record_list($records){
+        $REQUEST = (array)I('request.');
+        $total = $records? count($records) : 1 ;
+        if( isset($REQUEST['r']) ){
+            $listRows = (int)$REQUEST['r'];
+        }else{
+            $listRows = C('LIST_ROWS') > 0 ? C('LIST_ROWS') : 10;
+        }
+        $page = new \COM\Page($total, $listRows, $REQUEST);
+        $voList = array_slice($records, $page->firstRow, $page->listRows);
+        $this->assign('_list', $voList);
+        $this->assign('_page', $page->show()? $page->show(): '');
     }
 
     /**
@@ -590,7 +608,7 @@ class AdminController extends Action {
                 }
             }
 
-            $keys = array_keys( array_pop($list) );
+            $keys = array_keys( reset($list) );
             foreach($list as $row){
                 $keys = array_intersect( $keys, array_keys($row) );
             }
@@ -633,7 +651,7 @@ class AdminController extends Action {
            $con =  explode(',',$value['controllers']);
            $controllers = array_merge($controllers,$con);
         }
-        
+
         $nodes  = M('AuthRule')->where(array('module'=>'admin','status'=>1))->getField('name',true);
         foreach ($nodes as $k=>$n){
             if( ($pos = strpos($n,'?'))>0){
@@ -648,7 +666,7 @@ class AdminController extends Action {
             $static = $CReflection->getMethods( \ReflectionMethod::IS_STATIC );
             $method = array_diff($public,$static);
             $class  = 'Admin\\Controller\\'.$controller.'Controller';
-            
+
             $deny   = $class::getDeny($controller);
             $allow  = $class::getAllow($controller);
             $deny_allow = array_merge($deny,$allow,array('__get','__set','__call','__construct','__destruct','__isset','__sleep','__wakeup','__clone'));

@@ -29,7 +29,7 @@ use Common\Controller\Addons;
 
         //实现的pageFooter钩子方法
         public function documentDetailAfter($param){
-            $this->assign('config', $this->getConfig());
+            $this->assign('addons_config', $this->getConfig());
             $this->display('comment');
         }
     }

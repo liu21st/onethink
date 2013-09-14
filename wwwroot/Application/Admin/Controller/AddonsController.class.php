@@ -233,8 +233,7 @@ str;
      */
     public function index(){
         $this->meta_title = '扩展-插件管理-插件列表';
-        $this->assign('list',D('Addons')->getList());
-
+        $this->record_list(D('Addons')->getList());
         $this->display();
     }
 
@@ -255,9 +254,9 @@ str;
         if($addon->custom_adminlist)
             $this->assign('custom_adminlist', $addon->addon_path.$addon->custom_adminlist);
         $this->assign($param);
-        if(!$fields)
+        if(!isset($fields))
             $fields = '*';
-        if(!$map)
+        if(!isset($map))
             $map = array();
         $list = $this->lists(D("Addons://{$model}/{$model}")->field($fields),$map);
         $thead = array(
@@ -419,7 +418,7 @@ str;
                     ),
                     '删除'=>array(
                         'href'=>'delhook?id=$id',
-                        'class'=>'ajax-get',
+                        'class'=>'confirm ajax-get',
                         'condition'=>'is_administrator()'
                     )
                 )
@@ -430,6 +429,7 @@ str;
     }
 
     public function addhook(){
+        $this->assign('data', null);
         $this->display('edithook');
     }
 
