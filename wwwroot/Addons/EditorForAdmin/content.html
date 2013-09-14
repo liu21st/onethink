@@ -1,4 +1,4 @@
-<switch name="config.editor_type">
+<switch name="addons_config.editor_type">
 	<case value="1">
 		{// 纯文本 }
 		<input type="hidden" name="parse" value="0">
@@ -6,19 +6,19 @@
 	<case value="2">
 		{// 富文本 }
 		<input type="hidden" name="parse" value="0">
-		<eq name="config.editor_wysiwyg" value="1">
+		<eq name="addons_config.editor_wysiwyg" value="1">
 			<link rel="stylesheet" href="__STATIC__/kindeditor/default/default.css" />
 			<script charset="utf-8" src="__STATIC__/kindeditor/kindeditor-min.js"></script>
 			<script charset="utf-8" src="__STATIC__/kindeditor/zh_CN.js"></script>
 			<script type="text/javascript">
 				var editor;
 				KindEditor.ready(function(K) {
-					editor = K.create('textarea[name="{$data.name}"]', {
+					editor = K.create('textarea[name="{$addons_data.name}"]', {
 						allowFileManager : true,
 						themesPath: K.basePath,
 						width: '100%',
-						height: '{$config.editor_height}',
-						resizeType: <eq name="config.editor_resize_type" value="1">1<else />0</eq>,
+						height: '{$addons_config.editor_height}',
+						resizeType: <eq name="addons_config.editor_resize_type" value="1">1<else />0</eq>,
 						pasteType : 2,
 						fileManagerJson : '{:U('fileManagerJson')}',
 						uploadJson : '{:U('uploadJson')}'
@@ -27,7 +27,7 @@
 
 				$(function(){
 					//传统表单提交同步
-					$('textarea[name="{$data.name}"]').closest('form').submit(function(){
+					$('textarea[name="{$addons_data.name}"]').closest('form').submit(function(){
 						editor.sync();
 					});
 					//ajax提交之前同步
@@ -42,11 +42,11 @@
 			<script type="text/javascript" charset="utf-8" src="__STATIC__/ueditor/ueditor.all.js"></script>
 			<script type="text/javascript" charset="utf-8" src="__STATIC__/ueditor/lang/zh-cn/zh-cn.js"></script>
 			<script type="text/javascript">
-				$('textarea[name="{$data.name}"]').attr('id', 'editor_id_{$data.name}');
+				$('textarea[name="{$addons_data.name}"]').attr('id', 'editor_id_{$addons_data.name}');
 				window.UEDITOR_HOME_URL = "__STATIC__/ueditor";
-				window.UEDITOR_CONFIG.initialFrameHeight = parseInt('{$config.editor_height}');
-				window.UEDITOR_CONFIG.scaleEnabled = <eq name="config.editor_resize_type" value="1">true<else />false</eq>;
-				UE.getEditor('editor_id_{$data.name}');
+				window.UEDITOR_CONFIG.initialFrameHeight = parseInt('{$addons_config.editor_height}');
+				window.UEDITOR_CONFIG.scaleEnabled = <eq name="addons_config.editor_resize_type" value="1">true<else />false</eq>;
+				UE.getEditor('editor_id_{$addons_data.name}');
 			</script>
 		</eq>
 	</case>
@@ -58,17 +58,17 @@
 		<script type="text/javascript" src="__STATIC__/xheditor/xheditor_plugins/ubb.js"></script>
 		<script type="text/javascript">
 		var submitForm = function (){
-			$('textarea[name="{$data.name}"]').closest('form').submit();
+			$('textarea[name="{$addons_data.name}"]').closest('form').submit();
 		}
-		$('textarea[name="{$data.name}"]').attr('id', 'editor_id_{$data.name}')
-		$('#editor_id_{$data.name}').xheditor({
+		$('textarea[name="{$addons_data.name}"]').attr('id', 'editor_id_{$addons_data.name}')
+		$('#editor_id_{$addons_data.name}').xheditor({
 			tools:'full',
 			showBlocktag:false,
 			forcePtag:false,
 			beforeSetSource:ubb2html,
 			beforeGetSource:html2ubb,
 			shortcuts:{'ctrl+enter':submitForm},
-			'height':'{$config.editor_height}',
+			'height':'{$addons_config.editor_height}',
 			'width' :'100%'
 		});
 		</script>
@@ -84,8 +84,8 @@
 		<script type="text/javascript" src="__STATIC__/xheditor/xheditor_plugins/html2markdown.js"></script>
 		<script type="text/javascript">
 			$(function(){
-				$('textarea[name="{$data.name}"]').attr('id', 'editor_id_{$data.name}').css(
-					'height','{$config.editor_height}'
+				$('textarea[name="{$addons_data.name}"]').attr('id', 'editor_id_{$addons_data.name}').css(
+					'height','{$addons_config.editor_height}'
 				);
 			})
 			var markdownConverter = new Showdown.converter();
@@ -119,8 +119,8 @@
 						_this.showDialog(jCode);
 					}}
 				};
-				$('#editor_id_{$data.name}').xheditor({
-					'height':'{$config.editor_height}',
+				$('#editor_id_{$addons_data.name}').xheditor({
+					'height':'{$addons_config.editor_height}',
 					'tools':'Cut,Copy,Paste,Pastetext,|,Blocktag,Bold,Italic,SelectAll,Removeformat,|,List,Outdent,Indent,|,Link,Unlink,Img,Hr,Code,map,|,Source,Print,Fullscreen',
 					'listBlocktag': [{n:'h1'},{n:'h2'},{n:'h3'},{n:'h4'},{n:'h5'},{n:'h6'}],
 					'beforeSetSource': Md2HTML,
