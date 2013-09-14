@@ -27,14 +27,14 @@
 			<tbody>
 				<volist name="list" id="config">
 					<tr>
-						<td><input class="ids row-selected" type="checkbox" name="" id=""></td>
+						<td><input class="ids row-selected" type="checkbox" name="id[]" value="{$config.id}"></td>
 						<td>{$config.id}</td>
 						<td><a href="{:U('edit?id='.$config['id'])}">{$config.name}</a></td>
 						<td>{$config.title}</td>
 						<td>{$config.remark}</td>
 						<td>
 							<a title="编辑" href="{:U('edit?id='.$config['id'])}">编辑</a>
-							<a title="删除" href="#">删除</a>
+							<a class="confirm ajax-get" title="删除" href="{:U('del?id='.$config['id'])}">删除</a>
 						</td>
 					</tr>
 				</volist>
