@@ -18,6 +18,15 @@
 			</div>
 		</div>
 		<div class="form-item">
+			<label class="item-label">颜色方案<span class="check-tips">（后台配色方案）</span> </label>
+			<div class="controls">
+                <select name="config[color_style]" >
+                    <option value="default_color" <eq name="color" value="default_color">selected</eq> >默认</option>
+                    <option value="blue_color" <eq name="color" value="blue_color">selected</eq>>蓝色</option>
+                </select>
+			</div>
+		</div>
+		<div class="form-item">
 			<label class="item-label">站点关闭<span class="check-tips">（暂时关闭站点，其他人无法访问，但管理员可以）</span></label>
 			<div class="controls">
 				<label class="radio"><input type="radio" name="config[WEB_SITE_CLOSE]" value="1">是</label>

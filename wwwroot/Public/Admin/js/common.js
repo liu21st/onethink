@@ -98,6 +98,7 @@
                 }
                 query = form.find('input,select,textarea').serialize();
             }
+            $(that).addClass('disabled').prop('disabled',true);
             $.post(target,query).success(function(data){
                 if (data.status==1) {
                     if (data.url) {
@@ -110,6 +111,7 @@
                             location.href=data.url;
                         }else if( $(that).hasClass('no-refresh')){
                             $('#top-alert').find('button').click();
+                            $(that).removeClass('disabled').prop('disabled',false);
                         }else{
                             location.reload();
                         }
@@ -121,6 +123,7 @@
                             location.href=data.url;
                         }else{
                             $('#top-alert').find('button').click();
+                            $(that).removeClass('disabled').prop('disabled',false);
                         }
                     },1500);
                 }
