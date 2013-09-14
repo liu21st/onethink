@@ -71,7 +71,7 @@
 				<label class="item-label">推荐位</label>
 				<div class="controls">
 					<volist name=":C('DOCUMENT_POSITION')" id="position">
-						<label class="checkbox"><input type="checkbox" name="position[]" value="{$key}">{$position}</label>
+						<label class="checkbox"><input type="checkbox" name="position[]" value="{$key}" <if condition="check_document_position($info['position'],$key)">checked="checked"</if>>{$position}</label>
 					</volist>
 				</div>
 			</div>
@@ -99,8 +99,12 @@
 				<label class="item-label">封面图片</label>
 				<div class="controls">
 					<input type="file" id="upload_picture">
-					<input type="hidden" id="cover_id" name="cover_id" value="{$cover_id}"/>
-					<div class="upload-img-box"><img src="{$cover_id|get_cover='path'}"/></div>
+					<input type="hidden" id="cover_id" name="cover_id" value="{$info.cover_id}"/>
+					<div class="upload-img-box">
+					<notempty name="info['cover_id']">
+						<div class="upload-pre-item"><img src="{$info.cover_id|get_cover='path'}"/></div>
+					</notempty>
+					</div>
 				</div>
 			</div>
 		</div>
