@@ -4,13 +4,13 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2006-2013 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
+// | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 namespace Admin\Model;
 use Think\Model;
 /**
  * 分类模型
- * @author 麦当苗儿 <zuojiazi.cn@gmail.com>
+ * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 class CategoryModel extends Model{
 
@@ -42,7 +42,7 @@ class CategoryModel extends Model{
 	 * @param  milit   $id 分类ID或标识
 	 * @param  boolean $field 查询字段
 	 * @return array     分类信息
-	 * @author 麦当苗儿 <zuojiazi.cn@gmail.com>
+	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function info($id, $field = true){
 		/* 获取分类信息 */
@@ -60,7 +60,7 @@ class CategoryModel extends Model{
 	 * @param  integer $id    分类ID
 	 * @param  boolean $field 查询字段
 	 * @return array          分类树
-	 * @author 麦当苗儿 <zuojiazi.cn@gmail.com>
+	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function getTree($id = 0, $field = true){
 		/* 获取当前分类信息 */
@@ -89,7 +89,7 @@ class CategoryModel extends Model{
 	 * @param  integer $id    分类ID
 	 * @param  boolean $field 查询字段
 	 * @return array
-	 * @author 麦当苗儿 <zuojiazi.cn@gmail.com>
+	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function getSameLevel($id, $field = true){
 		$info = $this->info($id, 'pid');
@@ -100,7 +100,7 @@ class CategoryModel extends Model{
 	/**
 	 * 更新分类信息
 	 * @return boolean 更新状态
-	 * @author 麦当苗儿 <zuojiazi.cn@gmail.com>
+	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function update(){
 		$data = $this->create();
@@ -124,7 +124,7 @@ class CategoryModel extends Model{
 	/**
 	 * 查询后解析扩展信息
 	 * @param  array $data 分类数据
-	 * @author 麦当苗儿 <zuojiazi.cn@gmail.com>
+	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	protected function _after_find(&$data, $options){
 		/* 分割模型 */
