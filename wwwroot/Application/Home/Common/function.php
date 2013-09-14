@@ -4,7 +4,7 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2006-2013 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
+// | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
 /**
@@ -16,7 +16,7 @@
  * 检测验证码
  * @param  integer $id 验证码ID
  * @return boolean     检测结果
- * @author 麦当苗儿 <zuojiazi.cn@gmail.com>
+ * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 function check_verify($code, $id = 1){
 	$verify = new \COM\Verify();

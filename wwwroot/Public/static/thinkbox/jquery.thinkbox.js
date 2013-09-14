@@ -4,7 +4,7 @@
  +-------------------------------------------------------------------
  * @version    1.0.0 beta2
  * @since      2013.05.10
- * @author     麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
+ * @author     麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
  * @github     https://github.com/Aoiujz/thinkbox.git
  +-------------------------------------------------------------------
  */
