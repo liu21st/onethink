@@ -224,6 +224,78 @@ body{
     display: none;
 }
 
+/* 后台首页
+------------------------------------------------- */
+.index-body {
+    padding-left: 0;
+    background-color: #f6f6f6;
+}
+.index-main {
+    margin: 0 20px;
+}
+.top-columns {
+    margin: 30px 0 15px;
+    padding: 15px;
+    background-color: #fff;
+    brder: 1px solid #cdcdcd;
+}
+.columns-mod {
+    border: 1px solid #cdcdcd;
+}
+.columns-mod .hd {
+    padding: 0 10px 0 15px;
+    height: 35px;
+    line-height: 35px;
+    border-bottom: 1px solid #cdcdcd;
+    background-color: #eee;
+}
+.columns-mod .hd h5 {
+    float: left;
+    font-size: 14px;
+}
+.columns-mod .hd a {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid transparent;
+}
+.columns-mod .hd a:hover {
+    text-decoration: none;
+    border-color: #ccc;
+}
+.columns-mod .hd .title-opt {
+    float: right;
+}
+.columns-mod .bd {
+    height: 255px;
+    overflow-y: auto; 
+    background-color: #fafafa;
+}
+.sys-info {
+    padding: 15px;
+}
+.sys-info table {
+    width: 100%;
+}
+.sys-info tr {
+    border-bottom: 1px solid #e9e9e9;
+}
+.sys-info th,
+.sys-info td {
+    padding: 8px 0;
+    height: 20px;
+    line-height: 20px;
+}
+.sys-info th {
+    font-weight: normal;
+    width: 30%;
+    text-align: left;
+}
+
+
 /* 后台内页模块样式
 ------------------------------------------------- */
 .main {

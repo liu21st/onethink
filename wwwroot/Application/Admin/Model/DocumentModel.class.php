@@ -400,6 +400,11 @@ class DocumentModel extends Model{
 		return $res;
 	}
 
+	/**
+	 * 获取链接id
+	 * @return int 链接对应的id
+	 * @author huajie <banhuajie@163.com>
+	 */
 	protected function getLink(){
 		$link = I('post.link_id');
 		$res = D('Url')->update(array('url'=>$link));

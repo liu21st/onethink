@@ -16,6 +16,7 @@
 			<if condition="count($rightNav) gt $i"><i class="ca"></i></if>
 		</volist>
 		]
+		<eq name="allow" value="0">（该分类不允许发布内容）</eq>
 		</h2>
 	</div>
 
@@ -23,7 +24,11 @@
 	<div class="cf">
 		<div class="fl">
 			<div class="btn-group">
-				<button class="btn" id="document_add" <if condition="count($model) eq 1">url="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$model[0]))}"</if>>新 增<if condition="count($model) gt 1"><i class="btn-arrowdown"></i></if></button>
+				<eq name="allow" value="1">
+				<button class="btn" id="document_add" <if condition="count($model) eq 1">url="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$model[0]))}"</if>>新 增
+					<if condition="count($model) gt 1"><i class="btn-arrowdown"></i></if>
+				</button>
+				</eq>
 				<if condition="count($model) gt 1">
 				<ul class="dropdown nav-list">
 					<volist name="model" id="vo">

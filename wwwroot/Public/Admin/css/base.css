@@ -49,15 +49,18 @@ input::-moz-focus-inner {
     padding: 0;
 }
 /* 布局样式 */
-.cf,.nav {
+.cf,.nav,.container-span {
 	*zoom: 1;
 }
 .cf:before, .cf:after,
-.nav:before, .nav:after {
+.nav:before, .nav:after,
+.container-span:before,
+.container-span:after {
 	display: table;
 	content: "";
 }
-.cf:after,.nav:after {
+.cf:after,.nav:after,
+.container-span:after {
 	clear: both;
 }
 .wrapper {
@@ -70,6 +73,24 @@ input::-moz-focus-inner {
 }
 .block {
 	display: block!important;
+}
+.container-span [class^="span"] {
+	margin: 0 1% 20px;
+}
+.container-span .span1,
+.container-span .span2,
+.container-span .span3,
+.container-span .span4 {
+    float: left;
+}
+.container-span .span1 {
+    width: 23%;
+}
+.container-span .span2 {
+    width: 48%;
+}
+.container-span .span4 {
+    width: 98%;
 }
 
 /* 导航列表 */
