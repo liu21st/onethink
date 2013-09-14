@@ -82,6 +82,12 @@
 				</div>
 			</div>
 			<div class="form-item cf">
+				<label class="item-label">发布时间<span class="check-tips">（格式: yyyy-mm-dd hh:ii:ss）</span></label>
+				<div class="controls">
+					<input id="create_time" type="text" class="text input-large" name="create_time" value="{$info.create_time}" />
+				</div>
+			</div>
+			<div class="form-item cf">
 				<label class="item-label">截止时间<span class="check-tips">（格式: yyyy-mm-dd hh:ii:ss）</span></label>
 				<div class="controls">
 					<input id="dateline" type="text" class="text input-large" name="dateline" value="{$info.dateline}" />
@@ -189,6 +195,12 @@ $('#submit').click(function(){
 })(jQuery);
 $(function(){
     $('#dateline').datetimepicker({
+	    format: 'yyyy-mm-dd',
+	    language:"zh-CN",
+	    minView:2,
+	    autoclose:true
+    });
+    $('#create_time').datetimepicker({
 	    format: 'yyyy-mm-dd',
 	    language:"zh-CN",
 	    minView:2,

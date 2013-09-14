@@ -286,11 +286,6 @@ select {
     background-color: #4cdb00;
 }
 
-/* 被禁用的按钮 */
-.btn.disabled {
-	background-color: #8d8d8d;
-}
-
 /* 表单返回按钮 */
 .btn-return {
 	color: #fff;
@@ -323,6 +318,12 @@ select {
 .btn-group-click .dropdown a:hover {
     background-color: #eee;
 }
+
+/* 被禁用的按钮 */
+.btn.disabled {
+	background-color: #8d8d8d;
+}
+
 
 /************************************* 
  * style.css

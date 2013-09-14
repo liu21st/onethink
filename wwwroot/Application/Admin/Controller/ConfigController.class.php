@@ -46,6 +46,7 @@ class ConfigController extends AdminController {
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function base(){
+        $this->assign('color',C('COLOR_STYLE'));
 		$this->display();
 	}
 

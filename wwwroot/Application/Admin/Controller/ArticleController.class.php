@@ -252,6 +252,7 @@ class ArticleController extends \Admin\Controller\AdminController {
 		if(!$data){
 			$this->error($Document->getError());
 		}
+        $data['create_time'] = empty($data['create_time']) ? '' : date('Y-m-d H:i',$data['create_time']);
         $data['dateline'] = empty($data['dateline']) ? '' : date('Y-m-d H:i',$data['dateline']);
 
 		/* 获取要编辑的模型模板 */
