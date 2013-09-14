@@ -9,7 +9,7 @@
  * 作用范围： 全局
  *******************************************/
 
-html,body {
+html,body,input,textarea,select,legend{
 	color:#404040;
 	/*全局默认文字颜色*/
 }

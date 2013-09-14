@@ -8,7 +8,7 @@
  * 作用范围： 全局
  *******************************************/
 
-html,body {
+html,body,input,textarea,select,legend {
 	color: #635c73;
 	/*全局默认文字颜色*/
 }
@@ -283,12 +283,12 @@ select {
 /* 表单提交按钮(确定,保存,提交) */
 .submit-btn {
 	color: #fff;
-    background-color: #615b85;
+    background-color: #7d61dd;
 	/*background-color: #df7003;*/
 }
 .submit-btn:hover {
     color: #fff;
-    background-color: #766fa2;
+    background-color: #a285ff;
 	/*background-color: #f48a05;*/
 }
 

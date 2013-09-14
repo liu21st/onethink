@@ -308,13 +308,15 @@ class AuthManagerController extends AdminController{
         if( empty($uid) ){
             $this->error('参数有误');
         }
-        if ( C('USER_ADMINISTRATOR')==$uid ) {
-            $this->error('该用户为超级管理员');
-        }
         $AuthGroup = D('AuthGroup');
-        if( !M('Member')->where(array('uid'=>$uid))->find() ){
-            $this->error('管理员用户不存在');
-        }
+		if(is_numeric($uid)){
+			if ( C('USER_ADMINISTRATOR')==$uid ) {
+				$this->error('该用户为超级管理员');
+			}
+			if( !M('Member')->where(array('uid'=>$uid))->find() ){
+				$this->error('管理员用户不存在');
+			}
+		}
 
         if( $gid && !$AuthGroup->checkGroupId($gid)){
             $this->error($AuthGroup->error);

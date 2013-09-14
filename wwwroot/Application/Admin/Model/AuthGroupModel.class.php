@@ -60,6 +60,7 @@ class AuthGroupModel extends Model {
         }
 
         $uid_arr = explode(',',$uid);
+		$uid_arr = array_diff($uid_arr,array(C('USER_ADMINISTRATOR')));
         $add = array();
         if( $del!==false ){
             foreach ($uid_arr as $u){
