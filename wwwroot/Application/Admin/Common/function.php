@@ -231,3 +231,18 @@ function get_type_bycate($id = null){
 	}
 	return $type_list;
 }
+
+/**
+ * base.html中用到,根据风格设置载入对应的css文件
+ * 
+ * @author 朱亚杰 <zhuyajie@topthink.net>
+ */
+function change_style(){
+    $value = C('COLOR_STYLE');
+    if ( $value ) {
+        $file = C('TMPL_PARSE_STRING.__CSS__').'/'.$value.'.css';
+    }else{
+        $file = C('TMPL_PARSE_STRING.__CSS__').'/default_color.css';
+    }
+    echo '<link rel="stylesheet" type="text/css" href="'.$file.'" media="all">';
+}
