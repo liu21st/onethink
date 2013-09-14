@@ -212,4 +212,5 @@ input:-webkit-autofill {
 img.verifyimg{
 	border: 1px solid #ececec;
 	width: 100%;
+    cursor: pointer;
 }

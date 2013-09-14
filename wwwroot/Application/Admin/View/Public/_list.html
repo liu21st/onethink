@@ -1,9 +1,9 @@
 <notempty name="_thead">
-<php> $operator=array(); $i=1;</php>
 <table class="{$_table_class|default=""}">
     <thead>
         <tr>
 <?php
+$operator=array();
 $i=1;
 foreach ($_thead as $key => $th){
     if ( $i==1 && strpos($key,'_')!==false ) {

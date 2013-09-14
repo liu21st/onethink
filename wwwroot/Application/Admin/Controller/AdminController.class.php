@@ -575,9 +575,34 @@ class AdminController extends Action {
      *
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function tableList($list,$thead)
+    public function tableList( &$list, &$thead )
     {
         $list = (array)$list;
+        if(APP_DEBUG){
+            //debug模式检测数据
+            $List  = new \RecursiveArrayIterator($list);
+            $RList = new \RecursiveIteratorIterator($List,\RecursiveIteratorIterator::CHILD_FIRST);
+            foreach($RList as $v){
+                if($RList->getDepth()==2){
+                    //数据集不是二维数组
+                    die('<h1>'.'严重问题：表格列表数据集参数不是二维数组'.'</h1>');
+                    break;
+                }
+            }
+
+            $keys = array_keys( array_pop($list) );
+            foreach($list as $row){
+                $keys = array_intersect( $keys, array_keys($row) );
+            }
+            $s_thead = serialize($thead);
+            if(!empty($list)){
+                preg_replace_callback('/\$((?:\w\d?_?)+)/',function($matches) use($keys){
+                    if( !in_array($matches[1],$keys) ){
+                        die('<h1>'.'严重问题：数据列表表头定义使用了数据集中不存在的字段:$'.$matches[1].'</h1>');
+                    }
+                },$s_thead);
+            }
+        }
         $keys = array_keys($thead);
         array_walk($list,function(&$v,$k) use($keys,$thead) {
             $arr = array();
