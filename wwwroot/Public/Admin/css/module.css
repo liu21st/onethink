@@ -22,6 +22,8 @@
 	padding: 0 20px;
 	height: 35px;
 	line-height: 35px;
+	font-weight: bold;
+	font-size: 16px;
 	border: 1px solid transparent;
 	border-top-width: 2px;
 }

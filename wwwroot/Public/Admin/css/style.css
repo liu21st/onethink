@@ -107,7 +107,6 @@ body{
 .sidebar {
     position: fixed;
     left: 0;
-    z-index: 0;
     padding-top: 30px;
     width: 200px;
     height: 100%;
@@ -168,19 +167,20 @@ body{
     text-decoration: none;
     border-bottom: 1px solid transparent;
 }
-.side-sub-menu > li > .item:hover{
+.side-sub-menu > li > .item:hover,
+.side-sub-menu > li.hover > .item {
 	color: #ffffff;
 	text-decoration: none;
 	background: #7c7c7c;
 	margin-right:1px;
 }
-.side-sub-menu > .current > .item,
-.side-sub-menu > .hover > .item {
+.side-sub-menu > .current > .item {
     color: #414141;
     text-decoration: none;
 }
 .side-sub-menu > .current > .item,
-.side-sub-menu > .current > .item:hover {
+.side-sub-menu > .current > .item:hover,
+.side-sub-menu > .current.hover > .item {
 	color: #414141;
     background: url(../images/subnav_current.png) no-repeat 165px 12px #f6f6f6;
 }
