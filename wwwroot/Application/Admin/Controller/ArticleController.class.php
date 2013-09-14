@@ -167,9 +167,13 @@ class ArticleController extends \Admin\Controller\AdminController {
 			$models = get_category($cate_id, 'model');
 		}
 
+		//检查该分类是否允许发布内容
+		$allow_publish = get_category($cate_id, 'allow_publish');
+
 		$this->assign('model', $models);
 		$this->assign('status', $status);
 		$this->assign('list', $list);
+		$this->assign('allow', $allow_publish);
 
 		$this->meta_title = '文档列表';
 		$this->display();
