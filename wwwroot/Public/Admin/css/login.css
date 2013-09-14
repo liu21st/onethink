@@ -56,7 +56,7 @@ img {
     color: #8D9CAA;
 }
 .login-form .check-tips {
-    color: #8D9CAA;
+    color: #ff0000;
     margin-top: 10px;
 }
 .login-form .item-box {
@@ -212,4 +212,5 @@ input:-webkit-autofill {
 img.verifyimg{
 	border: 1px solid #ececec;
 	width: 100%;
+    cursor: pointer;
 }
