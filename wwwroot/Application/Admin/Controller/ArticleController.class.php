@@ -61,7 +61,7 @@ class ArticleController extends \Admin\Controller\AdminController {
     protected function getMenu(){
     	//获取动态分类
     	$cate_auth = AuthGroupModel::getAuthCategories(is_login());	//获取当前用户所有的内容权限节点
-    	$cate = M('Category')->where(array('display'=>1,'status'=>1))->field('id,title,pid,allow_publish')->order('sort')->select();
+    	$cate = M('Category')->where(array('display'=>1,'status'=>1))->field('id,title,pid,allow_publish')->order('pid,sort')->select();
 
     	//没有权限的分类则不显示
     	if(!is_administrator()){
