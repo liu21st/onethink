@@ -559,7 +559,9 @@ class AdminController extends Action {
             $listRows = C('LIST_ROWS') > 0 ? C('LIST_ROWS') : 10;
         }
 		$page = new \COM\Page($total, $listRows, $REQUEST);
-		$page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
+        if($total>$listRows){
+            $page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
+        }
 		$this->assign('_page', $page->show()? $page->show(): '');
         $options['limit'] = $page->firstRow.','.$page->listRows;
 
