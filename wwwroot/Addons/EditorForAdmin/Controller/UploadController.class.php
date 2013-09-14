@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 
 namespace Addons\EditorForAdmin\Controller;
-use Home\Controller\AddonsController;
+use Admin\Controller\AddonsController;
 use COM\Upload;
 
 class UploadController extends AddonsController{
