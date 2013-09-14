@@ -238,7 +238,7 @@ function get_type_bycate($id = null){
  * @author 朱亚杰 <zhuyajie@topthink.net>
  */
 function change_style(){
-    $value = C('COLOR_STYLE');
+    $value = D('Config')->where(array('name'=>'COLOR_STYLE'))->getField('value');
     if ( $value ) {
         $file = C('TMPL_PARSE_STRING.__CSS__').'/'.$value.'.css';
     }else{
