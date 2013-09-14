@@ -310,7 +310,15 @@ str;
         if($db_config){
             $db_config = json_decode($db_config, true);
             foreach ($addon['config'] as $key => $value) {
-                $addon['config'][$key]['value'] = $db_config[$key];
+                if($value['type'] != 'group'){
+                    $addon['config'][$key]['value'] = $db_config[$key];
+                }else{
+                    foreach ($value['options'] as $gourp => $options) {
+                        foreach ($options['options'] as $gkey => $value) {
+                            $addon['config'][$key]['options'][$gourp]['options'][$gkey]['value'] = $db_config[$gkey];
+                        }
+                    }
+                }
             }
         }
         if(!$addon)
