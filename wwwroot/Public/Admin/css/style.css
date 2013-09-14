@@ -270,18 +270,19 @@ body{
     float: right;
 }
 .columns-mod .bd {
-    padding: 15px;
+    height: 350px;
+    overflow-y: auto; 
     background-color: #fafafa;
 }
 .sys-info {
+    padding: 15px;
+}
+.sys-info table {
     width: 100%;
 }
 .sys-info tr {
     border-bottom: 1px solid #e9e9e9;
 }
-/*.sys-info tr:first-child {
-    border-top: 0 none;
-}*/
 .sys-info th,
 .sys-info td {
     padding: 8px 0;
