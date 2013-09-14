@@ -68,9 +68,9 @@
 						</div>
 					</div>
 					<div class="form-item cf">
-						<label class="item-label">截止时间</label>
+						<label class="item-label">截止时间<span class="check-tips">（格式: yyyy-mm-dd hh:ii:ss）</span></label>
 						<div class="controls">
-							<input id="dateline" type="text" class="text input-large" name="dateline" value="" readonly>
+							<input id="dateline" type="text" class="text input-large" name="dateline" value="" />
 						</div>
 					</div>
 					<div class="form-item cf">
@@ -175,9 +175,9 @@
 
 $(function(){
     $('#dateline').datetimepicker({
-        format: 'yyyy-mm-dd hh:ii',
+        format: 'yyyy-mm-dd',
         language:"zh-CN",
-	    minView:1,
+	    minView:2,
 	    autoclose:true
     });
 	// 标签页切换
