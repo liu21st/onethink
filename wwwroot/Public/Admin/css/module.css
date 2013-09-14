@@ -382,6 +382,18 @@ button.close {
 .upload-img-box {
 	margin-top: 4px;
 }
-.upload-img-box  img {
-	max-width: 120px;
+.upload-img-box .upload-pre-item {
+	padding: 1px;
+	width: 120px;
+	cursor: pointer;
+	border: 1px solid #ccc;
+	transition: all .3s linear;
+}
+.upload-img-box .upload-pre-item.proto {
+	display: inline-block;
+	*display: inlne;
+	width: auto;
+}
+.upload-img-box .upload-pre-item img {
+	display: block;
 }

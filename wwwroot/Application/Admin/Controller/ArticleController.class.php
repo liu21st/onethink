@@ -61,7 +61,7 @@ class ArticleController extends \Admin\Controller\AdminController {
     protected function getMenu(){
     	//获取动态分类
     	$cate_auth = AuthGroupModel::getAuthCategories(is_login());	//获取当前用户所有的内容权限节点
-    	$cate = M('Category')->where(array('display'=>1,'status'=>1))->field('id,title,pid')->order('sort')->select();
+    	$cate = M('Category')->where(array('display'=>1,'status'=>1))->field('id,title,pid,allow_publish')->order('sort')->select();
 
     	//没有权限的分类则不显示
     	if(!is_administrator()){
@@ -72,13 +72,21 @@ class ArticleController extends \Admin\Controller\AdminController {
     		}
     	}
 
+    	//获取默认显示的分类
+    	foreach ($cate as $key=>$value){
+    		if($value['allow_publish']){
+    			$defaule_cate = $value['id'];
+    			break;
+    		}
+    	}
+
     	$cate = list_to_tree($cate);	//生成分类树
 
     	//获取分类id
-    	$cate_id = I('param.cate_id') == '' ? $cate[0]['id'] : I('param.cate_id');
+    	$cate_id = I('param.cate_id') == '' ? $defaule_cate : I('param.cate_id');
     	$this->cate_id = $cate_id;
 
-    	//未传参是否显示默认分类
+    	//是否展开分类
     	if(ACTION_NAME != 'recycle'){
     		$hide_cate = true;
     	}
@@ -90,7 +98,7 @@ class ArticleController extends \Admin\Controller\AdminController {
     	foreach ($cate as $key=>&$value){
     		$value['url'] = 'Article/index?cate_id='.$value['id'];
     		$value['level'] = 1;
-    		if($cate_id == $value['id']){
+    		if($cate_id == $value['id'] && $hide_cate){
     			$value['current'] = true;
     		}
     		foreach ($value['_child'] as $ka=>&$va){
@@ -108,8 +116,10 @@ class ArticleController extends \Admin\Controller\AdminController {
     			if($va['id'] == $cate_id || $is_child){
     				$child_cates = $va['_child'];
     				$is_child = false;
-    				$value['current'] = true;
-    				$va['current'] = true;
+    				if($hide_cate){
+	    				$value['current'] = true;
+	    				$va['current'] = true;
+    				}
     			}
     		}
     	}
@@ -216,13 +226,16 @@ class ArticleController extends \Admin\Controller\AdminController {
 		$template = strtolower(get_document_model($model_id, 'name'));
 		$extend = $this->fetch($template);
 
-		$this->assign('model_id', $model_id);
-		$this->assign('model_name', $model_name);
+		$info['model_id'] = $model_id;
+		$info['category_id'] = $cate_id;
+
+		$this->assign('info', $info);
 		$this->assign('template', $template);
 		$this->assign('extend', $extend);
+		$this->assign('type_list', get_type_bycate($cate_id));
 
 		$this->meta_title = '新增'.$model_name;
-		$this->display();
+		$this->display('edit');
 	}
 
 	/**
@@ -241,16 +254,19 @@ class ArticleController extends \Admin\Controller\AdminController {
 		if(!$data){
 			$this->error($Document->getError());
 		}
-        $data['dateline'] = date('Y-m-d H:i',$data['dateline']);
+        $data['dateline'] = empty($data['dateline']) ? '' : date('Y-m-d H:i',$data['dateline']);
 
 		/* 获取要编辑的模型模板 */
 		$data['template'] = strtolower(get_document_model($data['model_id'], 'name'));
 
-		$this->assign($data);
+		$this->assign('info', $data);
+		$this->assign('model_id', $data['model_id']);
 
 		//获取扩展模板
 		$extend = $this->fetch($data['template']);
 		$this->assign('extend', $extend);
+
+		$this->assign('type_list', get_type_bycate($data['category_id']));
 
 		$this->meta_title = '编辑文档';
 		$this->display();

@@ -48,6 +48,9 @@ class AddonsController extends AdminController {
 
     //创建向导首页
     public function create(){
+        $creatable = is_writable(C('AUTOLOAD_NAMESPACE.Addons'));
+        if(!$creatable)
+            $this->error('您没有创建目录写入权限，无法使用此功能');
         $this->meta_title = '扩展-插件管理-创建向导';
         $hooks = D('Hooks')->field('name,description')->select();
         $this->assign('Hooks',$hooks);
@@ -231,7 +234,7 @@ str;
     public function index(){
         $this->meta_title = '扩展-插件管理-插件列表';
         $this->assign('list',D('Addons')->getList());
-        $this->assign('creatable', is_writable(C('AUTOLOAD_NAMESPACE.Addons')));
+
         $this->display();
     }
 
@@ -401,6 +404,7 @@ str;
         $this->meta_title = '扩展-钩子列表';
         $map = $fields = array();
         $list = $this->lists(D("Hooks")->field($fields),$map);
+        intToString($list, array('type'=>array( 1=>'view', 2=>'controller')));
         $thead = array(
             //元素value中的变量就是数据集中的字段,value必须使用单引号
             //查询出的数据集中的字段=>字段的表头

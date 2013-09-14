@@ -30,3 +30,9 @@
 		</div>
 	</form>
 </block>
+<block name="script">
+<script type="text/javascript" charset="utf-8">
+	//导航高亮
+	$('.side-sub-menu').find('a[href="{:U('System/channel')}"]').closest('li').addClass('current');
+</script>
+</block>
