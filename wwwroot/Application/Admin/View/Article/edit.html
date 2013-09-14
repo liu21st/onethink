@@ -153,7 +153,7 @@ $('#submit').click(function(){
         "buttonText"      : "上传文件",
         "uploader"        : "{:U('File/upload',array('session_id'=>session_id()))}",
         "width"           : 120,
-        'removeTimeout'	  : 1,
+        'removeTimeout'   : 1,
         "onUploadSuccess" : uploadSuccess
     });
 
@@ -162,7 +162,9 @@ $('#submit').click(function(){
     	var data = $.parseJSON(data);
         if(data.status){
         	$("input[name=file]").val(data.data);
-        	$("input[name=file]").parent().find('.upload-img-box').html( data.info);
+        	$("input[name=file]").parent().find('.upload-img-box').html( 
+        		"<div class=\"uplaod-pre-file\">" + data.info + "</div>"
+        	);
         } else {
         	updateAlert(data.info);
         }

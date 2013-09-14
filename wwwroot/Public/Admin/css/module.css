@@ -340,12 +340,14 @@ button.close {
 /* uploadify上传插件样式
 ------------------------------------------ */
 .uploadify-button {
+	position: relative;
 	text-align: center;
 	color: #fff;
 	cursor: pointer;
 	background-color: #27ae60;
 }
 .uploadify-queue-item {
+	position: absolute;
 	margin-top: 4px;
 	padding: 15px;
 	width: 470px;
@@ -398,4 +400,15 @@ button.close {
 }
 .upload-img-box .upload-pre-item img {
 	display: block;
+}
+.upload-img-box .uplaod-pre-file {
+	padding: 0 10px;
+	width: 380px;
+	height: 35px;
+	line-height: 35px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	border: 1px dashed #ccc;
+	background-color: #fff;
 }

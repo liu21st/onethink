@@ -14,7 +14,10 @@
 				<!-- 基础 -->
 				<div id="tab1" class="tab-pane in tab1">
 					<div class="form-item">
-						<label class="item-label">上级分类<span class="check-tips">{$category?$category['title']:'无（新增顶级分类）'}</span></label>
+						<label class="item-label">上级分类<span class="check-tips"></span></label>
+						<div class="controls">
+							<input type="text" class="text input-large" disabled="disabled" value="{$category['title']|default='无'}"/>
+						</div>
 					</div>
 					<div class="form-item">
 						<label class="item-label">
@@ -210,7 +213,7 @@
 				<input type="file" name="" id="">
 			</div>
 		</div>
-		
+
 	</form> -->
 </block>
 

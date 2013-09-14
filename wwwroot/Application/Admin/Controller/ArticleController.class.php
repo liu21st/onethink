@@ -99,28 +99,28 @@ class ArticleController extends \Admin\Controller\AdminController {
     			$value['current'] = true;
     		}
     		if(!empty($value['_child'])){
-    		foreach ($value['_child'] as $ka=>&$va){
-    			$va['url'] = 'Article/index?cate_id='.$va['id'];
-    			$va['level'] = 2;
-    			if(!empty($va['_child'])){
-    			foreach ($va['_child'] as $k=>&$v){
-    				$v['url'] = 'Article/index?cate_id='.$v['id'];
-    				$v['pid'] = $va['id'];
-    				$v['level'] = 3;
-    				if($v['id'] == $cate_id){
-    					$is_child = true;
-    				}
-    			}
-    			}
-    			//展开子分类的父分类
-    			if($va['id'] == $cate_id || $is_child){
-    				$is_child = false;
-    				if($hide_cate){
-	    				$value['current'] = true;
-	    				$va['current'] = true;
-    				}
-    			}
-    		}
+	    		foreach ($value['_child'] as $ka=>&$va){
+	    			$va['url'] = 'Article/index?cate_id='.$va['id'];
+	    			$va['level'] = 2;
+	    			if(!empty($va['_child'])){
+		    			foreach ($va['_child'] as $k=>&$v){
+		    				$v['url'] = 'Article/index?cate_id='.$v['id'];
+		    				$v['pid'] = $va['id'];
+		    				$v['level'] = 3;
+		    				if($v['id'] == $cate_id){
+		    					$is_child = true;
+		    				}
+		    			}
+	    			}
+	    			//展开子分类的父分类
+	    			if($va['id'] == $cate_id || $is_child){
+	    				$is_child = false;
+	    				if($hide_cate){
+		    				$value['current'] = true;
+		    				$va['current'] = true;
+	    				}
+	    			}
+	    		}
     		}
     	}
     	$this->assign('nodes', $cate);

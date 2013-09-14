@@ -38,6 +38,7 @@ class ConfigController extends AdminController {
         $map  = array('status' => 1);
         $list = D('Config')->where($map)->order('id DESC')->select();
         $this->assign('list', $list);
+        $this->meta_title = '配置管理';
         $this->display();
     }
 
@@ -47,6 +48,7 @@ class ConfigController extends AdminController {
 	 */
 	public function base(){
         $this->assign('color',C('COLOR_STYLE'));
+        $this->meta_title = '基本设置';
 		$this->display();
 	}
 
@@ -68,6 +70,7 @@ class ConfigController extends AdminController {
                 $this->error($Config->getError());
             }
         } else {
+        	$this->meta_title = '新增配置';
             $this->display('edit');
         }
     }
@@ -98,6 +101,7 @@ class ConfigController extends AdminController {
                 $this->error('获取配置信息错误');
             }
             $this->assign('info', $info);
+            $this->meta_title = '编辑配置';
             $this->display();
         }
     }

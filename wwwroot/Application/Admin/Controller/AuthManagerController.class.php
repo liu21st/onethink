@@ -111,7 +111,7 @@ class AuthManagerController extends AdminController{
             return true;
         }
     }
-    
+
 
     /**
      * 权限管理首页
@@ -151,7 +151,7 @@ class AuthManagerController extends AdminController{
         $this->assign('auth_group',$auth_group);
         $this->display();
     }
-    
+
 
     /**
      * 访问授权页面
@@ -173,10 +173,10 @@ class AuthManagerController extends AdminController{
         $this->assign('node_list',$node_list);
         $this->assign('auth_group',$auth_group);
 		$this->assign('this_group',$auth_group[(int)$_GET['group_id']]);
-		$this->meta_title = '权限管理-访问授权';
+		$this->meta_title = '访问授权';
         $this->display('managergroup');
     }
-    
+
     /**
      * 管理员用户组数据写入/更新
      * @author 朱亚杰 <zhuyajie@topthink.net>
@@ -206,7 +206,7 @@ class AuthManagerController extends AdminController{
             $this->error('操作失败'.$AuthGroup->getError());
         }
     }
-    
+
     /**
      * 状态修改
      * @author 朱亚杰 <zhuyajie@topthink.net>
@@ -254,7 +254,7 @@ class AuthManagerController extends AdminController{
         $this->assign( '_list', $list );
 		$this->assign('auth_group',$auth_group);
 		$this->assign('this_group',$auth_group[(int)$_GET['group_id']]);
-		$this->meta_title = '权限管理-成员授权';
+		$this->meta_title = '成员授权';
         $this->display();
     }
 
@@ -271,7 +271,7 @@ class AuthManagerController extends AdminController{
         $this->assign('group_list',$group_list);
 		$this->assign('auth_group',$auth_group);
 		$this->assign('this_group',$auth_group[(int)$_GET['group_id']]);
-		$this->meta_title = '权限管理-分类授权';
+		$this->meta_title = '分类授权';
         $this->display();
     }
 
@@ -299,7 +299,7 @@ class AuthManagerController extends AdminController{
         $this->assign('user_groups',implode(',',$ids));
         $this->display();
     }
-    
+
     /**
      * 将用户添加到用户组,入参uid,group_id
      * @author 朱亚杰 <zhuyajie@topthink.net>
@@ -380,5 +380,5 @@ class AuthManagerController extends AdminController{
             $this->error('操作失败');
         }
     }
-    
+
 }
