@@ -216,9 +216,9 @@ class ArticleController extends \Admin\Controller\AdminController {
 		$cate_id = I('get.cate_id','');
 		$model_id = I('get.model_id','');
 		$model_name = get_document_model($model_id, 'title');
-		if(empty($cate_id) || empty($model_id)){
-			$this->error('参数不能为空！');
-		}
+
+		empty($cate_id) && $this->error('参数不能为空！');
+		empty($model_id) && $this->error('该分类未绑定模型！');
 
 		//检查该分类是否允许发布
 		$allow_publish = D('Document')->checkCategory($cate_id);
