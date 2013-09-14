@@ -340,12 +340,14 @@ button.close {
 /* uploadify上传插件样式
 ------------------------------------------ */
 .uploadify-button {
+	position: relative;
 	text-align: center;
 	color: #fff;
 	cursor: pointer;
 	background-color: #27ae60;
 }
 .uploadify-queue-item {
+	position: absolute;
 	margin-top: 4px;
 	padding: 15px;
 	width: 470px;
