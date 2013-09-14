@@ -346,7 +346,7 @@ class ArticleController extends \Admin\Controller\AdminController {
 	 */
 	public function clear(){
 		$res = D('Document')->remove();
-		if($res){
+		if($res !== false){
 			$this->success('清空回收站成功！');
 		}else{
 			$this->error('清空回收站失败！');
