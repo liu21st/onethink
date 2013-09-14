@@ -139,6 +139,9 @@ str;
 
     public function checkForm(){
         $data = $_POST;
+        $data['info']['name'] = trim($data['info']['name']);
+        if(!$data['info']['name'])
+            $this->error('插件标识必须');
         //检测插件名是否合法
         $addons_dir = C('AUTOLOAD_NAMESPACE.Addons');
         if(file_exists("{$addons_dir}{$data['info']['name']}")){
@@ -162,8 +165,9 @@ str;
     }
 
     public function build(){
-        $addonFile = $this->preview(false);
         $data = $_POST;
+        $data['info']['name'] = trim($data['info']['name']);
+        $addonFile = $this->preview(false);
         $addons_dir = C('AUTOLOAD_NAMESPACE.Addons');
         //创建目录结构
         $files = array();
