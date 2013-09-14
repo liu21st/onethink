@@ -107,7 +107,6 @@ body{
 .sidebar {
     position: fixed;
     left: 0;
-    z-index: 0;
     padding-top: 30px;
     width: 200px;
     height: 100%;
