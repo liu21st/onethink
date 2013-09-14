@@ -1,3 +1,7 @@
+/*******************************************
+ * 自定义配色css文件放在defaut_color的同级目录,在View/Config/base.html中,增加一项配色option:
+ * <option value="文件名" <eq name="color" value="文件名">selected</eq> >默认</option>
+ ********************************************/
 /********************************************
  * base.css
  * 描述：重置页面元素并设置布局样式
@@ -279,17 +283,22 @@ select {
 /* 表单提交按钮(确定,保存,提交) */
 .submit-btn {
 	color: #fff;
-    background-color: #df7003;
+    background-color: #615b85;
+	/*background-color: #df7003;*/
 }
 .submit-btn:hover {
     color: #fff;
-    background-color: #f48a05;
+    background-color: #766fa2;
+	/*background-color: #f48a05;*/
 }
 
 /* 表单返回按钮 */
 .btn-return {
 	color: #fff;
-	background-color: #7963df;
+	background-color: #8893ae;
+}
+.btn-return:hover {
+	background-color: #9daac9;
 }
 
 /*高级搜索箭头*/
@@ -313,8 +322,10 @@ select {
 
 /* 被禁用的按钮 */
 .btn.disabled {
-	background-color: #8d8d8d;
+	background-color: #bbbbbb;
 	cursor: not-allowed;
+	color: #848484;
+	text-shadow: 0 1px 0 #f5f5f5;
 }
 
 
@@ -467,7 +478,7 @@ select {
 #login-page .login-form {
     background-color: #fff;
     box-shadow: 0 0 26px #041A36;
-    border-top-color: #42EC00;
+    border-top-color: #8357c4;
 }
 #login-page .login-form h3 {
     color: #8D9CAA;
@@ -479,8 +490,8 @@ select {
     border-color:  #ececec;
 }
 #login-page .login-form .focus {
-    border-color: #A6E1F3;
-    box-shadow: 0 0 12px #BAF7FF;
+    border-color: #c2a0f3;
+    box-shadow: 0 0 12px #f0d4ff;
 }
 #login-page .login-form .icon-login-user,
 #login-page .login-form .icon-login-pwd,
@@ -502,10 +513,10 @@ select {
 }
 #login-page .login-form .login-btn {
     color: #FFFFFF;
-    background-color: #40C402;
+    background-color: #8357c4;
 }
 #login-page .login-form .login-btn:hover {
-    background-color: #42EC00;
+    background-color: #8460ec;
 }
 #login-page .login-form .login-btn[disabled] {
     opacity: 0.6;
@@ -530,7 +541,7 @@ select {
 }
 
 #login-page .reloadverify{
-    color:#69C3FF;
+    color: #cd9eff;
 }
 
 #login-page img.verifyimg{

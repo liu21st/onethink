@@ -1,3 +1,8 @@
+/*******************************************
+ * 自定义配色css文件放在defaut_color的同级目录,在View/Config/base.html中,增加一项配色option:
+ * <option value="文件名" <eq name="color" value="文件名">selected</eq> >默认</option>
+ ********************************************/
+
 /********************************************
  * base.css
  * 描述：重置页面元素并设置布局样式
@@ -43,9 +48,6 @@ a:hover{
 }
 .tips-arrow .inner {
 	color: #fff;
-}
-.mask {
-	background: url(../images/mask.png) repeat 0 0;
 }
 
 /* 顶部信息提醒条 */
