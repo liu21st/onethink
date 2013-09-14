@@ -487,6 +487,17 @@ body{
     border-bottom: 0 none;
     text-decoration: none;
 }
+/* 插件管理表单 */
+.has_config,
+.has_adminlist {
+    display: block!important;
+    margin-left: 0!important;
+    margin-bottom: 10px;
+}
+.has_config.hidden,
+.has_adminlist.hidden {
+    display: none!important;
+}
 
 /* 授权编辑页 */
 .checkmod {

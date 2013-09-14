@@ -18,7 +18,7 @@
 					</div>
 					<div class="form-item">
 						<label class="item-label">
-							<em class="must">*</em>名称<span class="check-tips">（名称不能为空）</span>
+							<em class="must">*</em>分类名称<span class="check-tips">（名称不能为空）</span>
 						</label>
 						<div class="controls">
 							<input type="text" name="title" class="text input-large" value="{$info.title|default=''}">
@@ -26,7 +26,7 @@
 					</div>
 					<div class="form-item">
 						<label class="item-label">
-							<em class="must">*</em>标识
+							<em class="must">*</em>分类标识
 						</label>
 						<div class="controls">
 							<input type="text" name="name" class="text input-large" value="{$info.name|default=''}">
@@ -42,7 +42,7 @@
 						</div>
 					</div>
 					<div class="form-item">
-						<label class="item-label"><em class="must">*</em>绑定模型</label>
+						<label class="item-label"><em class="must">*</em>绑定文档模型</label>
 						<div class="controls">
 							<volist name=":get_document_model()" id="list">
 								<label class="checkbox">
@@ -52,7 +52,7 @@
 						</div>
 					</div>
 					<div class="form-item">
-						<label class="item-label"><em class="must">*</em>允许的内容类型</label>
+						<label class="item-label"><em class="must">*</em>允许文档类型</label>
 						<div class="controls">
 							<volist name=":C('DOCUMENT_MODEL_TYPE')" id="type">
 								<label class="checkbox">
@@ -75,7 +75,7 @@
 						</div>
 					</div>
 					<div class="form-item reply hidden">
-						<label class="item-label">回复允许的模型</label>
+						<label class="item-label">回复绑定的文档模型</label>
 						<div class="controls">
 							<volist name=":get_document_model()" id="list">
 								<label class="checkbox">
@@ -85,7 +85,7 @@
 						</div>
 					</div>
 					<div class="form-item reply hidden">
-						<label class="item-label">回复允许的内容类型</label>
+						<label class="item-label">回复允许的文档类型</label>
 						<div class="controls">
 							<volist name=":C('DOCUMENT_MODEL_TYPE')" id="type">
 								<label class="checkbox">
@@ -96,7 +96,7 @@
 					</div>
 					<div class="form-item">
 						<label class="item-label">
-							<em class="must">*</em>排序<span class="check-tips">（排序对当前分类有效）</span>
+							<em class="must">*</em>排序<span class="check-tips">（仅对当前层级分类有效）</span>
 						</label>
 						<div class="controls">
 							<input type="text" name="sort" class="text input-large" value="{$info.sort|default=0}">

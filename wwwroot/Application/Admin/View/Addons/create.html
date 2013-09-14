@@ -66,7 +66,7 @@
 			<label class="item-label">是否需要配置</label>
 			<div class="controls">
 				<label class="checkbox"><input type="checkbox" id="has_config" name="has_config" value="1" /></label>
-				<label class="textarea block input-large has_config hidden">
+				<label class="textarea input-large has_config hidden">
 					<textarea class="textarea" name="config">
 &lt;?php
 return array(
@@ -83,8 +83,7 @@ return array(
 					</textarea>
 				</label>
 				<input type="text" class="text input-large has_config hidden" name="custom_config">
-				<br>
-				<span class="check-tips block has_config hidden">自定义模板,注意：自定义模板里的表单name必须为config[name]这种，获取保存后配置的值用$data.config.name</span>
+				<span class="check-tips has_config hidden">自定义模板,注意：自定义模板里的表单name必须为config[name]这种，获取保存后配置的值用$data.config.name</span>
 			</div>
 		</div>
 		<div class="form-item">
@@ -109,7 +108,7 @@ return array(
 				<label class="checkbox">
 					<input type="checkbox" id="has_adminlist" name="has_adminlist" value="1" />勾选，扩展里已装插件后台列表会出现插件名的列表菜单，如系统的附件
 				</label>
-				<label class="textarea block input-large has_adminlist hidden">
+				<label class="textarea input-large has_adminlist hidden">
 					<textarea name="admin_list">
 'model'=>'Example',		//要查的表
 'fields'=>'*',			//要查的字段
