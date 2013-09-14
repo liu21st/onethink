@@ -407,6 +407,9 @@ class DocumentModel extends Model{
 	 */
 	protected function getLink(){
 		$link = I('post.link_id');
+		if(empty($link)){
+			return 0;
+		}
 		$res = D('Url')->update(array('url'=>$link));
 		return $res['id'];
 	}
