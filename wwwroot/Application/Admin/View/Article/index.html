@@ -15,6 +15,7 @@
 		<a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a>
 			<if condition="count($rightNav) gt $i"><i class="ca"></i></if>
 		</volist>
+		<present name="article">：<a href="{:U('article/edit','id='.$article['id'])}">{$article.title}</a></present>
 		]
 		<eq name="allow" value="0">（该分类不允许发布内容）</eq>
 		</h2>
@@ -25,7 +26,7 @@
 		<div class="fl">
 			<div class="btn-group">
 				<eq name="allow" value="1">
-				<button class="btn" id="document_add" <if condition="count($model) eq 1">url="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$model[0]))}"</if>>新 增
+				<button class="btn" id="document_add" <if condition="count($model) eq 1">url="{:U('article/add',array('cate_id'=>$cate_id,'pid'=>I('pid',0),'model_id'=>$model[0]))}"</if>>新 增
 					<if condition="count($model) gt 1"><i class="btn-arrowdown"></i></if>
 				</button>
 				</eq>
@@ -56,7 +57,7 @@
 					</ul>
 				</div>
 				<input type="text" name="title" class="search-input" value="{:I('title')}" placeholder="请输入标题文档">
-				<a class="sch-btn" href="javascript:;" id="search" url="{:U('article/index','cate_id='.$cate_id,false)}"><i class="btn-search"></i></a>
+				<a class="sch-btn" href="javascript:;" id="search" url="{:U('article/index','pid='.I('pid',0).'&cate_id='.$cate_id,false)}"><i class="btn-search"></i></a>
 			</div>
             <div class="btn-group-click adv-sch-pannel fl">
                 <button class="btn">高 级<i class="btn-arrowdown"></i></button>
@@ -85,11 +86,17 @@
                     'th'=>'<input class="check-all" type="checkbox"/>',
                     'td'=>'<input class="ids" type="checkbox" name="ids[]" value="$id" />',
                 ),
+				'id'=>'编号',
                 'title'=>array(
                     '_title'=>'标题',
                     'tag'   =>'a',
-                    'href'  =>'Article/edit?cate_id=$category_id&id=$id',
+                    'href'  =>'Article/index?cate_id=$category_id&pid=$id',
                 ),
+				'type'=>array(
+					'_title'=>'类型',
+					'tag'   =>'span',
+					'func'	=>	'get_document_type($type)',
+				),
                 'uid'  =>array(
                     '_title'=>'创建者',
                     'tag' =>'span',
@@ -98,16 +105,16 @@
                 'create_time'=>array(
                     '_title'=>'创建时间',
                     'tag'   =>'span',
-                    'func'  => 'date("Y-m-d H:i",$create_time)',
+                    'func'  => 'date("m-d H:i",$create_time)',
                 ),
                 'status_text'=>'状态',
-                'view'=>'浏览量',
-                'comment'=>'评论数',
+                'view'=>'浏览',
+                'comment'=>'评论',
                 '操作'=>array(
+					'编辑'=>array( 'href' => 'Article/edit?cate_id=$category_id&id=$id',),
                     '禁用'=>array( 'href' => 'Article/setStatus?status=1&ids=$id', 'class'=>'ajax-get', 'condition'=>'$status==2',),
                     '禁用'=>array( 'href' => 'Article/setStatus?status=0&ids=$id', 'class'=>'ajax-get', 'condition'=>'$status==1',),
                     '启用'=>array( 'href' => 'Article/setStatus?status=1&ids=$id', 'class'=>'ajax-get', 'condition'=>'$status==0',),
-					'编辑'=>array( 'href' => 'Article/edit?cate_id=$category_id&id=$id',),
                     '删除'=>array( 'href' => 'Article/setStatus?status=-1&ids=$id', 'class'=>'confirm ajax-get' ),
                 ),
             );

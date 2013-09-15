@@ -137,7 +137,9 @@ class ArticleController extends \Admin\Controller\AdminController {
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function index($cate_id = null, $status = null, $title = null){
-		$cate_id = $this->cate_id;
+        if(is_null($cate_id)){
+		    $cate_id = $this->cate_id;
+        }
 
 		/* 查询条件初始化 */
 		$map = array();
@@ -160,23 +162,29 @@ class ArticleController extends \Admin\Controller\AdminController {
 		if(!empty($cate_id)){			//没有权限则不查询数据
 			$Document = D('Document');
 			$map['category_id'] = $cate_id;
+            $map['pid']         =   I('pid',0);
 			$list = $this->lists($Document,$map);
 			intToString($list);
-
+            if($map['pid']){
+                // 获取上级文档
+                $article    =   M('Document')->field('id,title,type')->find($map['pid']);
+                $this->assign('article',$article);
+            }
 			//获取对应分类下的模型
 			$models = get_category($cate_id, 'model');
-		}
+            //检查该分类是否允许发布内容
+            $allow_publish = get_category($cate_id, 'allow_publish');
 
-		//检查该分类是否允许发布内容
-		$allow_publish = get_category($cate_id, 'allow_publish');
+            $this->assign('model', $models);
+            $this->assign('status', $status);
+            $this->assign('list', $list);
+            $this->assign('allow', $allow_publish);
 
-		$this->assign('model', $models);
-		$this->assign('status', $status);
-		$this->assign('list', $list);
-		$this->assign('allow', $allow_publish);
-
-		$this->meta_title = '文档列表';
-		$this->display();
+            $this->meta_title = '文档列表';
+            $this->display();
+		}else{
+            $this->error('非法的文档分类');
+        }
 	}
 
 	/**
@@ -227,7 +235,7 @@ class ArticleController extends \Admin\Controller\AdminController {
 		/* 获取要编辑的模型模板 */
 		$template = strtolower(get_document_model($model_id, 'name'));
 		$extend = $this->fetch($template);
-
+        $info['pid']      = $_GET['pid']?$_GET['pid']:0;
 		$info['model_id'] = $model_id;
 		$info['category_id'] = $cate_id;
 
@@ -261,7 +269,7 @@ class ArticleController extends \Admin\Controller\AdminController {
 
 		/* 获取要编辑的模型模板 */
 		$data['template'] = strtolower(get_document_model($data['model_id'], 'name'));
-
+        
 		$this->assign('info', $data);
 		$this->assign('model_id', $data['model_id']);
 
@@ -285,9 +293,9 @@ class ArticleController extends \Admin\Controller\AdminController {
 			$this->error(D('Document')->getError());
 		}else{
 			if($res['id']){
-				$this->success('更新成功', '/'.MODULE_NAME.'/article/index/cate_id/'.$res['category_id']);
+				$this->success('更新成功', '/'.MODULE_NAME.'/article/index/pid/'.$res['pid'].'/cate_id/'.$res['category_id']);
 			}else{
-				$this->success('新增成功', '/'.MODULE_NAME.'/article/index/cate_id/'.$res['category_id']);
+				$this->success('新增成功', '/'.MODULE_NAME.'/article/index/pid/'.$res['pid'].'/cate_id/'.$res['category_id']);
 			}
 		}
 	}

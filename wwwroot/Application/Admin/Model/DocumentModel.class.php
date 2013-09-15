@@ -258,7 +258,7 @@ class DocumentModel extends Model{
 	 * @return boolean     true-允许发布内容，false-不允许发布内容
 	 */
 	public function checkCategory($id){
-		if(is_array($id)){
+		if(is_array($id)){/*
 			if($id['category_id'] == 0 && in_array($id['type'], array(1, 3))){ //段落和目录分类必须为0
 				return true;
 			} elseif($id['category_id'] != 0 && in_array($id['type'], array(0, 2))) {
@@ -266,7 +266,9 @@ class DocumentModel extends Model{
 				return $publish ? true : false;
 			} else {
 				return false;
-			}
+			}*/
+			$publish = get_category($id['category_id'], 'allow_publish');
+			return $publish ? true : false;
 		} else {
 			$publish = get_category($id, 'allow_publish');
 			return $publish ? true : false;
