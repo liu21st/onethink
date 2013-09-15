@@ -601,7 +601,7 @@ class AdminController extends Action {
             }
             $s_thead = serialize($thead);
             if(!empty($list)){
-                preg_replace_callback('/\$((?:\w\d?_?)+)/',function($matches) use($keys){
+                preg_replace_callback('/\$([a-zA-Z]+)/',function($matches) use($keys){
                     if( !in_array($matches[1],$keys) ){
                         die('<h1>'.'严重问题：数据列表表头定义使用了数据集中不存在的字段:$'.$matches[1].'</h1>');
                     }
