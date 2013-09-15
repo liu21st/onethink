@@ -187,11 +187,15 @@
         });
     })();
 
-    //表单获取焦点样式
+    // 独立域表单获取焦点样式
     $(".text").focus(function(){
         $(this).addClass("focus");
+    }).blur(function(){
+        $(this).removeClass('focus');
     });
     $("textarea").focus(function(){
+        $(this).closest(".textarea").addClass("focus");
+    }).blur(function(){
         $(this).closest(".textarea").addClass("focus");
     });
 
@@ -199,6 +203,18 @@
     $(".upload-img-box").click(function(){
         $(this).find(".upload-pre-item").toggleClass("proto");
     })
+
+    // [> 表单获取焦点变色 <]
+    // $("form").on("focus", "input", function(){
+        // $(this).addClass('focus');
+    // }).on("blur","input",function(){
+                // $(this).removeClass('focus');
+            // });
+    // $("form").on("focus", "textarea", function(){
+        // $(this).closest('label').addClass('focus');
+    // }).on("blur","textarea",function(){
+                // $(this).closest('label').removeClass('focus');
+            // });
 });
 
 //标签页切换(无下一步)
