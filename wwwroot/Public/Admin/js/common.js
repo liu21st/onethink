@@ -203,18 +203,6 @@
     $(".upload-img-box").click(function(){
         $(this).find(".upload-pre-item").toggleClass("proto");
     })
-
-    // [> 表单获取焦点变色 <]
-    // $("form").on("focus", "input", function(){
-        // $(this).addClass('focus');
-    // }).on("blur","input",function(){
-                // $(this).removeClass('focus');
-            // });
-    // $("form").on("focus", "textarea", function(){
-        // $(this).closest('label').addClass('focus');
-    // }).on("blur","textarea",function(){
-                // $(this).closest('label').removeClass('focus');
-            // });
 });
 
 //标签页切换(无下一步)
