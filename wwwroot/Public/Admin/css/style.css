@@ -212,6 +212,7 @@ body{
 }
 .side-sub-menu .subitem .item:hover {
     text-decoration: none;
+    border-bottom: 0 none;
     background: url(../images/subnav_current.png) no-repeat 130px 12px #f5f5f5;
 }
 .side-sub-menu .subitem > .item {
