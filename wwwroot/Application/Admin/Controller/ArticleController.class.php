@@ -238,7 +238,11 @@ class ArticleController extends \Admin\Controller\AdminController {
         $info['pid']      = $_GET['pid']?$_GET['pid']:0;
 		$info['model_id'] = $model_id;
 		$info['category_id'] = $cate_id;
-
+        if($info['pid']){
+            // 获取上级文档
+            $article    =   M('Document')->field('id,title,type')->find($info['pid']);
+            $this->assign('article',$article);
+        }
 		$this->assign('info', $info);
 		$this->assign('template', $template);
 		$this->assign('extend', $extend);
@@ -266,16 +270,20 @@ class ArticleController extends \Admin\Controller\AdminController {
 		}
         $data['create_time'] = empty($data['create_time']) ? '' : date('Y-m-d H:i',$data['create_time']);
         $data['dateline'] = empty($data['dateline']) ? '' : date('Y-m-d H:i',$data['dateline']);
-
-		/* 获取要编辑的模型模板 */
-		$data['template'] = strtolower(get_document_model($data['model_id'], 'name'));
-        
+        if($data['pid']){
+            // 获取上级文档
+            $article    =   M('Document')->field('id,title,type')->find($data['pid']);
+            $this->assign('article',$article);
+        }
 		$this->assign('info', $data);
 		$this->assign('model_id', $data['model_id']);
-
-		//获取扩展模板
-		$extend = $this->fetch($data['template']);
-		$this->assign('extend', $extend);
+        if($data['type']>1){
+            /* 获取要编辑的模型模板 */
+            $data['template'] = strtolower(get_document_model($data['model_id'], 'name'));
+            //获取扩展模板
+            $extend = $this->fetch($data['template']);
+            $this->assign('extend', $extend);
+        }
 
 		$this->assign('type_list', get_type_bycate($data['category_id']));
 
