@@ -15,7 +15,7 @@
 		<a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a>
 			<if condition="count($rightNav) gt $i"><i class="ca"></i></if>
 		</volist>
-		<present name="article">：<a href="{:U('article/edit','id='.$article['id'])}">{$article.title}</a></present>
+		<present name="article">：<a href="{:U('article/index','cate_id='.$cate_id.'&pid='.$article['id'])}">{$article.title}</a></present>
 		]
 		<eq name="allow" value="0">（该分类不允许发布内容）</eq>
 		</h2>
