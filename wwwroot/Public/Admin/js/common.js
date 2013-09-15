@@ -187,12 +187,16 @@
         });
     })();
 
-    //表单获取焦点样式
+    // 独立域表单获取焦点样式
     $(".text").focus(function(){
         $(this).addClass("focus");
+    }).blur(function(){
+        $(this).removeClass('focus');
     });
     $("textarea").focus(function(){
         $(this).closest(".textarea").addClass("focus");
+    }).blur(function(){
+        $(this).closest(".textarea").removeClass("focus");
     });
 
     //上传点击放大

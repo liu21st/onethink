@@ -21,7 +21,7 @@ class AdminController extends Action {
     static protected $deny  = array('getMenus','tableList','record_list');
 
     /* 保存允许所有管理员访问的公共方法 */
-    static protected $allow = array( 'login','logout');
+    static protected $allow = array( 'login','logout','get');
 
     /**
      * 节点配置
@@ -595,13 +595,13 @@ class AdminController extends Action {
                 }
             }
 
-            $keys = array_keys( reset($list) );
+            $keys = array_keys( (array)reset($list) );
             foreach($list as $row){
                 $keys = array_intersect( $keys, array_keys($row) );
             }
             $s_thead = serialize($thead);
             if(!empty($list)){
-                preg_replace_callback('/\$((?:\w\d?_?)+)/',function($matches) use($keys){
+                preg_replace_callback('/\$([a-zA-Z_]+)/',function($matches) use($keys){
                     if( !in_array($matches[1],$keys) ){
                         die('<h1>'.'严重问题：数据列表表头定义使用了数据集中不存在的字段:$'.$matches[1].'</h1>');
                     }
