@@ -48,10 +48,10 @@ class AddonsController extends AdminController {
 
     //创建向导首页
     public function create(){
-        $creatable = is_writable(C('AUTOLOAD_NAMESPACE.Addons'));
+        $creatable = is_writable(ONETHINK_ADDON_PATH);
         if(!$creatable)
             $this->error('您没有创建目录写入权限，无法使用此功能');
-        $this->meta_title = '扩展-插件管理-创建向导';
+        $this->meta_title = '创建向导';
         $hooks = D('Hooks')->field('name,description')->select();
         $this->assign('Hooks',$hooks);
         $this->display('create');
@@ -139,8 +139,11 @@ str;
 
     public function checkForm(){
         $data = $_POST;
+        $data['info']['name'] = trim($data['info']['name']);
+        if(!$data['info']['name'])
+            $this->error('插件标识必须');
         //检测插件名是否合法
-        $addons_dir = C('AUTOLOAD_NAMESPACE.Addons');
+        $addons_dir = ONETHINK_ADDON_PATH;
         if(file_exists("{$addons_dir}{$data['info']['name']}")){
             $this->error('插件已经存在了');
         }
@@ -162,9 +165,10 @@ str;
     }
 
     public function build(){
-        $addonFile = $this->preview(false);
         $data = $_POST;
-        $addons_dir = C('AUTOLOAD_NAMESPACE.Addons');
+        $data['info']['name'] = trim($data['info']['name']);
+        $addonFile = $this->preview(false);
+        $addons_dir = ONETHINK_ADDON_PATH;
         //创建目录结构
         $files = array();
         $addon_dir = "$addons_dir{$data['info']['name']}/";
@@ -232,7 +236,7 @@ str;
      * 插件列表
      */
     public function index(){
-        $this->meta_title = '扩展-插件管理-插件列表';
+        $this->meta_title = '插件列表';
         $this->record_list(D('Addons')->getList());
         $this->display();
     }
@@ -248,7 +252,7 @@ str;
         $param = $addon->admin_list;
         if(!$param)
             $this->error('插件列表信息不正确');
-        $this->meta_title = '扩展-已装插件后台-'.$addon->info['title'];
+        $this->meta_title = $addon->info['title'];
         extract($param);
         $this->assign('title', $addon->info['title']);
         if($addon->custom_adminlist)
@@ -300,13 +304,21 @@ str;
         $id = (int)I('id');
         $addon = D('Addons')->find($id);
         $addon_class = addons($addon['name']);
-        $this->meta_title = '扩展-插件管理-设置插件-'.$addon_class->info['title'];
+        $this->meta_title = '设置插件-'.$addon_class->info['title'];
         $db_config = $addon['config'];
         $addon['config'] = include $addon_class->config_file;
         if($db_config){
             $db_config = json_decode($db_config, true);
             foreach ($addon['config'] as $key => $value) {
-                $addon['config'][$key]['value'] = $db_config[$key];
+                if($value['type'] != 'group'){
+                    $addon['config'][$key]['value'] = $db_config[$key];
+                }else{
+                    foreach ($value['options'] as $gourp => $options) {
+                        foreach ($options['options'] as $gkey => $value) {
+                            $addon['config'][$key]['options'][$gourp]['options'][$gkey]['value'] = $db_config[$gkey];
+                        }
+                    }
+                }
             }
         }
         if(!$addon)
@@ -400,7 +412,7 @@ str;
      * 钩子列表
      */
     public function hooks(){
-        $this->meta_title = '扩展-钩子列表';
+        $this->meta_title = '钩子列表';
         $map = $fields = array();
         $list = $this->lists(D("Hooks")->field($fields),$map);
         intToString($list, array('type'=>array( 1=>'view', 2=>'controller')));
@@ -430,6 +442,7 @@ str;
 
     public function addhook(){
         $this->assign('data', null);
+        $this->meta_title = '新增钩子';
         $this->display('edithook');
     }
 
@@ -437,6 +450,7 @@ str;
     public function edithook($id){
         $hook = D('Hooks')->find($id);
         $this->assign('data',$hook);
+        $this->meta_title = '编辑钩子';
         $this->display('edithook');
     }
 

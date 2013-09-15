@@ -50,8 +50,7 @@ class AuthManagerController extends AdminController{
      * 执行新节点的插入,已有节点的更新,无效规则的删除三项任务
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function updateRules()
-    {
+    public function updateRules(){
         //需要新增的节点必然位于$nodes
         $nodes    = $this->returnNodes(false);
 
@@ -111,14 +110,13 @@ class AuthManagerController extends AdminController{
             return true;
         }
     }
-    
+
 
     /**
      * 权限管理首页
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function index()
-    {
+    public function index(){
         $list = $this->lists('AuthGroup',array('module'=>'admin'),'id asc');
         $list = intToString($list);
         $this->assign( '_list', $list );
@@ -132,8 +130,7 @@ class AuthManagerController extends AdminController{
      * 创建管理员用户组
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function createGroup()
-    {
+    public function createGroup(){
         if ( empty($this->auth_group) ) {
             $this->assign('auth_group',array('title'=>null,'id'=>null,'description'=>null,'rules'=>null,));//排除notice信息
         }
@@ -144,21 +141,19 @@ class AuthManagerController extends AdminController{
      * 编辑管理员用户组
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function editGroup()
-    {
+    public function editGroup(){
         $auth_group = D('AuthGroup')->where( array('module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
                                     ->find( (int)$_GET['id'] );
         $this->assign('auth_group',$auth_group);
         $this->display();
     }
-    
+
 
     /**
      * 访问授权页面
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function access()
-    {
+    public function access(){
         $this->updateRules();
         $auth_group = D('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
 									->getfield('id,id,title,rules');
@@ -173,16 +168,15 @@ class AuthManagerController extends AdminController{
         $this->assign('node_list',$node_list);
         $this->assign('auth_group',$auth_group);
 		$this->assign('this_group',$auth_group[(int)$_GET['group_id']]);
-		$this->meta_title = '权限管理-访问授权';
+		$this->meta_title = '访问授权';
         $this->display('managergroup');
     }
-    
+
     /**
      * 管理员用户组数据写入/更新
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function writeGroup()
-    {
+    public function writeGroup(){
         if(isset($_POST['rules'])){
             sort($_POST['rules']);
             $_POST['rules']  = trim( implode( ',' , array_unique($_POST['rules'])) , ',' );
@@ -206,13 +200,12 @@ class AuthManagerController extends AdminController{
             $this->error('操作失败'.$AuthGroup->getError());
         }
     }
-    
+
     /**
      * 状态修改
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function changeStatus($method=null)
-    {
+    public function changeStatus($method=null){
         if ( empty($_GET['id']) ) {
             $this->error('请选择要操作的数据!');
         }
@@ -254,7 +247,7 @@ class AuthManagerController extends AdminController{
         $this->assign( '_list', $list );
 		$this->assign('auth_group',$auth_group);
 		$this->assign('this_group',$auth_group[(int)$_GET['group_id']]);
-		$this->meta_title = '权限管理-成员授权';
+		$this->meta_title = '成员授权';
         $this->display();
     }
 
@@ -271,7 +264,7 @@ class AuthManagerController extends AdminController{
         $this->assign('group_list',$group_list);
 		$this->assign('auth_group',$auth_group);
 		$this->assign('this_group',$auth_group[(int)$_GET['group_id']]);
-		$this->meta_title = '权限管理-分类授权';
+		$this->meta_title = '分类授权';
         $this->display();
     }
 
@@ -284,37 +277,40 @@ class AuthManagerController extends AdminController{
      * 将用户添加到用户组的编辑页面
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function group()
-    {
+    public function group(){
+        $uid = I('uid');
         $auth_groups = D('AuthGroup')->getGroups();
-        $user_groups = AuthGroupModel::getUserGroup(I('uid'));
+        $user_groups = AuthGroupModel::getUserGroup($uid);
         $ids = array();
         foreach ($user_groups as $value){
             $ids[] = $value['group_id'];
         }
+        $nickname = D('Member')->getNickName($uid);
+        $this->assign('nickname',$nickname);
         $this->assign('auth_groups',$auth_groups);
         $this->assign('user_groups',implode(',',$ids));
         $this->display();
     }
-    
+
     /**
      * 将用户添加到用户组,入参uid,group_id
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function addToGroup()
-    {
+    public function addToGroup(){
         $uid = I('uid');
         $gid = I('group_id');
         if( empty($uid) ){
             $this->error('参数有误');
         }
-        if ( C('USER_ADMINISTRATOR')==$uid ) {
-            $this->error('该用户为超级管理员');
-        }
         $AuthGroup = D('AuthGroup');
-        if( !M('Member')->where(array('uid'=>$uid))->find() ){
-            $this->error('管理员用户不存在');
-        }
+		if(is_numeric($uid)){
+			if ( C('USER_ADMINISTRATOR')==$uid ) {
+				$this->error('该用户为超级管理员');
+			}
+			if( !M('Member')->where(array('uid'=>$uid))->find() ){
+				$this->error('管理员用户不存在');
+			}
+		}
 
         if( $gid && !$AuthGroup->checkGroupId($gid)){
             $this->error($AuthGroup->error);
@@ -330,8 +326,7 @@ class AuthManagerController extends AdminController{
      * 将用户从用户组中移除  入参:uid,group_id
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function removeFromGroup()
-    {
+    public function removeFromGroup(){
         $uid = I('uid');
         $gid = I('group_id');
         if( $uid==$this->getVal('uid') ){
@@ -355,8 +350,7 @@ class AuthManagerController extends AdminController{
      * 将分类添加到用户组  入参:cid,group_id
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function addToCategory()
-    {
+    public function addToCategory(){
         $cid = I('cid');
         $gid = I('group_id');
         if( empty($gid) ){
@@ -375,5 +369,5 @@ class AuthManagerController extends AdminController{
             $this->error('操作失败');
         }
     }
-    
+
 }

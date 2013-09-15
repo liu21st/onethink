@@ -46,7 +46,7 @@ class UserController extends AdminController {
         $list   = $this->lists($Member);
         intToString($list);
 		$this->assign('_list', $list);
-		$this->meta_title = '用户-用户信息';
+		$this->meta_title = '用户信息';
 		$this->display();
 	}
 
@@ -137,7 +137,7 @@ class UserController extends AdminController {
         $list   = $this->lists($Action);
         intToString($list);
 		$this->assign('_list', $list);
-		$this->meta_title = '用户-用户行为';
+		$this->meta_title = '用户行为';
 		$this->display();
 	}
 
@@ -146,7 +146,8 @@ class UserController extends AdminController {
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function addAction(){
-		$this->display();
+		$this->meta_title = '新增行为';
+		$this->display('editaction');
 	}
 
 	/**
@@ -159,6 +160,7 @@ class UserController extends AdminController {
 		$data = M('Action')->find($id);
 
 		$this->assign($data);
+		$this->meta_title = '编辑行为';
 		$this->display();
 	}
 
@@ -172,9 +174,9 @@ class UserController extends AdminController {
 			$this->error(D('Action')->getError());
 		}else{
 			if($res['id']){
-				$this->success('更新行为成功！');
+				$this->success('更新行为成功！', U('/admin/user/action'));
 			}else{
-				$this->success('新增行为成功！');
+				$this->success('新增行为成功！', U('/admin/user/action'));
 			}
 		}
 	}

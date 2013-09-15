@@ -98,6 +98,7 @@
                 }
                 query = form.find('input,select,textarea').serialize();
             }
+            $(that).addClass('disabled').attr('autocomplete','off').prop('disabled',true);
             $.post(target,query).success(function(data){
                 if (data.status==1) {
                     if (data.url) {
@@ -110,6 +111,7 @@
                             location.href=data.url;
                         }else if( $(that).hasClass('no-refresh')){
                             $('#top-alert').find('button').click();
+                            $(that).removeClass('disabled').prop('disabled',false);
                         }else{
                             location.reload();
                         }
@@ -121,6 +123,7 @@
                             location.href=data.url;
                         }else{
                             $('#top-alert').find('button').click();
+                            $(that).removeClass('disabled').prop('disabled',false);
                         }
                     },1500);
                 }
@@ -184,12 +187,16 @@
         });
     })();
 
-    //表单获取焦点样式
+    // 独立域表单获取焦点样式
     $(".text").focus(function(){
         $(this).addClass("focus");
+    }).blur(function(){
+        $(this).removeClass('focus');
     });
     $("textarea").focus(function(){
-        $(this).closet(".textarea").addClass("focus");
+        $(this).closest(".textarea").addClass("focus");
+    }).blur(function(){
+        $(this).closest(".textarea").removeClass("focus");
     });
 
     //上传点击放大

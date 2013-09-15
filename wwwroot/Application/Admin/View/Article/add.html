@@ -100,7 +100,7 @@
 			            <input type="hidden" name="type" value="2">
 			            <input type="hidden" name="category_id" value="{$cate_id}">
 			            <input type="hidden" name="model_id" value="{$model_id}">
-						<button class="btn submit-btn hidden ajax-post" type="submit" target-form="form-horizontal" id="submit">保 存</button>
+						<button class="btn submit-btn ajax-post" type="submit" target-form="form-horizontal" id="submit">确 定</button>
 						<button class="btn submit-btn" id="submit-next" type="button" href="javascript:;">下一步</button>
 						<a class="btn btn-return" type="button" href="{:U('article/index?cate_id='.$cate_id)}">返 回</a>
 					</div>
@@ -175,7 +175,7 @@
 
 $(function(){
     $('#dateline').datetimepicker({
-        format: 'yyyy-mm-dd',
+        format: 'yyyy-mm-dd hh:ii',
         language:"zh-CN",
 	    minView:2,
 	    autoclose:true

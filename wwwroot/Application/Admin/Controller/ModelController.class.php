@@ -51,7 +51,7 @@ class ModelController extends AdminController {
         $list = $this->lists('DocumentModel',$map);
         intToString($list);
 		$this->assign('_list', $list);
-		$this->meta_title = '扩展-模型管理';
+		$this->meta_title = '模型管理';
 		$this->display();
 	}
 
@@ -85,15 +85,16 @@ class ModelController extends AdminController {
 
 
 	/**
-	 * 文档新增页面初始化
+	 * 新增页面初始化
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function add(){
-		$this->display();
+		$this->meta_title = '新增文档模型';
+		$this->display('edit');
 	}
 
 	/**
-	 * 文档编辑页面初始化
+	 * 编辑页面初始化
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function edit(){
@@ -110,6 +111,7 @@ class ModelController extends AdminController {
 		}
 
 		$this->assign($data);
+		$this->meta_title = '编辑文档模型';
 		$this->display();
 	}
 
@@ -123,9 +125,9 @@ class ModelController extends AdminController {
 			$this->error(D('DocumentModel')->getError());
 		}else{
 			if($res['id']){
-				$this->success('更新成功');
+				$this->success('更新成功', U('/admin/model/index'));
 			}else{
-				$this->success('新增成功');
+				$this->success('新增成功', U('/admin/model/index'));
 			}
 		}
 	}

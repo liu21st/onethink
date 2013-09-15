@@ -91,9 +91,6 @@ class ArticleController extends \Admin\Controller\AdminController {
     		$hide_cate = true;
     	}
 
-    	//单独处理2级以下的分类
-    	$child_cates = array();
-
     	//生成每个分类的url
     	foreach ($cate as $key=>&$value){
     		$value['url'] = 'Article/index?cate_id='.$value['id'];
@@ -101,30 +98,32 @@ class ArticleController extends \Admin\Controller\AdminController {
     		if($cate_id == $value['id'] && $hide_cate){
     			$value['current'] = true;
     		}
-    		foreach ($value['_child'] as $ka=>&$va){
-    			$va['url'] = 'Article/index?cate_id='.$va['id'];
-    			$va['level'] = 2;
-    			foreach ($va['_child'] as $k=>&$v){
-    				$v['url'] = 'Article/index?cate_id='.$v['id'];
-    				$v['pid'] = $va['id'];
-    				$v['level'] = 3;
-    				if($v['id'] == $cate_id){
-    					$is_child = true;
-    				}
-    			}
-    			//展开子分类的父分类
-    			if($va['id'] == $cate_id || $is_child){
-    				$child_cates = $va['_child'];
-    				$is_child = false;
-    				if($hide_cate){
-	    				$value['current'] = true;
-	    				$va['current'] = true;
-    				}
-    			}
+    		if(!empty($value['_child'])){
+	    		foreach ($value['_child'] as $ka=>&$va){
+	    			$va['url'] = 'Article/index?cate_id='.$va['id'];
+	    			$va['level'] = 2;
+	    			if(!empty($va['_child'])){
+		    			foreach ($va['_child'] as $k=>&$v){
+		    				$v['url'] = 'Article/index?cate_id='.$v['id'];
+		    				$v['pid'] = $va['id'];
+		    				$v['level'] = 3;
+		    				if($v['id'] == $cate_id){
+		    					$is_child = true;
+		    				}
+		    			}
+	    			}
+	    			//展开子分类的父分类
+	    			if($va['id'] == $cate_id || $is_child){
+	    				$is_child = false;
+	    				if($hide_cate){
+		    				$value['current'] = true;
+		    				$va['current'] = true;
+	    				}
+	    			}
+	    		}
     		}
     	}
     	$this->assign('nodes', $cate);
-    	$this->assign('child_cates', $child_cates);
     	$this->assign('cate_id', $this->cate_id);
 
     	//获取面包屑信息
@@ -138,7 +137,9 @@ class ArticleController extends \Admin\Controller\AdminController {
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function index($cate_id = null, $status = null, $title = null){
-		$cate_id = $this->cate_id;
+        if(is_null($cate_id)){
+		    $cate_id = $this->cate_id;
+        }
 
 		/* 查询条件初始化 */
 		$map = array();
@@ -161,20 +162,29 @@ class ArticleController extends \Admin\Controller\AdminController {
 		if(!empty($cate_id)){			//没有权限则不查询数据
 			$Document = D('Document');
 			$map['category_id'] = $cate_id;
+            $map['pid']         =   I('pid',0);
 			$list = $this->lists($Document,$map);
 			intToString($list);
-
+            if($map['pid']){
+                // 获取上级文档
+                $article    =   M('Document')->field('id,title,type')->find($map['pid']);
+                $this->assign('article',$article);
+            }
 			//获取对应分类下的模型
 			$models = get_category($cate_id, 'model');
-		}
+            //检查该分类是否允许发布内容
+            $allow_publish = get_category($cate_id, 'allow_publish');
 
+            $this->assign('model', $models);
+            $this->assign('status', $status);
+            $this->assign('list', $list);
+            $this->assign('allow', $allow_publish);
 
-		$this->assign('model', $models);
-		$this->assign('status', $status);
-		$this->assign('list', $list);
-
-		$this->meta_title = '文档列表';
-		$this->display();
+            $this->meta_title = '文档列表';
+            $this->display();
+		}else{
+            $this->error('非法的文档分类');
+        }
 	}
 
 	/**
@@ -214,9 +224,9 @@ class ArticleController extends \Admin\Controller\AdminController {
 		$cate_id = I('get.cate_id','');
 		$model_id = I('get.model_id','');
 		$model_name = get_document_model($model_id, 'title');
-		if(empty($cate_id) || empty($model_id)){
-			$this->error('参数不能为空！');
-		}
+
+		empty($cate_id) && $this->error('参数不能为空！');
+		empty($model_id) && $this->error('该分类未绑定模型！');
 
 		//检查该分类是否允许发布
 		$allow_publish = D('Document')->checkCategory($cate_id);
@@ -225,7 +235,7 @@ class ArticleController extends \Admin\Controller\AdminController {
 		/* 获取要编辑的模型模板 */
 		$template = strtolower(get_document_model($model_id, 'name'));
 		$extend = $this->fetch($template);
-
+        $info['pid']      = $_GET['pid']?$_GET['pid']:0;
 		$info['model_id'] = $model_id;
 		$info['category_id'] = $cate_id;
 
@@ -254,11 +264,12 @@ class ArticleController extends \Admin\Controller\AdminController {
 		if(!$data){
 			$this->error($Document->getError());
 		}
+        $data['create_time'] = empty($data['create_time']) ? '' : date('Y-m-d H:i',$data['create_time']);
         $data['dateline'] = empty($data['dateline']) ? '' : date('Y-m-d H:i',$data['dateline']);
 
 		/* 获取要编辑的模型模板 */
 		$data['template'] = strtolower(get_document_model($data['model_id'], 'name'));
-
+        
 		$this->assign('info', $data);
 		$this->assign('model_id', $data['model_id']);
 
@@ -282,9 +293,9 @@ class ArticleController extends \Admin\Controller\AdminController {
 			$this->error(D('Document')->getError());
 		}else{
 			if($res['id']){
-				$this->success('更新成功', '/'.MODULE_NAME.'/article/index/cate_id/'.$res['category_id']);
+				$this->success('更新成功', '/'.MODULE_NAME.'/article/index/pid/'.$res['pid'].'/cate_id/'.$res['category_id']);
 			}else{
-				$this->success('新增成功', '/'.MODULE_NAME.'/article/index/cate_id/'.$res['category_id']);
+				$this->success('新增成功', '/'.MODULE_NAME.'/article/index/pid/'.$res['pid'].'/cate_id/'.$res['category_id']);
 			}
 		}
 	}
@@ -343,7 +354,7 @@ class ArticleController extends \Admin\Controller\AdminController {
 	 */
 	public function clear(){
 		$res = D('Document')->remove();
-		if($res){
+		if($res !== false){
 			$this->success('清空回收站成功！');
 		}else{
 			$this->error('清空回收站失败！');

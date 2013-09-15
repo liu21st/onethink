@@ -1,10 +1,15 @@
+/*******************************************
+ * 自定义配色css文件放在defaut_color的同级目录,在View/Config/base.html中,增加一项配色option:
+ * <option value="文件名" <eq name="color" value="文件名">selected</eq> >默认</option>
+ ********************************************/
+
 /********************************************
  * base.css
  * 描述：重置页面元素并设置布局样式
  * 作用范围： 全局
  *******************************************/
 
-html,body {
+html,body,input,textarea,select,legend{
 	color:#404040;
 	/*全局默认文字颜色*/
 }
@@ -43,9 +48,6 @@ a:hover{
 }
 .tips-arrow .inner {
 	color: #fff;
-}
-.mask {
-	background: url(../images/mask.png) repeat 0 0;
 }
 
 /* 顶部信息提醒条 */
@@ -286,11 +288,6 @@ select {
     background-color: #4cdb00;
 }
 
-/* 被禁用的按钮 */
-.btn.disabled {
-	background-color: #8d8d8d;
-}
-
 /* 表单返回按钮 */
 .btn-return {
 	color: #fff;
@@ -323,6 +320,13 @@ select {
 .btn-group-click .dropdown a:hover {
     background-color: #eee;
 }
+
+/* 被禁用的按钮 */
+.btn.disabled {
+	background-color: #8d8d8d;
+	cursor: not-allowed;
+}
+
 
 /************************************* 
  * style.css
@@ -454,4 +458,89 @@ select {
 }
 .copyright {
     border-top-color: #ccc;
+}
+
+
+/*************************************
+ *  登陆页面css
+ ***********************************/
+
+/* body 配色*/
+#login-page {
+    color: #000;
+    background-color: #30333F;
+}
+
+
+#login-page .login-form {
+    background-color: #fff;
+    box-shadow: 0 0 26px #041A36;
+    border-top-color: #42EC00;
+}
+#login-page .login-form h3 {
+    color: #8D9CAA;
+}
+#login-page .login-form .check-tips {
+    color: #ff0000;
+}
+#login-page .login-form .item {
+    border-color:  #ececec;
+}
+#login-page .login-form .focus {
+    border-color: #A6E1F3;
+    box-shadow: 0 0 12px #BAF7FF;
+}
+#login-page .login-form .icon-login-user,
+#login-page .login-form .icon-login-pwd,
+.#login-page login-form .icon-login-verifycode {
+    background: url("../images/icon24_login.png") no-repeat;
+}
+#login-page .login-form .icon-login-user {
+    background-position: 0 0;
+}
+#login-page .login-form .icon-login-pwd {
+    background-position: -48px 0;
+}
+#login-page .login-form .icon-login-verifycode {
+    background-position: -24px 0;
+}
+#login-page .login-form input {
+    background-color: #fff;
+    color:#686868;
+}
+#login-page .login-form .login-btn {
+    color: #FFFFFF;
+    background-color: #40C402;
+}
+#login-page .login-form .login-btn:hover {
+    background-color: #42EC00;
+}
+#login-page .login-form .login-btn[disabled] {
+    opacity: 0.6;
+    filter: alpha(opacity=60);
+    cursor: default;
+    box-shadow: none;
+}
+#login-page .icon-loading {
+    background: url(../images/loading_icon.gif) no-repeat 0 0;
+}
+
+
+#login-page input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+#login-page .logo-img {
+    background: url(../images/logo.png) no-repeat 0 center;
+}
+
+#login-page .welcome{
+    color:#ddd;
+}
+
+#login-page .reloadverify{
+    color:#69C3FF;
+}
+
+#login-page img.verifyimg{
+	border-color: #ececec;
 }

@@ -9,13 +9,13 @@
 	<!-- 修改密码表单 -->
 	<form action="{:U('updateHook')}" method="post" class="form-horizontal">
 		<div class="form-item cf">
-			<label class="item-label">钩子名称<span class="must">*</span><span class="check-tips">（多个插件用,分割）</span></label>
+			<label class="item-label"><span class="must">*</span>钩子名称<span class="check-tips">（多个插件用,分割）</span></label>
 			<div class="controls">
 				<input type="text" value="{$data.name}" name="name" class="text input-large">
 			</div>
 		</div>
 		<div class="form-item cf">
-			<label class="item-label">钩子描述<span class="must">*</span><span class="check-tips">（多个插件用,分割）</span></label>
+			<label class="item-label"><span class="must">*</span>钩子描述<span class="check-tips">（多个插件用,分割）</span></label>
 			<div class="controls">
 				<input type="text" value="{$data.description}" name="description" class="text input-large">
 			</div>
@@ -24,8 +24,8 @@
 			<label class="item-label"钩子类型<span class="check-tips">（多个插件用,分割）</span></label>
 			<div class="controls">
 				<select name="type">
-					<option value="1" <eq name="data.type" value="1"> selected</eq>>view</option>
-					<option value="2" <eq name="data.type" value="2"> selected</eq>>controller</option>
+					<option value="1" <eq name="data.type" value="1"> selected</eq> title="用于附加显示为主的功能">view</option>
+					<option value="2" <eq name="data.type" value="2"> selected</eq> title="用于变更某些数据">controller</option>
 				</select>
 			</div>
 		</div>
@@ -36,7 +36,8 @@
 			</div>
 		</div>
 		<input type="hidden" name="id" value="{$data.id}">
-		<button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">保 存</button>
+		<button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button>
+		<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
 	</form>
 </block>
 

@@ -20,7 +20,7 @@ class CategoryController extends AdminController {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     static protected $nodes = array(
-        
+
         /* 导航栏目设置 */
         array( 'title' => '分类管理', 'url' => 'Category/index', 'group' => '导航栏目设置',
             'operator'=>array(
@@ -37,6 +37,7 @@ class CategoryController extends AdminController {
         $tree = D('Category')->getTree();
         $this->assign('tree', $tree);
         C('_SYS_GET_CATEGORY_TREE_', true); //标记系统获取分类树模板
+        $this->meta_title = '分类管理';
         $this->display();
     }
 
@@ -77,6 +78,7 @@ class CategoryController extends AdminController {
 
             $this->assign('info', $info);
             $this->assign('category', $cate);
+            $this->meta_title = '编辑分类';
             $this->display();
         }
     }
@@ -104,7 +106,39 @@ class CategoryController extends AdminController {
 
             /* 获取分类信息 */
             $this->assign('category', $cate);
+            $this->meta_title = '新增分类';
             $this->display('edit');
         }
+    }
+
+    /**
+     * 删除一个分类
+     * @author huajie <banhuajie@163.com>
+     */
+    public function remove(){
+    	$cate_id = I('id');
+    	if(empty($cate_id)){
+    		$this->error('参数错误!');
+    	}
+
+    	//判断该分类下有没有子分类，有则不允许删除
+    	$child = M('Category')->where(array('pid'=>$cate_id))->field('id')->select();
+    	if(!empty($child)){
+    		$this->error('请先删除该分类下的子分类');
+    	}
+
+    	//判断该分类下有没有内容
+    	$document_list = M('Document')->where(array('category_id'=>$cate_id))->field('id')->select();
+    	if(!empty($document_list)){
+    		$this->error('请先删除该分类下的文章（包含回收站）');
+    	}
+
+    	//删除该分类信息
+		$res = M('Category')->delete($cate_id);
+		if($res !== false){
+			$this->success('删除分类成功！');
+		}else{
+			$this->error('删除分类失败！');
+		}
     }
 }

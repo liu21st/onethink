@@ -2,7 +2,7 @@
 
 <block name="body">
 	<div class="main-title">
-		<h2>编辑/新增导航</h2>
+		<h2>{$info['id']?'编辑':'新增'}导航</h2>
 	</div>
 	<form action="__SELF__" method="post" class="form-horizontal">
 		<div class="form-item">
@@ -26,7 +26,7 @@
 		<div class="form-item">
 			<input type="hidden" name="id" value="{$info.id|default=''}">
 			<button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
-			<a class="btn btn-return" href="#">返 回</a>
+			<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
 		</div>
 	</form>
 </block>

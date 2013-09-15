@@ -16,12 +16,11 @@ class DocumentModel extends Model{
 
 	/* 自动验证规则 */
 	protected $_validate = array(
-// 		array('name', 'require', '标识不能为空', self::MUST_VALIDATE , 'regex', self::MODEL_INSERT),
 		array('name', '/^[a-zA-Z]\w{0,39}$/', '文档标识不合法', self::VALUE_VALIDATE, 'regex', self::MODEL_BOTH),
 		array('name', '', '标识已经存在', self::VALUE_VALIDATE, 'unique', self::MODEL_BOTH),
 		array('title', 'require', '标题不能为空', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
 		array('title', '1,80', '标题长度不能超过80个字符', self::MUST_VALIDATE, 'length', self::MODEL_BOTH),
-// 		array('description', 'require', '简介不能为空', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
+		array('link_id', 'url', '外链格式不正确', self::VALUE_VALIDATE, 'regex', self::MODEL_BOTH),
 		array('description', '1,140', '简介长度不能超过140个字符', self::VALUE_VALIDATE, 'length', self::MODEL_BOTH),
 		array('category_id', 'require', '分类不能为空', self::MUST_VALIDATE , 'regex', self::MODEL_INSERT),
 		array('category_id', 'require', '分类不能为空', self::EXISTS_VALIDATE , 'regex', self::MODEL_UPDATE),
@@ -29,14 +28,15 @@ class DocumentModel extends Model{
 		array('category_id', 'checkCategory', '该分类不允许发布内容', self::EXISTS_VALIDATE , 'callback', self::MODEL_UPDATE),
 		array('model_id,category_id', 'checkModel', '该分类没有绑定当前模型', self::MUST_VALIDATE , 'callback', self::MODEL_INSERT),
 		array('dateline', '/^\d{4,4}-\d{1,2}-\d{1,2}(\s\d{1,2}:\d{1,2}(:\d{1,2})?)?$/', '日期格式不合法,请使用"年-月-日 时:分"格式,全部为数字', self::VALUE_VALIDATE  , 'regex', self::MODEL_BOTH),
+		array('create_time', '/^\d{4,4}-\d{1,2}-\d{1,2}(\s\d{1,2}:\d{1,2}(:\d{1,2})?)?$/', '日期格式不合法,请使用"年-月-日 时:分"格式,全部为数字', self::VALUE_VALIDATE  , 'regex', self::MODEL_BOTH),
 	);
 
 	/* 自动完成规则 */
 	protected $_auto = array(
 		array('uid', 'is_login', self::MODEL_INSERT, 'function'),
-// 		array('name', 'checkName', self::MODEL_BOTH, 'callback'),
 		array('title', 'htmlspecialchars', self::MODEL_BOTH, 'function'),
 		array('description', 'htmlspecialchars', self::MODEL_BOTH, 'function'),
+		array('link_id', 'getLink', self::MODEL_BOTH, 'callback'),
 		array('attach', 0, self::MODEL_INSERT),
 		array('view', 0, self::MODEL_INSERT),
 		array('comment', 0, self::MODEL_INSERT),
@@ -46,6 +46,7 @@ class DocumentModel extends Model{
 		array('status', 'getStatus', self::MODEL_BOTH, 'callback'),
 		array('position', 'getPosition', self::MODEL_BOTH, 'callback'),
 		array('dateline', 'strtotime', self::MODEL_BOTH, 'function'),
+		array('create_time', 'strtotime', self::MODEL_BOTH, 'function'),
 	);
 
 	/**
@@ -257,7 +258,7 @@ class DocumentModel extends Model{
 	 * @return boolean     true-允许发布内容，false-不允许发布内容
 	 */
 	public function checkCategory($id){
-		if(is_array($id)){
+		if(is_array($id)){/*
 			if($id['category_id'] == 0 && in_array($id['type'], array(1, 3))){ //段落和目录分类必须为0
 				return true;
 			} elseif($id['category_id'] != 0 && in_array($id['type'], array(0, 2))) {
@@ -265,7 +266,9 @@ class DocumentModel extends Model{
 				return $publish ? true : false;
 			} else {
 				return false;
-			}
+			}*/
+			$publish = get_category($id['category_id'], 'allow_publish');
+			return $publish ? true : false;
 		} else {
 			$publish = get_category($id, 'allow_publish');
 			return $publish ? true : false;
@@ -397,6 +400,20 @@ class DocumentModel extends Model{
 		//删除基础数据
 		$res = $this->where($map)->delete();
 		return $res;
+	}
+
+	/**
+	 * 获取链接id
+	 * @return int 链接对应的id
+	 * @author huajie <banhuajie@163.com>
+	 */
+	protected function getLink(){
+		$link = I('post.link_id');
+		if(empty($link)){
+			return 0;
+		}
+		$res = D('Url')->update(array('url'=>$link));
+		return $res['id'];
 	}
 
 }

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>{$meta_title|default='OneThink后台管理'}</title>
+    <title>{$meta_title}|OneThink管理平台</title>
     <link rel="stylesheet" type="text/css" href="__CSS__/base.css" media="all">
     <link rel="stylesheet" type="text/css" href="__CSS__/common.css" media="all">
     <link rel="stylesheet" type="text/css" href="__CSS__/module.css">
@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="__CSS__/table.css" media="all">
     <link rel="stylesheet" type="text/css" href="__CSS__/button.css" media="all">
     <link rel="stylesheet" type="text/css" href="__CSS__/style.css" media="all">
+    {:change_style()}
      <!--[if lt IE 9]>
     <script type="text/javascript" src="__STATIC__/jquery-1.10.2.min.js"></script>
     <![endif]--><!--[if gte IE 9]><!-->
@@ -105,8 +106,8 @@
         </div>
         <div class="cont-ft">
             <div class="copyright">
-                <div class="fl">感谢使用<a href="javascript:;">OneThink</a>进行创作</div>
-                <div class="fr">Version 1.0 beta</div>
+                <div class="fl">感谢使用<a href="javascript:;">OneThink</a>管理平台</div>
+                <div class="fr">V{$Think.const.ONETHINK_VERSION}</div>
             </div>
         </div>
     </div>
@@ -159,17 +160,6 @@
                 userMenu.data("timeout", setTimeout(function(){userMenu.addClass("hidden")}, 100));
             });
 
-	        /* 表单获取焦点变色 */
-	        $("form").on("focus", "input", function(){
-		        $(this).addClass('focus');
-	        }).on("blur","input",function(){
-				        $(this).removeClass('focus');
-			        });
-		    $("form").on("focus", "textarea", function(){
-			    $(this).closest('label').addClass('focus');
-		    }).on("blur","textarea",function(){
-					    $(this).closest('label').removeClass('focus');
-				    });
         }();
     </script>
     <block name="script"></block>

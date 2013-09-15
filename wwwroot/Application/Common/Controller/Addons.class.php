@@ -42,7 +42,7 @@ namespace Common\Controller;
 			// 	$this->error('非插件内部访问');
 			// }
 			$this->view = \Think\Think::instance('Think\View');
-			$this->addon_path = C('AUTOLOAD_NAMESPACE.Addons').$this->getName().'/';
+			$this->addon_path = ONETHINK_ADDON_PATH.$this->getName().'/';
 			if(is_file($this->addon_path.'config.php')){
 				$this->config_file = $this->addon_path.'config.php';
 			}

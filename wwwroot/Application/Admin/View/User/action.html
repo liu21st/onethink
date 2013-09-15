@@ -6,8 +6,8 @@
 		<h2>行为列表</h2>
 	</div>
 
-    <div class="tools">
-        <button class="btn" id="action_add" url="{:U('user/addaction')}">新 建</button>
+    <div>
+        <button class="btn" id="action_add" url="{:U('user/addaction')}">新 增</button>
         <button class="btn ajax-post" target-form="ids" url="{:u('setstatus',array('status'=>1))}" >启 用</button>
         <button class="btn ajax-post" target-form="ids" url="{:u('setstatus',array('status'=>0))}">禁 用</button>
         <button class="btn ajax-post confirm" target-form="ids" url="{:U('setStatus',array('status'=>-1))}">删 除</button>
@@ -41,7 +41,7 @@
         ?>
 	</div>
 	<!-- 分页 -->
-	<div class="page">{$page}</div>
+	<div class="page">{$_page}</div>
 	<!-- /分页 -->
 
 </block>

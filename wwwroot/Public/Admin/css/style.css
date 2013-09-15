@@ -111,6 +111,7 @@ body{
     width: 200px;
     height: 100%;
 	background: #6b6b6b url("/Public/Admin/images/bg/bg.png");
+    z-index:2;
 }
 .subnav {
     padding: 0 0 66px 15px;
@@ -223,6 +224,99 @@ body{
 .subnav-off {
     display: none;
 }
+
+/* 后台首页
+------------------------------------------------- */
+.index-body {
+    padding-left: 0;
+    background-color: #f6f6f6;
+}
+.index-main {
+    margin: 0 20px;
+}
+.top-columns {
+    margin: 30px 0 15px;
+    padding: 15px;
+    background-color: #fff;
+    brder: 1px solid #cdcdcd;
+}
+.columns-mod {
+    border: 1px solid #cdcdcd;
+}
+.columns-mod .hd {
+    padding: 0 10px 0 15px;
+    height: 35px;
+    line-height: 35px;
+    border-bottom: 1px solid #cdcdcd;
+    background-color: #eee;
+}
+.columns-mod .hd h5 {
+    float: left;
+    font-size: 14px;
+}
+.columns-mod .hd a {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    color: #656565;
+    text-align: center;
+    border: 1px solid transparent;
+}
+.columns-mod .hd a:hover {
+    color: #656565;
+    text-decoration: none;
+    border-color: #ccc;
+}
+.mod-down,
+.mod-up {
+    display: inline-block;
+    margin-top: 8px;
+    width: 10px;
+    height: 5px;
+    vertical-align: top;
+}
+.mod-down {
+    background: url(../images/mod_down.png) no-repeat;
+}
+.mod-up {
+    background: url(../images/mod_up.png) no-repeat;
+}
+.reload {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background: url(../images/reload.png) no-repeat;
+}
+.columns-mod .hd .title-opt {
+    float: right;
+}
+.columns-mod .bd {
+    height: 255px;
+    overflow-y: auto; 
+    background-color: #fafafa;
+}
+.sys-info {
+    padding: 15px;
+}
+.sys-info table {
+    width: 100%;
+}
+.sys-info tr {
+    border-bottom: 1px solid #e9e9e9;
+}
+.sys-info th,
+.sys-info td {
+    padding: 8px 0;
+    height: 20px;
+    line-height: 20px;
+}
+.sys-info th {
+    font-weight: normal;
+    width: 30%;
+    text-align: left;
+}
+
 
 /* 后台内页模块样式
 ------------------------------------------------- */
@@ -393,6 +487,17 @@ body{
 #style_list a:hover {
     border-bottom: 0 none;
     text-decoration: none;
+}
+/* 插件管理表单 */
+.has_config,
+.has_adminlist {
+    display: block!important;
+    margin-left: 0!important;
+    margin-bottom: 10px;
+}
+.has_config.hidden,
+.has_adminlist.hidden {
+    display: none!important;
 }
 
 /* 授权编辑页 */

@@ -7,13 +7,17 @@
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
+// OneThink常量定义
+const ONETHINK_VERSION      =   '1.0beta';
+const ONETHINK_ADDON_PATH   =   './Addons/';
+
 /**
  * 系统配文件
  * 所有系统级别的配置
  */
 return array(
     /* 模块相关配置 */
-    'AUTOLOAD_NAMESPACE' => array('Addons' => './Addons/'), //扩展模块列表
+    'AUTOLOAD_NAMESPACE' => array('Addons' => ONETHINK_ADDON_PATH), //扩展模块列表
     'DEFAULT_MODULE'     => 'Admin',
     'MODULE_DENY_LIST'   => array('Common', 'User'),
 
