@@ -43,14 +43,14 @@ foreach ($_thead as $key => $th){
                     <td>
 <?php
                     if( strpos($key,'_')===0 ){
-                        $td = preg_replace_callback('/\$([a-zA-Z]+)/',function($matches) use($row) {
+                        $td = preg_replace_callback('/\$([a-zA-Z_]+)/',function($matches) use($row) {
                             return ($row[$matches[1]]);
                         },$td);
                         echo $td;
                     }else if( is_array($_thead[$key]) ) { 
                         if ( array_key_exists('func',$_thead[$key]) ) {
                             $_bool=true;
-                            $_func = preg_replace_callback('/\$([a-zA-Z]+)/',function($matches) use($row,&$_bool) {
+                            $_func = preg_replace_callback('/\$([a-zA-Z_]+)/',function($matches) use($row,&$_bool) {
                                 if ($row[$matches[1]]===null || !is_scalar($row[$matches[1]])) {
                                     $_bool = false;
                                 }
@@ -74,7 +74,7 @@ foreach ($_thead as $key => $th){
                         foreach ($_thead[$key] as $k=>$v) {
                             if(strtolower($k)!='_title' && strtolower($k)!='tag' && strtolower($k)!='func'){
                                 $_bool = true;
-                                $_v = preg_replace_callback('/\$([a-zA-Z]+)/',function($matches) use($row,&$_bool) {
+                                $_v = preg_replace_callback('/\$([a-zA-Z_]+)/',function($matches) use($row,&$_bool) {
                                     if ($row[$matches[1]]===null || !is_scalar($row[$matches[1]])) {
                                         $_bool = false;
                                     }
@@ -113,7 +113,7 @@ foreach ($_thead as $key => $th){
 
                             foreach ($v as $attr=>$value){
                                 $_bool = true;
-                                $_value = preg_replace_callback('/\$([a-zA-Z]+)/',function($matches) use($row,&$_bool,$attr) {
+                                $_value = preg_replace_callback('/\$([a-zA-Z_]+)/',function($matches) use($row,&$_bool,$attr) {
                                     if ($row[$matches[1]]===null || !is_scalar($row[$matches[1]])) {
                                         $_bool=false;
                                     }
@@ -140,7 +140,7 @@ foreach ($_thead as $key => $th){
                             $Doc->appendChild($ele);
                             echo $Doc->saveHTML();
                         }else{
-                            $_v = preg_replace_callback('/\$([a-zA-Z]+)/',function($matches) use($row) {
+                            $_v = preg_replace_callback('/\$([a-zA-Z_]+)/',function($matches) use($row) {
                                 return ($row[$matches[1]]);
                             },$v);
                             $_v = U($_v);
