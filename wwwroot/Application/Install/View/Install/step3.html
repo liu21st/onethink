@@ -1,131 +1,29 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>系统安装</title>
-    <link rel="stylesheet" href="__CSS__/install.css">
-</head>
-<body>
-    <div class="system-install system-step">
-        <div class="sihead">
-            <!--安装图标-->
-            <div class="install-logo">
-                <h3>discuz! 安装向导</h3>
-            </div>
-            <!--/安装图标-->
-            <!--安装描述-->
-            <div class="install-summary">
-                Discuz!X2.5 简体中文 UTF8 版 20130222
-            </div>
-            <!--/安装描述-->
-        </div>
-        <div class="sibody">
-            <!--安装步骤-->
-            <div class="step-install">
-                <div class="install-current">
-                    <i class="step3">3.</i>     
-                    <h3>创建数据库</h3>
-                    <p>正在执行数据库安装</p>
-                </div>
-                <div class="install-total cf">
-                    <span class="pass"><i class="ico">&nbsp;</i><b>检查安装设置</b></span>
-                    <span class="pass"><i class="ico">&nbsp;</i><b>设置运行环境</b></span>
-                    <span class="current"><i class="ico">&nbsp;</i><b>创建数据库</b></span>
-                    <span class="last"><i class="ico">&nbsp;</i><b>安装</b></span>
-                </div>
-            </div>
-            <!--/安装步骤-->
-            <!--安装表单-->
-            <div class="install-form">
-                <form action="{:U('step3')}" method="post">
-                    <div class="form-group">
-                        <table>
-                            <caption>填写数据库信息</caption>
-                            <tr>
-                                <th width="120px">数据库类型:</th>
-                                <td>
-                                    <select name="db[]">
-                                        <option value="mysqli">mysqli</option>
-                                        <option value="mysql">mysql</option>
-                                    </select>
-                                    <span class="form-tip"> 服务器支持的情况下建议使用mysqli</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th width="120px">数据库服务器:</th>
-                                <td>
-                                    <input name="db[]" class="text" type="text" value="localhost" size="30" /> 
-                                    <span class="form-tip"> 数据库服务器地址, 一般为 localhost</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>数据库名:</th>
-                                <td><input name="db[]" class="text" type="text" value="thinkucenter" size="30" /></td>
-                            </tr>
-                            <tr>
-                                <th>数据库用户名:</th>
-                                <td><input name="db[]" class="text" type="text" value="root" size="30" /></td>
-                            </tr>
-                            <tr>
-                                <th>数据库密码:</th>
-                                <td><input name="db[]" class="text" type="password" size="30" /></td>
-                            </tr>
-                            <tr>
-                                <th>数据库端口:</th>
-                                <td><input name="db[]" class="text" type="text" value="3306" size="30" /></td>
-                            </tr>
-                            <tr>
-                                <th>数据表前缀:</th>
-                                <td>
-                                    <input name="db[]" class="text" type="text" value="{:C('ORIGINAL_TABLE_PREFIX')}" size="30" /> 
-                                    <span class="form-tip"> 同一数据库运行多个论坛时，请修改前缀</span>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="form-group">
-                        <table>
-                            <caption>填写管理员信息</caption>
-                            <tr>
-                                <th width="120px">管理员账号:</th>
-                                <td><input name="admin[]" class="text" type="text" value="administrator" size="30" /></td>
-                            </tr>
-                            <tr>
-                                <th>管理员密码:</th>
-                                <td>
-                                    <input name="admin[]" class="text" type="text" size="30" /> 
-                                    <span class="form-tip"> 管理员密码不能为空</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>重复密码:</th>
-                                <td><input name="admin[]" class="text" type="text" size="30" /></td>
-                            </tr>
-                            <tr>
-                                <th>管理员 Email:</th>
-                                <td><input name="admin[]"class="text" type="text" value="admin@admin.com" size="30" /></td>
-                            </tr>
-                            <tr>
-                                <th>管理员手机:</th>
-                                <td><input name="admin[]"class="text" type="text" value="" size="30" /></td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="form-jump">
-                        <a class="widget-btn" href="{:U('step2')}">上一步</a>
-                        <button type="submit">下一步</button>
-                    </div>
-                </form>
-            </div>
-            <!--/安装表单-->
-        </div>
-        <div class="sifoot">
-            <!--安装版权-->
-            <div class="install-copyright">
-                ©2001 - 2012 <a href="#">Comsenz</a> Inc.
-            </div>
-            <!--/安装版权-->
-        </div>
+<extend name="Public/base"/>
+
+<block name="header">
+    <li class="active"><a href="javascript:;">安装协议</a></li>
+    <li class="active"><a href="javascript:;">环境检测</a></li>
+    <li class="active"><a href="javascript:;">创建数据库</a></li>
+    <li class="active"><a href="javascript:;">安装</a></li>
+    <li><a href="javascript:;">完成</a></li>
+</block>
+
+<block name="body">
+    <h1>安装</h1>
+    <div id="show-list" class="install-database">
     </div>
-</body>
-</html>
+    <script type="text/javascript">
+        var list   = document.getElementById('show-list');
+        function showmsg(msg, classname){
+            var li = document.createElement('p'); 
+            li.innerHTML = msg;
+            classname && li.setAttribute('class', classname);
+            list.appendChild(li);
+            document.scrollTop += 30;
+        }
+    </script>
+</block>
+
+<block name="footer">
+    <button class="btn btn-warning btn-large disabled">正在安装，请稍后...</button>
+</block>

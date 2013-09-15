@@ -11,6 +11,8 @@
  * 安装程序配置文件
  */
 
+define('INSTALL_APP_PATH', realpath('./') . '/');
+
 return array(
     /* URL配置 */
     'URL_CASE_INSENSITIVE' => true, //默认false 表示URL区分大小写 true则表示不区分大小写
@@ -18,7 +20,7 @@ return array(
     'VAR_URL_PARAMS'       => false,
 
     'OUTPUT_ENCODE' => false,
-    'ORIGINAL_TABLE_PREFIX' => 'think_ucenter_', //默认表前缀
+    'ORIGINAL_TABLE_PREFIX' => 'think_', //默认表前缀
 
     /* 模板相关配置 */
     'TMPL_PARSE_STRING' => array(
