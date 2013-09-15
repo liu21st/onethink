@@ -11,14 +11,21 @@
 namespace Think\Storage\Driver;
 use Think\Storage;
 // 本地文件写入存储类
-class File extends Storage{
+class Sae extends Storage{
 
     /**
      * 架构函数
      * @access public
      */
+    public $mc;
     public function __construct() {
+        $this->mc=@memcache_init();
+        if(!$this->mc){
+              header('Content-Type:text/html;charset=utf-8');
+              E('您未开通Memcache服务，请在SAE管理平台初始化Memcache服务');
+        }
     }
+
 
     /**
      * 文件内容读取
@@ -38,10 +45,7 @@ class File extends Storage{
      * @return boolean         
      */
     public function put($filename,$content,$type=''){
-        $dir         =  dirname($filename);
-        if(!is_dir($dir))
-            mkdir($dir,0755,true);
-        if(false === file_put_contents($filename,$content)){
+        if(!$this->mc->set($filename,time().$content,MEMCACHE_COMPRESSED,0)){
             E(L('_STORAGE_WRITE_ERROR_').':'.$filename);
         }else{
             return true;
@@ -56,8 +60,8 @@ class File extends Storage{
      * @return boolean        
      */
     public function append($filename,$content,$type=''){
-        if(is_file($filename)){
-            $content =  $this->read($filename,$type).$content;
+        if($old_content=$this->read($filename,$type)){
+            $content =  $old_content.$content;
         }
         return $this->put($filename,$content,$type);
     }
@@ -69,10 +73,10 @@ class File extends Storage{
      * @param array $vars  传入变量
      * @return void        
      */
-    public function load($filename,$vars=null,$type=''){
+    public function load($filename,$vars=null){
         if(!is_null($vars))
             extract($vars, EXTR_OVERWRITE);
-        include $filename;
+        eval('?>'.$this->read($filename));
     }
 
     /**
@@ -82,7 +86,11 @@ class File extends Storage{
      * @return boolean     
      */
     public function has($filename,$type=''){
-        return file_exists($filename);
+        if($this->read($filename)){
+            return true; 
+        }else{
+            return false;
+        }
     }
 
     /**
@@ -92,7 +100,8 @@ class File extends Storage{
      * @return boolean     
      */
     public function unlink($filename,$type=''){
-        return unlink($filename);
+        //TODO type
+        $this->mc->delete($filename);
     }
 
     /**
@@ -103,11 +112,14 @@ class File extends Storage{
      * @return boolean     
      */
     public function get($filename,$name,$type=''){
-        if(!is_file($filename)) return false;
-        $content=   file_get_contents($filename);
+        //TODO type
+        $content=$this->mc->get($filename);
+        if(false===$content){
+            return false;
+        }
         $info   =   array(
-            'mtime'     =>  filemtime($filename),
-            'content'   =>  $content
+            'mtime'     =>  substr($content,0,10),
+            'content'   =>  substr($content,10)
         );
         return $info[$name];
     }

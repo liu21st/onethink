@@ -38,55 +38,71 @@ class Think {
       // 注册AUTOLOAD方法
       spl_autoload_register(array('Think\Think', 'autoload'));
 
-      // 读取应用模式
-      $mode   =   include THINK_PATH.'Conf/Mode/'.APP_MODE.'.php';
-      
-      // 加载配置文件
-      foreach ($mode['config'] as $key=>$file){
-          is_numeric($key)?C(include $file):C($key,include $file);
+      // 初始化文件存储方式
+      Storage::connect(APP_MODE=='common'?'File':APP_MODE);
+
+      $runtimefile  = RUNTIME_PATH.APP_MODE.'~runtime.php';
+      if(!APP_DEBUG && Storage::has($runtimefile)){
+          Storage::load($runtimefile);
+      }else{
+          $content =  '';
+          // 读取应用模式
+          $mode   =   include is_file(COMMON_PATH.'Conf/core.php')?COMMON_PATH.'Conf/core.php':THINK_PATH.'Conf/Mode/'.APP_MODE.'.php';
+          
+          // 加载配置文件
+          foreach ($mode['config'] as $key=>$file){
+              is_numeric($key)?C(include $file):C($key,include $file);
+          }
+
+          // 加载核心文件
+          foreach ($mode['core'] as $file){
+              if(is_file($file)) {
+                include $file;
+                if(!APP_DEBUG) $content   .= compile($file);
+              }
+          }
+
+          // 加载别名定义
+          foreach($mode['alias'] as $alias){
+              self::addMap(is_array($alias)?$alias:(file_exists($alias)?include $alias:array()));
+          }
+                
+          // 加载模式系统行为定义
+          if(isset($mode['extends'])) {
+              C('extends',is_array($mode['extends'])?$mode['extends']:include $mode['extends']);
+          }
+
+          // 加载应用行为定义
+          if(isset($mode['tags'])) {
+              C('tags', is_array($mode['tags'])?$mode['tags']:include $mode['tags']);
+          }
+
+          // 加载框架底层语言包
+          L(include THINK_PATH.'Lang/'.strtolower(C('DEFAULT_LANG')).'.php');
+
+          if(!APP_DEBUG){
+              $content  .=  "\nnamespace { Think\Think::addMap(".var_export(self::$_map,true).");";
+              $content  .=  "\nL(".var_export(L(),true).");\nC(".var_export(C(),true).');}';
+              Storage::put($runtimefile,strip_whitespace('<?php '.$content));
+          }else{
+            // 调试模式加载系统默认的配置文件
+            C(include THINK_PATH.'Conf/debug.php');
+            // 读取调试模式的应用状态
+            $status  =  C('APP_STATUS');
+            // 加载对应的项目配置文件
+            if(is_file(COMMON_PATH.'Conf/'.$status.'.php'))
+                // 允许项目增加开发模式配置定义
+                C(include COMMON_PATH.'Conf/'.$status.'.php');          
+          }
       }
 
-      // 加载核心文件
-      foreach ($mode['core'] as $file){
-          if(is_file($file)) include $file;
-      }
-
-      // 加载别名定义
-      foreach($mode['alias'] as $alias){
-          self::addMap(is_array($alias)?$alias:include $alias);
-      }
-            
-      // 加载模式系统行为定义
-      if(isset($mode['extends'])) {
-          C('extends',is_array($mode['extends'])?$mode['extends']:include $mode['extends']);
-      }
-
-      // 加载应用行为定义
-      if(isset($mode['tags'])) {
-          C('tags', is_array($mode['tags'])?$mode['tags']:include $mode['tags']);
-      }
-
-      // 加载框架底层语言包
-      L(include THINK_PATH.'Lang/'.strtolower(C('DEFAULT_LANG')).'.php');
-
-  	  // 初始化文件存储方式
-  	  Storage::connect();
+      // 设置系统时区
+      date_default_timezone_set(C('DEFAULT_TIMEZONE'));
 
       // 检查项目目录结构 如果不存在则自动创建
       if(!is_dir(RUNTIME_PATH)) {
           // 创建项目目录结构
           require THINK_PATH.'Common/build.php';
-      }
-
-      if(APP_DEBUG){
-          // 调试模式加载系统默认的配置文件
-          C(include THINK_PATH.'Conf/debug.php');
-          // 读取调试模式的应用状态
-          $status  =  C('APP_STATUS');
-          // 加载对应的项目配置文件
-          if(is_file(COMMON_PATH.'Conf/'.$status.'.php'))
-              // 允许项目增加开发模式配置定义
-              C(include COMMON_PATH.'Conf/'.$status.'.php');          
       }
 
       // 记录加载文件时间
@@ -100,7 +116,7 @@ class Think {
         if(is_array($class)){
             self::$_map = array_merge(self::$_map, $class);
         }else{
-            self::$_map[$class] = $_map;
+            self::$_map[$class] = $map;
         }        
     }
 
@@ -115,13 +131,15 @@ class Think {
             include self::$_map[$class];
         }else{
           $name     = strstr($class, '\\', true);
-          $namespace =    C('AUTOLOAD_NAMESPACE');
-          if(isset($namespace[$name])){ // 注册的命名空间
-              $path   =   dirname($namespace[$name]) . '/';
-          }elseif(is_dir(LIB_PATH.$name)){ // Library目录下面的命名空间自动定位
+          if(is_dir(LIB_PATH.$name)){ // Library目录下面的命名空间自动定位
               $path   =   LIB_PATH;
-          }else{ // 模块的命名空间
-              $path   =   APP_PATH;
+          }else{ 
+              $namespace =    C('AUTOLOAD_NAMESPACE');
+              if(isset($namespace[$name])){ // 注册的命名空间
+                  $path   =   dirname($namespace[$name]) . '/';
+              }else{// 模块的命名空间
+                $path   =   APP_PATH;
+              }              
           }
           $filename = $path . str_replace('\\', '/', $class) . EXT;
           if(is_file($filename)) {
@@ -146,7 +164,7 @@ class Think {
             if(class_exists($class)){
                 $o = new $class();
                 if(!empty($method) && method_exists($o,$method))
-                    self::$_instance[$identify] = call_user_func_array(array(&$o, $method));
+                    self::$_instance[$identify] = call_user_func(array(&$o, $method));
                 else
                     self::$_instance[$identify] = $o;
             }
@@ -197,11 +215,6 @@ class Think {
           case E_COMPILE_ERROR:
           case E_USER_ERROR:
             ob_end_clean();
-            // 页面压缩输出支持
-            if(C('OUTPUT_ENCODE')){
-                $zlib = ini_get('zlib.output_compression');
-                if(empty($zlib)) ob_start('ob_gzhandler');
-            }
             $errorStr = "$errstr ".$errfile." 第 $errline 行.";
             if(C('LOG_RECORD')) Log::write("[$errno] ".$errorStr,Log::ERR);
             self::halt($errorStr);
@@ -218,9 +231,8 @@ class Think {
     
     // 致命错误捕获
     static public function fatalError() {
-        // 保存日志记录
-        if(C('LOG_RECORD')) Log::save();
         if ($e = error_get_last()) {
+            Log::save();
             switch($e['type']){
               case E_ERROR:
               case E_PARSE:
