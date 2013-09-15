@@ -506,7 +506,7 @@ class AdminController extends Action {
      * @return array|false
      * 返回数据集
      */
-    protected function lists ($model,$where=array(),$order='',$base = array('status'=>array('egt',0))){
+    protected function lists ($model,$where=array(),$order='',$base = array('status'=>array('egt',0)),$field=true){
         $options = array();
         $REQUEST = (array)I('request.');
         if(is_string($model)){
@@ -552,7 +552,7 @@ class AdminController extends Action {
 
         $model->setProperty('options',$options);
 
-		return $model->select();
+		return $model->field($field)->select();
     }
 
     /**
