@@ -196,7 +196,7 @@
     $("textarea").focus(function(){
         $(this).closest(".textarea").addClass("focus");
     }).blur(function(){
-        $(this).closest(".textarea").addClass("focus");
+        $(this).closest(".textarea").removeClass("focus");
     });
 
     //上传点击放大
