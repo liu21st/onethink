@@ -412,3 +412,10 @@ button.close {
 	border: 1px dashed #ccc;
 	background-color: #fff;
 }
+/* 上传图片点击弹出层 */
+.upload-img-popup {
+	box-shadow: 0 0 4px rgba(0,0,0,.2);
+}
+.upload-img-popup img {
+	display: block;
+}
