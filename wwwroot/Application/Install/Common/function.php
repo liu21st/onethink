@@ -15,8 +15,8 @@
 function check_env(){
 	$items = array(
 		'os'      => array('操作系统', '不限制', '类Unix', PHP_OS, 'success'),
-		'php'     => array('PHP版本', '5.2', '5.3+', PHP_VERSION, 'success'),
-		'mysql'   => array('MYSQL版本', '4.1', '5.0+', '未知', 'success'),
+		'php'     => array('PHP版本', '5.3', '5.3+', PHP_VERSION, 'success'),
+		'mysql'   => array('MYSQL版本', '5.0', '5.0+', '未知', 'success'),
 		'upload'  => array('附件上传', '不限制', '2M+', '未知', 'success'),
 		'gd'      => array('GD库', '2.0', '2.0+', '未知', 'success'),
 		'disk'    => array('磁盘空间', '5M', '不限制', '未知', 'success'),
@@ -49,7 +49,7 @@ function check_env(){
 
 	//磁盘空间检测
 	if(function_exists('disk_free_space')) {
-		$items['disk'][3] = floor(disk_free_space(realpath(INSTALL_APP_PATH)) / (1024*1024)).'M';
+		$items['disk'][3] = floor(disk_free_space(INSTALL_APP_PATH) / (1024*1024)).'M';
 	}
 
 	return $items;
@@ -61,10 +61,12 @@ function check_env(){
  */
 function check_dirfile(){
 	$items = array(
-		array('dir',  '可写', 'success', './Avatar'),
-		array('dir',  '可写', 'success', './UCenterServer/Runtime'),
+		array('dir',  '可写', 'success', './Uploads/Download'),
+		array('dir',  '可写', 'success', './Uploads/Picture'),
+		array('dir',  '可写', 'success', './Uploads/Editor'),
+		array('dir',  '可写', 'success', './Runtime'),
 		array('file', '可写', 'success', './index.php'),
-		array('file', '可写', 'success', './UCenterServer/Conf/config.php'),
+		array('file', '可写', 'success', './Application/Common/Conf/config.php'),
 	);
 
 	foreach ($items as &$val) {
@@ -102,9 +104,10 @@ function check_dirfile(){
  */
 function check_func(){
 	$items = array(
-		array('mysql_connect',     '支持', 'success', '无'),
-		array('file_get_contents', '支持', 'success', '无'),
-		array('fsockopen',         '支持', 'success', '无'),
+		array('mysql_connect',     '支持', 'success'),
+		array('file_get_contents', '支持', 'success'),
+		array('fsockopen',         '支持', 'success'),
+		array('mime_content_type', '支持', 'success'),
 	);
 
 	foreach ($items as &$val) {
@@ -203,6 +206,7 @@ function create_tables($db, $prefix = ''){
  */
 function show_msg($msg, $class = ''){
 	echo "<script type=\"text/javascript\">showmsg(\"{$msg}\", \"{$class}\")</script>";
+	sleep(1);
 	flush();
 	ob_flush();
 }

@@ -30,13 +30,13 @@ return array(
     'DEFAULT_FILTER' => '', //过滤函数
 
     /* 数据库配置 */
-    'DB_TYPE'   => 'mysqli', // 数据库类型
-    'DB_HOST'   => '192.168.1.200'/* localhost */, // 服务器地址
-    'DB_NAME'   => 'thinkcms', // 数据库名
-    'DB_USER'   => 'root', // 用户名
+    'DB_TYPE'   => '', // 数据库类型
+    'DB_HOST'   => ''/* localhost */, // 服务器地址
+    'DB_NAME'   => '', // 数据库名
+    'DB_USER'   => '', // 用户名
     'DB_PWD'    => '', // 密码
-    'DB_PORT'   => '3306', // 端口
-    'DB_PREFIX' => 'think_', // 数据库表前缀
+    'DB_PORT'   => '', // 端口
+    'DB_PREFIX' => '', // 数据库表前缀
     'LIST_ROWS' => 15,//列表默认行数
 
     /* 文档模型配置 (文档模型核心配置，请勿更改) */

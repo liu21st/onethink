@@ -15,4 +15,9 @@ class IndexController extends Action{
 	public function index(){
 		$this->display();
 	}
+
+	//安装完成
+	public function complete(){
+		$this->display();
+	}
 }
