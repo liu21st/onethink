@@ -116,7 +116,9 @@ function intToString(&$data,$map=array('status'=>array(1=>'正常',-1=>'删除',
     $data = (array)$data;
     foreach ($data as $key => $row){
         foreach ($map as $col=>$pair){
-            $data[$key][$col.'_text'] = $pair[$row[$col]];
+            if( isset($pair[$row[$col]])){
+                $data[$key][$col.'_text'] = $pair[$row[$col]];
+            }
         }
     }
     return $data;
@@ -233,7 +235,7 @@ function get_type_bycate($id = null){
 }
 
 /**
- * base.html中用到,根据风格设置载入对应的css文件
+ * base.html,index/index.html,index/login.html中用到,根据风格设置载入对应的css文件
  * 
  * @author 朱亚杰 <zhuyajie@topthink.net>
  */
