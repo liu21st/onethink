@@ -40,6 +40,9 @@
 			</div>
             <button class="btn ajax-post" target-form="ids" url="{:U("Article/setStatus",array("status"=>1))}">启 用</button>
 			<button class="btn ajax-post" target-form="ids" url="{:U("Article/setStatus",array("status"=>0))}">禁 用</button>
+			<button class="btn ajax-post" target-form="ids" url="{:U("Article/moveArticle")}">移 动</button>
+			<button class="btn ajax-post" target-form="ids" url="{:U("Article/copyArticle")}">复 制</button>
+			<button class="btn ajax-post" target-form="ids" url="{:U("Article/pasteArticle",array('cate_id'=>$cate_id))}">粘 贴</button>
 			<button class="btn ajax-post confirm" target-form="ids" url="{:U("Article/setStatus",array("status"=>-1))}">删 除</button>
 		</div>
 
