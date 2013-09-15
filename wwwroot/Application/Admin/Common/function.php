@@ -75,6 +75,26 @@ function get_document_type($type = null){
 }
 
 /**
+ * 获取配置的类型
+ * @param string $type 配置类型
+ * @return string 
+ */
+function get_config_type($type=0){
+	$list =	C('CONFIG_TYPE_LIST');
+	return $list[$type];
+}
+
+/**
+ * 获取配置的分组
+ * @param string $group 配置分组
+ * @return string 
+ */
+function get_config_group($group=0){
+	$list =	C('CONFIG_GROUP_LIST');
+	return $list[$group];
+}
+
+/**
  * 检查$pos(推荐位的值)是否包含指定推荐位$contain
  * @param number $pos 推荐位的值
  * @param number $contain 指定推荐位
@@ -245,4 +265,20 @@ function change_style(){
         $file = C('TMPL_PARSE_STRING.__CSS__').'/default_color.css';
     }
     echo '<link rel="stylesheet" type="text/css" href="'.$file.'" media="all">';
+}
+
+
+ // 分析配置值 格式 a:名称1,b:名称2
+function parse_config_attr($string) {
+	$array = preg_split('/[,;\r\n]+/', trim($string, ",;\r\n"));
+	if(strpos($string,':')){
+	    $value  =   array();
+	    foreach ($array as $val) {
+	        list($k, $v) = explode(':', $val);
+	        $value[$k]   = $v;
+	    }
+	}else{
+	    $value  =   $array;
+	}
+	return $value;
 }

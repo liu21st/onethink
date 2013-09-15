@@ -18,20 +18,44 @@
 			</div>
 		</div>
 		<div class="form-item">
+			<label class="item-label">排序<span class="check-tips">（用于分组显示的顺序）</span></label>
+			<div class="controls">
+				<input type="text" class="text input-small" name="sort" value="{$info.sort|default=0}">
+			</div>
+		</div>
+		<div class="form-item">
 			<label class="item-label">配置类型<span class="check-tips">（系统会根据不同类型解析配置值）</span></label>
 			<div class="controls">
 				<select name="type">
-					<volist name=":C('CONFIG_TYPE_LIST')" id="type">
+					<volist name="Think.config.CONFIG_TYPE_LIST" id="type">
 						<option value="{$key}">{$type}</option>
 					</volist>
 				</select>
 			</div>
 		</div>
 		<div class="form-item">
-			<label class="item-label">配置值<span class="check-tips">（配置值，不同类型有不同格式）</span></label>
+			<label class="item-label">配置分组<span class="check-tips">（配置分组 用于批量设置）</span></label>
+			<div class="controls">
+				<select name="group">
+					<volist name="Think.config.CONFIG_GROUP_LIST" id="group">
+						<option value="{$key}">{$group}</option>
+					</volist>
+				</select>
+			</div>
+		</div>
+		<div class="form-item">
+			<label class="item-label">配置值<span class="check-tips">（配置值）</span></label>
 			<div class="controls">
 				<label class="textarea input-large">
-					<textarea name="value">{$info.value|default=0}</textarea>
+					<textarea name="value">{$info.value|default=''}</textarea>
+				</label>
+			</div>
+		</div>
+		<div class="form-item">
+			<label class="item-label">配置项<span class="check-tips">（配置项，不同类型有不同格式）</span></label>
+			<div class="controls">
+				<label class="textarea input-large">
+					<textarea name="extra">{$info.extra|default=''}</textarea>
 				</label>
 			</div>
 		</div>
@@ -52,6 +76,7 @@
 <block name="script">
 	<script type="text/javascript">
 		Think.setValue("type", {$info.type|default=0});
+		Think.setValue("group", {$info.group|default=0});
 		//导航高亮
 		$('.side-sub-menu').find('a[href="{:U('Config/index')}"]').closest('li').addClass('current');
 	</script>
