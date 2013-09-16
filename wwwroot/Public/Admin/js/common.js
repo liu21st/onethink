@@ -54,7 +54,7 @@
                     },1500);
                 }
             });
-          
+
         }
         return false;
     });
@@ -68,8 +68,11 @@
         if( ($(this).attr('type')=='submit') || (target = $(this).attr('href')) || (target = $(this).attr('url')) ){
             form = $('.'+target_form);
 
-            if (form.get(0)==undefined){
-                return false;
+            if ($(this).attr('hide-data') === 'true'){//无数据时也可以使用的功能
+            	form = $('.hide-data');
+            	query = form.serialize();
+            }else if (form.get(0)==undefined){
+            	return false;
             }else if ( form.get(0).nodeName=='FORM' ){
                 if ( $(this).hasClass('confirm') ) {
                     if(!confirm('确认要执行该操作吗?')){
@@ -210,8 +213,8 @@
         if( popupLen < 1 ) {
             $(imgPopup).appendTo("body");
         }
-        $(".upload-img-popup").html( 
-            imgItem + "<a class=\"close-pop\" href=\"javascript:;\" title=\"关闭\"></a>" 
+        $(".upload-img-popup").html(
+            imgItem + "<a class=\"close-pop\" href=\"javascript:;\" title=\"关闭\"></a>"
         );
         var popW = $("#uploadPop").find("img").width();
         var popH = $("#uploadPop").find("img").height();
@@ -226,9 +229,9 @@
     $("body").on("click", "#uploadPop .close-pop", function(){
         $(this).parent().remove();
     })
-    
+
     //点击关闭弹出层
-    
+
     // $(document).click(function (e) {
     //     var drag = $("#uploadPop");
     //     var dragel = $("#uploadPop img")[0];
@@ -238,7 +241,7 @@
     //         alert(target)
     //     }
     // });
-    
+
 });
 
 //标签页切换(无下一步)
