@@ -43,7 +43,7 @@
             </div>
         
             <div>
-                <input type="text" name="db[]" value="3306">
+                <input type="text" name="db[]" value="onethink_">
                 <span>数据表前缀，同一个数据库运行多个系统时请修改为不同的前缀</span>
             </div>
         </div>
@@ -51,26 +51,29 @@
         <div class="create-database">
             <h2>创始人帐号信息</h2>
             <div>
-                <input type="text" name="admin[]" value="">
+                <input type="text" name="admin[]" value="Administrator">
                 <span>用户名</span>
             </div>
             <div>
-                <input type="text" name="admin[]" value="">
+                <input type="password" name="admin[]" value="">
                 <span>密码</span>
             </div>
             <div>
-                <input type="text" name="admin[]" value="">
+                <input type="password" name="admin[]" value="">
                 <span>确认密码</span>
             </div>
             <div>
                 <input type="text" name="admin[]" value="">
-                <span>邮箱</span>
+                <span>邮箱，请填写正确的邮箱便于收取提醒邮件</span>
             </div>
         </div>
     </form>
 </block>
 
 <block name="footer">
-    <a class="btn btn-primary btn-large" href="{:U('Install/step3')}">下一步</a>
+    <button id="submit" class="btn btn-primary btn-large">下一步</button id="submit">
     <a class="btn btn-success btn-large" href="{:U('Install/step1')}">上一步</a>
+    <script type="text/javascript">
+    $("#submit").click(function(){$("form").submit()});
+    </script>
 </block>

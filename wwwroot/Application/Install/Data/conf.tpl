@@ -14,7 +14,7 @@
 return array(
     /* 模块相关配置 */
     'AUTOLOAD_NAMESPACE' => array('Addons' => './Addons/'), //扩展模块列表
-    'DEFAULT_MODULE'     => 'Admin',
+    'DEFAULT_MODULE'     => 'Home',
     'MODULE_DENY_LIST'   => array('Common', 'User'),
 
     /* 调试配置 */
@@ -27,17 +27,16 @@ return array(
     'URL_PATHINFO_DEPR'    => '/', //PATHINFO URL分割符
     
     /* 全局过滤配置 */
-    'DEFAULT_FILTER' => '', //过滤函数
+    'DEFAULT_FILTER' => '', //全局过滤函数
 
     /* 数据库配置 */
     'DB_TYPE'   => '[DB_TYPE]', // 数据库类型
-    'DB_HOST'   => '[DB_HOST]'/* localhost */, // 服务器地址
+    'DB_HOST'   => '[DB_HOST]', // 服务器地址
     'DB_NAME'   => '[DB_NAME]', // 数据库名
     'DB_USER'   => '[DB_USER]', // 用户名
-    'DB_PWD'    => '[DB_PWD]', // 密码
+    'DB_PWD'    => '[DB_PWD]',  // 密码
     'DB_PORT'   => '[DB_PORT]', // 端口
     'DB_PREFIX' => '[DB_PREFIX]', // 数据库表前缀
-    'LIST_ROWS' => 15,//列表默认行数
 
     /* 文档模型配置 (文档模型核心配置，请勿更改) */
     'DOCUMENT_MODEL_TYPE' => array('专辑', '目录', '主题', '段落'),

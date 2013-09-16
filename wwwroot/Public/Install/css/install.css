@@ -181,6 +181,9 @@ hr.soften {
 .install-database p{
     margin-bottom: 0;
 }
+.install-database p.error{
+    color: red;
+}
 
 
 /* Pattern overlay
