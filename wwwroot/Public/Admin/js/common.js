@@ -200,33 +200,42 @@
     });
 
     //上传图片点击放大
-    // $(window).resize(function(){
-    //     var winW = $(window).width();
-    //     var winH = $(window).height();
-    //     $(".upload-img-box").click(function(){
-    //         var imgPopup = "<div class=\"upload-img-popup\"></div>"
-    //         var imgItem = $(this).find(".upload-pre-item").html();
-    //         var popW = $(imgPopup).width();
-    //         var popH = $(imgPopup).height();
-    //         var left = (winW -popW)/2;
-    //         var top = (winH - popH)/2 + 50;
-    //         //如果弹出层存在，则不能再弹出
-    //         var popupLen = $(".upload-img-popup").length;
-    //         if( popupLen < 1 ) {
-    //             $(imgPopup).appendTo("body");
-    //         }
-    //         $(".upload-img-popup").html(imgItem);
-    //         $(".upload-img-popup").css({
-    //             "position": "fixed",
-    //             "left": left,
-    //             "top": top,
-    //             "z-index": 99999,
-    //             "background-color":"#fff"
-    //         })
-    //         // $(this).find(".upload-pre-item").toggleClass("proto");
-    //     });
-    // }).resize();
+    $(window).resize(function(){
+        var winW = $(window).width();
+        var winH = $(window).height();
+        $(".upload-img-box").click(function(){
+            var imgPopup = "<div id=\"uploadPop\" class=\"upload-img-popup\"></div>"
+            var imgItem = $(this).find(".upload-pre-item").html();
+            //如果弹出层存在，则不能再弹出
+            var popupLen = $(".upload-img-popup").length;
+            if( popupLen < 1 ) {
+                $(imgPopup).appendTo("body");
+            }
+            $(".upload-img-popup").html(imgItem);
+            var popW = $("#uploadPop").find("img").width();
+            var popH = $("#uploadPop").find("img").height();
+            var left = (winW -popW)/2;
+            var top = (winH - popH)/2 + 50;
+            $(".upload-img-popup").css({
+                "position": "fixed",
+                "left": left,
+                "top": top,
+                "z-index": 9999,
+                "background-color":"#fff"
+            });
+        });
+    }).resize();
     
+    //点击其它地方关闭
+    // $(document).click(function (e) {
+    //     var drag = $("#uploadPop");
+    //     var dragel = $("#uploadPop")[0];
+    //     var target = e.target;
+    //     // alert(target)
+    //     if (dragel !== target && !$.contains(dragel, target)) {
+    //         drag.hide();
+    //     }
+    // });
     
 });
 

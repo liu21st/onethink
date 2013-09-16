@@ -1,39 +1,63 @@
 <extend name="Public/base" />
 
 <block name="body">
-<div class="main-title cf">
-<h2><if condition="ACTION_NAME eq 'add'">新增<else/>编辑</if>模型</h2>
-</div>
-<div>
-	<!-- 表单 -->
-	<form id="form" action="{:U('update')}" method="post" class="form-horizontal doc-modal-form">
-		<div class="form-item cf">
-			<label class="item-label">文档模型标识<span class="check-tips">（请输入文档模型标识）</span></label>
-			<div class="controls">
-				<input type="text" class="text input-large" name="name" value="{$name}">
-			</div>
+	<div class="main-title cf">
+		<h2><if condition="ACTION_NAME eq 'add'">新增<else/>编辑</if>模型</h2>
+	</div>
+
+	<!-- 标签页导航 -->
+	<div class="tab-wrap">
+		<ul class="tab-nav nav">
+			<li data-tab="tab1" class="current"><a href="javascript:void(0);">基 础</a></li>
+			<li data-tab="tab2"><a href="javascript:void(0);">高 级</a></li>
+		</ul>
+		<div class="tab-content">
+			<!-- 表单 -->
+			<form id="form" action="{:U('update')}" method="post" class="form-horizontal doc-modal-form">
+				<!-- 基础 -->
+				<div id="tab1" class="tab-pane in tab1">
+					<div class="form-item cf">
+						<label class="item-label">模型标识<span class="check-tips">（请输入文档模型标识）</span></label>
+						<div class="controls">
+							<input type="text" class="text input-large" name="name" value="{$name}">
+						</div>
+					</div>
+					<div class="form-item cf">
+						<label class="item-label">模型名称<span class="check-tips">（请输入模型的名称）</span></label>
+						<div class="controls">
+							<input type="text" class="text input-large" name="title" value="{$title}">
+						</div>
+					</div>
+				</div>
+
+				<!-- 高级 -->
+				<div id="tab2" class="tab-pane tab2">
+					<div class="form-item cf">
+					<label class="item-label">暂未开放</label>
+					</div>
+				</div>
+				
+				<!-- 按钮 -->
+				<div class="form-item cf">
+					<label class="item-label"></label>
+					<div class="controls">
+						<input type="hidden" name="id" value="{$id}"/>
+						<button class="btn submit-btn ajax-post no-refresh" type="submit" target-form="form-horizontal">确 定</button>
+						<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+					</div>
+				</div>
+			</form>
 		</div>
-		<div class="form-item cf">
-			<label class="item-label">标题<span class="check-tips">（请输入标题）</span></label>
-			<div class="controls">
-				<input type="text" class="text input-large" name="title" value="{$title}">
-			</div>
-		</div>
-		<div class="form-item cf">
-			<label class="item-label"></label>
-			<div class="controls">
-				<input type="hidden" name="id" value="{$id}"/>
-				<button class="btn submit-btn ajax-post no-refresh" type="submit" target-form="form-horizontal">确 定</button>
-				<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
-			</div>
-		</div>
-	</form>
-</div>
+	</div>
 </block>
 <block name="script">
 <script type="text/javascript" charset="utf-8">
     //导航高亮
     $('.side-sub-menu').find('a[href="{:U('Model/index')}"]').closest('li').addClass('current');
+
+    $(function(){
+    	showTab();
+    })
 </script>
 </block>
 
