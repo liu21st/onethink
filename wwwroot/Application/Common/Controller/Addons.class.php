@@ -92,7 +92,7 @@ namespace Common\Controller;
 
 		final public function getName(){
 			$class = get_class($this);
-			return substr(basename($class), 0, -6);
+			return substr($class,strrpos($class, '\\')+1, -6);
 		}
 
 		final public function checkInfo(){

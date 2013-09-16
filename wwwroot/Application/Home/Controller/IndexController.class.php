@@ -52,8 +52,6 @@ class IndexController extends HomeController {
             );
     		$upload = new \COM\Upload(array('rootPath' => './Uploads/bcs'), 'Bcs', $config);
     		$info   = $upload->upload($_FILES);
-    		dump($upload->getError());
-    		dump($info);
     	} else {
     		$this->display();
     	}

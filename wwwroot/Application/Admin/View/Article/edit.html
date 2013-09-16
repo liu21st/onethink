@@ -120,7 +120,9 @@
 			<button class="btn submit-btn" id="submit-next" type="button">下一步</button>
 			<button class="btn submit-btn ajax-post hidden" id="submit" type="submit" target-form="form-horizontal">确 定</button>
 			<a class="btn btn-return" href="{:U('article/index?cate_id='.$cate_id)}">返 回</a>
-			<button class="btn ajax-post" url="{:U('article/autoSave')}" target-form="form-horizontal">保存为草稿</button>
+			<if condition="ACTION_NAME eq 'add' or $info['status'] eq 3">
+			<button class="btn" url="{:U('article/autoSave')}" target-form="form-horizontal" id="autoSave">保存为草稿</button>
+			</if>
 			<input type="hidden" name="id" value="{$info.id}"/>
 			<input type="hidden" name="pid" value="{$info.pid}"/>
 			<input type="hidden" name="model_id" value="{$info.model_id}"/>
@@ -212,6 +214,37 @@ $(function(){
 	    autoclose:true
     });
 	nextTab();
+
+	//保存草稿
+	$('#autoSave').click(function(){
+        var target_form = $(this).attr('target-form');
+        var target = $(this).attr('url')
+        var form = $('.'+target_form);
+        var query = form.serialize();
+        var that = this;
+
+        $(that).addClass('disabled').attr('autocomplete','off').prop('disabled',true);
+        $.post(target,query).success(function(data){
+            if (data.status==1) {
+                updateAlert(data.info ,'alert-success');
+                $('input[name=id]').val(data.data.id);
+            }else{
+                updateAlert(data.info);
+            }
+            setTimeout(function(){
+                $('#top-alert').find('button').click();
+                $(that).removeClass('disabled').prop('disabled',false);
+            },1500);
+        })
+        return false;
+    });
+
+	//每隔一段时间保存草稿
+	<if condition="ACTION_NAME eq 'add' or $info['status'] eq 3">
+	setInterval(function(){
+		$('#autoSave').click();
+	}, 1000*5);
+	</if>
 });
 </script>
 </block>
