@@ -230,6 +230,7 @@ body{
 ------------------------------------------------- */
 .index-body {
     padding-left: 0;
+    padding-bottom: 50px;
     background-color: #f6f6f6;
 }
 .index-main {
@@ -564,4 +565,9 @@ body{
 }
 .copyright a {
     margin: 0 4px;
+}
+.index-ft {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
