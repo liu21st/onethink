@@ -17,7 +17,7 @@ const ONETHINK_ADDON_PATH   =   './Addons/';
 return array(
     /* 模块相关配置 */
     'AUTOLOAD_NAMESPACE' => array('Addons' => ONETHINK_ADDON_PATH), //扩展模块列表
-    'DEFAULT_MODULE'     => 'Admin',
+    'DEFAULT_MODULE'     => 'Home',
     'MODULE_DENY_LIST'   => array('Common', 'User'),
 
     /* 调试配置 */

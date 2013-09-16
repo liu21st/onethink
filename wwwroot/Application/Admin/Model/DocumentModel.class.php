@@ -46,7 +46,6 @@ class DocumentModel extends Model{
 		array('status', 'getStatus', self::MODEL_BOTH, 'callback'),
 		array('position', 'getPosition', self::MODEL_BOTH, 'callback'),
 		array('dateline', 'strtotime', self::MODEL_BOTH, 'function'),
-		//array('create_time', 'strtotime', self::MODEL_BOTH, 'function'),
 	);
 
 	/**
@@ -91,15 +90,13 @@ class DocumentModel extends Model{
 		}
 
 		/* 获取模型数据 */
-        if($info['type']>1){
-            $logic  = $this->logic($info['model_id']);
-            $detail = $logic->detail($id); //获取指定ID的数据
-            if(!$detail){
-                $this->error = $logic->getError();
-                return false;
-            }
-            $info = array_merge($info, $detail);
+        $logic  = $this->logic($info['model_id']);
+        $detail = $logic->detail($id); //获取指定ID的数据
+        if(!$detail){
+            $this->error = $logic->getError();
+            return false;
         }
+        $info = array_merge($info, $detail);
 
 		return $info;
 	}
@@ -164,15 +161,13 @@ class DocumentModel extends Model{
 		}
 
 		/* 添加或新增扩展内容 */
-        if($data['type']>1){ // 专辑和目录不支持扩展模型
-            $logic = $this->logic($data['model_id']);
-            if(!$logic->update($id)){
-                if(isset($id)){ //新增失败，删除基础数据
-                    $this->delete($id);
-                }
-                $this->error = $logic->getError();
-                return false;
+        $logic = $this->logic($data['model_id']);
+        if(!$logic->update($id)){
+            if(isset($id)){ //新增失败，删除基础数据
+            	$this->delete($id);
             }
+            $this->error = $logic->getError();
+            return false;
         }
 
 		//内容添加或更新完成
@@ -257,6 +252,11 @@ class DocumentModel extends Model{
 		return !isset($status) ? 1 : $status;
 	}
 
+    /**
+     * 创建时间不写则取当前时间
+     * @return int 时间戳
+     * @author huajie <banhuajie@163.com>
+     */
     protected function getCreateTime(){
         $create_time    =   I('post.create_time');
         return $create_time?strtotime($create_time):NOW_TIME;
