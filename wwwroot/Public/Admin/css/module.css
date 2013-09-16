@@ -389,17 +389,15 @@ button.close {
 .upload-img-box .upload-pre-item {
 	padding: 1px;
 	width: 120px;
+	max-height: 120px;
+	overflow: hidden;
+	text-align: center;
 	cursor: pointer;
 	border: 1px solid #ccc;
 	transition: all .3s linear;
 }
-.upload-img-box .upload-pre-item.proto {
-	display: inline-block;
-	*display: inlne;
-	width: auto;
-}
 .upload-img-box .upload-pre-item img {
-	display: block;
+	vertical-align: top;
 }
 .upload-img-box .uplaod-pre-file {
 	padding: 0 10px;
@@ -414,7 +412,24 @@ button.close {
 }
 /* 上传图片点击弹出层 */
 .upload-img-popup {
-	box-shadow: 0 0 4px rgba(0,0,0,.2);
+	position: fixed;
+	z-index: 9999;
+	padding: 3px;
+	border: 1px solid #c3c3c3;
+	background-color: #fff;
+	box-shadow: 0 0 4px rgba(0,0,0,.5);
+}
+.upload-img-popup .close-pop {
+	position: absolute;
+	top: -8px;
+	right: -8px;
+	width: 16px;
+	height: 16px;
+	background-color: #f00;
+}
+.upload-img-popup .close-pop:hover {
+	text-decoration: none;
+	border-bottom: 0 none;
 }
 .upload-img-popup img {
 	display: block;

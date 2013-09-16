@@ -199,41 +199,43 @@
         $(this).closest(".textarea").removeClass("focus");
     });
 
-    //上传图片点击放大
-    $(window).resize(function(){
-        var winW = $(window).width();
-        var winH = $(window).height();
-        $(".upload-img-box").click(function(){
-            var imgPopup = "<div id=\"uploadPop\" class=\"upload-img-popup\"></div>"
-            var imgItem = $(this).find(".upload-pre-item").html();
-            //如果弹出层存在，则不能再弹出
-            var popupLen = $(".upload-img-popup").length;
-            if( popupLen < 1 ) {
-                $(imgPopup).appendTo("body");
-            }
-            $(".upload-img-popup").html(imgItem);
-            var popW = $("#uploadPop").find("img").width();
-            var popH = $("#uploadPop").find("img").height();
-            var left = (winW -popW)/2;
-            var top = (winH - popH)/2 + 50;
-            $(".upload-img-popup").css({
-                "position": "fixed",
-                "left": left,
-                "top": top,
-                "z-index": 9999,
-                "background-color":"#fff"
-            });
+    //上传图片弹出大图
+    var winW = $(window).width();
+    var winH = $(window).height();
+    $(".upload-img-box").click(function(){
+        var imgPopup = "<div id=\"uploadPop\" class=\"upload-img-popup\"></div>"
+        var imgItem = $(this).find(".upload-pre-item").html();
+        //如果弹出层存在，则不能再弹出
+        var popupLen = $(".upload-img-popup").length;
+        if( popupLen < 1 ) {
+            $(imgPopup).appendTo("body");
+        }
+        $(".upload-img-popup").html( 
+            imgItem + "<a class=\"close-pop\" href=\"javascript:;\" title=\"关闭\"></a>" 
+        );
+        var popW = $("#uploadPop").find("img").width();
+        var popH = $("#uploadPop").find("img").height();
+        var left = (winW -popW)/2;
+        var top = (winH - popH)/2 + 50;
+        $(".upload-img-popup").css({
+            "left": left,
+            "top": top
         });
-    }).resize();
+    });
+
+    $("body").on("click", "#uploadPop .close-pop", function(){
+        $(this).parent().remove();
+    })
     
-    //点击其它地方关闭
+    //点击关闭弹出层
+    
     // $(document).click(function (e) {
     //     var drag = $("#uploadPop");
-    //     var dragel = $("#uploadPop")[0];
-    //     var target = e.target;
-    //     // alert(target)
-    //     if (dragel !== target && !$.contains(dragel, target)) {
-    //         drag.hide();
+    //     var dragel = $("#uploadPop img")[0];
+    //     var target = e.target ? e.target : e.srcElement;
+    //     if ( dragel !== target ) {
+    //         // drag.hide();
+    //         alert(target)
     //     }
     // });
     

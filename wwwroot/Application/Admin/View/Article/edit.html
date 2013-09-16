@@ -22,9 +22,7 @@
 	<ul class="tab-nav nav">
 		<li data-tab="tab1" class="current"><a href="javascript:void(0);">基 础</a></li>
 		<li data-tab="tab2"><a href="javascript:void(0);">高 级</a></li>
-		<present name="extend">
 		<li data-tab="tab3"><a href="javascript:void(0);">扩 展</a></li>
-		</present>
 	</ul>
 	<div class="tab-content">
 	<!-- 表单 -->
@@ -112,12 +110,12 @@
 				</div>
 			</div>
 		</div>
-		<present name="extend">
+
 		<div id="tab3" class="tab-pane tab3">
 			<!-- 引入扩展文档模型 -->
 			{$extend}
 		</div>
-		</present>
+
 		<div class="form-item cf">
 			<button class="btn submit-btn" id="submit-next" type="button">下一步</button>
 			<button class="btn submit-btn ajax-post hidden" id="submit" type="submit" target-form="form-horizontal">确 定</button>
@@ -166,7 +164,7 @@ $('#submit').click(function(){
     	var data = $.parseJSON(data);
         if(data.status){
         	$("input[name=file]").val(data.data);
-        	$("input[name=file]").parent().find('.upload-img-box').html( 
+        	$("input[name=file]").parent().find('.upload-img-box').html(
         		"<div class=\"uplaod-pre-file\">" + data.info + "</div>"
         	);
         } else {
