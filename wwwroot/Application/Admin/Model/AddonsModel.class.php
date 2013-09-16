@@ -59,6 +59,9 @@ class AddonsModel extends Model {
 		return $addons;
 	}
 
+	/**
+	 * 获取插件的后台列表
+	 */
 	public function getAdminList(){
 		$addon_dir = ONETHINK_ADDON_PATH;
 		$addons_names = glob($addon_dir.'*', GLOB_ONLYDIR);
@@ -67,11 +70,12 @@ class AddonsModel extends Model {
 			return FALSE;
 		}
 		$addons = $admin = array();
+		$db_addons = $this->where("status=1")->getField('name,id');
 		foreach ($addons_names as $value) {
 			$name = basename($value);
 			$addon = addons($name);
-			$info = $this->getAddonsInfo($name);
-			if($addon->admin_list !== array() && $info['id']){
+			$info = $addon->info;
+			if($addon->admin_list !== array() && $db_addons[$name] != null){
 				$admin[] = array('title'=>$addon->info['title'],'url'=>"Addons/adminList?name={$name}");
 			}
 		}

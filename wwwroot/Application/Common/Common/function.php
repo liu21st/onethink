@@ -286,7 +286,7 @@ function addons($name){
 function addons_url($url, $param = array()){
     $url        = parse_url($url);
     $case       = C('URL_CASE_INSENSITIVE');
-    $addons     = $case ? strtolower($url['scheme']) : $url['scheme'];
+    $addons     = $case ? parse_name($url['scheme']) : $url['scheme'];
     $controller = $case ? parse_name($url['host']) : $url['host'];
     $action     = trim($case ? strtolower($url['path']) : $url['path'], '/');
 

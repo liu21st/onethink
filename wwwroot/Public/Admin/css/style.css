@@ -236,12 +236,74 @@ body{
 .index-main {
     margin: 0 20px;
 }
+/* 首页数据 */
 .top-columns {
-    margin: 30px 0 15px;
-    padding: 15px;
-    background-color: #fff;
-    brder: 1px solid #cdcdcd;
+    margin: 20px 0;
+    text-align: center;
 }
+.show-num-mod {
+    display: inline-block;
+    *display: inline;
+    margin: 0 15px;
+    border: 1px solid #cdcdcd;
+    background-color: #fff;
+}
+.show-num-mod dt,
+.show-num-mod dd {
+    float:left;
+    padding: 10px;
+}
+.show-num-mod dt .top,
+.show-num-mod dd strong {
+    margin-bottom: 5px;
+    height: 30px;
+    line-height: 30px;
+}
+.show-num-mod dt em,
+.show-num-mod dd span {
+    font-size: 12px;
+    letter-spacing: .15em;
+}
+.show-num-mod dt {
+    width: 65px;
+    border-right: 1px solid #cdcdcd;
+}
+.show-num-mod dt em {
+    font-style: normal;
+    font-weight: bold;
+}
+.show-num-mod dd {
+    width: 100px;
+}
+.show-num-mod dd strong {
+    display: block;
+    font-size: 20px;
+    overflow: hidden
+}
+.user-count-icon,
+.doc-count-icon,
+.comment-count-icon, 
+.category-count-icon {
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+    vertical-align: middle;
+    background-repeat: no-repeat;
+}
+.user-count-icon {
+    background-image: url(../images/1.png);
+}
+.doc-count-icon {
+    background-image: url(../images/2.png);
+}
+.comment-count-icon {
+    background-image: url(../images/3.png);
+}
+.category-count-icon {
+    background-image: url(../images/4.png);
+}
+
+/* 首页插件模块 */
 .columns-mod {
     border: 1px solid #cdcdcd;
 }
@@ -298,6 +360,8 @@ body{
     overflow-y: auto; 
     background-color: #fafafa;
 }
+
+/* 系统信息列表 */
 .sys-info {
     padding: 15px;
 }
@@ -524,6 +588,23 @@ body{
 }
 .checkmod dd .divsion {
     margin-right: 20px;
+}
+
+/* 拖动排序列表 */
+.dragsort {
+    width: 400px;
+}
+.dragsort li {
+    margin-bottom: 5px;
+    padding: 0 6px;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid #eee;
+    background-color: #fff;
+}
+.dragsort .draging-place {
+    border-style: dashed;
+    border-color: #ccc;
 }
 
 .thinkbox-content{

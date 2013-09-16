@@ -13,14 +13,16 @@ use COM\Upload;
 
 class UploadController extends AddonsController{
 
+	public $uploader = null;
+
 	/* 上传图片 */
 	public function upload(){
 		/* 上传配置 */
 		$setting = C('EDITOR_UPLOAD');
 
 		/* 调用文件上传组件上传文件 */
-		$Upload = new Upload($setting, 'Local');
-		$info   = $Upload->upload($_FILES);
+		$this->uploader = new Upload($setting, 'Local');
+		$info   = $this->uploader->upload($_FILES);
 		$url = C('EDITOR_UPLOAD.rootPath').$info['imgFile']['savepath'].$info['imgFile']['savename'];
 		$url = str_replace('./', '/', $url);
 		$info['fullpath'] = $url;
@@ -35,10 +37,10 @@ class UploadController extends AddonsController{
 		/* 记录附件信息 */
 		if($img){
 			$return['url'] = $url;
-			unset($return['info'],$return['data']);
+			unset($return['info'], $return['data']);
 		} else {
 			$return['error'] = 0;
-			$return['message']   = $Upload->getError();
+			$return['message']   = $this->uploader->getError();
 		}
 
 		/* 返回JSON数据 */
@@ -48,7 +50,18 @@ class UploadController extends AddonsController{
 
 	//ueditor编辑器上传图片处理
 	public function ue_upimg(){
+
 		$img = $this->upload();
+		file_put_contents('./img', var_export($img,1));
+		$return = array();
+		$return['url'] = $img['fullpath'];
+		$title = htmlspecialchars($_POST['pictitle'], ENT_QUOTES);
+		$return['title'] = $title;
+		$return['original'] = $img['imgFile']['name'];
+		$return['state'] = ($img)? 'SUCCESS' : $this->uploader->getError();
+		file_put_contents('./img', var_export($return,1),FILE_APPEND);
+		/* 返回JSON数据 */
+		$this->ajaxReturn($return);
 	}
 
 }
