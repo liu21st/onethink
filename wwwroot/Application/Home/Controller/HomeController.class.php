@@ -27,7 +27,7 @@ class HomeController extends Action {
         $config = D('Config')->lists();
         C($config); //添加配置
 
-        if(C('WEB_SITE_CLOSE')){
+        if(!C('WEB_SITE_CLOSE')){
             $this->error('站点已经关闭，请稍后访问~');
         }
     }  
