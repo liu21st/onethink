@@ -438,7 +438,7 @@ class DocumentModel extends Model{
 		$post = I('post.');
 
 		//触发自动保存的字段
-		$save_list = array('name','title','description','position','link_id','cover_id','dateline','create_time');
+		$save_list = array('name','title','description','position','link_id','cover_id','dateline','create_time','content');
 		foreach ($save_list as $value){
 			if(!empty($post[$value])){
 				$if_save = true;
@@ -447,6 +447,7 @@ class DocumentModel extends Model{
 		}
 
 		if(!$if_save){
+			$this->error = '您未填写任何内容';
 			return false;
 		}
 
