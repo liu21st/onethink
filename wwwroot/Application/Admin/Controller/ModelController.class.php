@@ -51,7 +51,7 @@ class ModelController extends AdminController {
         $list = $this->lists('DocumentModel',$map);
         intToString($list);
 		$this->assign('_list', $list);
-		$this->meta_title = '扩展-模型管理';
+		$this->meta_title = '模型管理';
 		$this->display();
 	}
 

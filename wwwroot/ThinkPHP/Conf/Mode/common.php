@@ -22,7 +22,6 @@ return array(
 	// 别名定义
 	'alias'		=>	array(
 		array(
-		    'Think\App'               => CORE_PATH . 'App'.EXT,
 		    'Think\Log'               => CORE_PATH . 'Log'.EXT,
 		    'Think\Log\Driver\File'   => CORE_PATH . 'Log/Driver/File'.EXT,
 		    'Think\Exception'         => CORE_PATH . 'Exception'.EXT,
@@ -32,8 +31,6 @@ return array(
 		    'Think\Cache'             => CORE_PATH . 'Cache'.EXT,
 		    'Think\Cache\Driver\File' => CORE_PATH . 'Cache/Driver/File'.EXT,
 		    'Think\Storage'           => CORE_PATH . 'Storage'.EXT,
-		    'Think\Action'            => CORE_PATH . 'Action'.EXT,
-		    'Think\View'              => CORE_PATH . 'View'.EXT,
 	    ),
 	    COMMON_PATH.'Conf/alias.php',
 	),
@@ -46,15 +43,26 @@ return array(
 		CORE_PATH . 'Dispatcher'.EXT,
 		CORE_PATH . 'Log'.EXT,
 		CORE_PATH . 'Route'.EXT,
+<<<<<<< HEAD
 		CORE_PATH . 'Action'.EXT,
 		CORE_PATH . 'View'.EXT,
 		CORE_PATH . 'Behavior'.EXT,
+=======
+		CORE_PATH . 'Controller'.EXT,
+		CORE_PATH . 'View'.EXT,
+		CORE_PATH . 'Behavior'.EXT,		
+>>>>>>> b388f8f6d827be83982cc4e9d1c7a0cf440e9892
 		CORE_PATH . 'Behavior/ReadHtmlCacheBehavior'.EXT,
 		CORE_PATH . 'Behavior/ShowPageTraceBehavior'.EXT,
 		CORE_PATH . 'Behavior/ParseTemplateBehavior'.EXT,
 		CORE_PATH . 'Behavior/ContentReplaceBehavior'.EXT,
+<<<<<<< HEAD
 		CORE_PATH . 'Behavior/TokenBuildBehavior'.EXT,		
 		CORE_PATH . 'Behavior/WriteHtmlCacheBehavior'.EXT,		
+=======
+		CORE_PATH . 'Behavior/TokenBuildBehavior'.EXT,
+		CORE_PATH . 'Behavior/WriteHtmlCacheBehavior'.EXT,
+>>>>>>> b388f8f6d827be83982cc4e9d1c7a0cf440e9892
 	),
 	// 行为扩展定义
 	'extends'	=>	array(

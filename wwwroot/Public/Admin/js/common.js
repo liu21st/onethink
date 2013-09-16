@@ -187,18 +187,47 @@
         });
     })();
 
-    //表单获取焦点样式
+    // 独立域表单获取焦点样式
     $(".text").focus(function(){
         $(this).addClass("focus");
+    }).blur(function(){
+        $(this).removeClass('focus');
     });
     $("textarea").focus(function(){
         $(this).closest(".textarea").addClass("focus");
+    }).blur(function(){
+        $(this).closest(".textarea").removeClass("focus");
     });
 
-    //上传点击放大
-    $(".upload-img-box").click(function(){
-        $(this).find(".upload-pre-item").toggleClass("proto");
-    })
+    //上传图片点击放大
+    // $(window).resize(function(){
+    //     var winW = $(window).width();
+    //     var winH = $(window).height();
+    //     $(".upload-img-box").click(function(){
+    //         var imgPopup = "<div class=\"upload-img-popup\"></div>"
+    //         var imgItem = $(this).find(".upload-pre-item").html();
+    //         var popW = $(imgPopup).width();
+    //         var popH = $(imgPopup).height();
+    //         var left = (winW -popW)/2;
+    //         var top = (winH - popH)/2 + 50;
+    //         //如果弹出层存在，则不能再弹出
+    //         var popupLen = $(".upload-img-popup").length;
+    //         if( popupLen < 1 ) {
+    //             $(imgPopup).appendTo("body");
+    //         }
+    //         $(".upload-img-popup").html(imgItem);
+    //         $(".upload-img-popup").css({
+    //             "position": "fixed",
+    //             "left": left,
+    //             "top": top,
+    //             "z-index": 99999,
+    //             "background-color":"#fff"
+    //         })
+    //         // $(this).find(".upload-pre-item").toggleClass("proto");
+    //     });
+    // }).resize();
+    
+    
 });
 
 //标签页切换(无下一步)

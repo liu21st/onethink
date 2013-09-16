@@ -44,7 +44,7 @@ class AddonsModel extends Model {
 	 */
 	public function getList($addon_dir = ''){
 		if(!$addon_dir)
-			$addon_dir = C('AUTOLOAD_NAMESPACE.Addons');
+			$addon_dir = ONETHINK_ADDON_PATH;
 		$addons_names = glob($addon_dir.'*', GLOB_ONLYDIR);
 		if($addons_names === FALSE || !file_exists($addon_dir)){
 			$this->error = '插件目录不可读或者不存在';
@@ -60,7 +60,7 @@ class AddonsModel extends Model {
 	}
 
 	public function getAdminList(){
-		$addon_dir = C('AUTOLOAD_NAMESPACE.Addons');
+		$addon_dir = ONETHINK_ADDON_PATH;
 		$addons_names = glob($addon_dir.'*', GLOB_ONLYDIR);
 		if($addons_names === FALSE || !file_exists($addon_dir)){
 			$this->error = '插件目录不可读或者不存在';

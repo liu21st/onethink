@@ -99,28 +99,28 @@ class ArticleController extends \Admin\Controller\AdminController {
     			$value['current'] = true;
     		}
     		if(!empty($value['_child'])){
-    		foreach ($value['_child'] as $ka=>&$va){
-    			$va['url'] = 'Article/index?cate_id='.$va['id'];
-    			$va['level'] = 2;
-    			if(!empty($va['_child'])){
-    			foreach ($va['_child'] as $k=>&$v){
-    				$v['url'] = 'Article/index?cate_id='.$v['id'];
-    				$v['pid'] = $va['id'];
-    				$v['level'] = 3;
-    				if($v['id'] == $cate_id){
-    					$is_child = true;
-    				}
-    			}
-    			}
-    			//展开子分类的父分类
-    			if($va['id'] == $cate_id || $is_child){
-    				$is_child = false;
-    				if($hide_cate){
-	    				$value['current'] = true;
-	    				$va['current'] = true;
-    				}
-    			}
-    		}
+	    		foreach ($value['_child'] as $ka=>&$va){
+	    			$va['url'] = 'Article/index?cate_id='.$va['id'];
+	    			$va['level'] = 2;
+	    			if(!empty($va['_child'])){
+		    			foreach ($va['_child'] as $k=>&$v){
+		    				$v['url'] = 'Article/index?cate_id='.$v['id'];
+		    				$v['pid'] = $va['id'];
+		    				$v['level'] = 3;
+		    				if($v['id'] == $cate_id){
+		    					$is_child = true;
+		    				}
+		    			}
+	    			}
+	    			//展开子分类的父分类
+	    			if($va['id'] == $cate_id || $is_child){
+	    				$is_child = false;
+	    				if($hide_cate){
+		    				$value['current'] = true;
+		    				$va['current'] = true;
+	    				}
+	    			}
+	    		}
     		}
     	}
     	$this->assign('nodes', $cate);
@@ -137,8 +137,9 @@ class ArticleController extends \Admin\Controller\AdminController {
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function index($cate_id = null, $status = null, $title = null){
-		$cate_id = $this->cate_id;
-
+        if(is_null($cate_id)){
+		    $cate_id = $this->cate_id;
+        }//dump($modelList =   M('Category')->getFieldById($cate_id,'model'));
 		/* 查询条件初始化 */
 		$map = array();
 		if(isset($title)){
@@ -160,23 +161,32 @@ class ArticleController extends \Admin\Controller\AdminController {
 		if(!empty($cate_id)){			//没有权限则不查询数据
 			$Document = D('Document');
 			$map['category_id'] = $cate_id;
+            $map['pid']         =   I('pid',0);
+            if($map['pid']){ // 子文档列表忽略分类
+                unset($map['category_id']);
+            }
 			$list = $this->lists($Document,$map);
 			intToString($list);
-
+            if($map['pid']){
+                // 获取上级文档
+                $article    =   M('Document')->field('id,title,type')->find($map['pid']);
+                $this->assign('article',$article);
+            }
 			//获取对应分类下的模型
 			$models = get_category($cate_id, 'model');
-		}
+            //检查该分类是否允许发布内容
+            $allow_publish = get_category($cate_id, 'allow_publish');
 
-		//检查该分类是否允许发布内容
-		$allow_publish = get_category($cate_id, 'allow_publish');
+            $this->assign('model', $models);
+            $this->assign('status', $status);
+            $this->assign('list', $list);
+            $this->assign('allow', $allow_publish);
 
-		$this->assign('model', $models);
-		$this->assign('status', $status);
-		$this->assign('list', $list);
-		$this->assign('allow', $allow_publish);
-
-		$this->meta_title = '文档列表';
-		$this->display();
+            $this->meta_title = '文档列表';
+            $this->display();
+		}else{
+            $this->error('非法的文档分类');
+        }
 	}
 
 	/**
@@ -227,10 +237,14 @@ class ArticleController extends \Admin\Controller\AdminController {
 		/* 获取要编辑的模型模板 */
 		$template = strtolower(get_document_model($model_id, 'name'));
 		$extend = $this->fetch($template);
-
+        $info['pid']      = $_GET['pid']?$_GET['pid']:0;
 		$info['model_id'] = $model_id;
 		$info['category_id'] = $cate_id;
-
+        if($info['pid']){
+            // 获取上级文档
+            $article    =   M('Document')->field('id,title,type')->find($info['pid']);
+            $this->assign('article',$article);
+        }
 		$this->assign('info', $info);
 		$this->assign('template', $template);
 		$this->assign('extend', $extend);
@@ -258,16 +272,20 @@ class ArticleController extends \Admin\Controller\AdminController {
 		}
         $data['create_time'] = empty($data['create_time']) ? '' : date('Y-m-d H:i',$data['create_time']);
         $data['dateline'] = empty($data['dateline']) ? '' : date('Y-m-d H:i',$data['dateline']);
-
-		/* 获取要编辑的模型模板 */
-		$data['template'] = strtolower(get_document_model($data['model_id'], 'name'));
-
+        if($data['pid']){
+            // 获取上级文档
+            $article    =   M('Document')->field('id,title,type')->find($data['pid']);
+            $this->assign('article',$article);
+        }
 		$this->assign('info', $data);
 		$this->assign('model_id', $data['model_id']);
-
-		//获取扩展模板
-		$extend = $this->fetch($data['template']);
-		$this->assign('extend', $extend);
+        if($data['type']>1){
+            /* 获取要编辑的模型模板 */
+            $data['template'] = strtolower(get_document_model($data['model_id'], 'name'));
+            //获取扩展模板
+            $extend = $this->fetch($data['template']);
+            $this->assign('extend', $extend);
+        }
 
 		$this->assign('type_list', get_type_bycate($data['category_id']));
 
@@ -285,9 +303,9 @@ class ArticleController extends \Admin\Controller\AdminController {
 			$this->error(D('Document')->getError());
 		}else{
 			if($res['id']){
-				$this->success('更新成功', '/'.MODULE_NAME.'/article/index/cate_id/'.$res['category_id']);
+				$this->success('更新成功', '/'.MODULE_NAME.'/article/index/pid/'.$res['pid'].'/cate_id/'.$res['category_id']);
 			}else{
-				$this->success('新增成功', '/'.MODULE_NAME.'/article/index/cate_id/'.$res['category_id']);
+				$this->success('新增成功', '/'.MODULE_NAME.'/article/index/pid/'.$res['pid'].'/cate_id/'.$res['category_id']);
 			}
 		}
 	}
@@ -353,4 +371,80 @@ class ArticleController extends \Admin\Controller\AdminController {
 		}
 	}
 
+    // 移动文档 目前只支持单条记录移动
+    public function moveArticle() {
+        if(empty($_POST['ids'])) {
+            $this->error('请选择要移动的文档！');
+        }
+		$_SESSION['moveArticle']	 =	 $_POST['ids'][0];
+		$this->success('请选择要移动到的分类！');
+    }
+
+    // 拷贝文档 目前只支持单条记录复制
+    public function copyArticle() {
+        if(empty($_POST['ids'])) {
+            $this->error('请选择要复制的文档！');
+        }
+		$_SESSION['copyArticle']	 =	 $_POST['ids'][0];
+		$this->success('请选择要复制到的分类！');
+    }
+
+    // 粘贴文档
+    public function pasteArticle() {
+        if(empty($_SESSION['moveArticle']) && empty($_SESSION['copyArticle'])) {
+            $this->error('没有选择文档！');
+        }
+        if(!isset($_GET['cate_id'])) {
+            $this->error('请选择要粘贴到的分类！');
+        }
+        $cate_id = I('get.cate_id');
+        if(!empty($_SESSION['moveArticle'])) {// 移动
+            // 当前分类支持的文档模型
+            $modelList =   M('Category')->getFieldById($cate_id,'model');
+            // 移动文档的所属文档模型
+            $modelType  =   M('Document')->getFieldById($_SESSION['moveArticle'],'model_id');
+            if(!in_array($modelType,explode(',',$modelList))) {
+                $this->error('分类不支持当前的文档模型！');
+            }
+            $Model  =   M('Document');
+            $map['id']   = $_SESSION['moveArticle'];
+            $data['category_id']   =  $cate_id;
+            if(false !== $Model->where($map)->save($data)){
+                unset($_SESSION['moveArticle']);
+                $this->success('文章移动成功！');
+            }else{
+                $this->error('文章移动失败！');
+            }
+        }elseif(!empty($_SESSION['copyArticle'])){ // 复制
+            // 当前分类支持的文档模型
+            $modelList =   M('Category')->getFieldById($cate_id,'model');
+            // 移动文档的所属文档模型
+            $modelType  =   M('Document')->getFieldById($_SESSION['copyArticle'],'model_id');
+            if(!in_array($modelType,explode(',',$modelList))) {
+                $this->error('分类不支持当前的文档模型！');
+            }
+            $id   = $_SESSION['copyArticle'];
+            $Model  =   M('Document');
+            $data = $Model->find($id);
+            unset($data['id']);
+            $data['category_id']        =  $cate_id;
+            $data['create_time']    =   NOW_TIME;
+            $data['update_time']    =   NOW_TIME;
+
+            $result   =  $Model->add($data);
+            if($result){
+                $logic  = D(get_document_model($modelType,'name'),'Logic');
+                $data = $logic->detail($id); //获取指定ID的数据
+                $data['id'] =   $result;
+                if($logic->add($data)){
+                    unset($_SESSION['copyArticle']);
+                    $this->success('文章复制成功！');
+                }else{
+                    $this->error('文档复制错误');
+                }
+            }else{
+                $this->error('文章复制失败！');
+            }
+        }
+    }
 }

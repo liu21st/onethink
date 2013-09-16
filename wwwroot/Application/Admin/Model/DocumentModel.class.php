@@ -41,12 +41,12 @@ class DocumentModel extends Model{
 		array('view', 0, self::MODEL_INSERT),
 		array('comment', 0, self::MODEL_INSERT),
 		array('extend', 0, self::MODEL_INSERT),
-		array('create_time', NOW_TIME, self::MODEL_INSERT),
+		array('create_time', 'getCreateTime', self::MODEL_BOTH,'callback'),
 		array('update_time', NOW_TIME, self::MODEL_BOTH),
 		array('status', 'getStatus', self::MODEL_BOTH, 'callback'),
 		array('position', 'getPosition', self::MODEL_BOTH, 'callback'),
 		array('dateline', 'strtotime', self::MODEL_BOTH, 'function'),
-		array('create_time', 'strtotime', self::MODEL_BOTH, 'function'),
+		//array('create_time', 'strtotime', self::MODEL_BOTH, 'function'),
 	);
 
 	/**
@@ -91,14 +91,17 @@ class DocumentModel extends Model{
 		}
 
 		/* 获取模型数据 */
-		$logic  = $this->logic($info['model_id']);
-		$detail = $logic->detail($id); //获取指定ID的数据
-		if(!$detail){
-			$this->error = $logic->getError();
-			return false;
-		}
+        if($info['type']>1){
+            $logic  = $this->logic($info['model_id']);
+            $detail = $logic->detail($id); //获取指定ID的数据
+            if(!$detail){
+                $this->error = $logic->getError();
+                return false;
+            }
+            $info = array_merge($info, $detail);
+        }
 
-		return array_merge($info, $detail);
+		return $info;
 	}
 
 	/**
@@ -161,14 +164,16 @@ class DocumentModel extends Model{
 		}
 
 		/* 添加或新增扩展内容 */
-		$logic = $this->logic($data['model_id']);
-		if(!$logic->update($id)){
-			if(isset($id)){ //新增失败，删除基础数据
-				$this->delete($id);
-			}
-			$this->error = $logic->getError();
-			return false;
-		}
+        if($data['type']>1){ // 专辑和目录不支持扩展模型
+            $logic = $this->logic($data['model_id']);
+            if(!$logic->update($id)){
+                if(isset($id)){ //新增失败，删除基础数据
+                    $this->delete($id);
+                }
+                $this->error = $logic->getError();
+                return false;
+            }
+        }
 
 		//内容添加或更新完成
 		return $data;
@@ -252,13 +257,18 @@ class DocumentModel extends Model{
 		return !isset($status) ? 1 : $status;
 	}
 
+    protected function getCreateTime(){
+        $create_time    =   I('post.create_time');
+        return $create_time?strtotime($create_time):NOW_TIME;
+    }
+
 	/**
 	 * 验证分类是否允许发布内容
 	 * @param  integer $id 分类ID
 	 * @return boolean     true-允许发布内容，false-不允许发布内容
 	 */
 	public function checkCategory($id){
-		if(is_array($id)){
+		if(is_array($id)){/*
 			if($id['category_id'] == 0 && in_array($id['type'], array(1, 3))){ //段落和目录分类必须为0
 				return true;
 			} elseif($id['category_id'] != 0 && in_array($id['type'], array(0, 2))) {
@@ -266,7 +276,9 @@ class DocumentModel extends Model{
 				return $publish ? true : false;
 			} else {
 				return false;
-			}
+			}*/
+			$publish = get_category($id['category_id'], 'allow_publish');
+			return $publish ? true : false;
 		} else {
 			$publish = get_category($id, 'allow_publish');
 			return $publish ? true : false;
