@@ -239,11 +239,17 @@ $(function(){
         return false;
     });
 
-	//每隔一段时间保存草稿
 	<if condition="ACTION_NAME eq 'add' or $info['status'] eq 3">
+	//每隔一段时间保存草稿
 	setInterval(function(){
-		$('#autoSave').click();
-	}, 1000*5);
+		//只有基础信息填写了，才会触发
+		var title = $('input[name=title]').val();
+		var name = $('input[name=name]').val();
+		var des = $('textarea[name=description]').val();
+		if(title != '' || name != '' || des != ''){
+			$('#autoSave').click();
+		}
+	}, 1000*60);
 	</if>
 });
 </script>
