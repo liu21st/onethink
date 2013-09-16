@@ -526,6 +526,23 @@ body{
     margin-right: 20px;
 }
 
+/* 拖动排序列表 */
+.dragsort {
+    width: 400px;
+}
+.dragsort li {
+    margin-bottom: 5px;
+    padding: 0 6px;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid #eee;
+    background-color: #fff;
+}
+.dragsort .draging-place {
+    border-style: dashed;
+    border-color: #ccc;
+}
+
 .thinkbox-content{
     padding: 15px;
     min-width: 100px;
