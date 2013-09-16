@@ -42,6 +42,9 @@
 				window.UEDITOR_HOME_URL = "__STATIC__/ueditor";
 				window.UEDITOR_CONFIG.initialFrameHeight = parseInt('{$addons_config.editor_height}');
 				window.UEDITOR_CONFIG.scaleEnabled = <eq name="addons_config.editor_resize_type" value="1">true<else />false</eq>;
+				window.UEDITOR_CONFIG.imageUrl = '{:addons_url("Editor://Upload/ue_upimg")}';
+				window.UEDITOR_CONFIG.imagePath = '';
+				window.UEDITOR_CONFIG.imageFieldName = 'imgFile';
 				UE.getEditor('editor_id_{$addons_data.name}');
 			</script>
 		</eq>
