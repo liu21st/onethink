@@ -279,13 +279,12 @@ class ArticleController extends \Admin\Controller\AdminController {
         }
 		$this->assign('info', $data);
 		$this->assign('model_id', $data['model_id']);
-        if($data['type']>1){
-            /* 获取要编辑的模型模板 */
-            $data['template'] = strtolower(get_document_model($data['model_id'], 'name'));
-            //获取扩展模板
-            $extend = $this->fetch($data['template']);
-            $this->assign('extend', $extend);
-        }
+
+        /* 获取要编辑的模型模板 */
+        $data['template'] = strtolower(get_document_model($data['model_id'], 'name'));
+        //获取扩展模板
+        $extend = $this->fetch($data['template']);
+        $this->assign('extend', $extend);
 
 		$this->assign('type_list', get_type_bycate($data['category_id']));
 
@@ -334,6 +333,22 @@ class ArticleController extends \Admin\Controller\AdminController {
 		$this->assign('list', $list);
         $this->meta_title = '回收站';
         $this->display();
+	}
+
+	/**
+	 * 写文章时自动保存至草稿箱
+	 * @author huajie <banhuajie@163.com>
+	 */
+	public function autoSave(){
+
+	}
+
+	/**
+	 * 草稿箱
+	 * @author huajie <banhuajie@163.com>
+	 */
+	public function draftBox(){
+		$this->display();
 	}
 
 	/**
@@ -440,7 +455,7 @@ class ArticleController extends \Admin\Controller\AdminController {
                     unset($_SESSION['copyArticle']);
                     $this->success('文章复制成功！');
                 }else{
-                    $this->error('文档复制错误');
+                    $this->error('文档扩展内容复制失败！');
                 }
             }else{
                 $this->error('文章复制失败！');
