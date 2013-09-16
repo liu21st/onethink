@@ -138,13 +138,15 @@
 </block>
 
 <block name="script">
-<script type="text/javascript" charset="utf-8">
-	//支持tab
-	showTab();
-    //导航高亮
+<script type="text/javascript" charset="utf-8"> 
+	//导航高亮
     $('.side-sub-menu').find('a[href="{:U('Addons/index')}"]').closest('li').addClass('current');
     if($('ul.tab-nav').length){//当有tab时，返回按钮不显示
     	$('button:contains("返 回")').hide();
     }
+	$(function(){
+		//支持tab
+		showTab();
+	})
 </script>
 </block>
