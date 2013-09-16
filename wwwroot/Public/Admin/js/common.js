@@ -79,7 +79,11 @@
                         return false;
                     }
                 }
-                target = form.get(0).action;
+                if($(this).attr('url') !== undefined){
+                	target = $(this).attr('url');
+                }else{
+                	target = form.get(0).action;
+                }
                 query = form.serialize();
             }else if( form.get(0).nodeName=='INPUT' || form.get(0).nodeName=='SELECT' || form.get(0).nodeName=='TEXTAREA') {
                 form.each(function(k,v){
