@@ -4,9 +4,17 @@
 <div class="main-title cf">
 <h2><if condition="ACTION_NAME eq 'add'">新增<else/>编辑</if>模型</h2>
 </div>
-<div>
+
+	<!-- 标签页导航 -->
+<div class="tab-wrap">
+	<ul class="tab-nav nav">
+		<li data-tab="tab1" class="current"><a href="javascript:void(0);">基 础</a></li>
+		<li data-tab="tab2"><a href="javascript:void(0);">高 级</a></li>
+	</ul>
+	<div class="tab-content">
 	<!-- 表单 -->
 	<form id="form" action="{:U('update')}" method="post" class="form-horizontal doc-modal-form">
+	<div id="tab1" class="tab-pane in tab1">
 		<div class="form-item cf">
 			<label class="item-label">文档模型标识<span class="check-tips">（请输入文档模型标识）</span></label>
 			<div class="controls">
@@ -27,7 +35,14 @@
 				<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
 			</div>
 		</div>
+	</div>
+	<div id="tab2" class="tab-pane tab2">
+		<div class="form-item cf">
+		<label class="item-label">暂未开放</label>
+		</div>
+	</div>
 	</form>
+	</div>
 </div>
 </block>
 <block name="script">
