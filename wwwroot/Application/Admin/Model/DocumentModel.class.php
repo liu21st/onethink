@@ -478,6 +478,7 @@ class DocumentModel extends Model{
 // 				$this->error = '新增基础内容出错！';
 				return false;
 			}
+			$data['id'] = $id;
 		} else { //更新数据
 			$status = $this->save(); //更新基础内容
 			if(false === $status){
