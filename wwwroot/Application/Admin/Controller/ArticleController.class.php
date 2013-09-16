@@ -165,6 +165,7 @@ class ArticleController extends \Admin\Controller\AdminController {
             if($map['pid']){ // 子文档列表忽略分类
                 unset($map['category_id']);
             }
+            $map['status'] = array('in', '0,1,2');
 			$list = $this->lists($Document,$map);
 			intToString($list);
             if($map['pid']){
