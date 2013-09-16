@@ -9,7 +9,7 @@ return array(
 	'cache_path'=>array(
 		'title'=>'缓存图片的路径:',
 		'type'=>'text',		 //表单的类型：text、textarea、checkbox、radio、select等
-		'value'=>'/Public/ai-cache',	//表单的默认值
+		'value'=>'./Uploads/ai-cache',	//表单的默认值
 		'tip'=>'要有可写权限'
 	),
 	'jpg_quality'=>array(
