@@ -50,8 +50,7 @@ class AuthManagerController extends AdminController{
      * 执行新节点的插入,已有节点的更新,无效规则的删除三项任务
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function updateRules()
-    {
+    public function updateRules(){
         //需要新增的节点必然位于$nodes
         $nodes    = $this->returnNodes(false);
 
@@ -117,8 +116,7 @@ class AuthManagerController extends AdminController{
      * 权限管理首页
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function index()
-    {
+    public function index(){
         $list = $this->lists('AuthGroup',array('module'=>'admin'),'id asc');
         $list = intToString($list);
         $this->assign( '_list', $list );
@@ -132,8 +130,7 @@ class AuthManagerController extends AdminController{
      * 创建管理员用户组
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function createGroup()
-    {
+    public function createGroup(){
         if ( empty($this->auth_group) ) {
             $this->assign('auth_group',array('title'=>null,'id'=>null,'description'=>null,'rules'=>null,));//排除notice信息
         }
@@ -144,8 +141,7 @@ class AuthManagerController extends AdminController{
      * 编辑管理员用户组
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function editGroup()
-    {
+    public function editGroup(){
         $auth_group = D('AuthGroup')->where( array('module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
                                     ->find( (int)$_GET['id'] );
         $this->assign('auth_group',$auth_group);
@@ -157,8 +153,7 @@ class AuthManagerController extends AdminController{
      * 访问授权页面
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function access()
-    {
+    public function access(){
         $this->updateRules();
         $auth_group = D('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
 									->getfield('id,id,title,rules');
@@ -181,8 +176,7 @@ class AuthManagerController extends AdminController{
      * 管理员用户组数据写入/更新
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function writeGroup()
-    {
+    public function writeGroup(){
         if(isset($_POST['rules'])){
             sort($_POST['rules']);
             $_POST['rules']  = trim( implode( ',' , array_unique($_POST['rules'])) , ',' );
@@ -211,8 +205,7 @@ class AuthManagerController extends AdminController{
      * 状态修改
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function changeStatus($method=null)
-    {
+    public function changeStatus($method=null){
         if ( empty($_GET['id']) ) {
             $this->error('请选择要操作的数据!');
         }
@@ -284,8 +277,7 @@ class AuthManagerController extends AdminController{
      * 将用户添加到用户组的编辑页面
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function group()
-    {
+    public function group(){
         $uid = I('uid');
         $auth_groups = D('AuthGroup')->getGroups();
         $user_groups = AuthGroupModel::getUserGroup($uid);
@@ -304,8 +296,7 @@ class AuthManagerController extends AdminController{
      * 将用户添加到用户组,入参uid,group_id
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function addToGroup()
-    {
+    public function addToGroup(){
         $uid = I('uid');
         $gid = I('group_id');
         if( empty($uid) ){
@@ -335,8 +326,7 @@ class AuthManagerController extends AdminController{
      * 将用户从用户组中移除  入参:uid,group_id
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function removeFromGroup()
-    {
+    public function removeFromGroup(){
         $uid = I('uid');
         $gid = I('group_id');
         if( $uid==$this->getVal('uid') ){
@@ -360,8 +350,7 @@ class AuthManagerController extends AdminController{
      * 将分类添加到用户组  入参:cid,group_id
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function addToCategory()
-    {
+    public function addToCategory(){
         $cid = I('cid');
         $gid = I('group_id');
         if( empty($gid) ){

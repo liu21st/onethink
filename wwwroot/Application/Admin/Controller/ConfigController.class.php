@@ -19,11 +19,11 @@ class ConfigController extends AdminController {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     static protected $nodes = array(
-        array( 'title' => '基本设置', 'url' => 'Config/base', 'group' => '系统设置'),
+        array( 'title' => '网站设置', 'url' => 'Config/group', 'group' => '系统设置'),
         array( 'title' => '配置管理', 'url' => 'Config/index', 'group' => '系统设置',
             'operator'=>array(
                 array('title'=>'编辑','url'=>'Config/edit','tip'=>'新增编辑和保存配置'),
-                array('title'=>'编辑','url'=>'Config/del','tip'=>'删除配置'),
+                array('title'=>'删除','url'=>'Config/del','tip'=>'删除配置'),
             ),
         ),
         // array( 'title' => '静态规则设置', 'url' => 'System/index1', 'group' => '系统设置'),
@@ -139,4 +139,17 @@ class ConfigController extends AdminController {
             $this->error('删除失败！');
         }
     }
+
+	// 获取某个标签的配置参数
+	public function group() {
+		$id	=	(int)$_GET['id'];
+        $type = C('CONFIG_GROUP_LIST');
+		$model	=	M("Config");
+		$list	=	$model->where(array('status'=>1,'group'=>$id))->order('sort')->select();
+        if($list) {
+       		$this->assign('list',$list);
+        }
+        $this->meta_title = $type[$id];
+		$this->display();
+	}
 }

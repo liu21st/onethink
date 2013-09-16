@@ -21,7 +21,7 @@ class AdminController extends Action {
     static protected $deny  = array('getMenus','tableList','record_list');
 
     /* 保存允许所有管理员访问的公共方法 */
-    static protected $allow = array( 'login','logout');
+    static protected $allow = array( 'login','logout','get');
 
     /**
      * 节点配置
@@ -50,7 +50,7 @@ class AdminController extends Action {
         array( 'title'=>'内容','url'=>'Article/index','controllers'=>'Article',),
         array( 'title'=>'用户','url'=>'User/index','controllers'=>'User,AuthManager'),
         array( 'title'=>'扩展','url'=>'Addons/index','controllers'=>'Addons,Model',),
-        array( 'title'=>'系统','url'=>'Config/base','controllers'=>'Config,System,Category',),
+        array( 'title'=>'系统','url'=>'Config/group','controllers'=>'Config,System,Category',),
         array( 'title'=>'其他','url'=>'other','controllers'=>'File','hide'=>true),//专门放置不需要显示在任何菜单中的节点
     );
 
@@ -59,8 +59,7 @@ class AdminController extends Action {
 
     protected $nav = array();
 
-    protected function _initialize()
-    {
+    protected function _initialize(){
         $this->uid = is_login();
         if( !$this->uid ){
             $this->redirect('Admin/Index/login');
@@ -97,8 +96,7 @@ class AdminController extends Action {
      * @return boolean
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
-    final protected function checkRule($rule, $type=AuthRuleModel::RULE_URL, $mode='url')
-    {
+    final protected function checkRule($rule, $type=AuthRuleModel::RULE_URL, $mode='url'){
         static $Auth = null;
         if (!$Auth) {
             $Auth  = new \ORG\Util\Auth();
@@ -157,8 +155,7 @@ class AdminController extends Action {
      *
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    final protected function accessControl()
-    {
+    final protected function accessControl(){
         if($this->root_user){
             return true;//管理员允许访问任何页面
         }
@@ -188,8 +185,7 @@ class AdminController extends Action {
      *
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    final protected function editRow ( $model ,$data, $where , $msg )
-    {
+    final protected function editRow ( $model ,$data, $where , $msg ){
         // if( $_REQUEST['model']||$_REQUEST['where']||$_REQUEST['msg']){
             // $this->error('非法请求'); //安全检测,防止通过参数绑定修改数据
         // }
@@ -213,8 +209,7 @@ class AdminController extends Action {
      *
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    protected function forbid ( $model , $where = array() , $msg = array( 'success'=>'状态禁用成功！', 'error'=>'状态禁用失败！'))
-    {
+    protected function forbid ( $model , $where = array() , $msg = array( 'success'=>'状态禁用成功！', 'error'=>'状态禁用失败！')){
         $data    = array('status' => 0);
         $where   = array_merge(array('status' => 1),$where);
         $this->editRow( $model , $data, $where, $msg);
@@ -229,8 +224,7 @@ class AdminController extends Action {
      *
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    protected function resume (  $model , $where = array() , $msg = array( 'success'=>'状态恢复成功！', 'error'=>'状态恢复失败！'))
-    {
+    protected function resume (  $model , $where = array() , $msg = array( 'success'=>'状态恢复成功！', 'error'=>'状态恢复失败！')){
         $data    = array('status' => 1);
         $where   = array_merge(array('status' => 0),$where);
         $this->editRow(   $model , $data, $where, $msg);
@@ -244,8 +238,7 @@ class AdminController extends Action {
      *                     url为跳转页面,ajax是否ajax方式(数字则为倒数计时秒数)
      * @author huajie  <banhuajie@163.com>
      */
-    protected function restore (  $model , $where = array() , $msg = array( 'success'=>'状态还原成功！', 'error'=>'状态还原失败！'))
-    {
+    protected function restore (  $model , $where = array() , $msg = array( 'success'=>'状态还原成功！', 'error'=>'状态还原失败！')){
     	$data    = array('status' => 1);
     	$where   = array_merge(array('status' => -1),$where);
     	$this->editRow(   $model , $data, $where, $msg);
@@ -260,8 +253,7 @@ class AdminController extends Action {
      *
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    protected function delete ( $model , $where = array() , $msg = array( 'success'=>'删除成功！', 'error'=>'删除失败！'))
-    {
+    protected function delete ( $model , $where = array() , $msg = array( 'success'=>'删除成功！', 'error'=>'删除失败！')) {
         $data    = array('status' => -1);
         $this->editRow(   $model , $data, $where, $msg);
     }
@@ -271,8 +263,7 @@ class AdminController extends Action {
      *
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    final static protected function getDeny($controller=CONTROLLER_NAME)
-    {
+    final static protected function getDeny($controller=CONTROLLER_NAME){
         $controller = 'Admin\\Controller\\'.$controller.'Controller';
         $data = array();
         if ( is_array( $controller::$deny) ) {
@@ -293,8 +284,7 @@ class AdminController extends Action {
      *
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    final static protected function getAllow($controller=CONTROLLER_NAME)
-    {
+    final static protected function getAllow($controller=CONTROLLER_NAME){
         $controller = 'Admin\\Controller\\'.$controller.'Controller';
         $data = array();
         if ( is_array( $controller::$allow) ) {
@@ -316,8 +306,7 @@ class AdminController extends Action {
      * @param  boolean $group        是否分组
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    final static public function getNodes($controller,$group=true)
-    {
+    final static public function getNodes($controller,$group=true){
         if ( !$controller || !is_string($controller) || !is_array($controller::$nodes) ) {
             return false;
         }
@@ -361,8 +350,7 @@ class AdminController extends Action {
      * 子类中 $this->getMenus() 调用
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
-    final public function getMenus()
-    {
+    final public function getMenus(){
 //        if ( S('base_menu'.$controller) ) {
 //            return S('base_menu'.$controller);
 //        }
@@ -426,8 +414,7 @@ class AdminController extends Action {
      * @param string $val  属性名
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
-    final protected function getVal($val)
-    {
+    final protected function getVal($val){
         return $this->$val;
     }
 
@@ -440,8 +427,7 @@ class AdminController extends Action {
      *
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    final protected function returnNodes($tree = true)
-    {
+    final protected function returnNodes($tree = true){
         static $tree_nodes = array();
         if ( $tree && !empty($tree_nodes[(int)$tree]) ) {
             return $tree_nodes[$tree];
@@ -520,8 +506,7 @@ class AdminController extends Action {
      * @return array|false
      * 返回数据集
      */
-    protected function lists ($model,$where=array(),$order='',$base = array('status'=>array('egt',0)))
-    {
+    protected function lists ($model,$where=array(),$order='',$base = array('status'=>array('egt',0)),$field=true){
         $options = array();
         $REQUEST = (array)I('request.');
         if(is_string($model)){
@@ -567,7 +552,7 @@ class AdminController extends Action {
 
         $model->setProperty('options',$options);
 
-		return $model->select();
+		return $model->field($field)->select();
     }
 
     /**
@@ -596,8 +581,7 @@ class AdminController extends Action {
      *
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function tableList( &$list, &$thead )
-    {
+    public function tableList( &$list, &$thead ){
         $list = (array)$list;
         if(APP_DEBUG){
             //debug模式检测数据
@@ -611,13 +595,13 @@ class AdminController extends Action {
                 }
             }
 
-            $keys = array_keys( reset($list) );
+            $keys = array_keys( (array)reset($list) );
             foreach($list as $row){
                 $keys = array_intersect( $keys, array_keys($row) );
             }
             $s_thead = serialize($thead);
             if(!empty($list)){
-                preg_replace_callback('/\$((?:\w\d?_?)+)/',function($matches) use($keys){
+                preg_replace_callback('/\$([a-zA-Z_]+)/',function($matches) use($keys){
                     if( !in_array($matches[1],$keys) ){
                         die('<h1>'.'严重问题：数据列表表头定义使用了数据集中不存在的字段:$'.$matches[1].'</h1>');
                     }
@@ -704,8 +688,7 @@ class AdminController extends Action {
      * 构建nav的1和last元素
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    final protected function _nav()
-    {
+    final protected function _nav(){
         if(!isset($_SERVER["HTTP_REFERER"])){
             $_SERVER["HTTP_REFERER"]=U('Admin/Index/index');
         }

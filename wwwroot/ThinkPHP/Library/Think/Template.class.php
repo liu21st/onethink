@@ -78,7 +78,7 @@ class  Template {
     public function fetch($templateFile,$templateVar,$prefix='') {
         $this->tVar         =   $templateVar;
         $templateCacheFile  =   $this->loadTemplate($templateFile,$prefix);
-        Storage::load($templateCacheFile,$this->tVar);
+        Storage::load($templateCacheFile,$this->tVar,null,'tpl');
     }
 
     /**
@@ -111,7 +111,7 @@ class  Template {
         }
         // 编译模板内容
         $tmplContent =  $this->compiler($tmplContent);
-        Storage::put($tmplCacheFile,trim($tmplContent));
+        Storage::put($tmplCacheFile,trim($tmplContent),'tpl');
         return $tmplCacheFile;
     }
 
@@ -560,7 +560,7 @@ class  Template {
             $fun = strtolower(trim($args[0]));
             switch($fun) {
             case 'default':  // 特殊模板函数
-                $name   = '(isset('.$name.') && ('.$name.' !== ""))?('.$name.'):'.$args[1];
+                $name = '(isset('.$name.') && ('.$name.' !== ""))?('.$name.'):'.$args[1];
                 break;
             default:  // 通用模板函数
                 if(!in_array($fun,$template_deny_funs)){
