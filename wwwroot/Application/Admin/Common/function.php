@@ -254,23 +254,7 @@ function get_type_bycate($id = null){
 	return $type_list;
 }
 
-/**
- * base.html,index/index.html,index/login.html中用到,根据风格设置载入对应的css文件
- * 
- * @author 朱亚杰 <zhuyajie@topthink.net>
- */
-function change_style(){
-    $value = D('Config')->where(array('name'=>'COLOR_STYLE'))->getField('value');
-    if ( $value ) {
-        $file = C('TMPL_PARSE_STRING.__CSS__').'/'.$value.'.css';
-    }else{
-        $file = C('TMPL_PARSE_STRING.__CSS__').'/default_color.css';
-    }
-    echo '<link rel="stylesheet" type="text/css" href="'.$file.'" media="all">';
-}
-
-
- // 分析配置值 格式 a:名称1,b:名称2
+ // 分析枚举类型配置值 格式 a:名称1,b:名称2
 function parse_config_attr($string) {
 	$array = preg_split('/[,;\r\n]+/', trim($string, ",;\r\n"));
 	if(strpos($string,':')){

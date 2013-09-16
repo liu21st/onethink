@@ -29,7 +29,7 @@ return array(
     'URL_MODEL'            => 1, //URL模式
     'VAR_URL_PARAMS'       => '', // PATHINFO URL参数变量
     'URL_PATHINFO_DEPR'    => '/', //PATHINFO URL分割符
-    
+
     /* 全局过滤配置 */
     'DEFAULT_FILTER' => '', //过滤函数
 

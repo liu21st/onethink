@@ -12,8 +12,21 @@ use Think\Action;
 use Think\Db;
 
 class InstallController extends Action{
+
+	protected function _initialize(){
+		if(session('step') === null){
+			$this->redirect('Index/index');
+		}
+
+		if(is_file(MODULE_PATH . 'Data/install.lock')){
+			$this->error('已经成功安装了OneThink，请不要重复安装!', U('Index/index'));
+		}
+	}
+
 	//安装第一步，检测运行所需的环境设置
 	public function step1(){
+		session('error', false);
+
 		//环境检测
 		$env = check_env();
 
@@ -23,6 +36,8 @@ class InstallController extends Action{
 		//函数检测
 		$func = check_func();
 		
+		session('step', 1);
+
 		$this->assign('env', $env);
 		$this->assign('dirfile', $dirfile);
 		$this->assign('func', $func);
@@ -66,12 +81,25 @@ class InstallController extends Action{
 			//跳转到数据库安装页面
 			$this->redirect('step3');
 		} else {
+
+			session('error') && $this->error('环境监测没有通过，请调整环境后重试！');
+
+			$step = session('step');
+			if($step != 1 && $step != 2){
+				$this->redirect('step1');
+			}
+			
+			session('step', 2);
 			$this->display();
 		}
 	}
 
 	//安装第三步，安装数据表，创建配置文件
 	public function step3(){
+		if(session('step') != 2){
+			$this->redirect('step2');
+		}
+
 		$this->display();
 
 		//连接数据库
@@ -84,7 +112,11 @@ class InstallController extends Action{
 		//创建配置文件
 		write_config($dbconfig);
 
-		//创建入口文件
-		//write_index();
+		if(session('error')){
+			//show_msg();
+		} else {
+			session('step', 3);
+			$this->redirect('Index/complete');
+		}
 	}
 }

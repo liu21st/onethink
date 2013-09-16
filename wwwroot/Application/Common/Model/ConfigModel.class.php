@@ -56,14 +56,15 @@ class ConfigModel extends Model {
 	private function parse($type, $value){
 		switch ($type) {
 			case 3: //解析数组
-				$value = preg_split('/[,;\r\n]+/', trim($value, ",;\r\n"));
-				break;
-			case 4: //解析枚举
-				$values = preg_split('/[,;\r\n]+/', trim($value, ",;\r\n"));
-				$value  = array();
-				foreach ($values as $val) {
-					list($k, $v) = explode(':', $val);
-					$value[$k]   = $v;
+				$array = preg_split('/[,;\r\n]+/', trim($value, ",;\r\n"));
+				if(strpos($value,':')){
+					$value  = array();
+					foreach ($array as $val) {
+						list($k, $v) = explode(':', $val);
+						$value[$k]   = $v;
+					}
+				}else{
+					$value =	$array;
 				}
 				break;
 		}

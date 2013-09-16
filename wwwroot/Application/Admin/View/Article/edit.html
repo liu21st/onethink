@@ -13,6 +13,7 @@
 			<a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a>
 			<if condition="count($rightNav) gt $i"><i class="ca"></i></if>
 			</volist>
+			<present name="article">：<a href="{:U('article/index','cate_id='.$info['category_id'].'&pid='.$article['id'])}">{$article.title}</a></present>
 			]
 		</h2>
 	</div>
@@ -20,8 +21,10 @@
 <div class="tab-wrap">
 	<ul class="tab-nav nav">
 		<li data-tab="tab1" class="current"><a href="javascript:void(0);">基 础</a></li>
-		<li data-tab="tab3"><a href="javascript:void(0);">高 级</a></li>
-		<li data-tab="tab2"><a href="javascript:void(0);">扩 展</a></li>
+		<li data-tab="tab2"><a href="javascript:void(0);">高 级</a></li>
+		<present name="extend">
+		<li data-tab="tab3"><a href="javascript:void(0);">扩 展</a></li>
+		</present>
 	</ul>
 	<div class="tab-content">
 	<!-- 表单 -->
@@ -62,11 +65,6 @@
 		</div>
 
 		<div id="tab2" class="tab-pane tab2">
-			<!-- 引入扩展文档模型 -->
-			{$extend}
-		</div>
-
-		<div id="tab3" class="tab-pane tab3">
 			<div class="form-item cf">
 				<label class="item-label">推荐位置</label>
 				<div class="controls">
@@ -82,13 +80,13 @@
 				</div>
 			</div>
 			<div class="form-item cf">
-				<label class="item-label">发布时间<span class="check-tips">（格式: yyyy-mm-dd hh:ii:ss）</span></label>
+				<label class="item-label">发布时间<span class="check-tips">（格式: yyyy-mm-dd hh:ii）</span></label>
 				<div class="controls">
 					<input id="create_time" type="text" class="text input-large" name="create_time" value="{$info.create_time}" />
 				</div>
 			</div>
 			<div class="form-item cf">
-				<label class="item-label">截止时间<span class="check-tips">（格式: yyyy-mm-dd hh:ii:ss）</span></label>
+				<label class="item-label">截止时间<span class="check-tips">（格式: yyyy-mm-dd hh:ii）</span></label>
 				<div class="controls">
 					<input id="dateline" type="text" class="text input-large" name="dateline" value="{$info.dateline}" />
 				</div>
@@ -114,7 +112,12 @@
 				</div>
 			</div>
 		</div>
-
+		<present name="extend">
+		<div id="tab3" class="tab-pane tab3">
+			<!-- 引入扩展文档模型 -->
+			{$extend}
+		</div>
+		</present>
 		<div class="form-item cf">
 			<button class="btn submit-btn" id="submit-next" type="button">下一步</button>
 			<button class="btn submit-btn ajax-post hidden" id="submit" type="submit" target-form="form-horizontal">确 定</button>
