@@ -205,12 +205,15 @@
     }).blur(function(){
         $(this).closest(".textarea").removeClass("focus");
     });
+});
 
-    //上传图片弹出大图
+/* 上传图片预览弹出层 */
+$(function(){
     $(window).resize(function(){
         var winW = $(window).width();
         var winH = $(window).height();
         $(".upload-img-box").click(function(){
+            // 创建弹出框以及获取弹出图片
             var imgPopup = "<div id=\"uploadPop\" class=\"upload-img-popup\"></div>"
             var imgItem = $(this).find(".upload-pre-item").html();
 
@@ -223,38 +226,63 @@
                 );
             }
 
+            // 弹出层定位
             var uploadImg = $("#uploadPop").find("img");
             var popW = uploadImg.width();
             var popH = uploadImg.height();
             var left = (winW -popW)/2;
             var top = (winH - popH)/2 + 50;
             $(".upload-img-popup").css({
-                "max-width" : winW*90%,
-                "max-height" : winH*90%,
+                "max-width" : winW * 0.9,
                 "left": left,
                 "top": top
             });
         });
 
+        // 图片绑定鼠标滚轮事件
+        $("#uploadPop img").each(function(){
+            if($.browser.msie) {
+                $(this).bind("mousewheel",function(e){
+                    var e=e||event,v=e.wheelDelta||e.detail;
+                    if(v>0) {
+                        resizeImg(this,false);
+                    } else {
+                        resizeImg(this,true);
+                        window.event.returnValue = false;
+                        //e.stopPropagation();
+                        return false;
+                    }
+                })
+            } else {
+                $(this).bind("DOMMouseScroll",function(event){
+                    alert(2)
+                    if(event.detail<0) {
+                        resizeImg(this,false);
+                    }
+                    else {
+                        resizeImg(this,true);
+                        event.preventDefault()
+                        //event.stopPropagation();
+                    }
+                })
+            }
+        });
+
+        // 关闭弹出层
         $("body").on("click", "#uploadPop .close-pop", function(){
             $(this).parent().remove();
         });
     }).resize();
 
-    
-    //点击关闭弹出层
-
-    // $(document).click(function (e) {
-    //     var drag = $("#uploadPop");
-    //     var dragel = $("#uploadPop img")[0];
-    //     var target = e.target ? e.target : e.srcElement;
-    //     if ( dragel !== target ) {
-    //         // drag.hide();
-    //         alert(target)
-    //     }
-    // });
-
-});
+    // 缩放图片
+    function resizeImg(node,isSmall){
+        if(!isSmall){
+            $(node).height($(node).height()*1.2);
+        } else {
+            $(node).height($(node).height()*0.8);           
+        }
+    }
+})
 
 //标签页切换(无下一步)
 function showTab() {
