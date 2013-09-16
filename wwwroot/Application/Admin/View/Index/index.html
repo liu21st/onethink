@@ -46,7 +46,7 @@
     </div>
 
     <!-- 主体 -->
-    <div class="index-main ">
+    <div id="indexMain" class="index-main ">
         <!-- 顶部固定内容块 -->
         <div class="container-span top-columns cf">
             <dl class="show-num-mod">
@@ -104,9 +104,9 @@
 
     <script type="text/javascript">
         +function(){
-            var $window = $(window), $subnav = $("#subnav"), url;
+            var $window = $(window);
             $window.resize(function(){
-                $("#main").css("min-height", $window.height() - 130);
+                $("#indexMain").css("min-height", $window.height() - 130);
             }).resize();
 
             /* 头部管理员菜单 */
@@ -119,7 +119,7 @@
                 userMenu.data("timeout") && clearTimeout(userMenu.data("timeout"));
                 userMenu.data("timeout", setTimeout(function(){userMenu.addClass("hidden")}, 100));
             });
-        }
+        }();
     </script>
 </body>
 </html>
