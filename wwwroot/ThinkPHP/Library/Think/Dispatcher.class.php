@@ -107,6 +107,8 @@ class Dispatcher {
                 $_GET[$varModule]       =   $module;
                 $_SERVER['PATH_INFO']   =   isset($paths[1])?$paths[1]:'';     
             };
+        }else{
+            $_SERVER['PATH_INFO'] = trim($_SERVER['PATH_INFO'],'/');
         }
 
         // URL常量
@@ -173,7 +175,7 @@ class Dispatcher {
             }
 
             $depr = C('URL_PATHINFO_DEPR');
-            $paths = explode($depr,trim($_SERVER['PATH_INFO'],$depr));
+            $paths = explode($depr,$_SERVER['PATH_INFO']);
 
             if(!isset($_GET[$varController])) {// 获取控制器
                 if(C('CONTROLLER_LEVEL')>1){// 控制器层次

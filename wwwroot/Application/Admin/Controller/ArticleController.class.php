@@ -394,10 +394,10 @@ class ArticleController extends \Admin\Controller\AdminController {
         if(empty($_SESSION['moveArticle']) && empty($_SESSION['copyArticle'])) {
             $this->error('没有选择文档！');
         }
-        if(!isset($_GET['cate_id'])) {
+        if(!isset($_POST['cate_id'])) {
             $this->error('请选择要粘贴到的分类！');
         }
-        $cate_id = I('get.cate_id');
+        $cate_id = I('post.cate_id');
         if(!empty($_SESSION['moveArticle'])) {// 移动
             // 当前分类支持的文档模型
             $modelList =   M('Category')->getFieldById($cate_id,'model');
