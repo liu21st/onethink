@@ -414,6 +414,11 @@ class DocumentModel extends Model{
 		return $res['id'];
 	}
 
+	/**
+	 * 如果未填写创建时间，则取当前时间
+	 * @return number 时间戳
+	 * @author huajie <banhuajie@163.com>
+	 */
 	protected function checkTime(){
 		$create_time = I('create_time');
 		if(empty($create_time)){
