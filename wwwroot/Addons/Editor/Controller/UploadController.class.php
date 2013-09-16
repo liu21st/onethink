@@ -36,30 +36,29 @@ class UploadController extends AddonsController{
 		$img = $this->upload();
 		/* 记录附件信息 */
 		if($img){
-			$return['url'] = $url;
+			$return['url'] = $img['fullpath'];
 			unset($return['info'], $return['data']);
 		} else {
-			$return['error'] = 0;
+			$return['error'] = 1;
 			$return['message']   = $this->uploader->getError();
 		}
 
 		/* 返回JSON数据 */
-		$this->ajaxReturn($return);
-		exit();
+		exit(json_encode($return));
 	}
 
 	//ueditor编辑器上传图片处理
 	public function ue_upimg(){
 
 		$img = $this->upload();
-		file_put_contents('./img', var_export($img,1));
+		// file_put_contents('./img', var_export($img,1));
 		$return = array();
 		$return['url'] = $img['fullpath'];
 		$title = htmlspecialchars($_POST['pictitle'], ENT_QUOTES);
 		$return['title'] = $title;
 		$return['original'] = $img['imgFile']['name'];
 		$return['state'] = ($img)? 'SUCCESS' : $this->uploader->getError();
-		file_put_contents('./img', var_export($return,1),FILE_APPEND);
+		// file_put_contents('./img', var_export($return,1),FILE_APPEND);
 		/* 返回JSON数据 */
 		$this->ajaxReturn($return);
 	}
