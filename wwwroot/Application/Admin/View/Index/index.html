@@ -46,14 +46,53 @@
     </div>
 
     <!-- 主体 -->
-    <div class="index-main container-span">
+    <div class="index-main ">
         <!-- 顶部固定内容块 -->
-       <div class="span4">
-            <div class="top-columns">顶部内容</div>
-       </div>
+        <div class="container-span top-columns cf">
+            <dl class="show-num-mod">
+                <dt>
+                  <div class="top"><i class="user-count-icon"></i></div>
+                  <em>+10%</em>
+                </dt>
+                <dd>
+                    <strong>12345678</strong>
+                    <span>用户数</span>
+                </dd>
+            </dl>
+            <dl class="show-num-mod">
+                <dt>
+                  <div class="top"><i class="doc-count-icon"></i></div>
+                  <em>+10%</em>
+                </dt>
+                <dd>
+                    <strong>12345678</strong>
+                    <span>文档数</span>
+                </dd>
+            </dl>
+            <dl class="show-num-mod">
+                <dt>
+                  <div class="top"><i class="comment-count-icon"></i></div>
+                  <em>+10%</em>
+                </dt>
+                <dd>
+                    <strong>12345678</strong>
+                    <span>评论数</span>
+                </dd>
+            </dl>
+            <dl class="show-num-mod">
+                <dt>
+                  <div class="top"><i class="category-count-icon"></i></div>
+                  <em>+10%</em>
+                </dt>
+                <dd>
+                    <strong>12345678</strong>
+                    <span>分类树</span>
+                </dd>
+            </dl>
+        </div>
 
        <!-- 插件块 -->
-       {:hooks('AdminIndex')}
+       <div class="container-span">{:hooks('AdminIndex')}</div>
     </div>
 
     <!-- 底部版权 -->
