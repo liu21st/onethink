@@ -1,4 +1,13 @@
 <div id="subnav" class="subnav">
+ <h3>
+ 	<i class="icon icon-fold"></i>
+ 	个人中心
+ </h3>
+ 	<ul class="side-sub-menu <if condition="ACTION_NAME neq 'mydocument' and ACTION_NAME neq 'draftbox'">subnav-off</if>">
+ 		<li <if condition="ACTION_NAME eq 'mydocument'">class="current"</if>><a class="item" href="{:U('article/mydocument')}">我的文档</a></li>
+ 		<li <if condition="ACTION_NAME eq 'draftbox'">class="current"</if>><a class="item" href="{:U('article/draftbox')}">草稿箱</a></li>
+ 	</ul>
+
     <volist name="nodes" id="sub_menu">
         <!-- 子导航 -->
         <notempty name="sub_menu">
@@ -57,10 +66,4 @@
         <a href="{:U('article/recycle')}">回收站</a>
     </h3>
     </eq>
-
-    <!-- 草稿箱 -->
-    <h3>
-        <em class="recycle"></em>
-        <a href="{:U('article/draftBox')}">草稿箱</a>
-    </h3>
 </div>
