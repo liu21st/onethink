@@ -7,9 +7,6 @@
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
-// OneThink常量定义
-const ONETHINK_VERSION      =   '1.0beta';
-const ONETHINK_ADDON_PATH   =   './Addons/';
 /**
  * 系统配文件
  * 所有系统级别的配置
@@ -22,6 +19,10 @@ return array(
 
     /* 调试配置 */
     'SHOW_PAGE_TRACE' => true,
+
+    /* 用户相关设置 */
+    'USER_MAX_CACHE'     => 1000, //最大缓存用户数
+    'USER_ADMINISTRATOR' => 1, //管理员用户ID
 
     /* URL配置 */
     'URL_CASE_INSENSITIVE' => true, //默认false 表示URL区分大小写 true则表示不区分大小写

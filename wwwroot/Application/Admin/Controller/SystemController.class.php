@@ -19,81 +19,11 @@ class SystemController extends AdminController {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     static protected $nodes = array(
-    	/* 系统设置 */
-
-
-        /* 导航栏目设置 */
-        array( 'title' => '导航管理', 'url' => 'System/channel', 'group' => '导航栏目设置'),
-
         /* 其他设置 */
         // array( 'title' => '数据迁移', 'url' => 'System/index5', 'group' => '其他设置'),
         // array( 'title' => '数据备份/恢复', 'url' => 'System/index6', 'group' => '其他设置'),
         // array( 'title' => '系统日志', 'url' => 'System/index7', 'group' => '其他设置'),
     );
 
-
-
-    /**
-     * 频道管理
-     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
-     */
-    public function channel(){
-        /* 获取频道列表 */
-        $map  = array('status' => 1);
-        $list = M('Channel')->where($map)->order('sort')->select();
-
-        $this->assign('list', $list);
-        $this->meta_title = '导航管理';
-        $this->display();
-    }
-
-    public function channelAdd(){
-        if(IS_POST){
-            $Channel = D('Channel');
-            $data = $Channel->create();
-            if($data){
-
-                if($Channel->add()){
-                    $this->success('新增成功', U('channel'));
-                } else {
-                    $this->error('新增失败');
-                }
-            } else {
-                $this->error($Channel->getError());
-            }
-        } else {
-        	$this->meta_title = '新增导航';
-            $this->display('channeledit');
-        }
-    }
-
-    public function channelEdit($id = 0){
-        if(IS_POST){
-            $Channel = D('Channel');
-            $data = $Channel->create();
-            if($data){
-                if($Channel->save()){
-                    $this->success('编辑成功', U('channel'));
-                } else {
-                    $this->error('编辑失败');
-                }
-
-            } else {
-                $this->error($Channel->getError());
-            }
-        } else {
-            $info = array();
-            /* 获取数据 */
-            $info = D('Channel')->find($id);
-
-            if(false === $info){
-                $this->error('获取配置信息错误');
-            }
-
-            $this->assign('info', $info);
-            $this->meta_title = '编辑导航';
-            $this->display();
-        }
-    }
 
 }

@@ -49,11 +49,6 @@ class Think {
           // 读取应用模式
           $mode   =   include is_file(COMMON_PATH.'Conf/core.php')?COMMON_PATH.'Conf/core.php':THINK_PATH.'Conf/Mode/'.APP_MODE.'.php';
           
-          // 加载配置文件
-          foreach ($mode['config'] as $key=>$file){
-              is_numeric($key)?C(include $file):C($key,include $file);
-          }
-
           // 加载核心文件
           foreach ($mode['core'] as $file){
               if(is_file($file)) {
@@ -62,6 +57,10 @@ class Think {
               }
           }
 
+          // 加载配置文件
+          foreach ($mode['config'] as $key=>$file){
+              is_numeric($key)?C(include $file):C($key,include $file);
+          }
           // 加载别名定义
           foreach($mode['alias'] as $alias){
               self::addMap(is_array($alias)?$alias:(file_exists($alias)?include $alias:array()));
@@ -275,7 +274,7 @@ class Think {
             if (!empty($error_page)) {
                 redirect($error_page);
             } else {
-                if (C('SHOW_ERROR_MSG'))
+                if (!C('SHOW_ERROR_MSG'))
                     $e['message'] = is_array($error) ? $error['message'] : $error;
                 else
                     $e['message'] = C('ERROR_MESSAGE');

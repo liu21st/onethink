@@ -304,7 +304,7 @@ class AuthManagerController extends AdminController{
         }
         $AuthGroup = D('AuthGroup');
 		if(is_numeric($uid)){
-			if ( C('USER_ADMINISTRATOR')==$uid ) {
+			if ( is_administrator($uid) ) {
 				$this->error('该用户为超级管理员');
 			}
 			if( !M('Member')->where(array('uid'=>$uid))->find() ){
