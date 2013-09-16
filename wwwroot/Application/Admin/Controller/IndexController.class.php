@@ -31,6 +31,10 @@ class IndexController extends AdminController {
     protected function _initialize(){
         if(ACTION_NAME !== 'login' && ACTION_NAME !=='verify'){
             parent::_initialize();
+        }else{
+            /* 读取配置 */
+            $config = D('Config')->lists();
+            C($config); //添加配置
         }
     }
 
