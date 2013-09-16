@@ -7,9 +7,6 @@
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
-// OneThink常量定义
-const ONETHINK_VERSION      =   '1.0beta';
-const ONETHINK_ADDON_PATH   =   './Addons/';
 /**
  * 系统配文件
  * 所有系统级别的配置
