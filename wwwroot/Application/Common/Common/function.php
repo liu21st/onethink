@@ -7,6 +7,10 @@
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
+// OneThink常量定义
+const ONETHINK_VERSION      =   '1.0beta';
+const ONETHINK_ADDON_PATH   =   './Addons/';
+
 /**
  * 系统公共库文件
  * 主要定义系统公共函数库

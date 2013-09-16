@@ -54,7 +54,7 @@
                     },1500);
                 }
             });
-          
+
         }
         return false;
     });
@@ -68,15 +68,22 @@
         if( ($(this).attr('type')=='submit') || (target = $(this).attr('href')) || (target = $(this).attr('url')) ){
             form = $('.'+target_form);
 
-            if (form.get(0)==undefined){
-                return false;
+            if ($(this).attr('hide-data') === 'true'){//无数据时也可以使用的功能
+            	form = $('.hide-data');
+            	query = form.serialize();
+            }else if (form.get(0)==undefined){
+            	return false;
             }else if ( form.get(0).nodeName=='FORM' ){
                 if ( $(this).hasClass('confirm') ) {
                     if(!confirm('确认要执行该操作吗?')){
                         return false;
                     }
                 }
-                target = form.get(0).action;
+                if($(this).attr('url') !== undefined){
+                	target = $(this).attr('url');
+                }else{
+                	target = form.get(0).action;
+                }
                 query = form.serialize();
             }else if( form.get(0).nodeName=='INPUT' || form.get(0).nodeName=='SELECT' || form.get(0).nodeName=='TEXTAREA') {
                 form.each(function(k,v){
@@ -200,35 +207,41 @@
     });
 
     //上传图片弹出大图
-    var winW = $(window).width();
-    var winH = $(window).height();
-    $(".upload-img-box").click(function(){
-        var imgPopup = "<div id=\"uploadPop\" class=\"upload-img-popup\"></div>"
-        var imgItem = $(this).find(".upload-pre-item").html();
-        //如果弹出层存在，则不能再弹出
-        var popupLen = $(".upload-img-popup").length;
-        if( popupLen < 1 ) {
-            $(imgPopup).appendTo("body");
-        }
-        $(".upload-img-popup").html( 
-            imgItem + "<a class=\"close-pop\" href=\"javascript:;\" title=\"关闭\"></a>" 
-        );
-        var popW = $("#uploadPop").find("img").width();
-        var popH = $("#uploadPop").find("img").height();
-        var left = (winW -popW)/2;
-        var top = (winH - popH)/2 + 50;
-        $(".upload-img-popup").css({
-            "left": left,
-            "top": top
-        });
-    });
+    $(window).resize(function(){
+        var winW = $(window).width();
+        var winH = $(window).height();
+        $(".upload-img-box").click(function(){
+            var imgPopup = "<div id=\"uploadPop\" class=\"upload-img-popup\"></div>"
+            var imgItem = $(this).find(".upload-pre-item").html();
 
-    $("body").on("click", "#uploadPop .close-pop", function(){
-        $(this).parent().remove();
-    })
+            //如果弹出层存在，则不能再弹出
+            var popupLen = $(".upload-img-popup").length;
+            if( popupLen < 1 ) {
+                $(imgPopup).appendTo("body");
+                $(".upload-img-popup").html( 
+                    imgItem + "<a class=\"close-pop\" href=\"javascript:;\" title=\"关闭\"></a>" 
+                );
+            }
+
+            var uploadImg = $("#uploadPop").find("img");
+            var popW = uploadImg.width();
+            var popH = uploadImg.height();
+            var left = (winW -popW)/2;
+            var top = (winH - popH)/2 + 50;
+            $(".upload-img-popup").css({
+                "left": left,
+                "top": top
+            });
+        });
+
+        $("body").on("click", "#uploadPop .close-pop", function(){
+            $(this).parent().remove();
+        });
+    }).resize();
+
     
     //点击关闭弹出层
-    
+
     // $(document).click(function (e) {
     //     var drag = $("#uploadPop");
     //     var dragel = $("#uploadPop img")[0];
@@ -238,7 +251,7 @@
     //         alert(target)
     //     }
     // });
-    
+
 });
 
 //标签页切换(无下一步)
