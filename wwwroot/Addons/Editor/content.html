@@ -20,8 +20,8 @@
 						height: '{$addons_config.editor_height}',
 						resizeType: <eq name="addons_config.editor_resize_type" value="1">1<else />0</eq>,
 						pasteType : 2,
-						fileManagerJson : '{:addons_url("Editor://Upload/upload")}',
-						uploadJson : '{:U('uploadJson')}'
+						fileManagerJson : '{:U('fileManagerJson')}',
+						uploadJson : '{:addons_url("Editor://Upload/upload")}'
 					});
 				});
 
