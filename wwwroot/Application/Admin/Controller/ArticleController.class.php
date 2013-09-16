@@ -287,6 +287,7 @@ class ArticleController extends \Admin\Controller\AdminController {
         $extend = $this->fetch($data['template']);
         $this->assign('extend', $extend);
 
+        //获取当前分类的文档类型
 		$this->assign('type_list', get_type_bycate($data['category_id']));
 
 		$this->meta_title = '编辑文档';
@@ -343,11 +344,10 @@ class ArticleController extends \Admin\Controller\AdminController {
 	public function autoSave(){
 		$res = D('Document')->autoSave();
 		if($res !== false){
-			if(empty($res['id'])){
-				$this->success('保存草稿成功！');
-			}else{
-				$this->success('更新草稿成功！');
-			}
+			$return['data'] = $res;
+			$return['info'] = '保存草稿成功';
+			$return['status'] = 1;
+			$this->ajaxReturn($return);
 		}else{
 			$this->error('保存草稿失败：'.D('Document')->getError());
 		}
