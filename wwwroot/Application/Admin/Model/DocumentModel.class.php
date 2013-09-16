@@ -249,6 +249,9 @@ class DocumentModel extends Model{
 	protected function getStatus(){
 		$id = I('post.id');
 		$status = $this->getFieldById($id, 'status');
+		if($status == 3){
+			$status = 1;
+		}
 		return !isset($status) ? 1 : $status;
 	}
 
