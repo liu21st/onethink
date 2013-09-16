@@ -426,4 +426,74 @@ class DocumentModel extends Model{
 		return $res['id'];
 	}
 
+	/**
+	 * 保存为草稿
+	 * @return array 完整的数据， false 保存出错
+	 * @author huajie <banhuajie@163.com>
+	 */
+	public function autoSave(){
+		$post = I('post.');
+
+		//触发自动保存的字段
+		$save_list = array('name','title','description','position','link_id','cover_id','dateline','create_time');
+		foreach ($save_list as $value){
+			if(!empty($post[$value])){
+				$if_save = true;
+				break;
+			}
+		}
+
+		if(!$if_save){
+			return false;
+		}
+
+		//重置自动验证
+		$this->_validate = array(
+			array('name', '/^[a-zA-Z]\w{0,39}$/', '文档标识不合法', self::VALUE_VALIDATE, 'regex', self::MODEL_BOTH),
+			array('name', '', '标识已经存在', self::VALUE_VALIDATE, 'unique', self::MODEL_BOTH),
+			array('title', '1,80', '标题长度不能超过80个字符', self::VALUE_VALIDATE, 'length', self::MODEL_BOTH),
+			array('link_id', 'url', '外链格式不正确', self::VALUE_VALIDATE, 'regex', self::MODEL_BOTH),
+			array('description', '1,140', '简介长度不能超过140个字符', self::VALUE_VALIDATE, 'length', self::MODEL_BOTH),
+			array('category_id', 'require', '分类不能为空', self::MUST_VALIDATE , 'regex', self::MODEL_BOTH),
+			array('category_id,type', 'checkCategory', '该分类不允许发布内容', self::MUST_VALIDATE , 'callback', self::MODEL_INSERT),
+			array('category_id', 'checkCategory', '该分类不允许发布内容', self::EXISTS_VALIDATE , 'callback', self::MODEL_UPDATE),
+			array('model_id,category_id', 'checkModel', '该分类没有绑定当前模型', self::MUST_VALIDATE , 'callback', self::MODEL_INSERT),
+			array('dateline', '/^\d{4,4}-\d{1,2}-\d{1,2}(\s\d{1,2}:\d{1,2}(:\d{1,2})?)?$/', '日期格式不合法,请使用"年-月-日 时:分"格式,全部为数字', self::VALUE_VALIDATE  , 'regex', self::MODEL_BOTH),
+			array('create_time', '/^\d{4,4}-\d{1,2}-\d{1,2}(\s\d{1,2}:\d{1,2}(:\d{1,2})?)?$/', '日期格式不合法,请使用"年-月-日 时:分"格式,全部为数字', self::VALUE_VALIDATE  , 'regex', self::MODEL_BOTH),
+		);
+		$this->_auto[] = array('status', '3', self::MODEL_BOTH);
+
+		if(!($data = $this->create())){
+			return false;
+		}
+
+		/* 添加或新增基础内容 */
+		if(empty($data['id'])){ //新增数据
+			$id = $this->add(); //添加基础内容
+			if(!$id){
+// 				$this->error = '新增基础内容出错！';
+				return false;
+			}
+		} else { //更新数据
+			$status = $this->save(); //更新基础内容
+			if(false === $status){
+// 				$this->error = '更新基础内容出错！';
+				return false;
+			}
+		}
+
+		/* 添加或新增扩展内容 */
+		$logic = $this->logic($data['model_id']);
+		if(!$logic->autoSave($id)){
+			if(isset($id)){ //新增失败，删除基础数据
+				$this->delete($id);
+			}
+			$this->error = $logic->getError();
+			return false;
+		}
+
+		//内容添加或更新完成
+		return $data;
+	}
+
 }
