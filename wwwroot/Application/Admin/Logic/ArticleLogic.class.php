@@ -51,6 +51,11 @@ class ArticleLogic extends BaseLogic{
 		return true;
 	}
 
+	/**
+	 * 检查详细内容是否需要填写
+	 * @return boolean
+	 * @author huajie <banhuajie@163.com>
+	 */
 	protected function getContent(){
 		$type = I('post.type');
 		$content = I('post.content');
@@ -63,6 +68,39 @@ class ArticleLogic extends BaseLogic{
 				$_POST['content'] = ' ';
 			}
 		}
+		return true;
+	}
+
+	/**
+	 * 保存为草稿
+	 * @return true 成功， false 保存出错
+	 * @author huajie <banhuajie@163.com>
+	 */
+	public function autoSave($id){
+		$this->_validate = array();
+
+		/* 获取文章数据 */
+		$data = $this->create();
+		if(!$data){
+			return false;
+		}
+
+		/* 添加或更新数据 */
+		if(empty($data['id'])){//新增数据
+			$data['id'] = $id;
+			$id = $this->add($data);
+			if(!$id){
+				$this->error = '新增详细内容失败！';
+				return false;
+			}
+		} else { //更新数据
+			$status = $this->save($data);
+			if(false === $status){
+				$this->error = '更新详细内容失败！';
+				return false;
+			}
+		}
+
 		return true;
 	}
 

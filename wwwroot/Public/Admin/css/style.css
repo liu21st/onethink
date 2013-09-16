@@ -262,6 +262,7 @@ body{
 .show-num-mod dt em,
 .show-num-mod dd span {
     font-size: 12px;
+    letter-spacing: .15em;
 }
 .show-num-mod dt {
     width: 65px;

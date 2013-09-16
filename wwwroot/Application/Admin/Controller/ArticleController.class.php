@@ -45,7 +45,7 @@ class ArticleController extends \Admin\Controller\AdminController {
     	parent::_initialize();
 
 		//获取左边菜单
-		if(ACTION_NAME == 'index' || ACTION_NAME == 'add' || ACTION_NAME == 'edit' || ACTION_NAME == 'recycle'){
+		if(ACTION_NAME == 'index' || ACTION_NAME == 'add' || ACTION_NAME == 'edit' || ACTION_NAME == 'recycle' || ACTION_NAME == 'draftbox'){
 			$this->getMenu();
 		}
 
@@ -87,7 +87,7 @@ class ArticleController extends \Admin\Controller\AdminController {
     	$this->cate_id = $cate_id;
 
     	//是否展开分类
-    	if(ACTION_NAME != 'recycle'){
+    	if(ACTION_NAME != 'recycle' && ACTION_NAME != 'draftbox'){
     		$hide_cate = true;
     	}
 
@@ -139,7 +139,7 @@ class ArticleController extends \Admin\Controller\AdminController {
 	public function index($cate_id = null, $status = null, $title = null){
         if(is_null($cate_id)){
 		    $cate_id = $this->cate_id;
-        }//dump($modelList =   M('Category')->getFieldById($cate_id,'model'));
+        }
 		/* 查询条件初始化 */
 		$map = array();
 		if(isset($title)){
@@ -340,7 +340,12 @@ class ArticleController extends \Admin\Controller\AdminController {
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function autoSave(){
-
+		$res = D('Document')->autoSave();
+		if($res !== false){
+			$this->success('保存草稿成功！');
+		}else{
+			$this->error('保存草稿失败：'.D('Document')->getError());
+		}
 	}
 
 	/**
@@ -348,6 +353,13 @@ class ArticleController extends \Admin\Controller\AdminController {
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function draftBox(){
+		$Document = D('Document');
+		$map = array('status'=>3);
+		$list = $this->lists($Document,$map);
+		intToString($list);
+
+		$this->assign('list', $list);
+		$this->meta_title = '草稿箱';
 		$this->display();
 	}
 
@@ -387,7 +399,7 @@ class ArticleController extends \Admin\Controller\AdminController {
 	}
 
     // 移动文档 目前只支持单条记录移动
-    public function moveArticle() {
+    public function move() {
         if(empty($_POST['ids'])) {
             $this->error('请选择要移动的文档！');
         }
@@ -396,7 +408,7 @@ class ArticleController extends \Admin\Controller\AdminController {
     }
 
     // 拷贝文档 目前只支持单条记录复制
-    public function copyArticle() {
+    public function copy() {
         if(empty($_POST['ids'])) {
             $this->error('请选择要复制的文档！');
         }
@@ -405,7 +417,7 @@ class ArticleController extends \Admin\Controller\AdminController {
     }
 
     // 粘贴文档
-    public function pasteArticle() {
+    public function paste() {
         if(empty($_SESSION['moveArticle']) && empty($_SESSION['copyArticle'])) {
             $this->error('没有选择文档！');
         }

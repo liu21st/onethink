@@ -120,6 +120,7 @@
 			<button class="btn submit-btn" id="submit-next" type="button">下一步</button>
 			<button class="btn submit-btn ajax-post hidden" id="submit" type="submit" target-form="form-horizontal">确 定</button>
 			<a class="btn btn-return" href="{:U('article/index?cate_id='.$cate_id)}">返 回</a>
+			<button class="btn ajax-post" url="{:U('article/autoSave')}" target-form="form-horizontal">保存为草稿</button>
 			<input type="hidden" name="id" value="{$info.id}"/>
 			<input type="hidden" name="pid" value="{$info.pid}"/>
 			<input type="hidden" name="model_id" value="{$info.model_id}"/>
