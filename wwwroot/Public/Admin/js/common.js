@@ -229,6 +229,8 @@
             var left = (winW -popW)/2;
             var top = (winH - popH)/2 + 50;
             $(".upload-img-popup").css({
+                "max-width" : winW*90%,
+                "max-height" : winH*90%,
                 "left": left,
                 "top": top
             });

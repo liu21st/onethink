@@ -423,9 +423,9 @@ button.close {
 	position: absolute;
 	top: -8px;
 	right: -8px;
-	width: 16px;
-	height: 16px;
-	background-color: #f00;
+	width: 17px;
+	height: 17px;
+	background: url(../images/close.png) no-repeat;
 }
 .upload-img-popup .close-pop:hover {
 	text-decoration: none;
