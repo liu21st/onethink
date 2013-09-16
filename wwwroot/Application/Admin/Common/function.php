@@ -77,7 +77,7 @@ function get_document_type($type = null){
 /**
  * 获取配置的类型
  * @param string $type 配置类型
- * @return string 
+ * @return string
  */
 function get_config_type($type=0){
 	$list =	C('CONFIG_TYPE_LIST');
@@ -87,7 +87,7 @@ function get_config_type($type=0){
 /**
  * 获取配置的分组
  * @param string $group 配置分组
- * @return string 
+ * @return string
  */
 function get_config_group($group=0){
 	$list =	C('CONFIG_GROUP_LIST');
@@ -132,7 +132,7 @@ function check_document_position($pos = 0, $contain = 0){
  *  )
  *
  */
-function intToString(&$data,$map=array('status'=>array(1=>'正常',-1=>'删除',0=>'禁用',2=>'审核通过'))) {
+function intToString(&$data,$map=array('status'=>array(1=>'正常',-1=>'删除',0=>'禁用',2=>'审核通过',3=>'草稿'))) {
     $data = (array)$data;
     foreach ($data as $key => $row){
         foreach ($map as $col=>$pair){
