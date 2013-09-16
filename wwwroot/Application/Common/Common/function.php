@@ -170,10 +170,10 @@ function think_decrypt($data, $key = ''){
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 function data_auth_sign($data) {
-	//数据类型检测
-	if(!is_array($data)){
-		$data = (array)$data;
-	}
+    //数据类型检测
+    if(!is_array($data)){
+        $data = (array)$data;
+    }
     ksort($data); //排序
     $code = http_build_query($data); //url编码并生成query字符串
     $sign = sha1($code); //生成签名
@@ -343,8 +343,8 @@ function addons_url($url, $param = array()){
  * @author huajie <banhuajie@163.com>
  */
 function time_format($time = NULL){
-	$time = $time === NULL || $time > NOW_TIME ? NOW_TIME : intval($time);
-	return date('Y-m-d H:i:s', $time);
+    $time = $time === NULL || $time > NOW_TIME ? NOW_TIME : intval($time);
+    return date('Y-m-d H:i:s', $time);
 }
 
 /**
@@ -472,8 +472,8 @@ function get_document_model($id = null, $field = null){
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 function ubb($data){
-	//TODO: 待完善，目前返回原始数据
-	return $data;
+    //TODO: 待完善，目前返回原始数据
+    return $data;
 }
 
 /**
@@ -487,34 +487,34 @@ function ubb($data){
  */
 function action_log($action = null, $model = null, $record_id = null, $user_id = null){
 
-	//参数检查
-	if(empty($action) || empty($model) || empty($record_id)){
-		return '参数不能为空';
-	}
-	if(empty($user_id)){
-		$user_id = is_login();
-	}
+    //参数检查
+    if(empty($action) || empty($model) || empty($record_id)){
+        return '参数不能为空';
+    }
+    if(empty($user_id)){
+        $user_id = is_login();
+    }
 
-	//查询行为,判断是否执行
-	$action_info = M('Action')->getByName($action);
-	if($action_info['status'] != 1){
-		return '该行为被禁用';
-	}
+    //查询行为,判断是否执行
+    $action_info = M('Action')->getByName($action);
+    if($action_info['status'] != 1){
+        return '该行为被禁用';
+    }
 
-	//插入行为日志
-	$data['action_id'] = $action_info['id'];
-	$data['user_id'] = $user_id;
-	$data['action_ip'] = ip2long(get_client_ip());
-	$data['model'] = $model;
-	$data['record_id'] = $record_id;
-	$data['create_time'] = NOW_TIME;
-	M('ActionLog')->add($data);
+    //插入行为日志
+    $data['action_id'] = $action_info['id'];
+    $data['user_id'] = $user_id;
+    $data['action_ip'] = ip2long(get_client_ip());
+    $data['model'] = $model;
+    $data['record_id'] = $record_id;
+    $data['create_time'] = NOW_TIME;
+    M('ActionLog')->add($data);
 
-	//解析行为
-	$rules = parse_action($action, $user_id);
+    //解析行为
+    $rules = parse_action($action, $user_id);
 
-	//执行行为
-	$res = execute_action($rules, $action_info['id'], $user_id);
+    //执行行为
+    $res = execute_action($rules, $action_info['id'], $user_id);
 }
 
 /**
@@ -533,44 +533,44 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
  * @author huajie <banhuajie@163.com>
  */
 function parse_action($action = null, $self){
-	if(empty($action)){
-		return false;
-	}
+    if(empty($action)){
+        return false;
+    }
 
-	//参数支持id或者name
-	if(is_numeric($action)){
-		$map = array('id'=>$action);
-	}else{
-		$map = array('name'=>$action);
-	}
+    //参数支持id或者name
+    if(is_numeric($action)){
+        $map = array('id'=>$action);
+    }else{
+        $map = array('name'=>$action);
+    }
 
-	//查询行为信息
-	$info = M('Action')->where($map)->find();
-	if(!$info || $info['status'] != 1){
-		return false;
-	}
+    //查询行为信息
+    $info = M('Action')->where($map)->find();
+    if(!$info || $info['status'] != 1){
+        return false;
+    }
 
-	//解析规则:table:$table|field:$field|condition:$condition|rule:$rule[|cycle:$cycle|max:$max][;......]
-	$rules = $info['rule'];
-	$rules = str_replace('{$self}', $self, $rules);
-	$rules = explode(';', $rules);
-	$return = array();
-	foreach ($rules as $key=>&$rule){
-		$rule = explode('|', $rule);
-		foreach ($rule as $k=>$fields){
-			$field = empty($fields) ? array() : explode(':', $fields);
-			if(!empty($field)){
-				$return[$key][$field[0]] = $field[1];
-			}
-		}
-		//cycle(检查周期)和max(周期内最大执行次数)必须同时存在，否则去掉这两个条件
-		if(!array_key_exists('cycle', $return[$key]) || !array_key_exists('max', $return[$key])){
-			unset($return[$key]['cycle']);
-			unset($return[$key]['max']);
-		}
-	}
+    //解析规则:table:$table|field:$field|condition:$condition|rule:$rule[|cycle:$cycle|max:$max][;......]
+    $rules = $info['rule'];
+    $rules = str_replace('{$self}', $self, $rules);
+    $rules = explode(';', $rules);
+    $return = array();
+    foreach ($rules as $key=>&$rule){
+        $rule = explode('|', $rule);
+        foreach ($rule as $k=>$fields){
+            $field = empty($fields) ? array() : explode(':', $fields);
+            if(!empty($field)){
+                $return[$key][$field[0]] = $field[1];
+            }
+        }
+        //cycle(检查周期)和max(周期内最大执行次数)必须同时存在，否则去掉这两个条件
+        if(!array_key_exists('cycle', $return[$key]) || !array_key_exists('max', $return[$key])){
+            unset($return[$key]['cycle']);
+            unset($return[$key]['max']);
+        }
+    }
 
-	return $return;
+    return $return;
 }
 
 /**
@@ -582,31 +582,31 @@ function parse_action($action = null, $self){
  * @author huajie <banhuajie@163.com>
  */
 function execute_action($rules = false, $action_id = null, $user_id = null){
-	if(!$rules || empty($action_id) || empty($user_id)){
-		return false;
-	}
+    if(!$rules || empty($action_id) || empty($user_id)){
+        return false;
+    }
 
-	$return = true;
-	foreach ($rules as $rule){
+    $return = true;
+    foreach ($rules as $rule){
 
-		//检查执行周期
-		$map = array('action_id'=>$action_id, 'user_id'=>$user_id);
-		$map['create_time'] = array('gt', NOW_TIME - intval($rule['cycle']) * 3600);
-		$exec_count = M('ActionLog')->where($map)->count();
-		if($exec_count > $rule['max']){
-			continue;
-		}
+        //检查执行周期
+        $map = array('action_id'=>$action_id, 'user_id'=>$user_id);
+        $map['create_time'] = array('gt', NOW_TIME - intval($rule['cycle']) * 3600);
+        $exec_count = M('ActionLog')->where($map)->count();
+        if($exec_count > $rule['max']){
+            continue;
+        }
 
-		//执行数据库操作
-		$Model = M(ucfirst($rule['table']));
-		$field = $rule['field'];
-		$res = $Model->where($rule['condition'])->setField($field, array('exp', $rule['rule']));
+        //执行数据库操作
+        $Model = M(ucfirst($rule['table']));
+        $field = $rule['field'];
+        $res = $Model->where($rule['condition'])->setField($field, array('exp', $rule['rule']));
 
-		if(!$res){
-			$return = false;
-		}
-	}
-	return $return;
+        if(!$res){
+            $return = false;
+        }
+    }
+    return $return;
 }
 
 //基于数组创建目录和文件

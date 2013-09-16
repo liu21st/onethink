@@ -15,17 +15,17 @@ use Think\Model;
 
 class MemberModel extends Model {
 
-	protected $_validate = array(
-		array('nickname', '1,16', '昵称长度为1-16个字符', self::EXISTS_VALIDATE, 'length'),
-		array('nickname', '', '昵称被占用', self::EXISTS_VALIDATE, 'unique'), //用户名被占用
-	);
+    protected $_validate = array(
+        array('nickname', '1,16', '昵称长度为1-16个字符', self::EXISTS_VALIDATE, 'length'),
+        array('nickname', '', '昵称被占用', self::EXISTS_VALIDATE, 'unique'), //用户名被占用
+    );
 
-	public function lists($status = 1, $order = 'uid DESC', $field = true){
-		$map = array('status' => $status);
-		return $this->field($field)->where($map)->order($order)->select();
-	}
+    public function lists($status = 1, $order = 'uid DESC', $field = true){
+        $map = array('status' => $status);
+        return $this->field($field)->where($map)->order($order)->select();
+    }
 
-	/**
+    /**
      * 登录指定用户
      * @param  integer $uid 用户ID
      * @return boolean      ture-登录成功，false-登录失败
@@ -78,10 +78,8 @@ class MemberModel extends Model {
 
     }
 
-    public function getNickName($uid)
-    {
+    public function getNickName($uid){
         return $this->where(array('uid'=>(int)$uid))->getField('nickname');
     }
-    
 
 }

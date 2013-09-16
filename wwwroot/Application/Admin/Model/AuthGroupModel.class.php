@@ -35,8 +35,7 @@ class AuthGroupModel extends Model {
      *
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function getGroups($where=array())
-    {
+    public function getGroups($where=array()){
         $map = array('status'=>1,'type'=>self::TYPE_ADMIN,'module'=>'admin');
         $map = array_merge($map,$where);
         return $this->where($map)->select();
@@ -48,8 +47,7 @@ class AuthGroupModel extends Model {
      * 
      * 示例: 把uid=1的用户添加到group_id为1,2的组 `AuthGroupModel->addToGroup(1,'1,2');`
      */
-    public function addToGroup($uid,$gid)
-    {
+    public function addToGroup($uid,$gid){
         $uid = is_array($uid)?implode(',',$uid):trim($uid,',');
         $gid = is_array($gid)?$gid:explode( ',',trim($gid,',') );
 
@@ -90,8 +88,7 @@ class AuthGroupModel extends Model {
      *                                         array('uid'=>'用户id','group_id'=>'用户组id','title'=>'用户组名称','rules'=>'用户组拥有的规则id,多个,号隔开'),
      *                                         ...)   
      */
-    static public function getUserGroup($uid)
-    {
+    static public function getUserGroup($uid){
         static $groups = array();
         if (isset($groups[$uid]))
             return $groups[$uid];
@@ -116,8 +113,7 @@ class AuthGroupModel extends Model {
      *
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    static public function getAuthCategories($uid)
-    {
+    static public function getAuthCategories($uid){
         $prefix = C('DB_PREFIX');
         return M()
             ->table($prefix.self::AUTH_GROUP_ACCESS.' g')
@@ -136,8 +132,7 @@ class AuthGroupModel extends Model {
      *
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    static public function getCategoryOfGroup($gid)
-    {
+    static public function getCategoryOfGroup($gid){
         return M(self::AUTH_CATEGORY_ACCESS)->where( array('group_id'=>$gid) )->getfield('category_id',true);
     }
     
@@ -150,8 +145,7 @@ class AuthGroupModel extends Model {
      * 
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    static public function addToCategory($gid,$cid)
-    {
+    static public function addToCategory($gid,$cid){
         $gid = is_array($gid)?implode(',',$gid):trim($gid,',');
         $cid = is_array($cid)?$cid:explode( ',',trim($cid,',') );
 
@@ -208,8 +202,7 @@ class AuthGroupModel extends Model {
      * @param array|string $gid  用户组id列表
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function checkGroupId($gid)
-    {
+    public function checkGroupId($gid){
         if(is_array($gid)){
             $count = count($gid);
             $ids   = implode(',',$gid);
@@ -233,8 +226,7 @@ class AuthGroupModel extends Model {
      * @param array|string $cid  栏目分类id列表
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function checkCategoryId($cid)
-    {
+    public function checkCategoryId($cid){
         if(is_array($cid)){
             $count = count($cid);
             $ids   = implode(',',$cid);

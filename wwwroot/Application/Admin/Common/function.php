@@ -19,16 +19,16 @@
  * @author huajie <banhuajie@163.com>
  */
 function get_status_title($status = null){
-	if(!isset($status)){
-		return false;
-	}
-	switch ($status){
-		case -1 : return '已删除';break;
-		case 0 : return '禁用';break;
-		case 1 : return '正常';break;
-		case 2 : return '待审核';break;
-		default : return false;break;
-	}
+    if(!isset($status)){
+        return false;
+    }
+    switch ($status){
+        case -1 : return '已删除';break;
+        case 0 : return '禁用';break;
+        case 1 : return '正常';break;
+        case 2 : return '待审核';break;
+        default : return false;break;
+    }
 }
 
 /**
@@ -38,16 +38,16 @@ function get_status_title($status = null){
  * @author huajie <banhuajie@163.com>
  */
 function get_document_type($type = null){
-	if(!isset($type)){
-		return false;
-	}
-	switch ($type){
-		case 0 : return '专辑';break;
-		case 1 : return '目录';break;
-		case 2 : return '主题';break;
-		case 2 : return '段落';break;
-		default : return false;break;
-	}
+    if(!isset($type)){
+        return false;
+    }
+    switch ($type){
+        case 0 : return '专辑';break;
+        case 1 : return '目录';break;
+        case 2 : return '主题';break;
+        case 2 : return '段落';break;
+        default : return false;break;
+    }
 }
 
 /**
@@ -56,8 +56,8 @@ function get_document_type($type = null){
  * @return string
  */
 function get_config_type($type=0){
-	$list =	C('CONFIG_TYPE_LIST');
-	return $list[$type];
+    $list =	C('CONFIG_TYPE_LIST');
+    return $list[$type];
 }
 
 /**
@@ -66,8 +66,8 @@ function get_config_type($type=0){
  * @return string
  */
 function get_config_group($group=0){
-	$list =	C('CONFIG_GROUP_LIST');
-	return $list[$group];
+    $list =	C('CONFIG_GROUP_LIST');
+    return $list[$group];
 }
 
 /**
@@ -78,17 +78,17 @@ function get_config_group($group=0){
  * @author huajie <banhuajie@163.com>
  */
 function check_document_position($pos = 0, $contain = 0){
-	if(empty($pos) || empty($contain)){
-		return false;
-	}
+    if(empty($pos) || empty($contain)){
+        return false;
+    }
 
-	//将两个参数进行按位与运算，不为0则表示$contain属于$pos
-	$res = $pos & $contain;
-	if($res !== 0){
-		return true;
-	}else{
-		return false;
-	}
+    //将两个参数进行按位与运算，不为0则表示$contain属于$pos
+    $res = $pos & $contain;
+    if($res !== 0){
+        return true;
+    }else{
+        return false;
+    }
 }
 
 /**
@@ -141,26 +141,26 @@ function extra_menu($extra_menu,&$base_menu){
  * @author huajie <banhuajie@163.com>
  */
 function get_parent_category($cid){
-	if(empty($cid)){
-		return false;
-	}
-	$cates = M('Category')->where(array('status'=>1))->field('id,title,pid')->order('sort')->select();
-	$child = get_category($cid);	//获取参数分类的信息
-	$pid = $child['pid'];
-	$temp = array();
-	$res[] = $child;
-	while(true){
-		foreach ($cates as $key=>$cate){
-			if($cate['id'] == $pid){
-				$pid = $cate['pid'];
-				array_unshift($res, $cate);	//将父分类插入到数组第一个元素前
-			}
-		}
-		if($pid == 0){
-			break;
-		}
-	}
-	return $res;
+    if(empty($cid)){
+        return false;
+    }
+    $cates = M('Category')->where(array('status'=>1))->field('id,title,pid')->order('sort')->select();
+    $child = get_category($cid);	//获取参数分类的信息
+    $pid = $child['pid'];
+    $temp = array();
+    $res[] = $child;
+    while(true){
+        foreach ($cates as $key=>$cate){
+            if($cate['id'] == $pid){
+                $pid = $cate['pid'];
+                array_unshift($res, $cate);	//将父分类插入到数组第一个元素前
+            }
+        }
+        if($pid == 0){
+            break;
+        }
+    }
+    return $res;
 }
 
 /**
@@ -171,11 +171,11 @@ function get_parent_category($cid){
  * @author huajie <banhuajie@163.com>
  */
 function get_cover($cover_id, $field = null){
-	if(empty($cover_id)){
-		return false;
-	}
-	$picture = M('Picture')->where(array('status'=>1))->getById($cover_id);
-	return empty($field) ? $picture : $picture[$field];
+    if(empty($cover_id)){
+        return false;
+    }
+    $picture = M('Picture')->where(array('status'=>1))->getById($cover_id);
+    return empty($field) ? $picture : $picture[$field];
 }
 
 /**
@@ -185,8 +185,8 @@ function get_cover($cover_id, $field = null){
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 function check_verify($code, $id = 1){
-	$verify = new \COM\Verify();
-	return $verify->check($code, $id);
+    $verify = new \COM\Verify();
+    return $verify->check($code, $id);
 }
 
 /**
@@ -197,16 +197,16 @@ function check_verify($code, $id = 1){
  * @author huajie <banhuajie@163.com>
  */
 function get_link($link_id = null, $field = 'url'){
-	$link = '';
-	if(empty($link_id)){
-		return $link;
-	}
-	$link = M('Url')->getById($link_id);
-	if(empty($field)){
-		return $link;
-	}else{
-		return $link[$field];
-	}
+    $link = '';
+    if(empty($link_id)){
+        return $link;
+    }
+    $link = M('Url')->getById($link_id);
+    if(empty($field)){
+        return $link;
+    }else{
+        return $link[$field];
+    }
 }
 
 /**
@@ -216,31 +216,31 @@ function get_link($link_id = null, $field = 'url'){
  * @author huajie <banhuajie@163.com>
  */
 function get_type_bycate($id = null){
-	if(empty($id)){
-		return false;
-	}
-	$type_list = C('DOCUMENT_MODEL_TYPE');
-	$model_type = M('Category')->getFieldById($id, 'type');
-	$model_type = explode(',', $model_type);
-	foreach ($type_list as $key=>$value){
-		if(!in_array($key, $model_type)){
-			unset($type_list[$key]);
-		}
-	}
-	return $type_list;
+    if(empty($id)){
+        return false;
+    }
+    $type_list = C('DOCUMENT_MODEL_TYPE');
+    $model_type = M('Category')->getFieldById($id, 'type');
+    $model_type = explode(',', $model_type);
+    foreach ($type_list as $key=>$value){
+        if(!in_array($key, $model_type)){
+            unset($type_list[$key]);
+        }
+    }
+    return $type_list;
 }
 
  // 分析枚举类型配置值 格式 a:名称1,b:名称2
 function parse_config_attr($string) {
-	$array = preg_split('/[,;\r\n]+/', trim($string, ",;\r\n"));
-	if(strpos($string,':')){
-	    $value  =   array();
-	    foreach ($array as $val) {
-	        list($k, $v) = explode(':', $val);
-	        $value[$k]   = $v;
-	    }
-	}else{
-	    $value  =   $array;
-	}
-	return $value;
+    $array = preg_split('/[,;\r\n]+/', trim($string, ",;\r\n"));
+    if(strpos($string,':')){
+        $value  =   array();
+        foreach ($array as $val) {
+            list($k, $v) = explode(':', $val);
+            $value[$k]   = $v;
+        }
+    }else{
+        $value  =   $array;
+    }
+    return $value;
 }

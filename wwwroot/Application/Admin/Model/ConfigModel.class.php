@@ -15,5 +15,5 @@ namespace Admin\Model;
  */
 
 class ConfigModel extends \Common\Model\ConfigModel {
-	
+
 }
