@@ -25,11 +25,14 @@
 					</tr>
 					<tr>
 						<th>服务器软件</th>
-						<td>{:php_sapi_name()}</td>
+						<td>{$_SERVER['SERVER_SOFTWARE']}</td>
 					</tr>
 					<tr>
 						<th>服务器MySql版本</th>
-						<td>MySql v{:mysql_get_server_info()}</td>
+						<php>
+							$system_info_mysql = M()->query("select version() as v;");
+						</php>
+						<td>{$system_info_mysql.0.v}</td>
 					</tr>
 					<tr>
 						<th>上传许可</th>
