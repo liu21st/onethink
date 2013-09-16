@@ -189,6 +189,7 @@ KindEditor.plugin('image', function(K) {
 			target : target,
 			width: 60,
 			afterUpload : function(data) {
+				console.log(data);
 				dialog.hideLoading();
 				if (data.error === 0) {
 					var url = data.url;
