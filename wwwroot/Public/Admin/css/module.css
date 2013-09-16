@@ -389,17 +389,15 @@ button.close {
 .upload-img-box .upload-pre-item {
 	padding: 1px;
 	width: 120px;
+	max-height: 120px;
+	overflow: hidden;
+	text-align: center;
 	cursor: pointer;
 	border: 1px solid #ccc;
 	transition: all .3s linear;
 }
-.upload-img-box .upload-pre-item.proto {
-	display: inline-block;
-	*display: inlne;
-	width: auto;
-}
 .upload-img-box .upload-pre-item img {
-	display: block;
+	vertical-align: top;
 }
 .upload-img-box .uplaod-pre-file {
 	padding: 0 10px;
