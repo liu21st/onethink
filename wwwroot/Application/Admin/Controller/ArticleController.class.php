@@ -45,7 +45,8 @@ class ArticleController extends \Admin\Controller\AdminController {
     	parent::_initialize();
 
 		//获取左边菜单
-		if(ACTION_NAME == 'index' || ACTION_NAME == 'add' || ACTION_NAME == 'edit' || ACTION_NAME == 'recycle' || ACTION_NAME == 'draftbox'){
+		if(ACTION_NAME == 'index' || ACTION_NAME == 'add' || ACTION_NAME == 'edit' || ACTION_NAME == 'recycle' || ACTION_NAME == 'draftbox'
+			|| ACTION_NAME == 'mydocument'){
 			$this->getMenu();
 		}
 
@@ -87,7 +88,7 @@ class ArticleController extends \Admin\Controller\AdminController {
     	$this->cate_id = $cate_id;
 
     	//是否展开分类
-    	if(ACTION_NAME != 'recycle' && ACTION_NAME != 'draftbox'){
+    	if(ACTION_NAME != 'recycle' && ACTION_NAME != 'draftbox' && ACTION_NAME != 'mydocument'){
     		$hide_cate = true;
     	}
 
@@ -145,6 +146,11 @@ class ArticleController extends \Admin\Controller\AdminController {
 		if(isset($title)){
 			$map['title'] = array('like', '%'.$title.'%');
 		}
+		if(isset($status)){
+			$map['status'] = $status;
+		}else{
+			$map['status'] = array('in', '0,1,2');
+		}
         if ( isset($_GET['time-start']) ) {
             $map['create_time'][] = array('egt',strtotime(I('time-start')));
 
@@ -165,7 +171,7 @@ class ArticleController extends \Admin\Controller\AdminController {
             if($map['pid']){ // 子文档列表忽略分类
                 unset($map['category_id']);
             }
-            $map['status'] = array('in', '0,1,2');
+
 			$list = $this->lists($Document,$map);
 			intToString($list);
             if($map['pid']){
@@ -372,9 +378,27 @@ class ArticleController extends \Admin\Controller\AdminController {
 	 * 我的文档
 	 * @author huajie <banhuajie@163.com>
 	 */
-	public function mydocument(){
+	public function mydocument($status = null, $title = null){
 		$Document = D('Document');
-		$map = array('status'=>array('in','0,1,2'),'uid'=>is_login());
+		$map = array('status'=>array('in','0,1,2'),);
+		/* 查询条件初始化 */
+		$map = array('uid'=>is_login());
+		if(isset($title)){
+			$map['title'] = array('like', '%'.$title.'%');
+		}
+		if(isset($status)){
+			$map['status'] = $status;
+		}else{
+			$map['status'] = array('in', '0,1,2');
+		}
+		if ( isset($_GET['time-start']) ) {
+			$map['create_time'][] = array('egt',strtotime(I('time-start')));
+
+		}
+		if ( isset($_GET['time-end']) ) {
+			$map['create_time'][] = array('elt',24*60*60 + strtotime(I('time-end')));
+
+		}
 		$list = $this->lists($Document,$map);
 		intToString($list);
 
