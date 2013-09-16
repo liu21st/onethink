@@ -98,10 +98,15 @@ class Dispatcher {
         define('__INFO__',              trim($_SERVER['PATH_INFO'],'/'));
         // URL后缀
         define('__EXT__', strtolower(pathinfo($_SERVER['PATH_INFO'],PATHINFO_EXTENSION)));
-        $paths = explode($depr,trim($_SERVER['PATH_INFO'],'/'),2);
-        if (C('MULTI_MODULE') && !isset($_GET[$varModule])){ // 获取模块
-            $_GET[$varModule]       =   preg_replace('/\.' . __EXT__ . '$/i', '',array_shift($paths));
-            $_SERVER['PATH_INFO']   =   implode($depr, $paths);
+
+        if (__INFO__ && C('MULTI_MODULE') && !isset($_GET[$varModule])){ // 获取模块
+            $paths      =   explode($depr,__INFO__,2);
+            $allowList  =   C('MODULE_ALLOW_LIST');
+            $module     =   preg_replace('/\.' . __EXT__ . '$/i', '',$paths[0]);
+            if( empty($allowList) || (is_array($allowList) && in_array($module, $allowList))){
+                $_GET[$varModule]       =   $module;
+                $_SERVER['PATH_INFO']   =   isset($paths[1])?$paths[1]:'';     
+            };
         }
 
         // URL常量
@@ -154,7 +159,7 @@ class Dispatcher {
             define('__MODULE__',(!empty($domainModule) || !C('MULTI_MODULE'))?__APP__ : __APP__.'/'.(C('URL_CASE_INSENSITIVE') ? strtolower($moduleName) : $moduleName));            
         }
 
-        if(!Route::check()){   // 检测路由规则 如果没有则按默认规则调度URL
+        if('' != $_SERVER['PATH_INFO'] && (!C('URL_ROUTER_ON') ||  !Route::check()) ){   // 检测路由规则 如果没有则按默认规则调度URL
             tag('path_info');
             // 检查禁止访问的URL后缀
             if(C('URL_DENY_SUFFIX') && preg_match('/\.('.trim(C('URL_DENY_SUFFIX'),'.').')$/i', $_SERVER['PATH_INFO'])){
