@@ -359,12 +359,27 @@ class ArticleController extends \Admin\Controller\AdminController {
 	 */
 	public function draftBox(){
 		$Document = D('Document');
-		$map = array('status'=>3);
+		$map = array('status'=>3,'uid'=>is_login());
 		$list = $this->lists($Document,$map);
 		intToString($list);
 
 		$this->assign('list', $list);
 		$this->meta_title = '草稿箱';
+		$this->display();
+	}
+
+	/**
+	 * 我的文档
+	 * @author huajie <banhuajie@163.com>
+	 */
+	public function mydocument(){
+		$Document = D('Document');
+		$map = array('status'=>array('in','0,1,2'),'uid'=>is_login());
+		$list = $this->lists($Document,$map);
+		intToString($list);
+
+		$this->assign('list', $list);
+		$this->meta_title = '我的文档';
 		$this->display();
 	}
 
