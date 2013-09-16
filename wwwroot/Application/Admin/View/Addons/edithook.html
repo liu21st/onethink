@@ -37,7 +37,7 @@
 					<empty name="data.addons">
 						暂无插件，无法排序
 					<else />
-					<ul id="sortUl">
+					<ul id="sortUl" class="dragsort">
 						<volist name=":explode(',',$data['addons'])" id="addons_vo">
 							<li class="getSort">{$addons_vo}</li>
 						</volist>
@@ -46,6 +46,7 @@
 						$(function(){
 							 $("#sortUl").dragsort({
 	                            dragSelector:'li',
+	                            placeHolderTemplate: '<li class="draging-place">&nbsp;</li>',
 	                            dragEnd:function(){
 	                            	var sortVal = [];
 	                            	$('#sortUl li').each(function(){
