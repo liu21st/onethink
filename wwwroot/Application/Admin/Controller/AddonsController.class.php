@@ -48,7 +48,7 @@ class AddonsController extends AdminController {
 
     //创建向导首页
     public function create(){
-        $creatable = is_writable(C('AUTOLOAD_NAMESPACE.Addons'));
+        $creatable = is_writable(ONETHINK_ADDON_PATH);
         if(!$creatable)
             $this->error('您没有创建目录写入权限，无法使用此功能');
         $this->meta_title = '创建向导';
@@ -143,7 +143,7 @@ str;
         if(!$data['info']['name'])
             $this->error('插件标识必须');
         //检测插件名是否合法
-        $addons_dir = C('AUTOLOAD_NAMESPACE.Addons');
+        $addons_dir = ONETHINK_ADDON_PATH;
         if(file_exists("{$addons_dir}{$data['info']['name']}")){
             $this->error('插件已经存在了');
         }
@@ -168,7 +168,7 @@ str;
         $data = $_POST;
         $data['info']['name'] = trim($data['info']['name']);
         $addonFile = $this->preview(false);
-        $addons_dir = C('AUTOLOAD_NAMESPACE.Addons');
+        $addons_dir = ONETHINK_ADDON_PATH;
         //创建目录结构
         $files = array();
         $addon_dir = "$addons_dir{$data['info']['name']}/";
