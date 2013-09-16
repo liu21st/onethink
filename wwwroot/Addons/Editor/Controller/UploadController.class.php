@@ -16,7 +16,7 @@ class UploadController extends AddonsController{
 	/* 上传图片 */
 	public function upload(){
 		/* 返回标准数据 */
-		$return  = array('status' => 1, 'info' => '上传成功', 'data' => '');
+		$return  = array('error' => 0, 'info' => '上传成功', 'data' => '');
 
 		/* 上传配置 */
 		$setting = C('EDITOR_UPLOAD');
@@ -24,16 +24,20 @@ class UploadController extends AddonsController{
 		/* 调用文件上传组件上传文件 */
 		$Upload = new Upload($setting, 'Local');
 		$info   = $Upload->upload($_FILES);
+		$url = C('EDITOR_UPLOAD.rootPath').$info['imgFile']['savepath'].$info['imgFile']['savename'];
+		$url = str_replace('./', '/', $url);
 		/* 记录附件信息 */
 		if($info){
-			$return['data'] = think_encrypt(json_encode($info['attachment']));
+			$return['url'] = $url;
+			unset($return['info'],$return['data']);
 		} else {
-			$return['status'] = 0;
-			$return['info']   = $Upload->getError();
+			$return['error'] = 0;
+			$return['message']   = $Upload->getError();
 		}
 
 		/* 返回JSON数据 */
 		$this->ajaxReturn($return);
+		exit();
 	}
 
 }
