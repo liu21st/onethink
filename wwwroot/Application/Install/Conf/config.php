@@ -11,14 +11,11 @@
  * 安装程序配置文件
  */
 
-return array(
-    /* URL配置 */
-    'URL_CASE_INSENSITIVE' => true, //默认false 表示URL区分大小写 true则表示不区分大小写
-    'URL_MODEL'            => 0,    //URL模式
-    'VAR_URL_PARAMS'       => false,
+define('INSTALL_APP_PATH', realpath('./') . '/');
 
-    'OUTPUT_ENCODE' => false,
-    'ORIGINAL_TABLE_PREFIX' => 'think_ucenter_', //默认表前缀
+return array(
+    
+    'ORIGINAL_TABLE_PREFIX' => 'think_', //默认表前缀
 
     /* 模板相关配置 */
     'TMPL_PARSE_STRING' => array(
