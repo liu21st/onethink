@@ -17,12 +17,6 @@ class AddonsController extends Action{
 
 	protected $addons = null;
 
-	public function __construct(){
-		parent::__construct();
-		$class = get_class($this);
-		$this->addons = substr(basename($class), 0, -6);
-	}
-
 	public function execute($_addons = null, $_controller = null, $_action = null){
 		if(C('URL_CASE_INSENSITIVE')){
 			$_addons = ucfirst(parse_name($_addons, 1));
@@ -30,30 +24,10 @@ class AddonsController extends Action{
 		}
 
 		if(!empty($_addons) && !empty($_controller) && !empty($_action)){
-			$Addons = A("Addons://{$_addons}/{$_controller}")->setName($_addons)->$_action();
+			$Addons = A("Addons://{$_addons}/{$_controller}")->$_action();
 		} else {
 			$this->error('没有指定插件名称，控制器或操作！');
 		}
 	}
-
-	protected function display($templateFile='',$charset='',$contentType='',$content='',$prefix='') {
-		if(!is_file($templateFile)){
-			$templateFile = T("Addons://{$this->addons}@{$templateFile}");
-			if(!is_file($templateFile)){
-				throw new Exception("模板不存在:$templateFile");
-			}
-		}
-
-        $this->view->display($templateFile,$charset,$contentType,$content,$prefix);
-    }
-
-    /**
-     * 设置当前插件名称
-     * @param string $name 插件名称
-     */
-    protected function setName($name){
-    	$this->addons = $name;
-    	return $this;
-    }
 
 }
