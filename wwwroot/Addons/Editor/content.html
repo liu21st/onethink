@@ -14,7 +14,7 @@
 				var editor;
 				KindEditor.ready(function(K) {
 					editor = K.create('textarea[name="{$addons_data.name}"]', {
-						allowFileManager : true,
+						allowFileManager : false,
 						themesPath: K.basePath,
 						width: '100%',
 						height: '{$addons_config.editor_height}',
@@ -84,7 +84,7 @@
 		<script type="text/javascript" src="__STATIC__/xheditor/xheditor_plugins/html2markdown.js"></script>
 		<script type="text/javascript">
 			$(function(){
-				$('textarea[name="{$addons_data.name}"]').attr('id', 'editor_id_{$data.name}').css(
+				$('textarea[name="{$addons_data.name}"]').attr('id', 'editor_id_{$addons_data.name}').css(
 					'height','{$addons_config.editor_height}'
 				);
 			})
