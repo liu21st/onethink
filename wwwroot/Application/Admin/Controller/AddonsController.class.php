@@ -356,17 +356,19 @@ str;
 			$this->error('插件信息缺失');
         session('addons_install_error',null);
 		$install_flag = $addons->install();
-		if(!$install_flag){
-			$this->error('执行插件预安装操作失败'.session('addons_install_error'));
+        if(!$install_flag){
+            $this->error('执行插件预安装操作失败'.session('addons_install_error'));
         }
-		$addonsModel = D('Addons');
-		$data = $addonsModel->create($info);
+        $addonsModel = D('Addons');
+        $data = $addonsModel->create($info);
+        
+        file_put_contents('./debug_intall', var_export($data,1));
 		if(!$data)
 			$this->error($addonsModel->getError());
-		if($addonsModel->add()){
+		if($addonsModel->add($data)){
             $config = array('config'=>json_encode($addons->getConfig()));
             $addonsModel->where("name='{$addon_name}'")->save($config);
-            $hooks_update = D('Hooks')->updateHooks($addons->getName());
+            $hooks_update = D('Hooks')->updateHooks($addon_name);
             if($hooks_update){
                 S('hooks', null);
                 $this->success('安装成功');
@@ -395,7 +397,7 @@ str;
     	$uninstall_flag = $addons->uninstall();
 		if(!$uninstall_flag)
 			$this->error('执行插件预卸载操作失败'.session('addons_uninstall_error'));
-        $hooks_update = D('Hooks')->removeHooks($addons->getName());
+        $hooks_update = D('Hooks')->removeHooks($db_addons['name']);
         if($hooks_update === false){
             $this->error('卸载插件所挂载的钩子数据失败');
         }
