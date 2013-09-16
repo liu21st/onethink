@@ -13,16 +13,17 @@
 			<script type="text/javascript">
 				var editor;
 				KindEditor.ready(function(K) {
-					editor = K.create('textarea[name="{$data.name}"]', {
-						allowFileManager : true,
+					editor = K.create('textarea[name="{$addons_data.name}"]', {
+						allowFileManager : false,
 						themesPath: K.basePath,
 						width: '100%',
 						height: '{$addons_config.editor_height}',
 						resizeType: <eq name="addons_config.editor_resize_type" value="1">1<else />0</eq>,
 						pasteType : 2,
+						urlType : 'absolute',
 						fileManagerJson : '{:U('fileManagerJson')}',
-						{//uploadJson : '{:U('uploadJson')'}
-						uploadJson : '{:addons_url("Editor://Upload/upload")}'
+						//uploadJson : '{:U('uploadJson')}' }
+						uploadJson : '{:addons_url("Editor://Upload/ke_upimg")}'
 					});
 				});
 
@@ -42,6 +43,9 @@
 				window.UEDITOR_HOME_URL = "__STATIC__/ueditor";
 				window.UEDITOR_CONFIG.initialFrameHeight = parseInt('{$addons_config.editor_height}');
 				window.UEDITOR_CONFIG.scaleEnabled = <eq name="addons_config.editor_resize_type" value="1">true<else />false</eq>;
+				window.UEDITOR_CONFIG.imageUrl = '{:addons_url("Editor://Upload/ue_upimg")}';
+				window.UEDITOR_CONFIG.imagePath = '';
+				window.UEDITOR_CONFIG.imageFieldName = 'imgFile';
 				UE.getEditor('editor_id_{$addons_data.name}');
 			</script>
 		</eq>
@@ -80,7 +84,7 @@
 		<script type="text/javascript" src="__STATIC__/xheditor/xheditor_plugins/html2markdown.js"></script>
 		<script type="text/javascript">
 			$(function(){
-				$('textarea[name="{$addons_data.name}"]').attr('id', 'editor_id_{$data.name}').css(
+				$('textarea[name="{$addons_data.name}"]').attr('id', 'editor_id_{$addons_data.name}').css(
 					'height','{$addons_config.editor_height}'
 				);
 			})

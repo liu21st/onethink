@@ -6,7 +6,9 @@
 // +----------------------------------------------------------------------
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
+
 namespace Admin\Controller;
+
 /**
  * 后台配置控制器
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
@@ -133,7 +135,7 @@ class ConfigController extends AdminController {
         }
 
         $map = array('id' => array('in', $id) );
-        if(D('Config')->where($map)->delete()){
+        if(M('Config')->where($map)->delete()){
             $this->success('删除成功');
         } else {
             $this->error('删除失败！');
