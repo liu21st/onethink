@@ -41,7 +41,7 @@ class DocumentModel extends Model{
 		array('view', 0, self::MODEL_INSERT),
 		array('comment', 0, self::MODEL_INSERT),
 		array('extend', 0, self::MODEL_INSERT),
-		array('create_time', NOW_TIME, self::MODEL_INSERT),
+		array('create_time', checkTime, self::MODEL_INSERT, 'callback'),
 		array('update_time', NOW_TIME, self::MODEL_BOTH),
 		array('status', 'getStatus', self::MODEL_BOTH, 'callback'),
 		array('position', 'getPosition', self::MODEL_BOTH, 'callback'),
@@ -412,6 +412,14 @@ class DocumentModel extends Model{
 		}
 		$res = D('Url')->update(array('url'=>$link));
 		return $res['id'];
+	}
+
+	protected function checkTime(){
+		$create_time = I('create_time');
+		if(empty($create_time)){
+			return NOW_TIME;
+		}
+		return strtotime($create_time);
 	}
 
 }
