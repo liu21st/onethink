@@ -16,10 +16,6 @@ return array(
     'DATA_CACHE_PREFIX' => 'think_cms_', // 缓存前缀
     'DATA_CACHE_TYPE'   => 'File', // 数据缓存类型
 
-    /* 用户相关设置 */
-    'USER_MAX_CACHE'     => 1000, //最大缓存用户数
-    'USER_ADMINISTRATOR' => 1, //管理员用户ID
-
     /* 系统数据加密设置 */
     'DATA_AUTH_KEY' => 'kd23()#20okifi4fj)(03JF!@#$%^&*', //默认数据加密KEY
 
@@ -105,5 +101,6 @@ return array(
         'hash'     => true, //是否生成hash编码
         'callback' => false, //检测文件是否存在回调函数，如果存在返回文件信息数组
     ), //附件上传配置（文件上传类配置）
+    'DEFAULT_THEME'         =>  'default',	// 默认模板主题名称
 
 );

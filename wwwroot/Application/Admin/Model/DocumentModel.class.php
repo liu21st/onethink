@@ -249,6 +249,9 @@ class DocumentModel extends Model{
 	protected function getStatus(){
 		$id = I('post.id');
 		$status = $this->getFieldById($id, 'status');
+		if($status == 3){
+			$status = 1;
+		}
 		return !isset($status) ? 1 : $status;
 	}
 
@@ -435,7 +438,7 @@ class DocumentModel extends Model{
 		$post = I('post.');
 
 		//触发自动保存的字段
-		$save_list = array('name','title','description','position','link_id','cover_id','dateline','create_time');
+		$save_list = array('name','title','description','position','link_id','cover_id','dateline','create_time','content');
 		foreach ($save_list as $value){
 			if(!empty($post[$value])){
 				$if_save = true;
@@ -444,6 +447,7 @@ class DocumentModel extends Model{
 		}
 
 		if(!$if_save){
+			$this->error = '您未填写任何内容';
 			return false;
 		}
 
@@ -474,6 +478,7 @@ class DocumentModel extends Model{
 // 				$this->error = '新增基础内容出错！';
 				return false;
 			}
+			$data['id'] = $id;
 		} else { //更新数据
 			$status = $this->save(); //更新基础内容
 			if(false === $status){

@@ -165,6 +165,7 @@ class ArticleController extends \Admin\Controller\AdminController {
             if($map['pid']){ // 子文档列表忽略分类
                 unset($map['category_id']);
             }
+            $map['status'] = array('in', '0,1,2');
 			$list = $this->lists($Document,$map);
 			intToString($list);
             if($map['pid']){
@@ -286,6 +287,7 @@ class ArticleController extends \Admin\Controller\AdminController {
         $extend = $this->fetch($data['template']);
         $this->assign('extend', $extend);
 
+        //获取当前分类的文档类型
 		$this->assign('type_list', get_type_bycate($data['category_id']));
 
 		$this->meta_title = '编辑文档';
@@ -342,7 +344,10 @@ class ArticleController extends \Admin\Controller\AdminController {
 	public function autoSave(){
 		$res = D('Document')->autoSave();
 		if($res !== false){
-			$this->success('保存草稿成功！');
+			$return['data'] = $res;
+			$return['info'] = '保存草稿成功';
+			$return['status'] = 1;
+			$this->ajaxReturn($return);
 		}else{
 			$this->error('保存草稿失败：'.D('Document')->getError());
 		}
@@ -354,12 +359,27 @@ class ArticleController extends \Admin\Controller\AdminController {
 	 */
 	public function draftBox(){
 		$Document = D('Document');
-		$map = array('status'=>3);
+		$map = array('status'=>3,'uid'=>is_login());
 		$list = $this->lists($Document,$map);
 		intToString($list);
 
 		$this->assign('list', $list);
 		$this->meta_title = '草稿箱';
+		$this->display();
+	}
+
+	/**
+	 * 我的文档
+	 * @author huajie <banhuajie@163.com>
+	 */
+	public function mydocument(){
+		$Document = D('Document');
+		$map = array('status'=>array('in','0,1,2'),'uid'=>is_login());
+		$list = $this->lists($Document,$map);
+		intToString($list);
+
+		$this->assign('list', $list);
+		$this->meta_title = '我的文档';
 		$this->display();
 	}
 
