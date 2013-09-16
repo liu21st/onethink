@@ -18,12 +18,12 @@ class AuthManagerController extends AdminController{
 
     /* 因为updateRules要供缓存管理模块内部使用,无需通过url访问;
      * 而delete,forbid,resume 已经通过changeStatus访问内部调用了,所以也不允许url访问 */
-    static protected $deny  = array('updateRules','tree');
+    static protected $deny  =   array('updateRules','tree');
 
     /* 保存允许所有管理员访问的公共方法 */
-    static protected $allow = array();
+    static protected $allow =   array();
 
-    static protected $nodes= array(
+    static protected $nodes =   array(
         //权限管理页
         array('title'=>'权限管理','url'=>'AuthManager/index','group'=>'用户管理',
               'operator'=>array(
@@ -122,7 +122,7 @@ class AuthManagerController extends AdminController{
         $this->assign( '_list', $list );
         $this->assign( '_use_tip', true );
         cookie( 'auth_index',__SELF__);
-		$this->meta_title = '权限管理';
+        $this->meta_title = '权限管理';
         $this->display();
     }
 
@@ -156,19 +156,19 @@ class AuthManagerController extends AdminController{
     public function access(){
         $this->updateRules();
         $auth_group = D('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
-									->getfield('id,id,title,rules');
+                                    ->getfield('id,id,title,rules');
         $node_list   = $this->returnNodes();
         $map         = array('module'=>'admin','type'=>AuthRuleModel::RULE_MAIN,'status'=>1);
         $main_rules  = D('AuthRule')->where($map)->getField('name,id');
         $map         = array('module'=>'admin','type'=>AuthRuleModel::RULE_URL,'status'=>1);
         $child_rules = D('AuthRule')->where($map)->getField('name,id');
 
-        $this->assign('main_rules',$main_rules);
-        $this->assign('auth_rules',$child_rules);
-        $this->assign('node_list',$node_list);
-        $this->assign('auth_group',$auth_group);
-		$this->assign('this_group',$auth_group[(int)$_GET['group_id']]);
-		$this->meta_title = '访问授权';
+        $this->assign('main_rules', $main_rules);
+        $this->assign('auth_rules', $child_rules);
+        $this->assign('node_list',  $node_list);
+        $this->assign('auth_group', $auth_group);
+        $this->assign('this_group', $auth_group[(int)$_GET['group_id']]);
+        $this->meta_title = '访问授权';
         $this->display('managergroup');
     }
 
@@ -181,9 +181,9 @@ class AuthManagerController extends AdminController{
             sort($_POST['rules']);
             $_POST['rules']  = trim( implode( ',' , array_unique($_POST['rules'])) , ',' );
         }
-        $_POST['module'] = 'admin';
-        $_POST['type']   = AuthGroupModel::TYPE_ADMIN;
-        $AuthGroup       = D('AuthGroup');
+        $_POST['module'] =  'admin';
+        $_POST['type']   =  AuthGroupModel::TYPE_ADMIN;
+        $AuthGroup       =  D('AuthGroup');
         $data = $AuthGroup->create();
         if ( $data ) {
             if ( empty($data['id']) ) {
@@ -233,8 +233,8 @@ class AuthManagerController extends AdminController{
             $this->error('参数错误');
         }
 
-		$auth_group = D('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
-			->getfield('id,id,title,rules');
+        $auth_group = D('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
+            ->getfield('id,id,title,rules');
         $prefix   = C('DB_PREFIX');
         $l_table  = $prefix.(AuthGroupModel::MEMBER);
         $r_table  = $prefix.(AuthGroupModel::AUTH_GROUP_ACCESS);
@@ -244,10 +244,10 @@ class AuthManagerController extends AdminController{
         $_REQUEST = array();
         $list = $this->lists($list,array('a.group_id'=>$group_id,'m.status'=>array('egt',0)),'m.uid asc',array());
         intToString($list);
-        $this->assign( '_list', $list );
-		$this->assign('auth_group',$auth_group);
-		$this->assign('this_group',$auth_group[(int)$_GET['group_id']]);
-		$this->meta_title = '成员授权';
+        $this->assign( '_list',     $list );
+        $this->assign('auth_group', $auth_group);
+        $this->assign('this_group', $auth_group[(int)$_GET['group_id']]);
+        $this->meta_title = '成员授权';
         $this->display();
     }
 
@@ -256,15 +256,15 @@ class AuthManagerController extends AdminController{
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     public function category(){
-		$auth_group = D('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
-			->getfield('id,id,title,rules');
-        $group_list   = D('Category')->getTree();
-        $authed_group = AuthGroupModel::getCategoryOfGroup(I('group_id'));
-        $this->assign('authed_group',implode(',',(array)$authed_group));
-        $this->assign('group_list',$group_list);
-		$this->assign('auth_group',$auth_group);
-		$this->assign('this_group',$auth_group[(int)$_GET['group_id']]);
-		$this->meta_title = '分类授权';
+        $auth_group     =   D('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
+            ->getfield('id,id,title,rules');
+        $group_list     =   D('Category')->getTree();
+        $authed_group   =   AuthGroupModel::getCategoryOfGroup(I('group_id'));
+        $this->assign('authed_group',   implode(',',(array)$authed_group));
+        $this->assign('group_list',     $group_list);
+        $this->assign('auth_group',     $auth_group);
+        $this->assign('this_group',     $auth_group[(int)$_GET['group_id']]);
+        $this->meta_title = '分类授权';
         $this->display();
     }
 
@@ -278,15 +278,15 @@ class AuthManagerController extends AdminController{
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     public function group(){
-        $uid = I('uid');
-        $auth_groups = D('AuthGroup')->getGroups();
-        $user_groups = AuthGroupModel::getUserGroup($uid);
+        $uid            =   I('uid');
+        $auth_groups    =   D('AuthGroup')->getGroups();
+        $user_groups    =   AuthGroupModel::getUserGroup($uid);
         $ids = array();
         foreach ($user_groups as $value){
-            $ids[] = $value['group_id'];
+            $ids[]      =   $value['group_id'];
         }
-        $nickname = D('Member')->getNickName($uid);
-        $this->assign('nickname',$nickname);
+        $nickname       =   D('Member')->getNickName($uid);
+        $this->assign('nickname',   $nickname);
         $this->assign('auth_groups',$auth_groups);
         $this->assign('user_groups',implode(',',$ids));
         $this->display();
@@ -303,14 +303,14 @@ class AuthManagerController extends AdminController{
             $this->error('参数有误');
         }
         $AuthGroup = D('AuthGroup');
-		if(is_numeric($uid)){
-			if ( is_administrator($uid) ) {
-				$this->error('该用户为超级管理员');
-			}
-			if( !M('Member')->where(array('uid'=>$uid))->find() ){
-				$this->error('管理员用户不存在');
-			}
-		}
+        if(is_numeric($uid)){
+            if ( is_administrator($uid) ) {
+                $this->error('该用户为超级管理员');
+            }
+            if( !M('Member')->where(array('uid'=>$uid))->find() ){
+                $this->error('管理员用户不存在');
+            }
+        }
 
         if( $gid && !$AuthGroup->checkGroupId($gid)){
             $this->error($AuthGroup->error);

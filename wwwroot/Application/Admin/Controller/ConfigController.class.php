@@ -16,7 +16,7 @@ namespace Admin\Controller;
 
 class ConfigController extends AdminController {
 
-	/**
+    /**
      * 左侧导航节点定义
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
@@ -45,14 +45,14 @@ class ConfigController extends AdminController {
     }
 
     /**
-	 * 基本设置
-	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
-	 */
-	public function base(){
+     * 基本设置
+     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+     */
+    public function base(){
         $this->assign('color',C('COLOR_STYLE'));
         $this->meta_title = '基本设置';
-		$this->display();
-	}
+        $this->display();
+    }
 
     /**
      * 新增配置
@@ -72,7 +72,7 @@ class ConfigController extends AdminController {
                 $this->error($Config->getError());
             }
         } else {
-        	$this->meta_title = '新增配置';
+            $this->meta_title = '新增配置';
             $this->display('edit');
         }
     }
@@ -113,14 +113,14 @@ class ConfigController extends AdminController {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function save($config){
-    	if($config && is_array($config)){
-    		$Config = D('Config');
-    		foreach ($config as $name => $value) {
-    			$map = array('name' => $name);
-    			$Config->where($map)->setField('value', $value);
-    		}
-    	}
-    	$this->success('保存成功！');
+        if($config && is_array($config)){
+            $Config = D('Config');
+            foreach ($config as $name => $value) {
+                $map = array('name' => $name);
+                $Config->where($map)->setField('value', $value);
+            }
+        }
+        $this->success('保存成功！');
     }
 
     /**
@@ -142,16 +142,16 @@ class ConfigController extends AdminController {
         }
     }
 
-	// 获取某个标签的配置参数
-	public function group() {
-		$id	=	(int)$_GET['id'];
-        $type = C('CONFIG_GROUP_LIST');
-		$model	=	M("Config");
-		$list	=	$model->where(array('status'=>1,'group'=>$id))->order('sort')->select();
+    // 获取某个标签的配置参数
+    public function group() {
+        $id     =   (int)$_GET['id'];
+        $type   =   C('CONFIG_GROUP_LIST');
+        $model  =   M("Config");
+        $list   =   $model->where(array('status'=>1,'group'=>$id))->order('sort')->select();
         if($list) {
-       		$this->assign('list',$list);
+            $this->assign('list',$list);
         }
         $this->meta_title = $type[$id];
-		$this->display();
-	}
+        $this->display();
+    }
 }

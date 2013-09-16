@@ -79,9 +79,9 @@ class IndexController extends AdminController {
                 $this->error($error);
             }
         } else {
-			if(is_login()){
-				$this->redirect('Admin/Index/index');
-			}
+            if(is_login()){
+                $this->redirect('Admin/Index/index');
+            }
             $this->display();
         }
     }
@@ -96,9 +96,9 @@ class IndexController extends AdminController {
         }
     }
 
-	public function verify(){
-		$verify = new \COM\Verify();
-		$verify->entry(1);
-	}
+    public function verify(){
+        $verify = new \COM\Verify();
+        $verify->entry(1);
+    }
 
 }
