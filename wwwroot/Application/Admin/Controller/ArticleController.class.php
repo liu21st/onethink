@@ -343,7 +343,11 @@ class ArticleController extends \Admin\Controller\AdminController {
 	public function autoSave(){
 		$res = D('Document')->autoSave();
 		if($res !== false){
-			$this->success('保存草稿成功！');
+			if(empty($res['id'])){
+				$this->success('保存草稿成功！');
+			}else{
+				$this->success('更新草稿成功！');
+			}
 		}else{
 			$this->error('保存草稿失败：'.D('Document')->getError());
 		}
