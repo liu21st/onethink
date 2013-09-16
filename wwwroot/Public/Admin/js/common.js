@@ -54,7 +54,7 @@
                     },1500);
                 }
             });
-          
+
         }
         return false;
     });
@@ -68,7 +68,10 @@
         if( ($(this).attr('type')=='submit') || (target = $(this).attr('href')) || (target = $(this).attr('url')) ){
             form = $('.'+target_form);
 
-            if (form.get(0)==undefined){
+            if ($(this).attr('hide-data') === 'true'){//无数据时也可以使用的功能
+            	form = $('.hide-data');
+            	query = form.serialize();
+            }else if (form.get(0)==undefined){
                 return false;
             }else if ( form.get(0).nodeName=='FORM' ){
                 if ( $(this).hasClass('confirm') ) {
@@ -226,8 +229,8 @@
     //         // $(this).find(".upload-pre-item").toggleClass("proto");
     //     });
     // }).resize();
-    
-    
+
+
 });
 
 //标签页切换(无下一步)
