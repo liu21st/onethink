@@ -301,10 +301,12 @@ str;
      * 设置插件页面
      */
     public function config(){
-        $id = (int)I('id');
-        $addon = D('Addons')->find($id);
-        $addon_class = addons($addon['name']);
-        $this->meta_title = '设置插件-'.$addon_class->info['title'];
+        $id     =   (int)I('id');
+        $addon  =   D('Addons')->find($id);
+        if(!$addon)
+            $this->error('插件未安装');
+        $addon_class        =   addons($addon['name']);
+        $this->meta_title   =   '设置插件-'.$addon_class->info['title'];
         $db_config = $addon['config'];
         $addon['config'] = include $addon_class->config_file;
         if($db_config){
@@ -321,8 +323,6 @@ str;
                 }
             }
         }
-        if(!$addon)
-            $this->error('插件未安装');
         $this->assign('data',$addon);
         if($addon['custom_config'])
             $this->assign('custom_config', $addon['addon_path'].$addon['custom_config']);
@@ -333,8 +333,8 @@ str;
      * 保存插件设置
      */
     public function saveConfig(){
-        $id = (int)I('id');
-        $config = I('config');
+        $id     =   (int)I('id');
+        $config =   I('config');
         $flag = D('Addons')->where("id={$id}")->setField('config',json_encode($config));
         if($flag !== false){
             $this->success('保存成功', U('index'));
