@@ -487,7 +487,7 @@ str;
 
     public function execute($_addons = null, $_controller = null, $_action = null){
         if(C('URL_CASE_INSENSITIVE')){
-            $_addons = ucfirst(strtolower($_addons));
+            $_addons = ucfirst(parse_name($_addons, 1));
             $_controller = parse_name($_controller,1);
         }
 
