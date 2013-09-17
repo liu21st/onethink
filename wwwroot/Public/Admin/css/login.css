@@ -52,8 +52,17 @@ img {
     font-weight: normal;
     margin: 0 0 20px;
     padding: 0;
+    line-height: 44px;
     text-align: center;
     color: #8D9CAA;
+}
+.login-logo {
+    display: inline-block;
+    margin-right: 12px;
+    width: 30px;
+    height: 44px;
+    vertical-align: top;
+    background: url(../images/login_logo.png) no-repeat 0 0 ;
 }
 .login-form .check-tips {
     color: #ff0000;
