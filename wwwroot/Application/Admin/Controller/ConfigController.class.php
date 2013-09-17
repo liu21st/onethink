@@ -144,7 +144,7 @@ class ConfigController extends AdminController {
 
     // 获取某个标签的配置参数
     public function group() {
-        $id     =   (int)$_GET['id'];
+        $id     =   I('get.id',0);
         $type   =   C('CONFIG_GROUP_LIST');
         $list   =   M("Config")->where(array('status'=>1,'group'=>$id))->field('id,name,title,extra,value,remark,type')->order('sort')->select();
         if($list) {
