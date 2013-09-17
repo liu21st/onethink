@@ -45,14 +45,26 @@ class AddonsModel extends Model {
     public function getList($addon_dir = ''){
         if(!$addon_dir)
             $addon_dir = ONETHINK_ADDON_PATH;
-        $addons_names = glob($addon_dir.'*', GLOB_ONLYDIR);
-        if($addons_names === FALSE || !file_exists($addon_dir)){
+        $dirs = array_map('basename',glob($addon_dir.'*', GLOB_ONLYDIR));
+        if($dirs === FALSE || !file_exists($addon_dir)){
             $this->error = '插件目录不可读或者不存在';
             return FALSE;
         }
-        $addons = array();
-        foreach ($addons_names as $value) {
-            $addons[] = $this->getAddonsInfo(basename($value));
+		$addons			=	array();
+		$where['name']	=	array('in',$dirs);
+		$list			=	$this->where($where)->field(true)->select();
+		foreach($list as $addon){
+			$addon['uninstall'] = 0;
+			$addons[$addon['name']]	=	$addon;
+		}
+        foreach ($dirs as $value) {
+            if(!isset($addons[$value])){
+				$obj	=	addons($value);
+				$info	=	$obj->info;
+				if($info){
+					$addons[$value]['uninstall']	=	1;
+				}
+			}
         }
         intToString($addons, array('status'=>array(-1=>'损坏', 0=>'禁用', 1=>'启用')));
         $addons = list_sort_by($addons,'uninstall','desc');
@@ -80,22 +92,5 @@ class AddonsModel extends Model {
             }
         }
         return $admin;
-    }
-
-    /**
-     * 获取插件信息
-     */
-    public function getAddonsInfo($name){
-        $info = $this->where("name='{$name}'")->find();
-        if(!$info){
-            $addons = addons($name);
-            $info = $addons->info;
-            if($info)
-                $info['uninstall'] = 1;
-        }else{
-            $info['uninstall'] = 0;
-        }
-
-        return $info;
     }
 }
