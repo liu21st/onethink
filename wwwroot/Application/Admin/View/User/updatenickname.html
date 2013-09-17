@@ -7,17 +7,17 @@
 	</div>
 
 	<!-- 修改密码表单 -->
-	<form action="submitNickname" method="post" class="form-horizontal" autocomplete="off" />
+	<form action="submitNickname" method="post" class="form-horizontal" autocomplete="off">
 		<div class="form-item">
-			<label class="item-label">昵称：</label>
+			<label class="item-label">密码：<span class="check-tips">（请输入密码）</span></label>
 			<div class="controls">
-				<input type="text" name="nickname" class="text input-large" autocomplete="off" />
+				<input type="password" name="password" class="text input-large"  autocomplete="off"/>
 			</div>
 		</div>
 		<div class="form-item">
-			<label class="item-label">密码：</label>
+			<label class="item-label">昵称：<span class="check-tips">（请输入新昵称）</span></label>
 			<div class="controls">
-				<input type="password" name="password" class="text input-large"  autocomplete="off" />
+				<input type="text" name="nickname" class="text input-large" autocomplete="off" value="{:get_username()}"/>
 			</div>
 		</div>
 		<div class="form-item">
