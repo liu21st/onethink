@@ -17,6 +17,7 @@
 		</volist>
 		<present name="article">：<a href="{:U('article/index','cate_id='.$cate_id.'&pid='.$article['id'])}">{$article.title}</a></present>
 		]
+		(共{$_total}条记录)
 		<eq name="allow" value="0">（该分类不允许发布内容）</eq>
 		</h2>
 	</div>
