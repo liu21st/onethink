@@ -8,7 +8,7 @@
 <block name="body">
 	<!-- 标题栏 -->
 	<div class="main-title">
-		<h2>回收站({:count($list)})</h2>
+		<h2>回收站管理(共{:count($list)}条记录)</h2>
 	</div>
 
     <div class="tools auth-botton">
@@ -25,9 +25,23 @@
                     'td'=>'<input class="ids" type="checkbox" name="ids[]" value="$id" />',
                 ),
                 'id'=>'编号',
-                'username'=>'创建者',
                 'title'=>'标题',
-                'create_time'=>'创建时间',
+                'category_id'  =>array(
+                    '_title'=>'分类',
+                    'tag' =>'span',
+                    'func'  =>'get_cate($category_id)',
+                ),
+				'type'=>array(
+					'_title'=>'类型',
+					'tag'   =>'span',
+					'func'	=>	'get_document_type($type)',
+				),
+                'username'=>'创建者',
+                'create_time'=>array(
+                    '_title'=>'创建日期',
+                    'tag'   =>'span',
+                    'func'  => 'date("m-d H:i",$create_time)',
+                ),
                 '操作'=>array(
                     '还原'=>array(
                         'href' =>'article/permit?ids=$id',
