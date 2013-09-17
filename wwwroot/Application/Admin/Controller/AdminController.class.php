@@ -547,7 +547,8 @@ class AdminController extends Controller {
         if($total>$listRows){
             $page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
         }
-        $this->assign('_page', $page->show()? $page->show(): '');
+        $p =$page->show();
+        $this->assign('_page', $p? $p: '');
         $options['limit'] = $page->firstRow.','.$page->listRows;
 
         $model->setProperty('options',$options);
@@ -570,7 +571,9 @@ class AdminController extends Controller {
         $page       =   new \COM\Page($total, $listRows, $REQUEST);
         $voList     =   array_slice($records, $page->firstRow, $page->listRows);
         $this->assign('_list', $voList);
-        $this->assign('_page', $page->show()? $page->show(): '');
+        $p =$page->show();
+        $this->assign('_page', $p? $p: '');
+        $this->assign('_page', $p? $p: '');
     }
 
     /**

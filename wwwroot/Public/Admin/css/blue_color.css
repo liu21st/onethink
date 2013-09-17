@@ -454,6 +454,17 @@ select {
     background-color: #ECECEC;
 }
 
+/* 列表分页 */
+.page a,
+.page span {
+    color: #fff;
+    border: 1px solid #3c289c;
+    background-color: #7963df;
+}
+.page a:hover,
+.page .current {
+    background-color: #3c289c;
+}
 
 /* 版权信息 */
 .cont-ft {
