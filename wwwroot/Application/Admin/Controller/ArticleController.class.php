@@ -26,6 +26,7 @@ class ArticleController extends \Admin\Controller\AdminController {
                 array('title'=>'编辑','url'=>'article/edit'),
                 array('title'=>'改变状态','url'=>'article/setStatus'),
                 array('title'=>'保存数据','url'=>'article/update'),
+            	array('title'=>'自动保存为草稿','url'=>'article/autoSave'),
             ),
         ),
     	array(
