@@ -81,21 +81,9 @@ class AddonsModel extends Model {
      * 获取插件的后台列表
      */
     public function getAdminList(){
-        $addon_dir = ONETHINK_ADDON_PATH;
-        $addons_names = glob($addon_dir.'*', GLOB_ONLYDIR);
-        if($addons_names === FALSE || !file_exists($addon_dir)){
-            $this->error = '插件目录不可读或者不存在';
-            return FALSE;
-        }
-        $addons = $admin = array();
-        $db_addons = $this->where("status=1")->getField('name,id');
-        foreach ($addons_names as $value) {
-            $name = basename($value);
-            $addon = addons($name);
-            $info = $addon->info;
-            if($addon->admin_list !== array() && $db_addons[$name] != null){
-                $admin[] = array('title'=>$addon->info['title'],'url'=>"Addons/adminList?name={$name}");
-            }
+        $db_addons = $this->where("status=1 AND has_adminlist=1")->field('title,name')->select();
+        foreach ($db_addons as $value) {
+            $admin[] = array('title'=>$value['title'],'url'=>"Addons/adminList?name={$value['name']}");
         }
         return $admin;
     }

@@ -38,9 +38,6 @@ namespace Common\Controller;
 		public $access_url = array();
 
 		public function __construct(){
-			// if(!in_array(CONTROLLER_NAME,$this->access_url)){
-			// 	$this->error('非插件内部访问');
-			// }
 			$this->view = \Think\Think::instance('Think\View');
 			$this->addon_path = ONETHINK_ADDON_PATH.$this->getName().'/';
 			if(is_file($this->addon_path.'config.php')){

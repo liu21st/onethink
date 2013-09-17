@@ -363,7 +363,11 @@ str;
         }
         $addonsModel    =   D('Addons');
         $data           =   $addonsModel->create($info);
-
+        if(is_array($addons->admin_list) && $addons->admin_list !== array()){
+            $data['has_adminlist'] = 1;
+        }else{
+            $data['has_adminlist'] = 0;
+        }
         if(!$data)
             $this->error($addonsModel->getError());
         if($addonsModel->add($data)){
