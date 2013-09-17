@@ -230,7 +230,6 @@ body{
 ------------------------------------------------- */
 .index-body {
     padding-left: 0;
-    padding-bottom: 50px;
     background-color: #f6f6f6;
 }
 .index-main {
@@ -308,6 +307,7 @@ body{
     border: 1px solid #cdcdcd;
 }
 .columns-mod .hd {
+    margin-bottom: 1px;
     padding: 0 10px 0 15px;
     height: 35px;
     line-height: 35px;
@@ -602,10 +602,24 @@ body{
     border: 1px solid #eee;
     background-color: #fff;
 }
+.dragsort li em {
+    font-style: normal;
+}
+.dragsort li b {
+    display: none;
+    float: right;   
+    padding: 0 6px;
+    font-weight: bold;
+    color: #000;
+}
+.dragsort li:hover b {
+    display: block;
+}
 .dragsort .draging-place {
     border-style: dashed;
     border-color: #ccc;
 }
+
 
 .thinkbox-content{
     padding: 15px;
@@ -646,9 +660,4 @@ body{
 }
 .copyright a {
     margin: 0 4px;
-}
-.index-ft {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
 }

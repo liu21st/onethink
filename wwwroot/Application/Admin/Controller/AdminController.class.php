@@ -54,7 +54,7 @@ class AdminController extends Controller {
         array( 'title'=>'其他','url'=>'other','controllers'=>'File','hide'=>true),//专门放置不需要显示在任何菜单中的节点
     );
 
-    private $uid        =   null;//保存登陆用户的uid
+    private $uid        =   null;   //保存登陆用户的uid
     private $root_user  =   null;   //保存超级管理员身份验证结果
 
     protected $nav      =   array();
@@ -147,13 +147,12 @@ class AdminController extends Controller {
     /**
      * action访问控制,在 **登陆成功** 后执行的第一项权限检测任务
      *
-     * @return true|false|null  返回值必须使用 `===` 进行判断
+     * @return boolean|null  返回值必须使用 `===` 进行判断
      *
-     *   返回false,不允许任何人访问
-     *   返回true, 允许任何管理员访问,无需执行权限检测
-     *   返回null, 需要继续执行权限检测决定是否允许访问
-     *
-     * @author 朱亚杰  <zhuyajie@topthink.net>
+     *   返回 **false**, 不允许任何人访问(超管除外)
+     *   返回 **true**, 允许任何管理员访问,无需执行节点权限检测
+     *   返回 **null**, 需要继续执行节点权限检测决定是否允许访问
+     * @author 朱亚杰  <xcoolcc@gmail.com>
      */
     final protected function accessControl(){
         if($this->root_user){
@@ -177,7 +176,7 @@ class AdminController extends Controller {
     /**
      * 对数据表中的单行或多行记录执行修改 GET参数id为数字或逗号分隔的数字
      *
-     * @param string $model 模型名称,供D函数使用的参数
+     * @param string $model 模型名称,供M函数使用的参数
      * @param array  $data  修改的数据
      * @param array  $where 查询时的where()方法的参数
      * @param array  $msg   执行正确和错误的消息 array('success'=>'','error'=>'', 'url'=>'','ajax'=>false)
@@ -186,9 +185,6 @@ class AdminController extends Controller {
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
     final protected function editRow ( $model ,$data, $where , $msg ){
-        // if( $_REQUEST['model']||$_REQUEST['where']||$_REQUEST['msg']){
-            // $this->error('非法请求'); //安全检测,防止通过参数绑定修改数据
-        // }
         $id    = array_unique((array)I('id',0));
         $id    = is_array($id) ? implode(',',$id) : $id;
         $where = array_merge( array('id' => array('in', $id )) ,(array)$where );
@@ -203,7 +199,7 @@ class AdminController extends Controller {
     /**
      * 禁用条目
      * @param string $model 模型名称,供D函数使用的参数
-     * @param array  $where 查询时的where()方法的参数
+     * @param array  $where 查询时的 where()方法的参数
      * @param array  $msg   执行正确和错误的消息,可以设置四个元素 array('success'=>'','error'=>'', 'url'=>'','ajax'=>false)
      *                     url为跳转页面,ajax是否ajax方式(数字则为倒数计时秒数)
      *
@@ -259,9 +255,9 @@ class AdminController extends Controller {
     }
 
     /**
-     * $deny属性的get方法
-     *
-     * @author 朱亚杰  <zhuyajie@topthink.net>
+     * 获取控制器中允许禁止任何人(超管除外)通过url访问的方法
+     * @param  string  $controller   控制器类名(不含命名空间)
+     * @author 朱亚杰  <xcoolcc@gmail.com>
      */
     final static protected function getDeny($controller=CONTROLLER_NAME){
         $controller =   'Admin\\Controller\\'.$controller.'Controller';
@@ -281,8 +277,8 @@ class AdminController extends Controller {
 
     /**
      * 获取控制器中允许所有管理员通过url访问的方法
-     *
-     * @author 朱亚杰  <zhuyajie@topthink.net>
+     * @param  string  $controller   控制器类名(不含命名空间)
+     * @author 朱亚杰  <xcoolcc@gmail.com>
      */
     final static protected function getAllow($controller=CONTROLLER_NAME){
         $controller =   'Admin\\Controller\\'.$controller.'Controller';
@@ -301,10 +297,10 @@ class AdminController extends Controller {
     }
 
     /**
-     * 获取控制器的节点配置
-     * @param  string  $controller   控制器类名
-     * @param  boolean $group        是否分组
-     * @author 朱亚杰  <zhuyajie@topthink.net>
+     * 获取控制器的节点配置$nodes
+     * @param  string  $controller   控制器类名(不含命名空间)
+     * @param  boolean $group        是否分组(按配置中的group合并分组)
+     * @author 朱亚杰  <xcoolcc@gmail.com>
      */
     final static public function getNodes($controller,$group=true){
         if ( !$controller || !is_string($controller) || !is_array($controller::$nodes) ) {
@@ -346,9 +342,8 @@ class AdminController extends Controller {
     }
 
     /**
-     * 获取控制器菜单数组
-     * 子类中 $this->getMenus() 调用
-     * @author 朱亚杰  <zhuyajie@topthink.net>
+     * 获取控制器菜单数组,二级菜单元素位于一级菜单的'_child'元素中
+     * @author 朱亚杰  <xcoolcc@gmail.com>
      */
     final public function getMenus(){
 //        if ( S('base_menu'.$controller) ) {
@@ -420,12 +415,12 @@ class AdminController extends Controller {
 
     /**
      * 返回后台节点数据
-     * @param boolean $tree    是否返回树形结构
+     * @param boolean $tree    是否返回多维数组结构(生成菜单时用到),为false返回一维数组(生成权限节点时用到)
      * @retrun array
      *
      * 注意,返回的主菜单节点数组中有'controller'元素,以供区分子节点和主节点
      *
-     * @author 朱亚杰 <zhuyajie@topthink.net>
+     * @author 朱亚杰 <xcoolcc@gmail.com>
      */
     final protected function returnNodes($tree = true){
         static $tree_nodes = array();
@@ -482,26 +477,21 @@ class AdminController extends Controller {
     }
 
     /**
-     * 通用分页列表数据集获取方法
+     * 通用分页列表数据集获取方法,获取的数据集主要供tableList()方法用来生成表格列表
      *
      *  可以通过url参数传递where条件,例如:  index.html?name=asdfasdfasdfddds
      *  可以通过url空值排序字段和方式,例如: index.html?_field=id&_order=asc
-     *  支持多表join,控制器代码示例如下:
-     *
-     *  <pre>
-     *      $Model = M()
-     *               ->table('left_tabel as l')
-     *               ->join('right_table as r ON l.id=r.uid')
-     *               ->where(array('l.status'=>1));
-     *      $list = $this->($Model);
-     *      $this->assign('data',$list);
-     *      $this->dispaly();
-     *  </pre>
+     *  可以通过url参数r指定每页数据条数,例如: index.html?r=5
      *
      * @param sting|Model  $model   模型名或模型实例
-     * @param array        $where   where查询条件
-     * @param array|string $order   排序条件
-     * @author 朱亚杰 <zhuyajie@topthink.net>
+     * @param array        $where   where查询条件(优先级: $where>$_REQUEST>模型设定)
+     * @param array|string $order   排序条件,传入null时使用sql默认排序或模型属性(优先级最高);
+     *                              请求参数中如果指定了_order和_field则据此排序(优先级第二);
+     *                              否则使用$order参数(如果$order参数,且模型也没有设定过order,则取主键降序);
+     *                              
+     * @param array        $base    基本的查询条件
+     * @param boolean      $field   单表模型用不到该参数,要用在多表join时为field()方法指定参数
+     * @author 朱亚杰 <xcoolcc@gmail.com>
      *
      * @return array|false
      * 返回数据集
@@ -528,13 +518,16 @@ class AdminController extends Controller {
         }
         unset($REQUEST['_order'],$REQUEST['_field']);
 
-        $options['where'] = array_filter(array_merge( $base, $REQUEST,  $where ),function($val){
+        $options['where'] = array_filter(array_merge( (array)$base, $REQUEST, (array)$where ),function($val){
             if($val===''||$val===null){
                 return false;
             }else{
                 return true;
             }
         });
+        if( empty($options['where'])){
+            unset($options['where']);
+        }
         $options      =   array_merge( (array)$OPT->getValue($model), $options );
         $total        =   $model->where($options['where'])->count();
 
@@ -547,7 +540,8 @@ class AdminController extends Controller {
         if($total>$listRows){
             $page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
         }
-        $this->assign('_page', $page->show()? $page->show(): '');
+        $p =$page->show();
+        $this->assign('_page', $p? $p: '');
         $options['limit'] = $page->firstRow.','.$page->listRows;
 
         $model->setProperty('options',$options);
@@ -570,7 +564,9 @@ class AdminController extends Controller {
         $page       =   new \COM\Page($total, $listRows, $REQUEST);
         $voList     =   array_slice($records, $page->firstRow, $page->listRows);
         $this->assign('_list', $voList);
-        $this->assign('_page', $page->show()? $page->show(): '');
+        $p =$page->show();
+        $this->assign('_page', $p? $p: '');
+        $this->assign('_page', $p? $p: '');
     }
 
     /**

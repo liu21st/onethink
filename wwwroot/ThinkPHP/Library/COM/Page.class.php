@@ -90,7 +90,7 @@ class Page{
         /* 计算分页零时变量 */
         $now_cool_page      = $this->rollPage/2;
 		$now_cool_page_ceil = ceil($now_cool_page);
-		$this->lastSuffix && $this->config['last'] .= $this->totalPages;
+		$this->lastSuffix && $this->config['last'] = $this->totalPages;
 
         //上一页
         $up_row  = $this->nowPage - 1;

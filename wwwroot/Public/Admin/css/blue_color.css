@@ -1,7 +1,7 @@
 /*******************************************
- * 自定义配色css文件放在defaut_color的同级目录,在View/Config/base.html中,增加一项配色option:
- * <option value="文件名" <eq name="color" value="文件名">selected</eq> >默认</option>
- ********************************************/
+ * 自定义配色css文件放在defaut_color的同级目录,然后在 "系统/配置管理" 中为"COLOR_STYLE"增加一行配置项
+ *********************************************/
+
 /********************************************
  * base.css
  * 描述：重置页面元素并设置布局样式
@@ -454,6 +454,17 @@ select {
     background-color: #ECECEC;
 }
 
+/* 列表分页 */
+.page a,
+.page span {
+    color: #fff;
+    border: 1px solid #3c289c;
+    background-color: #7963df;
+}
+.page a:hover,
+.page .current {
+    background-color: #3c289c;
+}
 
 /* 版权信息 */
 .cont-ft {
