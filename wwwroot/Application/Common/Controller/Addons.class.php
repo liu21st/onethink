@@ -108,7 +108,7 @@ namespace Common\Controller;
 		 * 获取插件的配置数组
 		 */
 		final public function getConfig($name=''){
-			static $_config	=	array();
+			static $_config	= array();
 			if(empty($name)){
 				$name =	$this->getName();
 			}
