@@ -34,7 +34,7 @@
 			<div class="form-item cf">
 				<label class="item-label">钩子挂载的插件排序<span class="check-tips">（拖动后保存顺序，影响同一个钩子挂载的插件执行先后顺序）</span></label>
 				<div class="controls">
-					<input type="hidden" name="addons" value="{$data.addons}">
+					<input type="hidden" name="addons" value="{$data.addons}" readonly>
 					<empty name="data.addons">
 						暂无插件，无法排序
 					<else />
@@ -65,7 +65,7 @@
                             		sortVal.push($('em',this).text());
                             	});
                                 $("input[name='addons']").val(sortVal.join(','));
-	                        } 
+	                        }
 						})
 					</script>
 					</empty>
