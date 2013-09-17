@@ -97,6 +97,9 @@ class AdminController extends Controller {
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
     final protected function checkRule($rule, $type=AuthRuleModel::RULE_URL, $mode='url'){
+        if($this->root_user){
+            return true;//管理员允许访问任何页面
+        }
         static $Auth    =   null;
         if (!$Auth) {
             $Auth       =   new \ORG\Util\Auth();
@@ -364,8 +367,8 @@ class AdminController extends Controller {
             if( stripos($item['url'],MODULE_NAME)!==0 ){
                 $item['url'] = MODULE_NAME.'/'.$item['url'];
             }
-            //非超级管理员需要判断节点权限
-            if (  !$this->root_user &&  !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null) ) {  //检测节点权限
+            //判断节点权限
+            if ( !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null) ) {  //检测节点权限
                 unset($menus['main'][$key]);
                 continue;//继续循环
             }
@@ -388,7 +391,7 @@ class AdminController extends Controller {
                         //$value  分组数组
                         foreach ($value as $k=>$v){
                             //$v  节点配置
-                            if ( !empty($v['hide']) || ( !$this->root_user && !$this->checkRule($v['url'],AuthRuleModel::RULE_URL,null) ) ) {   //检测节点权限
+                            if ( !empty($v['hide']) || !$this->checkRule($v['url'],AuthRuleModel::RULE_URL,null ) ) {   //检测节点权限
                                 unset($value[$k]);
                             }
                         }
