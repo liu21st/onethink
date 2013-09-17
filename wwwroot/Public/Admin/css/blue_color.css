@@ -291,6 +291,12 @@ select {
     background-color: #a285ff;
 	/*background-color: #f48a05;*/
 }
+.save-btn {
+	background-color: #3737BC;
+}
+.save-btn:hover {
+	opacity: .9
+}
 
 /* 表单返回按钮 */
 .btn-return {
@@ -298,7 +304,7 @@ select {
 	background-color: #8893ae;
 }
 .btn-return:hover {
-	background-color: #9daac9;
+	background-color: #8080FF;
 }
 
 /*高级搜索箭头*/
