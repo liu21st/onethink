@@ -1,4 +1,12 @@
 <?php
+// +----------------------------------------------------------------------
+// | OneThink [ WE CAN DO IT JUST THINK IT ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
+// +----------------------------------------------------------------------
+// | Author: yangweijie <yangweijiester@gmail.com> <code-tech.diandian.com>
+// +----------------------------------------------------------------------
+
 	$returntop = array(
 		'0.png',
 		'1.png','2.png','3.gif','4.png','5.png','6.png','7.gif','8.gif','9.gif','10.png',
