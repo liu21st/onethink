@@ -302,7 +302,7 @@ str;
      */
     public function config(){
         $id     =   (int)I('id');
-        $addon  =   M('Addons')->find($id);
+        $addon  =   D('Addons')->find($id);
         if(!$addon)
             $this->error('插件未安装');
         $addon_class        =   addons($addon['name']);
