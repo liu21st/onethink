@@ -38,7 +38,7 @@ class ConfigController extends AdminController {
      */
     public function index(){
         $map  = array('status' => 1);
-        $list = D('Config')->where($map)->order('id DESC')->select();
+        $list = M('Config')->where($map)->order('id DESC')->field('id,name,title,value,group,type,remark')->select();
         $this->assign('list', $list);
         $this->meta_title = '配置管理';
         $this->display();
@@ -97,7 +97,7 @@ class ConfigController extends AdminController {
         } else {
             $info = array();
             /* 获取数据 */
-            $info = D('Config')->find($id);
+            $info = M('Config')->find($id);
 
             if(false === $info){
                 $this->error('获取配置信息错误');
@@ -114,7 +114,7 @@ class ConfigController extends AdminController {
      */
     public function save($config){
         if($config && is_array($config)){
-            $Config = D('Config');
+            $Config = M('Config');
             foreach ($config as $name => $value) {
                 $map = array('name' => $name);
                 $Config->where($map)->setField('value', $value);
@@ -146,8 +146,7 @@ class ConfigController extends AdminController {
     public function group() {
         $id     =   (int)$_GET['id'];
         $type   =   C('CONFIG_GROUP_LIST');
-        $model  =   M("Config");
-        $list   =   $model->where(array('status'=>1,'group'=>$id))->order('sort')->select();
+        $list   =   M("Config")->where(array('status'=>1,'group'=>$id))->field('id,name,title,extra,value,remark,type')->order('sort')->select();
         if($list) {
             $this->assign('list',$list);
         }

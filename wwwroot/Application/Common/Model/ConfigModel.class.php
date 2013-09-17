@@ -36,7 +36,7 @@ class ConfigModel extends Model {
 	 */
 	public function lists(){
 		$map    = array('status' => 1);
-		$data   = $this->where($map)->select();
+		$data   = $this->where($map)->field('type,name,value')->select();
 		
 		$config = array();
 		if($data && is_array($data)){

@@ -52,7 +52,7 @@ class AddonsController extends AdminController {
         if(!$creatable)
             $this->error('您没有创建目录写入权限，无法使用此功能');
         $this->meta_title = '创建向导';
-        $hooks = D('Hooks')->field('name,description')->select();
+        $hooks = M('Hooks')->field('name,description')->select();
         $this->assign('Hooks',$hooks);
         $this->display('create');
     }
@@ -302,7 +302,7 @@ str;
      */
     public function config(){
         $id     =   (int)I('id');
-        $addon  =   D('Addons')->find($id);
+        $addon  =   M('Addons')->find($id);
         if(!$addon)
             $this->error('插件未安装');
         $addon_class        =   addons($addon['name']);
@@ -335,7 +335,7 @@ str;
     public function saveConfig(){
         $id     =   (int)I('id');
         $config =   I('config');
-        $flag = D('Addons')->where("id={$id}")->setField('config',json_encode($config));
+        $flag = M('Addons')->where("id={$id}")->setField('config',json_encode($config));
         if($flag !== false){
             $this->success('保存成功', U('index'));
         }else{
@@ -386,7 +386,7 @@ str;
      * 卸载插件
      */
     public function uninstall(){
-        $addonsModel   =   D('Addons');
+        $addonsModel   =   M('Addons');
         $id            =   trim(I('id'));
         $db_addons     =   $addonsModel->find($id);
         $addons        =   addons($db_addons['name']);
@@ -449,7 +449,7 @@ str;
 
     //钩子出编辑挂载插件页面
     public function edithook($id){
-        $hook = D('Hooks')->find($id);
+        $hook = M('Hooks')->find($id);
         $this->assign('data',$hook);
         $this->meta_title = '编辑钩子';
         $this->display('edithook');
@@ -457,7 +457,7 @@ str;
 
     //超级管理员删除钩子
     public function delhook($id){
-        if(D('Hooks')->delete($id) !== false){
+        if(M('Hooks')->delete($id) !== false){
             $this->success('删除成功');
         }else{
             $this->error('删除失败');
