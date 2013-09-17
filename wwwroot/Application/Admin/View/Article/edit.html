@@ -121,7 +121,7 @@
 			<button class="btn submit-btn ajax-post hidden" id="submit" type="submit" target-form="form-horizontal">确 定</button>
 			<a class="btn btn-return" href="{:U('article/index?cate_id='.$cate_id)}">返 回</a>
 			<if condition="ACTION_NAME eq 'add' or $info['status'] eq 3">
-			<button class="btn" url="{:U('article/autoSave')}" target-form="form-horizontal" id="autoSave">保存为草稿</button>
+			<button class="btn" url="{:U('article/autoSave')}" target-form="form-horizontal" id="autoSave">保存为草稿Ctrl+S</button>
 			</if>
 			<input type="hidden" name="id" value="{$info.id}"/>
 			<input type="hidden" name="pid" value="{$info.pid}"/>
@@ -239,9 +239,18 @@ $(function(){
         return false;
     });
 
+	//Ctrl+S保存草稿
+	$('body').keydown(function(e){
+		if(e.ctrlKey && e.which == 83){
+			$('#autoSave').click();
+			return false;
+		}
+	});
+
+	var interval;
 	<if condition="ACTION_NAME eq 'add' or $info['status'] eq 3">
 	//每隔一段时间保存草稿
-	setInterval(function(){
+	interval = setInterval(function(){
 		//只有基础信息填写了，才会触发
 		var title = $('input[name=title]').val();
 		var name = $('input[name=name]').val();
