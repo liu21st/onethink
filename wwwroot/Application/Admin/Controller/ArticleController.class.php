@@ -52,7 +52,7 @@ class ArticleController extends \Admin\Controller\AdminController {
 
         //获取回收站权限
         $show_recycle = $this->checkRule('Admin/article/recycle');
-        $this->assign('show_recycle', $this->root_user || $show_recycle);
+        $this->assign('show_recycle', $this->getVal('root_user') || $show_recycle);
     }
 
     /**
@@ -65,7 +65,7 @@ class ArticleController extends \Admin\Controller\AdminController {
         $cate       =   M('Category')->where(array('display'=>1,'status'=>1))->field('id,title,pid,allow_publish')->order('pid,sort')->select();
 
         //没有权限的分类则不显示
-        if(!$this->root_user){
+        if(!$this->getVal('root_user')){
             foreach ($cate as $key=>$value){
                 if(!in_array($value['id'], $cate_auth)){
                     unset($cate[$key]);
@@ -217,16 +217,16 @@ class ArticleController extends \Admin\Controller\AdminController {
             $map['id'] = $ids;
         }
         switch ($status){
-            case -1 :   
+            case -1 :
                 $this->delete($Model, $map, array('success'=>'删除成功','error'=>'删除失败'));
                 break;
-            case 0  :   
+            case 0  :
                 $this->forbid($Model, $map, array('success'=>'禁用成功','error'=>'禁用失败'));
                 break;
-            case 1  :   
+            case 1  :
                 $this->resume($Model, $map, array('success'=>'审核通过','error'=>'审核失败'));
                 break;
-            default :   
+            default :
                 $this->error('参数错误');
                 break;
         }
@@ -330,7 +330,7 @@ class ArticleController extends \Admin\Controller\AdminController {
      * @author huajie <banhuajie@163.com>
      */
     public function recycle(){
-        if ( $this->root_user ) {
+        if ( $this->getVal('root_user') ) {
             $map        =   array('status'=>-1);
         }else{
             $cate_auth  =   AuthGroupModel::getAuthCategories(is_login());
@@ -375,6 +375,7 @@ class ArticleController extends \Admin\Controller\AdminController {
         $Document   =   D('Document');
         $map        =   array('status'=>3,'uid'=>is_login());
         $list       =   $this->lists($Document,$map);
+        //获取状态文字
         intToString($list);
 
         $this->assign('list', $list);
