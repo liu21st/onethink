@@ -364,7 +364,6 @@ str;
         $addonsModel    =   D('Addons');
         $data           =   $addonsModel->create($info);
 
-        file_put_contents('./debug_intall', var_export($data,1));
         if(!$data)
             $this->error($addonsModel->getError());
         if($addonsModel->add($data)){
