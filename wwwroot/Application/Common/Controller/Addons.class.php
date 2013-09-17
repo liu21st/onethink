@@ -38,9 +38,6 @@ namespace Common\Controller;
 		public $access_url = array();
 
 		public function __construct(){
-			// if(!in_array(CONTROLLER_NAME,$this->access_url)){
-			// 	$this->error('非插件内部访问');
-			// }
 			$this->view = \Think\Think::instance('Think\View');
 			$this->addon_path = ONETHINK_ADDON_PATH.$this->getName().'/';
 			if(is_file($this->addon_path.'config.php')){
@@ -92,7 +89,7 @@ namespace Common\Controller;
 
 		final public function getName(){
 			$class = get_class($this);
-			return substr(basename($class), 0, -6);
+			return substr($class,strrpos($class, '\\')+1, -6);
 		}
 
 		final public function checkInfo(){
@@ -107,8 +104,15 @@ namespace Common\Controller;
 		/**
 		 * 获取插件的配置数组
 		 */
-		final public function getConfig(){
-			$config = D('Addons')->where("name='{$this->getName()}'")->find();
+		final public function getConfig($name=''){
+			static $_config	= array();
+			if(empty($name)){
+				$name =	$this->getName();
+			}
+			if(isset($_config[$name])){
+				return $_config[$name];
+			}
+			$config = M('Addons')->where("name='{$name}'")->field('config,status')->find();
 			if($config['config'] && is_string($config['config'])){
 				$config['config'] = json_decode($config['config'], 1);
 			}else{
@@ -119,6 +123,7 @@ namespace Common\Controller;
 				}
 			}
 			$config['config']['status'] = $config['status'];
+			$_config[$name]	= $config['config'];
 			return $config['config'];
 		}
 

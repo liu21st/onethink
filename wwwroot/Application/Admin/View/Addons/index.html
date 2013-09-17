@@ -34,7 +34,14 @@
 					<td>{$vo.version}</td>
 					<td>
 						<empty name="vo.uninstall">
-							<?php $addon = addons($vo['name']); $has_config = count($addon->getConfig());?>
+							<?php
+								$addon = addons($vo['name']);
+								if(!$addon){
+									$has_config = 0;
+								}else{
+									$has_config = count($addon->getConfig());
+								}
+							?>
 							<?php if ($has_config): ?>
 								<a href="{:U('config',array('id'=>$vo['id']))}">设置</a>
 							<?php endif ?>

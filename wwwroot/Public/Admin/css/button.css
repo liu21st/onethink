@@ -44,6 +44,10 @@
 .btn.disabled {
     background-color: #8d8d8d;
 }
+.save-btn {
+    padding: 10px 30px;
+    background-color: #3737BC;
+}
 
 /* 按钮组 */
 .btn-toolbar .btn {
@@ -92,7 +96,7 @@
 	top: 30px;
 	left: 0;
     margin-top: 3px;
-	min-width: 82px;
+	min-width: 85px;
 	border: 1px solid #ccc;
 	background-color: #fff;
 }

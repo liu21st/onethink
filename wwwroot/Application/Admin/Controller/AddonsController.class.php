@@ -52,17 +52,17 @@ class AddonsController extends AdminController {
         if(!$creatable)
             $this->error('您没有创建目录写入权限，无法使用此功能');
         $this->meta_title = '创建向导';
-        $hooks = D('Hooks')->field('name,description')->select();
+        $hooks = M('Hooks')->field('name,description')->select();
         $this->assign('Hooks',$hooks);
         $this->display('create');
     }
 
     //预览
     public function preview($output = true){
-        $data = $_POST;
-        $data['info']['status'] = (int)$data['info']['status'];
-        $extend = array();
-        $custom_config = trim($data['custom_config']);
+        $data                   =   $_POST;
+        $data['info']['status'] =   (int)$data['info']['status'];
+        $extend                 =   array();
+        $custom_config          =   trim($data['custom_config']);
         if($data['has_config'] && $custom_config){
             $custom_config = <<<str
 
@@ -138,12 +138,12 @@ str;
     }
 
     public function checkForm(){
-        $data = $_POST;
-        $data['info']['name'] = trim($data['info']['name']);
+        $data                   =   $_POST;
+        $data['info']['name']   =   trim($data['info']['name']);
         if(!$data['info']['name'])
             $this->error('插件标识必须');
         //检测插件名是否合法
-        $addons_dir = ONETHINK_ADDON_PATH;
+        $addons_dir             =   ONETHINK_ADDON_PATH;
         if(file_exists("{$addons_dir}{$data['info']['name']}")){
             $this->error('插件已经存在了');
         }
@@ -165,32 +165,32 @@ str;
     }
 
     public function build(){
-        $data = $_POST;
-        $data['info']['name'] = trim($data['info']['name']);
-        $addonFile = $this->preview(false);
-        $addons_dir = ONETHINK_ADDON_PATH;
+        $data                   =   $_POST;
+        $data['info']['name']   =   trim($data['info']['name']);
+        $addonFile              =   $this->preview(false);
+        $addons_dir             =   ONETHINK_ADDON_PATH;
         //创建目录结构
-        $files = array();
-        $addon_dir = "$addons_dir{$data['info']['name']}/";
-        $files[] = $addon_dir;
-        $addon_name = "{$data['info']['name']}Addons.class.php";
-        $files[] = "{$addon_dir}{$addon_name}";
+        $files          =   array();
+        $addon_dir      =   "$addons_dir{$data['info']['name']}/";
+        $files[]        =   $addon_dir;
+        $addon_name     =   "{$data['info']['name']}Addons.class.php";
+        $files[]        =   "{$addon_dir}{$addon_name}";
         if($data['has_config'] == 1);//如果有配置文件
-            $files[] = $addon_dir.'config.php';
+            $files[]    =   $addon_dir.'config.php';
 
         if($data['has_outurl']){
-            $files[] = "{$addon_dir}Controller/";
-            $files[] = "{$addon_dir}Controller/{$data['info']['name']}Controller.class.php";
-            $files[] = "{$addon_dir}Model/";
-            $files[] = "{$addon_dir}Model/{$data['info']['name']}Model.class.php";
+            $files[]    =   "{$addon_dir}Controller/";
+            $files[]    =   "{$addon_dir}Controller/{$data['info']['name']}Controller.class.php";
+            $files[]    =   "{$addon_dir}Model/";
+            $files[]    =   "{$addon_dir}Model/{$data['info']['name']}Model.class.php";
         }
-        $custom_config = trim($data['custom_config']);
+        $custom_config  =   trim($data['custom_config']);
         if($custom_config)
-            $data[] = "{$addon_dir}{$custom_config}";
+            $data[]     =   "{$addon_dir}{$custom_config}";
 
         $custom_adminlist = trim($data['custom_adminlist']);
         if($custom_adminlist)
-            $data[] = "{$addon_dir}{$custom_adminlist}";
+            $data[]     =   "{$addon_dir}{$custom_adminlist}";
 
         createDirOrFiles($files);
 
@@ -216,7 +216,7 @@ namespace Addons\\{$data['info']['name']}\Model;
 use Think\Model;
 
 /**
- * 分类模型
+ * {$data['info']['name']}模型
  */
 class {$data['info']['name']}Model extends Model{
 
@@ -229,7 +229,7 @@ str;
         if($data['has_config'] == 1)
             file_put_contents("{$addon_dir}config.php", $data['config']);
 
-        $this->success('创建成功');
+        $this->success('创建成功',U('index'));
     }
 
     /**
@@ -237,7 +237,9 @@ str;
      */
     public function index(){
         $this->meta_title = '插件列表';
-        $this->record_list(D('Addons')->getList());
+        $list = D('Addons')->getList();
+        $list = intToString($list, array('status'=>array(-1=>'损坏', 0=>'禁用', 1=>'启用')));
+        $this->record_list($list);
         $this->display();
     }
 
@@ -246,10 +248,10 @@ str;
      * @param string $name 插件名
      */
     public function adminList($name){
-        $addon = addons($name);
+        $addon      =   addons($name);
         if(!$addon)
             $this->error('插件不存在');
-        $param = $addon->admin_list;
+        $param      =   $addon->admin_list;
         if(!$param)
             $this->error('插件列表信息不正确');
         $this->meta_title = $addon->info['title'];
@@ -259,22 +261,22 @@ str;
             $this->assign('custom_adminlist', $addon->addon_path.$addon->custom_adminlist);
         $this->assign($param);
         if(!isset($fields))
-            $fields = '*';
+            $fields =   '*';
         if(!isset($map))
-            $map = array();
-        $list = $this->lists(D("Addons://{$model}/{$model}")->field($fields),$map);
-        $thead = array(
+            $map    =   array();
+        $list       =   $this->lists(D("Addons://{$model}/{$model}")->field($fields),$map);
+        $thead      =   array(
             //元素value中的变量就是数据集中的字段,value必须使用单引号
 
             //所有 _ 下划线开头的元素用于使用html代码生成th和td
-            '_html'=>array(
-                'th'=>'<input class="check-all" type="checkbox"/>',
-                'td'=>'<input class="ids" type="checkbox" name="id[]" value="$id" />',
+            '_html'     =>  array(
+                'th'    =>  '<input class="check-all" type="checkbox"/>',
+                'td'    =>  '<input class="ids" type="checkbox" name="id[]" value="$id" />',
             ),
             //查询出的数据集中的字段=>字段的表头
         );
         if($listKey)
-            $thead = array_merge($thead, $listKey);
+            $thead  =   array_merge($thead, $listKey);
         $this->assign( '_table_list', $this->tableList($list,$thead) );
         $this->display();
     }
@@ -283,8 +285,8 @@ str;
      * 启用插件
      */
     public function enable(){
-        $id = I('id');
-        $msg = array('success'=>'启用成功', 'error'=>'启用失败');
+        $id     =   I('id');
+        $msg    =   array('success'=>'启用成功', 'error'=>'启用失败');
         $this->resume('Addons', "id={$id}", $msg);
     }
 
@@ -301,10 +303,16 @@ str;
      * 设置插件页面
      */
     public function config(){
-        $id = (int)I('id');
-        $addon = D('Addons')->find($id);
+        $id     =   (int)I('id');
+        $addon  =   M('Addons')->find($id);
+        if(!$addon)
+            $this->error('插件未安装');
         $addon_class = addons($addon['name']);
-        $this->meta_title = '设置插件-'.$addon_class->info['title'];
+        if(!$addon_class)
+            trace("插件{$addon['name']}无法实例化,",'ADDONS','ERR');
+        $addon['addon_path'] = $addon_class->addon_path;
+        $addon['custom_config'] = $addon_class->custom_config;
+        $this->meta_title   =   '设置插件-'.$addon_class->info['title'];
         $db_config = $addon['config'];
         $addon['config'] = include $addon_class->config_file;
         if($db_config){
@@ -321,8 +329,6 @@ str;
                 }
             }
         }
-        if(!$addon)
-            $this->error('插件未安装');
         $this->assign('data',$addon);
         if($addon['custom_config'])
             $this->assign('custom_config', $addon['addon_path'].$addon['custom_config']);
@@ -333,9 +339,9 @@ str;
      * 保存插件设置
      */
     public function saveConfig(){
-        $id = (int)I('id');
-        $config = I('config');
-        $flag = D('Addons')->where("id={$id}")->setField('config',json_encode($config));
+        $id     =   (int)I('id');
+        $config =   I('config');
+        $flag = M('Addons')->where("id={$id}")->setField('config',json_encode($config));
         if($flag !== false){
             $this->success('保存成功', U('index'));
         }else{
@@ -347,26 +353,31 @@ str;
      * 安装插件
      */
     public function install(){
-        $addon_name = trim(I('addon_name'));
-    	$addons = addons($addon_name);
-    	if(!$addons)
-    		$this->error('插件不存在');
-		$info = $addons->info;
-		if(!$info || !$addons->checkInfo())//检测信息的正确性
-			$this->error('插件信息缺失');
+        $addon_name     =   trim(I('addon_name'));
+        $addons         =   addons($addon_name);
+        if(!$addons)
+            $this->error('插件不存在');
+        $info = $addons->info;
+        if(!$info || !$addons->checkInfo())//检测信息的正确性
+            $this->error('插件信息缺失');
         session('addons_install_error',null);
-		$install_flag = $addons->install();
-		if(!$install_flag){
-			$this->error('执行插件预安装操作失败'.session('addons_install_error'));
+        $install_flag   =   $addons->install();
+        if(!$install_flag){
+            $this->error('执行插件预安装操作失败'.session('addons_install_error'));
         }
-		$addonsModel = D('Addons');
-		$data = $addonsModel->create($info);
-		if(!$data)
-			$this->error($addonsModel->getError());
-		if($addonsModel->add()){
-            $config = array('config'=>json_encode($addons->getConfig()));
+        $addonsModel    =   D('Addons');
+        $data           =   $addonsModel->create($info);
+        if(is_array($addons->admin_list) && $addons->admin_list !== array()){
+            $data['has_adminlist'] = 1;
+        }else{
+            $data['has_adminlist'] = 0;
+        }
+        if(!$data)
+            $this->error($addonsModel->getError());
+        if($addonsModel->add($data)){
+            $config         =   array('config'=>json_encode($addons->getConfig()));
             $addonsModel->where("name='{$addon_name}'")->save($config);
-            $hooks_update = D('Hooks')->updateHooks($addons->getName());
+            $hooks_update   =   D('Hooks')->updateHooks($addon_name);
             if($hooks_update){
                 S('hooks', null);
                 $this->success('安装成功');
@@ -375,63 +386,62 @@ str;
                 $this->error('更新钩子处插件失败,请卸载后尝试重新安装');
             }
 
-		}else{
-			$this->error('写入插件数据失败');
-		}
+        }else{
+            $this->error('写入插件数据失败');
+        }
     }
 
     /**
      * 卸载插件
      */
     public function uninstall(){
-    	$addonsModel = D('Addons');
-    	$id = trim(I('id'));
-    	$db_addons = $addonsModel->find($id);
-    	$addons = addons($db_addons['name']);
+        $addonsModel   =   M('Addons');
+        $id            =   trim(I('id'));
+        $db_addons     =   $addonsModel->find($id);
+        $addons        =   addons($db_addons['name']);
         $this->assign('jumpUrl',U('index'));
-    	if(!$db_addons || !$addons)
-    		$this->error('插件不存在');
+        if(!$db_addons || !$addons)
+            $this->error('插件不存在');
         session('addons_uninstall_error',null);
-    	$uninstall_flag = $addons->uninstall();
-		if(!$uninstall_flag)
-			$this->error('执行插件预卸载操作失败'.session('addons_uninstall_error'));
-        $hooks_update = D('Hooks')->removeHooks($addons->getName());
+        $uninstall_flag = $addons->uninstall();
+        if(!$uninstall_flag)
+            $this->error('执行插件预卸载操作失败'.session('addons_uninstall_error'));
+        $hooks_update = D('Hooks')->removeHooks($db_addons['name']);
         if($hooks_update === false){
             $this->error('卸载插件所挂载的钩子数据失败');
         }
         S('hooks', null);
-		$delete = $addonsModel->where("name='{$db_addons['name']}'")->delete();
-		if($delete === false){
-			$this->error('卸载插件失败');
-		}else{
-			$this->success('卸载成功');
-		}
+        $delete = $addonsModel->where("name='{$db_addons['name']}'")->delete();
+        if($delete === false){
+            $this->error('卸载插件失败');
+        }else{
+            $this->success('卸载成功');
+        }
     }
 
     /**
      * 钩子列表
      */
     public function hooks(){
-        $this->meta_title = '钩子列表';
-        $map = $fields = array();
-        $list = $this->lists(D("Hooks")->field($fields),$map);
+        $this->meta_title   =   '钩子列表';
+        $map    =   $fields =   array();
+        $list   =   $this->lists(D("Hooks")->field($fields),$map);
         intToString($list, array('type'=>C('HOOKS_TYPE')));
-        $thead = array(
+        $thead  =   array(
             //元素value中的变量就是数据集中的字段,value必须使用单引号
             //查询出的数据集中的字段=>字段的表头
-
-                'id'=>'',
-                'name'=>'名称',
-                'description'=>'描述',
-                'type_text'=>'类型',
-                '插件'=>array(
-                    '编辑'=>array(
-                        'href'=>'edithook?id=$id'
+                'id'            =>  '',
+                'name'          =>  '名称',
+                'description'   =>  '描述',
+                'type_text'     =>  '类型',
+                '插件'          =>  array(
+                    '编辑'      =>  array(
+                        'href'      =>  'edithook?id=$id'
                     ),
-                    '删除'=>array(
-                        'href'=>'delhook?id=$id',
-                        'class'=>'confirm ajax-get',
-                        'condition'=>'is_administrator()'
+                    '删除'      =>  array(
+                        'href'      =>  'delhook?id=$id',
+                        'class'     =>  'confirm ajax-get',
+                        'condition' =>  'is_administrator()'
                     )
                 )
         );
@@ -448,7 +458,7 @@ str;
 
     //钩子出编辑挂载插件页面
     public function edithook($id){
-        $hook = D('Hooks')->find($id);
+        $hook = M('Hooks')->field(true)->find($id);
         $this->assign('data',$hook);
         $this->meta_title = '编辑钩子';
         $this->display('edithook');
@@ -456,7 +466,7 @@ str;
 
     //超级管理员删除钩子
     public function delhook($id){
-        if(D('Hooks')->delete($id) !== false){
+        if(M('Hooks')->delete($id) !== false){
             $this->success('删除成功');
         }else{
             $this->error('删除失败');
@@ -464,8 +474,8 @@ str;
     }
 
     public function updateHook(){
-        $hookModel = D('Hooks');
-        $data = $hookModel->create();
+        $hookModel  =   D('Hooks');
+        $data       =   $hookModel->create();
         if($data){
             if($data['id']){
                 $flag = $hookModel->save($data);
@@ -487,12 +497,11 @@ str;
 
     public function execute($_addons = null, $_controller = null, $_action = null){
         if(C('URL_CASE_INSENSITIVE')){
-            $_addons = ucfirst(parse_name($_addons, 1));
-            $_controller = parse_name($_controller,1);
+            $_addons        =   ucfirst(parse_name($_addons, 1));
+            $_controller    =   parse_name($_controller,1);
         }
 
         if(!empty($_addons) && !empty($_controller) && !empty($_action)){
-
             $Addons = A("Addons://{$_addons}/{$_controller}")->$_action();
         } else {
             $this->error('没有指定插件名称，控制器或操作！');

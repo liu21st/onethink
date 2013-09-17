@@ -1,7 +1,6 @@
 /*******************************************
- * 自定义配色css文件放在defaut_color的同级目录,在View/Config/base.html中,增加一项配色option:
- * <option value="文件名" <eq name="color" value="文件名">selected</eq> >默认</option>
- ********************************************/
+ * 自定义配色css文件放在defaut_color的同级目录,然后在 "系统/配置管理" 中为"COLOR_STYLE"增加一行配置项
+ *********************************************/
 
 /********************************************
  * base.css
@@ -120,18 +119,15 @@ a:hover{
 }	
 
 /* 列表分页 */
-.page {
-    margin: 10px 0;
-    *zoom: 1;
-}
 .page a,
 .page span {
     color: #fff;
-    background-color: #696969;
+    border: 1px solid #387C0B;
+    background-color: #4bbd00;
 }
 .page a:hover,
 .page .current {
-    background-color: #a0a0a0;
+    background-color: #387C0B;
 }
 
 /* uploadify插件上传按钮 */

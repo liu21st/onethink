@@ -17,6 +17,7 @@
 		</volist>
 		<present name="article">：<a href="{:U('article/index','cate_id='.$cate_id.'&pid='.$article['id'])}">{$article.title}</a></present>
 		]
+		(共{$_total}条记录)
 		<eq name="allow" value="0">（该分类不允许发布内容）</eq>
 		</h2>
 	</div>
@@ -48,6 +49,7 @@
 			<button class="btn ajax-post" target-form="ids" url="{:U("Article/copy")}">复 制</button>
 			<button class="btn ajax-post" target-form="ids" hide-data="true" url="{:U("Article/paste")}">粘 贴</button>
 			<input type="hidden" class="hide-data" name="cate_id" value="{$cate_id}"/>
+			<input type="hidden" class="hide-data" name="pid" value="{$pid}"/>
 			<button class="btn ajax-post confirm" target-form="ids" url="{:U("Article/setStatus",array("status"=>-1))}">删 除</button>
 		</div>
 

@@ -74,13 +74,18 @@ class Auth{
     protected $_config = array(
         'AUTH_ON'           => true,                      // 认证开关
         'AUTH_TYPE'         => 1,                         // 认证方式，1为实时认证；2为登录认证。
-        'AUTH_GROUP'        => 'think_auth_group',        // 用户组数据表名
-        'AUTH_GROUP_ACCESS' => 'think_auth_group_access', // 用户-用户组关系表
-        'AUTH_RULE'         => 'think_auth_rule',         // 权限规则表
-        'AUTH_USER'         => 'think_member'             // 用户信息表
+        'AUTH_GROUP'        => 'auth_group',        // 用户组数据表名
+        'AUTH_GROUP_ACCESS' => 'auth_group_access', // 用户-用户组关系表
+        'AUTH_RULE'         => 'auth_rule',         // 权限规则表
+        'AUTH_USER'         => 'member'             // 用户信息表
     );
 
     public function __construct() {
+        $prefix = C('DB_PREFIX');
+        $this->_config['AUTH_GROUP'] = $prefix.$this->_config['AUTH_GROUP'];
+        $this->_config['AUTH_RULE'] = $prefix.$this->_config['AUTH_RULE'];
+        $this->_config['AUTH_USER'] = $prefix.$this->_config['AUTH_USER'];
+        $this->_config['AUTH_GROUP_ACCESS'] = $prefix.$this->_config['AUTH_GROUP_ACCESS'];
         if (C('AUTH_CONFIG')) {
             //可设置配置项 AUTH_CONFIG, 此配置项为数组。
             $this->_config = array_merge($this->_config, C('AUTH_CONFIG'));
@@ -148,7 +153,7 @@ class Auth{
             ->table($this->_config['AUTH_GROUP_ACCESS'] . ' a')
             ->where("a.uid='$uid' and g.status='1'")
             ->join($this->_config['AUTH_GROUP']." g on a.group_id=g.id")
-            ->select();
+            ->field('rules')->select();
         $groups[$uid]=$user_groups?$user_groups:array();
         return $groups[$uid];
     }
@@ -164,7 +169,7 @@ class Auth{
         if (isset($_authList[$uid.$t])) {
             return $_authList[$uid.$t];
         }
-        if(isset($_SESSION['_AUTH_LIST_'.$uid.$t])){
+        if( $this->_config['AUTH_TYPE']==2 && isset($_SESSION['_AUTH_LIST_'.$uid.$t])){
             return $_SESSION['_AUTH_LIST_'.$uid.$t];
         }
 
@@ -186,7 +191,7 @@ class Auth{
             'status'=>1,
         );
         //读取用户组所有权限规则
-        $rules = M()->table($this->_config['AUTH_RULE'])->where($map)->select();
+        $rules = M()->table($this->_config['AUTH_RULE'])->where($map)->field('condition,name')->select();
 
         //循环规则，判断结果。
         $authList = array();   //

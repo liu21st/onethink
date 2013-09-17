@@ -45,7 +45,7 @@ class UserController extends HomeController {
 			$uid = $User->register($username, $password, $email);
 			if(0 < $uid){ //注册成功
 				//TODO: 发送验证邮件
-				echo '注册成功';
+					$this->success('注册成功！',U('Home/Index/index'));
 			} else { //注册失败，显示错误信息
 				$this->error($this->showRegError($uid));
 			}
@@ -71,7 +71,7 @@ class UserController extends HomeController {
 				$Member = D('Member');
 				if($Member->login($uid)){ //登录用户
 					//TODO:跳转到登录前页面
-					$this->success('登录成功！');
+					$this->success('登录成功！',U('Home/Index/index'));
 				} else {
 					$this->error($Member->getError());
 				}

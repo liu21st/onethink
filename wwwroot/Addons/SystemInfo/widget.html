@@ -3,9 +3,9 @@
 		<div class="hd cf">
 			<h5>{$addons_config.title}</h5>
 			<div class="title-opt">
-				<a href="javascript:;"><i class="mod-down"></i></a>
-				<a href="javascript:;"><i class="reload"></i></a>
-				<a href="javascript:;">&times;</a>
+				<a class="wm-slide" href="javascript:;"><i class="mod-down"></i></a>
+				<a class="wm-refresh" href="javascript:;"><i class="reload"></i></a>
+				<a class="wm-close" href="javascript:;">&times;</a>
 			</div>
 		</div>
 		<div class="bd">
@@ -25,11 +25,14 @@
 					</tr>
 					<tr>
 						<th>服务器软件</th>
-						<td>{:php_sapi_name()}</td>
+						<td>{$_SERVER['SERVER_SOFTWARE']}</td>
 					</tr>
 					<tr>
 						<th>服务器MySql版本</th>
-						<td>MySql v{:mysql_get_server_info()}</td>
+						<php>
+							$system_info_mysql = M()->query("select version() as v;");
+						</php>
+						<td>{$system_info_mysql.0.v}</td>
 					</tr>
 					<tr>
 						<th>上传许可</th>

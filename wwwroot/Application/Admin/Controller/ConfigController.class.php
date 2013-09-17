@@ -16,7 +16,7 @@ namespace Admin\Controller;
 
 class ConfigController extends AdminController {
 
-	/**
+    /**
      * 左侧导航节点定义
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
@@ -38,21 +38,21 @@ class ConfigController extends AdminController {
      */
     public function index(){
         $map  = array('status' => 1);
-        $list = D('Config')->where($map)->order('id DESC')->select();
+        $list = M('Config')->where($map)->order('id DESC')->field('id,name,title,value,group,type,remark')->select();
         $this->assign('list', $list);
         $this->meta_title = '配置管理';
         $this->display();
     }
 
     /**
-	 * 基本设置
-	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
-	 */
-	public function base(){
+     * 基本设置
+     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+     */
+    public function base(){
         $this->assign('color',C('COLOR_STYLE'));
         $this->meta_title = '基本设置';
-		$this->display();
-	}
+        $this->display();
+    }
 
     /**
      * 新增配置
@@ -72,7 +72,7 @@ class ConfigController extends AdminController {
                 $this->error($Config->getError());
             }
         } else {
-        	$this->meta_title = '新增配置';
+            $this->meta_title = '新增配置';
             $this->display('edit');
         }
     }
@@ -97,7 +97,7 @@ class ConfigController extends AdminController {
         } else {
             $info = array();
             /* 获取数据 */
-            $info = D('Config')->find($id);
+            $info = M('Config')->field(true)->find($id);
 
             if(false === $info){
                 $this->error('获取配置信息错误');
@@ -113,14 +113,14 @@ class ConfigController extends AdminController {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function save($config){
-    	if($config && is_array($config)){
-    		$Config = D('Config');
-    		foreach ($config as $name => $value) {
-    			$map = array('name' => $name);
-    			$Config->where($map)->setField('value', $value);
-    		}
-    	}
-    	$this->success('保存成功！');
+        if($config && is_array($config)){
+            $Config = M('Config');
+            foreach ($config as $name => $value) {
+                $map = array('name' => $name);
+                $Config->where($map)->setField('value', $value);
+            }
+        }
+        $this->success('保存成功！');
     }
 
     /**
@@ -142,16 +142,15 @@ class ConfigController extends AdminController {
         }
     }
 
-	// 获取某个标签的配置参数
-	public function group() {
-		$id	=	(int)$_GET['id'];
-        $type = C('CONFIG_GROUP_LIST');
-		$model	=	M("Config");
-		$list	=	$model->where(array('status'=>1,'group'=>$id))->order('sort')->select();
+    // 获取某个标签的配置参数
+    public function group() {
+        $id     =   I('get.id',0);
+        $type   =   C('CONFIG_GROUP_LIST');
+        $list   =   M("Config")->where(array('status'=>1,'group'=>$id))->field('id,name,title,extra,value,remark,type')->order('sort')->select();
         if($list) {
-       		$this->assign('list',$list);
+            $this->assign('list',$list);
         }
         $this->meta_title = $type[$id];
-		$this->display();
-	}
+        $this->display();
+    }
 }

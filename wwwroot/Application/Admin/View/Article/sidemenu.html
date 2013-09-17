@@ -1,4 +1,15 @@
 <div id="subnav" class="subnav">
+ <h3>
+ 	<i class="icon <if condition="ACTION_NAME neq 'mydocument' and ACTION_NAME neq 'draftbox'">icon-fold</if>"></i>
+ 	个人中心
+ </h3>
+ 	<ul class="side-sub-menu <if condition="ACTION_NAME neq 'mydocument' and ACTION_NAME neq 'draftbox'">subnav-off</if>">
+ 		<li <if condition="ACTION_NAME eq 'mydocument'">class="current"</if>><a class="item" href="{:U('article/mydocument')}">我的文档</a></li>
+ 		<eq name="show_draftbox" value="1">
+ 		<li <if condition="ACTION_NAME eq 'draftbox'">class="current"</if>><a class="item" href="{:U('article/draftbox')}">草稿箱</a></li>
+ 		</eq>
+ 	</ul>
+
     <volist name="nodes" id="sub_menu">
         <!-- 子导航 -->
         <notempty name="sub_menu">
@@ -12,19 +23,19 @@
                         <eq name="menu['allow_publish']" value="1"><a class="item" href="{$menu.url|U}">{$menu.title}</a><else/>{$menu.title}</eq>
 
                         <!-- 一级子菜单 -->
-                        <notempty name="menu['_child']">
+                        <present name="menu['_child']">
                         <ul class="subitem">
                         	<foreach name="menu['_child']" item="three_menu">
                             <li>
                                 <eq name="three_menu['allow_publish']" value="1"><a class="item" href="{$three_menu.url|U}">{$three_menu.title}</a><else/>{$three_menu.title}</eq>
                                 <!-- 二级子菜单 -->
-                                <notempty name="three_menu['_child']">
+                                <present name="three_menu['_child']">
                                 <ul class="subitem">
                                 	<foreach name="three_menu['_child']" item="four_menu">
                                     <li>
                                         <eq name="four_menu['allow_publish']" value="1"><a class="item" href="{$four_menu.url|U}">{$four_menu.title}</a><else/>{$four_menu.title}</eq>
                                         <!-- 三级子菜单 -->
-                                        <notempty name="four_menu['_child']">
+                                        <present name="four_menu['_child']">
                                         <ul class="subitem">
                                         	<volist name="four_menu['_child']" id="five_menu">
                                             <li>
@@ -32,17 +43,17 @@
                                             </li>
                                             </volist>
                                         </ul>
-                                        </notempty>
+                                        </present>
                                         <!-- end 三级子菜单 -->
                                     </li>
                                      </foreach>
                                 </ul>
-                                </notempty>
+                                </present>
                                 <!-- end 二级子菜单 -->
                             </li>
                             </foreach>
                         </ul>
-                        </notempty>
+                        </present>
                         <!-- end 一级子菜单 -->
                     </li>
                 </volist>
@@ -57,10 +68,4 @@
         <a href="{:U('article/recycle')}">回收站</a>
     </h3>
     </eq>
-
-    <!-- 草稿箱 -->
-    <h3>
-        <em class="recycle"></em>
-        <a href="{:U('article/draftBox')}">草稿箱</a>
-    </h3>
 </div>

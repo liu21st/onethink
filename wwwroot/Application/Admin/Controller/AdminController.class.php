@@ -8,14 +8,14 @@
 // +----------------------------------------------------------------------
 
 namespace Admin\Controller;
-use Think\Action;
+use Think\Controller;
 use Admin\Model\AuthRuleModel;
 use Admin\Model\AuthGroupModel;
 /**
  * 后台首页控制器
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
-class AdminController extends Action {
+class AdminController extends Controller {
 
     /* 保存禁止通过url访问的公共方法,例如定义在控制器中的工具方法 ;deny优先级高于allow*/
     static protected $deny  = array('getMenus','tableList','record_list');
@@ -45,31 +45,32 @@ class AdminController extends Action {
      *     )
      *
      */
-    private $menus = array(
+    private $menus      =   array(
         array( 'title'=>'首页','url'=>'Index/index','controllers'=>'Index',),
-        array( 'title'=>'内容','url'=>'Article/index','controllers'=>'Article',),
+        array( 'title'=>'内容','url'=>'Article/mydocument','controllers'=>'Article',),
         array( 'title'=>'用户','url'=>'User/index','controllers'=>'User,AuthManager'),
         array( 'title'=>'扩展','url'=>'Addons/index','controllers'=>'Addons,Model',),
         array( 'title'=>'系统','url'=>'Config/group','controllers'=>'Config,Channel,System,Category',),
         array( 'title'=>'其他','url'=>'other','controllers'=>'File','hide'=>true),//专门放置不需要显示在任何菜单中的节点
     );
 
-    private $uid = null;//保存登陆用户的uid
-    private $root_user = null;   //保存超级管理员用户id;
+    private $uid        =   null;   //保存登陆用户的uid
+    private $root_user  =   null;   //保存超级管理员身份验证结果
 
-    protected $nav = array();
+    protected $nav      =   array();
 
     protected function _initialize(){
         $this->uid = is_login();
         if( !$this->uid ){
             $this->redirect('Admin/Index/login');
         }
-        $this->root_user = is_administrator();
-        $ac = $this->accessControl();
+
+        $this->root_user    =   is_administrator();
+        $ac                 =   $this->accessControl();
         if ( $ac===false ) {
             $this->error('403:禁止访问');
         }elseif( $ac===null ){
-            $dynamic = $this->checkDynamic();//检测分类栏目有关的各项动态权限
+            $dynamic        =   $this->checkDynamic();//检测分类栏目有关的各项动态权限
             if( $dynamic===null ){
                 //检测非动态权限
                 $rule  = strtolower(MODULE_NAME.'/'.CONTROLLER_NAME.'/'.ACTION_NAME);
@@ -82,7 +83,6 @@ class AdminController extends Action {
         }
         $this->assign('__controller__', $this);
         $this->checkNodes();
-        // $this->_nav();//面包屑导航,暂不需要
 
         /* 读取配置 */
         $config = D('Config')->lists();
@@ -97,9 +97,12 @@ class AdminController extends Action {
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
     final protected function checkRule($rule, $type=AuthRuleModel::RULE_URL, $mode='url'){
-        static $Auth = null;
+        if($this->root_user){
+            return true;//管理员允许访问任何页面
+        }
+        static $Auth    =   null;
         if (!$Auth) {
-            $Auth  = new \ORG\Util\Auth();
+            $Auth       =   new \ORG\Util\Auth();
         }
         if(!$Auth->check($rule,$this->uid,$type,$mode)){
             return false;
@@ -112,22 +115,25 @@ class AdminController extends Action {
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
     protected function checkDynamic(){
+        if($this->root_user){
+            return true;//管理员允许访问任何页面
+        }
         if ( strtolower(CONTROLLER_NAME)=='article' ) {
             $cates = AuthGroupModel::getAuthCategories($this->uid);
             switch(strtolower(ACTION_NAME)){
                 case 'index':
-                    $cate_id = I('cate_id');
+                    $cate_id =  I('cate_id');
                     break;
                 case 'edit':
                 case 'update':
-                    $doc_id  = I('id');
-                    $cate_id = D('Document')->where(array('id'=>$doc_id))->getField('category_id');
+                    $doc_id  =  I('id');
+                    $cate_id =  M('Document')->where(array('id'=>$doc_id))->getField('category_id');
                     break;
                 case 'setstatus':
                 case 'permit':
-                    $doc_id  = (array)I('ids');
-                    $cate_id = D('Document')->where(array('id'=>array('in',implode(',',$doc_id))))->getField('category_id',true);
-                    $cate_id = array_unique($cate_id);
+                    $doc_id  =  (array)I('ids');
+                    $cate_id =  M('Document')->where(array('id'=>array('in',implode(',',$doc_id))))->getField('category_id',true);
+                    $cate_id =  array_unique($cate_id);
                     break;
             }
             if(!$cate_id){
@@ -147,13 +153,12 @@ class AdminController extends Action {
     /**
      * action访问控制,在 **登陆成功** 后执行的第一项权限检测任务
      *
-     * @return true|false|null  返回值必须使用 `===` 进行判断
+     * @return boolean|null  返回值必须使用 `===` 进行判断
      *
-     *   返回false,不允许任何人访问
-     *   返回true, 允许任何管理员访问,无需执行权限检测
-     *   返回null, 需要继续执行权限检测决定是否允许访问
-     *
-     * @author 朱亚杰  <zhuyajie@topthink.net>
+     *   返回 **false**, 不允许任何人访问(超管除外)
+     *   返回 **true**, 允许任何管理员访问,无需执行节点权限检测
+     *   返回 **null**, 需要继续执行节点权限检测决定是否允许访问
+     * @author 朱亚杰  <xcoolcc@gmail.com>
      */
     final protected function accessControl(){
         if($this->root_user){
@@ -177,7 +182,7 @@ class AdminController extends Action {
     /**
      * 对数据表中的单行或多行记录执行修改 GET参数id为数字或逗号分隔的数字
      *
-     * @param string $model 模型名称,供D函数使用的参数
+     * @param string $model 模型名称,供M函数使用的参数
      * @param array  $data  修改的数据
      * @param array  $where 查询时的where()方法的参数
      * @param array  $msg   执行正确和错误的消息 array('success'=>'','error'=>'', 'url'=>'','ajax'=>false)
@@ -186,14 +191,11 @@ class AdminController extends Action {
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
     final protected function editRow ( $model ,$data, $where , $msg ){
-        // if( $_REQUEST['model']||$_REQUEST['where']||$_REQUEST['msg']){
-            // $this->error('非法请求'); //安全检测,防止通过参数绑定修改数据
-        // }
         $id    = array_unique((array)I('id',0));
         $id    = is_array($id) ? implode(',',$id) : $id;
         $where = array_merge( array('id' => array('in', $id )) ,(array)$where );
         $msg   = array_merge( array( 'success'=>'操作成功！', 'error'=>'操作失败！', 'url'=>'' ,'ajax'=>IS_AJAX) , (array)$msg );
-        if( D($model)->where($where)->save($data)!==false ) {
+        if( M($model)->where($where)->save($data)!==false ) {
             $this->success($msg['success'],$msg['url'],$msg['ajax']);
         }else{
             $this->error($msg['error'],$msg['url'],$msg['ajax']);
@@ -203,15 +205,15 @@ class AdminController extends Action {
     /**
      * 禁用条目
      * @param string $model 模型名称,供D函数使用的参数
-     * @param array  $where 查询时的where()方法的参数
+     * @param array  $where 查询时的 where()方法的参数
      * @param array  $msg   执行正确和错误的消息,可以设置四个元素 array('success'=>'','error'=>'', 'url'=>'','ajax'=>false)
      *                     url为跳转页面,ajax是否ajax方式(数字则为倒数计时秒数)
      *
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
     protected function forbid ( $model , $where = array() , $msg = array( 'success'=>'状态禁用成功！', 'error'=>'状态禁用失败！')){
-        $data    = array('status' => 0);
-        $where   = array_merge(array('status' => 1),$where);
+        $data    =  array('status' => 0);
+        $where   =  array_merge(array('status' => 1),$where);
         $this->editRow( $model , $data, $where, $msg);
     }
 
@@ -225,8 +227,8 @@ class AdminController extends Action {
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
     protected function resume (  $model , $where = array() , $msg = array( 'success'=>'状态恢复成功！', 'error'=>'状态恢复失败！')){
-        $data    = array('status' => 1);
-        $where   = array_merge(array('status' => 0),$where);
+        $data    =  array('status' => 1);
+        $where   =  array_merge(array('status' => 0),$where);
         $this->editRow(   $model , $data, $where, $msg);
     }
 
@@ -239,9 +241,9 @@ class AdminController extends Action {
      * @author huajie  <banhuajie@163.com>
      */
     protected function restore (  $model , $where = array() , $msg = array( 'success'=>'状态还原成功！', 'error'=>'状态还原失败！')){
-    	$data    = array('status' => 1);
-    	$where   = array_merge(array('status' => -1),$where);
-    	$this->editRow(   $model , $data, $where, $msg);
+        $data    = array('status' => 1);
+        $where   = array_merge(array('status' => -1),$where);
+        $this->editRow(   $model , $data, $where, $msg);
     }
 
     /**
@@ -259,15 +261,15 @@ class AdminController extends Action {
     }
 
     /**
-     * $deny属性的get方法
-     *
-     * @author 朱亚杰  <zhuyajie@topthink.net>
+     * 获取控制器中允许禁止任何人(超管除外)通过url访问的方法
+     * @param  string  $controller   控制器类名(不含命名空间)
+     * @author 朱亚杰  <xcoolcc@gmail.com>
      */
     final static protected function getDeny($controller=CONTROLLER_NAME){
-        $controller = 'Admin\\Controller\\'.$controller.'Controller';
-        $data = array();
+        $controller =   'Admin\\Controller\\'.$controller.'Controller';
+        $data       =   array();
         if ( is_array( $controller::$deny) ) {
-            $deny = array_merge( $controller::$deny, self::$deny );
+            $deny   =   array_merge( $controller::$deny, self::$deny );
             foreach ( $deny as $key => $value){
                 if ( is_numeric($key) ){
                     $data[] = strtolower($value);
@@ -281,14 +283,14 @@ class AdminController extends Action {
 
     /**
      * 获取控制器中允许所有管理员通过url访问的方法
-     *
-     * @author 朱亚杰  <zhuyajie@topthink.net>
+     * @param  string  $controller   控制器类名(不含命名空间)
+     * @author 朱亚杰  <xcoolcc@gmail.com>
      */
     final static protected function getAllow($controller=CONTROLLER_NAME){
-        $controller = 'Admin\\Controller\\'.$controller.'Controller';
-        $data = array();
+        $controller =   'Admin\\Controller\\'.$controller.'Controller';
+        $data       =   array();
         if ( is_array( $controller::$allow) ) {
-            $allow = array_merge( $controller::$allow, self::$allow );
+            $allow  =   array_merge( $controller::$allow, self::$allow );
             foreach ( $allow as $key => $value){
                 if ( is_numeric($key) ){
                     $data[] = strtolower($value);
@@ -301,10 +303,10 @@ class AdminController extends Action {
     }
 
     /**
-     * 获取控制器的节点配置
-     * @param  string  $controller   控制器类名
-     * @param  boolean $group        是否分组
-     * @author 朱亚杰  <zhuyajie@topthink.net>
+     * 获取控制器的节点配置$nodes
+     * @param  string  $controller   控制器类名(不含命名空间)
+     * @param  boolean $group        是否分组(按配置中的group合并分组)
+     * @author 朱亚杰  <xcoolcc@gmail.com>
      */
     final static public function getNodes($controller,$group=true){
         if ( !$controller || !is_string($controller) || !is_array($controller::$nodes) ) {
@@ -314,7 +316,7 @@ class AdminController extends Action {
         foreach ($controller::$nodes as $value){
             if (!is_array($value) || !isset($value['title'],$value['url'])) {
                 $action = A(CONTROLLER_NAME);
-				$action->error("内部错误:{$controller}控制器 nodes属性配置有误");
+                $action->error("内部错误:{$controller}控制器 nodes属性配置有误");
             }
             if( strpos($value['url'],'/')===false ){
                 $value['url'] = MODULE_NAME.'/'.strtr($controller,array('Controller'=>'')).'/'.$value['url'];
@@ -346,9 +348,8 @@ class AdminController extends Action {
     }
 
     /**
-     * 获取控制器菜单数组
-     * 子类中 $this->getMenus() 调用
-     * @author 朱亚杰  <zhuyajie@topthink.net>
+     * 获取控制器菜单数组,二级菜单元素位于一级菜单的'_child'元素中
+     * @author 朱亚杰  <xcoolcc@gmail.com>
      */
     final public function getMenus(){
 //        if ( S('base_menu'.$controller) ) {
@@ -366,8 +367,8 @@ class AdminController extends Action {
             if( stripos($item['url'],MODULE_NAME)!==0 ){
                 $item['url'] = MODULE_NAME.'/'.$item['url'];
             }
-            //非超级管理员需要判断节点权限
-            if (  !$this->root_user &&  !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null) ) {  //检测节点权限
+            //判断节点权限
+            if ( !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null) ) {  //检测节点权限
                 unset($menus['main'][$key]);
                 continue;//继续循环
             }
@@ -390,7 +391,7 @@ class AdminController extends Action {
                         //$value  分组数组
                         foreach ($value as $k=>$v){
                             //$v  节点配置
-                            if ( !empty($v['hide']) || ( !$this->root_user && !$this->checkRule($v['url'],AuthRuleModel::RULE_URL,null) ) ) {   //检测节点权限
+                            if ( !empty($v['hide']) || !$this->checkRule($v['url'],AuthRuleModel::RULE_URL,null ) ) {   //检测节点权限
                                 unset($value[$k]);
                             }
                         }
@@ -420,12 +421,12 @@ class AdminController extends Action {
 
     /**
      * 返回后台节点数据
-     * @param boolean $tree    是否返回树形结构
+     * @param boolean $tree    是否返回多维数组结构(生成菜单时用到),为false返回一维数组(生成权限节点时用到)
      * @retrun array
      *
      * 注意,返回的主菜单节点数组中有'controller'元素,以供区分子节点和主节点
      *
-     * @author 朱亚杰 <zhuyajie@topthink.net>
+     * @author 朱亚杰 <xcoolcc@gmail.com>
      */
     final protected function returnNodes($tree = true){
         static $tree_nodes = array();
@@ -433,24 +434,24 @@ class AdminController extends Action {
             return $tree_nodes[$tree];
         }
 
-        $nodes    = $this->getVal('menus'); //获取主节点
+        $nodes  =   $this->getVal('menus'); //获取主节点
         //所有子菜单接单
 
-        $child = array();//$tree为false时,保存所有控制器中的节点
+        $child  =   array();//$tree为false时,保存所有控制器中的节点
         foreach ($nodes as $key => $value){
             if( stripos($value['url'],MODULE_NAME)!==0 ){
-                $value['url'] = MODULE_NAME.'/'.$value['url'];
+                $value['url']       =   MODULE_NAME.'/'.$value['url'];
             }
-            $nodes[$key]['url'] = $value['url'];
-            $nodes[$key]['child'] = array();
+            $nodes[$key]['url']     =   $value['url'];
+            $nodes[$key]['child']   =   array();
             if($nodes[$key]['hide'] && !$tree){
                 unset($nodes[$key]);//删除隐藏的主节点
             }
-            $controllers = explode(',',$value['controllers']);
+            $controllers    =   explode(',',$value['controllers']);
             foreach ($controllers as $c){
-                $class = 'Admin\\Controller\\'.$c.'Controller';
+                $class      =   'Admin\\Controller\\'.$c.'Controller';
                 if( class_exists($class) && method_exists($class,'getNodes') ){
-                    $temp = $class::getNodes($class,false);
+                    $temp   =   $class::getNodes($class,false);
                 }else{
                     continue;
                 }
@@ -482,41 +483,36 @@ class AdminController extends Action {
     }
 
     /**
-     * 通用分页列表数据集获取方法
+     * 通用分页列表数据集获取方法,获取的数据集主要供tableList()方法用来生成表格列表
      *
      *  可以通过url参数传递where条件,例如:  index.html?name=asdfasdfasdfddds
      *  可以通过url空值排序字段和方式,例如: index.html?_field=id&_order=asc
-     *  支持多表join,控制器代码示例如下:
-     *
-     *  <pre>
-     *      $Model = M()
-     *               ->table('left_tabel as l')
-     *               ->join('right_table as r ON l.id=r.uid')
-     *               ->where(array('l.status'=>1));
-     *      $list = $this->lists($Model);
-     *      $this->assign('data',$list);
-     *      $this->dispaly();
-     *  </pre>
+     *  可以通过url参数r指定每页数据条数,例如: index.html?r=5
      *
      * @param sting|Model  $model   模型名或模型实例
-     * @param array        $where   where查询条件
-     * @param array|string $order   排序条件
-     * @author 朱亚杰 <zhuyajie@topthink.net>
+     * @param array        $where   where查询条件(优先级: $where>$_REQUEST>模型设定)
+     * @param array|string $order   排序条件,传入null时使用sql默认排序或模型属性(优先级最高);
+     *                              请求参数中如果指定了_order和_field则据此排序(优先级第二);
+     *                              否则使用$order参数(如果$order参数,且模型也没有设定过order,则取主键降序);
+     *                              
+     * @param array        $base    基本的查询条件
+     * @param boolean      $field   单表模型用不到该参数,要用在多表join时为field()方法指定参数
+     * @author 朱亚杰 <xcoolcc@gmail.com>
      *
      * @return array|false
      * 返回数据集
      */
     protected function lists ($model,$where=array(),$order='',$base = array('status'=>array('egt',0)),$field=true){
-        $options = array();
-        $REQUEST = (array)I('request.');
+        $options    =   array();
+        $REQUEST    =   (array)I('request.');
         if(is_string($model)){
-            $model = D($model);
+            $model  =   M($model);
         }
 
-        $OPT = new \ReflectionProperty($model,'options');
+        $OPT        =   new \ReflectionProperty($model,'options');
         $OPT->setAccessible(true);
 
-        $pk = $model->getPk();
+        $pk         =   $model->getPk();
         if($order===null){
             //order置空
         }else if ( isset($REQUEST['_order']) && isset($REQUEST['_field']) && in_array(strtolower($REQUEST['_order']),array('desc','asc')) ) {
@@ -528,31 +524,36 @@ class AdminController extends Action {
         }
         unset($REQUEST['_order'],$REQUEST['_field']);
 
-        $options['where'] = array_filter(array_merge( $base, $REQUEST,  $where ),function($val){
+        $options['where'] = array_filter(array_merge( (array)$base, $REQUEST, (array)$where ),function($val){
             if($val===''||$val===null){
                 return false;
             }else{
                 return true;
             }
         });
-        $options          = array_merge( (array)$OPT->getValue($model), $options );
-		$total = $model->where($options['where'])->count();
+        if( empty($options['where'])){
+            unset($options['where']);
+        }
+        $options      =   array_merge( (array)$OPT->getValue($model), $options );
+        $total        =   $model->where($options['where'])->count();
 
         if( isset($REQUEST['r']) ){
             $listRows = (int)$REQUEST['r'];
         }else{
             $listRows = C('LIST_ROWS') > 0 ? C('LIST_ROWS') : 10;
         }
-		$page = new \COM\Page($total, $listRows, $REQUEST);
+        $page = new \COM\Page($total, $listRows, $REQUEST);
         if($total>$listRows){
             $page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
         }
-		$this->assign('_page', $page->show()? $page->show(): '');
+        $p =$page->show();
+        $this->assign('_page', $p? $p: '');
+        $this->assign('_total',$total);
         $options['limit'] = $page->firstRow.','.$page->listRows;
 
         $model->setProperty('options',$options);
 
-		return $model->field($field)->select();
+        return $model->field($field)->select();
     }
 
     /**
@@ -560,17 +561,19 @@ class AdminController extends Action {
      * @param array $records 传入的数据集
      */
     public function record_list($records){
-        $REQUEST = (array)I('request.');
-        $total = $records? count($records) : 1 ;
+        $REQUEST    =   (array)I('request.');
+        $total      =   $records? count($records) : 1 ;
         if( isset($REQUEST['r']) ){
             $listRows = (int)$REQUEST['r'];
         }else{
             $listRows = C('LIST_ROWS') > 0 ? C('LIST_ROWS') : 10;
         }
-        $page = new \COM\Page($total, $listRows, $REQUEST);
-        $voList = array_slice($records, $page->firstRow, $page->listRows);
+        $page       =   new \COM\Page($total, $listRows, $REQUEST);
+        $voList     =   array_slice($records, $page->firstRow, $page->listRows);
         $this->assign('_list', $voList);
-        $this->assign('_page', $page->show()? $page->show(): '');
+        $p =$page->show();
+        $this->assign('_page', $p? $p: '');
+        $this->assign('_page', $p? $p: '');
     }
 
     /**
@@ -595,11 +598,11 @@ class AdminController extends Action {
                 }
             }
 
-            $keys = array_keys( (array)reset($list) );
+            $keys   =   array_keys( (array)reset($list) );
             foreach($list as $row){
                 $keys = array_intersect( $keys, array_keys($row) );
             }
-            $s_thead = serialize($thead);
+            $s_thead =  serialize($thead);
             if(!empty($list)){
                 preg_replace_callback('/\$([a-zA-Z_]+)/',function($matches) use($keys){
                     if( !in_array($matches[1],$keys) ){
@@ -608,9 +611,9 @@ class AdminController extends Action {
                 },$s_thead);
             }
         }
-        $keys = array_keys($thead);
+        $keys       =   array_keys($thead);
         array_walk($list,function(&$v,$k) use($keys,$thead) {
-            $arr = array();
+            $arr    =   array();
             foreach ($keys as $value){
                 if ( isset($v[$value]) ) {
                     $arr[$value] = $v[$value];
@@ -618,7 +621,7 @@ class AdminController extends Action {
                     $arr[$value] = $thead[$value]['td'];
                 }
             }
-            $v = array_merge($arr,$v);
+            $v      =   array_merge($arr,$v);
         });
         $this->assign('_thead',$thead);
         $this->assign('_list',$list);
@@ -633,18 +636,18 @@ class AdminController extends Action {
         if ( APP_DEBUG!=true ){
             return;
         }
-        $controllers = array();
+        $controllers    =   array();
         foreach ($this->menus as $value){
-           $con =  explode(',',$value['controllers']);
-           $controllers = array_merge($controllers,$con);
+           $con         =   explode(',',$value['controllers']);
+           $controllers =   array_merge($controllers,$con);
         }
 
-        $nodes  = M('AuthRule')->where(array('module'=>'admin','status'=>1))->getField('name',true);
+        $nodes          =   M('AuthRule')->where(array('module'=>'admin','status'=>1))->getField('name',true);
         foreach ($nodes as $k=>$n){
             if( ($pos = strpos($n,'?'))>0){
-                $n= substr($n,0,$pos);
+                $n      =   substr($n,0,$pos);
             }
-            $nodes[$k] = strtolower($n);
+            $nodes[$k]  =   strtolower($n);
         }
 
         foreach ($controllers as $controller){
@@ -693,30 +696,30 @@ class AdminController extends Action {
             $_SERVER["HTTP_REFERER"]=U('Admin/Index/index');
         }
 
-        $first = M('AuthRule')->where(array('module'=>'admin','status'=>1, 'type'=>2))->getField('name,title',true);
+        $first  =   M('AuthRule')->where(array('module'=>'admin','status'=>1, 'type'=>2))->getField('name,title',true);
 
 
-        $arr = array();
+        $arr    =   array();
         foreach ($first as $key => $value){
             $arr[U($key,$vars='',$suffix=true,$redirect=false,$domain=true)] = $value;
         }
 
-        $nav  = session('nav')?session('nav'):array();
+        $nav    =   session('nav')?session('nav'):array();
 
-		$port = $_SERVER['SERVER_PORT']==80?'':':'.$_SERVER['SERVER_PORT'];
-		$last = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$port .$_SERVER['REQUEST_URI'];
+        $port = $_SERVER['SERVER_PORT']==80?'':':'.$_SERVER['SERVER_PORT'];
+        $last = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$port .$_SERVER['REQUEST_URI'];
         if( array_key_exists( $_SERVER["HTTP_REFERER"],$arr ) ){
-            $nav = array();//清空
-            $nav[1] = array( $_SERVER["HTTP_REFERER"]=>$arr[$_SERVER["HTTP_REFERER"]] );
+            $nav    =   array();//清空
+            $nav[1] =   array( $_SERVER["HTTP_REFERER"]=>$arr[$_SERVER["HTTP_REFERER"]] );
         }
-		if( array_key_exists( $last,$arr ) ){
-			$nav = array();//清空
-			$nav[1] = array( $last=>$arr[$last]);
-			$this->nav = $nav;
-			session('nav',$this->nav);
-			return;
-		}
-		$nav['last'] = $last;
+        if( array_key_exists( $last,$arr ) ){
+            $nav         =   array();//清空
+            $nav[1]      =   array( $last=>$arr[$last]);
+            $this->nav   =   $nav;
+            session('nav',$this->nav);
+            return;
+        }
+        $nav['last'] = $last;
         $this->nav = $nav;
     }
 
@@ -728,17 +731,17 @@ class AdminController extends Action {
      */
     protected function nav($level,$title,$show=false){
         if ( is_numeric($level) ) {
-			$this->nav[$level] = array ($this->nav['last']=>$title);
+            $this->nav[$level] = array ($this->nav['last']=>$title);
             unset($this->nav['last']);
             ksort($this->nav);
-			$this->nav = array_slice($this->nav,0,$level,true);
-            $arr = array();
+            $this->nav  =   array_slice($this->nav,0,$level,true);
+            $arr        =   array();
             foreach ($this->nav as $key => $value){
                 foreach ($value as $k => $v){
-                    $arr[$k]=$v;
+                    $arr[$k] =  $v;
                 }
             }
-			session( 'nav', $this->nav );
+            session( 'nav', $this->nav );
             $this->assign('_nav',$arr);
             $this->assign('_show_nav',$show);
         }

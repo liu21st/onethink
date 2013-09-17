@@ -16,7 +16,7 @@ namespace Admin\Controller;
 
 class ChannelController extends AdminController {
 
-	/**
+    /**
      * 左侧导航节点定义
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
@@ -25,7 +25,7 @@ class ChannelController extends AdminController {
         array( 'title' => '导航管理', 'url' => 'Channel/index', 'group' => '导航栏目设置'),
     );
 
-	/**
+    /**
      * 频道列表
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
@@ -58,7 +58,7 @@ class ChannelController extends AdminController {
                 $this->error($Channel->getError());
             }
         } else {
-        	$this->meta_title = '新增导航';
+            $this->meta_title = '新增导航';
             $this->display('edit');
         }
     }
@@ -84,7 +84,7 @@ class ChannelController extends AdminController {
         } else {
             $info = array();
             /* 获取数据 */
-            $info = D('Channel')->find($id);
+            $info = M('Channel')->find($id);
 
             if(false === $info){
                 $this->error('获取配置信息错误');
