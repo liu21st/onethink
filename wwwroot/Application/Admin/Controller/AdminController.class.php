@@ -256,7 +256,8 @@ class AdminController extends Controller {
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
     protected function delete ( $model , $where = array() , $msg = array( 'success'=>'删除成功！', 'error'=>'删除失败！')) {
-        $data    = array('status' => -1);
+        $data['status']         =   -1;
+        $data['update_time']    =   NOW_TIME;
         $this->editRow(   $model , $data, $where, $msg);
     }
 
