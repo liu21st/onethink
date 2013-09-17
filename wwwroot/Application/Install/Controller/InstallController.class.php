@@ -8,10 +8,10 @@
 // +----------------------------------------------------------------------
 
 namespace Install\Controller;
-use Think\Action;
+use Think\Controller;
 use Think\Db;
 
-class InstallController extends Action{
+class InstallController extends Controller{
 
 	protected function _initialize(){
 		if(session('step') === null){
@@ -65,7 +65,7 @@ class InstallController extends Action{
 				$this->error('请填写完整的数据库配置');
 			} else {
 				$DB = array();
-				list($DB['DB_TYPE'], $DB['DB_HOST'], $DB['DB_NAME'], $DB['DB_USER'], $DB['DB_PWD'], 
+				list($DB['DB_TYPE'], $DB['DB_HOST'], $DB['DB_NAME'], $DB['DB_USER'], $DB['DB_PWD'],
 					 $DB['DB_PORT'], $DB['DB_PREFIX']) = $db;
 				//缓存数据库配置
 				F('db_config', $DB);
