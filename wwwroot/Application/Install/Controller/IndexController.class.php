@@ -8,9 +8,9 @@
 // +----------------------------------------------------------------------
 
 namespace Install\Controller;
-use Think\Action;
+use Think\Controller;
 
-class IndexController extends Action{
+class IndexController extends Controller{
 	//安装首页
 	public function index(){
 		if(is_file(MODULE_PATH . 'Data/install.lock')){

@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace Think\Cache\Driver;
 use Think\Cache;
+use Think\Db;
 defined('THINK_PATH') or exit();
 /**
  * 数据库方式缓存驱动
@@ -38,11 +39,11 @@ class Db extends Cache {
                 'table'     =>  C('DATA_CACHE_TABLE'),
             );
         }
-        $this->options  =   $options;   
+        $this->options  =   $options;
         $this->options['prefix']    =   isset($options['prefix'])?  $options['prefix']  :   C('DATA_CACHE_PREFIX');
-        $this->options['length']    =   isset($options['length'])?  $options['length']  :   0;        
+        $this->options['length']    =   isset($options['length'])?  $options['length']  :   0;
         $this->options['expire']    =   isset($options['expire'])?  $options['expire']  :   C('DATA_CACHE_TIME');
-        $this->handler   = Think\Db::getInstance();
+        $this->handler   = Db::getInstance();
     }
 
     /**
