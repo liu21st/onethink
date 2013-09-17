@@ -19,15 +19,11 @@ class AddonsModel extends Model {
      * 查找后置操作
      */
     protected function _after_find(&$result,$options) {
-        $addons = addons($result['name']);
-        if($addons){
-            $result['addon_path'] = $addons->addon_path;
-            $result['custom_config'] = $addons->custom_config;
-        }
+
     }
 
     protected function _after_select(&$result,$options){
-        intToString($result, array('status'=>array(-1=>'损坏', 0=>'禁用', 1=>'启用')));
+
         foreach($result as &$record){
             $this->_after_find($record,$options);
         }

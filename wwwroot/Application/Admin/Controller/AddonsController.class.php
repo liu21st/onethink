@@ -237,7 +237,9 @@ str;
      */
     public function index(){
         $this->meta_title = '插件列表';
-        $this->record_list(D('Addons')->getList());
+        $list = D('Addons')->getList();
+        $list = intToString($list, array('status'=>array(-1=>'损坏', 0=>'禁用', 1=>'启用')));
+        $this->record_list($list);
         $this->display();
     }
 
@@ -302,12 +304,14 @@ str;
      */
     public function config(){
         $id     =   (int)I('id');
-        $addon  =   D('Addons')->find($id);
+        $addon  =   M('Addons')->find($id);
         if(!$addon)
             $this->error('插件未安装');
-        $addon_class        =   addons($addon['name']);
+        $addon_class = addons($addon['name']);
         if(!$addon_class)
             trace("插件{$addon['name']}无法实例化,",'ADDONS','ERR');
+        $addon['addon_path'] = $addon_class->addon_path;
+        $addon['custom_config'] = $addon_class->custom_config;
         $this->meta_title   =   '设置插件-'.$addon_class->info['title'];
         $db_config = $addon['config'];
         $addon['config'] = include $addon_class->config_file;
