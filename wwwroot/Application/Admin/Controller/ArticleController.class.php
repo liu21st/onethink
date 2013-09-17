@@ -26,11 +26,19 @@ class ArticleController extends \Admin\Controller\AdminController {
                 array('title'=>'编辑','url'=>'article/edit'),
                 array('title'=>'改变状态','url'=>'article/setStatus'),
                 array('title'=>'保存数据','url'=>'article/update'),
-                array('title'=>'回收站','url'=>'article/recycle'),
-                array('title'=>'还原','url'=>'article/permit'),
-                array('title'=>'清空回收站','url'=>'article/clear'),
             ),
         ),
+    	array(
+    		'title'=>'草稿箱', 'url'=>'article/draftbox', 'group'=>'个人中心',
+    	),
+    	array(
+    		'title'=>'回收站', 'url'=>'article/recycle', 'group'=>'内容',
+    		'operator'=>array(
+    			//权限管理页面的按钮
+    			array('title'=>'还原','url'=>'article/permit'),
+    			array('title'=>'清空回收站','url'=>'article/clear'),
+    		),
+    	),
     );
 
     private $cate_id        =   null; //文档分类id
@@ -53,6 +61,9 @@ class ArticleController extends \Admin\Controller\AdminController {
         //获取回收站权限
         $show_recycle = $this->checkRule('Admin/article/recycle');
         $this->assign('show_recycle', $this->getVal('root_user') || $show_recycle);
+        //获取草稿箱权限
+        $show_draftbox = $this->checkRule('Admin/article/draftbox');
+        $this->assign('show_draftbox', $this->getVal('root_user') || $show_draftbox);
     }
 
     /**

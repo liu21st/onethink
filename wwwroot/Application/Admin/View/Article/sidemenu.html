@@ -1,11 +1,13 @@
 <div id="subnav" class="subnav">
  <h3>
- 	<i class="icon icon-fold"></i>
+ 	<i class="icon <if condition="ACTION_NAME neq 'mydocument' and ACTION_NAME neq 'draftbox'">icon-fold</if>"></i>
  	个人中心
  </h3>
  	<ul class="side-sub-menu <if condition="ACTION_NAME neq 'mydocument' and ACTION_NAME neq 'draftbox'">subnav-off</if>">
  		<li <if condition="ACTION_NAME eq 'mydocument'">class="current"</if>><a class="item" href="{:U('article/mydocument')}">我的文档</a></li>
+ 		<eq name="show_draftbox" value="1">
  		<li <if condition="ACTION_NAME eq 'draftbox'">class="current"</if>><a class="item" href="{:U('article/draftbox')}">草稿箱</a></li>
+ 		</eq>
  	</ul>
 
     <volist name="nodes" id="sub_menu">
