@@ -107,7 +107,7 @@ class ModelController extends AdminController {
         }
 
         /*获取一条记录的详细数据*/
-        $Model = D('DocumentModel');
+        $Model = M('DocumentModel');
         $data = $Model->find($id);
         if(!$data){
             $this->error($Model->getError());

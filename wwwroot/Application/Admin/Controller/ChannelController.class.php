@@ -84,7 +84,7 @@ class ChannelController extends AdminController {
         } else {
             $info = array();
             /* 获取数据 */
-            $info = D('Channel')->find($id);
+            $info = M('Channel')->find($id);
 
             if(false === $info){
                 $this->error('获取配置信息错误');

@@ -84,7 +84,7 @@ class AdminController extends Controller {
         $this->checkNodes();
 
         /* 读取配置 */
-        $config = D('Config')->lists();
+        $config = D('Config')->();
         C($config); //添加配置
     }
 
@@ -120,12 +120,12 @@ class AdminController extends Controller {
                 case 'edit':
                 case 'update':
                     $doc_id  =  I('id');
-                    $cate_id =  D('Document')->where(array('id'=>$doc_id))->getField('category_id');
+                    $cate_id =  M('Document')->where(array('id'=>$doc_id))->getField('category_id');
                     break;
                 case 'setstatus':
                 case 'permit':
                     $doc_id  =  (array)I('ids');
-                    $cate_id =  D('Document')->where(array('id'=>array('in',implode(',',$doc_id))))->getField('category_id',true);
+                    $cate_id =  M('Document')->where(array('id'=>array('in',implode(',',$doc_id))))->getField('category_id',true);
                     $cate_id =  array_unique($cate_id);
                     break;
             }
@@ -192,7 +192,7 @@ class AdminController extends Controller {
         $id    = is_array($id) ? implode(',',$id) : $id;
         $where = array_merge( array('id' => array('in', $id )) ,(array)$where );
         $msg   = array_merge( array( 'success'=>'操作成功！', 'error'=>'操作失败！', 'url'=>'' ,'ajax'=>IS_AJAX) , (array)$msg );
-        if( D($model)->where($where)->save($data)!==false ) {
+        if( M($model)->where($where)->save($data)!==false ) {
             $this->success($msg['success'],$msg['url'],$msg['ajax']);
         }else{
             $this->error($msg['error'],$msg['url'],$msg['ajax']);
@@ -492,7 +492,7 @@ class AdminController extends Controller {
      *               ->table('left_tabel as l')
      *               ->join('right_table as r ON l.id=r.uid')
      *               ->where(array('l.status'=>1));
-     *      $list = $this->lists($Model);
+     *      $list = $this->($Model);
      *      $this->assign('data',$list);
      *      $this->dispaly();
      *  </pre>
@@ -509,7 +509,7 @@ class AdminController extends Controller {
         $options    =   array();
         $REQUEST    =   (array)I('request.');
         if(is_string($model)){
-            $model  =   D($model);
+            $model  =   M($model);
         }
 
         $OPT        =   new \ReflectionProperty($model,'options');

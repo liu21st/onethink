@@ -54,7 +54,7 @@ class AuthManagerController extends AdminController{
         //需要新增的节点必然位于$nodes
         $nodes    = $this->returnNodes(false);
 
-        $AuthRule = D('AuthRule');
+        $AuthRule = M('AuthRule');
         $map      = array('module'=>'admin','type'=>array('in','1,2'));//status全部取出,以进行更新
         //需要更新和删除的节点必然位于$rules
         $rules    = $AuthRule->where($map)->order('name')->select();
@@ -142,7 +142,7 @@ class AuthManagerController extends AdminController{
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     public function editGroup(){
-        $auth_group = D('AuthGroup')->where( array('module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
+        $auth_group = M('AuthGroup')->where( array('module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
                                     ->find( (int)$_GET['id'] );
         $this->assign('auth_group',$auth_group);
         $this->display();
@@ -155,13 +155,13 @@ class AuthManagerController extends AdminController{
      */
     public function access(){
         $this->updateRules();
-        $auth_group = D('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
+        $auth_group = M('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
                                     ->getfield('id,id,title,rules');
         $node_list   = $this->returnNodes();
         $map         = array('module'=>'admin','type'=>AuthRuleModel::RULE_MAIN,'status'=>1);
-        $main_rules  = D('AuthRule')->where($map)->getField('name,id');
+        $main_rules  = M('AuthRule')->where($map)->getField('name,id');
         $map         = array('module'=>'admin','type'=>AuthRuleModel::RULE_URL,'status'=>1);
-        $child_rules = D('AuthRule')->where($map)->getField('name,id');
+        $child_rules = M('AuthRule')->where($map)->getField('name,id');
 
         $this->assign('main_rules', $main_rules);
         $this->assign('auth_rules', $child_rules);
@@ -233,7 +233,7 @@ class AuthManagerController extends AdminController{
             $this->error('参数错误');
         }
 
-        $auth_group = D('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
+        $auth_group = M('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
             ->getfield('id,id,title,rules');
         $prefix   = C('DB_PREFIX');
         $l_table  = $prefix.(AuthGroupModel::MEMBER);
@@ -256,7 +256,7 @@ class AuthManagerController extends AdminController{
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     public function category(){
-        $auth_group     =   D('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
+        $auth_group     =   M('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
             ->getfield('id,id,title,rules');
         $group_list     =   D('Category')->getTree();
         $authed_group   =   AuthGroupModel::getCategoryOfGroup(I('group_id'));

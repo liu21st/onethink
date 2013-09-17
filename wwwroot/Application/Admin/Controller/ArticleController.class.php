@@ -165,7 +165,7 @@ class ArticleController extends \Admin\Controller\AdminController {
 
         // 构建列表数据
         if(!empty($cate_id)){   //没有权限则不查询数据
-            $Document = D('Document');
+            $Document = M('Document');
             $map['category_id'] =   $cate_id;
             $map['pid']         =   I('pid',0);
             if($map['pid']){ // 子文档列表忽略分类
@@ -176,7 +176,7 @@ class ArticleController extends \Admin\Controller\AdminController {
             intToString($list);
             if($map['pid']){
                 // 获取上级文档
-                $article    =   M('Document')->field('id,title,type')->find($map['pid']);
+                $article    =   $Document->field('id,title,type')->find($map['pid']);
                 $this->assign('article',$article);
             }
             //获取对应分类下的模型
@@ -340,7 +340,7 @@ class ArticleController extends \Admin\Controller\AdminController {
                 $map    =   array( 'status'=>-1,'category_id'=>-1 );
             }
         }
-        $list = D('Document')->where($map)->field('id,title,uid,create_time')->select();
+        $list = M('Document')->where($map)->field('id,title,uid,create_time')->select();
         //处理列表数据
         foreach ($list as $k=>&$v){
             $v['username']      =   get_username($v['uid']);

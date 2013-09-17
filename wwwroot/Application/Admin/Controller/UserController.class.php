@@ -42,7 +42,7 @@ class UserController extends AdminController {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function index(){
-        $Member = D("Member")->field(true)->where(array('status'=>array('egt',0)))->order('uid DESC');
+        $Member = M("Member")->field(true)->where(array('status'=>array('egt',0)))->order('uid DESC');
         $list   = $this->lists($Member);
         intToString($list);
         $this->assign('_list', $list);
