@@ -163,7 +163,7 @@ class UserController extends AdminController {
     public function editAction(){
         $id = I('get.id');
         empty($id) && $this->error('参数不能为空！');
-        $data = M('Action')->find($id);
+        $data = M('Action')->field(true)->find($id);
 
         $this->assign($data);
         $this->meta_title = '编辑行为';

@@ -449,7 +449,7 @@ str;
 
     //钩子出编辑挂载插件页面
     public function edithook($id){
-        $hook = M('Hooks')->find($id);
+        $hook = M('Hooks')->field(true)->find($id);
         $this->assign('data',$hook);
         $this->meta_title = '编辑钩子';
         $this->display('edithook');
