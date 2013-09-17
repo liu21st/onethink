@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 namespace Admin\Controller;
 use Admin\Model\AuthGroupModel;
-use COM\Page;
+
 /**
  * 后台内容控制器
  * @author huajie <banhuajie@163.com>

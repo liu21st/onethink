@@ -194,7 +194,7 @@ function create_tables($db, $prefix = ''){
 		$value = trim($value);
 		if(empty($value)) continue;
 		if(substr($value, 0, 12) == 'CREATE TABLE') {
-			$name = preg_replace("/CREATE TABLE `(\w+)` .*/is", "\\1", $value);
+			$name = preg_replace("/CREATE TABLE `([a-z0-9]+)` .*/is", "\\1", $value);
 			$msg  = "创建数据表{$name}";
 			if(false !== $db->execute($value)){
 				show_msg($msg . '...成功');

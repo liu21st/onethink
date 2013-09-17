@@ -108,7 +108,7 @@ class FileModel extends Model{
      */
     public function isFile($file){
         if(empty($file['md5'])){
-            throw new Exception('缺少参数:md5');
+            throw new \Exception('缺少参数:md5');
         }
         /* 查找文件 */
         $map = array('md5' => $file['md5']);
