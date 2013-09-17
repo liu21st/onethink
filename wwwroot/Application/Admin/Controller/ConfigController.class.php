@@ -97,7 +97,7 @@ class ConfigController extends AdminController {
         } else {
             $info = array();
             /* 获取数据 */
-            $info = M('Config')->find($id);
+            $info = M('Config')->field(true)->find($id);
 
             if(false === $info){
                 $this->error('获取配置信息错误');
