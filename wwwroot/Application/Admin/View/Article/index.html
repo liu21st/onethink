@@ -10,14 +10,13 @@
 	<!-- 标题 -->
 	<div class="main-title">
 		<h2>
-		文档列表 [
+		文档列表({$_total}) [
 		<volist name="rightNav" id="nav">
 		<a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a>
 			<if condition="count($rightNav) gt $i"><i class="ca"></i></if>
 		</volist>
 		<present name="article">：<a href="{:U('article/index','cate_id='.$cate_id.'&pid='.$article['id'])}">{$article.title}</a></present>
 		]
-		(共{$_total}条记录)
 		<eq name="allow" value="0">（该分类不允许发布内容）</eq>
 		</h2>
 	</div>
