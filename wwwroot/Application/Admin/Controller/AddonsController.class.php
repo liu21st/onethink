@@ -216,7 +216,7 @@ namespace Addons\\{$data['info']['name']}\Model;
 use Think\Model;
 
 /**
- * 分类模型
+ * {$data['info']['name']}模型
  */
 class {$data['info']['name']}Model extends Model{
 
@@ -229,7 +229,7 @@ str;
         if($data['has_config'] == 1)
             file_put_contents("{$addon_dir}config.php", $data['config']);
 
-        $this->success('创建成功');
+        $this->success('创建成功',U('index'));
     }
 
     /**
@@ -306,6 +306,8 @@ str;
         if(!$addon)
             $this->error('插件未安装');
         $addon_class        =   addons($addon['name']);
+        if(!$addon_class)
+            trace("插件{$addon['name']}无法实例化,",'ADDONS','ERR');
         $this->meta_title   =   '设置插件-'.$addon_class->info['title'];
         $db_config = $addon['config'];
         $addon['config'] = include $addon_class->config_file;
@@ -361,7 +363,7 @@ str;
         }
         $addonsModel    =   D('Addons');
         $data           =   $addonsModel->create($info);
-        
+
         file_put_contents('./debug_intall', var_export($data,1));
         if(!$data)
             $this->error($addonsModel->getError());

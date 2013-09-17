@@ -47,6 +47,10 @@ class HooksModel extends Model {
      */
     public function updateHooks($addons_name){
         $addons_class = addons($addons_name);//获取插件名
+        if(!$addons_class){
+            $this->error = "未实现{$addons_name}插件的入口文件";
+            return false;
+        }
         $methods = get_class_methods($addons_class);
         $hooks = $this->getField('name', true);
         $common = array_intersect($hooks, $methods);
@@ -59,7 +63,7 @@ class HooksModel extends Model {
                 }
             }
         } else {
-            $this->error = '插件为实现任何钩子';
+            $this->error = '插件未实现任何钩子';
             return false;
         }
         return true;
@@ -90,6 +94,9 @@ class HooksModel extends Model {
      */
     public function removeHooks($addons_name){
         $addons_class = addons($addons_name);
+        if(!$addons_class){
+            return false;
+        }
         $methods = get_class_methods($addons_class);
         $hooks = $this->getField('name', true);
         $common = array_intersect($hooks, $methods);

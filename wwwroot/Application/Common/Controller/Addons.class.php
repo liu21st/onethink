@@ -110,7 +110,7 @@ namespace Common\Controller;
 		final public function getConfig($name=''){
 			static $_config	=	array();
 			if(empty($name)){
-				$name	=	$this->getName();
+				$name =	$this->getName();
 			}
 			if(isset($_config[$name])){
 				return $_config[$name];
@@ -126,7 +126,7 @@ namespace Common\Controller;
 				}
 			}
 			$config['config']['status'] = $config['status'];
-			$_config[$name]	=	$config['config'];
+			$_config[$name]	= $config['config'];
 			return $config['config'];
 		}
 
