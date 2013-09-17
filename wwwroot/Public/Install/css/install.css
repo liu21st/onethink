@@ -13,6 +13,7 @@
 body {
     position: relative;
     padding-top: 40px;
+	font: 14px/1.5 "microsoft yahei", Helvetica, Tahoma, Arial, sans-serif;
 }
 
 /* Code in headings */
@@ -159,7 +160,7 @@ hr.soften {
 }
 
 .masthead .table {
-    font-size: 24px;
+    font-size: 20px;
 }
 .masthead .table th,
 .masthead .table td{
@@ -170,7 +171,7 @@ hr.soften {
 }
 
 .create-database {
-    font-size: 24px;
+    font-size: 20px;
 }
 .create-database dt,
 .create-database dd{
