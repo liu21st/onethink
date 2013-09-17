@@ -112,6 +112,9 @@ class AdminController extends Controller {
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
     protected function checkDynamic(){
+        if($this->root_user){
+            return true;//管理员允许访问任何页面
+        }
         if ( strtolower(CONTROLLER_NAME)=='article' ) {
             $cates = AuthGroupModel::getAuthCategories($this->uid);
             switch(strtolower(ACTION_NAME)){
