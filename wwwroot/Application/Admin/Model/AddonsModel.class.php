@@ -20,8 +20,10 @@ class AddonsModel extends Model {
      */
     protected function _after_find(&$result,$options) {
         $addons = addons($result['name']);
-        $result['addon_path'] = $addons->addon_path;
-        $result['custom_config'] = $addons->custom_config;
+        if($addons){
+            $result['addon_path'] = $addons->addon_path;
+            $result['custom_config'] = $addons->custom_config;
+        }
     }
 
     protected function _after_select(&$result,$options){

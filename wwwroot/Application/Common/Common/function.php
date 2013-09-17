@@ -276,7 +276,7 @@ function hooks($hook, $params = array()) {
                     if(method_exists($addons_class, $hook) && $config['status'] == 1)
                         $addons_class->$hook($params);
                 } else {
-                    E("插件 {$name} 入口文件不存在");
+                    trace("插件 {$name} 入口文件不存在",'ADDONS','ERR');
                 }
 
             }
@@ -295,7 +295,8 @@ function hooks($hook, $params = array()) {
 function addons($name){
     static $_action = array();
     $class = "Addons\\{$name}\\{$name}Addons";
-    if(isset($_action[$name]))  return $_action[$name];
+    if(isset($_action[$name]))
+        return $_action[$name];
     if(class_exists($class)) {
         $action = new $class();
         $_action[$name] = $action;

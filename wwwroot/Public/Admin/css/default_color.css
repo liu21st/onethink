@@ -120,18 +120,15 @@ a:hover{
 }	
 
 /* 列表分页 */
-.page {
-    margin: 10px 0;
-    *zoom: 1;
-}
 .page a,
 .page span {
     color: #fff;
-    background-color: #696969;
+    border: 1px solid #387C0B;
+    background-color: #4bbd00;
 }
 .page a:hover,
 .page .current {
-    background-color: #a0a0a0;
+    background-color: #387C0B;
 }
 
 /* uploadify插件上传按钮 */

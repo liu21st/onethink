@@ -119,18 +119,18 @@
 .page a,
 .page span {
     float: left;
-    margin-right: 3px;
-    padding: 0 6px;
-    height: 24px;
-    line-height: 24px;
+    margin-left: -1px;
+    padding: 0 14px;
+    height: 30px;
+    line-height: 30px;
     color: #fff;
-    background-color: #696969;
+    border: 1px solid #387C0B;
+    background-color: #4bbd00;
 }
 .page a:hover,
 .page .current {
     text-decoration: none;
-    border-bottom: 0 none;
-    background-color: #a0a0a0;
+    background-color: #387C0B;
 }
 .page .next,
 .page .prev {
