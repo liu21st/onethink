@@ -188,6 +188,7 @@ class ArticleController extends \Admin\Controller\AdminController {
             $this->assign('status', $status);
             $this->assign('list',   $list);
             $this->assign('allow',  $allow_publish);
+            $this->assign('pid',    $map['pid']);
 
             $this->meta_title = '文档列表';
             $this->display();
@@ -451,25 +452,36 @@ class ArticleController extends \Admin\Controller\AdminController {
         }
     }
 
-    // 移动文档 目前只支持单条记录移动
+    /**
+     * 移动文档
+     * @author huajie <banhuajie@163.com>
+     */
     public function move() {
         if(empty($_POST['ids'])) {
             $this->error('请选择要移动的文档！');
         }
-        $_SESSION['moveArticle']    =   $_POST['ids'][0];
+        $_SESSION['moveArticle']    =   $_POST['ids'];
+        unset($_SESSION['copyArticle']);
         $this->success('请选择要移动到的分类！');
     }
 
-    // 拷贝文档 目前只支持单条记录复制
+    /**
+     * 拷贝文档
+     * @author huajie <banhuajie@163.com>
+     */
     public function copy() {
         if(empty($_POST['ids'])) {
             $this->error('请选择要复制的文档！');
         }
-        $_SESSION['copyArticle']    =   $_POST['ids'][0];
+        $_SESSION['copyArticle']    =   $_POST['ids'];
+        unset($_SESSION['moveArticle']);
         $this->success('请选择要复制到的分类！');
     }
 
-    // 粘贴文档
+    /**
+     * 粘贴文档
+     * @author huajie <banhuajie@163.com>
+     */
     public function paste() {
         if(empty($_SESSION['moveArticle']) && empty($_SESSION['copyArticle'])) {
             $this->error('没有选择文档！');
@@ -477,54 +489,95 @@ class ArticleController extends \Admin\Controller\AdminController {
         if(!isset($_POST['cate_id'])) {
             $this->error('请选择要粘贴到的分类！');
         }
-        $cate_id = I('post.cate_id');
-        if(!empty($_SESSION['moveArticle'])) {// 移动
-            // 当前分类支持的文档模型
-            $modelList =   M('Category')->getFieldById($cate_id,'model');
-            // 移动文档的所属文档模型
-            $modelType  =   M('Document')->getFieldById($_SESSION['moveArticle'],'model_id');
-            if(!in_array($modelType,explode(',',$modelList))) {
-                $this->error('分类不支持当前的文档模型！');
-            }
-            $Model              =   M('Document');
-            $map['id']          =   $_SESSION['moveArticle'];
-            $data['category_id']=   $cate_id;
-            if(false !== $Model->where($map)->save($data)){
-                unset($_SESSION['moveArticle']);
-                $this->success('文章移动成功！');
-            }else{
-                $this->error('文章移动失败！');
-            }
-        }elseif(!empty($_SESSION['copyArticle'])){ // 复制
-            // 当前分类支持的文档模型
-            $modelList =   M('Category')->getFieldById($cate_id,'model');
-            // 移动文档的所属文档模型
-            $modelType  =   M('Document')->getFieldById($_SESSION['copyArticle'],'model_id');
-            if(!in_array($modelType,explode(',',$modelList))) {
-                $this->error('分类不支持当前的文档模型！');
-            }
-            $id     =   $_SESSION['copyArticle'];
-            $Model  =   M('Document');
-            $data   =   $Model->find($id);
-            unset($data['id']);
-            $data['category_id']    =   $cate_id;
-            $data['create_time']    =   NOW_TIME;
-            $data['update_time']    =   NOW_TIME;
+        $cate_id = I('post.cate_id');	//当前分类
+        $pid = I('post.pid', 0);		//当前父类数据id
+        $moveList = $_SESSION['moveArticle'];
+        $copyList = $_SESSION['copyArticle'];
 
-            $result   =  $Model->add($data);
-            if($result){
-                $logic      =   D(get_document_model($modelType,'name'),'Logic');
-                $data       =   $logic->detail($id); //获取指定ID的数据
-                $data['id'] =   $result;
-                if($logic->add($data)){
-                    unset($_SESSION['copyArticle']);
-                    $this->success('文章复制成功！');
-                }else{
-                    $this->error('文档扩展内容复制失败！');
-                }
+        //检查所选择的数据是否符合粘贴要求
+        $check = $this->checkPaste(empty($moveList) ? $copyList : $moveList, $cate_id, $pid);
+        if(!$check['status']){
+        	$this->error($check['info']);
+        }
+
+        if(!empty($moveList)) {// 移动
+        	foreach ($moveList as $key=>$value){
+        		$Model              =   M('Document');
+        		$map['id']          =   $value;
+        		$data['category_id']=   $cate_id;
+				$data['pid'] 		=   $pid;
+				$res = $Model->where($map)->save($data);
+        	}
+        	unset($_SESSION['moveArticle']);
+        	if(false !== $res){
+        		$this->success('文章移动成功！');
+        	}else{
+        		$this->error('文章移动失败！');
+        	}
+        }elseif(!empty($copyList)){ // 复制
+            foreach ($copyList as $key=>$value){
+            	$Model  =   M('Document');
+            	$data   =   $Model->find($value);
+            	unset($data['id']);
+            	$data['category_id']    =   $cate_id;
+            	$data['pid'] 			=   $pid;
+            	$data['create_time']    =   NOW_TIME;
+            	$data['update_time']    =   NOW_TIME;
+
+            	$result   =  $Model->add($data);
+            	if($result){
+            		$logic      =   D(get_document_model($data['model_id'],'name'),'Logic');
+            		$data       =   $logic->detail($value); //获取指定ID的扩展数据
+            		$data['id'] =   $result;
+            		$res 		= 	$logic->add($data);
+            	}
+            }
+            unset($_SESSION['copyArticle']);
+            if($res){
+            	$this->success('文章复制成功！');
             }else{
-                $this->error('文章复制失败！');
+            	$this->error('文章复制失败！');
             }
         }
+    }
+
+    /**
+     * 检查数据是否符合粘贴的要求
+     * @author huajie <banhuajie@163.com>
+     */
+    protected function checkPaste($list, $cate_id, $pid){
+    	$return = array('status'=>1);
+
+    	// 检查支持的文档模型
+    	$modelList =   M('Category')->getFieldById($cate_id,'model');	// 当前分类支持的文档模型
+    	foreach ($list as $key=>$value){
+    		//不能将自己粘贴为自己的子内容
+    		if($value == $pid){
+    			$return['status'] = 0;
+    			$return['info'] = '不能将编号为 '.$value.' 的数据粘贴为他的子内容！';
+    			return $return;
+    		}
+    		// 移动文档的所属文档模型
+    		$modelType  =   M('Document')->getFieldById($value,'model_id');
+    		if(!in_array($modelType,explode(',',$modelList))) {
+    			$return['status'] = 0;
+    			$return['info'] = '当前分类的“文档模型“不支持编号为 '.$value.' 的数据！';
+    			return $return;
+    		}
+    	}
+
+    	// 检查支持的文档类型
+    	$typeList =   M('Category')->getFieldById($cate_id,'type');	// 当前分类支持的文档模型
+    	foreach ($list as $key=>$value){
+    		// 移动文档的所属文档模型
+    		$modelType  =   M('Document')->getFieldById($value,'type');
+    		if(!in_array($modelType,explode(',',$typeList))) {
+    			$return['status'] = 0;
+    			$return['info'] = '当前分类的“文档类型“不支持编号为 '.$value.' 的数据！';
+    			return $return;
+    		}
+    	}
+
+    	return $return;
     }
 }
