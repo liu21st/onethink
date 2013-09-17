@@ -169,7 +169,7 @@ class Auth{
         if (isset($_authList[$uid.$t])) {
             return $_authList[$uid.$t];
         }
-        if(isset($_SESSION['_AUTH_LIST_'.$uid.$t])){
+        if( $this->_config['AUTH_TYPE']==2 && isset($_SESSION['_AUTH_LIST_'.$uid.$t])){
             return $_SESSION['_AUTH_LIST_'.$uid.$t];
         }
 
