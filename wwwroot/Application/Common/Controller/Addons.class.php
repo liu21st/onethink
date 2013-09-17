@@ -107,8 +107,15 @@ namespace Common\Controller;
 		/**
 		 * 获取插件的配置数组
 		 */
-		final public function getConfig(){
-			$config = D('Addons')->where("name='{$this->getName()}'")->find();
+		final public function getConfig($name=''){
+			static $_config	=	array();
+			if(empty($name)){
+				$name	=	$this->getName();
+			}
+			if(isset($_config[$name])){
+				return $_config[$name];
+			}
+			$config = M('Addons')->where("name='{$name}'")->field('config,status')->find();
 			if($config['config'] && is_string($config['config'])){
 				$config['config'] = json_decode($config['config'], 1);
 			}else{
@@ -119,6 +126,7 @@ namespace Common\Controller;
 				}
 			}
 			$config['config']['status'] = $config['status'];
+			$_config[$name]	=	$config['config'];
 			return $config['config'];
 		}
 
