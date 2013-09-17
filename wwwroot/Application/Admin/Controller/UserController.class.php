@@ -57,6 +57,7 @@ class UserController extends AdminController {
     public function updateNickname(){
         $nickname = M('Member')->getFieldByUid(is_login(), 'nickname');
         $this->assign('nickname', $nickname);
+        $this->meta_title = '修改昵称';
         $this->display();
     }
 
@@ -86,6 +87,10 @@ class UserController extends AdminController {
         $res = $Member->where(array('uid'=>$uid))->save($data);
 
         if($res){
+        	$user = session('user_auth');
+        	$user['username'] = $data['nickname'];
+        	session('user_auth', $user);
+        	session('user_auth_sign', data_auth_sign($user));
             $this->success('修改昵称成功！');
         }else{
             $this->error('修改昵称失败！');
@@ -97,6 +102,7 @@ class UserController extends AdminController {
      * @author huajie <banhuajie@163.com>
      */
     public function updatePassword(){
+    	$this->meta_title = '修改密码';
         $this->display();
     }
 
