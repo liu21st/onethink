@@ -16,8 +16,7 @@ use Admin\Model\AuthGroupModel;
  */
 class AuthManagerController extends AdminController{
 
-    /* 因为updateRules要供缓存管理模块内部使用,无需通过url访问;
-     * 而delete,forbid,resume 已经通过changeStatus访问内部调用了,所以也不允许url访问 */
+    /* 因为updateRules要供缓存管理模块内部使用,无需通过url访问;*/
     static protected $deny  =   array('updateRules','tree');
 
     /* 保存允许所有管理员访问的公共方法 */
@@ -121,7 +120,6 @@ class AuthManagerController extends AdminController{
         $list = intToString($list);
         $this->assign( '_list', $list );
         $this->assign( '_use_tip', true );
-        cookie( 'auth_index',__SELF__);
         $this->meta_title = '权限管理';
         $this->display();
     }
@@ -238,11 +236,13 @@ class AuthManagerController extends AdminController{
         $prefix   = C('DB_PREFIX');
         $l_table  = $prefix.(AuthGroupModel::MEMBER);
         $r_table  = $prefix.(AuthGroupModel::AUTH_GROUP_ACCESS);
-        $list     = M() ->field('m.uid,m.nickname,m.last_login_time,m.last_login_ip,m.status')
-                       ->table($l_table.' m')
-                       ->join($r_table.' a ON m.uid=a.uid');
+        $list     = M()->field( 'm.uid,m.nickname,m.last_login_time,m.last_login_ip,m.status' )
+                       ->table( $l_table.' m' )
+                       ->where( array('a.group_id'=>$group_id,'m.status'=>array('egt',0)) )
+                       ->order( 'm.uid asc')
+                       ->join ( $r_table.' a ON m.uid=a.uid' );
         $_REQUEST = array();
-        $list = $this->lists($list,array('a.group_id'=>$group_id,'m.status'=>array('egt',0)),'m.uid asc',array());
+        $list = $this->lists($list,null,null,null);
         intToString($list);
         $this->assign( '_list',     $list );
         $this->assign('auth_group', $auth_group);
