@@ -40,22 +40,32 @@
 					<else />
 					<ul id="sortUl" class="dragsort">
 						<volist name=":explode(',',$data['addons'])" id="addons_vo">
-							<li class="getSort">{$addons_vo}</li>
+							<li class="getSort"><b>&times;</b><em>{$addons_vo}</em></li>
 						</volist>
 					</ul>
 					<script type="text/javascript">
 						$(function(){
-							 $("#sortUl").dragsort({
+							$("#sortUl").dragsort({
 	                            dragSelector:'li',
 	                            placeHolderTemplate: '<li class="draging-place">&nbsp;</li>',
 	                            dragEnd:function(){
-	                            	var sortVal = [];
-	                            	$('#sortUl li').each(function(){
-	                            		sortVal.push($(this).text());
-	                            	});
-	                                $("input[name='addons']").val(sortVal.join(','));
+	                            	updateVal();
 	                            }
 	                        });
+
+							$('#sortUl li b').click(function(){
+                            	$(this).parent().remove();
+                            	updateVal();
+                            });
+
+							// 更新排序后的隐藏域的值
+	                        function updateVal() {
+	                        	var sortVal = [];
+                            	$('#sortUl li').each(function(){
+                            		sortVal.push($('em',this).text());
+                            	});
+                                $("input[name='addons']").val(sortVal.join(','));
+	                        } 
 						})
 					</script>
 					</empty>

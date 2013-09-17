@@ -602,10 +602,24 @@ body{
     border: 1px solid #eee;
     background-color: #fff;
 }
+.dragsort li em {
+    font-style: normal;
+}
+.dragsort li b {
+    display: none;
+    float: right;   
+    padding: 0 6px;
+    font-weight: bold;
+    color: #000;
+}
+.dragsort li:hover b {
+    display: block;
+}
 .dragsort .draging-place {
     border-style: dashed;
     border-color: #ccc;
 }
+
 
 .thinkbox-content{
     padding: 15px;
