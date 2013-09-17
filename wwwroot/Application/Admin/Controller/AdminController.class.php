@@ -548,6 +548,7 @@ class AdminController extends Controller {
         }
         $p =$page->show();
         $this->assign('_page', $p? $p: '');
+        $this->assign('_total',$total);
         $options['limit'] = $page->firstRow.','.$page->listRows;
 
         $model->setProperty('options',$options);
