@@ -55,7 +55,7 @@ class AdminController extends Controller {
     );
 
     private $uid        =   null;//保存登陆用户的uid
-    private $root_user  =   null;   //保存超级管理员用户id;
+    private $root_user  =   null;   //保存超级管理员身份验证结果
 
     protected $nav      =   array();
 
@@ -64,6 +64,7 @@ class AdminController extends Controller {
         if( !$this->uid ){
             $this->redirect('Admin/Index/login');
         }
+
         $this->root_user    =   is_administrator();
         $ac                 =   $this->accessControl();
         if ( $ac===false ) {
