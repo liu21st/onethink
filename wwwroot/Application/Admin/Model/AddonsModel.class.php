@@ -54,14 +54,18 @@ class AddonsModel extends Model {
 		$where['name']	=	array('in',$dirs);
 		$list			=	$this->where($where)->field(true)->select();
 		foreach($list as $addon){
-			$addon['uninstall'] = 0;
+			$addon['uninstall']		=	0;
 			$addons[$addon['name']]	=	$addon;
 		}
         foreach ($dirs as $value) {
             if(!isset($addons[$value])){
-				$obj	=	addons($value);
-				$info	=	$obj->info;
-				if($info){
+				$obj			=	addons($value);
+				if(!$obj){ // 实例化插件失败忽略执行
+					\Think\Log::record('插件'.$value.'的入口文件不存在！');
+					continue;
+				}
+				$addons[$value]	=	$obj->info;
+				if($addons[$value]){
 					$addons[$value]['uninstall']	=	1;
 				}
 			}
