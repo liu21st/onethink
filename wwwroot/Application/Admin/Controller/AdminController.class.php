@@ -84,7 +84,7 @@ class AdminController extends Controller {
         $this->checkNodes();
 
         /* 读取配置 */
-        $config = D('Config')->();
+        $config = D('Config')->lists();
         C($config); //添加配置
     }
 
