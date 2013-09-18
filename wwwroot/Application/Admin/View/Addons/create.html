@@ -170,7 +170,7 @@ return array(
 							height		  :500,
 							enterMode     :"keep",
 							tabMode       :"shift",
-							theme: "{:C('codemirror_theme')}",
+							theme: "{:C('codemirror_theme')}"
 						};
 						var preview_window = $("#preview_window").removeClass(".loading").find("textarea");
 						var editor = CodeMirror.fromTextArea(preview_window[0], codemirror_option);
@@ -181,7 +181,7 @@ return array(
 					title:'预览插件主文件',
 					unload: true,
 					actions:['close'],
-					drag:true,
+					drag:true
 				});
 			});
 			return false;
