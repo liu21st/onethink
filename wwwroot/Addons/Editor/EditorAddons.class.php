@@ -44,4 +44,14 @@ use Common\Controller\Addons;
 			$this->display('content');
 		}
 
+		/**
+		 * 讨论提交的钩子使用编辑器插件扩展
+		 * @param array('name'=>'表单name','value'=>'表单对应的值')
+		 */
+		public function topicComment ($data){
+			$this->assign('addons_data', $data);
+			$this->assign('addons_config', $this->getConfig());
+			$this->display('content');
+		}
+
 	}

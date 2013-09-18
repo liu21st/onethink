@@ -28,7 +28,7 @@
         ================================================== -->
         <section id="contents">{$info.content}</section>
         <hr/>
-	
+
 		<article:childlist id="$info['id']" name="childlist">
 			<div>
 				<div>{$i*$page}楼</div>
@@ -47,10 +47,11 @@
 				<input type="hidden" name="pid" value="{$info.id}">
 				<input type="hidden" name="type" value="3">
 				<input type="hidden" name="parse" value="0">
-            	<div> 
+            	<div>
             	    <button class="btn">发表回复</button>
             	</div>
             </form>
+            {:hooks('topicComment', array('name'=>'content'))}
         </div>
     </div>
 </block>
