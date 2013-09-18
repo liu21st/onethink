@@ -191,7 +191,7 @@ class DocumentModel extends Model{
 	 * @return array
 	 */
 	public function child($id, $page = 1, $field = true, $logic = true){
-		$map  = array('status' => 1, 'type' => 3, 'pid' => $id);
+		$map  = array('status' => 1, 'pid' => $id);
 		$info = $this->field($field)->where($map)->page($page, 10)->order('id')->select();
 		if(!$info) {
 			$this->error = '该文档没有子内容！';
@@ -227,7 +227,7 @@ class DocumentModel extends Model{
 	 * @return number     总数
 	 */
 	public function childCount($id){
-		$map = array('status' => 1, 'type' => 3, 'pid' => $id);
+		$map = array('status' => 1, 'pid' => $id);
 		return $this->where($map)->count('id');
 	}
 
