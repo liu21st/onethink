@@ -1,5 +1,5 @@
 /** 
- * 描述：重置页面元素并设置布局样式
+ * 描述：重置页面元素并基础样式
  * 作用范围： 全局
  */
 
@@ -48,6 +48,7 @@ input::-moz-focus-inner {
     border: 0;
     padding: 0;
 }
+
 /* 布局样式 */
 .cf,.nav,.container-span {
 	*zoom: 1;
@@ -63,6 +64,12 @@ input::-moz-focus-inner {
 .container-span:after {
 	clear: both;
 }
+.fl{
+	float: left!important;
+}
+.fr{
+	float: right!important;
+}
 .wrapper {
 	margin-left: auto;
 	margin-right: auto;
@@ -73,6 +80,9 @@ input::-moz-focus-inner {
 }
 .block {
 	display: block!important;
+}
+.fixed{
+    position: fixed!important;
 }
 .container-span [class^="span"] {
 	margin: 0 1% 20px;
@@ -93,6 +103,19 @@ input::-moz-focus-inner {
     width: 98%;
 }
 
+/* 排版样式 */
+.text-center{
+	text-align: center!important;
+}
+
+.text-right{
+	text-align: right!important;
+}
+
+.text-left{
+	text-align: left!important;
+}
+
 /* 导航列表 */
 .nav li {
 	float: left;
@@ -105,26 +128,4 @@ input::-moz-focus-inner {
 	text-decoration: none;
 	outline: none;
 	border-bottom: 0 none;
-}
-.fl{
-	float: left!important;
-}
-.fr{
-	float: right!important;
-}
-
-.fixed{
-    position: fixed!important;
-}
-
-.text-center{
-	text-align: center!important;
-}
-
-.text-right{
-	text-align: right!important;
-}
-
-.text-left{
-	text-align: left!important;
 }
