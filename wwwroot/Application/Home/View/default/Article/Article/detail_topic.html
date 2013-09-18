@@ -38,12 +38,14 @@
         <hr/>
 	
 		<article:childlist id="$info['id']" name="childlist">
-			<div>
-				<div>{$i*$page}楼</div>
-				<a href="javascript:;">{$childlist.uid|get_username}</a>
-				<span>发表于 {$childlist.create_time|date='Y/m/d',###}</span>
+			<div class="clearfix">
+				<div class="pull-left clearfix">{$i*$page}楼</div>
+                <div class="pull-right clearfix">
+                    <a href="javascript:;">{$childlist.uid|get_username}</a>
+                    <span>发表于 {$childlist.create_time|date='Y/m/d',###}</span>
+                </div>
 			</div>
-			<section id="contents">{$childlist.content}</section>
+			<p>{$childlist.content}</p>
     		<hr/>
 		</article:childlist>
 		<!-- 回复表单 -->
