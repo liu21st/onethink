@@ -126,7 +126,7 @@
 			<button class="btn submit-btn" id="submit-next" type="button">下一步</button>
 			<button class="btn submit-btn ajax-post hidden" id="submit" type="submit" target-form="form-horizontal">确 定</button>
 			<a class="btn btn-return" href="{:U('article/index?cate_id='.$cate_id)}">返 回</a>
-			<if condition="ACTION_NAME eq 'add' or $info['status'] eq 3">
+			<if condition="C('OPEN_DRAFTBOX') and (ACTION_NAME eq 'add' or $info['status'] eq 3)">
 			<button class="btn save-btn" url="{:U('article/autoSave')}" target-form="form-horizontal" id="autoSave">
 				存草稿
 			</button>
@@ -223,6 +223,7 @@ $(function(){
     });
 	nextTab();
 
+	<if condition="C('OPEN_DRAFTBOX') and (ACTION_NAME eq 'add' or $info['status'] eq 3)">
 	//保存草稿
 	var interval;
 	$('#autoSave').click(function(){
@@ -260,7 +261,6 @@ $(function(){
 		}
 	});
 
-	<if condition="ACTION_NAME eq 'add' or $info['status'] eq 3">
 	//每隔一段时间保存草稿
 	function autoSaveDraft(){
 		interval = setInterval(function(){
@@ -271,7 +271,7 @@ $(function(){
 			if(title != '' || name != '' || des != ''){
 				$('#autoSave').click();
 			}
-		}, 1000*60);
+		}, 1000*parseInt({:C('AOTUSAVE_DRAFT')}));
 	}
 	autoSaveDraft();
 
