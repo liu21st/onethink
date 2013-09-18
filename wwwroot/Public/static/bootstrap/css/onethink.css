@@ -162,3 +162,8 @@ form .ke-container{
     padding: 11px 14px;
     border: 1px solid #e5e5e5;
 }
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
