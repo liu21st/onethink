@@ -13,7 +13,7 @@
  */
 return array(
     /* 数据缓存设置 */
-    'DATA_CACHE_PREFIX' => 'onethink/', // 缓存前缀
+    'DATA_CACHE_PREFIX' => 'onethink_', // 缓存前缀
     'DATA_CACHE_TYPE'   => 'File', // 数据缓存类型
 
     'codemirror_theme'=>'ambiance',
