@@ -187,7 +187,7 @@ body{
     background: url(../images/subnav_current.png) no-repeat 165px 12px #f6f6f6;
 }
 
-/* windows开始菜单式子菜单 */
+/* 子菜单 */
 .side-sub-menu li .subitem {
     display: none;
     position: absolute;
@@ -453,44 +453,6 @@ body{
     filter: alpha(opacity=40);
 }
 
-/* 后台首页 */
-.columns {
-    margin-bottom: 30px;
-}
-.columns .hd {
-    padding: 0 10px;
-    height: 35px;
-    line-height: 35px;
-    font-weight: bold;
-    color: #0f62b5;
-    background-color: #f5f5f5;
-}
-.columns .manager-list {
-    margin: 10px 4px 0 0;
-}
-.columns .manager-list li {
-    margin-right: 20px;
-    float: left;
-    color: #4169e1;
-}
-.columns .sys-info {
-    width: 100%;
-}
-.columns .sys-info li {
-    line-height: 35px;
-    border-bottom: 1px solid #f0f0f0;
-}
-.columns .sys-info .labs {
-    float: left;
-    padding-left: 5px;
-    width: 195px;
-    height: 35px;  
-}
-.columns .sys-info .des {
-    overflow: hidden;
-    *zoom: 1;
-}
-
 .member-form {
     display: none;
     width: 360px;
@@ -619,33 +581,6 @@ body{
 .dragsort .draging-place {
     border-style: dashed;
     border-color: #ccc;
-}
-
-
-.thinkbox-content{
-    padding: 15px;
-    min-width: 100px;
-}
-.thinkbox-default .thinkbox-tools {
-    border:none!important; 
-    background-color: #fff!important;
-}
-.thinkbox-default .thinkbox-top-left {
-    border-radius: 0!important;
-}
-.thinkbox-default .thinkbox-top-right {
-    border-radius: 0!important;
-}
-.thinkbox-default .thinkbox-bottom-left {
-    border-radius: 0!important;
-}
-.thinkbox-default .thinkbox-bottom-right {
-    border-radius: 0!important;
-}
-.thinkbox-default .thinkbox-window-actions button {
-    margin-right: 6px!important;
-    /* background-image:none!important; */
-    /* background-color:#dd0000!important; */
 }
 
 /* 版权信息 */
