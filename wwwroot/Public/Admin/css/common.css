@@ -80,8 +80,8 @@ button.close {
 }
 .alert-success {
     color: #468847;
-    background-color: #dff0d8;
-    border-color: #CCFF99;
+    background-color: #CCFF99;
+    border-color: #eed3d7;
 }
 #top-alert {
     display: block;
