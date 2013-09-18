@@ -44,7 +44,7 @@
     </div>
 
     <!-- 主体 -->
-    <div id="indexMain" class="index-main ">
+    <div id="indexMain" class="index-main">
        <!-- 插件块 -->
        <div class="container-span">{:hooks('AdminIndex')}</div>
     </div>
@@ -58,7 +58,7 @@
         +function(){
             var $window = $(window);
             $window.resize(function(){
-                $("#indexMain").css("min-height", $window.height() - 90);
+                $("#indexMain").css("min-height", $window.height() - 120);
             }).resize();
 
             /* 头部管理员菜单 */
