@@ -421,7 +421,7 @@ class ArticleController extends \Admin\Controller\AdminController {
             $map['create_time'][] = array('elt',24*60*60 + strtotime(I('time-end')));
 
         }
-        $list = $this->lists($Document,$map);
+        $list = $this->lists($Document,$map,'update_time desc');
         intToString($list);
 
         $this->assign('list', $list);
