@@ -846,7 +846,7 @@ function U($url='',$vars='',$suffix=true,$redirect=false,$domain=false) {
     }
 
     if(C('URL_MODEL') == 0) { // 普通模式URL转换
-        $url        =   __APP__.'/'.$module.'?'.http_build_query(array_reverse($var));
+        $url        =   __APP__.'?'.C('VAR_MODULE').'='.$module.'&'.http_build_query(array_reverse($var));
         if(!empty($vars)) {
             $vars   =   urldecode(http_build_query($vars));
             $url   .=   '&'.$vars;
