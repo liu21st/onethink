@@ -1,0 +1,67 @@
+<extend name="Base/common"/>
+
+<block name="header">
+    <header class="jumbotron subhead" id="overview">
+		<div class="container">
+			<h2>{$info.title}</h2>
+			<p>
+				<span  class="pull-left">
+					<span class="author">{$info.uid|get_username}</span>
+					<span> 发表于 {$info.create_time|date='Y-m-d H:i:s',###}</span>
+				</span>
+				<span class="pull-right">
+					<article:prev name="prev" info="info">
+                        <a href="{:U('?id='.$prev['id'])}">上一篇</a>
+                    </article:prev>
+                    <article:next name="next" info="info">
+                        <a href="{:U('?id='.$next['id'])}">下一篇</a>
+                    </article:next>
+				</span>
+			</p>
+		</div>
+	</header>
+</block>
+
+<block name="body">
+      <div class="span9">
+        <!-- Contents
+        ================================================== -->
+        <section id="contents">{$info.content}</section>
+        <hr/>
+
+        <!-- 评论列表 -->
+        <ul class="media-list">
+            <li class="media">
+                <a class="pull-left" href=""><img class="media-object" src="__IMG__/64x64.gif" alt=""></a>
+                <div class="media-body">
+                    <h4 class="media-heading">administrator</h4>
+                    <p>美利坚人类的希望!</p>
+                    <div class="media">
+                        <a class="pull-left" href=""><img class="media-object" src="__IMG__/64x64.gif" alt=""></a>
+                        <div class="media-body">
+                            <h4 class="media-heading">dddd</h4>
+                            <p>什么啊</p>
+                            <div class="media">
+                                <a class="pull-left" href=""><img class="media-object" src="__IMG__/64x64.gif" alt=""></a>
+                                <div class="media-body">
+                                    <h4 class="media-heading">小李</h4>
+                                    <p>没什么</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <!-- 评论表单 -->
+        <div class="control-group">
+            <textarea name="" rows="5" class="span9"> </textarea>
+            <div> 
+                <button class="btn">发表评论</button>
+            </div>
+        </div>
+
+
+    </div>
+</block>
