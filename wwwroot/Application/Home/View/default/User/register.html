@@ -48,7 +48,7 @@
             <div class="controls">
                 <img class="verifyimg reloadverify" alt="点击切换" src="{:U('verify')}" style="cursor:pointer;">
             </div>
-            <div class="controls Validform_checktip"></div>
+            <div class="controls Validform_checktip text-warning"></div>
           </div>
           <div class="control-group">
             <div class="controls">
@@ -64,6 +64,31 @@
 <block name="side"> </block>
 <block name="script">
 	<script type="text/javascript">
+    	$(document)
+	    	.ajaxStart(function(){
+	    		$("button:submit").addClass("log-in").attr("disabled", true);
+	    	})
+	    	.ajaxStop(function(){
+	    		$("button:submit").removeClass("log-in").attr("disabled", false);
+	    	});
+
+
+    	$("form").submit(function(){
+    		var self = $(this);
+    		$.post(self.attr("action"), self.serialize(), success, "json");
+    		return false;
+
+    		function success(data){
+    			if(data.status){
+    				window.location.href = data.url;
+    			} else {
+    				self.find(".Validform_checktip").text(data.info);
+    				//刷新验证码
+    				$(".reloadverify").click();
+    			}
+    		}
+    	});
+
 		$(function(){
 			//刷新验证码
 			var verifyimg = $(".verifyimg").attr("src");
