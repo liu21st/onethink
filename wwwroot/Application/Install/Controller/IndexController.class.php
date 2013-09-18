@@ -12,7 +12,7 @@ use Think\Controller;
 
 class IndexController extends Controller{
 	//安装首页
-	public function index(){
+	public function index(){ 
 		if(is_file(MODULE_PATH . 'Data/install.lock')){
 			$this->error('已经成功安装了OneThink，请不要重复安装!', U('Index/index'));
 		}

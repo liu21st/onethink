@@ -930,16 +930,6 @@ CREATE TABLE `think_ucenter_member` (
 ) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
--- Records of think_ucenter_member
--- ----------------------------
-INSERT INTO `think_ucenter_member` VALUES ('1', 'administrator', '7a58d2d679476c86911cfa65882ae430', 'zuojiazi@vip.qq.com', '', '1378981217', '2130706433', '1379155532', '2130706433', '1378981217', '1');
-INSERT INTO `think_ucenter_member` VALUES ('9', '麦当苗儿', '88caaf09d9c65cafc1191859c17ad36c', 'zuojiazi.cn@gmail.com', '', '1369721426', '2130706433', '1371192515', '2130706433', '1369721426', '1');
-INSERT INTO `think_ucenter_member` VALUES ('10', 'thinkphp', '525fd9a1ae3a25ec9b2a6650a18a4829', 'thinkphp@qq.com', '', '1374043813', '3232235922', '1379041194', '2130706433', '1374043813', '1');
-INSERT INTO `think_ucenter_member` VALUES ('11', 'yangweijie', '7a58d2d679476c86911cfa65882ae430', '917647288@qq.com', '', '1378980320', '2130706433', '1379126003', '2130706433', '1378980320', '1');
-INSERT INTO `think_ucenter_member` VALUES ('12', 'thinkphphj', '65d185d7fd782d23dfd06bcc1aa467c8', 'huajie@topthink.net', '', '1378963725', '2130706433', '1379122955', '2130706433', '1378963725', '1');
-INSERT INTO `think_ucenter_member` VALUES ('13', 'zhuyajie', 'a2729f2c2d69f110e5eef7f36714c44c', 'zhuyajie@topthink.net', '', '1377484440', '2130706433', '1378440293', '2130706433', '1377484440', '1');
-
--- ----------------------------
 -- Table structure for `think_ucenter_setting`
 -- ----------------------------
 DROP TABLE IF EXISTS `think_ucenter_setting`;

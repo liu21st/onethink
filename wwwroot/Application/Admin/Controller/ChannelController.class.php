@@ -50,7 +50,7 @@ class ChannelController extends AdminController {
             if($data){
 
                 if($Channel->add()){
-                    $this->success('新增成功', U('channel'));
+                    $this->success('新增成功', U('index'));
                 } else {
                     $this->error('新增失败');
                 }
@@ -73,7 +73,7 @@ class ChannelController extends AdminController {
             $data = $Channel->create();
             if($data){
                 if($Channel->save()){
-                    $this->success('编辑成功', U('channel'));
+                    $this->success('编辑成功', U('index'));
                 } else {
                     $this->error('编辑失败');
                 }
