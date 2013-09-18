@@ -1,0 +1,51 @@
+<extend name="Base/common"/>
+
+<block name="header">
+	<header class="jumbotron subhead" id="overview">
+		<div class="container">
+			<h2>发表话题</h2>
+			<p class="lead"></p>
+		</div>
+	</header>
+</block>
+
+<block name="side">
+<!-- 左侧 nav
+================================================== -->
+  <!-- <div class="span3 bs-docs-sidebar"> -->
+  <!-- </div> -->
+</block>
+<block name="body">
+      <div class="span12">
+        <!-- Contents
+        ================================================== -->
+        <section id="contents" class="onethink add-topic">
+            <form class="form-horizontal" action="{:U('Article/save')}" method="post">
+              <div class="control-group">
+                <label class="control-label" for="topic-title">标题</label>
+                <div class="controls">
+                  <input type="text" name="title" placeholder="请输入标题" class="span3">
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="topic-content">内容</label>
+                <div class="controls">
+                    <textarea name="content" id="content" row="10">{$info['content']}</textarea>
+					<input type="hidden" name="parse" value="0">
+	        		{:hooks('documentEditFormContent', array('name'=>'content','value'=>$info['content']))}
+                </div>
+              </div>
+              <div class="control-group">
+                <div class="controls">
+                	<input type="hidden" name="pid" value="0">
+                    <input type="hidden" name="type" value="2">
+                    <input type="hidden" name="category_id" value="{$category.id}">
+                    <input type="hidden" name="model_id" value="{$info.model_id}">
+                  	<button type="submit" class="btn">发 表</button>
+                </div>
+              </div>
+            </form>
+        </section>
+      </div>
+    </div>
+</block>

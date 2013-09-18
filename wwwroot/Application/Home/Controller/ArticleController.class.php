@@ -169,7 +169,7 @@ class ArticleController extends HomeController {
 			$param = array($status, $category);
 			hooks('documentSaveComplete', $param);
 
-			$this->success('保存成功！');
+			$this->success('保存成功！', U('Article/lists?category='.$category['name']));
 		} else {
 			$this->error($Document->getError());
 		}
