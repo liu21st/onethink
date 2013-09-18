@@ -1,13 +1,13 @@
 <volist name="category" id="cate">
 	<eq name="current" value="$cate['id']">
 		<li class="active">
-			<a href="{:U('lists?category='.$cate['name'])}">
+			<a href="{:U('Article/lists?category='.$cate['name'])}">
 				<i class="icon-chevron-right"></i>{$cate.title}
 			</a>
 		</li>
 	<else/>
 		<li>
-			<a href="{:U('lists?category='.$cate['name'])}">
+			<a href="{:U('Article/lists?category='.$cate['name'])}">
 				<i class="icon-chevron-right"></i>{$cate.title}
 			</a>
 		</li>
