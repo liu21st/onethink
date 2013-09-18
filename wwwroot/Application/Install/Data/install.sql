@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50520
 File Encoding         : 65001
 
-Date: 2013-09-14 19:39:51
+Date: 2013-09-18 10:45:59
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -53,7 +53,7 @@ CREATE TABLE `think_action_log` (
   KEY `action_id_ix` (`action_id`) USING BTREE,
   KEY `user_id_ix` (`user_id`) USING BTREE,
   KEY `action_ip_ix` (`action_ip`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=62 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='行为日志表';
+) ENGINE=MyISAM AUTO_INCREMENT=70 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='行为日志表';
 
 -- ----------------------------
 -- Records of think_action_log
@@ -78,6 +78,14 @@ INSERT INTO `think_action_log` VALUES ('58', '1', '11', '2130706433', 'member', 
 INSERT INTO `think_action_log` VALUES ('59', '1', '1', '2130706433', 'member', '1', '1378888427');
 INSERT INTO `think_action_log` VALUES ('60', '1', '11', '2130706433', 'member', '11', '1378977765');
 INSERT INTO `think_action_log` VALUES ('61', '1', '11', '2130706433', 'member', '11', '1379126003');
+INSERT INTO `think_action_log` VALUES ('62', '1', '1', '2130706433', 'member', '1', '1379297819');
+INSERT INTO `think_action_log` VALUES ('63', '1', '11', '2130706433', 'member', '11', '1379301611');
+INSERT INTO `think_action_log` VALUES ('64', '1', '11', '2130706433', 'member', '11', '1379315962');
+INSERT INTO `think_action_log` VALUES ('65', '1', '11', '2130706433', 'member', '11', '1379322408');
+INSERT INTO `think_action_log` VALUES ('66', '1', '13', '2130706433', 'member', '13', '1379407403');
+INSERT INTO `think_action_log` VALUES ('67', '1', '13', '2130706433', 'member', '13', '1379407474');
+INSERT INTO `think_action_log` VALUES ('68', '1', '13', '2130706433', 'member', '13', '1379407502');
+INSERT INTO `think_action_log` VALUES ('69', '1', '13', '2130706433', 'member', '13', '1379407553');
 
 -- ----------------------------
 -- Table structure for `think_addons`
@@ -93,21 +101,22 @@ CREATE TABLE `think_addons` (
   `author` varchar(40) DEFAULT NULL COMMENT '作者',
   `version` varchar(20) DEFAULT NULL COMMENT '版本号',
   `create_time` int(10) unsigned NOT NULL COMMENT '安装时间',
+  `has_adminlist` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '1-有后台列表 0-无后台列表',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8 COMMENT='插件表';
+) ENGINE=MyISAM AUTO_INCREMENT=103 DEFAULT CHARSET=utf8 COMMENT='插件表';
 
 -- ----------------------------
 -- Records of think_addons
 -- ----------------------------
-INSERT INTO `think_addons` VALUES ('39', 'AdaptiveImages', '手机端响应式图片处理', '通过检测手机的宽度，在小设备访问图片时返回合适尺寸的小图片，到小尺寸设备达到图片响应式。', '1', '{\"resolutions\":\"1382,992,768,480\",\"cache_path\":\".\\/Public\\/ai-cache\",\"jpg_quality\":\"75\",\"sharpen\":\"0\",\"watch_cache\":\"0\",\"browser_cache\":\"604800\"}', 'thinkphp', '0.1', '1378450898');
-INSERT INTO `think_addons` VALUES ('54', 'Editor', '前台编辑器', '用于增强整站长文本的输入和显示', '1', '{\"editor_type\":\"2\",\"editor_wysiwyg\":\"1\",\"editor_height\":\"500px\",\"editor_resize_type\":\"1\"}', 'thinkphp', '0.1', '1378891635');
-INSERT INTO `think_addons` VALUES ('55', 'Editor', '前台编辑器', '用于增强整站长文本的输入和显示', '1', '{\"editor_type\":\"1\",\"editor_wysiwyg\":null,\"editor_height\":\"500px\",\"status\":\"1\"}', 'thinkphp', '0.1', '1378891638');
-INSERT INTO `think_addons` VALUES ('56', 'EditorForAdmin', '后台编辑器', '用于增强整站长文本的输入和显示', '1', '{\"editor_type\":\"2\",\"editor_wysiwyg\":\"1\",\"editor_height\":\"220px\",\"editor_resize_type\":\"1\"}', 'thinkphp', '0.1', '1378891657');
-INSERT INTO `think_addons` VALUES ('61', 'SocialComment', '通用社交化评论', '集成了各种社交化评论插件，轻松集成到系统中。', '1', '{\"comment_type\":\"1\",\"comment_uid_youyan\":\"900400\",\"comment_short_name_duoshuo\":\"\",\"comment_form_pos_duoshuo\":\"top\",\"comment_data_list_duoshuo\":\"10\",\"comment_data_order_duoshuo\":\"asc\"}', 'thinkphp', '0.1', '1378950537');
-INSERT INTO `think_addons` VALUES ('62', 'ReturnTop', '返回顶部', '回到顶部美化，随机或指定显示，100款样式，每天一种换，天天都用新样式', '1', '{\"random\":\"0\",\"current\":\"80\"}', 'thinkphp', '0.1', '1378975837');
-INSERT INTO `think_addons` VALUES ('64', 'Attachment', '附件', '用于文档模型上传附件', '1', '\"\"', 'thinkphp', '0.1', '1378979865');
-INSERT INTO `think_addons` VALUES ('65', 'SystemInfo', '系统环境信息', '用于显示一些服务器的信息', '1', '{\"title\":\"\\u7cfb\\u7edf\\u4fe1\\u606f\",\"width\":\"2\",\"display\":\"1\"}', 'thinkphp', '0.1', '1379155235');
-INSERT INTO `think_addons` VALUES ('66', 'DevTeam', '开发团队信息', '开发团队成员信息', '1', '{\"title\":\"OneThink\\u5f00\\u53d1\\u56e2\\u961f\",\"width\":\"2\",\"display\":\"1\"}', 'thinkphp', '0.1', '1379155999');
+INSERT INTO `think_addons` VALUES ('39', 'AdaptiveImages', '手机端响应式图片处理', '通过检测手机的宽度，在小设备访问图片时返回合适尺寸的小图片，到小尺寸设备达到图片响应式。', '1', '{\"resolutions\":\"1382,992,768,480\",\"cache_path\":\".\\/Uploads\\/ai-cache\",\"jpg_quality\":\"75\",\"sharpen\":\"0\",\"watch_cache\":\"0\",\"browser_cache\":\"604800\"}', 'thinkphp', '0.1', '1378450898', '0');
+INSERT INTO `think_addons` VALUES ('56', 'EditorForAdmin', '后台编辑器', '用于增强整站长文本的输入和显示', '1', '{\"editor_type\":\"2\",\"editor_wysiwyg\":\"2\",\"editor_height\":\"220px\",\"editor_resize_type\":\"1\"}', 'thinkphp', '0.1', '1378891657', '0');
+INSERT INTO `think_addons` VALUES ('61', 'SocialComment', '通用社交化评论', '集成了各种社交化评论插件，轻松集成到系统中。', '1', '{\"comment_type\":\"1\",\"comment_uid_youyan\":\"900400\",\"comment_short_name_duoshuo\":\"\",\"comment_form_pos_duoshuo\":\"top\",\"comment_data_list_duoshuo\":\"10\",\"comment_data_order_duoshuo\":\"asc\"}', 'thinkphp', '0.1', '1378950537', '0');
+INSERT INTO `think_addons` VALUES ('67', 'Editor', '前台编辑器', '用于增强整站长文本的输入和显示', '1', '{\"editor_type\":\"4\",\"editor_wysiwyg\":\"1\",\"editor_height\":\"500px\",\"editor_resize_type\":\"1\"}', 'thinkphp', '0.1', '1379322941', '0');
+INSERT INTO `think_addons` VALUES ('92', 'DevTeam', '开发团队信息', '开发团队成员信息', '1', '{\"title\":\"OneThink\\u5f00\\u53d1\\u56e2\\u961f\",\"width\":\"2\",\"display\":\"1\"}', 'thinkphp', '0.1', '1379392499', '0');
+INSERT INTO `think_addons` VALUES ('93', 'SystemInfo', '系统环境信息', '用于显示一些服务器的信息', '1', '{\"title\":\"\\u7cfb\\u7edf\\u4fe1\\u606f\",\"width\":\"2\",\"display\":\"1\"}', 'thinkphp', '0.1', '1379392602', '0');
+INSERT INTO `think_addons` VALUES ('97', 'SiteStat', '站点统计信息', '统计站点的基础信息', '1', '{\"title\":\"\\u7cfb\\u7edf\\u4fe1\\u606f\",\"width\":\"1\",\"display\":\"1\"}', 'thinkphp', '0.1', '1379401954', '0');
+INSERT INTO `think_addons` VALUES ('101', 'Attachment', '附件', '用于文档模型上传附件', '1', '{\"status\":\"1\"}', 'thinkphp', '0.1', '1379404518', '1');
+INSERT INTO `think_addons` VALUES ('102', 'ReturnTop', '返回顶部', '回到顶部美化，随机或指定显示，100款样式，每天一种换，天天都用新样式', '1', '{\"random\":\"0\",\"current\":\"82\"}', 'thinkphp', '0.1', '1379409912', '0');
 
 -- ----------------------------
 -- Table structure for `think_attachment`
@@ -209,7 +218,7 @@ CREATE TABLE `think_auth_group` (
 -- ----------------------------
 -- Records of think_auth_group
 -- ----------------------------
-INSERT INTO `think_auth_group` VALUES ('1', 'admin', '1', '管理员', 'id为1的用户组222aa', '1', '1,2,3,4,13,14,25,26,28,29,31,32,33,34,36,37,38,39,40,41,42,43,44,45,46,47,48,50,52,53,54,55,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,91,92,93,94,95,97');
+INSERT INTO `think_auth_group` VALUES ('1', 'admin', '1', '管理员', 'id为1的用户组222aa', '1', '1,2,3,4,13,14,25,26,27,28,29,31,33,34,36,37,38,39,40,41,42,43,44,45,46,47,48,50,52,53,54,55,57,58,59,60,61,62,63,64,65,66,67,68,69,70,72,73,74,75,76,77,78,79,80,81,82,83,92,93,95,97,98,99,100,101,103,104');
 INSERT INTO `think_auth_group` VALUES ('5', 'admin', '1', '内容管理员', '111111111111', '1', '1,2,31,32,57,58,59,68,69,70,83,87,88,89,90');
 INSERT INTO `think_auth_group` VALUES ('6', 'admin', '1', '测试', '测试', '1', '1,2,3,4,13,14,25,26,27,28,29,32,33,36,37,38,39,40,41,42,57,58,59,60,61,62,63,68,72,75');
 INSERT INTO `think_auth_group` VALUES ('7', 'admin', '1', 'aaabbb', 'aaaaaa', '1', '13,25,26,27,28,33,36,37,38,39,40,41,42,72,75');
@@ -239,6 +248,7 @@ INSERT INTO `think_auth_group_access` VALUES ('11', '6');
 INSERT INTO `think_auth_group_access` VALUES ('11', '7');
 INSERT INTO `think_auth_group_access` VALUES ('12', '1');
 INSERT INTO `think_auth_group_access` VALUES ('13', '1');
+INSERT INTO `think_auth_group_access` VALUES ('13', '6');
 
 -- ----------------------------
 -- Table structure for `think_auth_rule`
@@ -254,7 +264,7 @@ CREATE TABLE `think_auth_rule` (
   `condition` varchar(300) NOT NULL DEFAULT '' COMMENT '规则附加条件',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`module`,`name`,`type`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=98 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=105 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of think_auth_rule
@@ -290,7 +300,7 @@ INSERT INTO `think_auth_rule` VALUES ('28', 'admin', '1', 'Admin/AuthManager/cha
 INSERT INTO `think_auth_rule` VALUES ('29', 'admin', '1', 'Admin/User/action', '用户行为', '1', '');
 INSERT INTO `think_auth_rule` VALUES ('30', 'admin', '1', 'Admin/User/action1', '用户行为', '-1', '');
 INSERT INTO `think_auth_rule` VALUES ('31', 'admin', '2', 'Admin/Index/index', '首页', '1', '');
-INSERT INTO `think_auth_rule` VALUES ('32', 'admin', '2', 'Admin/Article/index', '内容', '1', '');
+INSERT INTO `think_auth_rule` VALUES ('32', 'admin', '2', 'Admin/Article/index', '内容', '-1', '');
 INSERT INTO `think_auth_rule` VALUES ('33', 'admin', '2', 'Admin/User/index', '用户', '1', '');
 INSERT INTO `think_auth_rule` VALUES ('34', 'admin', '2', 'Admin/Addons/index', '扩展', '1', '');
 INSERT INTO `think_auth_rule` VALUES ('35', 'admin', '2', 'Admin/System/index', '系统', '-1', '');
@@ -329,7 +339,7 @@ INSERT INTO `think_auth_rule` VALUES ('67', 'admin', '1', 'Admin/model/update', 
 INSERT INTO `think_auth_rule` VALUES ('68', 'admin', '1', 'Admin/article/update', '保存数据', '1', '');
 INSERT INTO `think_auth_rule` VALUES ('69', 'admin', '1', 'Admin/file/upload', '上传控件', '1', '');
 INSERT INTO `think_auth_rule` VALUES ('70', 'admin', '1', 'Admin/file/download', '下载', '1', '');
-INSERT INTO `think_auth_rule` VALUES ('71', 'admin', '1', 'Admin/System/channel', '导航管理', '1', '');
+INSERT INTO `think_auth_rule` VALUES ('71', 'admin', '1', 'Admin/System/channel', '导航管理', '-1', '');
 INSERT INTO `think_auth_rule` VALUES ('72', 'admin', '1', 'Admin/AuthManager/addToCategory', '保存分类授权', '1', '');
 INSERT INTO `think_auth_rule` VALUES ('73', 'admin', '1', 'Admin/Addons/preview', '预览', '1', '');
 INSERT INTO `think_auth_rule` VALUES ('74', 'admin', '1', 'Admin/Addons/build', '快速生成插件', '1', '');
@@ -349,13 +359,20 @@ INSERT INTO `think_auth_rule` VALUES ('87', 'admin', '1', 'Admin/User/updatePass
 INSERT INTO `think_auth_rule` VALUES ('88', 'admin', '1', 'Admin/User/updateNickname', '修改昵称', '-1', '');
 INSERT INTO `think_auth_rule` VALUES ('89', 'admin', '1', 'Admin/user/submitPassword', '修改密码', '-1', '');
 INSERT INTO `think_auth_rule` VALUES ('90', 'admin', '1', 'Admin/user/submitNickname', '修改昵称', '-1', '');
-INSERT INTO `think_auth_rule` VALUES ('91', 'admin', '2', 'Admin/Config/base', '系统', '1', '');
+INSERT INTO `think_auth_rule` VALUES ('91', 'admin', '2', 'Admin/Config/base', '系统', '-1', '');
 INSERT INTO `think_auth_rule` VALUES ('92', 'admin', '1', 'Admin/Config/edit', '编辑', '1', '');
-INSERT INTO `think_auth_rule` VALUES ('93', 'admin', '1', 'Admin/Config/del', '编辑', '1', '');
-INSERT INTO `think_auth_rule` VALUES ('94', 'admin', '1', 'Admin/Config/base', '基本设置', '1', '');
+INSERT INTO `think_auth_rule` VALUES ('93', 'admin', '1', 'Admin/Config/del', '删除', '1', '');
+INSERT INTO `think_auth_rule` VALUES ('94', 'admin', '1', 'Admin/Config/base', '基本设置', '-1', '');
 INSERT INTO `think_auth_rule` VALUES ('95', 'admin', '1', 'Admin/Config/index', '配置管理', '1', '');
 INSERT INTO `think_auth_rule` VALUES ('96', 'admin', '1', 'Admin/Addons/edithookaddons', '编辑钩子页面', '-1', '');
 INSERT INTO `think_auth_rule` VALUES ('97', 'admin', '1', 'Admin/Addons/execute', 'URL方式访问插件', '1', '');
+INSERT INTO `think_auth_rule` VALUES ('98', 'admin', '2', 'Admin/Config/group', '系统', '1', '');
+INSERT INTO `think_auth_rule` VALUES ('99', 'admin', '1', 'Admin/Config/group', '网站设置', '1', '');
+INSERT INTO `think_auth_rule` VALUES ('100', 'admin', '2', 'Admin/Article/mydocument', '内容', '1', '');
+INSERT INTO `think_auth_rule` VALUES ('101', 'admin', '1', 'Admin/Channel/index', '导航管理', '1', '');
+INSERT INTO `think_auth_rule` VALUES ('102', 'admin', '1', 'Admin/article/mydocument', '我的文档', '-1', '');
+INSERT INTO `think_auth_rule` VALUES ('103', 'admin', '1', 'Admin/article/draftbox', '草稿箱', '1', '');
+INSERT INTO `think_auth_rule` VALUES ('104', 'admin', '1', 'Admin/article/autoSave', '自动保存为草稿', '1', '');
 
 -- ----------------------------
 -- Table structure for `think_category`
@@ -424,18 +441,17 @@ CREATE TABLE `think_channel` (
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of think_channel
 -- ----------------------------
 INSERT INTO `think_channel` VALUES ('1', '0', '首页', 'Index/index', '0', '1378977760', '1379149623', '1');
-INSERT INTO `think_channel` VALUES ('2', '0', '下载', 'Article/index?category=down', '0', '1378977760', '1378977760', '1');
-INSERT INTO `think_channel` VALUES ('3', '0', '扩展', 'Article/index?category=entend', '0', '1378977760', '1378977760', '1');
-INSERT INTO `think_channel` VALUES ('4', '0', '资讯', 'Article/index?category=news', '0', '1378977760', '1378977760', '1');
-INSERT INTO `think_channel` VALUES ('5', '0', '讨论', 'Article/index?category=topic', '0', '1378977760', '1378983284', '1');
-INSERT INTO `think_channel` VALUES ('6', '0', '测试', 'http://www.baidu.com', '0', '1378977760', '1378977760', '1');
-INSERT INTO `think_channel` VALUES ('7', '0', '测试s', 'http://thinkphp.cn', '10', '1378977760', '1379128215', '1');
+INSERT INTO `think_channel` VALUES ('2', '0', '产品', 'Article/index?cate_id=1', '0', '1378977760', '1379469201', '1');
+INSERT INTO `think_channel` VALUES ('3', '0', '应用', 'Article/index?cate_id=2', '0', '1378977760', '1379469269', '1');
+INSERT INTO `think_channel` VALUES ('4', '0', '社区', 'Article/index?cate_id=3', '0', '1378977760', '1379469383', '1');
+INSERT INTO `think_channel` VALUES ('5', '0', '资讯', 'Article/index?cate_id=4', '0', '1378977760', '1379469428', '1');
+INSERT INTO `think_channel` VALUES ('8', '0', 'OneThink', 'Index/onethink', '0', '1379471070', '1379471070', '1');
 
 -- ----------------------------
 -- Table structure for `think_config`
@@ -447,27 +463,32 @@ CREATE TABLE `think_config` (
   `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '配置类型（0-数字，1-字符，2-文本，3-数组，4-枚举，5-多选）',
   `title` varchar(50) NOT NULL COMMENT '配置说明',
   `group` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '配置分组（0-无分组，1-基本设置）',
-  `value` text NOT NULL COMMENT '配置值',
+  `extra` varchar(255) NOT NULL COMMENT '配置值',
   `remark` varchar(100) NOT NULL COMMENT '配置说明',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态',
+  `value` text NOT NULL,
+  `sort` smallint(3) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_name` (`name`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of think_config
 -- ----------------------------
-INSERT INTO `think_config` VALUES ('1', 'WEB_SITE_TITLE', '1', '网站标题', '0', 'OneThink内容管理框架', '网站标题前台显示标题', '1378898976', '1378898976', '1');
-INSERT INTO `think_config` VALUES ('2', 'WEB_SITE_DESCRIPTION', '1', '网站描述', '0', 'OneThink内容管理框架', '网站搜索引擎描述', '1378898976', '1379038905', '1');
-INSERT INTO `think_config` VALUES ('3', 'WEB_SITE_KEYWORD', '1', '网站关键字', '0', 'ThinkPHP,OneThink', '网站搜索引擎关键字', '1378898976', '1378898976', '1');
-INSERT INTO `think_config` VALUES ('4', 'WEB_SITE_CLOSE', '0', '关闭站点', '0', '0', '站点关闭后其他用户不能访问，管理员可以正常访问', '1378898976', '1379053644', '1');
-INSERT INTO `think_config` VALUES ('9', 'CONFIG_TYPE_LIST', '4', '配置类型列表', '0', '0:数字;1:字符;2:文本;3:数组;4:枚举', '主要用于数据解析和页面表单的生成', '1378898976', '1379055202', '1');
-INSERT INTO `think_config` VALUES ('10', 'WEB_SITE_ICP', '1', '网站备案号', '0', '沪ICP备12007941号-21', '设置在网站底部显示的备案号，如“沪ICP备12007941号-2', '1378900335', '1378982098', '1');
-INSERT INTO `think_config` VALUES ('11', 'DOCUMENT_POSITION', '4', '文档推荐位', '0', '1:列表页推荐\r\n2:频道页推荐\r\n4:网站首页推荐', '文档推荐位，推荐到多个位置KEY值相加即可', '1379053380', '1379055230', '1');
-INSERT INTO `think_config` VALUES ('12', 'DOCUMENT_DISPLAY', '4', '文档可见性', '0', '0:所有人可见\r\n1:仅注册会员可见\r\n2:仅管理员可见', '文章可见性仅影响前台显示，后台不收影响', '1379056370', '1379056556', '1');
-INSERT INTO `think_config` VALUES ('13', 'COLOR_STYLE', '1', '后台色系', '0', 'blue_color', '后台颜色风格', '1379122533', '1379140237', '1');
+INSERT INTO `think_config` VALUES ('1', 'WEB_SITE_TITLE', '1', '网站标题', '0', '', '网站标题前台显示标题', '1378898976', '1379235274', '1', 'OneThink内容管理框架2', '0');
+INSERT INTO `think_config` VALUES ('2', 'WEB_SITE_DESCRIPTION', '2', '网站描述', '0', '', '网站搜索引擎描述', '1378898976', '1379235841', '1', 'OneThink内容管理框架', '1');
+INSERT INTO `think_config` VALUES ('3', 'WEB_SITE_KEYWORD', '2', '网站关键字', '0', '', '网站搜索引擎关键字', '1378898976', '1379235848', '1', 'ThinkPHP,OneThink,test', '3');
+INSERT INTO `think_config` VALUES ('4', 'WEB_SITE_CLOSE', '4', '关闭站点', '0', '0:关闭,1:开启', '站点关闭后其他用户不能访问，管理员可以正常访问', '1378898976', '1379235296', '1', '1', '0');
+INSERT INTO `think_config` VALUES ('9', 'CONFIG_TYPE_LIST', '3', '配置类型列表', '3', '', '主要用于数据解析和页面表单的生成', '1378898976', '1379235348', '1', '0:数字\r\n1:字符\r\n2:文本\r\n3:数组\r\n4:枚举', '0');
+INSERT INTO `think_config` VALUES ('10', 'WEB_SITE_ICP', '1', '网站备案号', '0', '', '设置在网站底部显示的备案号，如“沪ICP备12007941号-2', '1378900335', '1379235859', '1', '沪ICP备12007941号-2', '4');
+INSERT INTO `think_config` VALUES ('11', 'DOCUMENT_POSITION', '3', '文档推荐位', '1', '', '文档推荐位，推荐到多个位置KEY值相加即可', '1379053380', '1379235329', '1', '1:列表页推荐\r\n2:频道页推荐\r\n4:网站首页推荐', '0');
+INSERT INTO `think_config` VALUES ('12', 'DOCUMENT_DISPLAY', '3', '文档可见性', '1', '', '文章可见性仅影响前台显示，后台不收影响', '1379056370', '1379235322', '1', '0:所有人可见\r\n1:仅注册会员可见\r\n2:仅管理员可见', '0');
+INSERT INTO `think_config` VALUES ('13', 'COLOR_STYLE', '4', '后台色系', '0', 'default_color:默认\r\nblue_color:紫罗兰', '后台颜色风格', '1379122533', '1379235904', '1', 'blue_color', '5');
+INSERT INTO `think_config` VALUES ('20', 'CONFIG_GROUP_LIST', '3', '配置分组', '3', '', '配置分组', '1379228036', '1379312862', '1', '0:基本设置\r\n1:内容设置\r\n2:用户设置\r\n3:系统配置', '0');
+INSERT INTO `think_config` VALUES ('21', 'HOOKS_TYPE', '3', '钩子的类型', '3', '', '类型 1-用于扩展显示内容，2-用于扩展业务处理', '1379313397', '1379313407', '1', '1:视图\r\n2:控制器', '0');
+INSERT INTO `think_config` VALUES ('22', 'AUTH_CONFIG', '3', 'Auth配置', '3', '', '自定义Auth.class.php类配置', '1379409310', '1379409564', '1', 'AUTH_ON:1\r\nAUTH_TYPE:1', '0');
 
 -- ----------------------------
 -- Table structure for `think_document`
@@ -494,12 +515,12 @@ CREATE TABLE `think_document` (
   `extend` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '扩展统计字段，根据需求自行使用',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
-  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '数据状态（-1-删除，0-禁用，1-正常，2-待审核）',
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '数据状态（-1-删除，0-禁用，1-正常，2-待审核，3-草稿）',
   PRIMARY KEY (`id`),
   KEY `idx_name` (`name`) USING BTREE,
   KEY `idx_category_status` (`category_id`,`status`) USING BTREE,
   KEY `idx_status_type_pid` (`status`,`type`,`pid`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=77 DEFAULT CHARSET=utf8 COMMENT='文档模型基础表\r\n@author   麦当苗儿\r\n@version  2013-05-21';
+) ENGINE=MyISAM AUTO_INCREMENT=115 DEFAULT CHARSET=utf8 COMMENT='文档模型基础表\r\n@author   麦当苗儿\r\n@version  2013-05-21';
 
 -- ----------------------------
 -- Records of think_document
@@ -525,7 +546,7 @@ INSERT INTO `think_document` VALUES ('40', '12', '', '申请人账号：猫没�
 INSERT INTO `think_document` VALUES ('43', '1', '', '我来测试下', '17', '大幅度', '0', '2', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379040163', '1379040233', '1');
 INSERT INTO `think_document` VALUES ('44', '12', '', '话说今天是程序员节', '8', '程序员节，每年的第256天，平年的9月13日，闰年的9月12日。', '0', '1', '2', '6', '0', '0', '2', '1378866600', '0', '0', '0', '0', '1379043600', '1379137167', '1');
 INSERT INTO `think_document` VALUES ('45', '12', '', 'TPM（ThinkPHP Mobile） 4026 111.24 KB', '9', 'TPM(ThinkPHP Mobile)', '0', '2', '2', '0', '0', '0', '1', '1380340500', '0', '0', '0', '0', '1379044630', '1379044630', '1');
-INSERT INTO `think_document` VALUES ('47', '12', '', '12313', '12', '', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379071930', '1379071939', '1');
+INSERT INTO `think_document` VALUES ('47', '12', '', '12313', '12', '', '85', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379071930', '1379071939', '1');
 INSERT INTO `think_document` VALUES ('49', '12', 'ggfff', '积金挤提潮', '10', '积金挤提潮积金挤提潮积金挤提潮积金挤提潮', '0', '2', '2', '6', '0', '18', '1', '1378915200', '0', '0', '0', '0', '1379125362', '1379128251', '1');
 INSERT INTO `think_document` VALUES ('51', '1', '', '第一条', '5', '', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379129518', '1379129518', '1');
 INSERT INTO `think_document` VALUES ('52', '1', '', '第二条', '5', '', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379129530', '1379129530', '1');
@@ -536,7 +557,7 @@ INSERT INTO `think_document` VALUES ('56', '1', '', '第五条', '5', '', '0', '
 INSERT INTO `think_document` VALUES ('57', '1', '', '第五条', '5', '', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379129806', '1379129806', '1');
 INSERT INTO `think_document` VALUES ('58', '1', '', '第六条', '5', '', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379129822', '1379129822', '1');
 INSERT INTO `think_document` VALUES ('59', '1', '', '第六条', '5', '', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379129823', '1379129823', '1');
-INSERT INTO `think_document` VALUES ('60', '1', '', '第七条', '5', '', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379129867', '1379129867', '1');
+INSERT INTO `think_document` VALUES ('60', '1', '', '第七条', '5', '', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379129867', '1379129867', '0');
 INSERT INTO `think_document` VALUES ('61', '1', '', '第七条', '5', '', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379129868', '1379129868', '1');
 INSERT INTO `think_document` VALUES ('62', '1', '', '第七条', '5', '', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379129868', '1379129868', '1');
 INSERT INTO `think_document` VALUES ('63', '1', '', '第七条', '5', '', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379129868', '1379129868', '1');
@@ -546,11 +567,29 @@ INSERT INTO `think_document` VALUES ('66', '1', '', '第八条', '5', '', '0', '
 INSERT INTO `think_document` VALUES ('67', '1', '', '第八条', '5', '', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379130311', '1379130311', '1');
 INSERT INTO `think_document` VALUES ('68', '1', '', '第八条', '5', '', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379130312', '1379130312', '1');
 INSERT INTO `think_document` VALUES ('72', '1', 'gff', '1234234', '18', '', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379157569', '1');
-INSERT INTO `think_document` VALUES ('70', '1', '', '第八条', '5', '', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379130312', '1379130312', '1');
-INSERT INTO `think_document` VALUES ('71', '1', '', '第八条', '5', '', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1334678400', '1379148111', '0');
-INSERT INTO `think_document` VALUES ('74', '1', '', '大幅度反对法', '18', '', '0', '1', '2', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379157519', '1');
-INSERT INTO `think_document` VALUES ('75', '11', 'sdf12312', '测试有拍云存', '9', 'asdas', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379158095', '1379158095', '-1');
+INSERT INTO `think_document` VALUES ('70', '1', '', '第八条', '5', '', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379130312', '1379130312', '-1');
+INSERT INTO `think_document` VALUES ('74', '1', '', '大幅度反对法', '18', '', '0', '1', '2', '2', '0', '0', '0', '0', '0', '0', '0', '0', '1379318002', '1379318002', '1');
 INSERT INTO `think_document` VALUES ('76', '11', 'f123', '测试附件下载', '7', '请企鹅王', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379158650', '1379158650', '1');
+INSERT INTO `think_document` VALUES ('77', '1', '', '沉甸甸', '18', '', '0', '1', '2', '0', '0', '38', '0', '0', '0', '0', '0', '0', '1379315220', '1379317981', '0');
+INSERT INTO `think_document` VALUES ('78', '12', '', '12313', '12', '', '85', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379296557', '1379296557', '1');
+INSERT INTO `think_document` VALUES ('114', '1', 'ffgh', 'aaaaaaaaaa', '9', 'fdghfdghfh', '0', '2', '2', '6', '1', '18', '1', '1379555520', '0', '0', '0', '0', '1379641860', '1379471497', '3');
+INSERT INTO `think_document` VALUES ('85', '1', '', '该专辑下有子内容', '12', '', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379313900', '1379401823', '1');
+INSERT INTO `think_document` VALUES ('113', '12', '', '下载', '9', '', '0', '2', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379413380', '1379413784', '3');
+INSERT INTO `think_document` VALUES ('112', '12', 'fdfsffsdf', '的发挥地方规划', '9', 'sdfsdfsdfsdf', '0', '2', '2', '6', '2', '18', '1', '1379556180', '0', '0', '0', '0', '1379412540', '1379470743', '1');
+INSERT INTO `think_document` VALUES ('89', '1', '', '', '18', '', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379324820', '1379324963', '3');
+INSERT INTO `think_document` VALUES ('90', '1', '', '123', '18', '', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379326047', '1379326047', '3');
+INSERT INTO `think_document` VALUES ('91', '1', '', '123', '18', '', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379326054', '1379326054', '3');
+INSERT INTO `think_document` VALUES ('92', '1', '', '12344', '18', '', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379326111', '1379326111', '3');
+INSERT INTO `think_document` VALUES ('93', '1', '', 'fsdfsdf', '18', '', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379326315', '1379326315', '3');
+INSERT INTO `think_document` VALUES ('94', '1', '', 'sdfsdff', '18', '', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379326361', '1379326361', '3');
+INSERT INTO `think_document` VALUES ('95', '1', '', 'sdfsdff', '18', '', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379326518', '1379326518', '3');
+INSERT INTO `think_document` VALUES ('97', '1', '', 'sdfsdff', '18', '', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379327460', '1379469071', '3');
+INSERT INTO `think_document` VALUES ('98', '1', '', '&quot;入\'\'标题&quot;）', '18', '', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379327520', '1379329971', '0');
+INSERT INTO `think_document` VALUES ('99', '1', '', '234234', '18', 'gsdfgsdfgdsfg', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379328180', '1379400481', '0');
+INSERT INTO `think_document` VALUES ('103', '12', '', '12313', '12', '', '85', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379401384', '1379401384', '1');
+INSERT INTO `think_document` VALUES ('104', '1', 'eee', '移动服务端整体解决方案', '12', '为移动应用开发者提供稳定可依赖的后端云服务，包括存储、账号管理、社交分享、推送等以及相关的技术支持和服务', '85', '1', '1', '7', '1', '0', '0', '1379649300', '0', '0', '0', '0', '1379401462', '1379401462', '1');
+INSERT INTO `think_document` VALUES ('108', '12', '', '234234', '18', '', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1379409120', '1379411137', '3');
+INSERT INTO `think_document` VALUES ('106', '1', 'eee', '移动服务端整体解决方案', '12', '为移动应用开发者提供稳定可依赖的后端云服务，包括存储、账号管理、社交分享、推送等以及相关的技术支持和服务', '85', '1', '1', '7', '1', '0', '0', '1379649300', '0', '0', '0', '0', '1379401800', '1379401800', '1');
 
 -- ----------------------------
 -- Table structure for `think_document_model`
@@ -574,37 +613,6 @@ INSERT INTO `think_document_model` VALUES ('2', 'Download', '下载', '0', '0', 
 INSERT INTO `think_document_model` VALUES ('3', 'Application', '应用', '0', '0', '0');
 INSERT INTO `think_document_model` VALUES ('4', 'Atlas', '图集', '1377569866', '1378949480', '0');
 INSERT INTO `think_document_model` VALUES ('5', 'fdsfsf234', 'sdfsdfsfsd111', '1379151531', '1379152084', '0');
-
--- ----------------------------
--- Table structure for `think_document_model_application`
--- ----------------------------
-DROP TABLE IF EXISTS `think_document_model_application`;
-CREATE TABLE `think_document_model_application` (
-  `id` int(10) NOT NULL,
-  `version` char(10) NOT NULL DEFAULT '' COMMENT 'TP框架版本号',
-  `content` text COMMENT '内容',
-  `index_url` char(255) NOT NULL DEFAULT '' COMMENT '应用主页',
-  `down_url` char(255) NOT NULL DEFAULT '' COMMENT '下载地址',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of think_document_model_application
--- ----------------------------
-
--- ----------------------------
--- Table structure for `think_document_model_application_screenshot`
--- ----------------------------
-DROP TABLE IF EXISTS `think_document_model_application_screenshot`;
-CREATE TABLE `think_document_model_application_screenshot` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `application_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '对应的应用id',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of think_document_model_application_screenshot
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for `think_document_model_article`
@@ -640,10 +648,25 @@ INSERT INTO `think_document_model_article` VALUES ('67', '0', '地方的地方',
 INSERT INTO `think_document_model_article` VALUES ('68', '0', '地方的地方', '');
 INSERT INTO `think_document_model_article` VALUES ('72', '0', '23rwer', '');
 INSERT INTO `think_document_model_article` VALUES ('70', '0', '地方的地方', '');
-INSERT INTO `think_document_model_article` VALUES ('71', '0', '地方的地方', '');
 INSERT INTO `think_document_model_article` VALUES ('74', '0', '打发打发', '');
-INSERT INTO `think_document_model_article` VALUES ('75', '0', 'aa', '');
 INSERT INTO `think_document_model_article` VALUES ('76', '0', '请问', '');
+INSERT INTO `think_document_model_article` VALUES ('77', '0', '的幅度', '');
+INSERT INTO `think_document_model_article` VALUES ('78', '0', 'sdff', '');
+INSERT INTO `think_document_model_article` VALUES ('85', '0', '', '');
+INSERT INTO `think_document_model_article` VALUES ('89', '0', 'dfgdfgdfg', '');
+INSERT INTO `think_document_model_article` VALUES ('90', '0', '', '');
+INSERT INTO `think_document_model_article` VALUES ('91', '0', '', '');
+INSERT INTO `think_document_model_article` VALUES ('92', '0', '', '');
+INSERT INTO `think_document_model_article` VALUES ('93', '0', '', '');
+INSERT INTO `think_document_model_article` VALUES ('94', '0', '', '');
+INSERT INTO `think_document_model_article` VALUES ('95', '0', '', '');
+INSERT INTO `think_document_model_article` VALUES ('97', '0', '', '');
+INSERT INTO `think_document_model_article` VALUES ('98', '0', '<p>ghjgfhj</p>', '');
+INSERT INTO `think_document_model_article` VALUES ('99', '0', '<p>fhfhfgh</p>', '');
+INSERT INTO `think_document_model_article` VALUES ('103', '0', 'sdff', '');
+INSERT INTO `think_document_model_article` VALUES ('104', '0', 'asdfasdf', '');
+INSERT INTO `think_document_model_article` VALUES ('108', '0', '', '');
+INSERT INTO `think_document_model_article` VALUES ('106', '0', 'asdfasdf', '');
 INSERT INTO `think_document_model_article` VALUES ('39', '0', '打发打发', '');
 INSERT INTO `think_document_model_article` VALUES ('61', '0', '地方的', '');
 INSERT INTO `think_document_model_article` VALUES ('40', '0', '申请认证类型：认证用户<br />\r\n<br />\r\n真实姓名：唐子杰<br />\r\n性别：男<br />\r\n年龄：21<br />\r\n联系邮箱：1277783413@qq.com<br />\r\n联系电话：15665725523<br />\r\n所在地区：山东 省 济南市<br />\r\n擅长：PHP，前端，网络安全', '');
@@ -686,6 +709,9 @@ INSERT INTO `think_document_model_download` VALUES ('38', '0', '9月11日，国�
 INSERT INTO `think_document_model_download` VALUES ('43', '0', '的饭店反对法', '', '39', '0', '72550');
 INSERT INTO `think_document_model_download` VALUES ('45', '0', '能快点出ios版本吗，不会变成半成品吧', '', '12', '99999958', '4536');
 INSERT INTO `think_document_model_download` VALUES ('49', '0', '<ul class=\"clearfix\" id=\"s_topsearch\">\r\n	<li class=\"s-topsearch-item\">\r\n		<div>\r\n			<a target=\"_blank\" href=\"http://www.baidu.com/baidu?cl=3&tn=baidutop10&fr=top1000&wd=%E8%B1%AA%E5%8D%8E%E6%9C%AC%E7%A7%91%E5%AE%BF%E8%88%8D&rsv_spt=2&issp=2\"><em class=\"word-key\"></em></a> \r\n		</div>\r\n<br />\r\n	</li>\r\n	<li class=\"s-topsearch-item\">\r\n		<div>\r\n			<span class=\"s-topsearch-item-dot\"></span><a target=\"_blank\" href=\"http://www.baidu.com/baidu?cl=3&tn=baidutop10&fr=top1000&wd=%E5%A4%84%E5%A5%B3%E8%A1%80%E5%81%9A%E7%A0%94%E7%A9%B6&rsv_spt=2&issp=2\"><em class=\"word-key\">处女血做研究</em></a> \r\n		</div>\r\n	</li>\r\n	<li class=\"s-topsearch-item\">\r\n		<div>\r\n			<span class=\"s-topsearch-item-dot\"></span><a target=\"_blank\" href=\"http://www.baidu.com/baidu?cl=3&tn=baidutop10&fr=top1000&wd=%E7%A8%8B%E5%BA%8F%E5%91%98%E8%8A%82&rsv_spt=2&issp=2\"><em class=\"word-key\">程序员节</em></a> \r\n		</div>\r\n	</li>\r\n	<li class=\"s-topsearch-item\">\r\n		<div>\r\n			<span class=\"s-topsearch-item-dot\"></span><a target=\"_blank\" href=\"http://www.baidu.com/baidu?cl=3&tn=baidutop10&fr=top1000&wd=%E6%9D%8E%E5%A4%A9%E4%B8%80%E6%A1%885%E4%BA%BA%E6%9B%BE%E4%B8%B2%E4%BE%9B&rsv_spt=2&issp=2\"><em class=\"word-key\">李天一案5人曾串供</em></a> \r\n		</div>\r\n	</li>\r\n	<li class=\"s-topsearch-item\">\r\n		<div>\r\n			<span class=\"s-topsearch-item-dot\"></span><a target=\"_blank\" href=\"http://www.baidu.com/baidu?cl=3&tn=baidutop10&fr=top1000&wd=%E7%8E%8B%E7%A5%96%E8%B4%A4%E8%BD%A6%E7%A5%B8&rsv_spt=2&issp=2\"><em class=\"word-key\">王祖贤车祸</em><em class=\"nlabel\">新!</em></a> \r\n		</div>\r\n	</li>\r\n	<li class=\"s-topsearch-item\">\r\n		<div>\r\n			<span class=\"s-topsearch-item-dot\"></span><a target=\"_blank\" href=\"http://www.baidu.com/baidu?cl=3&tn=baidutop10&fr=top1000&wd=%E5%B0%91%E5%A5%B3%E9%81%AD%E5%BC%BA%E5%A5%B8%E8%87%B4%E5%AD%95%E5%90%8C%E5%B1%85&rsv_spt=2&issp=2\"><em class=\"word-key\">少女遭强奸致孕同居</em></a> \r\n		</div>\r\n	</li>\r\n	<li class=\"s-topsearch-item\">\r\n		<div>\r\n			<span class=\"s-topsearch-item-dot\"></span><a target=\"_blank\" href=\"http://www.baidu.com/baidu?cl=3&tn=baidutop10&fr=top1000&wd=%E6%9D%8E%E4%BA%9A%E9%B9%8F%E7%8E%8B%E8%8F%B2%E7%A6%BB%E5%A9%9A&rsv_spt=2&issp=2\"><em class=\"word-key\">李亚鹏王菲离</em></a> \r\n		</div>\r\n	</li>\r\n</ul>', '', '48', '12333', '106371');
+INSERT INTO `think_document_model_download` VALUES ('112', '0', '<p>斯蒂芬公司hhhh<br/></p>', '', '48', '32248', '106371');
+INSERT INTO `think_document_model_download` VALUES ('113', '0', '', '', '0', '0', '0');
+INSERT INTO `think_document_model_download` VALUES ('114', '0', '<p>5555<br/></p>', '', '48', '555', '106371');
 
 -- ----------------------------
 -- Table structure for `think_file`
@@ -705,7 +731,7 @@ CREATE TABLE `think_file` (
   `create_time` int(10) unsigned NOT NULL COMMENT '上传时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_md5` (`md5`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=54 DEFAULT CHARSET=utf8 COMMENT='文件表\r\n@author   麦当苗儿\r\n@version  2013-05-21';
+) ENGINE=MyISAM AUTO_INCREMENT=55 DEFAULT CHARSET=utf8 COMMENT='文件表\r\n@author   麦当苗儿\r\n@version  2013-05-21';
 
 -- ----------------------------
 -- Records of think_file
@@ -763,6 +789,7 @@ INSERT INTO `think_file` VALUES ('50', 'Penguins.jpg', '52343ec46d0e4.jpg', '201
 INSERT INTO `think_file` VALUES ('51', 'Tulips.jpg', '52344155a89c8.jpg', '2013-09-14/', 'jpg', 'image/jpeg', '620888', 'fafa5efeaf3cbe3b23b2748d13e629a1', '54c2f1a1eb6f12d681a5c7078421a5500cee02ad', '0', '1379156309');
 INSERT INTO `think_file` VALUES ('52', 'Desert.jpg', '5234416d1f098.jpg', '2013-09-14/', 'jpg', 'image/jpeg', '845941', 'ba45c8f60456a672e003a875e469d0eb', '30420d1a9afb2bcb60335812569af4435a59ce17', '0', '1379156332');
 INSERT INTO `think_file` VALUES ('53', 'Hydrangeas.jpg', '5234418c17e4a.jpg', '2013-09-14/', 'jpg', 'image/jpeg', '595284', 'bdf3bf1da3405725be763540d6601144', 'd997e1c37edc05ad87d03603e32ad495ee2cfce1', '0', '1379156363');
+INSERT INTO `think_file` VALUES ('54', '太极侠.JPEG', '52344e47bf20e.JPEG', '2013-09-14/', 'JPEG', 'image/jpeg', '170183', '51459df7fe30a6c098891e69fe7224b4', '9ad80833b9df8d05f811a44afe71ca729e3b8139', '0', '1379159622');
 
 -- ----------------------------
 -- Table structure for `think_hooks`
@@ -777,7 +804,7 @@ CREATE TABLE `think_hooks` (
   `addons` varchar(255) DEFAULT NULL COMMENT '钩子挂载的插件 ''，''分割',
   PRIMARY KEY (`id`),
   UNIQUE KEY `搜索索引` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of think_hooks
@@ -790,7 +817,7 @@ INSERT INTO `think_hooks` VALUES ('5', 'documentDetailBefore', '页面内容前�
 INSERT INTO `think_hooks` VALUES ('6', 'documentSaveComplete', '保存文档数据后的扩展钩子', '2', '0', 'Attachment');
 INSERT INTO `think_hooks` VALUES ('7', 'documentEditFormContent', '添加编辑表单的内容显示钩子', '1', '0', 'Editor');
 INSERT INTO `think_hooks` VALUES ('8', 'adminArticleEdit', '后台内容编辑页编辑器', '1', '1378982734', 'EditorForAdmin');
-INSERT INTO `think_hooks` VALUES ('13', 'AdminIndex', '首页小格子个性化显示', '1', '1379153797', 'SystemInfo,DevTeam');
+INSERT INTO `think_hooks` VALUES ('13', 'AdminIndex', '首页小格子个性化显示', '1', '1379402135', 'SiteStat,DevTeam,SystemInfo');
 
 -- ----------------------------
 -- Table structure for `think_member`
@@ -816,11 +843,11 @@ CREATE TABLE `think_member` (
 -- Records of think_member
 -- ----------------------------
 INSERT INTO `think_member` VALUES ('9', '麦当苗儿', '0', '0000-00-00', '', '0', '11', '2130706433', '1369722401', '2130706433', '1371192515', '1');
-INSERT INTO `think_member` VALUES ('1', '管理员', '0', '0000-00-00', '', '40', '262', '2130706433', '1371435498', '2130706433', '1379155532', '1');
+INSERT INTO `think_member` VALUES ('1', '管理员1', '0', '0000-00-00', '', '50', '310', '2130706433', '1371435498', '2130706433', '1379470867', '1');
 INSERT INTO `think_member` VALUES ('10', 'thinkphp', '0', '0000-00-00', '', '10', '10', '3232235922', '1374043830', '2130706433', '1379041194', '1');
-INSERT INTO `think_member` VALUES ('11', 'yangweijie', '0', '0000-00-00', '', '60', '44', '2130706433', '1376897307', '2130706433', '1379126003', '1');
-INSERT INTO `think_member` VALUES ('12', '奥巴马', '0', '0000-00-00', '', '231', '29', '2130706433', '1376968536', '2130706433', '1379122955', '1');
-INSERT INTO `think_member` VALUES ('13', 'zhuyajie', '0', '0000-00-00', '', '10', '2', '2130706433', '1378440279', '2130706433', '1378440293', '1');
+INSERT INTO `think_member` VALUES ('11', 'yangweijie', '0', '0000-00-00', '', '70', '51', '2130706433', '1376897307', '2130706433', '1379404404', '1');
+INSERT INTO `think_member` VALUES ('12', '奥巴马', '0', '0000-00-00', '', '231', '30', '2130706433', '1376968536', '2130706433', '1379405701', '1');
+INSERT INTO `think_member` VALUES ('13', 'zhuyajie', '0', '0000-00-00', '', '20', '8', '2130706433', '1378440279', '2130706433', '1379408895', '1');
 
 -- ----------------------------
 -- Table structure for `think_picture`
@@ -834,7 +861,7 @@ CREATE TABLE `think_picture` (
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM AUTO_INCREMENT=42 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of think_picture
@@ -865,6 +892,15 @@ INSERT INTO `think_picture` VALUES ('29', '/Uploads/Picture/2013-09-13/5232f0e20
 INSERT INTO `think_picture` VALUES ('30', '/Uploads/Picture/2013-09-13/5232f3195654a.jpg', '', '5a44c7ba5bbe4ec867233d67e4806848', '1', '1379070745');
 INSERT INTO `think_picture` VALUES ('31', '/Uploads/Picture/2013-09-13/5232f338026a3.jpg', '', 'fafa5efeaf3cbe3b23b2748d13e629a1', '1', '1379070775');
 INSERT INTO `think_picture` VALUES ('32', '/Uploads/Picture/2013-09-14/5233d1cd1dcf1.jpg', '', '911d4fe765a0f17d254ed51885e2518a', '1', '1379127756');
+INSERT INTO `think_picture` VALUES ('33', '/Uploads/Picture/2013-09-16/523664f6ae557.jpg', '', '72d7c71fc9c294e8e6c333b6153b8348', '1', '1379296502');
+INSERT INTO `think_picture` VALUES ('34', '/Uploads/Picture/2013-09-16/5236663d45b60.jpg', '', '5d0ee4241191d8f26ddd8e76b01cd2fe', '1', '1379296829');
+INSERT INTO `think_picture` VALUES ('35', '/Uploads/Picture/2013-09-16/52369b7589a92.jpg', '', '6c1a82458091c4b35eeb85747e7fa358', '1', '1379310453');
+INSERT INTO `think_picture` VALUES ('36', '/Uploads/Picture/2013-09-16/5236a54141526.png', '', '8a2487cd30c29966447fabd4a837ddc9', '1', '1379312961');
+INSERT INTO `think_picture` VALUES ('37', '/Uploads/Picture/2013-09-16/5236a990b7cf8.jpg', '', '6bb6da064284aec91855ed8b7e6626ac', '1', '1379314064');
+INSERT INTO `think_picture` VALUES ('38', '/Uploads/Picture/2013-09-16/5236ade90c5d1.jpg', '', '4a383f8838107bc27b89090de5644e34', '1', '1379315176');
+INSERT INTO `think_picture` VALUES ('39', '/Uploads/Picture/2013-09-16/5236ae9f76c21.png', '', '20b3ca080df7ea67d079001f8c4d5ce6', '1', '1379315359');
+INSERT INTO `think_picture` VALUES ('40', '/Uploads/Picture/2013-09-16/5236aeb267b80.jpg', '', 'c3f484d4bb0e775018abe5716c56bdf9', '1', '1379315378');
+INSERT INTO `think_picture` VALUES ('41', '/Uploads/Picture/2013-09-16/5236af5121573.jpg', '', '0066c235f9618e8dfca7ca85e5ecb8a8', '1', '1379315536');
 
 -- ----------------------------
 -- Table structure for `think_ucenter_admin`
@@ -927,7 +963,7 @@ CREATE TABLE `think_ucenter_member` (
   UNIQUE KEY `username` (`username`) USING BTREE,
   UNIQUE KEY `email` (`email`) USING BTREE,
   KEY `status` (`status`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
 -- Table structure for `think_ucenter_setting`
@@ -955,10 +991,11 @@ CREATE TABLE `think_url` (
   `status` tinyint(2) NOT NULL COMMENT '状态（-1：删除，0：禁用，1：正常，2：未审核）',
   `create_time` int(10) unsigned NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `ix_short` (`short`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='链接表';
+  UNIQUE KEY `idx_url` (`url`) USING BTREE
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='链接表';
 
 -- ----------------------------
 -- Records of think_url
 -- ----------------------------
 INSERT INTO `think_url` VALUES ('1', 'http://onethink.cn', '', '1', '1379139055');
+INSERT INTO `think_url` VALUES ('2', 'https://onethink.cn', '', '1', '1379470673');
