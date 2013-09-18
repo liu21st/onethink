@@ -22,6 +22,7 @@ return array(
 	/* 路由配置 */
 	'URL_ROUTER_ON'   => true, //开启路由
 	'URL_ROUTE_RULES' => array( //定义路由规则
+		'index/index'				=> 'Index/index',
 		//分类列表页
 		'cate/:category\w/:page\d' 	=> 'Article/lists',
 		'cate/:category' 			=> 'Article/lists',
