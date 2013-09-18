@@ -101,6 +101,11 @@
                     'tag'   =>'a',
                     'href'  =>'Article/index?cate_id=$category_id&pid=$id',
                 ),
+				'pid'=>array(
+					'_title'=>'子文档',
+					'tag'   =>'span',
+					'func'	=>	'get_subdocument_count($id)',
+				),
 				'type'=>array(
 					'_title'=>'类型',
 					'tag'   =>'span',
