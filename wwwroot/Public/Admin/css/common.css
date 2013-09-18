@@ -33,59 +33,6 @@
 	border-right-width: 0;
 }
 
-/* 空心小三角（要兼容IE,字体大小和宽高需一致） */
-.tips-arrow {
-	position: absolute;
-	margin-bottom: 10px;
-	width: 16px;
-	height: 16px;
-}
-.tips-arrow .outer,
-.tips-arrow .inner {
-	position: absolute;
-	width: 16px;
-	height: 16px;
-	line-height: 16px;	/* 去掉字体上下的空白高度 */
-	font-size: 16px;
-	font-family: Arial, Helvetica, sans-serif;
-}
-.tips-arrow .outer {
-	color: red;
-}
-.tips-arrow .inner {
-	color: #fff;
-}
-.tips-up .inner {
-	top: 1px;
-}
-.tips-down .inner {
-	bottom: 1px;
-}
-.tips-left .inner {
-	left: 1px;
-}
-.tips-right .inner {
-	right: 1px;
-}
-
-/* 单个元素在容器内垂直居中的支撑点，兼容IE6+ */
-.pillar {
-	display: inline-block;
-	width: 0;
-	height: 100%;
-	vertical-align: middle;
-}
-
-/* 半透明蒙板 */
-.mask {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: url(../images/mask.png) repeat 0 0;
-}
-
 /* 提醒框 */
 .alert {
 	color: #c09853;
@@ -111,18 +58,51 @@ button.close {
     border: 0 none;
 	background: none;
 }
+.close {
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 20px;
+    color: #000000;
+    text-shadow: 0 1px 0 #ffffff;
+    opacity: 0.2;
+    filter: alpha(opacity=20);
+}
 .alert-info {
 	background-color: #D9EDF7;
     border-color: #BCE8F1;
     color: #3A87AD;
 }
 .alert-error {
-	color: #b94a48;
+	color: #da3a3a;
 	border-color: #eed3d7;
-	background-color: #f2dede;
+	background-color: #f1ff1f;
 }
 .alert-success {
     color: #468847;
     background-color: #dff0d8;
     border-color: #d6e9c6;
+}
+#top-alert {
+    display: block;
+    top: 50px;
+    left: 220px;
+    right: 20px;
+    z-index: 3000;
+	margin-top: 20px;
+	padding-top: 12px;
+	padding-bottom: 12px;
+    overflow: hidden;
+    font-size: 16px;
+}
+#top-alert .close{
+    right:35px;
+    position: fixed;
+    top:75px;
+}
+.alert-content{
+	margin-left: 14px;
+    max-width:600px;
+    word-wrap: break-word;
+    word-break: break-word;
 }

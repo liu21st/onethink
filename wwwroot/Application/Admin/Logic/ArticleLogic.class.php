@@ -27,7 +27,7 @@ class ArticleLogic extends BaseLogic{
 	 * @return boolean    true-操作成功，false-操作失败
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
-	public function update($id){
+	public function update($id = 0){
 		/* 获取文章数据 */
 		$data = $this->create();
 		if(!$data){
@@ -78,7 +78,7 @@ class ArticleLogic extends BaseLogic{
 	 * @return true 成功， false 保存出错
 	 * @author huajie <banhuajie@163.com>
 	 */
-	public function autoSave($id){
+	public function autoSave($id = 0){
 		$this->_validate = array();
 
 		/* 获取文章数据 */
