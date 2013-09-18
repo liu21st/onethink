@@ -88,18 +88,10 @@ class ArticleController extends \Admin\Controller\AdminController {
             }
         }
 
-        //获取默认显示的分类
-        foreach ($cate as $key=>$value){
-            if($value['allow_publish']){
-                $defaule_cate = $value['id'];
-                break;
-            }
-        }
-
         $cate           =   list_to_tree($cate);	//生成分类树
 
         //获取分类id
-        $cate_id        =   I('param.cate_id') == '' ? $defaule_cate : I('param.cate_id');
+        $cate_id        =   I('param.cate_id');
         $this->cate_id  =   $cate_id;
 
         //是否展开分类
@@ -111,22 +103,20 @@ class ArticleController extends \Admin\Controller\AdminController {
         //生成每个分类的url
         foreach ($cate as $key=>&$value){
             $value['url']   =   'Article/index?cate_id='.$value['id'];
-            $value['level'] =   1;
             if($cate_id == $value['id'] && $hide_cate){
                 $value['current'] = true;
+            }else{
+            	$value['current'] = false;
             }
             if(!empty($value['_child'])){
+            	$is_child = false;
                 foreach ($value['_child'] as $ka=>&$va){
                     $va['url']      =   'Article/index?cate_id='.$va['id'];
-                    $va['level']    =   2;
                     if(!empty($va['_child'])){
                         foreach ($va['_child'] as $k=>&$v){
                             $v['url']   =   'Article/index?cate_id='.$v['id'];
                             $v['pid']   =   $va['id'];
-                            $v['level'] =   3;
-                            if($v['id'] == $cate_id){
-                                $is_child = true;
-                            }
+                            $is_child = $v['id'] == $cate_id ? true : false;
                         }
                     }
                     //展开子分类的父分类
@@ -135,7 +125,12 @@ class ArticleController extends \Admin\Controller\AdminController {
                         if($hide_cate){
                             $value['current']   =   true;
                             $va['current']      =   true;
+                        }else{
+                        	$value['current'] 	= 	false;
+                        	$va['current']      =   false;
                         }
+                    }else{
+                    	$va['current']      =   false;
                     }
                 }
             }
@@ -255,9 +250,8 @@ class ArticleController extends \Admin\Controller\AdminController {
      * @author huajie <banhuajie@163.com>
      */
     public function add(){
-        $cate_id    =   I('get.cate_id','');
-        $model_id   =   I('get.model_id','');
-        $model_name =   get_document_model($model_id, 'title');
+        $cate_id    =   I('get.cate_id',0);
+        $model_id   =   I('get.model_id',0);
 
         empty($cate_id) && $this->error('参数不能为空！');
         empty($model_id) && $this->error('该分类未绑定模型！');
@@ -267,8 +261,9 @@ class ArticleController extends \Admin\Controller\AdminController {
         !$allow_publish && $this->error('该分类不允许发布内容！');
 
         /* 获取要编辑的模型模板 */
-        $template = strtolower(get_document_model($model_id, 'name'));
-        $extend = $this->fetch($template);
+        $model      =   get_document_model($model_id);
+        $template   =   strtolower($model['name']);
+        $extend     =   $this->fetch($template);
         $info['pid']            =   $_GET['pid']?$_GET['pid']:0;
         $info['model_id']       =   $model_id;
         $info['category_id']    =   $cate_id;
@@ -282,7 +277,7 @@ class ArticleController extends \Admin\Controller\AdminController {
         $this->assign('extend',     $extend);
         $this->assign('type_list',  get_type_bycate($cate_id));
 
-        $this->meta_title       =   '新增'.$model_name;
+        $this->meta_title       =   '新增'.$model['title'];
         $this->display('edit');
     }
 

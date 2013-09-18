@@ -19,12 +19,12 @@ class Article extends TagLib{
 	 * @var array
 	 */
 	protected $tags   =  array(
-		'partlist' => array('attr' => 'id,field,page,name', 'close' => 1), //段落列表
-		'partpage' => array('attr' => 'id,listrow', 'close' => 0), //段落分页
-		'prev'     => array('attr' => 'name,info', 'close' => 1), //获取上一篇文章信息
-		'next'     => array('attr' => 'name,info', 'close' => 1), //获取下一篇文章信息
-		'page'     => array('attr' => 'cate,listrow', 'close' => 0), //列表分页
-		'position' => array('attr' => 'pos,cate,limit,filed,name', 'close' => 1), //获取推荐位列表
+		'childlist' => array('attr' => 'id,field,page,name', 'close' => 1), //段落列表
+		'childpage' => array('attr' => 'id,listrow', 'close' => 0), //段落分页
+		'prev'      => array('attr' => 'name,info', 'close' => 1), //获取上一篇文章信息
+		'next'      => array('attr' => 'name,info', 'close' => 1), //获取下一篇文章信息
+		'page'      => array('attr' => 'cate,listrow', 'close' => 0), //列表分页
+		'position'  => array('attr' => 'pos,cate,limit,filed,name', 'close' => 1), //获取推荐位列表
 	);
 
 	/* 推荐位列表 */

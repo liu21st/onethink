@@ -64,14 +64,6 @@
 
 		<div id="tab2" class="tab-pane tab2">
 			<div class="form-item cf">
-				<label class="item-label">推荐位置</label>
-				<div class="controls">
-					<volist name=":C('DOCUMENT_POSITION')" id="position">
-						<label class="checkbox"><input type="checkbox" name="position[]" value="{$key}" <if condition="check_document_position($info['position'],$key)">checked="checked"</if>>{$position}</label>
-					</volist>
-				</div>
-			</div>
-			<div class="form-item cf">
 				<label class="item-label">优先级<span class="check-tips">（数字越大，排序越靠前）</span></label>
 				<div class="controls">
 					<input type="text" class="text input-large" name="level" value="{$info.level|default=0}">
@@ -93,6 +85,14 @@
 				<label class="item-label">截止时间<span class="check-tips">（格式: yyyy-mm-dd hh:ii）</span></label>
 				<div class="controls">
 					<input id="dateline" type="text" class="text input-large" name="dateline" value="{$info.dateline}" />
+				</div>
+			</div>
+			<div class="form-item cf">
+				<label class="item-label">推荐位置</label>
+				<div class="controls">
+					<volist name=":C('DOCUMENT_POSITION')" id="position">
+						<label class="checkbox"><input type="checkbox" name="position[]" value="{$key}" <if condition="check_document_position($info['position'],$key)">checked="checked"</if>>{$position}</label>
+					</volist>
 				</div>
 			</div>
 			<div class="form-item cf">
