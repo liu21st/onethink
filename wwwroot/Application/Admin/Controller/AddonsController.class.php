@@ -250,10 +250,10 @@ str;
      * @param string $name 插件名
      */
     public function adminList($name){
-        $addon      =   addons($name);
+        $addon = addons($name);
         if(!$addon)
             $this->error('插件不存在');
-        $param      =   $addon->admin_list;
+        $param = $addon->admin_list;
         if(!$param)
             $this->error('插件列表信息不正确');
         $this->meta_title = $addon->info['title'];
@@ -263,11 +263,12 @@ str;
             $this->assign('custom_adminlist', $addon->addon_path.$addon->custom_adminlist);
         $this->assign($param);
         if(!isset($fields))
-            $fields =   '*';
+            $fields = '*';
         if(!isset($map))
-            $map    =   array();
-        $list       =   $this->lists(D("Addons://{$model}/{$model}")->field($fields),$map);
-        $thead      =   array(
+            $map = array();
+        // if(isset($model))
+            $list = $this->lists(D("Addons://{$model}/{$model}")->field($fields),$map);
+        $thead = array(
             //元素value中的变量就是数据集中的字段,value必须使用单引号
 
             //所有 _ 下划线开头的元素用于使用html代码生成th和td
@@ -277,7 +278,7 @@ str;
             ),
             //查询出的数据集中的字段=>字段的表头
         );
-        if($listKey)
+        if(isset($listKey))
             $thead  =   array_merge($thead, $listKey);
         $this->assign( '_table_list', $this->tableList($list,$thead) );
         $this->display();
