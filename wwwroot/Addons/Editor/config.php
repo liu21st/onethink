@@ -31,7 +31,7 @@
 		'editor_height'=>array(
 			'title'=>'编辑器高度:',
 			'type'=>'text',
-			'value'=>'500px'
+			'value'=>'300px'
 		),
 		'editor_resize_type'=>array(
 			'title'=>'是否允许拖拉编辑器',
