@@ -281,27 +281,27 @@ body{
     font-size: 20px;
     overflow: hidden
 }
-.user-count-icon,
-.doc-count-icon,
-.comment-count-icon, 
-.category-count-icon {
+.count-icon {
     display: inline-block;
-    width: 50px;
+    width: 24px;
     height: 24px;
     vertical-align: middle;
     background-repeat: no-repeat;
 }
 .user-count-icon {
-    background-image: url(../images/1.png);
+    background-image: url(../images/count_users.png);
+}
+.user-action-icon {
+    background-image: url(../images/count_action.png);
 }
 .doc-count-icon {
-    background-image: url(../images/2.png);
+    background-image: url(../images/count_doc.png);
 }
-.comment-count-icon {
-    background-image: url(../images/3.png);
+.doc-modal-icon {
+    background-image: url(../images/count_doc_modal.png);
 }
 .category-count-icon {
-    background-image: url(../images/4.png);
+    background-image: url(../images/count_category.png);
 }
 
 /* 首页插件模块 */
