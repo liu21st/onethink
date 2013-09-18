@@ -26,7 +26,9 @@ class CategoryController extends AdminController {
         /* 导航栏目设置 */
         array( 'title' => '分类管理', 'url' => 'Category/index', 'group' => '导航栏目设置',
             'operator'=>array(
-                array('title'=>'编辑','url'=>'Category/edit','tip'=>'新增编辑和保存栏目分类'),
+                array('title'=>'编辑','url'=>'Category/edit','tip'=>'编辑和保存栏目分类'),
+            	array('title'=>'新增','url'=>'Category/add','tip'=>'新增栏目分类'),
+            	array('title'=>'删除','url'=>'Category/remove','tip'=>'删除栏目分类'),
             ),
         ),
     );
