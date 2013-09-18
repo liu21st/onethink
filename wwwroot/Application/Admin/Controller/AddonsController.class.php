@@ -266,7 +266,7 @@ str;
             $fields = '*';
         if(!isset($map))
             $map = array();
-        // if(isset($model))
+        if(isset($model))
             $list = $this->lists(D("Addons://{$model}/{$model}")->field($fields),$map);
         $thead = array(
             //元素value中的变量就是数据集中的字段,value必须使用单引号
@@ -280,6 +280,8 @@ str;
         );
         if(isset($listKey))
             $thead  =   array_merge($thead, $listKey);
+        if(!$list)
+            $list = array();
         $this->assign( '_table_list', $this->tableList($list,$thead) );
         $this->display();
     }
