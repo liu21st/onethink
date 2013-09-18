@@ -31,8 +31,14 @@
                         </li>
                     </ul>
                 <else/>
-                    <a href="{:U('User/login')}">登录</a>
-                    <a href="{:U('User/register')}">注册</a>
+                    <ul class="nav" style="margin-right:0">
+                        <li>
+                            <a href="{:U('User/login')}">登录</a>
+                        </li>
+                        <li>
+                            <a href="{:U('User/register')}" style="padding-left:0;padding-right:0">注册</a>
+                        </li>
+                    </ul>
                 </if>
             </div>
         </div>
