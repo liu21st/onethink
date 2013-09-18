@@ -82,6 +82,10 @@ class ArticleController extends HomeController {
 			$tmpl = 'Article/'. get_document_model($info['model_id'],'name') .'/detail';
 		}
 
+		/* 更新浏览数 */
+		$map = array('id' => $id);
+		$Document->where($map)->setInc('view');
+
 		/* 模板赋值并渲染模板 */
 		$this->assign('category', $category);
 		$this->assign('info', $info);
