@@ -25,19 +25,20 @@
 <block name="side">
 <!-- 左侧 nav
 ================================================== -->
-  <div class="span3 bs-docs-sidebar">
-      <ul class="nav nav-list bs-docs-sidenav">
-          <li>
-              <button class="btn btn-primary btn-block btn-large">立即下载</button>
-          </li>
-      </ul>
-      <ul class="nav nav-list bs-docs-sidenav">
-          {:W('Category/lists', array($category['id'], ACTION_NAME == 'index'))}
-      </ul>
-  </div>
+    <div class="span3 bs-docs-sidebar">
+        <ul class="nav nav-list bs-docs-sidenav">
+            <li>
+                <a href="{:U('File/download?id='.$info['id'])}" class="btn btn-primary btn-block btn-large">立即下载</a>
+            </li>
+        </ul>
+        <ul class="nav nav-list bs-docs-sidenav">
+            {:W('Category/lists', array($category['id'], ACTION_NAME == 'index'))}
+        </ul>
+    </div>
 </block>
+
 <block name="body">
-      <div class="span9">
+      <div class="span9 main-content">
         <!-- Contents
         ================================================== -->
         <section id="contents">
@@ -59,6 +60,7 @@
             </table>
             
             <div>{$info.content}</div>
+            {:hooks('documentDetailAfter')}
         </section>
     </div>
 </block>

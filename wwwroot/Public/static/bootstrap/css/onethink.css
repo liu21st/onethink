@@ -150,8 +150,15 @@ body {
 form .ke-container{
     margin-bottom:12px;
 }
-.ellipsis {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+
+.main-content {
+    font-size:16px;
+}
+
+.bs-docs-sidenav > li > a.btn {
+    display: block;
+    width: 190px \9;
+    margin: 0 0 -1px;
+    padding: 11px 14px;
+    border: 1px solid #e5e5e5;
 }
