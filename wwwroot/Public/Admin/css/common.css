@@ -33,14 +33,6 @@
 	border-right-width: 0;
 }
 
-/* 单个元素在容器内垂直居中的支撑点，兼容IE6+ */
-.pillar {
-	display: inline-block;
-	width: 0;
-	height: 100%;
-	vertical-align: middle;
-}
-
 /* 提醒框 */
 .alert {
 	color: #c09853;
@@ -91,7 +83,6 @@ button.close {
     background-color: #dff0d8;
     border-color: #d6e9c6;
 }
-
 #top-alert {
     display: block;
     top: 50px;
