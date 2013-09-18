@@ -25,11 +25,11 @@ class ArticleController extends \Admin\Controller\AdminController {
                 array('title'=>'新增','url'=>'article/add'),
                 array('title'=>'编辑','url'=>'article/edit'),
                 array('title'=>'改变状态','url'=>'article/setStatus'),
-                array('title'=>'保存数据','url'=>'article/update'),
-            	array('title'=>'自动保存为草稿','url'=>'article/autoSave'),
-            	array('title'=>'移动文章','url'=>'article/move'),
-            	array('title'=>'复制文章','url'=>'article/copy'),
-            	array('title'=>'粘贴文章','url'=>'article/paste'),
+                array('title'=>'保存','url'=>'article/update'),
+            	array('title'=>'保存草稿','url'=>'article/autoSave'),
+            	array('title'=>'移动','url'=>'article/move'),
+            	array('title'=>'复制','url'=>'article/copy'),
+            	array('title'=>'粘贴','url'=>'article/paste'),
             ),
         ),
     	array(
@@ -40,7 +40,7 @@ class ArticleController extends \Admin\Controller\AdminController {
     		'operator'=>array(
     			//权限管理页面的按钮
     			array('title'=>'还原','url'=>'article/permit'),
-    			array('title'=>'清空回收站','url'=>'article/clear'),
+    			array('title'=>'清空','url'=>'article/clear'),
     		),
     	),
     );
@@ -523,9 +523,9 @@ class ArticleController extends \Admin\Controller\AdminController {
         	}
         	unset($_SESSION['moveArticle']);
         	if(false !== $res){
-        		$this->success('文章移动成功！');
+        		$this->success('文档移动成功！');
         	}else{
-        		$this->error('文章移动失败！');
+        		$this->error('文档移动失败！');
         	}
         }elseif(!empty($copyList)){ // 复制
             foreach ($copyList as $key=>$value){
@@ -547,9 +547,9 @@ class ArticleController extends \Admin\Controller\AdminController {
             }
             unset($_SESSION['copyArticle']);
             if($res){
-            	$this->success('文章复制成功！');
+            	$this->success('文档复制成功！');
             }else{
-            	$this->error('文章复制失败！');
+            	$this->error('文档复制失败！');
             }
         }
     }
