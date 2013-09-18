@@ -92,7 +92,11 @@
 		$(function(){
 			var verifyimg = $(".verifyimg").attr("src");
             $(".reloadverify").click(function(){
-                $(".verifyimg").attr("src", verifyimg.replace(/\?.*$/,'')+'?'+Math.random());
+                if( verifyimg.indexOf('?')>0){
+                    $(".verifyimg").attr("src", verifyimg+'&random='+Math.random());
+                }else{
+                    $(".verifyimg").attr("src", verifyimg.replace(/\?.*$/,'')+'?'+Math.random());
+                }
             });
 		});
 	</script>
