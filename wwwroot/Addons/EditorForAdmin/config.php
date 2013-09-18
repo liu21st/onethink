@@ -25,7 +25,8 @@
 			'options'=>array(
 				'1'=>'Kindeditor',
 				'2'=>'Ueditor(百度编辑器)',
-			)
+			),
+			'value'=>1
 		),
 		'editor_height'=>array(
 			'title'=>'编辑器高度:',
