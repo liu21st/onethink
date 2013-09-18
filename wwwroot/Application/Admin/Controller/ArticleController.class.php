@@ -88,18 +88,10 @@ class ArticleController extends \Admin\Controller\AdminController {
             }
         }
 
-        //获取默认显示的分类
-        foreach ($cate as $key=>$value){
-            if($value['allow_publish']){
-                $defaule_cate = $value['id'];
-                break;
-            }
-        }
-
         $cate           =   list_to_tree($cate);	//生成分类树
 
         //获取分类id
-        $cate_id        =   I('param.cate_id') == '' ? $defaule_cate : I('param.cate_id');
+        $cate_id        =   I('param.cate_id');
         $this->cate_id  =   $cate_id;
 
         //是否展开分类
@@ -138,7 +130,6 @@ class ArticleController extends \Admin\Controller\AdminController {
                         	$va['current']      =   false;
                         }
                     }else{
-                    	$value['current'] 	= 	false;
                     	$va['current']      =   false;
                     }
                 }
