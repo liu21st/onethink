@@ -119,6 +119,7 @@ class DocumentModel extends Model{
 	public function prev($info){
 		$map = array(
 			'id'          => array('lt', $info['id']),
+			'pid'		  => 0,
 			'category_id' => $info['category_id'],
 			'status'      => 1,
 		);
@@ -135,6 +136,7 @@ class DocumentModel extends Model{
 	public function next($info){
 		$map = array(
 			'id'          => array('gt', $info['id']),
+			'pid'		  => 0,
 			'category_id' => $info['category_id'],
 			'status'      => 1,
 		);
