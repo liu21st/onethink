@@ -214,7 +214,7 @@ only screen and (     -o-min-device-pixel-ratio: 2/1) {
 .masthead-links li {
   display: inline;
   padding: 0 10px;
-  color: rgba(255,255,255,.25);
+  color: rgba(255,255,255,.8);
 }
 
 /* Social proof buttons from GitHub & Twitter */
