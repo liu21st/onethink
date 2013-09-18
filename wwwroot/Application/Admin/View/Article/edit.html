@@ -121,8 +121,9 @@
 			<button class="btn submit-btn ajax-post hidden" id="submit" type="submit" target-form="form-horizontal">确 定</button>
 			<a class="btn btn-return" href="{:U('article/index?cate_id='.$cate_id)}">返 回</a>
 			<if condition="ACTION_NAME eq 'add' or $info['status'] eq 3">
-			<button class="btn" url="{:U('article/autoSave')}" target-form="form-horizontal" id="autoSave">保存为草稿Ctrl+S</button>
-			<span id="second">60</span>秒后自动保存为草稿
+			<button class="btn save-btn" url="{:U('article/autoSave')}" target-form="form-horizontal" id="autoSave">
+				存草稿（<span id="second">60</span>）
+			</button>
 			</if>
 			<input type="hidden" name="id" value="{$info.id}"/>
 			<input type="hidden" name="pid" value="{$info.pid}"/>

@@ -1,8 +1,8 @@
 <?php
 // +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
+// | OneThink [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2012 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.thinkphp.cn>
 // +----------------------------------------------------------------------
@@ -15,9 +15,6 @@ return array(
     /* 数据缓存设置 */
     'DATA_CACHE_PREFIX' => 'think_cmsadmin_', // 缓存前缀
     'DATA_CACHE_TYPE'   => 'File', // 数据缓存类型
-
-    /* 系统数据加密设置 */
-    'DATA_AUTH_KEY' => 'kd23()#20okifi4fj)(03JF!@#$%^&*', //默认数据加密KEY
 
     'codemirror_theme'=>'ambiance',
 

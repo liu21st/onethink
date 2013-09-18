@@ -1,8 +1,8 @@
 <?php
 // +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
+// | OneThink [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2013 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
@@ -48,7 +48,7 @@ class UcenterMemberModel extends Model{
 
 	/* 用户模型自动完成 */
 	protected $_auto = array(
-		array('password', 'think_ucenter_md5', self::MODEL_BOTH, 'function'),
+		array('password', 'think_ucenter_md5', self::MODEL_BOTH, 'function', UC_AUTH_KEY),
 		array('reg_time', NOW_TIME, self::MODEL_INSERT),
 		array('reg_ip', 'get_client_ip', self::MODEL_INSERT, 'function', 1),
 		array('update_time', NOW_TIME),
@@ -61,7 +61,7 @@ class UcenterMemberModel extends Model{
 	 * @return boolean          ture - 未禁用，false - 禁止注册
 	 */
 	protected function checkDenyMember($username){
-		return true;
+		return true; //TODO: 暂不限制，下一个版本完善
 	}
 
 	/**
@@ -70,7 +70,7 @@ class UcenterMemberModel extends Model{
 	 * @return boolean       ture - 未禁用，false - 禁止注册
 	 */
 	protected function checkDenyEmail($email){
-		return true;
+		return true; //TODO: 暂不限制，下一个版本完善
 	}
 
 	/**
@@ -79,7 +79,7 @@ class UcenterMemberModel extends Model{
 	 * @return boolean        ture - 未禁用，false - 禁止注册
 	 */
 	protected function checkDenyMobile($mobile){
-		return true;
+		return true; //TODO: 暂不限制，下一个版本完善
 	}
 
 	/**
@@ -87,7 +87,7 @@ class UcenterMemberModel extends Model{
 	 * @return integer 用户状态
 	 */
 	protected function getStatus(){
-		return true;
+		return true; //TODO: 暂不限制，下一个版本完善
 	}
 
 	/**

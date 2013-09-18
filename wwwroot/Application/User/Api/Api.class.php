@@ -1,11 +1,12 @@
 <?php
 // +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
+// | OneThink [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2013 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
+
 namespace User\Api;
 define('UC_CLIENT_PATH', dirname(dirname(__FILE__)));
 
@@ -14,6 +15,7 @@ require_cache(UC_CLIENT_PATH . '/Conf/config.php');
 
 //载入函数库文件
 require_cache(UC_CLIENT_PATH . '/Common/common.php');
+
 /**
  * UC API调用控制器层
  * 调用方法 A('Uc/User', 'Api')->login($username, $password, $type);

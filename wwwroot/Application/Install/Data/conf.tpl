@@ -1,8 +1,8 @@
 <?php
 // +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
+// | OneThink [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2012 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
@@ -13,12 +13,19 @@
  */
 return array(
     /* 模块相关配置 */
-    'AUTOLOAD_NAMESPACE' => array('Addons' => './Addons/'), //扩展模块列表
+    'AUTOLOAD_NAMESPACE' => array('Addons' => ONETHINK_ADDON_PATH), //扩展模块列表
     'DEFAULT_MODULE'     => 'Home',
     'MODULE_DENY_LIST'   => array('Common', 'User'),
 
+    /* 系统数据加密设置 */
+    'DATA_AUTH_KEY' => '[AUTH_KEY]', //默认数据加密KEY
+
     /* 调试配置 */
     'SHOW_PAGE_TRACE' => true,
+
+    /* 用户相关设置 */
+    'USER_MAX_CACHE'     => 1000, //最大缓存用户数
+    'USER_ADMINISTRATOR' => 1, //管理员用户ID
 
     /* URL配置 */
     'URL_CASE_INSENSITIVE' => true, //默认false 表示URL区分大小写 true则表示不区分大小写
@@ -39,5 +46,5 @@ return array(
     'DB_PREFIX' => '[DB_PREFIX]', // 数据库表前缀
 
     /* 文档模型配置 (文档模型核心配置，请勿更改) */
-    'DOCUMENT_MODEL_TYPE' => array('专辑', '目录', '主题', '段落'),
+    'DOCUMENT_MODEL_TYPE' => array(2 => '主题', 1 => '目录', 3 => '段落', 0 => '专辑'),
 );

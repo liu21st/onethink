@@ -1,18 +1,18 @@
 <?php
 // +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
+// | OneThink [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2012 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
 namespace Install\Controller;
-use Think\Action;
+use Think\Controller;
 
-class IndexController extends Action{
+class IndexController extends Controller{
 	//安装首页
-	public function index(){
+	public function index(){ 
 		if(is_file(MODULE_PATH . 'Data/install.lock')){
 			$this->error('已经成功安装了OneThink，请不要重复安装!', U('Index/index'));
 		}

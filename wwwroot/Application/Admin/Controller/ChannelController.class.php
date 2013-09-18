@@ -1,8 +1,8 @@
 <?php
 // +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
+// | OneThink [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2013 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
@@ -50,7 +50,7 @@ class ChannelController extends AdminController {
             if($data){
 
                 if($Channel->add()){
-                    $this->success('新增成功', U('channel'));
+                    $this->success('新增成功', U('index'));
                 } else {
                     $this->error('新增失败');
                 }
@@ -73,7 +73,7 @@ class ChannelController extends AdminController {
             $data = $Channel->create();
             if($data){
                 if($Channel->save()){
-                    $this->success('编辑成功', U('channel'));
+                    $this->success('编辑成功', U('index'));
                 } else {
                     $this->error('编辑失败');
                 }

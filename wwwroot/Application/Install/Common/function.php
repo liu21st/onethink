@@ -1,12 +1,11 @@
 <?php
 // +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
+// | OneThink [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2012 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
-// common.php 2013-03-20
 
 /**
  * 系统环境检测
@@ -16,7 +15,7 @@ function check_env(){
 	$items = array(
 		'os'      => array('操作系统', '不限制', '类Unix', PHP_OS, 'success'),
 		'php'     => array('PHP版本', '5.3', '5.3+', PHP_VERSION, 'success'),
-		'mysql'   => array('MYSQL版本', '5.0', '5.0+', '未知', 'success'),
+		//'mysql'   => array('MYSQL版本', '5.0', '5.0+', '未知', 'success'), //PHP5.5不支持mysql版本检测
 		'upload'  => array('附件上传', '不限制', '2M+', '未知', 'success'),
 		'gd'      => array('GD库', '2.0', '2.0+', '未知', 'success'),
 		'disk'    => array('磁盘空间', '5M', '不限制', '未知', 'success'),
@@ -29,13 +28,13 @@ function check_env(){
 	}
 
 	//数据库检测
-	if(function_exists('mysql_get_server_info')){
-		$items['mysql'][3] = mysql_get_server_info();
-		if($items['mysql'][3] < $items['mysql'][1]){
-			$items['mysql'][4] = 'error';
-			session('error', true);
-		}
-	}
+	// if(function_exists('mysql_get_server_info')){
+	// 	$items['mysql'][3] = mysql_get_server_info();
+	// 	if($items['mysql'][3] < $items['mysql'][1]){
+	// 		$items['mysql'][4] = 'error';
+	// 		session('error', true);
+	// 	}
+	// }
 
 	//附件上传检测
 	if(@ini_get('file_uploads'))
@@ -72,6 +71,7 @@ function check_dirfile(){
 		array('dir',  '可写', 'success', './Runtime'),
 		array('file', '可写', 'success', './index.php'),
 		array('file', '可写', 'success', './Application/Common/Conf/config.php'),
+		array('file', '可写', 'success', './Application/User/Conf/config.php'),
 	);
 
 	foreach ($items as &$val) {
@@ -116,7 +116,7 @@ function check_func(){
 		array('mysql_connect',     '支持', 'success'),
 		array('file_get_contents', '支持', 'success'),
 		array('fsockopen',         '支持', 'success'),
-		array('mime_content_type', '支持', 'success'),
+		//array('mime_content_type', '支持', 'success'), //该函数非必须
 	);
 
 	foreach ($items as &$val) {
@@ -135,17 +135,23 @@ function check_func(){
  * 写入配置文件
  * @param  array $config 配置信息
  */
-function write_config($config){
+function write_config($config, $auth){
 	if(is_array($config)){
 		//读取配置内容
 		$conf = file_get_contents(MODULE_PATH . 'Data/conf.tpl');
+		$user = file_get_contents(MODULE_PATH . 'Data/user.tpl');
 		//替换配置项
 		foreach ($config as $name => $value) {
 			$conf = str_replace("[{$name}]", $value, $conf);
+			$user = str_replace("[{$name}]", $value, $user);
 		}
 
+		$conf = str_replace('[AUTH_KEY]', $auth, $conf);
+		$user = str_replace('[AUTH_KEY]', $auth, $user);
+
 		//写入应用配置文件
-		if(file_put_contents(APP_PATH . 'Common/Conf/config.php', $conf)){
+		if(file_put_contents(APP_PATH . 'Common/Conf/config.php', $conf) &&
+		   file_put_contents(APP_PATH . 'User/Conf/config.php', $user)){
 			show_msg('配置文件写入成功');
 		} else {
 			show_msg('配置文件写入失败！', 'error');
@@ -190,7 +196,7 @@ function create_tables($db, $prefix = ''){
 		$value = trim($value);
 		if(empty($value)) continue;
 		if(substr($value, 0, 12) == 'CREATE TABLE') {
-			$name = preg_replace("/CREATE TABLE `(\w+)` .*/is", "\\1", $value);
+			$name = preg_replace("/CREATE TABLE `([a-z0-9]+)` .*/is", "\\1", $value);
 			$msg  = "创建数据表{$name}";
 			if(false !== $db->execute($value)){
 				show_msg($msg . '...成功');
@@ -205,6 +211,22 @@ function create_tables($db, $prefix = ''){
 	}
 }
 
+function register_administrator($db, $admin, $auth){
+	show_msg('开始注册创始人帐号...');
+	$sql = "INSERT INTO `think_ucenter_member` VALUES " . 
+		   "('1', '[NAME]', '[PASS]', '[EMAIL]', '', '[TIME]', '[IP]', 0, 0, '[TIME]', '1')";
+
+	$password = user_md5($admin['password'], $auth);
+	$sql = str_replace(
+		array('[NAME]', '[PASS]', '[EMAIL]', '[TIME]', '[IP]'), 
+		array($admin['username'], $password, $admin['email'], NOW_TIME, get_client_ip(1)), 
+		$sql);
+
+	//执行sql
+	$db->execute($sql);
+	show_msg('创始人帐号注册完成！');
+}
+
 /**
  * 及时显示提示信息
  * @param  string $msg 提示信息
@@ -213,4 +235,24 @@ function show_msg($msg, $class = ''){
 	echo "<script type=\"text/javascript\">showmsg(\"{$msg}\", \"{$class}\")</script>";
 	flush();
 	ob_flush();
+}
+
+/**
+ * 生成系统AUTH_KEY
+ * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ */
+function build_auth_key(){
+	$chars  = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	$chars .= '`~!@#$%^&*()_+-=[]{};:"\|,.<>/?';
+	$chars  = str_shuffle($chars);
+	return substr($chars, 0, 40);
+}
+
+/**
+ * 系统非常规MD5加密方法
+ * @param  string $str 要加密的字符串
+ * @return string 
+ */
+function user_md5($str, $key = ''){
+	return '' === $str ? '' : md5(substr(md5($str), 5, 18) . $key);
 }

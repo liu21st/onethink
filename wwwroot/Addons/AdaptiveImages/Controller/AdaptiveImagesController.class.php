@@ -1,10 +1,10 @@
 <?php
 // +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
+// | OneThink [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2013 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
+// | Author: yangweijie <yangweijiester@gmail.com> <code-tech.diandian.com>
 // +----------------------------------------------------------------------
 
 namespace Addons\AdaptiveImages\Controller;
@@ -51,7 +51,7 @@ class AdaptiveImagesController extends AddonsController{
 		if (!is_dir($this->cache_path)) { // no
 			if (!@mkdir($this->cache_path, 0755, true)) {
 				if (!is_dir($this->cache_path)) {
-					$this->sendErrorImage("Failed to create cache directory at: $cache_path");
+					$this->sendErrorImage("Failed to create cache directory at: $this->cache_path");
 				}
 			}
 		}
@@ -130,7 +130,7 @@ class AdaptiveImagesController extends AddonsController{
 
 		/* 使用响应值作为路径变量，并且检测同名图片是否存在其中 */
 		if (file_exists($cache_file)) {
-			if ($watch_cache) { //监视原图改变的话
+			if ($this->watch_cache) { //监视原图改变的话
 				$cache_file = $this->refreshCache($source_file, $cache_file, $resolution);
 			}
 
@@ -175,10 +175,10 @@ class AdaptiveImagesController extends AddonsController{
 		$requested_file = basename($requested_uri);
 		$source_file    = $this->source_file;
 
-		if(!is_mobile()){
+		if(!$this->is_mobile()){
 			$is_mobile = "FALSE";
 		} else {
-			$is_mobile = "TRUE";
+			$$this->is_mobile = "TRUE";
 		}
 
 		$im            = ImageCreateTrueColor(800, 300);
@@ -295,13 +295,13 @@ class AdaptiveImagesController extends AddonsController{
 				if (!is_dir($cache_dir)) {
 		    		// uh-oh, failed to make that directory
 					ImageDestroy($dst);
-					sendErrorImage("Failed to create cache directory: $cache_dir");
+					$this->sendErrorImage("Failed to create cache directory: $cache_dir");
 				}
 			}
 		}
 
 		if (!is_writable($cache_dir)) {
-			sendErrorImage("The cache directory is not writable: $cache_dir");
+			$this->sendErrorImage("The cache directory is not writable: $cache_dir");
 		}
 
 	  // save the new file in the appropriate path, and send a version to the browser

@@ -1,17 +1,17 @@
 <?php
 // +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
+// | OneThink [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2012 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
 namespace Install\Controller;
-use Think\Action;
+use Think\Controller;
 use Think\Db;
 
-class InstallController extends Action{
+class InstallController extends Controller{
 
 	protected function _initialize(){
 		if(session('step') === null){
@@ -54,10 +54,10 @@ class InstallController extends Action{
 				$this->error('确认密码和密码不一致');
 			} else {
 				$info = array();
-				list($info['username'], $info['password'], $info['email'], $info['mobile'])
+				list($info['username'], $info['password'], $info['repassword'], $info['email'])
 				= $admin;
 				//缓存管理员信息
-				F('admin_info', $info);
+				session('admin_info', $info);
 			}
 
 			//检测数据库配置
@@ -65,10 +65,10 @@ class InstallController extends Action{
 				$this->error('请填写完整的数据库配置');
 			} else {
 				$DB = array();
-				list($DB['DB_TYPE'], $DB['DB_HOST'], $DB['DB_NAME'], $DB['DB_USER'], $DB['DB_PWD'], 
+				list($DB['DB_TYPE'], $DB['DB_HOST'], $DB['DB_NAME'], $DB['DB_USER'], $DB['DB_PWD'],
 					 $DB['DB_PORT'], $DB['DB_PREFIX']) = $db;
 				//缓存数据库配置
-				F('db_config', $DB);
+				session('db_config', $DB);
 
 				//创建数据库
 				$dbname = $DB['DB_NAME'];
@@ -103,14 +103,19 @@ class InstallController extends Action{
 		$this->display();
 
 		//连接数据库
-		$dbconfig = F('db_config');
+		$dbconfig = session('db_config');
 		$db = Db::getInstance($dbconfig);
 
 		//创建数据表
 		create_tables($db, $dbconfig['DB_PREFIX']);
 
+		//注册创始人帐号
+		$auth  = build_auth_key();
+		$admin = session('admin_info');
+		register_administrator($db, $admin, $auth);
+
 		//创建配置文件
-		write_config($dbconfig);
+		write_config($dbconfig, $auth);
 
 		if(session('error')){
 			//show_msg();

@@ -1,8 +1,8 @@
 <?php
 // +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
+// | OneThink [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2013 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
@@ -228,6 +228,20 @@ function get_type_bycate($id = null){
         }
     }
     return $type_list;
+}
+
+/**
+ * 获取当前文档的分类
+ * @param int $id
+ * @return array 文档类型数组
+ * @author huajie <banhuajie@163.com>
+ */
+function get_cate($cate_id = null){
+    if(empty($cate_id)){
+        return false;
+    }
+    $cate   =   M('Category')->where('id='.$cate_id)->getField('title');
+    return $cate;
 }
 
  // 分析枚举类型配置值 格式 a:名称1,b:名称2
