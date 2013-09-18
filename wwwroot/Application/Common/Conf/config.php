@@ -17,8 +17,8 @@ return array(
     'DEFAULT_MODULE'     => 'Home',
     'MODULE_DENY_LIST'   => array('Common', 'User'),
 
-    /* 系统数据加密设置，安装之后请勿更改 */
-    'DATA_AUTH_KEY' => '|4"5amp~VYw}%:`A\R;rvzWKO=yheC@TXn+jMq$I', //默认数据加密KEY
+    /* 系统数据加密设置 */
+    'DATA_AUTH_KEY' => 'kWdi?&#LZ[PYjDag4*7z,Rf/|CxpVtN)@09UsvBq', //默认数据加密KEY
 
     /* 调试配置 */
     'SHOW_PAGE_TRACE' => true,
@@ -39,7 +39,7 @@ return array(
     /* 数据库配置 */
     'DB_TYPE'   => 'mysql', // 数据库类型
     'DB_HOST'   => '192.168.1.200', // 服务器地址
-    'DB_NAME'   => 'onethink', // 数据库名
+    'DB_NAME'   => 'onethink_v01', // 数据库名
     'DB_USER'   => 'root', // 用户名
     'DB_PWD'    => '',  // 密码
     'DB_PORT'   => '3306', // 端口
