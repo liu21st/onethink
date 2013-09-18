@@ -17,7 +17,7 @@ return array(
     'DEFAULT_MODULE'     => 'Home',
     'MODULE_DENY_LIST'   => array('Common', 'User'),
 
-    /* 系统数据加密设置 */
+    /* 系统数据加密设置，安装之后请勿更改 */
     'DATA_AUTH_KEY' => '|4"5amp~VYw}%:`A\R;rvzWKO=yheC@TXn+jMq$I', //默认数据加密KEY
 
     /* 调试配置 */

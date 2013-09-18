@@ -16,11 +16,8 @@ return array(
     'DEFAULT_THEME' =>  'default',  // 默认模板主题名称
 
     /* 数据缓存设置 */
-    'DATA_CACHE_PREFIX' => 'onethink_', // 缓存前缀
+    'DATA_CACHE_PREFIX' => 'onethink/', // 缓存前缀
     'DATA_CACHE_TYPE'   => 'File', // 数据缓存类型
-
-    /* 系统数据加密设置 */
-    'DATA_AUTH_KEY' => 'kd23()#20okifi4fj)(03JF!@#$%^&*', //默认数据加密KEY安装过后请勿更改
 
     /* 文件上传相关配置 */
     'DOWNLOAD_UPLOAD' => array(
@@ -64,8 +61,8 @@ return array(
     ),
 
     /* SESSION 和 COOKIE 配置 */
-    'SESSION_PREFIX' => 'onethink', //session前缀
-    'COOKIE_PREFIX'  => 'onethink_', // Cookie前缀 避免冲突
+    'SESSION_PREFIX' => 'onethink_home', //session前缀
+    'COOKIE_PREFIX'  => 'onethink_home_', // Cookie前缀 避免冲突
 
     /**
      * 附件相关配置

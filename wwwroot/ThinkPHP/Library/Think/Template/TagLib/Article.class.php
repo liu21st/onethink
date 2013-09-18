@@ -6,10 +6,12 @@
 // +----------------------------------------------------------------------
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
+
 namespace Think\Template\TagLib;
 use Think\Template\TagLib;
+
 /**
- * ThinkCMS 系文档模型标签库
+ * OneThink 系文档模型标签库
  */
 class Article extends TagLib{
 	/**
@@ -86,27 +88,26 @@ class Article extends TagLib{
 		return $parse;
 	}
 
-	/* 段落数据分页 */
-	public function _partpage($attr){
+	/* 子内容数据分页 */
+	public function _childpage($attr){
 		$tag     = $this->parseXmlAttr($attr, 'next');
 		$id      = $tag['id'];
 		$listrow = $tag['listrow'];
 		$parse   = '<?php ';
-		$parse  .= 'import(\'COM.Page\');';
-		$parse  .= '$__PAGE__ = new Page(get_part_count(' . $id . '), ' . $listrow . ');';
+		$parse  .= '$__PAGE__ = new \COM\Page(get_child_count(' . $id . '), ' . $listrow . ');';
 		$parse  .= 'echo $__PAGE__->show();';
 		$parse  .= ' ?>';
 		return $parse;
 	}
 
-	/* 段落列表 */
-	public function _partlist($attr, $content){
+	/* 子内容列表 */
+	public function _childlist($attr, $content){
 		$tag    = $this->parseXmlAttr($attr, 'partlist');
 		$id     = $tag['id'];
 		$field  = $tag['field'];
 		$name   = $tag['name'];
 		$parse  = '<?php ';
-		$parse .= '$__PARTLIST__ = D(\'Document\')->part(' . $id . ', $page, \'' . $field . '\');';
+		$parse .= '$__PARTLIST__ = D(\'Document\')->child(' . $id . ', $page, \'' . $field . '\');';
 		$parse .= ' ?>';
 		$parse .= '<volist name="__PARTLIST__" id="'. $name .'">';
 		$parse .= $content;
