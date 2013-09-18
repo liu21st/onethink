@@ -19,7 +19,7 @@ class Think extends TagLib{
 	 * @var array
 	 */
 	protected $tags   =  array(
-		'nav' => array('attr' => 'field,name', 'close' => 1), //获取导航
+		'nav'  => array('attr' => 'field,name', 'close' => 1), //获取导航
 	);
 
 	/* 导航列表 */
