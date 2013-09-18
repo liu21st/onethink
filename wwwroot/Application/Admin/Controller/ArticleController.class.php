@@ -420,6 +420,8 @@ class ArticleController extends \Admin\Controller\AdminController {
             $map['create_time'][] = array('elt',24*60*60 + strtotime(I('time-end')));
 
         }
+        //只查询pid为0的文章
+        $map['pid'] = 0;
         $list = $this->lists($Document,$map,'update_time desc');
         intToString($list);
 
