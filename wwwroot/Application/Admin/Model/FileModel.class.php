@@ -1,11 +1,12 @@
 <?php
 // +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
+// | OneThink [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2013 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
+
 namespace Admin\Model;
 use Think\Model;
 use COM\Upload;
@@ -108,7 +109,7 @@ class FileModel extends Model{
      */
     public function isFile($file){
         if(empty($file['md5'])){
-            throw new Exception('缺少参数:md5');
+            throw new \Exception('缺少参数:md5');
         }
         /* 查找文件 */
         $map = array('md5' => $file['md5']);

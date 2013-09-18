@@ -1,8 +1,8 @@
 <?php
 // +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
+// | OneThink [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2013 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
@@ -256,7 +256,8 @@ class AdminController extends Controller {
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
     protected function delete ( $model , $where = array() , $msg = array( 'success'=>'删除成功！', 'error'=>'删除失败！')) {
-        $data    = array('status' => -1);
+        $data['status']         =   -1;
+        $data['update_time']    =   NOW_TIME;
         $this->editRow(   $model , $data, $where, $msg);
     }
 
@@ -548,6 +549,7 @@ class AdminController extends Controller {
         }
         $p =$page->show();
         $this->assign('_page', $p? $p: '');
+        $this->assign('_total',$total);
         $options['limit'] = $page->firstRow.','.$page->listRows;
 
         $model->setProperty('options',$options);

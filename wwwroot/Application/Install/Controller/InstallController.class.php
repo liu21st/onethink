@@ -1,17 +1,17 @@
 <?php
 // +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
+// | OneThink [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2012 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
 namespace Install\Controller;
-use Think\Action;
+use Think\Controller;
 use Think\Db;
 
-class InstallController extends Action{
+class InstallController extends Controller{
 
 	protected function _initialize(){
 		if(session('step') === null){
@@ -65,7 +65,7 @@ class InstallController extends Action{
 				$this->error('请填写完整的数据库配置');
 			} else {
 				$DB = array();
-				list($DB['DB_TYPE'], $DB['DB_HOST'], $DB['DB_NAME'], $DB['DB_USER'], $DB['DB_PWD'], 
+				list($DB['DB_TYPE'], $DB['DB_HOST'], $DB['DB_NAME'], $DB['DB_USER'], $DB['DB_PWD'],
 					 $DB['DB_PORT'], $DB['DB_PREFIX']) = $db;
 				//缓存数据库配置
 				F('db_config', $DB);

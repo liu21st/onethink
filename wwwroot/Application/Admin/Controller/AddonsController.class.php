@@ -1,12 +1,14 @@
 <?php
 // +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
+// | OneThink [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2013 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Author: yangweijie <yangweijiester@gmail.com> <code-tech.diandian.com>
 // +----------------------------------------------------------------------
+
 namespace Admin\Controller;
+
 /**
  * 扩展后台管理页面
  * @author yangweijie <yangweijiester@gmail.com>

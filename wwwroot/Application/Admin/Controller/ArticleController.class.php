@@ -1,8 +1,8 @@
 <?php
 // +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
+// | OneThink [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2013 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Author: huajie <banhuajie@163.com>
 // +----------------------------------------------------------------------
@@ -353,11 +353,11 @@ class ArticleController extends \Admin\Controller\AdminController {
                 $map    =   array( 'status'=>-1,'category_id'=>-1 );
             }
         }
-        $list = M('Document')->where($map)->field('id,title,uid,create_time')->select();
+        $list = M('Document')->where($map)->field('id,title,uid,category_id,type,update_time')->order('update_time desc')->select();
         //处理列表数据
         foreach ($list as $k=>&$v){
             $v['username']      =   get_username($v['uid']);
-            $v['create_time']   =   time_format($v['create_time']);
+            //$v['create_time']   =   time_format($v['create_time']);
         }
         $this->assign('list', $list);
         $this->meta_title       =   '回收站';
@@ -389,7 +389,7 @@ class ArticleController extends \Admin\Controller\AdminController {
         $map        =   array('status'=>3,'uid'=>is_login());
         $list       =   $this->lists($Document,$map);
         //获取状态文字
-        intToString($list);
+        //intToString($list);
 
         $this->assign('list', $list);
         $this->meta_title = '草稿箱';

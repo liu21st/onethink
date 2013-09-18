@@ -10,7 +10,7 @@
 	<!-- 标题 -->
 	<div class="main-title">
 		<h2>
-		文档列表 [
+		文档列表({$_total}) [
 		<volist name="rightNav" id="nav">
 		<a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a>
 			<if condition="count($rightNav) gt $i"><i class="ca"></i></if>

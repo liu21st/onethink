@@ -1,8 +1,8 @@
 <?php
 // +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
+// | OneThink [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2013 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
@@ -41,6 +41,8 @@ class DocumentModel extends Model{
 		array('status', 'getStatus', self::MODEL_BOTH, 'callback'),
 	);
 
+    public $page = '';
+
 	/**
 	 * 获取文档列表
 	 * @param  integer  $category 分类ID
@@ -51,8 +53,26 @@ class DocumentModel extends Model{
 	 * @return array              文档列表
 	 */
 	public function lists($category, $order = '`id` DESC', $status = 1, $field = true){
+        $REQUEST      =   (array)I('request.');
 		$map = $this->listMap($category, $status);
-		return $this->field($field)->where($map)->order($order)->select();
+        $total        =   $this->where($map)->count();
+
+        if( isset($REQUEST['r']) ){
+            $listRows = (int)$REQUEST['r'];
+        }else{
+            $listRows = C('LIST_ROWS') > 0 ? C('LIST_ROWS') : 10;
+        }
+
+        $Page = new \COM\Page($total, $listRows, $REQUEST);
+
+        if($total>$listRows){
+            $Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
+        }
+
+        $p =$Page->show();
+        $this->page = $p? $p: '';
+        $limit = $Page->firstRow.','.$Page->listRows;
+		return $this->field($field)->where($map)->order($order)->limit($limit)->select();
 	}
 
 	/**

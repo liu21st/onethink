@@ -10,7 +10,7 @@
 	<!-- 标题 -->
 	<div class="main-title">
 		<h2>
-		我的文档
+		我的文档({$_total})
 		</h2>
 	</div>
 
@@ -72,10 +72,10 @@
 					'tag'   =>'span',
 					'func'	=>	'get_document_type($type)',
 				),
-                'uid'  =>array(
-                    '_title'=>'创建者',
+                'category_id'  =>array(
+                    '_title'=>'分类',
                     'tag' =>'span',
-                    'func'  =>'get_username($uid)',
+                    'func'  =>'get_cate($category_id)',
                 ),
                 'update_time'=>array(
                     '_title'=>'最后更新',

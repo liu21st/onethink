@@ -48,7 +48,7 @@ class Ftp{
 
         /* 登录FTP服务器 */
         if(!$this->login()){
-            throw new Exception($this->error);
+            throw new \Exception($this->error);
         }
         
         /* 设置根目录 */
@@ -91,7 +91,7 @@ class Ftp{
     public function save($file, $replace) {
         $filename = $this->rootPath . $file['savepath'] . $file['savename'];
 
-        /* 不覆盖同名文件 */ 
+        /* 不覆盖同名文件 */
         // if (!$replace && is_file($filename)) {
         //     $this->error = '存在同名文件' . $file['savename'];
         //     return false;
