@@ -1,134 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <include file="Public/head"/>
-    </head>
+<extend name="Base/common"/>
 
-    <body data-spy="scroll" data-target=".bs-docs-sidebar">
-        <include file="Public/header"/>
-
-        <div class="onethink jumbotron masthead">
-            <div class="container">
-                <h1>OneThink</h1>
-                <p>简单而强大的内容管理框架,让WEB开发更快速!</p>
-                <p>
-                    <a href="#" class="btn btn-primary btn-large">下载 OneThink</a>
-                    <a href="{:U('Article/index?category=topic')}" class="btn btn-success btn-large">进入讨论区</a>
-                </p>
-                <ul class="masthead-links">
-                    <li>
-                        <a href="http://weibo.com/thinkphp" target="_blank">新浪微博</a>
-                    </li>
-                    <li>
-                        <a href="http://t.qq.com/topthink" target="_blank">腾讯微博</a>
-                    </li>
-                    <li>
-                        当前版本 Version 1.0 beta
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="bs-docs-social">
-            <div class="container">
-                <ul class="bs-docs-social-buttons">
-                    <li>
-                        <a href="" class=""></a>
-                    </li>
-                    <li>
-                        <a href="" class=""></a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
+<block name="header">
+    <header class="jumbotron subhead" id="overview">
         <div class="container">
-
-            <div class="marketing">
-
-                <h1>一分钟快速了解OneThink</h1>
-                <p class="marketing-byline"></p>
-                <div class="row-fluid">
-
-                    <div class="span4">
-                        <img class="marketing-img" src="__IMG__/onethink/thinkphp3.2.png">
-                        <h2>基于最新ThinkPHP</h2>
-                        <p>依托新版ThinkPHP的功能优势和命名空间的特性，官方七年磨一剑，用心打造。</p>
-                    </div>
-
-                    <div class="span4">
-                        <img class="marketing-img" src="__IMG__/onethink/modules.png">
-                        <h2>模块化开发</h2>
-                        <p>全新的架构和模块化的开发机制，便于灵活扩展和二次开发。</p>
-                    </div>
-
-                    <div class="span4">
-                        <img class="marketing-img" src="__IMG__/onethink/documentmodel.png">
-                        <h2>文档模型/分类体系</h2>
-                        <p>通过和文档模型绑定，以及不同的文档类型，不同分类可以实现差异化的功能，轻松实现诸如资讯，下载，讨论和图片等功能。</p>
-                    </div>
-                </div>
-
-                <div class="row-fluid">
-
-                    <div class="span4">
-                        <img class="marketing-img" src="__IMG__/onethink/opensource.png">
-                        <h2>完全开源免费</h2>
-                        <p>代码遵循Apache2开源协议，并且免费使用，对商业用户友好。</p>
-                    </div>
-
-                    <div class="span4">
-                        <img class="marketing-img" src="__IMG__/onethink/useraction.png">
-                        <h2>用户行为</h2>
-                        <p>支持自定义用户行为，可以对单个用户或群体用户的行为进行记录及分享，为您的运营决策提供有效参考数据。</p>
-                    </div>
-
-                    <div class="span4">
-                        <img class="marketing-img" src="__IMG__/onethink/cloud.png">
-                        <h2>云端部署</h2>
-                        <p>通过驱动的方式可以轻松支持云平台的部署，让你的网站无缝迁移，内置已经支持SAE。</p>
-                    </div>
-
-                </div>
-
-                <div class="row-fluid">
-
-                    <div class="span4">
-                        <img class="marketing-img" src="__IMG__/onethink/cloud-service.png">
-                        <h2>云服务支持</h2>
-                        <p>即将启动支持云存储，云安全，云过滤和云统计等服务，更多的贴心服务让你的网站更安心。</p>
-                    </div>
-
-                    <div class="span4">
-                        <img class="marketing-img" src="__IMG__/onethink/safe.png">
-                        <h2>安全策略</h2>
-                        <p>提供的稳健的安全策略，包括备份恢复，容错，防治恶意攻击登陆，网页防篡改等多项安全管理功能，保证系统安全，可靠，稳定的运行。</p>
-                    </div>
-
-                    <div class="span4">
-                        <img class="marketing-img" src="__IMG__/onethink/warehouse.png">
-                        <h2>应用仓库</h2>
-                        <p>官方应用仓库拥有大量的第三方的插件和应用模块、模板主题，众多来自开源社区的贡献，让你的网站“One”美无缺！</p>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <hr class="soften">
-
+            <h2>源自相同起点，演绎不同精彩！</h2>
+            <p class="lead"></p>
         </div>
+    </header>
+</block>
 
+<block name="side">
+<!-- 左侧 nav
+================================================== -->
+    <div class="span3 bs-docs-sidebar">
+        <ul class="nav nav-list bs-docs-sidenav">
+            {:W('Category/lists', array(1, true))}
+        </ul>
+    </div>
+</block>
 
-
-        <!-- Footer
+<block name="body">
+    <div class="span9">
+        <!-- Contents
         ================================================== -->
-        <footer class="footer">
-            <div class="container">
-                <p>Page designed by <a href="http://twitter.com/mdo" target="_blank">@mdo</a> and <a href="http://twitter.com/fat" target="_blank">@fat</a>, Licensed under <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache License v2.0</a></p>
-            </div>
-        </footer>
+        <section id="contents">
+            <article:list name="list" category="1" child="true">
+                <div class="">
+                    <h3><a href="{:U('Article/detail?id='.$list['id'])}">{$list.title}</a></h3>
+                </div>
+                <div>
+                    <p class="lead">{$list.description}</p>
+                </div>
+                <div>
+                    <span><a href="{:U('Article/detail?id='.$list['id'])}">查看全文</a></span>
+                    <span class="pull-right">
+                        <span class="author">{$list.uid|get_username}</span>
+                        <span>于 {$list.create_time|date='Y-m-d H:i:s'}</span> 发表在 <span>
+                        <a href="{:U('Article/lists?category='.get_category_name($list['category_id']))}">{$list.category_id|get_category_title}</a></span> 
+                    </span>
+                </div>
+                <hr/>
+            </article:list>
 
-    </body>
-</html>
-
+        </section>
+    </div>
+        </div>
+</block>

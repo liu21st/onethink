@@ -26,7 +26,6 @@ class CategoryWidget extends Action{
 		} else {
 			$category = D('Category')->getSameLevel($cate, $field);
 		}
-
 		$this->assign('category', $category);
 		$this->assign('current', $cate);
 		$this->display('Category/lists');
