@@ -1163,19 +1163,22 @@ form.bs-docs-example {
 
 
 .ico-success,.ico-error{ 
-    vertical-align: middle; 
-    margin-right: 4px; 
-    background: url(../img/status.png) no-repeat;
+    vertical-align: -1px;
+    *vertical-align: middle;
+    margin-right: 6px; 
     display: inline-block; 
-    width: 14px; 
-    height: 14px; 
+    width: 16px; 
+    height: 16px; 
     line-height: 9;
     overflow: hidden; 
 }
 
 .ico-success{ 
-    background-position: 0 0;
+    background: url(../img/ok.png) no-repeat 0 0;
 }
 .ico-error{ 
-    background-position: -32px 0;
+    background: url(../img/error.png) no-repeat 0 0;
+}
+.footer {
+    background-color: #202020;
 }

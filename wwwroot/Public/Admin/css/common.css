@@ -107,6 +107,34 @@ button.close {
     word-break: break-word;
 }
 
+/* = Thinkbox弹出层插件样式
+------------------------------------------ */
+.thinkbox-content{
+    padding: 15px;
+    min-width: 100px;
+}
+.thinkbox-default .thinkbox-tools {
+    border:none!important; 
+    background-color: #fff!important;
+}
+.thinkbox-default .thinkbox-top-left {
+    border-radius: 0!important;
+}
+.thinkbox-default .thinkbox-top-right {
+    border-radius: 0!important;
+}
+.thinkbox-default .thinkbox-bottom-left {
+    border-radius: 0!important;
+}
+.thinkbox-default .thinkbox-bottom-right {
+    border-radius: 0!important;
+}
+.thinkbox-default .thinkbox-window-actions button {
+    margin-right: 6px!important;
+    /* background-image:none!important; */
+    /* background-color:#dd0000!important; */
+}
+
 /* = uploadify上传插件样式
 ------------------------------------------ */
 .uploadify-button {
