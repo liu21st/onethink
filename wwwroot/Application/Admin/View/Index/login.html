@@ -17,15 +17,15 @@
                         <div id="itemBox" class="item-box">
                             <div class="item">
                                 <i class="icon-login-user"></i>
-                                <input type="text" name="username" placeholder="请填写用户名" autocomplete = "off" />
+                                <input type="text" name="username" placeholder="请填写用户名" autocomplete="off" />
                             </div>
                             <div class="item b0">
                                 <i class="icon-login-pwd"></i>
-                                <input type="password" name="password" placeholder="请填写密码" autocomplete = "off" />
+                                <input type="password" name="password" placeholder="请填写密码" autocomplete="off" />
                             </div>
                             <div class="item verifycode">
                                 <i class="icon-login-verifycode"></i>
-                                <input type="text" name="verify" placeholder="请填写验证码">
+                                <input type="text" name="verify" placeholder="请填写验证码" autocomplete="off">
                                 <a class="reloadverify" title="换一张" href="javascript:void(0)">换一张？</a>
                             </div>
                             <div>
@@ -43,7 +43,7 @@
                 </div>
             </div>
         </div>
-	<!--[if lt IE 9]> 
+	<!--[if lt IE 9]>
     <script type="text/javascript" src="__STATIC__/jquery-1.10.2.min.js"></script>
     <![endif]-->
     <!--[if gte IE 9]><!-->
@@ -76,11 +76,15 @@
     				window.location.href = data.url;
     			} else {
     				self.find(".check-tips").text(data.info);
+    				//刷新验证码
+    				$(".reloadverify").click();
     			}
     		}
     	});
-    	
+
 		$(function(){
+			//初始化选中用户名输入框
+			$("#itemBox").find("input[name=username]").focus();
 			//刷新验证码
 			var verifyimg = $(".verifyimg").attr("src");
             $(".reloadverify").click(function(){
