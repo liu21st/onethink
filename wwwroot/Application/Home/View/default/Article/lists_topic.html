@@ -16,11 +16,11 @@
         <section id="contents">
 
 		<volist name="list" id="data">
-			<div class="page-header">
+			<div>
 				<h3><a href="{:U('Article/detail?id='.$data['id'])}">{$data.title}</a></h3>
 			</div>
 			<div>
-				<span class="pull-left">
+				<span>
 					<span class="author">{$data.uid|get_username}</span>
 					<span>于 {$data.create_time|date='Y-m-d H:i:s',###}</span> 发表在 
 					<span><a href="">{$data.category_id|get_category_title}</a></span> </span>
