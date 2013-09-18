@@ -355,7 +355,7 @@ class ArticleController extends \Admin\Controller\AdminController {
         $list = M('Document')->where($map)->field('id,title,uid,category_id,type,update_time')->order('update_time desc')->select();
         //处理列表数据
         foreach ($list as $k=>&$v){
-            $v['username']      =   get_username($v['uid']);
+            $v['username']      =   get_nickname($v['uid']);
             //$v['create_time']   =   time_format($v['create_time']);
         }
         $this->assign('list', $list);
