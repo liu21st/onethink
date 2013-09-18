@@ -94,8 +94,6 @@ select {
 	vertical-align: middle;
 }
 
-/* 多行两列表单
------------------------------------------- */
 .form-horizontal .form-item {
 	margin-bottom: 5px;
 }
