@@ -22,7 +22,7 @@ use Common\Controller\Addons;
             'name'=>'SiteStat',
             'title'=>'站点统计信息',
             'description'=>'统计站点的基础信息',
-            'status'=>0,
+            'status'=>1,
             'author'=>'thinkphp',
             'version'=>'0.1'
         );

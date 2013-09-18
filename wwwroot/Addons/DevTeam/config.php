@@ -21,7 +21,7 @@ return array(
 			'2'=>'2格',
 			'4'=>'4格'
 		),
-		'value'=>'1'
+		'value'=>'2'
 	),
 	'display'=>array(
 		'title'=>'是否显示:',

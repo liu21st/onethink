@@ -22,7 +22,7 @@ use Common\Controller\Addons;
             'name'=>'DevTeam',
             'title'=>'开发团队信息',
             'description'=>'开发团队成员信息',
-            'status'=>0,
+            'status'=>1,
             'author'=>'thinkphp',
             'version'=>'0.1'
         );

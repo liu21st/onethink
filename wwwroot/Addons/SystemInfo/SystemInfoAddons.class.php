@@ -22,7 +22,7 @@ use Common\Controller\Addons;
             'name'=>'SystemInfo',
             'title'=>'系统环境信息',
             'description'=>'用于显示一些服务器的信息',
-            'status'=>0,
+            'status'=>1,
             'author'=>'thinkphp',
             'version'=>'0.1'
         );
