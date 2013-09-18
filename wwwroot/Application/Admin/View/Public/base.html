@@ -135,15 +135,30 @@
             $subnav.find("a[href='" + url + "']").parent().addClass("current");
 
             /* 左边菜单显示收起 */
-            $("#subnav h3").find("i").click(function(){
-                $(this).parent().next().toggle("fast","linear");
-                $(this).toggleClass("icon-fold");
-            });
+            // $("#subnav h3").find("i").click(function(){
+            //     $(this).parent().next().toggle("fast","linear");
+            //     $(this).toggleClass("icon-fold");
+            // });
 
-            $(".side-sub-menu li").hover(function(){
-                $(this).addClass("hover").siblings().removeClass("hover");
-            },function(){
-                $(this).removeClass("hover");
+            // $(".side-sub-menu li").hover(function(){
+            //     $(this).addClass("hover").siblings().removeClass("hover");
+            // },function(){
+            //     $(this).removeClass("hover");
+            // })
+            $("#subnav").find("h3").each(function(){
+                $(this).click(function(){
+                    var $this = $(this);
+                    var hasA = $this.has("a").html();
+                    if( !hasA ) {
+                        $this.find(".icon").toggleClass("icon-fold");
+                        $this.next().slideToggle("fast").siblings(".side-sub-menu:visible").
+                              prev("h3").find("i").addClass("icon-fold").end().end().hide();
+
+                    } else {
+                        
+                    }
+                    
+                });
             })
 
             /* 头部管理员菜单 */
