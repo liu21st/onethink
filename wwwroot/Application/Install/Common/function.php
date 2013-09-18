@@ -196,7 +196,7 @@ function create_tables($db, $prefix = ''){
 		$value = trim($value);
 		if(empty($value)) continue;
 		if(substr($value, 0, 12) == 'CREATE TABLE') {
-			$name = preg_replace("/CREATE TABLE `([a-z0-9]+)` .*/is", "\\1", $value);
+			$name = preg_replace("/^CREATE TABLE `(\w+)` .*/s", "\\1", $value);
 			$msg  = "创建数据表{$name}";
 			if(false !== $db->execute($value)){
 				show_msg($msg . '...成功');
@@ -211,17 +211,17 @@ function create_tables($db, $prefix = ''){
 	}
 }
 
-function register_administrator($db, $admin, $auth){
+function register_administrator($db, $prefix, $admin, $auth){
 	show_msg('开始注册创始人帐号...');
-	$sql = "INSERT INTO `think_ucenter_member` VALUES " . 
+	$sql = "INSERT INTO `[PREFIX]ucenter_member` VALUES " . 
 		   "('1', '[NAME]', '[PASS]', '[EMAIL]', '', '[TIME]', '[IP]', 0, 0, '[TIME]', '1')";
 
 	$password = user_md5($admin['password'], $auth);
 	$sql = str_replace(
-		array('[NAME]', '[PASS]', '[EMAIL]', '[TIME]', '[IP]'), 
-		array($admin['username'], $password, $admin['email'], NOW_TIME, get_client_ip(1)), 
+		array('[PREFIX]', '[NAME]', '[PASS]', '[EMAIL]', '[TIME]', '[IP]'), 
+		array($prefix, $admin['username'], $password, $admin['email'], NOW_TIME, get_client_ip(1)), 
 		$sql);
-
+	F('sql', $sql);
 	//执行sql
 	$db->execute($sql);
 	show_msg('创始人帐号注册完成！');
@@ -254,5 +254,5 @@ function build_auth_key(){
  * @return string 
  */
 function user_md5($str, $key = ''){
-	return '' === $str ? '' : md5(substr(md5($str), 5, 18) . $key);
+	return '' === $str ? '' : md5(sha1($str) . $key);
 }

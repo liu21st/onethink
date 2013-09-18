@@ -112,7 +112,7 @@ class InstallController extends Controller{
 		//注册创始人帐号
 		$auth  = build_auth_key();
 		$admin = session('admin_info');
-		register_administrator($db, $admin, $auth);
+		register_administrator($db, $dbconfig['DB_PREFIX'], $admin, $auth);
 
 		//创建配置文件
 		write_config($dbconfig, $auth);
