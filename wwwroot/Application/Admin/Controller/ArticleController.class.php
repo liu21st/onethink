@@ -27,6 +27,9 @@ class ArticleController extends \Admin\Controller\AdminController {
                 array('title'=>'改变状态','url'=>'article/setStatus'),
                 array('title'=>'保存数据','url'=>'article/update'),
             	array('title'=>'自动保存为草稿','url'=>'article/autoSave'),
+            	array('title'=>'移动文章','url'=>'article/move'),
+            	array('title'=>'复制文章','url'=>'article/copy'),
+            	array('title'=>'粘贴文章','url'=>'article/paste'),
             ),
         ),
     	array(
