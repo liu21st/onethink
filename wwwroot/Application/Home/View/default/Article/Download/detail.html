@@ -26,7 +26,24 @@
       <div class="span9">
         <!-- Contents
         ================================================== -->
-        <section id="contents">{$info.content}</section>
+        <section id="contents">
+            <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <td width="20%">文件尺寸</td>
+                            <td>{$info.size}</td>
+                        </tr>
+                        <tr>
+                            <td>下载次数</td>
+                            <td>{$info.download}</td>
+                        </tr>
+                        <tr>
+                            <td>文件描述</td>
+                            <td>{$info.description}</td>
+                        </tr>
+                    </tbody>
+            </table>
+        </section>
         <hr/>
     </div>
 </block>

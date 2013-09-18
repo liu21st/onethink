@@ -16,7 +16,7 @@ namespace Home\Controller;
 class IndexController extends HomeController {
 
     public function test(){
-        dump(D('Channel')->lists());
+        dump(D('Category')->getChildrenId(1));
     }
 
 	//系统首页

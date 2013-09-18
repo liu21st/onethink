@@ -108,6 +108,22 @@ class CategoryModel extends Model{
 	}
 
 	/**
+	 * 获取指定分类子分类ID
+	 * @param  string $cate 分类ID
+	 * @return string       id列表
+	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+	 */
+	public function getChildrenId($cate){
+		$field = 'id,name,pid,title,link_id';
+		$category = D('Category')->getTree($cate, $field);
+		$ids = array();
+		foreach ($category['_'] as $key => $value) {
+			$ids[] = $value['id'];
+		}
+		return implode(',', $ids);
+	}
+
+	/**
 	 * 查询后解析扩展信息
 	 * @param  array $data 分类数据
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>

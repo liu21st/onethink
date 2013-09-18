@@ -15,33 +15,26 @@
         ================================================== -->
         <section id="contents">
 
-		<volist name="list" id="data">
-			<div class="">
-				<h3><a href="{:U('Article/detail?id='.$data['id'])}">{$data.title}</a></h3>
-			</div>
-			<div>
-				<p class="lead">{$data.description}</p>
-			</div>
-			<div>
-				<span><a href="{:U('Article/detail?id='.$data['id'])}">查看全文</a></span>
-				<span class="pull-right">
-					<span class="author">{$data.uid|get_username}</span>
-					<span>于 {$data.create_time|date='Y-m-d H:i:s',###}</span> 发表在 
-					<span><a href="">{$data.category_id|get_category_title}</a></span> </span>
-			</div>
-			<hr/>
-        </volist>
+			<volist name="list" id="data">
+				<div class="">
+					<h3><a href="{:U('Article/detail?id='.$data['id'])}">{$data.title}</a></h3>
+				</div>
+				<div>
+					<p class="lead">{$data.description}</p>
+				</div>
+				<div>
+					<span><a href="{:U('Article/detail?id='.$data['id'])}">查看全文</a></span>
+					<span class="pull-right">
+						<span class="author">{$data.uid|get_username}</span>
+						<span>于 {$data.create_time|date='Y-m-d H:i:s',###}</span>
+				</div>
+				<hr/>
+	        </volist>
 
-            <div class="pagination pagination-right pagination-large">
-                          <ul>
-                            <li class="disabled"><a href="#">«</a></li>
-                            <li class="active"><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">»</a></li>
-                         </ul>
+            <div class="onethink pagination pagination-right pagination-large">
+                <ul>
+                    <article:page cate="$category['id']" listrow="$category['list_row']" />
+                </ul>
             </div>
         </section>
       </div>
