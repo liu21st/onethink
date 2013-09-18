@@ -23,9 +23,11 @@ class UploadController extends AddonsController{
 		/* 调用文件上传组件上传文件 */
 		$this->uploader = new Upload($setting, 'Local');
 		$info   = $this->uploader->upload($_FILES);
-		$url = C('EDITOR_UPLOAD.rootPath').$info['imgFile']['savepath'].$info['imgFile']['savename'];
-		$url = str_replace('./', '/', $url);
-		$info['fullpath'] = $url;
+		if($info){
+			$url = C('EDITOR_UPLOAD.rootPath').$info['imgFile']['savepath'].$info['imgFile']['savename'];
+			$url = str_replace('./', '/', $url);
+			$info['fullpath'] = $url;
+		}
 		return $info;
 	}
 
@@ -51,7 +53,6 @@ class UploadController extends AddonsController{
 	public function ue_upimg(){
 
 		$img = $this->upload();
-		// file_put_contents('./img', var_export($img,1));
 		$return = array();
 		$return['url'] = $img['fullpath'];
 		$title = htmlspecialchars($_POST['pictitle'], ENT_QUOTES);

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{$meta_title|default='OneThink后台管理'}</title>
+    <link href="__ROOT__/Public/favicon.ico" type="image/x-icon" rel="shortcut icon">
     <link rel="stylesheet" type="text/css" href="__CSS__/base.css" media="all">
     <link rel="stylesheet" type="text/css" href="__CSS__/common.css" media="all">
     <link rel="stylesheet" type="text/css" href="__CSS__/module.css">
@@ -43,7 +44,7 @@
     </div>
 
     <!-- 主体 -->
-    <div id="indexMain" class="index-main ">
+    <div id="indexMain" class="index-main">
        <!-- 插件块 -->
        <div class="container-span">{:hooks('AdminIndex')}</div>
     </div>
@@ -57,7 +58,7 @@
         +function(){
             var $window = $(window);
             $window.resize(function(){
-                $("#indexMain").css("min-height", $window.height() - 90);
+                $("#indexMain").css("min-height", $window.height() - 120);
             }).resize();
 
             /* 头部管理员菜单 */

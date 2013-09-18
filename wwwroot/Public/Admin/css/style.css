@@ -235,6 +235,7 @@ body{
 }
 .index-main {
     margin: 0 20px;
+    padding-top: 30px;
 }
 /* 首页数据 */
 .top-columns {

@@ -1181,4 +1181,5 @@ form.bs-docs-example {
 }
 .footer {
     background-color: #202020;
+    border-top: 0 none;
 }

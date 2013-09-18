@@ -258,3 +258,7 @@ function parse_config_attr($string) {
     }
     return $value;
 }
+
+function get_subdocument_count($id=0){
+	return 	M('Document')->where('pid='.$id)->count();
+}

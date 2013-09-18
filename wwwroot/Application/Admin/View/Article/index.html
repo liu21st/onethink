@@ -37,7 +37,7 @@
 				<if condition="count($model) gt 1">
 				<ul class="dropdown nav-list">
 					<volist name="model" id="vo">
-					<li><a href="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$vo))}">{$vo|get_document_model='title'}</a></li>
+					<li><a href="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$vo,'pid'=>I('pid',0)))}">{$vo|get_document_model='title'}</a></li>
 					</volist>
 				</ul>
 				</if>
@@ -101,6 +101,11 @@
                     'tag'   =>'a',
                     'href'  =>'Article/index?cate_id=$category_id&pid=$id',
                 ),
+				'pid'=>array(
+					'_title'=>'子文档',
+					'tag'   =>'span',
+					'func'	=>	'get_subdocument_count($id)',
+				),
 				'type'=>array(
 					'_title'=>'类型',
 					'tag'   =>'span',
