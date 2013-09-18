@@ -99,7 +99,7 @@
 					</div>
 					<div class="form-item">
 						<label class="item-label">
-							<em class="must">*</em>排序<span class="check-tips">（仅对当前层级分类有效）</span>
+							排序<span class="check-tips">（仅对当前层级分类有效）</span>
 						</label>
 						<div class="controls">
 							<input type="text" name="sort" class="text input-large" value="{$info.sort|default=0}">
@@ -107,14 +107,14 @@
 					</div>
 					<div class="form-item">
 						<label class="item-label">
-							<em class="must">*</em>列表行数
+							列表行数
 						</label>
 						<div class="controls">
 							<input type="text" name="list_row" class="text input-large" value="{$info.list_row|default=10}">
 						</div>
 					</div>
 					<div class="form-item">
-						<label class="item-label"><em class="must">*</em>可见性</label>
+						<label class="item-label">可见性</label>
 						<div class="controls">
 							<select name="display">
 								<option value="0">不可见</option>
@@ -130,9 +130,7 @@
 					<div class="form-item">
 						<label class="item-label">网页标题</label>
 						<div class="controls">
-							<label class="textarea input-large">
-								<textarea name="meta_title">{$info.meta_title|default=''}</textarea>
-							</label>
+							<input type="text" name="meta_title" class="text input-large" value="{$info.meta_title|default=''}">
 						</div>
 					</div>
 					<div class="form-item">
