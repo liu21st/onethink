@@ -43,9 +43,9 @@
             <form action="{:U('save')}" method="post">
             	<textarea name="content" rows="5" class="span9"> </textarea>
             	<input type="hidden" name="model_id" value="1">
-				<input type="hidden" name="category_id" value="0">
+				<input type="hidden" name="category_id" value="{$info.category_id}">
 				<input type="hidden" name="pid" value="{$info.id}">
-				<input type="hidden" name="type" value="3">
+				<input type="hidden" name="type" value="2">
 				<input type="hidden" name="parse" value="0">
             	<div>
             	    <button class="btn">发表回复</button>
