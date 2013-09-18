@@ -13,6 +13,7 @@
 body {
     position: relative;
     padding-top: 40px;
+	font: 14px/1.5 "microsoft yahei", Helvetica, Tahoma, Arial, sans-serif;
 }
 
 /* Code in headings */
@@ -92,17 +93,16 @@ hr.soften {
     padding: 40px 0;
     color: #fff;
     text-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 30px rgba(0,0,0,.075);
-    background: #020031; /* Old browsers */
-    background: -moz-linear-gradient(45deg,  #020031 0%, #6d3353 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,#020031), color-stop(100%,#6d3353)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(45deg,  #020031 0%,#6d3353 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(45deg,  #020031 0%,#6d3353 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(45deg,  #020031 0%,#6d3353 100%); /* IE10+ */
-    background: linear-gradient(45deg,  #020031 0%,#6d3353 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#020031', endColorstr='#6d3353',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+    background: #378503; /* Old browsers */
+    background: -moz-linear-gradient(45deg, #1F221F 0%, #0CA818 100%);
+    background: -webkit-linear-gradient(45deg, #1F221F 0%,#0CA818 100%);
+    background: -o-linear-gradient(45deg, #1F221F 0%,#0CA818 100%);
+    background: -ms-linear-gradient(45deg, #1F221F 0%,#0CA818 100%);
+    background: linear-gradient(45deg, #1F221F 0%,#0CA818 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1F221F', endColorstr='#0CA818',GradientType=1 );
     -webkit-box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
-         -moz-box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
-                    box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
+    -moz-box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
+    box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
 }
 .jumbotron h1 {
     font-size: 80px;
@@ -159,7 +159,7 @@ hr.soften {
 }
 
 .masthead .table {
-    font-size: 24px;
+    font-size: 20px;
 }
 .masthead .table th,
 .masthead .table td{
@@ -170,7 +170,7 @@ hr.soften {
 }
 
 .create-database {
-    font-size: 24px;
+    font-size: 20px;
 }
 .create-database dt,
 .create-database dd{

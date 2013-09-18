@@ -6,10 +6,9 @@
 // +----------------------------------------------------------------------
 // | Author: huajie <banhuajie@163.com>
 // +----------------------------------------------------------------------
-
 namespace Admin\Controller;
 use Admin\Model\AuthGroupModel;
-
+use COM\Page;
 /**
  * 后台内容控制器
  * @author huajie <banhuajie@163.com>
@@ -354,11 +353,11 @@ class ArticleController extends \Admin\Controller\AdminController {
                 $map    =   array( 'status'=>-1,'category_id'=>-1 );
             }
         }
-        $list = M('Document')->where($map)->field('id,title,uid,create_time')->select();
+        $list = M('Document')->where($map)->field('id,title,uid,category_id,type,update_time')->order('update_time desc')->select();
         //处理列表数据
         foreach ($list as $k=>&$v){
             $v['username']      =   get_username($v['uid']);
-            $v['create_time']   =   time_format($v['create_time']);
+            //$v['create_time']   =   time_format($v['create_time']);
         }
         $this->assign('list', $list);
         $this->meta_title       =   '回收站';
@@ -390,7 +389,7 @@ class ArticleController extends \Admin\Controller\AdminController {
         $map        =   array('status'=>3,'uid'=>is_login());
         $list       =   $this->lists($Document,$map);
         //获取状态文字
-        intToString($list);
+        //intToString($list);
 
         $this->assign('list', $list);
         $this->meta_title = '草稿箱';
@@ -422,7 +421,7 @@ class ArticleController extends \Admin\Controller\AdminController {
             $map['create_time'][] = array('elt',24*60*60 + strtotime(I('time-end')));
 
         }
-        $list = $this->lists($Document,$map);
+        $list = $this->lists($Document,$map,'update_time desc');
         intToString($list);
 
         $this->assign('list', $list);
