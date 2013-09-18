@@ -74,14 +74,14 @@ button.close {
     color: #3A87AD;
 }
 .alert-error {
-	color: #da3a3a;
+	color: white;
 	border-color: #eed3d7;
-	background-color: #FFFF33;
+	background-color: #FF6666;
 }
 .alert-success {
     color: #468847;
     background-color: #dff0d8;
-    border-color: #d6e9c6;
+    border-color: #CCFF99;
 }
 #top-alert {
     display: block;
