@@ -123,3 +123,22 @@
     padding: 0 6px;
     font-size: 10.5px;
 }
+
+.onethink.add-topic{
+    padding:30px 0;
+    border:1px solid #ececec;
+    border-radius: 5px;
+}
+
+.onethink .form-horizontal .controls {
+    margin-left: 70px;
+}
+
+.onethink .form-horizontal .control-label {
+    width: 50px;
+    padding-top:0;
+}
+
+body {
+    font-family: "微软雅黑","Helvetica Neue", Helvetica, Arial, sans-serif;
+}
