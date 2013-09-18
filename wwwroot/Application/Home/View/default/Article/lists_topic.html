@@ -27,15 +27,9 @@
                 <hr/>
             </volist>
 
-            <div class="pagination pagination-right pagination-large">
+            <div class="onethink pagination pagination-right pagination-large">
                 <ul>
-                    <li class="disabled"><a href="#">«</a></li>
-                    <li class="active"><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">»</a></li>
+                    <article:page cate="$category['id']" listrow="$category['list_row']" />
                 </ul>
             </div>
         </section>

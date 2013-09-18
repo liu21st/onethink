@@ -54,26 +54,8 @@ class DocumentModel extends Model{
 	 * @return array              文档列表
 	 */
 	public function lists($category, $order = '`id` DESC', $status = 1, $field = true){
-        $REQUEST      =   (array)I('request.');
 		$map = $this->listMap($category, $status);
-        $total        =   $this->where($map)->count();
-
-        if( isset($REQUEST['r']) ){
-            $listRows = (int)$REQUEST['r'];
-        }else{
-            $listRows = C('LIST_ROWS') > 0 ? C('LIST_ROWS') : 10;
-        }
-
-        $Page = new Page($total, $listRows, $REQUEST);
-
-        if($total>$listRows){
-            $Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
-        }
-
-        $p =$Page->show();
-        $this->page = $p? $p: '';
-        $limit = $Page->firstRow.','.$Page->listRows;
-		return $this->field($field)->where($map)->order($order)->limit($limit)->select();
+		return $this->field($field)->where($map)->order($order)->select();
 	}
 
 	/**
@@ -308,7 +290,7 @@ class DocumentModel extends Model{
 	 */
 	private function listMap($category, $status = 1, $pos = null){
 		/* 设置状态 */
-		$map = array('status' => $status);
+		$map = array('status' => $status, 'pid' => 0);
 
 		/* 设置分类 */
 		if(!is_null($category)){

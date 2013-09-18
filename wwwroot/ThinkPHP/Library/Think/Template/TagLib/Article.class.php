@@ -25,7 +25,29 @@ class Article extends TagLib{
 		'next'      => array('attr' => 'name,info', 'close' => 1), //获取下一篇文章信息
 		'page'      => array('attr' => 'cate,listrow', 'close' => 0), //列表分页
 		'position'  => array('attr' => 'pos,cate,limit,filed,name', 'close' => 1), //获取推荐位列表
+		'list'      => array('attr' => 'name,category,child,page,row,field', 'close' => 1), //获取指定分类列表
 	);
+
+	public function _list($attr, $content){
+		$tag    = $this->parseXmlAttr($attr, 'next');
+		$name   = $tag['name'];
+		$cate   = $tag['category'];
+		$child  = empty($tag['child']) ? 'false' : $tag['child'];
+		$page   = empty($tag['page'])  ? '0' : $tag['page'];
+		$row    = empty($tag['row'])   ? '10' : $tag['row'];
+		$filed  = empty($tag['filed']) ? 'true' : $tag['filed'];
+
+		$parse  = '<?php ';
+		$parse .= '$category=D(\'Category\')->getChildrenId('.$cate.');';
+		$parse .= '$__LIST__ = D(\'Document\')->page('.$page.','.$row.')->lists(';
+		$parse .= '$category, \'`id` DESC\', 1,';
+		$parse .= $filed . ');';
+		$parse .= ' ?>';
+		$parse .= '<volist name="__LIST__" id="'. $name .'">';
+		$parse .= $content;
+		$parse .= '</volist>';
+		return $parse;
+	}
 
 	/* 推荐位列表 */
 	public function _position($attr, $content){
