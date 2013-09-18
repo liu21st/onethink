@@ -239,35 +239,6 @@ $(function(){
             });
         });
 
-        // 图片绑定鼠标滚轮事件
-        $("#uploadPop img").each(function(){
-            if($.browser.msie) {
-                $(this).bind("mousewheel",function(e){
-                    var e=e||event,v=e.wheelDelta||e.detail;
-                    if(v>0) {
-                        resizeImg(this,false);
-                    } else {
-                        resizeImg(this,true);
-                        window.event.returnValue = false;
-                        //e.stopPropagation();
-                        return false;
-                    }
-                })
-            } else {
-                $(this).bind("DOMMouseScroll",function(event){
-                    alert(2)
-                    if(event.detail<0) {
-                        resizeImg(this,false);
-                    }
-                    else {
-                        resizeImg(this,true);
-                        event.preventDefault()
-                        //event.stopPropagation();
-                    }
-                })
-            }
-        });
-
         // 关闭弹出层
         $("body").on("click", "#uploadPop .close-pop", function(){
             $(this).parent().remove();
