@@ -50,7 +50,8 @@
 		<div class="form-item">
 			<label class="item-label"></label>
 			<div class="controls">
-				<button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button>
+				<empty name="list"><button type="submit" disabled class="btn submit-btn disabled" target-form="form-horizontal">确 定</button><else/><button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button></empty>
+				
 				<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
 			</div>
 		</div>
