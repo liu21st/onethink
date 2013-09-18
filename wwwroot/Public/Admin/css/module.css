@@ -41,7 +41,6 @@
 
 /* 面包屑导航
 ------------------------------------------ */
-/* 常规面包屑 */
 .breadcrumb {
 	color: #999;
 }
@@ -52,58 +51,10 @@
 }
 .breadcrumb .division {
 	margin: 0 5px;
-}
-
-/* 标签式面包屑 */
-.tags-crumb {
-	width: 340px;
-	overflow: hidden;
-	position: relative; /* 解决IE7及以下overflow:hidden失效的bug */
-}
-.tags-crumb li {
-	position: relative;
-	padding-left: 20px;
-	width: 100px;
-	height: 32px;
-	line-height: 32px;
-	text-align: center;
-	background-color: #e0e0e0;
-}
-.tags-crumb li:first-child {
-	padding-left: 0;
-}
-.tags-crumb .current {
-	background-color: #f60;
-}
-.tags-crumb .current a {
-	color: #fff;
-}
-.tags-crumb li i,
-.tags-crumb li b {
-	position: absolute;
-	width: 0;
-	height: 0;
-	line-height: 0;
-	border-style: dashed dashed dashed solid;
-	border-color: transparent;
-}
-.tags-crumb li i {
-	top: -4px;
-	right: -20px;
-	border-width: 20px 0 20px 20px;
-	border-left-color: #fff
-}
-.tags-crumb li b {
-	top: 0;
-	right: -16px;
-	border-width: 16px 0 16px 16px;
-	border-left-color: #e0e0e0
-}
-.tags-crumb .current b {
-	border-left-color: #f60;
 }	
 
-/* 分页 */
+/* 分页
+------------------------------------------ */
 .page {
     margin: 10px 0;
     *zoom: 1;
@@ -286,47 +237,6 @@
 	background: url(../images/add.png) no-repeat 0 0;
 }
 
-#top-alert {
-	margin-top: 20px;
-	padding-top: 8px;
-	padding-bottom: 8px;
-    top: 50px;
-    z-index: 3000;
-    display: block;
-    overflow: hidden;
-    left: 220px;
-    right: 20px;
-}
-button.close {
-    padding: 0;
-    cursor: pointer;
-    background: transparent;
-    border: 0;
-    -webkit-appearance: none;
-}
-.close {
-    float: right;
-    font-size: 20px;
-    font-weight: bold;
-    line-height: 20px;
-    color: #000000;
-    text-shadow: 0 1px 0 #ffffff;
-    opacity: 0.2;
-    filter: alpha(opacity=20);
-}
-
-#top-alert .close{
-    right:35px;
-    position: fixed;
-    top:75px;
-}
-
-.alert-content{
-	margin-left: 14px;
-    max-width:600px;
-    word-wrap: break-word;
-    word-break: break-word;
-}
 
 .adv-sch-pannel label{
     width:70px;
