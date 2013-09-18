@@ -19,6 +19,20 @@ return array(
     'DATA_CACHE_PREFIX' => 'onethink_', // 缓存前缀
     'DATA_CACHE_TYPE'   => 'File', // 数据缓存类型
 
+	/* 路由配置 */
+	'URL_ROUTER_ON'   => true, //开启路由
+	'URL_ROUTE_RULES' => array( //定义路由规则
+		//分类列表页
+		'cate/:category\w/:page\d' 	=> 'Article/lists',
+		'cate/:category' 			=> 'Article/lists',
+		//文章详情页
+		'detail/:id/:page' 		 	=> 'Article/detail',
+		'detail/:id' 		 		=> 'Article/detail',
+		//分类首页
+		':category\w/:page' 		=> 'Article/index',
+		':category\w' 				=> 'Article/index',
+	),
+
     /* 文件上传相关配置 */
     'DOWNLOAD_UPLOAD' => array(
         'mimes'    => '', //允许上传的文件MiMe类型
