@@ -15,7 +15,7 @@ define('INSTALL_APP_PATH', realpath('./') . '/');
 
 return array(
     
-    'ORIGINAL_TABLE_PREFIX' => 'think_', //默认表前缀
+    'ORIGINAL_TABLE_PREFIX' => 'onethink_', //默认表前缀
 
     /* 模板相关配置 */
     'TMPL_PARSE_STRING' => array(
