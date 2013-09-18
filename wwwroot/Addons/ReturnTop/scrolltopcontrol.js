@@ -11,8 +11,8 @@ $(function(){
 	});
 	$("#topcontrol").find(".top_stick").css({
 		"position" : "fixed",
-		"bottom" : 150,
-		"right": 100
+		"bottom" : 50,
+		"right": 50
 	});
 
 	win.scroll(function(){

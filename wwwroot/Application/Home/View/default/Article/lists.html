@@ -17,7 +17,7 @@
 
 			<volist name="list" id="data">
 				<div class="">
-					<h3><a href="{:U('Article/detail?id='.$data['id'])}">{$data.title}</a></h3>
+					<h3 class="ellipsis"><a href="{:U('Article/detail?id='.$data['id'])}">{$data.title}</a></h3>
 				</div>
 				<div>
 					<p class="lead">{$data.description}</p>

@@ -150,3 +150,8 @@ body {
 form .ke-container{
     margin-bottom:12px;
 }
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
