@@ -3,7 +3,7 @@
 <header class="jumbotron subhead" id="overview">
   <div class="container">
     <h2>用户登录</h2>
-    <p><span><span class="pull-left"><span>还没有账号? <a href="{:U('User/register')}">立即注册</a></span> <span>忘记密码了? <a href="{:U('User/register')}">找回密码</a></span></span></p>
+    <p><span><span class="pull-left"><span>还没有账号? <a href="{:U('User/register')}">立即注册</a></span> </span></p>
   </div>
 </header>
 </block>
@@ -80,9 +80,10 @@
     	});
 
 		$(function(){
-			//刷新验证码
 			var verifyimg = $(".verifyimg").attr("src");
-			$(".reloadverify").click(function(){$(".verifyimg").attr("src", verifyimg)});
+            $(".reloadverify").click(function(){
+                $(".verifyimg").attr("src", verifyimg.replace(/\?.*$/,'')+'?'+Math.random());
+            });
 		});
 	</script>
 </block>

@@ -90,9 +90,10 @@
     	});
 
 		$(function(){
-			//刷新验证码
 			var verifyimg = $(".verifyimg").attr("src");
-			$(".reloadverify").click(function(){$(".verifyimg").attr("src", verifyimg)});
+            $(".reloadverify").click(function(){
+                $(".verifyimg").attr("src", verifyimg.replace(/\?.*$/,'')+'?'+Math.random());
+            });
 		});
 	</script>
 </block>
