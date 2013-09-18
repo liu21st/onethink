@@ -245,6 +245,7 @@ body{
 .show-num-mod {
     display: inline-block;
     *display: inline;
+    *zoom: 1;
     margin: 0 15px;
     border: 1px solid #cdcdcd;
     background-color: #fff;
@@ -254,27 +255,23 @@ body{
     float:left;
     padding: 10px;
 }
-.show-num-mod dt .top,
+.show-num-mod dt {
+    width: 65px;
+    height: 56px;
+    line-height: 56px;
+}
+.show-num-mod dd {
+    width: 100px;
+    border-left: 1px solid #cdcdcd;
+}
 .show-num-mod dd strong {
     margin-bottom: 5px;
     height: 30px;
     line-height: 30px;
 }
-.show-num-mod dt em,
 .show-num-mod dd span {
     font-size: 12px;
     letter-spacing: .15em;
-}
-.show-num-mod dt {
-    width: 65px;
-    border-right: 1px solid #cdcdcd;
-}
-.show-num-mod dt em {
-    font-style: normal;
-    font-weight: bold;
-}
-.show-num-mod dd {
-    width: 100px;
 }
 .show-num-mod dd strong {
     display: block;
@@ -283,8 +280,8 @@ body{
 }
 .count-icon {
     display: inline-block;
-    width: 24px;
-    height: 24px;
+    width: 48px;
+    height: 48px;
     vertical-align: middle;
     background-repeat: no-repeat;
 }
@@ -370,14 +367,12 @@ body{
 .sys-info table {
     width: 100%;
 }
-.sys-info tr {
-    border-bottom: 1px solid #e9e9e9;
-}
 .sys-info th,
 .sys-info td {
     padding: 8px 0;
     height: 20px;
     line-height: 20px;
+    border-bottom: 1px solid #e9e9e9;
 }
 .sys-info th {
     font-weight: normal;

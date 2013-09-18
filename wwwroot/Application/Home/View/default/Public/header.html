@@ -20,16 +20,26 @@
                 </ul>
             </div>
             <div class="nav-collapse collapse pull-right">
-                <ul class="nav">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">UserName <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="">修改密码</a></li>
-                            <li><a href="">退出</a></li>
-                        </ul>
-                    </li>
-
-                </ul>
+                <if condition="is_login()">
+                    <ul class="nav" style="margin-right:0">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding-left:0;padding-right:0">{:get_username()} <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{:U('User/profile')}">修改密码</a></li>
+                                <li><a href="{:U('User/logout')}">退出</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                <else/>
+                    <ul class="nav" style="margin-right:0">
+                        <li>
+                            <a href="{:U('User/login')}">登录</a>
+                        </li>
+                        <li>
+                            <a href="{:U('User/register')}" style="padding-left:0;padding-right:0">注册</a>
+                        </li>
+                    </ul>
+                </if>
             </div>
         </div>
     </div>

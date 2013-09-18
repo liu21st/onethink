@@ -45,7 +45,7 @@ class UserController extends HomeController {
 			$uid = $User->register($username, $password, $email);
 			if(0 < $uid){ //注册成功
 				//TODO: 发送验证邮件
-					$this->success('注册成功！',U('Home/Index/index'));
+				$this->success('注册成功！',U('login'));
 			} else { //注册失败，显示错误信息
 				$this->error($this->showRegError($uid));
 			}
