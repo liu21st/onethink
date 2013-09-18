@@ -250,9 +250,8 @@ class ArticleController extends \Admin\Controller\AdminController {
      * @author huajie <banhuajie@163.com>
      */
     public function add(){
-        $cate_id    =   I('get.cate_id','');
-        $model_id   =   I('get.model_id','');
-        $model_name =   get_document_model($model_id, 'title');
+        $cate_id    =   I('get.cate_id',0);
+        $model_id   =   I('get.model_id',0);
 
         empty($cate_id) && $this->error('参数不能为空！');
         empty($model_id) && $this->error('该分类未绑定模型！');
@@ -262,8 +261,9 @@ class ArticleController extends \Admin\Controller\AdminController {
         !$allow_publish && $this->error('该分类不允许发布内容！');
 
         /* 获取要编辑的模型模板 */
-        $template = strtolower(get_document_model($model_id, 'name'));
-        $extend = $this->fetch($template);
+        $model      =   get_document_model($model_id);
+        $template   =   strtolower($model['name']);
+        $extend     =   $this->fetch($template);
         $info['pid']            =   $_GET['pid']?$_GET['pid']:0;
         $info['model_id']       =   $model_id;
         $info['category_id']    =   $cate_id;
@@ -277,7 +277,7 @@ class ArticleController extends \Admin\Controller\AdminController {
         $this->assign('extend',     $extend);
         $this->assign('type_list',  get_type_bycate($cate_id));
 
-        $this->meta_title       =   '新增'.$model_name;
+        $this->meta_title       =   '新增'.$model['title'];
         $this->display('edit');
     }
 
