@@ -1179,3 +1179,6 @@ form.bs-docs-example {
 .ico-error{ 
     background: url(../img/error.png) no-repeat 0 0;
 }
+.footer {
+    background-color: #202020;
+}
