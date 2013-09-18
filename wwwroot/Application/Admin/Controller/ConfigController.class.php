@@ -26,6 +26,8 @@ class ConfigController extends AdminController {
             'operator'=>array(
                 array('title'=>'编辑','url'=>'Config/edit','tip'=>'新增编辑和保存配置'),
                 array('title'=>'删除','url'=>'Config/del','tip'=>'删除配置'),
+            	array('title'=>'新增','url'=>'Config/add','tip'=>'新增配置'),
+            	array('title'=>'保存','url'=>'Config/save','tip'=>'保存配置'),
             ),
         ),
         // array( 'title' => '静态规则设置', 'url' => 'System/index1', 'group' => '系统设置'),
@@ -41,16 +43,6 @@ class ConfigController extends AdminController {
         $list = M('Config')->where($map)->order('id DESC')->field('id,name,title,value,group,type,remark')->select();
         $this->assign('list', $list);
         $this->meta_title = '配置管理';
-        $this->display();
-    }
-
-    /**
-     * 基本设置
-     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
-     */
-    public function base(){
-        $this->assign('color',C('COLOR_STYLE'));
-        $this->meta_title = '基本设置';
         $this->display();
     }
 
