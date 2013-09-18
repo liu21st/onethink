@@ -16,7 +16,7 @@ namespace Home\Controller;
 class IndexController extends HomeController {
 
     public function test(){
-        echo T('Addons://Attachment@Article/detail');
+        dump(D('Channel')->lists());
     }
 
 	//系统首页

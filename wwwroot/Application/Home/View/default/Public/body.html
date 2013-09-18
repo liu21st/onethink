@@ -6,13 +6,10 @@
         ================================================== -->
           <div class="span3 bs-docs-sidebar">
             <ul class="nav nav-list bs-docs-sidenav">
-              <li><a href=""><i class="icon-chevron-right"></i> 产 品</a></li>
-              <li><a href=""><i class="icon-chevron-right"></i> 应 用</a></li>
-              <li><a href=""><i class="icon-chevron-right"></i> 社 区</a></li>
-              <li><a href=""><i class="icon-chevron-right"></i> 资 讯</a></li>
+              {:W('Category/lists', array($category['id'], ACTION_NAME == 'index'))}
             </ul>
           </div>
         </block>
-        <block name="body"> </block>
+        <block name="body"></block>
     </div>
 </div>

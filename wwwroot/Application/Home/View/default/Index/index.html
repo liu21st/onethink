@@ -1,1 +1,134 @@
-<extend name="Base/common"/><block name="header"><header class="jumbotron subhead" id="overview">  <div class="container">    <h1>欢迎光临</h1>    <p class="lead"></p>  </div></header></block><block name="body">      <div class="span9">        <!-- Contents        ================================================== -->        <section id="contents">          <div class="page-header">              <h3><a href="#">文档标题1</a></h3>          </div>          <div>              <p class="lead">文档1摘要内容.</p>          </div>          <div>              <span><a href="">查看全文</a></span> <span class="pull-right"><span class="author">admin</span> <span>于 2013-9-12 15:00</span> 发表在 <span><a href="">资讯</a></span> </span>          </div>          <hr/>          <div class="page-header">              <h3><a href="#">文档标题2</a></h3>          </div>          <div>              <p class="lead">文档2摘要内容.</p>          </div>          <div>              <span><a href="">查看全文</a></span> <span class="pull-right"><span class="author">admin</span> <span>于 2013-9-12 16:00</span> 发表在 <span><a href="">资讯</a></span> </span>          </div>          <hr/>            <div class="pagination pagination-right pagination-large">                          <ul>                            <li class="disabled"><a href="#">«</a></li>                            <li class="active"><a href="#">1</a></li>                            <li><a href="#">2</a></li>                            <li><a href="#">3</a></li>                            <li><a href="#">4</a></li>                            <li><a href="#">5</a></li>                            <li><a href="#">»</a></li>                         </ul>            </div>        </section>      </div>    </div></block>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <include file="Public/head"/>
+        <link href="__STATIC__/bootstrap/css/onethink.css" rel="stylesheet">
+    </head>
+
+    <body data-spy="scroll" data-target=".bs-docs-sidebar">
+        <include file="Public/header"/>
+
+        <div class="jumbotron masthead">
+            <div class="container">
+                <h1>OneThink</h1>
+                <p>简单而强大的内容管理框架,让WEB开发更快速!</p>
+                <p>
+                    <a href="#" class="btn btn-primary btn-large">下载 OneThink</a>
+                    <a href="{:U('Article/index?category=topic')}" class="btn btn-success btn-large">进入讨论区</a>
+                </p>
+                <ul class="masthead-links">
+                    <li>
+                        <a href="http://weibo.com/thinkphp" target="_blank">新浪微博</a>
+                    </li>
+                    <li>
+                        <a href="http://t.qq.com/topthink" target="_blank">腾讯微博</a>
+                    </li>
+                    <li>
+                        当前版本 Version 1.0 beta
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="bs-docs-social">
+            <div class="container">
+                <ul class="bs-docs-social-buttons">
+                    <li>
+                        <a href="" class=""></a>
+                    </li>
+                    <li>
+                        <a href="" class=""></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="container">
+
+            <div class="marketing">
+
+                <h1>一分钟快速了解OneThink</h1>
+                <p class="marketing-byline"></p>
+                <div class="row-fluid">
+
+                    <div class="span4">
+                        <img class="marketing-img" src="__IMG__/onethink/thinkphp3.2.png">
+                        <h2>基于最新ThinkPHP 3.2</h2>
+                        <p>依托新版ThinkPHP的功能优势和命名空间的特性，官方七年磨一剑，用心打造。</p>
+                    </div>
+
+                    <div class="span4">
+                        <img class="marketing-img" src="__IMG__/onethink/modules.png">
+                        <h2>模块化开发</h2>
+                        <p>全新的架构和模块化的开发机制，便于灵活扩展和二次开发。</p>
+                    </div>
+
+                    <div class="span4">
+                        <img class="marketing-img" src="__IMG__/onethink/documentmodel.png">
+                        <h2>强大的文档模型</h2>
+                        <p>通过和某个文档模型绑定，不同分类可以实现差异化的功能，轻松实现诸如资讯，下载，讨论和图片等功能。</p>
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+
+                    <div class="span4">
+                        <img class="marketing-img" src="__IMG__/onethink/opensource.png">
+                        <h2>代码完全开源</h2>
+                        <p>代码完全开源，学习和个人用途免费使用，商业用户采用轻量级的授权费用。</p>
+                    </div>
+
+                    <div class="span4">
+                        <img class="marketing-img" src="__IMG__/onethink/useraction.png">
+                        <h2>强大的用户行为支持</h2>
+                        <p>自定义用户行为，支持对单个用户或群体用户的行为进行记录及分享，为您的运营决策提供有效参考数据。</p>
+                    </div>
+
+                    <div class="span4">
+                        <img class="marketing-img" src="__IMG__/onethink/cloud.png">
+                        <h2>支持云端部署</h2>
+                        <p>通过驱动可以支持如何云平台的部署，让你的网站无缝迁移，内置已经支持SAE</p>
+                    </div>
+
+                </div>
+
+                <div class="row-fluid">
+
+                    <div class="span4">
+                        <img class="marketing-img" src="__IMG__/onethink/cloud-service.png">
+                        <h2>云服务支持</h2>
+                        <p>支持云存储，云安全，云过滤和云统计等服务，贴心服务让你的网站更安心。</p>
+                    </div>
+
+                    <div class="span4">
+                        <img class="marketing-img" src="__IMG__/onethink/safe.png">
+                        <h2>稳健的安全策略</h2>
+                        <p>提供的稳健的安全策略，包括备份恢复，容错，防治恶意攻击登陆，网页防篡改等多项安全管理功能，保证系统安全，可靠，稳定的运行。</p>
+                    </div>
+
+                    <div class="span4">
+                        <img class="marketing-img" src="__IMG__/onethink/warehouse.png">
+                        <h2>应用仓库</h2>
+                        <p>官方应用仓库拥有大量的插件和应用模块，以及社区的贡献，让你的网站“One”美无缺</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <hr class="soften">
+
+        </div>
+
+
+
+        <!-- Footer
+        ================================================== -->
+        <footer class="footer">
+            <div class="container">
+                <p>Page designed by <a href="http://twitter.com/mdo" target="_blank">@mdo</a> and <a href="http://twitter.com/fat" target="_blank">@fat</a>, Licensed under <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache License v2.0</a></p>
+            </div>
+        </footer>
+
+    </body>
+</html>

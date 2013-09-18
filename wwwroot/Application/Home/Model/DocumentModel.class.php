@@ -9,6 +9,7 @@
 
 namespace Home\Model;
 use Think\Model;
+use COM\Page;
 
 /**
  * 文档基础模型
@@ -63,7 +64,7 @@ class DocumentModel extends Model{
             $listRows = C('LIST_ROWS') > 0 ? C('LIST_ROWS') : 10;
         }
 
-        $Page = new \COM\Page($total, $listRows, $REQUEST);
+        $Page = new Page($total, $listRows, $REQUEST);
 
         if($total>$listRows){
             $Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
@@ -182,27 +183,27 @@ class DocumentModel extends Model{
 	}
 
 	/**
-	 * 获取段落列表
+	 * 获取子内容列表
 	 * @param  integer $id    文档ID
 	 * @param  integer $page  显示页码
 	 * @param  boolean $field 查询字段
 	 * @param  boolean $logic 是否查询模型数据
 	 * @return array
 	 */
-	public function part($id, $page = 1, $field = true, $logic = true){
+	public function child($id, $page = 1, $field = true, $logic = true){
 		$map  = array('status' => 1, 'type' => 3, 'pid' => $id);
 		$info = $this->field($field)->where($map)->page($page, 10)->order('id')->select();
 		if(!$info) {
-			$this->error = '该文档没有段落！';
+			$this->error = '该文档没有子内容！';
 			return false;
 		}
 
-		/* 不获取段落详情 */
+		/* 不获取内容详情 */
 		if(!$logic){
 			return $info;
 		}
 
-		/* 获取段落详情 */
+		/* 获取内容详情 */
 		$model = $logic = array();
 		foreach ($info as $value) {
 			$model[$value['model_id']][] = $value['id'];
@@ -221,11 +222,11 @@ class DocumentModel extends Model{
 	}
 
 	/**
-	 * 获取指定文档的段落总数
+	 * 获取指定文档的子内容总数
 	 * @param  number $id 段落ID
 	 * @return number     总数
 	 */
-	public function partCount($id){
+	public function childCount($id){
 		$map = array('status' => 1, 'type' => 3, 'pid' => $id);
 		return $this->where($map)->count('id');
 	}
