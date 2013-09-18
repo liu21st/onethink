@@ -23,9 +23,11 @@ class UploadController extends AddonsController{
 		/* 调用文件上传组件上传文件 */
 		$this->uploader = new Upload($setting, 'Local');
 		$info   = $this->uploader->upload($_FILES);
-		$url = C('EDITOR_UPLOAD.rootPath').$info['imgFile']['savepath'].$info['imgFile']['savename'];
-		$url = str_replace('./', '/', $url);
-		$info['fullpath'] = $url;
+		if($info){
+			$url = C('EDITOR_UPLOAD.rootPath').$info['imgFile']['savepath'].$info['imgFile']['savename'];
+			$url = str_replace('./', '/', $url);
+			$info['fullpath'] = $url;
+		}
 		return $info;
 	}
 
