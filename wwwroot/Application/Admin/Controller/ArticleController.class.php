@@ -111,22 +111,20 @@ class ArticleController extends \Admin\Controller\AdminController {
         //生成每个分类的url
         foreach ($cate as $key=>&$value){
             $value['url']   =   'Article/index?cate_id='.$value['id'];
-            $value['level'] =   1;
             if($cate_id == $value['id'] && $hide_cate){
                 $value['current'] = true;
+            }else{
+            	$value['current'] = false;
             }
             if(!empty($value['_child'])){
+            	$is_child = false;
                 foreach ($value['_child'] as $ka=>&$va){
                     $va['url']      =   'Article/index?cate_id='.$va['id'];
-                    $va['level']    =   2;
                     if(!empty($va['_child'])){
                         foreach ($va['_child'] as $k=>&$v){
                             $v['url']   =   'Article/index?cate_id='.$v['id'];
                             $v['pid']   =   $va['id'];
-                            $v['level'] =   3;
-                            if($v['id'] == $cate_id){
-                                $is_child = true;
-                            }
+                            $is_child = $v['id'] == $cate_id ? true : false;
                         }
                     }
                     //展开子分类的父分类
@@ -135,7 +133,13 @@ class ArticleController extends \Admin\Controller\AdminController {
                         if($hide_cate){
                             $value['current']   =   true;
                             $va['current']      =   true;
+                        }else{
+                        	$value['current'] 	= 	false;
+                        	$va['current']      =   false;
                         }
+                    }else{
+                    	$value['current'] 	= 	false;
+                    	$va['current']      =   false;
                     }
                 }
             }
