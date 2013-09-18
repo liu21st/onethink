@@ -240,7 +240,6 @@ str;
     public function index(){
         $this->meta_title = '插件列表';
         $list = D('Addons')->getList();
-        $list = intToString($list, array('status'=>array(-1=>'损坏', 0=>'禁用', 1=>'启用')));
         $this->record_list($list);
         $this->display();
     }

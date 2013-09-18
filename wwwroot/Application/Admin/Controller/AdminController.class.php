@@ -495,7 +495,7 @@ class AdminController extends Controller {
      * @param array|string $order   排序条件,传入null时使用sql默认排序或模型属性(优先级最高);
      *                              请求参数中如果指定了_order和_field则据此排序(优先级第二);
      *                              否则使用$order参数(如果$order参数,且模型也没有设定过order,则取主键降序);
-     *                              
+     *
      * @param array        $base    基本的查询条件
      * @param boolean      $field   单表模型用不到该参数,要用在多表join时为field()方法指定参数
      * @author 朱亚杰 <xcoolcc@gmail.com>
@@ -644,7 +644,7 @@ class AdminController extends Controller {
         }
 
         $nodes          =   M('AuthRule')->where(array('module'=>'admin','status'=>1))->getField('name',true);
-        foreach ($nodes as $k=>$n){
+        foreach ((array)$nodes as $k=>$n){
             if( ($pos = strpos($n,'?'))>0){
                 $n      =   substr($n,0,$pos);
             }
@@ -671,7 +671,7 @@ class AdminController extends Controller {
                     continue;
                 }else{
                     $name = strtolower(MODULE_NAME.'/'.$controller.'/'.$value->name);
-                    if( in_array($name,$nodes) ){
+                    if( in_array($name,(array)$nodes) ){
                         continue;
                     }else{
                         $collect[]=$value->name;

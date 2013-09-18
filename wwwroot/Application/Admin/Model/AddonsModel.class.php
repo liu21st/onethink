@@ -64,13 +64,14 @@ class AddonsModel extends Model {
 					\Think\Log::record('插件'.$value.'的入口文件不存在！');
 					continue;
 				}
-				$addons[$value]	=	$obj->info;
+				$addons[$value]	= $obj->info;
 				if($addons[$value]){
-					$addons[$value]['uninstall']	=	1;
+					$addons[$value]['uninstall'] = 1;
+                    unset($addons[$value]['status']);
 				}
 			}
         }
-        intToString($addons, array('status'=>array(-1=>'损坏', 0=>'禁用', 1=>'启用')));
+        intToString($addons, array('status'=>array(-1=>'损坏', 0=>'禁用', 1=>'启用', null=>'未安装')));
         $addons = list_sort_by($addons,'uninstall','desc');
         return $addons;
     }
@@ -79,9 +80,12 @@ class AddonsModel extends Model {
      * 获取插件的后台列表
      */
     public function getAdminList(){
+        $admin = array();
         $db_addons = $this->where("status=1 AND has_adminlist=1")->field('title,name')->select();
-        foreach ($db_addons as $value) {
-            $admin[] = array('title'=>$value['title'],'url'=>"Addons/adminList?name={$value['name']}");
+        if($db_addons){
+            foreach ($db_addons as $value) {
+                $admin[] = array('title'=>$value['title'],'url'=>"Addons/adminList?name={$value['name']}");
+            }
         }
         return $admin;
     }

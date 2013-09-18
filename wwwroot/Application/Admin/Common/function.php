@@ -112,7 +112,7 @@ function intToString(&$data,$map=array('status'=>array(1=>'正常',-1=>'删除',
     $data = (array)$data;
     foreach ($data as $key => $row){
         foreach ($map as $col=>$pair){
-            if( isset($pair[$row[$col]])){
+            if(isset($row[$col]) && isset($pair[$row[$col]])){
                 $data[$key][$col.'_text'] = $pair[$row[$col]];
             }
         }
