@@ -112,16 +112,31 @@ class CategoryModel extends Model{
 	 * @param  array $data 分类数据
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
-	protected function _after_find(&$data){
+	protected function _after_find(&$data, $options){
 		/* 分割模型 */
-		if(!empty($data['model'])){
-			$data['model'] = explode(',', $data['model']);
-		}
+        if(!empty($data['model'])){
+            $data['model'] = explode(',', $data['model']);
+        }
 
-		/* 还原扩展数据 */
-		if(!empty($data['extend'])){
-			$data['extend'] = json_decode($data['extend'], true);
-		}
+        /* 分割文档类型 */
+        if(!empty($data['type'])){
+            $data['type'] = explode(',', $data['type']);
+        }
+
+        /* 分割模型 */
+        if(!empty($data['reply_model'])){
+            $data['reply_model'] = explode(',', $data['reply_model']);
+        }
+
+        /* 分割文档类型 */
+        if(!empty($data['reply_type'])){
+            $data['reply_type'] = explode(',', $data['reply_type']);
+        }
+
+        /* 还原扩展数据 */
+        if(!empty($data['extend'])){
+            $data['extend'] = json_decode($data['extend'], true);
+        }
 	}
 
 }

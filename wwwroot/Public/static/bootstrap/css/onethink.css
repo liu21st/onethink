@@ -1,4 +1,4 @@
-.jumbotron {
+.onethink.jumbotron {
     color: #fff;
     text-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 30px rgba(0,0,0,.075);
     background: #378503;
@@ -14,3 +14,112 @@
 }
 
 
+.onethink.pagination {
+  margin: 20px 0;
+}
+
+.onethink.pagination div {
+  display: inline-block;
+  *display: inline;
+  margin-bottom: 0;
+  margin-left: 0;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+  *zoom: 1;
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+     -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.onethink.pagination div > a {
+  display: inline;
+}
+
+.onethink.pagination div >  a,
+.onethink.pagination div >  span {
+  float: left;
+  padding: 4px 12px;
+  line-height: 20px;
+  text-decoration: none;
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  border-left-width: 0;
+}
+
+
+.onethink.pagination div > .current {
+  background-color: #f5f5f5;
+  color: #999999;
+  cursor: default;
+}
+
+
+.onethink.pagination div > :first-child  {
+  border-left-width: 1px;
+  -webkit-border-bottom-left-radius: 4px;
+          border-bottom-left-radius: 4px;
+  -webkit-border-top-left-radius: 4px;
+          border-top-left-radius: 4px;
+  -moz-border-radius-bottomleft: 4px;
+  -moz-border-radius-topleft: 4px;
+}
+
+.onethink.pagination div > :last-child  {
+  -webkit-border-top-right-radius: 4px;
+          border-top-right-radius: 4px;
+  -webkit-border-bottom-right-radius: 4px;
+          border-bottom-right-radius: 4px;
+  -moz-border-radius-topright: 4px;
+  -moz-border-radius-bottomright: 4px;
+}
+
+
+/* page.class.php 分页类 bootstrap样式 */
+.onethink.pagination-large div >  a,
+.onethink.pagination-large div >  span {
+    padding: 11px 19px;
+    font-size: 17.5px;
+}
+.onethink.pagination-large div > :first-child  {
+    -webkit-border-bottom-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    -webkit-border-top-left-radius: 6px;
+    border-top-left-radius: 6px;
+    -moz-border-radius-bottomleft: 6px;
+    -moz-border-radius-topleft: 6px;
+}
+.onethink.pagination-large div > :last-child {
+    -webkit-border-top-right-radius: 6px;
+    border-top-right-radius: 6px;
+    -webkit-border-bottom-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    -moz-border-radius-topright: 6px;
+    -moz-border-radius-bottomright: 6px;
+}
+.onethink.pagination-mini div > li:first-child {
+    -webkit-border-bottom-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    -webkit-border-top-left-radius: 3px;
+    border-top-left-radius: 3px;
+    -moz-border-radius-bottomleft: 3px;
+    -moz-border-radius-topleft: 3px;
+}
+.onethink.pagination-mini div > :last-child {
+    -webkit-border-top-right-radius: 3px;
+    border-top-right-radius: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    -moz-border-radius-topright: 3px;
+    -moz-border-radius-bottomright: 3px;
+}
+.onethink.pagination-small div >  a,
+.onethink.pagination-small div >  span {
+    padding: 2px 10px;
+    font-size: 11.9px;
+}
+.onethink.pagination-mini div > a,
+.onethink.pagination-mini div > span {
+    padding: 0 6px;
+    font-size: 10.5px;
+}
