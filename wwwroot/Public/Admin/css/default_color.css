@@ -41,44 +41,6 @@ a:hover{
 	border-left-color: #000;
 }
 
-/* 没有使用 */
-.tips-arrow .outer {
-	color: red;
-}
-.tips-arrow .inner {
-	color: #fff;
-}
-
-/* 顶部信息提醒条 */
-.alert {
-	color: #c09853;
-	border-color: #fbeed5;
-	background-color: #fcf8e3;
-}
-.alert .close {
-	color: #c09853;
-    opacity: 0.4;
-}
-.alert .close:hover {
-	opacity: 0.6;
-}
-.alert-info {
-	background-color: #D9EDF7;
-    border-color: #BCE8F1;
-    color: #3A87AD;
-}
-.alert-error {
-	color: #b94a48;
-	border-color: #eed3d7;
-	background-color: #f2dede;
-}
-.alert-success {
-    color: #468847;
-    background-color: #dff0d8;
-    border-color: #d6e9c6;
-}
-
-
 /********************************************** 
  * module.css 
  * 描述：定义常用组件样式
