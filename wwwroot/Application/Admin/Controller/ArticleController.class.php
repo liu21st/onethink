@@ -103,6 +103,7 @@ class ArticleController extends \Admin\Controller\AdminController {
         $this->cate_id  =   $cate_id;
 
         //是否展开分类
+        $hide_cate = false;
         if(ACTION_NAME != 'recycle' && ACTION_NAME != 'draftbox' && ACTION_NAME != 'mydocument'){
             $hide_cate  =   true;
         }
@@ -187,7 +188,7 @@ class ArticleController extends \Admin\Controller\AdminController {
                 unset($map['category_id']);
             }
 
-            $list = $this->lists($Document,$map);
+            $list = $this->lists($Document,$map,'level DESC,id DESC');
             intToString($list);
             if($map['pid']){
                 // 获取上级文档
