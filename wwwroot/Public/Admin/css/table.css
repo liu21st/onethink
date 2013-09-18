@@ -3,39 +3,6 @@
  * 作用范围: 公共，表格模块
  */
 
-.row-selected {
-    width: 15px;
-}
+
 /* 数据表格
 ------------------------------------------------- */
-.data-table {
-	margin: 10px 0;
-}
-.data-table table {
-    width: 100%;
-    border-collapse: collapse;
-}
-.data-table caption {
-    height: 30px;
-    line-height: 30px;
-    font-weight: 700;   
-}
-.data-table thead th,
-.data-table tbody td {
-    padding:8px;
-    height: 19px;
-    line-height: 19px;
-    font-weight: 400;
-}
-.data-table thead th {
-    text-align: left;
-    color:#fff;
-    background-color: #353535;
-}
-.data-table tbody tr {
-	background-color: #fefefe;
-	color: #686868;
-}
-.data-table tbody tr:nth-child(even) {
-	background-color: #f2f2f2;
-}
