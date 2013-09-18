@@ -23,10 +23,13 @@
 </block>
 
 <block name="body">
-      <div class="span9">
+    <div class="span9">
         <!-- Contents
         ================================================== -->
         <section id="contents">{$info.content}</section>
         <hr/>
+        {:hooks('documentDetailAfter')}
     </div>
+
+
 </block>
