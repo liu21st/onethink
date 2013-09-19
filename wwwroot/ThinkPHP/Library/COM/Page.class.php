@@ -25,10 +25,10 @@ class Page{
 
 	// 分页显示定制
     private $config  = array(
-        'header' => '<span class="rows">共 %TOTAL_ROW% 条记录</span>', 
-        'prev'   => '<<', 
-        'next'   => '>>', 
-        'first'  => '1...', 
+        'header' => '<span class="rows">共 %TOTAL_ROW% 条记录</span>',
+        'prev'   => '<<',
+        'next'   => '>>',
+        'first'  => '1...',
         'last'   => '...%TOTAL_PAGE%',
         'theme'  => '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END%',
     );
@@ -64,7 +64,7 @@ class Page{
     /**
      * 生成链接URL
      * @param  integer $page 页码
-     * @return string       
+     * @return string
      */
     private function url($page){
         return str_replace(urlencode('[PAGE]'), $page, $this->url);
@@ -80,7 +80,6 @@ class Page{
         /* 生成URL */
         $this->parameter[$this->p] = '[PAGE]';
         $this->url = U(ACTION_NAME, $this->parameter);
-
         /* 计算分页信息 */
         $this->totalPages = ceil($this->totalRows / $this->listRows); //总页数
         if(!empty($this->totalPages) && $this->nowPage > $this->totalPages) {
@@ -111,7 +110,7 @@ class Page{
         if($this->totalPages > $this->rollPage && ($this->nowPage + $now_cool_page) < $this->totalPages){
             $the_end = '<a class="end" href="' . $this->url($this->totalPages) . '">' . $this->config['last'] . '</a>';
         }
-        
+
         //数字连接
         $link_page = "";
         for($i = 1; $i <= $this->rollPage; $i++){
@@ -123,6 +122,7 @@ class Page{
 				$page = $this->nowPage - $now_cool_page_ceil + $i;
 			}
             if($page > 0 && $page != $this->nowPage){
+
                 if($page <= $this->totalPages){
                     $link_page .= '<a class="num" href="' . $this->url($page) . '">' . $page . '</a>';
                 }else{
