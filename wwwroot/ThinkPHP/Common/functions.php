@@ -851,6 +851,7 @@ function U($url='',$vars='',$suffix=true,$redirect=false,$domain=false) {
             $url   .=   '&'.$vars;
         }
     }else{ // PATHINFO模式或者兼容URL模式
+        $module = defined('BIND_MODULE') ? '' : $module;
         if(isset($route)) {
             $url    =   __APP__.'/'.($module?$module.MODULE_PATHINFO_DEPR:'').rtrim($url,$depr);
         }else{
