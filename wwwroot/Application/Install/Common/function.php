@@ -221,8 +221,15 @@ function register_administrator($db, $prefix, $admin, $auth){
 		array('[PREFIX]', '[NAME]', '[PASS]', '[EMAIL]', '[TIME]', '[IP]'), 
 		array($prefix, $admin['username'], $password, $admin['email'], NOW_TIME, get_client_ip(1)), 
 		$sql);
-	F('sql', $sql);
 	//执行sql
+	$db->execute($sql);
+
+	$sql = "INSERT INTO `[PREFIX]member` VALUES ".
+		   "('1', '[NAME]', '0', '0', '', '0', '1', '0', '[TIME]', '0', '[TIME]', '1');";
+	$sql = str_replace(
+		array('[PREFIX]', '[NAME]', '[TIME]'), 
+		array($prefix, $admin['username'], NOW_TIME),
+		$sql);
 	$db->execute($sql);
 	show_msg('创始人帐号注册完成！');
 }
