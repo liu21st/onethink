@@ -1,13 +1,14 @@
 <?php
-/**
- * 安全验证码
- * 
- * 安全的验证码要：验证码文字旋转，使用不同字体，可加干扰码、可加干扰线、可使用中文、可使用背景图片
- * 可配置的属性都是一些简单直观的变量，我就不用弄一堆的setter/getter了
- *
- * @author 流水孟春 <cmpan(at)qq.com>
- * @copyright NEW BSD
- */
+// +----------------------------------------------------------------------
+// | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2006-2012 http://thinkphp.cn All rights reserved.
+// +----------------------------------------------------------------------
+// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
+// +----------------------------------------------------------------------
+// | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
+// +----------------------------------------------------------------------
+
 namespace COM;
 
 class Verify {
@@ -43,19 +44,20 @@ class Verify {
 	public function check($code, $id = '') {
 		$key = $this->authcode($this->seKey);
 		// 验证码不能为空
-		if(empty($code) || empty($_SESSION[$key])) {
+		$session = session($key);
+		if(empty($code) || empty($session)) {
 			return false;
 		}
 
-		$secode = $id ? $_SESSION[$key][$id] : $_SESSION[$key];
+		$secode = $id ? $session[$id] : $session;
 		// session 过期
 		if(NOW_TIME - $secode['time'] > $this->expire) {
-			unset($_SESSION[$key]);
+			session($key, null);
 			return false;
 		}
 
 		if($this->authcode(strtoupper($code)) == $secode['code']) {
-			unset($_SESSION[$key]);
+			session($key, null);
 			return true;
 		}
 
@@ -64,7 +66,7 @@ class Verify {
 
 	/**
 	 * 输出验证码并把验证码的值保存的session中
-	 * 验证码保存到session的格式为： $_SESSION[$this->authcode($this->seKey)] = array('code' => '验证码值', 'time' => '验证码创建时间');
+	 * 验证码保存到session的格式为： array('code' => '验证码值', 'time' => '验证码创建时间');
 	 */
 	public function entry($id = '') {
 		// 图片宽(px)
@@ -121,17 +123,20 @@ class Verify {
 			}
 		}
 		
-		// 保存验证码
-		isset($_SESSION) || session_start();
-		if($id) {
-			$_SESSION[$this->authcode($this->seKey)][$id]['code'] = $this->authcode(strtoupper(join('', $code))); // 把校验码保存到session
-			$_SESSION[$this->authcode($this->seKey)][$id]['time'] = time();  // 验证码创建时间
-		} else {
-			$_SESSION[$this->authcode($this->seKey)]['code'] = $this->authcode(strtoupper(join('', $code))); // 把校验码保存到session
-			$_SESSION[$this->authcode($this->seKey)]['time'] = time();  // 验证码创建时间
-		}
-
 		$this->useZh && imagettftext($this->_image, $this->fontSize, 0, ($this->imageL - $this->fontSize*$this->length*1.2)/3, $this->fontSize * 1.5, $this->_color, $this->fontttf, iconv("GB2312","UTF-8", join('', $code)));
+		
+		// 保存验证码
+		$key = $this->authcode($this->seKey);
+		$code = $this->authcode(strtoupper(implode('', $code)));
+		$session = array();
+		if($id) {
+			$session[$id]['code'] = $code; // 把校验码保存到session
+			$session[$id]['time'] = NOW_TIME;  // 验证码创建时间
+		} else {
+			$session['code'] = $code; // 把校验码保存到session
+			$session['time'] = NOW_TIME;  // 验证码创建时间
+		}
+		session($key, $session);
 
 				
 		header('Cache-Control: private, max-age=0, no-store, no-cache, must-revalidate');
