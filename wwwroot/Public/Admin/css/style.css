@@ -111,7 +111,7 @@ body{
     padding-top: 30px;
     width: 200px;
     height: 100%;
-	background: #6b6b6b url("/Public/Admin/images/bg/bg.png");
+	background: #6b6b6b url("../images/bg/bg.png");
     z-index:2;
 }
 .subnav {
