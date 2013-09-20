@@ -82,14 +82,15 @@ class IndexController extends AdminController {
         } else {
             if(is_login()){
                 $this->redirect('Admin/Index/index');
+            }else{
+                $this->display();
             }
-            $this->display();
         }
     }
 
     /* 退出登录 */
     public function logout(){
-        if(is_login()){
+        if(UID){
             D('Member')->logout();
             $this->success('退出成功！', U('login'));
         } else {

@@ -54,18 +54,16 @@ class AdminController extends Controller {
         array( 'title'=>'其他','url'=>'other','controllers'=>'File','hide'=>true),//专门放置不需要显示在任何菜单中的节点
     );
 
-    private $uid        =   null;   //保存登陆用户的uid
-    private $root_user  =   null;   //保存超级管理员身份验证结果
-
     protected $nav      =   array();
 
     protected function _initialize(){
-        $this->uid = is_login();
-        if( !$this->uid ){
+        // 获取当前用户ID
+        define('UID',is_login());
+        if( !UID ){// 还没登录 跳转到登录页面
             $this->redirect('Admin/Index/login');
         }
-
-        $this->root_user    =   is_administrator();
+        // 是否是超级管理员
+        define('IS_ROOT',   is_administrator());
         $ac                 =   $this->accessControl();
         if ( $ac===false ) {
             $this->error('403:禁止访问');
@@ -97,14 +95,14 @@ class AdminController extends Controller {
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
     final protected function checkRule($rule, $type=AuthRuleModel::RULE_URL, $mode='url'){
-        if($this->root_user){
+        if(IS_ROOT){
             return true;//管理员允许访问任何页面
         }
         static $Auth    =   null;
         if (!$Auth) {
             $Auth       =   new \ORG\Util\Auth();
         }
-        if(!$Auth->check($rule,$this->uid,$type,$mode)){
+        if(!$Auth->check($rule,UID,$type,$mode)){
             return false;
         }
         return true;
@@ -115,11 +113,11 @@ class AdminController extends Controller {
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
     protected function checkDynamic(){
-        if($this->root_user){
+        if(IS_ROOT){
             return true;//管理员允许访问任何页面
         }
         if ( strtolower(CONTROLLER_NAME)=='article' ) {
-            $cates = AuthGroupModel::getAuthCategories($this->uid);
+            $cates = AuthGroupModel::getAuthCategories(UID);
             switch(strtolower(ACTION_NAME)){
                 case 'index':
                     $cate_id =  I('cate_id');
@@ -161,7 +159,7 @@ class AdminController extends Controller {
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
     final protected function accessControl(){
-        if($this->root_user){
+        if(IS_ROOT){
             return true;//管理员允许访问任何页面
         }
         $controller = 'Admin\\Controller\\'.CONTROLLER_NAME.'Controller';

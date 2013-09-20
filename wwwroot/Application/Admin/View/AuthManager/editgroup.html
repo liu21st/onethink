@@ -2,7 +2,7 @@
 <!-- 管理员用户组新增和编辑页面 -->
 <block name="body">
 	<div class="main-title">
-		<h2>编辑用户组</h2>
+		<h2>{$auth_group['id']?'编辑':'新增'}用户组</h2>
 	</div>
 
     <form action="{:U('AuthManager/writeGroup')}" enctype="application/x-www-form-urlencoded" method="POST" 

@@ -64,10 +64,10 @@ class ArticleController extends \Admin\Controller\AdminController {
 
         //获取回收站权限
         $show_recycle = $this->checkRule('Admin/article/recycle');
-        $this->assign('show_recycle', $this->getVal('root_user') || $show_recycle);
+        $this->assign('show_recycle', IS_ROOT || $show_recycle);
         //获取草稿箱权限
         $show_draftbox = $this->checkRule('Admin/article/draftbox');
-        $this->assign('show_draftbox', $this->getVal('root_user') || $show_draftbox);
+        $this->assign('show_draftbox', IS_ROOT || $show_draftbox);
     }
 
     /**
@@ -76,11 +76,11 @@ class ArticleController extends \Admin\Controller\AdminController {
      */
     protected function getMenu(){
         //获取动态分类
-        $cate_auth  =   AuthGroupModel::getAuthCategories(is_login());	//获取当前用户所有的内容权限节点
+        $cate_auth  =   AuthGroupModel::getAuthCategories(UID);	//获取当前用户所有的内容权限节点
         $cate       =   M('Category')->where(array('status'=>1))->field('id,title,pid,allow_publish')->order('pid,sort')->select();
 
         //没有权限的分类则不显示
-        if(!$this->getVal('root_user')){
+        if(!IS_ROOT){
             foreach ($cate as $key=>$value){
                 if(!in_array($value['id'], $cate_auth)){
                     unset($cate[$key]);
@@ -160,7 +160,7 @@ class ArticleController extends \Admin\Controller\AdminController {
         if(isset($status)){
             $map['status']  =   $status;
         }else{
-            $map['status']  =   array('in', '0,1,2');
+            $map['status']  =   array('egt', 0);
         }
         if ( isset($_GET['time-start']) ) {
             $map['create_time'][] = array('egt',strtotime(I('time-start')));
@@ -330,9 +330,9 @@ class ArticleController extends \Admin\Controller\AdminController {
             $this->error(D('Document')->getError());
         }else{
             if($res['id']){
-                $this->success('更新成功', '/'.MODULE_NAME.'/article/index/pid/'.$res['pid'].'/cate_id/'.$res['category_id']);
+                $this->success('更新成功', U('index?pid='.$res['pid'].'&cate_id='.$res['category_id']));
             }else{
-                $this->success('新增成功', '/'.MODULE_NAME.'/article/index/pid/'.$res['pid'].'/cate_id/'.$res['category_id']);
+                $this->success('新增成功', U('index?pid='.$res['pid'].'&cate_id='.$res['category_id']));
             }
         }
     }
@@ -342,10 +342,10 @@ class ArticleController extends \Admin\Controller\AdminController {
      * @author huajie <banhuajie@163.com>
      */
     public function recycle(){
-        if ( $this->getVal('root_user') ) {
+        if ( IS_ROOT ) {
             $map        =   array('status'=>-1);
         }else{
-            $cate_auth  =   AuthGroupModel::getAuthCategories(is_login());
+            $cate_auth  =   AuthGroupModel::getAuthCategories(UID);
             if($cate_auth){
                 $map    =   array('status'=>-1,'category_id'=>array('IN',implode(',',$cate_auth)));
             }else{
@@ -385,7 +385,7 @@ class ArticleController extends \Admin\Controller\AdminController {
      */
     public function draftBox(){
         $Document   =   D('Document');
-        $map        =   array('status'=>3,'uid'=>is_login());
+        $map        =   array('status'=>3,'uid'=>UID);
         $list       =   $this->lists($Document,$map);
         //获取状态文字
         //intToString($list);
@@ -401,16 +401,15 @@ class ArticleController extends \Admin\Controller\AdminController {
      */
     public function mydocument($status = null, $title = null){
         $Document   =   D('Document');
-        $map        =   array('status'=>array('in','0,1,2'),);
         /* 查询条件初始化 */
-        $map = array('uid'=>is_login());
+        $map['uid'] = UID;
         if(isset($title)){
             $map['title']   =   array('like', '%'.$title.'%');
         }
         if(isset($status)){
             $map['status']  =   $status;
         }else{
-            $map['status']  =   array('in', '0,1,2');
+            $map['status']  =   array('egt', 0);
         }
         if ( isset($_GET['time-start']) ) {
             $map['create_time'][] = array('egt',strtotime(I('time-start')));

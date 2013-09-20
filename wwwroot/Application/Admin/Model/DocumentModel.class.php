@@ -403,7 +403,7 @@ class DocumentModel extends Model{
         if ( is_administrator() ) {
             $map = array('status'=>-1);
         }else{
-            $cate_ids = AuthGroupModel::getAuthCategories(is_login());
+            $cate_ids = AuthGroupModel::getAuthCategories(UID);
             $map = array('status'=>-1,'category_id'=>array('IN',implode(',',$cate_ids)));
         }
         $base_list = $this->where($map)->field('id,model_id')->select();

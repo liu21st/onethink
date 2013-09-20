@@ -57,7 +57,7 @@ class UserController extends AdminController {
      * @author huajie <banhuajie@163.com>
      */
     public function updateNickname(){
-        $nickname = M('Member')->getFieldByUid(is_login(), 'nickname');
+        $nickname = M('Member')->getFieldByUid(UID, 'nickname');
         $this->assign('nickname', $nickname);
         $this->meta_title = '修改昵称';
         $this->display();
@@ -69,7 +69,7 @@ class UserController extends AdminController {
      */
     public function submitNickname(){
         //获取参数
-        $uid = is_login();
+        $uid = UID;
         $nickname = I('post.nickname');
         $password = I('post.password');
         empty($nickname) && $this->error('请输入昵称');
@@ -114,7 +114,7 @@ class UserController extends AdminController {
      */
     public function submitPassword(){
         //获取参数
-        $uid        =   is_login();
+        $uid        =   UID;
         $password   =   I('post.old');
         empty($password) && $this->error('请输入原密码');
         $data['password'] = I('post.password');

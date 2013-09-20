@@ -194,7 +194,7 @@ class AuthManagerController extends AdminController{
             if($r===false){
                 $this->error('操作失败'.$AuthGroup->getError());
             } else{
-                $this->success('操作成功!');
+                $this->success('操作成功!',U('index'));
             }
         }else{
             $this->error('操作失败'.$AuthGroup->getError());
@@ -331,7 +331,7 @@ class AuthManagerController extends AdminController{
     public function removeFromGroup(){
         $uid = I('uid');
         $gid = I('group_id');
-        if( $uid==$this->getVal('uid') ){
+        if( $uid==UID ){
             $this->error('不允许解除自身授权');
         }
         if( empty($uid) || empty($gid) ){
