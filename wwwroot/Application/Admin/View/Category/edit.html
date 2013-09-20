@@ -117,8 +117,8 @@
 						<label class="item-label">可见性</label>
 						<div class="controls">
 							<select name="display">
+								<option value="1">所有人可见</option>
 								<option value="0">不可见</option>
-								<option value="1" selected="selected">所有人可见</option>
 								<option value="2">管理员可见</option>
 							</select>
 						</div>
@@ -228,7 +228,7 @@
 		Think.setValue("allow_publish", {$info.allow_publish|default=1});
 		Think.setValue("model[]", {$info.model|json_encode} || [1]);
 		Think.setValue("type[]", {$info.type|json_encode} || [2]);
-		Think.setValue("display", {$info.display|default=0});
+		Think.setValue("display", {$info.display|default=1});
 		Think.setValue("reply", {$info.reply|default=0});
 		Think.setValue("reply_model[]", {$info.reply_model|json_encode} || [1]);
 		Think.setValue("reply_type[]", {$info.reply_type|json_encode} || [2]);
