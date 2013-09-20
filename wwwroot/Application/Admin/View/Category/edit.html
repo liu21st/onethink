@@ -69,6 +69,16 @@
 				<!-- 高级 -->
 				<div id="tab2" class="tab-pane tab2">
 					<div class="form-item">
+						<label class="item-label">可见性<span class="check-tips">（是否对用户可见，针对前台）</span></label>
+						<div class="controls">
+							<select name="display">
+								<option value="1">所有人可见</option>
+								<option value="0">不可见</option>
+								<option value="2">管理员可见</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-item">
 						<label class="item-label">
 							回复<span class="check-tips">（是否允许对内容进行回复，需要详情页模板支持回复显示与提交）</span>
 						</label>
@@ -102,7 +112,7 @@
 							排序<span class="check-tips">（仅对当前层级分类有效）</span>
 						</label>
 						<div class="controls">
-							<input type="text" name="sort" class="text input-large" value="{$info.sort|default=0}">
+							<input type="text" name="sort" class="text input-small" value="{$info.sort|default=0}">
 						</div>
 					</div>
 					<div class="form-item">
@@ -110,19 +120,10 @@
 							列表行数
 						</label>
 						<div class="controls">
-							<input type="text" name="list_row" class="text input-large" value="{$info.list_row|default=10}">
+							<input type="text" name="list_row" class="text input-small" value="{$info.list_row|default=10}">
 						</div>
 					</div>
-					<div class="form-item">
-						<label class="item-label">可见性</label>
-						<div class="controls">
-							<select name="display">
-								<option value="1">所有人可见</option>
-								<option value="0">不可见</option>
-								<option value="2">管理员可见</option>
-							</select>
-						</div>
-					</div>
+
 				</div>
 
 				<!-- 高级 -->
@@ -184,43 +185,6 @@
 			</form>
 		</div>
 	</div>
-	<!-- <form action="{:U('edit')}" method="post" class="form-horizontal">
-		<div class="form-item">
-			<label class="item-label"><em class="must">*</em>附件类型：</label>
-			<div class="controls">
-				<label class="inline radio">
-					<input type="radio" name="" value="">1
-				</label>
-				<label class="inline radio">
-					<input type="radio" name="" value="">2
-				</label>
-			</div>
-		</div>
-		<div class="form-item">
-			<label class="item-label"><em class="must">*</em>上传后缀：</label>
-			<div class="controls">
-				<label class="inline radio">
-					<input type="radio" name="" value="">1
-				</label>
-				<label class="inline radio">
-					<input type="radio" name="" value="">2
-				</label>
-			</div>
-		</div>
-		<div class="form-item">
-			<label class="item-label"><em class="must">*</em>附件大小：</label>
-			<div class="controls">
-				<input type="text" name="" class="input-medium" value="1G">
-			</div>
-		</div>
-		<div class="form-item">
-			<label class="item-label"><em class="must">*</em>上传驱动：</label>
-			<div class="controls">
-				<input type="file" name="" id="">
-			</div>
-		</div>
-
-	</form> -->
 </block>
 
 <block name="script">
