@@ -250,7 +250,7 @@ function show_msg($msg, $class = ''){
  */
 function build_auth_key(){
 	$chars  = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-	$chars .= '`~!@#$%^&*()_+-=[]{};:"\|,.<>/?';
+	$chars .= '`~!@#$%^&*()_+-=[]{};:"|,.<>/?';
 	$chars  = str_shuffle($chars);
 	return substr($chars, 0, 40);
 }
