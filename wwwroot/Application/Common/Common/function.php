@@ -255,14 +255,28 @@ function get_redirect_url(){
 function hooks($hook, $params = array()) {
     $hooks = S('hooks');
     if(!$hooks){
-        $hooks = D('Hooks')->getField('name,addons');
+        $hooks = M('Hooks')->getField('name,addons');
         foreach ($hooks as $key => $value) {
-            $hooks[$key] = explode(',', $value);
+            if($value){
+                $names  =   explode(',',$value);
+                foreach($names as $k=>$name){
+                    $map['name']    =   $name;
+                    $map['status']  =   1;
+                    $status =   M('Addons')->where($map)->getField('id');
+                    if(!$status){
+                        unset($names[$k]);
+                    }
+                }
+                $hooks[$key] = $names;
+            }else{
+                unset($hooks[$key]);
+            }
         }
         S('hooks',$hooks);
     }
-    $addons = $hooks[$hook];
-    if(!empty($addons)) {
+    
+    if(isset($hooks[$hook])) {
+        $addons = $hooks[$hook];
         if(APP_DEBUG) {
             G($hook.'Start');
             trace('[ '.$hook.' ] --START--','','INFO');
@@ -272,8 +286,7 @@ function hooks($hook, $params = array()) {
             if($name){
                 $addons_class = addons($name);
                 if($addons_class){
-                    $config = $addons_class->getConfig();
-                    if(method_exists($addons_class, $hook) && $config['status'] == 1)
+                    if(method_exists($addons_class, $hook))
                         $addons_class->$hook($params);
                 } else {
                     trace("插件 {$name} 入口文件不存在",'ADDONS','ERR');
@@ -393,37 +406,37 @@ function get_username($uid = 0){
  * @return string       用户昵称
  */
 function get_nickname($uid = 0){
-	static $list;
-	if(!($uid && is_numeric($uid))){ //获取当前登录用户名
-		return session('user_auth.username');
-	}
+    static $list;
+    if(!($uid && is_numeric($uid))){ //获取当前登录用户名
+        return session('user_auth.username');
+    }
 
-	/* 获取缓存数据 */
-	if(empty($list)){
-		$list = S('sys_user_nickname_list');
-	}
+    /* 获取缓存数据 */
+    if(empty($list)){
+        $list = S('sys_user_nickname_list');
+    }
 
-	/* 查找用户信息 */
-	$key = "u{$uid}";
-	if(isset($list[$key])){ //已缓存，直接使用
-		$name = $list[$key];
-	} else { //调用接口获取用户信息
-		$info = M('Member')->field('nickname')->find($uid);
-		if($info !== false){
-			$nickname = $info['nickname'];
-			$name = $list[$key] = $nickname;
-			/* 缓存用户 */
-			$count = count($list);
-			$max   = C('USER_MAX_CACHE');
-			while ($count-- > $max) {
-				array_shift($list);
-			}
-			S('sys_user_nickname_list', $list);
-		} else {
-			$name = '';
-		}
-	}
-	return $name;
+    /* 查找用户信息 */
+    $key = "u{$uid}";
+    if(isset($list[$key])){ //已缓存，直接使用
+        $name = $list[$key];
+    } else { //调用接口获取用户信息
+        $info = M('Member')->field('nickname')->find($uid);
+        if($info !== false){
+            $nickname = $info['nickname'];
+            $name = $list[$key] = $nickname;
+            /* 缓存用户 */
+            $count = count($list);
+            $max   = C('USER_MAX_CACHE');
+            while ($count-- > $max) {
+                array_shift($list);
+            }
+            S('sys_user_nickname_list', $list);
+        } else {
+            $name = '';
+        }
+    }
+    return $name;
 }
 
 /**
@@ -561,11 +574,11 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
  * 解析行为规则
  * 规则定义  table:$table|field:$field|condition:$condition|rule:$rule[|cycle:$cycle|max:$max][;......]
  * 规则字段解释：table->要操作的数据表，不需要加表前缀；
- * 				field->要操作的字段；
- * 				condition->操作的条件，目前支持字符串，默认变量{$self}为执行行为的用户
- * 				rule->对字段进行的具体操作，目前支持四则混合运算，如：1+score*2/2-3
- * 				cycle->执行周期，单位（小时），表示$cycle小时内最多执行$max次
- * 				max->单个周期内的最大执行次数（$cycle和$max必须同时定义，否则无效）
+ *              field->要操作的字段；
+ *              condition->操作的条件，目前支持字符串，默认变量{$self}为执行行为的用户
+ *              rule->对字段进行的具体操作，目前支持四则混合运算，如：1+score*2/2-3
+ *              cycle->执行周期，单位（小时），表示$cycle小时内最多执行$max次
+ *              max->单个周期内的最大执行次数（$cycle和$max必须同时定义，否则无效）
  * 单个行为后可加 ； 连接其他规则
  * @param string $action 行为id或者name
  * @param int $self 替换规则里的变量为执行用户的id
@@ -660,7 +673,6 @@ function createDirOrFiles($files){
         }
     }
 }
-
 
 if(!function_exists('array_column')){
     function array_column(array $input, $columnKey, $indexKey = null) {

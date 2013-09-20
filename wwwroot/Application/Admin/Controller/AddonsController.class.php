@@ -50,12 +50,12 @@ class AddonsController extends AdminController {
 
     //创建向导首页
     public function create(){
-        $creatable = is_writable(ONETHINK_ADDON_PATH);
-        if(!$creatable)
+        if(!is_writable(ONETHINK_ADDON_PATH))
             $this->error('您没有创建目录写入权限，无法使用此功能');
-        $this->meta_title = '创建向导';
+
         $hooks = M('Hooks')->field('name,description')->select();
         $this->assign('Hooks',$hooks);
+        $this->meta_title = '创建向导';
         $this->display('create');
     }
 
@@ -149,20 +149,6 @@ str;
         if(file_exists("{$addons_dir}{$data['info']['name']}")){
             $this->error('插件已经存在了');
         }
-        //检测配置和插件主文件是否合法 TODO: 无法实现正确的检测php代码片段机制
-        // if($data['has_config']){
-        //     if(!@eval(ltrim($data['config'], '<?php'))){
-        //         $this->error('配置有语法错误');
-        //     }
-        // }
-        // $preview = $this->preview(false);
-        // $check_preview = ltrim($preview, '<?php');
-        // $addon_class = realpath(APP_PATH.'Common/Controller/Addons.class.php');
-        // if(!class_exists('Addons'))
-        //     $check_preview = "include '{$addon_class}';".$check_preview;
-        // if(!@eval($check_preview)){
-        //     $this->error('插件定义类有语法错误','', array('error'=>$check_preview));
-        // }
         $this->success('可以创建');
     }
 
@@ -291,6 +277,7 @@ str;
     public function enable(){
         $id     =   I('id');
         $msg    =   array('success'=>'启用成功', 'error'=>'启用失败');
+        S('hooks', null);
         $this->resume('Addons', "id={$id}", $msg);
     }
 
@@ -300,6 +287,7 @@ str;
     public function disable(){
         $id = I('id');
         $msg = array('success'=>'禁用成功', 'error'=>'禁用失败');
+        S('hooks', null);
         $this->forbid('Addons', "id={$id}", $msg);
     }
 

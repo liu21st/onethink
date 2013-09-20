@@ -23,11 +23,11 @@ function get_status_title($status = null){
         return false;
     }
     switch ($status){
-        case -1 : return '已删除';break;
-        case 0 : return '禁用';break;
-        case 1 : return '正常';break;
-        case 2 : return '待审核';break;
-        default : return false;break;
+        case -1 : return    '已删除';   break;
+        case 0  : return    '禁用';     break;
+        case 1  : return    '正常';     break;
+        case 2  : return    '待审核';   break;
+        default : return    false;      break;
     }
 }
 
@@ -42,11 +42,11 @@ function get_document_type($type = null){
         return false;
     }
     switch ($type){
-        case 0 : return '专辑';break;
-        case 1 : return '目录';break;
-        case 2 : return '主题';break;
-        case 2 : return '段落';break;
-        default : return false;break;
+        case 0  : return    '专辑'; break;
+        case 1  : return    '目录'; break;
+        case 2  : return    '主题'; break;
+        case 2  : return    '段落'; break;
+        default : return    false;  break;
     }
 }
 
@@ -56,7 +56,7 @@ function get_document_type($type = null){
  * @return string
  */
 function get_config_type($type=0){
-    $list =	C('CONFIG_TYPE_LIST');
+    $list = C('CONFIG_TYPE_LIST');
     return $list[$type];
 }
 
@@ -66,7 +66,7 @@ function get_config_type($type=0){
  * @return string
  */
 function get_config_group($group=0){
-    $list =	C('CONFIG_GROUP_LIST');
+    $list = C('CONFIG_GROUP_LIST');
     return $list[$group];
 }
 
@@ -144,11 +144,11 @@ function get_parent_category($cid){
     if(empty($cid)){
         return false;
     }
-    $cates = M('Category')->where(array('status'=>1))->field('id,title,pid')->order('sort')->select();
-    $child = get_category($cid);	//获取参数分类的信息
-    $pid = $child['pid'];
-    $temp = array();
-    $res[] = $child;
+    $cates  =   M('Category')->where(array('status'=>1))->field('id,title,pid')->order('sort')->select();
+    $child  =   get_category($cid);	//获取参数分类的信息
+    $pid    =   $child['pid'];
+    $temp   =   array();
+    $res[]  =   $child;
     while(true){
         foreach ($cates as $key=>$cate){
             if($cate['id'] == $pid){
@@ -219,9 +219,9 @@ function get_type_bycate($id = null){
     if(empty($id)){
         return false;
     }
-    $type_list = C('DOCUMENT_MODEL_TYPE');
-    $model_type = M('Category')->getFieldById($id, 'type');
-    $model_type = explode(',', $model_type);
+    $type_list  =   C('DOCUMENT_MODEL_TYPE');
+    $model_type =   M('Category')->getFieldById($id, 'type');
+    $model_type =   explode(',', $model_type);
     foreach ($type_list as $key=>$value){
         if(!in_array($key, $model_type)){
             unset($type_list[$key]);
@@ -259,6 +259,7 @@ function parse_config_attr($string) {
     return $value;
 }
 
+// 获取子文档数目
 function get_subdocument_count($id=0){
-	return 	M('Document')->where('pid='.$id)->count();
+    return  M('Document')->where('pid='.$id)->count();
 }
