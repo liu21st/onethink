@@ -95,7 +95,7 @@ class HooksModel extends Model {
      * 去除插件所有钩子里对应的插件数据
      */
     public function removeHooks($addons_name){
-        $addons_class = get_class_methods($addons_name);
+        $addons_class = get_addon_class($addons_name);
         if(!class_exists($addons_class)){
             return false;
         }
