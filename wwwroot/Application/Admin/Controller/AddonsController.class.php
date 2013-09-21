@@ -101,14 +101,14 @@ str;
 <?php
 
 namespace Addons\\{$data['info']['name']};
-use Common\Controller\Addons;
+use Common\Controller\Addon;
 
 /**
  * {$data['info']['title']}插件
  * @author {$data['info']['author']}
  */
 
-    class {$data['info']['name']}Addons extends Addons{
+    class {$data['info']['name']}Addon extends Addon{
 
         public \$info = array(
             'name'=>'{$data['info']['name']}',
@@ -161,7 +161,7 @@ str;
         $files          =   array();
         $addon_dir      =   "$addons_dir{$data['info']['name']}/";
         $files[]        =   $addon_dir;
-        $addon_name     =   "{$data['info']['name']}Addons.class.php";
+        $addon_name     =   "{$data['info']['name']}Addon.class.php";
         $files[]        =   "{$addon_dir}{$addon_name}";
         if($data['has_config'] == 1);//如果有配置文件
             $files[]    =   $addon_dir.'config.php';
