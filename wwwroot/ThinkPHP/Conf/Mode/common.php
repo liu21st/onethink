@@ -39,9 +39,10 @@ return array(
 	'core'		=>	array(
 		THINK_PATH.'Common/functions.php',
 		COMMON_PATH.'Common/function.php',
+        CORE_PATH . 'Hook'.EXT,
 		CORE_PATH . 'App'.EXT,
 		CORE_PATH . 'Dispatcher'.EXT,
-		CORE_PATH . 'Log'.EXT,
+		//CORE_PATH . 'Log'.EXT,
 		CORE_PATH . 'Route'.EXT,
 		CORE_PATH . 'Controller'.EXT,
 		CORE_PATH . 'View'.EXT,
@@ -50,8 +51,8 @@ return array(
 		CORE_PATH . 'Behavior/ShowPageTraceBehavior'.EXT,
 		CORE_PATH . 'Behavior/ParseTemplateBehavior'.EXT,
 		CORE_PATH . 'Behavior/ContentReplaceBehavior'.EXT,
-		CORE_PATH . 'Behavior/TokenBuildBehavior'.EXT,		
-		CORE_PATH . 'Behavior/WriteHtmlCacheBehavior'.EXT,		
+		CORE_PATH . 'Behavior/TokenBuildBehavior'.EXT,
+		CORE_PATH . 'Behavior/WriteHtmlCacheBehavior'.EXT,
 	),
 	// 行为扩展定义
 	'extends'	=>	array(

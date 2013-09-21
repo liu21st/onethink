@@ -260,13 +260,13 @@ function init_hooks(){
                 $data = M('Addons')->where($map)->getField('id,name');
                 if($data){
                     $addons =   array_values($data);
-                    \COM\Hook::add($key,$addons);
+                    \Think\Hook::add($key,$addons);
                 }
             }
         }
-        S('hooks',\COM\Hook::get());
+        S('hooks',\Think\Hook::get());
     }else{
-        \COM\Hook::import($data);
+        \Think\Hook::import($data);
     }
 }
 
@@ -274,11 +274,10 @@ function init_hooks(){
  * 处理插件钩子
  * @param string $hook   钩子名称
  * @param mixed $params 传入参数
- * @param string $type 允许的插件类型（默认为允许全部类型）
  * @return void
  */
-function hook($hook,$params=array(),$type=''){
-    \COM\Hook::listen($hook,$params,$type);
+function hook($hook,$params=array()){
+    \Think\Hook::listen($hook,$params);
 }
 
 /**

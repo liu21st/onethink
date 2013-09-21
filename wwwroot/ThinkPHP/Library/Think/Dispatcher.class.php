@@ -160,9 +160,9 @@ class Dispatcher {
             $moduleName    =   defined('MODULE_ALIAS')?MODULE_ALIAS:MODULE_NAME;
             define('__MODULE__',(!empty($domainModule) || !C('MULTI_MODULE'))?__APP__ : __APP__.'/'.(C('URL_CASE_INSENSITIVE') ? strtolower($moduleName) : $moduleName));            
         }
-		$_SERVER['PATH_INFO']     =   preg_replace('/\.' . __EXT__ . '$/i', '',$_SERVER['PATH_INFO']);
+
         if('' != $_SERVER['PATH_INFO'] && (!C('URL_ROUTER_ON') ||  !Route::check()) ){   // 检测路由规则 如果没有则按默认规则调度URL
-            tag('path_info');
+            Hook::listen('path_info');
             // 检查禁止访问的URL后缀
             if(C('URL_DENY_SUFFIX') && preg_match('/\.('.trim(C('URL_DENY_SUFFIX'),'.').')$/i', $_SERVER['PATH_INFO'])){
                 send_http_status(404);

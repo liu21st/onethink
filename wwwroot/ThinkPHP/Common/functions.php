@@ -273,8 +273,6 @@ function N($key, $step=0,$save=false) {
     }
 }
 
-
-
 /**
  * 字符串命名风格转换
  * type 0 将Java风格转换为C的风格 1 将C风格转换为Java的风格
@@ -523,54 +521,7 @@ function R($url,$vars=array(),$layer='') {
  * @return mixed
  */
 function tag($tag, &$params=NULL) {
-    // 系统标签扩展
-    $extends    = C('extends.' . $tag);
-    // 应用标签扩展
-    $tags       = C('tags.' . $tag);
-    if (!empty($tags)) {
-        if(empty($tags['_overlay']) && !empty($extends)) { // 合并扩展
-            $tags = array_unique(array_merge($extends,$tags));
-        }elseif(isset($tags['_overlay'])){ // 通过设置 '_overlay'=>1 覆盖系统标签
-            unset($tags['_overlay']);
-        }
-    }elseif(!empty($extends)) {
-        $tags = $extends;
-    }
-    if($tags) {
-        if(APP_DEBUG) {
-            G($tag.'Start');
-            trace('[ '.$tag.' ] --START--','','INFO');
-        }
-        // 执行扩展
-        foreach ($tags as $name) {
-            B($name, $params);
-        }
-        if(APP_DEBUG) { // 记录行为的执行日志
-            trace('[ '.$tag.' ] --END-- [ RunTime:'.G($tag.'Start',$tag.'End',6).'s ]','','INFO');
-        }
-    }else{ // 未执行任何行为 返回false
-        return false;
-    }
-}
-
-/**
- * 动态添加行为扩展到某个标签
- * @param string $tag 标签名称
- * @param string $behavior 行为名称
- * @param string $path 行为路径
- * @return void
- */
-function add_tag_behavior($tag,$behavior,$path='') {
-    $array      =  C('tags.'.$tag);
-    if(!$array) {
-        $array  =  array();
-    }
-    if($path) {
-        $array[$behavior] = $path;
-    }else{
-        $array[] =  $behavior;
-    }
-    C('tags.'.$tag,$array);
+    return \Think\Hook::listen($tag,$params);
 }
 
 /**
@@ -581,21 +532,11 @@ function add_tag_behavior($tag,$behavior,$path='') {
  */
 function B($name, &$params=NULL) {
     if(strpos($name,'/')){
-        list($name,$method) = explode('/',$name);
+        list($name,$tag) = explode('/',$name);
     }else{
-        $method     =   'run';
+        $tag     =   'run';
     }
-    $class      = $name.'Behavior';
-    if(APP_DEBUG) {
-        G('behaviorStart');
-    }
-
-    $behavior   = new $class();
-    $behavior->$method($params);
-    if(APP_DEBUG) { // 记录行为的执行日志
-        G('behaviorEnd');
-        trace($name.' Behavior ::'.$method.' [ RunTime:'.G('behaviorStart','behaviorEnd',6).'s ]','','INFO');
-    }
+    return \Think\Hook::exec($name,$tag,$params);
 }
 
 /**
@@ -730,7 +671,7 @@ function U($url='',$vars='',$suffix=true,$redirect=false,$domain=false) {
         $anchor =   $info['fragment'];
         if(false !== strpos($anchor,'?')) { // 解析参数
             list($anchor,$info['query']) = explode('?',$anchor,2);
-        }
+        }        
         if(false !== strpos($anchor,'@')) { // 解析域名
             list($anchor,$host)    =   explode('@',$anchor, 2);
         }
@@ -765,7 +706,7 @@ function U($url='',$vars='',$suffix=true,$redirect=false,$domain=false) {
         parse_str($info['query'],$params);
         $vars = array_merge($params,$vars);
     }
-
+    
     // URL组装
     $depr = C('URL_PATHINFO_DEPR');
     if($url) {
@@ -786,7 +727,7 @@ function U($url='',$vars='',$suffix=true,$redirect=false,$domain=false) {
             $var[C('VAR_ACTION')]       =   !empty($path)?array_pop($path):ACTION_NAME;
             if(C('URL_CASE_INSENSITIVE')) {
                 $var[C('VAR_ACTION')]   =   strtolower($var[C('VAR_ACTION')]);
-            }
+            }            
             $var[C('VAR_CONTROLLER')]       =   !empty($path)?array_pop($path):CONTROLLER_NAME;
             if($maps = C('URL_ACTION_MAP')) {
                 if(isset($maps[strtolower($var[C('VAR_CONTROLLER')])])) {
@@ -805,6 +746,7 @@ function U($url='',$vars='',$suffix=true,$redirect=false,$domain=false) {
                 $var[C('VAR_CONTROLLER')]   =   parse_name($var[C('VAR_CONTROLLER')]);
             }
             $module =   '';
+            
             if(!empty($path)) {
                 $var[C('VAR_MODULE')]    =   array_pop($path);
             }else{
@@ -824,14 +766,14 @@ function U($url='',$vars='',$suffix=true,$redirect=false,$domain=false) {
                 $module =   $var[C('VAR_MODULE')];
                 unset($var[C('VAR_MODULE')]);
             }
-
+            
         }
     }
-    // if(ACTION_NAME== 'mydocument' && );
+
     if(C('URL_MODEL') == 0) { // 普通模式URL转换
         $url        =   __APP__.'?'.C('VAR_MODULE')."={$module}&".http_build_query(array_reverse($var));
         if(!empty($vars)) {
-            $vars   =   http_build_query($vars);
+            $vars   =   urldecode(http_build_query($vars));
             $url   .=   '&'.$vars;
         }
     }else{ // PATHINFO模式或者兼容URL模式
@@ -844,7 +786,7 @@ function U($url='',$vars='',$suffix=true,$redirect=false,$domain=false) {
         if(!empty($vars)) { // 添加参数
             foreach ($vars as $var => $val){
                 if('' !== trim($val))   $url .= $depr . $var . $depr . urlencode($val);
-            }
+            }                
         }
         if($suffix) {
             $suffix   =  $suffix===true?C('URL_HTML_SUFFIX'):$suffix;
@@ -968,7 +910,7 @@ function F($name, $value='', $path=DATA_PATH) {
         if (is_null($value)) {
             // 删除缓存
             if(false !== strpos($name,'*')){
-                return false; // TODO
+                return false; // TODO 
             }else{
                 return Think\Storage::unlink($filename,'F');
             }
@@ -1087,7 +1029,7 @@ function session($name,$value='') {
         }
         // 启动session
         if(C('SESSION_AUTO_START'))  session_start();
-    }elseif('' === $value){
+    }elseif('' === $value){ 
         if(0===strpos($name,'[')) { // session 操作
             if('[pause]'==$name){ // 暂停session
                 session_write_close();
@@ -1117,17 +1059,17 @@ function session($name,$value='') {
         }elseif($prefix){ // 获取session
             if(strpos($name,'.')){
                 list($name1,$name2) =   explode('.',$name);
-                return isset($_SESSION[$prefix][$name1][$name2])?$_SESSION[$prefix][$name1][$name2]:null;
+                return isset($_SESSION[$prefix][$name1][$name2])?$_SESSION[$prefix][$name1][$name2]:null;  
             }else{
-                return isset($_SESSION[$prefix][$name])?$_SESSION[$prefix][$name]:null;
-            }
+                return isset($_SESSION[$prefix][$name])?$_SESSION[$prefix][$name]:null;                
+            }            
         }else{
             if(strpos($name,'.')){
                 list($name1,$name2) =   explode('.',$name);
-                return isset($_SESSION[$name1][$name2])?$_SESSION[$name1][$name2]:null;
+                return isset($_SESSION[$name1][$name2])?$_SESSION[$name1][$name2]:null;  
             }else{
                 return isset($_SESSION[$name])?$_SESSION[$name]:null;
-            }
+            }            
         }
     }elseif(is_null($value)){ // 删除session
         if($prefix){
