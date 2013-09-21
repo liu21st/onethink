@@ -48,7 +48,12 @@ class Think {
           $content =  '';
           // 读取应用模式
           $mode   =   include is_file(COMMON_PATH.'Conf/core.php')?COMMON_PATH.'Conf/core.php':THINK_PATH.'Conf/Mode/'.APP_MODE.'.php';
-          
+
+          // 加载配置文件
+          foreach ($mode['config'] as $key=>$file){
+              is_numeric($key)?C(include $file):C($key,include $file);
+          }
+
           // 加载核心文件
           foreach ($mode['core'] as $file){
               if(is_file($file)) {
@@ -57,10 +62,6 @@ class Think {
               }
           }
 
-          // 加载配置文件
-          foreach ($mode['config'] as $key=>$file){
-              is_numeric($key)?C(include $file):C($key,include $file);
-          }
           // 加载别名定义
           foreach($mode['alias'] as $alias){
               self::addMap(is_array($alias)?$alias:(file_exists($alias)?include $alias:array()));
@@ -223,7 +224,7 @@ class Think {
           case E_USER_NOTICE:
           default:
             $errorStr = "[$errno] $errstr ".$errfile." 第 $errline 行.";
-            trace($errorStr,'','NOTIC');
+            self::trace($errorStr,'','NOTIC');
             break;
       }
     }
@@ -285,5 +286,33 @@ class Think {
         // 包含异常页面模板
         include C('TMPL_EXCEPTION_FILE');
         exit;
+    }
+
+    /**
+     * 添加和获取页面Trace记录
+     * @param string $value 变量
+     * @param string $label 标签
+     * @param string $level 日志级别
+     * @param boolean $record 是否记录日志
+     * @return void
+     */
+    static public function trace($value='[think]',$label='',$level='DEBUG',$record=false) {
+        static $_trace =  array();
+        if('[think]' === $value){ // 获取trace信息
+            return $_trace;
+        }else{
+            $info   =   ($label?$label.':':'').print_r($value,true);
+            if('ERR' == $level && C('TRACE_EXCEPTION')) {// 抛出异常
+                E($info);
+            }
+            $level  =   strtoupper($level);
+            if(!isset($_trace[$level])) {
+                    $_trace[$level] =   array();
+                }
+            $_trace[$level][]   = $info;
+            if((defined('IS_AJAX') && IS_AJAX) || !C('SHOW_PAGE_TRACE')  || $record) {
+                Log::record($info,$level,$record);
+            }
+        }
     }
 }
