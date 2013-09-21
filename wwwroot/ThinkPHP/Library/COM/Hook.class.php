@@ -111,6 +111,5 @@ class Hook {
         }
         $addon   = new $class();
         return $addon->$tag($params);
-        return ;
     }
 }
