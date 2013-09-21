@@ -171,7 +171,7 @@ class ArticleController extends HomeController {
 		if($status){
 			/* 保存成功，处理插件数据 */
 			$param = array($status, $category);
-			hooks('documentSaveComplete', $param);
+			hook('documentSaveComplete', $param);
 
 			$this->success('发布成功！', U('Article/lists?category='.$category['name']));
 		} else {

@@ -235,10 +235,11 @@ str;
      * @param string $name 插件名
      */
     public function adminList($name){
-        $addon = addons($name);
-        if(!$addon)
+        $class = get_addon_class($name);
+        if(!class_exists($class))
             $this->error('插件不存在');
-        $param = $addon->admin_list;
+        $addon  =   new $class();
+        $param  =   $addon->admin_list;
         if(!$param)
             $this->error('插件列表信息不正确');
         $this->meta_title = $addon->info['title'];
@@ -299,14 +300,15 @@ str;
         $addon  =   M('Addons')->find($id);
         if(!$addon)
             $this->error('插件未安装');
-        $addon_class = addons($addon['name']);
-        if(!$addon_class)
+        $addon_class = get_addon_class($addon['name']);
+        if(!class_exists($addon_class))
             trace("插件{$addon['name']}无法实例化,",'ADDONS','ERR');
-        $addon['addon_path'] = $addon_class->addon_path;
-        $addon['custom_config'] = $addon_class->custom_config;
-        $this->meta_title   =   '设置插件-'.$addon_class->info['title'];
+        $data  =   new $addon_class;
+        $addon['addon_path'] = $data->addon_path;
+        $addon['custom_config'] = $data->custom_config;
+        $this->meta_title   =   '设置插件-'.$data->info['title'];
         $db_config = $addon['config'];
-        $addon['config'] = include $addon_class->config_file;
+        $addon['config'] = include $data->config_file;
         if($db_config){
             $db_config = json_decode($db_config, true);
             foreach ($addon['config'] as $key => $value) {
@@ -346,9 +348,10 @@ str;
      */
     public function install(){
         $addon_name     =   trim(I('addon_name'));
-        $addons         =   addons($addon_name);
-        if(!$addons)
+        $class         =   get_addon_class($addon_name);
+        if(!class_exists($class))
             $this->error('插件不存在');
+        $addons  =   new $class;
         $info = $addons->info;
         if(!$info || !$addons->checkInfo())//检测信息的正确性
             $this->error('插件信息缺失');
@@ -390,11 +393,12 @@ str;
         $addonsModel   =   M('Addons');
         $id            =   trim(I('id'));
         $db_addons     =   $addonsModel->find($id);
-        $addons        =   addons($db_addons['name']);
+        $class        =   get_addon_class($db_addons['name']);
         $this->assign('jumpUrl',U('index'));
-        if(!$db_addons || !$addons)
+        if(!$db_addons || !class_exists($class))
             $this->error('插件不存在');
         session('addons_uninstall_error',null);
+        $addons =   new $class;
         $uninstall_flag = $addons->uninstall();
         if(!$uninstall_flag)
             $this->error('执行插件预卸载操作失败'.session('addons_uninstall_error'));

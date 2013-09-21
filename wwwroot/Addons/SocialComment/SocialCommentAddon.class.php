@@ -4,24 +4,24 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
+// | Author: yangweijie <yangweijiester@gmail.com> <code-tech.diandian.com>
 // +----------------------------------------------------------------------
 
 
-namespace Addons\DevTeam;
-use Common\Controller\Addons;
+namespace Addons\SocialComment;
+use Common\Controller\Addon;
 
 /**
- * 开发团队信息插件
+ * 通用社交化评论插件
  * @author thinkphp
  */
 
-    class DevTeamAddons extends Addons{
+    class SocialCommentAddon extends Addon{
 
         public $info = array(
-            'name'=>'DevTeam',
-            'title'=>'开发团队信息',
-            'description'=>'开发团队成员信息',
+            'name'=>'SocialComment',
+            'title'=>'通用社交化评论',
+            'description'=>'集成了各种社交化评论插件，轻松集成到系统中。',
             'status'=>1,
             'author'=>'thinkphp',
             'version'=>'0.1'
@@ -35,11 +35,9 @@ use Common\Controller\Addons;
             return true;
         }
 
-        //实现的AdminIndex钩子方法
-        public function AdminIndex($param){
-            $config = $this->getConfig();
-            $this->assign('addons_config', $config);
-            if($config['display'])
-                $this->display('widget');
+        //实现的pageFooter钩子方法
+        public function documentDetailAfter($param){
+            $this->assign('addons_config', $this->getConfig());
+            $this->display('comment');
         }
     }

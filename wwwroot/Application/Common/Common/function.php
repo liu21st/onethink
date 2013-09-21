@@ -246,76 +246,59 @@ function get_redirect_url(){
 }
 
 /**
- * 处理插件钩子
- * @param string $hook   钩子名称
- * @param mixed $params 传入参数
- * @return mixed
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ * 初始化钩子信息
+ * @return void
  */
-function hooks($hook, $params = array()) {
-    $hooks = S('hooks');
-    if(!$hooks){
+function init_hooks(){
+    $data = S('hooks');
+    if(!$data){
         $hooks = M('Hooks')->getField('name,addons');
         foreach ($hooks as $key => $value) {
             if($value){
-                $names  =   explode(',',$value);
-                foreach($names as $k=>$name){
-                    $map['name']    =   $name;
-                    $map['status']  =   1;
-                    $status =   M('Addons')->where($map)->getField('id');
-                    if(!$status){
-                        unset($names[$k]);
-                    }
+                $map['status']  =   1;
+                $map['name']    =   array('IN',explode(',',$value));
+                $data = M('Addons')->where($map)->getField('id,name');
+                if($data){
+                    $addons =   array_values($data);
+                    \COM\Hook::add($key,$addons);
                 }
-                $hooks[$key] = $names;
-            }else{
-                unset($hooks[$key]);
             }
         }
-        S('hooks',$hooks);
-    }
-    
-    if(isset($hooks[$hook])) {
-        $addons = $hooks[$hook];
-        if(APP_DEBUG) {
-            G($hook.'Start');
-            trace('[ '.$hook.' ] --START--','','INFO');
-        }
-        // 执行插件
-        foreach ($addons as $key => $name) {
-            if($name){
-                $addons_class = addons($name);
-                if($addons_class){
-                    if(method_exists($addons_class, $hook))
-                        $addons_class->$hook($params);
-                } else {
-                    trace("插件 {$name} 入口文件不存在",'ADDONS','ERR');
-                }
-
-            }
-        }
-        if(APP_DEBUG) { // 记录钩子的执行日志
-            trace('[ '.$hook.' ] --END-- [ RunTime:'.G($hook.'Start',$hook.'End',6).'s ]','','INFO');
-        }
-    }else{ // 未注册任何钩子 返回false
-        return false;
+        S('hooks',\COM\Hook::get());
+    }else{
+        \COM\Hook::import($data);
     }
 }
 
 /**
- * 获取插件类的实例
+ * 处理插件钩子
+ * @param string $hook   钩子名称
+ * @param mixed $params 传入参数
+ * @param string $type 允许的插件类型（默认为允许全部类型）
+ * @return void
  */
-function addons($name){
-    static $_action = array();
-    $class = "Addons\\{$name}\\{$name}Addons";
-    if(isset($_action[$name]))
-        return $_action[$name];
+function hook($hook,$params=array(),$type=''){
+    \COM\Hook::listen($hook,$params,$type);
+}
+
+/**
+ * 获取插件类的类名
+ */
+function get_addon_class($name){
+    $class = "Addons\\{$name}\\{$name}Addon";
+    return $class;
+}
+
+/**
+ * 获取插件类的配置文件
+ */
+function get_addon_config($name){
+    $class = get_addon_class($name);
     if(class_exists($class)) {
-        $action = new $class();
-        $_action[$name] = $action;
-        return $action;
+        $addon = new $class();
+        return $addon->getConfig();
     }else {
-        return false;
+        return array();
     }
 }
 
@@ -348,7 +331,6 @@ function addons_url($url, $param = array()){
 
     return U('Addons/execute', $params);
 }
-
 
 /**
  * 时间戳格式化

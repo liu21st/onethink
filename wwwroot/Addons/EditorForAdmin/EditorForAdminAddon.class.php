@@ -8,14 +8,14 @@
 // +----------------------------------------------------------------------
 
 namespace Addons\EditorForAdmin;
-use Common\Controller\Addons;
+use Common\Controller\Addon;
 
 /**
  * 编辑器插件
  * @author yangweijie <yangweijiester@gmail.com>
  */
 
-	class EditorForAdminAddons extends Addons{
+	class EditorForAdminAddon extends Addon{
 
 		public $info = array(
 			'name'=>'EditorForAdmin',

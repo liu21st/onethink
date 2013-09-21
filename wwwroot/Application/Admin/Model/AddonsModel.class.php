@@ -59,11 +59,12 @@ class AddonsModel extends Model {
 		}
         foreach ($dirs as $value) {
             if(!isset($addons[$value])){
-				$obj			=	addons($value);
-				if(!$obj){ // 实例化插件失败忽略执行
+				$class			=	get_addon_class($value);
+				if(!class_exists($class)){ // 实例化插件失败忽略执行
 					\Think\Log::record('插件'.$value.'的入口文件不存在！');
 					continue;
 				}
+                $obj    =   new $class;
 				$addons[$value]	= $obj->info;
 				if($addons[$value]){
 					$addons[$value]['uninstall'] = 1;

@@ -35,10 +35,11 @@
 					<td>
 						<empty name="vo.uninstall">
 							<?php
-								$addon = addons($vo['name']);
-								if(!$addon){
+								$class	= get_addon_class($vo['name']);
+								if(!class_exists($class)){
 									$has_config = 0;
 								}else{
+									$addon = new $class();
 									$has_config = count($addon->getConfig());
 								}
 							?>

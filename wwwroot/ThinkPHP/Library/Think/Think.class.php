@@ -230,8 +230,10 @@ class Think {
     
     // 致命错误捕获
     static public function fatalError() {
-        if ($e = error_get_last()) {
+        if(C('LOG_RECORD')){
             Log::save();
+        }
+        if ($e = error_get_last()) {
             switch($e['type']){
               case E_ERROR:
               case E_PARSE:

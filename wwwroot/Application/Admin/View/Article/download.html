@@ -3,7 +3,7 @@
 	<div class="controls">
 		<label class="textarea">
             <textarea name="content" id="content">{$info.content}</textarea>
-            {:hooks('adminArticleEdit', array('name'=>'content','value'=>$info['content']))}
+            {:hook('adminArticleEdit', array('name'=>'content','value'=>$info['content']))}
 		</label>
 	</div>
 </div>

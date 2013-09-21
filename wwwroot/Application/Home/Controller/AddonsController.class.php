@@ -8,13 +8,13 @@
 // +----------------------------------------------------------------------
 
 namespace Home\Controller;
-use Think\Action;
+use Think\Controller;
 
 /**
  * 扩展控制器
  * 用于调度各个扩展的URL访问需求
  */
-class AddonsController extends Action{
+class AddonsController extends Controller{
 
 	protected $addons = null;
 

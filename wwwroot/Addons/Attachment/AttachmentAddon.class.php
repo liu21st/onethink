@@ -8,13 +8,13 @@
 // +----------------------------------------------------------------------
 
 namespace Addons\Attachment;
-use Common\Controller\Addons;
+use Common\Controller\Addon;
 
 /**
  * 附件插件
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
-class AttachmentAddons extends Addons{
+class AttachmentAddon extends Addon{
 
 	public $info = array(
 		'name'        => 'Attachment',

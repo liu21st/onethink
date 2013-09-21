@@ -62,6 +62,13 @@ class AdminController extends Controller {
         if( !UID ){// 还没登录 跳转到登录页面
             $this->redirect('Admin/Index/login');
         }
+        /* 读取配置 */
+        $config = D('Config')->lists();
+        C($config); //添加配置
+        
+        // 初始化钩子
+        init_hooks();
+
         // 是否是超级管理员
         define('IS_ROOT',   is_administrator());
         $ac                 =   $this->accessControl();
@@ -81,10 +88,6 @@ class AdminController extends Controller {
         }
         $this->assign('__controller__', $this);
         $this->checkNodes();
-
-        /* 读取配置 */
-        $config = D('Config')->lists();
-        C($config); //添加配置
     }
 
     /**

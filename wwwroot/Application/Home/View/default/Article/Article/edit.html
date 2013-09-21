@@ -32,7 +32,7 @@
                 <div class="controls">
                     <textarea name="content" id="content" row="10">{$info['content']}</textarea>
 					<input type="hidden" name="parse" value="0">
-	        		{:hooks('documentEditFormContent', array('name'=>'content','value'=>$info['content']))}
+	        		{:hook('documentEditFormContent', array('name'=>'content','value'=>$info['content']))}
                 </div>
               </div>
               <div class="control-group">

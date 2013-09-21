@@ -8,20 +8,20 @@
 // +----------------------------------------------------------------------
 
 
-namespace Addons\SiteStat;
-use Common\Controller\Addons;
+namespace Addons\SystemInfo;
+use Common\Controller\Addon;
 
 /**
  * 系统环境信息插件
  * @author thinkphp
  */
 
-    class SiteStatAddons extends Addons{
+    class SystemInfoAddon extends Addon{
 
         public $info = array(
-            'name'=>'SiteStat',
-            'title'=>'站点统计信息',
-            'description'=>'统计站点的基础信息',
+            'name'=>'SystemInfo',
+            'title'=>'系统环境信息',
+            'description'=>'用于显示一些服务器的信息',
             'status'=>1,
             'author'=>'thinkphp',
             'version'=>'0.1'
@@ -39,14 +39,7 @@ use Common\Controller\Addons;
         public function AdminIndex($param){
             $config = $this->getConfig();
             $this->assign('addons_config', $config);
-            if($config['display']){
-				$info['user']		=	M('Member')->count();
-				$info['action']		=	M('ActionLog')->count();
-				$info['document']	=	M('Document')->count();
-				$info['category']	=	M('Category')->count();
-				$info['model']		=	M('DocumentModel')->count();
-				$this->assign('info',$info);
-                $this->display('info');
-			}
+            if($config['display'])
+                $this->display('widget');
         }
     }

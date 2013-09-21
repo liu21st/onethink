@@ -7,20 +7,22 @@
 // | Author: yangweijie <yangweijiester@gmail.com> <code-tech.diandian.com>
 // +----------------------------------------------------------------------
 
-namespace Addons\Editor;
-use Common\Controller\Addons;
+namespace Addons\ReturnTop;
+use Common\Controller\Addon;
 
 /**
  * 编辑器插件
  * @author yangweijie <yangweijiester@gmail.com>
  */
 
-	class EditorAddons extends Addons{
+	class ReturnTopAddon extends Addon{
+
+		public $custom_config = 'config.html';
 
 		public $info = array(
-				'name'=>'Editor',
-				'title'=>'前台编辑器',
-				'description'=>'用于增强整站长文本的输入和显示',
+				'name'=>'ReturnTop',
+				'title'=>'返回顶部',
+				'description'=>'回到顶部美化，随机或指定显示，100款样式，每天一种换，天天都用新样式',
 				'status'=>1,
 				'author'=>'thinkphp',
 				'version'=>'0.1'
@@ -38,20 +40,12 @@ use Common\Controller\Addons;
 		 * 编辑器挂载的文章内容钩子
 		 * @param array('name'=>'表单name','value'=>'表单对应的值')
 		 */
-		public function documentEditFormContent($data){
+		public function pageFooter($data){
 			$this->assign('addons_data', $data);
-			$this->assign('addons_config', $this->getConfig());
+			$config = $this->getConfig();
+			if($config['random'])
+				$config['current'] = rand(1,99);
+			$this->assign('addons_config', $config);
 			$this->display('content');
 		}
-
-		/**
-		 * 讨论提交的钩子使用编辑器插件扩展
-		 * @param array('name'=>'表单name','value'=>'表单对应的值')
-		 */
-		public function topicComment ($data){
-			$this->assign('addons_data', $data);
-			$this->assign('addons_config', $this->getConfig());
-			$this->display('content');
-		}
-
 	}

@@ -13,7 +13,7 @@ namespace Common\Controller;
  * 插件类
  * @author yangweijie <yangweijiester@gmail.com>
  */
-abstract class Addons{
+abstract class Addon{
     /**
      * 视图实例对象
      * @var view
@@ -91,7 +91,7 @@ abstract class Addons{
 
     final public function getName(){
         $class = get_class($this);
-        return substr($class,strrpos($class, '\\')+1, -6);
+        return substr($class,strrpos($class, '\\')+1, -5);
     }
 
     final public function checkInfo(){

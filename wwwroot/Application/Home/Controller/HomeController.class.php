@@ -30,6 +30,8 @@ class HomeController extends Controller {
         if(!C('WEB_SITE_CLOSE')){
             $this->error('站点已经关闭，请稍后访问~');
         }
+        // 初始化钩子
+        init_hooks();
     }
 
 	/* 用户登录检测 */
