@@ -645,6 +645,9 @@ class AdminController extends Controller {
         }
 
         $nodes          =   M('AuthRule')->where(array('module'=>'admin','status'=>1))->getField('name',true);
+        if($nodes===null){
+            return;
+        }
         foreach ((array)$nodes as $k=>$n){
             if( ($pos = strpos($n,'?'))>0){
                 $n      =   substr($n,0,$pos);
