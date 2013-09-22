@@ -223,7 +223,7 @@ button.close {
 	right: -8px;
 	width: 17px;
 	height: 17px;
-	background: url(../images/close.png) no-repeat;
+	background: url(../images/bg_icon.png) no-repeat -25px 0;
 }
 .upload-img-popup .close-pop:hover {
 	text-decoration: none;

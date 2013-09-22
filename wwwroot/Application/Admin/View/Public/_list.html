@@ -6,11 +6,15 @@
 $operator=array();
 $i=1;
 foreach ($_thead as $key => $th){
+    if( isset($th['_th']) ){
+        $class = $th['_th']; 
+    }
     if ( $i==1 && strpos($key,'_')!==false ) {
-        $class = ' class="row-selected"'; 
+        $class .= ' row-selected'; 
     }else{
         $class='';
     }
+    $class = 'class="'.$class.'"';
     echo "<th $class>";
 
     if ( !is_array($th) ) {
