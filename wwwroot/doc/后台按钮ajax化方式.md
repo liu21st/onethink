@@ -4,8 +4,7 @@
 > 为保证操作体验的连贯性和一致性,后台所有操作和按钮应全部使用ajax方式
 
 > 如果一个链接或按钮点击后只有两种状态:成功/失败,那么这个按钮或链接应该ajax化,例如数据列表
-中的"禁用","启用","删除",表单页面中的"保存",相应地,如果要执行成功后跳转到其他页面,后台应在success方法里出入调整页面参数
-
+中的"禁用","启用","删除",表单页面中的"保存",相应地,控制器action中应该以error()或success()返回数据．
 
 
 ajax-get链接
@@ -22,9 +21,9 @@ ajax-get链接
 ajax-post按钮
 --------
 
-> 如果一个链接或按钮定义了 **ajax-post** 类和"target-form"属性 ,那么点击后,将自动以post方式发送请求
+> 如果一个链接或按钮定义了 **ajax-post类** 和 **target-form属性** ,那么点击后,将自动以post方式发送请求
 
-> 特别注意:input和button标签都必须明确设定 `type="submit"`
+> **特别注意** : input和button标签都必须明确设定: `type="submit"`
 
 ```
 <form class="the-from" action="...">
@@ -34,7 +33,7 @@ ajax-post按钮
 ```
 
 如果the-form是一个form标签,会启动取form标签的action属性值作为请求目标
-否则,你必须在按钮上定义href或url属性明确声明请求目标:
+否则,你必须在按钮上定义 **href** 或 **url** 属性明确声明请求目标:
 
 ```
 <button type="submit" url="..." class="ajax-post" target-form="the-form">批量删除</button>
