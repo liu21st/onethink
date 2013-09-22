@@ -408,6 +408,7 @@ class DocumentModel extends Model{
         }
         $base_list = $this->where($map)->field('id,model_id')->select();
         //删除扩展模型数据
+        $base_ids = array();
         foreach ($base_list as $key=>$value){
             $logic = $this->logic($value['model_id']);
             $logic->delete($value['id']);
@@ -415,6 +416,11 @@ class DocumentModel extends Model{
 
         //删除基础数据
         $res = $this->where($map)->delete();
+
+        //TODO: 删除孤儿数据
+        $child_ids   = $this->where(array('pid'=>array('IN',implode(',',$base_ids)),))->getField('id,id');
+        $death = $this->where(array('id'=>array('IN',implode(',',$ids))))->getField('id',true);
+
         return $res;
     }
 
