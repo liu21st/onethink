@@ -283,22 +283,22 @@ body{
     width: 48px;
     height: 48px;
     vertical-align: middle;
-    background-repeat: no-repeat;
+    background: url(../images/count_icon.png) no-repeat;
 }
 .user-count-icon {
-    background-image: url(../images/count_users.png);
+    background-position: 0 0;
 }
 .user-action-icon {
-    background-image: url(../images/count_action.png);
+    background-position: 0 -50px;
 }
 .doc-count-icon {
-    background-image: url(../images/count_doc.png);
+    background-position: 0 -100px;
 }
 .doc-modal-icon {
-    background-image: url(../images/count_doc_modal.png);
+    background-position: 0 -150px;
 }
 .category-count-icon {
-    background-image: url(../images/count_category.png);
+    background-position: 0 -200px;
 }
 
 /* 首页插件模块 */
