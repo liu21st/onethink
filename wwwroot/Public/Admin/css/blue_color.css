@@ -349,9 +349,7 @@ select {
 ------------------------------------------ */
 .sidebar {
 	/* 左侧栏背景 */
-	/*background-img:url("/Public/Admin/images/bg/bg.png");*/
-	background-image: none;
-	background-color: #4a4851;
+	background: url(../images/bg.png) repeat #4a4851;
 }
 /* 子导航Group标题栏 */
 .subnav h3 {
