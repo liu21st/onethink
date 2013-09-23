@@ -403,7 +403,7 @@ function get_nickname($uid = 0){
         $name = $list[$key];
     } else { //调用接口获取用户信息
         $info = M('Member')->field('nickname')->find($uid);
-        if($info !== false){
+        if($info !== false && $info['nickname'] ){
             $nickname = $info['nickname'];
             $name = $list[$key] = $nickname;
             /* 缓存用户 */

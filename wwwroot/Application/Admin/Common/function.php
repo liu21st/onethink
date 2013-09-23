@@ -263,3 +263,24 @@ function parse_config_attr($string) {
 function get_subdocument_count($id=0){
     return  M('Document')->where('pid='.$id)->count();
 }
+
+/**
+ * 获取数据的所有子孙数据的id值
+ * @author 朱亚杰 <xcoolcc@gmail.com>
+ */
+
+function get_stemma($pids,Model &$model, $field='id'){
+    $collection = array();
+    if( is_array($pids) ){
+        $pids = trim(implode(',',$pids),',');
+    }
+    $result     = $model->field($field)->where(array('pid'=>array('IN',(string)$pids)))->select();
+    $child_ids  = array_column ((array)$result,'id');
+
+    while( !empty($child_ids) ){
+        $collection = array_merge($collection,$result);
+        $result     = $model->field($field)->where( array( 'pid'=>array( 'IN', trim(implode(',',$child_ids),',') ) ) )->select();
+        $child_ids  = array_column((array)$result,'id');
+    }
+    return $collection;
+}

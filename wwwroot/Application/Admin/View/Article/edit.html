@@ -22,7 +22,6 @@
 	<ul class="tab-nav nav">
 		<li data-tab="tab1" class="current"><a href="javascript:void(0);">基 础</a></li>
 		<li data-tab="tab2"><a href="javascript:void(0);">高 级</a></li>
-		<li data-tab="tab3"><a href="javascript:void(0);">扩 展</a></li>
 	</ul>
 	<div class="tab-content">
 	<!-- 表单 -->
@@ -117,7 +116,7 @@
 			</div>
 		</div>
 
-		<div id="tab3" class="tab-pane tab3">
+		<div id="tab3" class="tab-pane tab3 hidden">
 			<!-- 引入扩展文档模型 -->
 			{$extend}
 		</div>
@@ -276,6 +275,15 @@ $(function(){
 	autoSaveDraft();
 
 	</if>
+
+	//将扩展里的内容移动到基础和高级里
+	(function(){
+		var html = $('#move-base');
+		$('#tab1').append(html);
+		html = $('#move-advance');
+		$('#tab2').append(html);
+	})();
+
 });
 </script>
 </block>

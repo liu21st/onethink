@@ -1,9 +1,11 @@
-<div class="form-item cf">
-	<label class="item-label">详细内容</label>
-	<div class="controls">
-		<label class="textarea">
-			<textarea name="content" id="content">{$info.content}</textarea>
-			{:hook('adminArticleEdit', array('name'=>'content','value'=>$content))}
-		</label>
+<div id="move-base">
+	<div class="form-item cf">
+		<label class="item-label">详细内容</label>
+		<div class="controls">
+			<label class="textarea">
+				<textarea name="content" id="content">{$info.content}</textarea>
+				{:hook('adminArticleEdit', array('name'=>'content','value'=>$content))}
+			</label>
+		</div>
 	</div>
 </div>

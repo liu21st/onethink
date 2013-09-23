@@ -111,6 +111,7 @@
 					'tag'   =>'span',
 					'func'	=>	'get_document_type($type)',
 				),
+                'level'=>'优先级',
                 'uid'  =>array(
                     '_title'=>'创建者',
                     'tag' =>'span',
@@ -123,10 +124,9 @@
                 ),
                 'status_text'=>'状态',
                 'view'=>'浏览',
-                'comment'=>'评论',
                 '操作'=>array(
 					'编辑'=>array( 'href' => 'Article/edit?cate_id=$category_id&id=$id',),
-                    '禁用'=>array( 'href' => 'Article/setStatus?status=1&ids=$id', 'class'=>'ajax-get', 'condition'=>'$status==2',),
+                    '审核'=>array( 'href' => 'Article/setStatus?status=1&ids=$id', 'class'=>'ajax-get', 'condition'=>'$status==2',),
                     '禁用'=>array( 'href' => 'Article/setStatus?status=0&ids=$id', 'class'=>'ajax-get', 'condition'=>'$status==1',),
                     '启用'=>array( 'href' => 'Article/setStatus?status=1&ids=$id', 'class'=>'ajax-get', 'condition'=>'$status==0',),
                     '删除'=>array( 'href' => 'Article/setStatus?status=-1&ids=$id', 'class'=>'confirm ajax-get' ),

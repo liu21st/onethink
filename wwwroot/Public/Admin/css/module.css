@@ -160,7 +160,7 @@ label.textarea ~ .check-tips {
 	margin-top: 5px;
 	width: 16px;
 	height: 16px;
-	background: url(../images/icon_search.png) no-repeat 0 0;
+	background: url(../images/bg_icon.png) no-repeat -50px 0;
 }
 
 /* 高级搜索 */
@@ -359,12 +359,14 @@ label.textarea ~ .check-tips {
     width: 10px;
     height: 5px;
     vertical-align: middle; 
+    background-image: url(../images/bg_icon.png);
+    background-repeat: no-repeat;
 }
 .btn-arrowdown {
-    background: url(../images/angle-down.png) no-repeat 0 0;
+    background-position: 0 -25px;
 }
 .btn-arrowup {
-    background: url(../images/angle-up.png) no-repeat 0 0;
+    background-position: -25px -25px;
 }
 .btn-group .dropdown,
 .btn-group-click .dropdown {
@@ -424,7 +426,6 @@ label.textarea ~ .check-tips {
 	display: block;
 }
 
-
 /* = 面包屑导航
 ------------------------------------------ */
 .breadcrumb {
@@ -478,7 +479,7 @@ label.textarea ~ .check-tips {
 ------------------------------------------ */
 .category {
 	margin: 10px 0;
-	border-bottom-width: 0; 
+	border-bottom-width: 0;
 	background-color: #fff;
 }
 .category .hd {
@@ -527,16 +528,18 @@ label.textarea ~ .check-tips {
 	vertical-align: middle;
 	width: 17px;
 	height: 17px;
-	cursor: pointer;
 	background-repeat: no-repeat;
 }
+.category .fold .icon-fold,
+.category .fold .icon-unfold {
+	cursor: pointer;
+	background: url(../images/bg_icon.png) no-repeat;
+}
 .category .fold .icon-fold {
-	background-position: 0 0;
-	background-image: url(../images/fold_icon.png);
+	background-position: -100px -25px;
 }
 .category .fold .icon-unfold {
-	background-position: -16px 0;
-	background-image: url(../images/fold_icon.png);
+	background-position: -125px -25px;
 }
 .category .order,
 .category .order input {
@@ -620,6 +623,6 @@ label.textarea ~ .check-tips {
 	width: 16px;
 	height: 16px;
 	vertical-align: middle;
-	background: url(../images/add.png) no-repeat 0 0;
+	background: url(../images/bg_icon.png) no-repeat 0 0;
 }
 
