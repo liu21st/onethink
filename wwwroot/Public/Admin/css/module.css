@@ -426,7 +426,6 @@ label.textarea ~ .check-tips {
 	display: block;
 }
 
-
 /* = 面包屑导航
 ------------------------------------------ */
 .breadcrumb {
@@ -480,7 +479,7 @@ label.textarea ~ .check-tips {
 ------------------------------------------ */
 .category {
 	margin: 10px 0;
-	border-bottom-width: 0; 
+	border-bottom-width: 0;
 	background-color: #fff;
 }
 .category .hd {
