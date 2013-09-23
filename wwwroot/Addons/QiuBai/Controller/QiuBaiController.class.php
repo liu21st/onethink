@@ -14,6 +14,9 @@ class QiuBaiController extends AddonsController{
 
 	//获取糗事百科列表
 	public function getList(){
+        if(!extension_loaded('curl')){
+            $this->error('糗事百科插件需要开启PHP的CURL扩展');
+        }
 		$content = S('QiuBai_content');
 		if(!$content){
 			$config = get_addon_config('QiuBai');
@@ -31,7 +34,8 @@ class QiuBaiController extends AddonsController{
 	        // curl_setopt($ch,CURLOPT_COOKIE,$HTTP_SESSION);
 
 	        $content = curl_exec($ch);
-	        S('QiuBai_content',$content,$config['cache_time']);
+	        if($content)
+                S('QiuBai_content',$content,$config['cache_time']);
 	        curl_close($ch);
         }
         preg_match_all('/<div class="content" title="(.*?)">\s*(.*?)\s*<\/div>/is', $content, $match);
