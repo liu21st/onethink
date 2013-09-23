@@ -561,7 +561,7 @@ class AdminController extends Controller {
      *
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function tableList( &$list, &$thead ){
+    public function tableList( $list, $thead ){
         $list = (array)$list;
         if(APP_DEBUG){
             //debug模式检测数据
