@@ -28,6 +28,10 @@ class QiuBaiAddon extends Addon {
     );
 
     public function install() {
+        if(!extension_loaded('curl')){
+            session('addons_install_error', 'PHP的CURL扩展未开启');
+            return false;
+        }
         return true;
     }
 
