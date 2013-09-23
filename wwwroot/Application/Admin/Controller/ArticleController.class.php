@@ -71,6 +71,49 @@ class ArticleController extends \Admin\Controller\AdminController {
     }
 
     /**
+     * 检测需要动态判断的文档类目有关的权限
+     * 
+     * @return boolean|null  
+     *      返回true则表示当前访问有权限
+     *      返回false则表示当前访问无权限
+     *      返回null，则会进入checkRule根据节点授权判断权限 
+     *
+     * @author 朱亚杰  <xcoolcc@gmail.com>
+     */
+    protected function checkDynamic(){
+        if(IS_ROOT){
+            return true;//管理员允许访问任何页面
+        }
+        $cates = AuthGroupModel::getAuthCategories(UID);
+        switch(strtolower(ACTION_NAME)){
+            case 'index':   //文档列表
+                $cate_id =  I('cate_id');
+                break;
+            case 'edit':    //编辑
+            case 'update':  //更新
+                $doc_id  =  I('id');
+                $cate_id =  M('Document')->where(array('id'=>$doc_id))->getField('category_id');
+                break;
+            case 'setstatus': //更改状态
+            case 'permit':    //回收站
+                $doc_id  =  (array)I('ids');
+                $cate_id =  M('Document')->where(array('id'=>array('in',implode(',',$doc_id))))->getField('category_id',true);
+                $cate_id =  array_unique($cate_id);
+                break;
+        }
+        if(!$cate_id){
+            return null;//不明,需checkRule
+        }elseif( !is_array($cate_id) && in_array($cate_id,$cates) ) {
+            return true;//有权限
+        }elseif( is_array($cate_id) && $cate_id==array_intersect($cate_id,$cates) ){
+            return true;//有权限
+        }else{
+            return false;//无权限
+        }
+        return null;//不明,需checkRule
+    }
+
+    /**
      * 显示左边菜单，进行权限控制
      * @author huajie <banhuajie@163.com>
      */
