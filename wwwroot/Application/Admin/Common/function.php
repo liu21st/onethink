@@ -268,15 +268,17 @@ function get_subdocument_count($id=0){
  * 获取数据的所有子孙数据的id值
  * @author 朱亚杰 <xcoolcc@gmail.com>
  */
+
 function get_stemma($pids,Model &$model){
     $collection = array();
     if(is_array($pids)){
         $pids = implode(',',$pids);
     }
-    $child_ids  = $model->where(array('pid'=>array('IN',$pids),))->getField('id',true);
+    $child_ids  = $model->where(array('pid'=>array('IN',(string)$pids)))->getField('id',true);
+
     while( !empty($child_ids) ){
-        $collection = array_merge($collection,explode(',',$child_ids));
-        $child_ids  = $model->where(array('pid'=>array('IN',$child_ids)))->getField('id',true);
+        $collection = array_merge($collection,$child_ids);
+        $child_ids  = $model->where( array( 'pid'=>array( 'IN',implode(',',$child_ids) ) ) )->getField('id',true);
     }
     return $collection;
 }
