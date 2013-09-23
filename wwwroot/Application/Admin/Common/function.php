@@ -269,16 +269,18 @@ function get_subdocument_count($id=0){
  * @author 朱亚杰 <xcoolcc@gmail.com>
  */
 
-function get_stemma($pids,Model &$model){
+function get_stemma($pids,Model &$model, $field='id'){
     $collection = array();
-    if(is_array($pids)){
-        $pids = implode(',',$pids);
+    if( is_array($pids) ){
+        $pids = trim(implode(',',$pids),',');
     }
-    $child_ids  = $model->where(array('pid'=>array('IN',(string)$pids)))->getField('id',true);
+    $result     = $model->field($field)->where(array('pid'=>array('IN',(string)$pids)))->select();
+    $child_ids  = array_column ((array)$result,'id');
 
     while( !empty($child_ids) ){
-        $collection = array_merge($collection,$child_ids);
-        $child_ids  = $model->where( array( 'pid'=>array( 'IN',implode(',',$child_ids) ) ) )->getField('id',true);
+        $collection = array_merge($collection,$result);
+        $result     = $model->field($field)->where( array( 'pid'=>array( 'IN', trim(implode(',',$child_ids),',') ) ) )->select();
+        $child_ids  = array_column((array)$result,'id');
     }
     return $collection;
 }

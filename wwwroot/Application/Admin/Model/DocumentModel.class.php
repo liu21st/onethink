@@ -404,22 +404,23 @@ class DocumentModel extends Model{
             $map = array('status'=>-1);
         }else{
             $cate_ids = AuthGroupModel::getAuthCategories(UID);
-            $map = array('status'=>-1,'category_id'=>array('IN',implode(',',$cate_ids)));
+            $map = array('status'=>-1,'category_id'=>array( 'IN',trim(implode(',',$cate_ids),',') ));
         }
         $base_list = $this->where($map)->field('id,model_id')->select();
         //删除扩展模型数据
-        $base_ids = array();
-        foreach ($base_list as $key=>$value){
+        $base_ids = array_column($base_list,'id');
+        //孤儿数据
+        $orphan   = get_stemma( $base_ids,$this, 'id,model_id');
+
+        $all_list  = array_merge( $base_list,$orphan );
+        foreach ($all_list as $key=>$value){
             $logic = $this->logic($value['model_id']);
             $logic->delete($value['id']);
         }
 
         //删除基础数据
-        $res = $this->where($map)->delete();
-
-        //TODO: 删除孤儿数据
-        $child_ids   = $this->where(array('pid'=>array('IN',implode(',',$base_ids)),))->getField('id,id');
-        $death = $this->where(array('id'=>array('IN',implode(',',$ids))))->getField('id',true);
+        $ids = array_merge( $base_ids, (array)array_column($orphan,'id') );
+        $res = $this->where( array( 'id'=>array( 'IN',trim(implode(',',$ids),',') ) ) )->delete();
 
         return $res;
     }
