@@ -6,7 +6,6 @@
 // +----------------------------------------------------------------------
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
-
 namespace Admin\Controller;
 use Think\Controller;
 use Admin\Model\AuthRuleModel;
@@ -20,7 +19,7 @@ class AdminController extends Controller {
     /* 保存禁止通过url访问的公共方法,例如定义在控制器中的工具方法 ;deny优先级高于allow*/
     static protected $deny  = array('getMenus','tableList','record_list');
 
-    /* 保存允许所有管理员访问的公共方法 */
+    /* 保存允许访问的公共方法 */
     static protected $allow = array( 'login','logout','get');
 
     /**
@@ -46,23 +45,26 @@ class AdminController extends Controller {
      *
      */
     private $menus      =   array(
-        array( 'title'=>'首页','url'=>'Index/index','controllers'=>'Index',),
-        array( 'title'=>'内容','url'=>'Article/mydocument','controllers'=>'Article',),
-        array( 'title'=>'用户','url'=>'User/index','controllers'=>'User,AuthManager'),
-        array( 'title'=>'扩展','url'=>'Addons/index','controllers'=>'Addons,Model',),
-        array( 'title'=>'系统','url'=>'Config/group','controllers'=>'Config,Channel,System,Category',),
-        array( 'title'=>'其他','url'=>'other','controllers'=>'File','hide'=>true),//专门放置不需要显示在任何菜单中的节点
+        array( 'title'=>'首页','url'=>'Index/index',        'controllers'=>'Index',),
+        array( 'title'=>'内容','url'=>'Article/mydocument', 'controllers'=>'Article',),
+        array( 'title'=>'用户','url'=>'User/index',         'controllers'=>'User,AuthManager'),
+        array( 'title'=>'扩展','url'=>'Addons/index',       'controllers'=>'Addons,Model',),
+        array( 'title'=>'系统','url'=>'Config/group',       'controllers'=>'Config,Channel,System,Category',),
+        array( 'title'=>'其他','url'=>'other',              'controllers'=>'File','hide'=>true),//专门放置不需要显示在任何菜单中的节点
     );
 
     protected $nav      =   array();
 
+    /**
+     * 后台控制器初始化
+     */
     protected function _initialize(){
         // 获取当前用户ID
         define('UID',is_login());
         if( !UID ){// 还没登录 跳转到登录页面
             $this->redirect('Admin/Index/login');
         }
-        /* 读取配置 */
+        /* 读取数据库中的配置 */
         $config = D('Config')->lists();
         C($config); //添加配置
         
@@ -71,18 +73,18 @@ class AdminController extends Controller {
 
         // 是否是超级管理员
         define('IS_ROOT',   is_administrator());
-        $ac                 =   $this->accessControl();
-        if ( $ac===false ) {
+        $access =   $this->accessControl();
+        if ( $access === false ) {
             $this->error('403:禁止访问');
-        }elseif( $ac===null ){
+        }elseif( $access === null ){
             $dynamic        =   $this->checkDynamic();//检测分类栏目有关的各项动态权限
-            if( $dynamic===null ){
+            if( $dynamic === null ){
                 //检测非动态权限
                 $rule  = strtolower(MODULE_NAME.'/'.CONTROLLER_NAME.'/'.ACTION_NAME);
                 if ( !$this->checkRule($rule,array('in','1,2')) ){
                     $this->error('提示:无权访问,您可能需要联系管理员为您授权!');
                 }
-            }elseif( $dynamic===false ){
+            }elseif( $dynamic === false ){
                 $this->error('提示:无权访问,您可能需要联系管理员为您授权!');
             }
         }
@@ -354,9 +356,6 @@ class AdminController extends Controller {
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
     final public function getMenus(){
-//        if ( S('base_menu'.$controller) ) {
-//            return S('base_menu'.$controller);
-//        }
         $menus['main']  = $this->getVal('menus'); //获取主节点
         $menus['child'] = array(); //设置子节点
 
@@ -408,7 +407,6 @@ class AdminController extends Controller {
                 }
             }
         }
-//        S('base_menu'.CONTROLLER_NAME,$menus);
         return $menus;
     }
 
