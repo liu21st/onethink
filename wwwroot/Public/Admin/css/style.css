@@ -350,14 +350,14 @@ body{
     display: inline-block;
     width: 12px;
     height: 12px;
-    background: url(../images/bg_icon.png) no-repeat 0 -175px;
+    background: url(../images/bg_icon.png) no-repeat -175px 0;
 }
 .columns-mod .hd .title-opt {
     float: right;
 }
 .columns-mod .bd {
     height: 255px;
-    overflow-y: auto; 
+    overflow-y: auto;
     background-color: #fafafa;
 }
 
@@ -404,7 +404,7 @@ body{
     float: left;
     font-size: 20px;
     font-weight: 400;
-    color: #445566;   
+    color: #445566;
 }
 .main-title .tools {
     float: right;
@@ -567,7 +567,7 @@ body{
 }
 .dragsort li b {
     display: none;
-    float: right;   
+    float: right;
     padding: 0 6px;
     font-weight: bold;
     color: #000;
