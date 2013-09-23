@@ -82,6 +82,7 @@
                     'tag' =>'span',
                     'func'  =>'get_cate($category_id)',
                 ),
+                'level'=>'优先级',
                 'update_time'=>array(
                     '_title'=>'最后更新',
                     'tag'   =>'span',
@@ -89,7 +90,6 @@
                 ),
                 'status_text'=>'状态',
                 'view'=>'浏览',
-                'comment'=>'评论',
                 '操作'=>array(
 					'编辑'=>array( 'href' => 'Article/edit?cate_id=$category_id&id=$id',),
                     '禁用'=>array( 'href' => 'Article/setStatus?status=1&ids=$id', 'class'=>'ajax-get', 'condition'=>'$status==2',),
