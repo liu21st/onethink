@@ -31,5 +31,11 @@ return array(
 			'0'=>'不显示'
 		),
 		'value'=>'1'
+	),
+	'cache_time'=>array(
+		'title'=>'缓存采集时间:',
+		'type'=>'text',
+		'value'=>'60',
+		'tip'=>'（单位 秒）'
 	)
 );

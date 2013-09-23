@@ -14,21 +14,26 @@ class QiuBaiController extends AddonsController{
 
 	//获取糗事百科列表
 	public function getList(){
-		$HTTP_Server = "www.qiushibaike.com/8hr";
-		$HTTP_URL = "/";
+		$content = S('QiuBai_content');
+		if(!$content){
+			$config = get_addon_config('QiuBai');
+			$HTTP_Server = "www.qiushibaike.com/8hr";
+			$HTTP_URL = "/";
 
-        $ch = curl_init();
+	        $ch = curl_init();
 
-        curl_setopt($ch, CURLOPT_URL, "http://" . $HTTP_Server . $HTTP_URL);
+	        curl_setopt($ch, CURLOPT_URL, "http://" . $HTTP_Server . $HTTP_URL);
 
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-        curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)");
+	        curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)");
 
-        // curl_setopt($ch,CURLOPT_COOKIE,$HTTP_SESSION);
+	        // curl_setopt($ch,CURLOPT_COOKIE,$HTTP_SESSION);
 
-        $content = curl_exec($ch);
-        curl_close($ch);
+	        $content = curl_exec($ch);
+	        S('QiuBai_content',$content,$config['cache_time']);
+	        curl_close($ch);
+        }
         preg_match_all('/<div class="content" title="(.*?)">\s*(.*?)\s*<\/div>/is', $content, $match);
         unset($match[0]);
         $lists = array_map(function($a, $b) {
