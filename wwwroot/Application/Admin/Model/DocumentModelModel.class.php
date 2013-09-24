@@ -29,6 +29,7 @@ class DocumentModelModel extends Model{
         array('create_time', NOW_TIME, self::MODEL_INSERT),
         array('update_time', NOW_TIME, self::MODEL_BOTH),
         array('status', '1', self::MODEL_INSERT, 'string'),
+    	array('fields', 'getFields', self::MODEL_BOTH, 'callback'),
     );
 
     /**
@@ -60,7 +61,10 @@ class DocumentModelModel extends Model{
 
         //内容添加或更新完成
         return $data;
+    }
 
+    protected function getFields($fields){
+    	return str_replace(array('[',']','\\'), array('{','}',''), $fields);
     }
 
 }
