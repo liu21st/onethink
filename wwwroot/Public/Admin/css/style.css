@@ -557,7 +557,38 @@ body{
 
 /* 拖动排序列表 */
 .dragsort {
-    width: 400px;
+    
+}
+.tab2 .form-item {
+    display: inline-block;
+    border:1px solid #cdcdcd;
+    color: #404040;
+    line-height: 35px;
+    width: 49%;
+    height: 376px;
+    overflow-y:scroll 
+}
+.tab2 .form-item span {
+    background: #EEEEEE;
+    width: 100%;
+    display: inline-block;
+    font-weight: bold;
+    text-indent: 10px; 
+    border-bottom: 1px solid #cdcdcd;
+    margin-bottom:5px;
+}
+.tab2 .form-item ul {
+    padding: 0 5px;
+}
+.edit_sort_l {
+    float: left;
+}
+.edit_sort_r{
+    float: right;
+}
+.form-item .controls {
+    overflow:visible;
+    margin-top: 376px
 }
 .dragsort li {
     margin-bottom: 5px;
