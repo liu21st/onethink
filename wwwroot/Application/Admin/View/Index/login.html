@@ -19,15 +19,18 @@
                                 <i class="icon-login-user"></i>
                                 <input type="text" name="username" placeholder="请填写用户名" autocomplete="off" />
                             </div>
+                            <span class="placeholder_copy placeholder_un">请填写用户名</span>
                             <div class="item b0">
                                 <i class="icon-login-pwd"></i>
                                 <input type="password" name="password" placeholder="请填写密码" autocomplete="off" />
                             </div>
+                            <span class="placeholder_copy placeholder_pwd">请填写密码</span>
                             <div class="item verifycode">
                                 <i class="icon-login-verifycode"></i>
                                 <input type="text" name="verify" placeholder="请填写验证码" autocomplete="off">
                                 <a class="reloadverify" title="换一张" href="javascript:void(0)">换一张？</a>
                             </div>
+                            <span class="placeholder_copy placeholder_check">请填写验证码</span>
                             <div>
                                 <img class="verifyimg reloadverify" alt="点击切换" src="{:U('Index/verify')}">
                             </div>
@@ -94,6 +97,33 @@
                     $(".verifyimg").attr("src", verifyimg.replace(/\?.*$/,'')+'?'+Math.random());
                 }
             });
+
+            //placeholder兼容性
+                //如果支持 
+            function isPlaceholer(){
+                var input = document.createElement('input');
+                return "placeholder" in input;
+            }
+                //如果不支持
+            if(!isPlaceholer()){
+                $(".placeholder_copy").css({
+                    display:'block'
+                })
+                $("#itemBox input").keydown(function(){
+                    $(this).parents(".item").next(".placeholder_copy").css({
+                        display:'none'
+                    })                    
+                })
+                $("#itemBox input").blur(function(){
+                    if($(this).val()==""){
+                        $(this).parents(".item").next(".placeholder_copy").css({
+                            display:'block'
+                        })                      
+                    }
+                })
+                
+                
+            }
 		});
     </script>
 </body>

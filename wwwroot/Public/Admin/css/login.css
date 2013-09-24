@@ -117,6 +117,25 @@ img {
     resize: none;
     color:#686868;
 }
+#itemBox {
+    position: relative;
+}
+.placeholder_copy {
+    display: none;
+    position: absolute;
+    left: 48px;
+    font-size: 16px;
+    color: #ADADAD;
+}
+.placeholder_un {
+    top: 13px;
+}
+.placeholder_pwd {
+    top: 69px;
+}
+.placeholder_check {
+    top: 125px;
+}
 .login-form .focus   {
 }
 .login-form .verifycode input {

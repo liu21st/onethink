@@ -325,6 +325,7 @@ body{
     color: #656565;
     text-align: center;
     border: 1px solid transparent;
+    *margin-top: 7px;
 }
 .columns-mod .hd a:hover {
     color: #656565;
@@ -351,6 +352,8 @@ body{
     width: 12px;
     height: 12px;
     background: url(../images/bg_icon.png) no-repeat -175px 0;
+    *margin-top: 3px;
+    *cursor: pointer;
 }
 .columns-mod .hd .title-opt {
     float: right;
@@ -359,11 +362,13 @@ body{
     height: 255px;
     overflow-y: auto;
     background-color: #fafafa;
+    *overflow-x:hidden; 
 }
 
 /* 系统信息列表 */
 .sys-info {
     padding: 15px;
+    *padding-right: 30px;
 }
 .sys-info table {
     width: 100%;
