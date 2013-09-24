@@ -55,6 +55,7 @@ img {
     line-height: 44px;
     text-align: center;
     color: #8D9CAA;
+    *line-height: 50px;
 }
 .login-logo {
     display: inline-block;
@@ -116,6 +117,26 @@ img {
     outline: 0;
     resize: none;
     color:#686868;
+    *padding: 7px 0;
+}
+#itemBox {
+    position: relative;
+}
+.placeholder_copy {
+    display: none;
+    position: absolute;
+    left: 48px;
+    font-size: 16px;
+    color: #ADADAD;
+}
+.placeholder_un {
+    top: 13px;
+}
+.placeholder_pwd {
+    top: 69px;
+}
+.placeholder_check {
+    top: 125px;
 }
 .login-form .focus   {
 }
