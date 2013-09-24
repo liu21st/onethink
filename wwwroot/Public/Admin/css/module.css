@@ -291,6 +291,7 @@ label.textarea ~ .check-tips {
     cursor: pointer;
     border: 0 none;
 	background-color: #4bbd00;
+	*outline: 0 none;
 }
 .btn:hover {
     color: #ffffff;
