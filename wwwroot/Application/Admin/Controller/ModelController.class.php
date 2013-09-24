@@ -21,7 +21,7 @@ class ModelController extends AdminController {
      * @author huajie <banhuajie@163.com>
      */
     static protected $nodes = array(
-        array( 
+        array(
             'title'     =>  '模型管理',
             'url'       =>  'Model/index',
             'group'     =>  '扩展',
@@ -114,6 +114,24 @@ class ModelController extends AdminController {
         if(!$data){
             $this->error($Model->getError());
         }
+
+        //获取模型字段
+        if(empty($data['fields'])){
+        	$base = array('name','title','description','position','link_id','cover_id','display','dateline','level','create_time');
+        	$base = array_flip($base);
+        	foreach ($base as $key=>$value){
+        		$base[$key] = $value + 1;
+        	}
+        	$extend = D(ucfirst($data['name']), 'Logic')->getDbFields();
+        	$extend = array_flip($extend);
+        	foreach ($extend as $key=>$value){
+        		$extend[$key] = ($value + 1) * -1;
+        	}
+        	$data['fields'] = array_merge($base, $extend);
+        }else{
+        	$data['fields'] = json_decode($data['fields'], true);
+        }
+
 
         $this->assign($data);
         $this->meta_title = '编辑文档模型';
