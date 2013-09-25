@@ -96,6 +96,7 @@ class IndexController extends AdminController {
     public function logout(){
         if(UID){
             D('Member')->logout();
+			session('[destroy]');
             $this->success('退出成功！', U('login'));
         } else {
             $this->redirect('login');
