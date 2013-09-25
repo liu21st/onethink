@@ -336,8 +336,8 @@ class AdminController extends Controller {
      * 获取控制器菜单数组,二级菜单元素位于一级菜单的'_child'元素中
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
-    final public function getMenus(){
-		$menus	=	session('ADMIN_MENU_LIST');
+    final public function getMenus($controller=CONTROLLER_NAME){
+		$menus	=	session('ADMIN_MENU_LIST'.$controller);
 		if(!$menus){
 			$menus['main']  = $this->getVal('menus'); //获取主节点
 			$menus['child'] = array(); //设置子节点
@@ -362,7 +362,7 @@ class AdminController extends Controller {
 				}
 
 				$other_controller = explode(',',$item['controllers']);
-				if ( in_array( CONTROLLER_NAME, $other_controller ) ) {
+				if ( in_array( $controller, $other_controller ) ) {
 					$menus['main'][$key]['class']='current';
 					foreach ($other_controller as $c){
 						//从控制器中读取节点
@@ -390,7 +390,7 @@ class AdminController extends Controller {
 					}
 				}
 			}
-			session('ADMIN_MENU_LIST',$menus);
+			session('ADMIN_MENU_LIST'.$controller,$menus);
 		}
         return $menus;
     }
