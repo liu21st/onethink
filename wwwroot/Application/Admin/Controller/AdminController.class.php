@@ -65,7 +65,11 @@ class AdminController extends Controller {
             $this->redirect('Admin/Index/login');
         }
         /* 读取数据库中的配置 */
-        $config = D('Config')->lists();
+		$config	=	S('DB_CONFIG_DATA');
+		if(!$config){
+			$config	=	D('Config')->lists();
+			S('DB_CONFIG_DATA',$config);
+		}
         C($config); //添加配置
         
         // 初始化钩子

@@ -56,6 +56,7 @@ class ConfigController extends AdminController {
             $data = $Config->create();
             if($data){
                 if($Config->add()){
+					S('DB_CONFIG_DATA',null);
                     $this->success('新增成功', U('index'));
                 } else {
                     $this->error('新增失败');
@@ -79,6 +80,7 @@ class ConfigController extends AdminController {
             $data = $Config->create();
             if($data){
                 if($Config->save()){
+					S('DB_CONFIG_DATA',null);
                     $this->success('更新成功', U('index'));
                 } else {
                     $this->error('更新失败');
@@ -112,6 +114,7 @@ class ConfigController extends AdminController {
                 $Config->where($map)->setField('value', $value);
             }
         }
+		S('DB_CONFIG_DATA',null);
         $this->success('保存成功！');
     }
 
@@ -128,6 +131,7 @@ class ConfigController extends AdminController {
 
         $map = array('id' => array('in', $id) );
         if(M('Config')->where($map)->delete()){
+			S('DB_CONFIG_DATA',null);
             $this->success('删除成功');
         } else {
             $this->error('删除失败！');

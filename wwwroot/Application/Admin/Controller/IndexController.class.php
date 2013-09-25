@@ -33,9 +33,13 @@ class IndexController extends AdminController {
         if(ACTION_NAME !== 'login' && ACTION_NAME !=='verify'){
             parent::_initialize();
         }else{
-            /* 读取配置 */
-            $config = D('Config')->lists();
-            C($config); //添加配置
+			// 读取数据库配置信息
+			$config	=	S('DB_CONFIG_DATA');
+			if(!$config){
+				$config	=	D('Config')->lists();
+				S('DB_CONFIG_DATA',$config);
+			}
+			C($config);
         }
     }
 
