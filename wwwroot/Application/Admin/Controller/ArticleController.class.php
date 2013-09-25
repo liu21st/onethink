@@ -52,7 +52,7 @@ class ArticleController extends \Admin\Controller\AdminController {
      * @see AdminController::_init()
      * @author huajie <banhuajie@163.com>
      */
-    protected function _initialize(){D('Document')->getDirectoryTree(17);
+    protected function _initialize(){
         //调用父类的初始化方法
         parent::_initialize();
 

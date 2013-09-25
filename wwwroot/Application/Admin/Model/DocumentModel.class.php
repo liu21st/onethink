@@ -523,7 +523,7 @@ class DocumentModel extends Model{
     	}
     	$tree = S('sys_directory_tree');
 		if(empty($tree)){
-			$res = $this->getChild($pid);dump($res);
+			$res = $this->getChild($pid);
 			S('sys_directory_tree', $tree);
 		}
 		return $res;
