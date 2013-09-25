@@ -476,7 +476,7 @@ class ArticleController extends \Admin\Controller\AdminController {
         $map['pid'] = 0;
         $list = $this->lists($Document,$map,'update_time desc');
         intToString($list);
-
+        $this->assign('status', $status);
         $this->assign('list', $list);
         $this->meta_title = '我的文档';
         $this->display();
