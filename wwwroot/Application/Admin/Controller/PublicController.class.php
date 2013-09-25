@@ -50,7 +50,7 @@ class PublicController extends \Think\Controller {
             }
         } else {
             if(is_login()){
-                $this->redirect('Admin/Index/index');
+                $this->redirect('Index/index');
             }else{
                 $this->display();
             }
