@@ -566,7 +566,7 @@ body{
     line-height: 35px;
     width: 49%;
     height: 376px;
-    overflow-y:scroll 
+    
 }
 .edit_sort span {
     background: #EEEEEE;
@@ -579,9 +579,11 @@ body{
 }
 .edit_sort ul {
     padding: 0 5px;
+    overflow-y:scroll;
+    height: 334px; 
 }
-.edit_sort_l {
-    float: left;
+.edit_sort_r {
+    float: right;
 }
 .dragsort li {
     margin-bottom: 5px;
