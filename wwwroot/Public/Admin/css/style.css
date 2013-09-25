@@ -559,7 +559,7 @@ body{
 .dragsort {
     
 }
-.tab2 .form-item {
+.edit_sort {
     display: inline-block;
     border:1px solid #cdcdcd;
     color: #404040;
@@ -568,7 +568,7 @@ body{
     height: 376px;
     overflow-y:scroll 
 }
-.tab2 .form-item span {
+.edit_sort span {
     background: #EEEEEE;
     width: 100%;
     display: inline-block;
@@ -577,18 +577,11 @@ body{
     border-bottom: 1px solid #cdcdcd;
     margin-bottom:5px;
 }
-.tab2 .form-item ul {
+.edit_sort ul {
     padding: 0 5px;
 }
 .edit_sort_l {
     float: left;
-}
-.edit_sort_r{
-    float: right;
-}
-.form-item .controls {
-    overflow:visible;
-    margin-top: 376px
 }
 .dragsort li {
     margin-bottom: 5px;

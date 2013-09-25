@@ -33,7 +33,7 @@
 				<!-- 高级 -->
 				<div id="tab2" class="tab-pane tab2">
 					
-					<div class="form-item cf edit_sort_l">
+					<div class="form-item cf edit_sort edit_sort_l">
 						<span>表单字段排序 - 基础</span>
 						<ul id=base class="dragsort">
 							<volist name="fields" id="field">
@@ -44,7 +44,7 @@
 						</ul>
 					</div>
 					
-					<div class="form-item cf edit_sort_r">
+					<div class="form-item cf edit_sort edit_sort_r">
 						<span>表单字段排序 - 高级</span>
 						<ul id="extend" class="dragsort">
 							<volist name="fields" id="field">
@@ -60,7 +60,7 @@
 				<!-- 按钮 -->
 				<div class="form-item cf">
 					<label class="item-label"></label>
-					<div class="controls">
+					<div class="controls edit_sort_btn">
 						<input type="hidden" name="id" value="{$id}"/>
 						<button class="btn submit-btn ajax-post no-refresh" type="submit" target-form="form-horizontal">确 定</button>
 						<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
