@@ -511,4 +511,40 @@ class DocumentModel extends Model{
         return $data;
     }
 
+    /**
+     * 获取目录树
+     * @param intger $pid 目录树的根节点
+     * @return boolean
+     * @author huajie <banhuajie@163.com>
+     */
+    public function getDirectoryTree($pid = null){
+    	if(empty($pid)){
+    		return false;
+    	}
+    	$tree = S('sys_directory_tree');
+		if(empty($tree)){
+			$res = $this->getChild($pid);dump($res);
+			S('sys_directory_tree', $tree);
+		}
+		return $res;
+    }
+
+    private function getChild($pid){
+    	$tree = array();
+    	$map = array('status'=>1,'type'=>1);
+    	if(is_array($pid)){
+    		$map['pid'] = array('in', implode(',', $pid));
+    	}else{
+    		$map['pid'] = $pid;
+    	}
+    	$child = $this->where($map)->field('id,name,title,pid')->select();
+    	if(!empty($child)){
+    		foreach ($child as $key=>$value){
+    			$pids[] = $value['id'];
+    		}
+    		$tree = array_merge($child, $this->getChild($pids));
+    	}
+    	return $tree;
+    }
+
 }
