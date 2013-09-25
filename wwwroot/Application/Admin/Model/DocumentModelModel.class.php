@@ -58,14 +58,13 @@ class DocumentModelModel extends Model{
                 return false;
             }
         }
-
+		// 清除模型缓存数据
+		S('DOCUMENT_MODEL_LIST', null);
         //内容添加或更新完成
         return $data;
     }
 
     protected function getFields($fields){
-    	//清除模型的缓存
-    	S('sys_document_model_list', null);
     	return str_replace(array('[',']','\\'), array('{','}',''), $fields);
     }
 
