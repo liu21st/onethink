@@ -116,12 +116,20 @@ class AuthGroupModel extends Model {
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     static public function getAuthCategories($uid){
+        $result = session('AUTH_CATEGORY');
+        if ( $uid == UID && !empty($result) ) {
+            return $result;
+        }
         $prefix = C('DB_PREFIX');
-        return M()
+        $result = M()
             ->table($prefix.self::AUTH_GROUP_ACCESS.' g')
             ->join($prefix.self::AUTH_CATEGORY_ACCESS.' c on g.group_id=c.group_id')
             ->where("g.uid='$uid' and !isnull(category_id)")
             ->getfield('category_id',true);
+        if ( $uid == UID ) {
+            session('AUTH_CATEGORY',$result);
+        }
+        return $result;
     }
 
     /**
