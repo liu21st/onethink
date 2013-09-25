@@ -192,18 +192,18 @@ class ArticleController extends \Admin\Controller\AdminController {
      * @author huajie <banhuajie@163.com>
      */
     public function index($cate_id = null, $status = null, $title = null){
-        if(is_null($cate_id)){
+        if($cate_id===null){
             $cate_id = $this->cate_id;
         }
         /* 查询条件初始化 */
         $map = array();
         if(isset($title)){
-            $map['title']   =   array('like', '%'.$title.'%');
+            $map['title']  = array('like', '%'.$title.'%');
         }
         if(isset($status)){
-            $map['status']  =   $status;
+            $map['status'] = $status;
         }else{
-            $map['status']  =   array('egt', 0);
+            $map['status'] = array('egt', 0);
         }
         if ( isset($_GET['time-start']) ) {
             $map['create_time'][] = array('egt',strtotime(I('time-start')));

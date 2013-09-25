@@ -65,7 +65,11 @@ class AdminController extends Controller {
             $this->redirect('Admin/Index/login');
         }
         /* 读取数据库中的配置 */
-        $config = D('Config')->lists();
+		$config	=	S('DB_CONFIG_DATA');
+		if(!$config){
+			$config	=	D('Config')->lists();
+			S('DB_CONFIG_DATA',$config);
+		}
         C($config); //添加配置
         
         // 初始化钩子
@@ -332,58 +336,62 @@ class AdminController extends Controller {
      * 获取控制器菜单数组,二级菜单元素位于一级菜单的'_child'元素中
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
-    final public function getMenus(){
-        $menus['main']  = $this->getVal('menus'); //获取主节点
-        $menus['child'] = array(); //设置子节点
+    final public function getMenus($controller=CONTROLLER_NAME){
+		$menus	=	session('ADMIN_MENU_LIST'.$controller);
+		if(!$menus){
+			$menus['main']  = $this->getVal('menus'); //获取主节点
+			$menus['child'] = array(); //设置子节点
 
-        //处理控制器中的节点
-        foreach ($menus['main'] as $key=>$item){
-            if (!is_array($item) || empty($item['title']) || empty($item['url']) || empty($item['controllers'])) {
-                $this->error('控制器基类$menus属性元素配置有误');
-            }
+			//处理控制器中的节点
+			foreach ($menus['main'] as $key=>$item){
+				if (!is_array($item) || empty($item['title']) || empty($item['url']) || empty($item['controllers'])) {
+					$this->error('控制器基类$menus属性元素配置有误');
+				}
 
-            if( stripos($item['url'],MODULE_NAME)!==0 ){
-                $item['url'] = MODULE_NAME.'/'.$item['url'];
-            }
-            //判断节点权限
-            if ( !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null) ) {  //检测节点权限
-                unset($menus['main'][$key]);
-                continue;//继续循环
-            }
+				if( stripos($item['url'],MODULE_NAME)!==0 ){
+					$item['url'] = MODULE_NAME.'/'.$item['url'];
+				}
+				//判断节点权限
+				if ( !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null) ) {  //检测节点权限
+					unset($menus['main'][$key]);
+					continue;//继续循环
+				}
 
-            if ( !empty($item['hide']) ){
-                unset($menus['main'][$key]);
-            }
+				if ( !empty($item['hide']) ){
+					unset($menus['main'][$key]);
+				}
 
-            $other_controller = explode(',',$item['controllers']);
-            if ( in_array( CONTROLLER_NAME, $other_controller ) ) {
-                $menus['main'][$key]['class']='current';
-                foreach ($other_controller as $c){
-                    //从控制器中读取节点
-                    $child = 'Admin\\Controller\\'.$c.'Controller';
-                    $child_nodes = $child::getNodes($child);
-                    if ($child_nodes===false) {
-                        $this->error("内部错误:请检查{$child}控制器 nodes 属性");
-                    }
-                    foreach ( $child_nodes as $group => $value ) {
-                        //$value  分组数组
-                        foreach ($value as $k=>$v){
-                            //$v  节点配置
-                            if ( !empty($v['hide']) || !$this->checkRule($v['url'],AuthRuleModel::RULE_URL,null ) ) {   //检测节点权限
-                                unset($value[$k]);
-                            }
-                        }
-                        if ( isset($menus['child'][$group]) ) {
-                            //如果分组已存在,合并到分组中
-                            $menus['child'][$group] = array_merge( $menus['child'][$group], $value);
-                        }else{
-                            //否则直接保存
-                            $menus['child'][$group] = $value;
-                        }
-                    }
-                }
-            }
-        }
+				$other_controller = explode(',',$item['controllers']);
+				if ( in_array( $controller, $other_controller ) ) {
+					$menus['main'][$key]['class']='current';
+					foreach ($other_controller as $c){
+						//从控制器中读取节点
+						$child = 'Admin\\Controller\\'.$c.'Controller';
+						$child_nodes = $child::getNodes($child);
+						if ($child_nodes===false) {
+							$this->error("内部错误:请检查{$child}控制器 nodes 属性");
+						}
+						foreach ( $child_nodes as $group => $value ) {
+							//$value  分组数组
+							foreach ($value as $k=>$v){
+								//$v  节点配置
+								if ( !empty($v['hide']) || !$this->checkRule($v['url'],AuthRuleModel::RULE_URL,null ) ) {   //检测节点权限
+									unset($value[$k]);
+								}
+							}
+							if ( isset($menus['child'][$group]) ) {
+								//如果分组已存在,合并到分组中
+								$menus['child'][$group] = array_merge( $menus['child'][$group], $value);
+							}else{
+								//否则直接保存
+								$menus['child'][$group] = $value;
+							}
+						}
+					}
+				}
+			}
+			session('ADMIN_MENU_LIST'.$controller,$menus);
+		}
         return $menus;
     }
 
