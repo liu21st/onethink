@@ -52,7 +52,7 @@ class ArticleController extends \Admin\Controller\AdminController {
      * @see AdminController::_init()
      * @author huajie <banhuajie@163.com>
      */
-    protected function _initialize(){
+    protected function _initialize(){D('Document')->getDirectoryTree(17);
         //调用父类的初始化方法
         parent::_initialize();
 
@@ -478,6 +478,7 @@ class ArticleController extends \Admin\Controller\AdminController {
         intToString($list);
 
         $this->assign('list', $list);
+        $this->assign('status', $status);
         $this->meta_title = '我的文档';
         $this->display();
     }
