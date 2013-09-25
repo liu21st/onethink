@@ -596,17 +596,20 @@ class AdminController extends Controller {
                 },$s_thead);
             }
         }
-        $keys       =   array_keys($thead);
+        $keys       =   array_keys($thead);//表头所有的key
         array_walk($list,function(&$v,$k) use($keys,$thead) {
-            $arr    =   array();
+            $arr    =   array();//保存数据集字段的值
             foreach ($keys as $value){
+                //判断表头key是否在数据集中存在对应字段
                 if ( isset($v[$value]) ) {
                     $arr[$value] = $v[$value];
                 }elseif( strpos($value,'_')===0 ){
-                    $arr[$value] = $thead[$value]['td'];
+                    $arr[$value] = @$thead[$value]['td'];
+                }elseif( isset($thead[$value]['_title']) ){
+                    $arr[$value] = '';
                 }
             }
-            $v      =   array_merge($arr,$v);
+            $v      =   array_merge($arr,$v);//根据$arr的顺序更新数据集字段顺序
         });
         $this->assign('_thead',$thead);
         $this->assign('_list',$list);
