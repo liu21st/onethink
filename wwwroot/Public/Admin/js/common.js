@@ -186,11 +186,27 @@
         });
 
         //按钮组(鼠标点击显示)
-        $(".btn-group-click .btn").click(function(){
-            var userMenu = $(this).next(".dropdown ");
-            var icon = $(this).find("i");
-            icon.toggleClass("btn-arrowup");
-            userMenu.toggleClass("block");
+        // $(".btn-group-click .btn").click(function(){
+        //     var userMenu = $(this).next(".dropdown ");
+        //     var icon = $(this).find("i");
+        //     icon.toggleClass("btn-arrowup");
+        //     userMenu.toggleClass("block");
+        // });
+        $(".btn-group-click .btn").click(function(e){
+            if ($(this).next(".dropdown").is(":hidden")) {
+                $(this).next(".dropdown").show();
+                $(this).find("i").addClass("btn-arrowup");
+                e.stopPropagation();
+            }else{
+                $(this).find("i").removeClass("btn-arrowup");
+            }            
+        })
+        $(".dropdown").click(function(e) {
+            e.stopPropagation();
+        });
+        $(document).click(function() {
+            $(".dropdown").hide();
+            $(".btn-group-click .btn").find("i").removeClass("btn-arrowup");
         });
     })();
 
