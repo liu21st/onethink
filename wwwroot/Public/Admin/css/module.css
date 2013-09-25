@@ -626,4 +626,11 @@ label.textarea ~ .check-tips {
 	vertical-align: middle;
 	background: url(../images/bg_icon.png) no-repeat 0 0;
 }
-
+.add-on {
+	width: 20px;
+	height: 20px;
+	display: inline-block;
+	position: relative;
+	top: 7px;
+	right: 25px;
+}
