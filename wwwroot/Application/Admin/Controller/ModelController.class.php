@@ -117,7 +117,8 @@ class ModelController extends AdminController {
 
         //获取模型字段
         if(empty($data['fields'])){
-        	$base = array('name','title','description','position','link_id','cover_id','display','dateline','level','create_time');
+//         	$base = array('name','title','description','position','link_id','cover_id','display','dateline','level','create_time');
+        	$base = M('Document')->getDbFields();
         	$base = array_flip($base);
         	foreach ($base as $key=>$value){
         		$base[$key] = $value + 1;
