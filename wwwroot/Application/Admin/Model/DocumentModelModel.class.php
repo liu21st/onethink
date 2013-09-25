@@ -64,6 +64,8 @@ class DocumentModelModel extends Model{
     }
 
     protected function getFields($fields){
+    	//清除模型的缓存
+    	S('sys_document_model_list', null);
     	return str_replace(array('[',']','\\'), array('{','}',''), $fields);
     }
 
