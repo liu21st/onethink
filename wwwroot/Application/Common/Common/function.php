@@ -482,7 +482,7 @@ function get_document_model($id = null, $field = null){
     /* 获取模型名称 */
     if(empty($list)){
         $map   = array('status' => 1);
-        $model = M('DocumentModel')->where($map)->field('id,name,title')->select();
+        $model = M('DocumentModel')->where($map)->field('id,name,title,fields')->select();
         foreach ($model as $value) {
             $list[$value['id']] = $value;
         }
