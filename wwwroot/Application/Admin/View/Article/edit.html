@@ -29,19 +29,19 @@
 		<!-- 基础文档模型 -->
 		<div id="tab1" class="tab-pane in tab1">
 
-			<div class="form-item cf">
+			<div class="form-item cf" sort="{$field['title']}">
 				<label class="item-label">文档标题<span class="check-tips">（请输入标题）</span></label>
 				<div class="controls">
 					<input type="text" class="text input-large" name="title" value="{$info.title}">
 				</div>
 			</div>
-			<div class="form-item cf">
+			<div class="form-item cf" sort="{$field['name']}">
 				<label class="item-label">文档标识<span class="check-tips">（文档标识主要用于URL优化，对文章的URL没有要求则可不填）</span></label>
 				<div class="controls">
 					<input type="text" class="text input-large" name="name" value="{$info.name}">
 				</div>
 			</div>
-			<div class="form-item cf">
+			<div class="form-item cf" sort="{$field['type']}">
 				<label class="item-label">文档类型<span class="check-tips">（文档类型标识了文档的显示结构，一般普通文章选择主题）</span></label>
 				<div class="controls">
 					<select name="type">
@@ -51,7 +51,7 @@
 					</select>
 				</div>
 			</div>
-			<div class="form-item cf">
+			<div class="form-item cf" sort="{$field['description']}">
 				<label class="item-label">文档摘要<span class="check-tips">（请输入简介）</span></label>
 				<div class="controls">
 					<label class="textarea input-large">
@@ -62,31 +62,31 @@
 		</div>
 
 		<div id="tab2" class="tab-pane tab2">
-			<div class="form-item cf">
+			<div class="form-item cf" sort="{$field['level']}">
 				<label class="item-label">优先级<span class="check-tips">（数字越大，排序越靠前）</span></label>
 				<div class="controls">
 					<input type="text" class="text input-large" name="level" value="{$info.level|default=0}">
 				</div>
 			</div>
-			<div class="form-item cf">
+			<div class="form-item cf" sort="{$field['link_id']}">
 				<label class="item-label">外链地址</label>
 				<div class="controls">
 					<input type="text" class="text input-large" name="link_id" value="{$info.link_id|get_link}">
 				</div>
 			</div>
-			<div class="form-item cf">
+			<div class="form-item cf" sort="{$field['create_time']}">
 				<label class="item-label">发布时间<span class="check-tips">（格式: yyyy-mm-dd hh:ii）</span></label>
 				<div class="controls">
 					<input id="create_time" type="text" class="text input-large" name="create_time" value="{$info.create_time}" />
 				</div>
 			</div>
-			<div class="form-item cf">
+			<div class="form-item cf" sort="{$field['dateline']}">
 				<label class="item-label">截止时间<span class="check-tips">（格式: yyyy-mm-dd hh:ii）</span></label>
 				<div class="controls">
 					<input id="dateline" type="text" class="text input-large" name="dateline" value="{$info.dateline}" />
 				</div>
 			</div>
-			<div class="form-item cf">
+			<div class="form-item cf" sort="{$field['position']}">
 				<label class="item-label">推荐位置</label>
 				<div class="controls">
 					<volist name=":C('DOCUMENT_POSITION')" id="position">
@@ -94,7 +94,7 @@
 					</volist>
 				</div>
 			</div>
-			<div class="form-item cf">
+			<div class="form-item cf" sort="{$field['display']}">
 				<label class="item-label">可见性</label>
 				<div class="controls">
 					<volist name=":C('DOCUMENT_DISPLAY')" id="title">
@@ -102,7 +102,7 @@
 					</volist>
 				</div>
 			</div>
-			<div class="form-item cf">
+			<div class="form-item cf" sort="{$field['cover_id']}">
 				<label class="item-label">封面图片</label>
 				<div class="controls">
 					<input type="file" id="upload_picture">
@@ -276,12 +276,43 @@ $(function(){
 
 	</if>
 
-	//将扩展里的内容移动到基础和高级里
+
 	(function(){
+		//将扩展里的内容移动到基础和高级里
 		var html = $('#move-base');
 		$('#tab1').append(html);
 		html = $('#move-advance');
 		$('#tab2').append(html);
+
+		//表单元素的排序
+		var list = $('.form-item[sort]');
+		var base = [],extend = [];
+		list.each(function(i){
+			var sort = $(this).attr('sort');
+			if(sort > 0){		//基础
+				base[sort] = list[i];
+			}else if(sort < 0){	//高级
+				sort = sort * -1;
+				extend[sort] = list[i];
+			}else if(sort == 0){	//隐藏
+
+			}else{				//未指定排序
+
+			}
+		});
+
+		if(base != ''){
+			for (i in base){
+				if(base[i] != ''){
+					$('#tab1').append(base[i]);
+				}
+			}
+			for (i in extend){
+				if(extend[i] != ''){
+					$('#tab2').append(extend[i]);
+				}
+			}
+		}
 	})();
 
 });

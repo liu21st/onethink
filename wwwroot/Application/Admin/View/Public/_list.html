@@ -6,6 +6,14 @@
 $operator=array();
 $i=1;
 foreach ($_thead as $key => $th){
+    if( isset($th['condition']) ){
+        $c = @eval( 'return '.$th['condition'].';' );
+        if (!$c){
+            unset($_thead[$key]);
+            continue;
+        }
+    }
+
     if( isset($th['_th']) ){
         $class = $th['_th']; 
     }

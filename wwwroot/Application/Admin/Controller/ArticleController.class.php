@@ -72,11 +72,11 @@ class ArticleController extends \Admin\Controller\AdminController {
 
     /**
      * 检测需要动态判断的文档类目有关的权限
-     * 
-     * @return boolean|null  
+     *
+     * @return boolean|null
      *      返回true则表示当前访问有权限
      *      返回false则表示当前访问无权限
-     *      返回null，则会进入checkRule根据节点授权判断权限 
+     *      返回null，则会进入checkRule根据节点授权判断权限
      *
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
@@ -192,18 +192,18 @@ class ArticleController extends \Admin\Controller\AdminController {
      * @author huajie <banhuajie@163.com>
      */
     public function index($cate_id = null, $status = null, $title = null){
-        if(is_null($cate_id)){
+        if($cate_id===null){
             $cate_id = $this->cate_id;
         }
         /* 查询条件初始化 */
         $map = array();
         if(isset($title)){
-            $map['title']   =   array('like', '%'.$title.'%');
+            $map['title']  = array('like', '%'.$title.'%');
         }
         if(isset($status)){
-            $map['status']  =   $status;
+            $map['status'] = $status;
         }else{
-            $map['status']  =   array('egt', 0);
+            $map['status'] = array('egt', 0);
         }
         if ( isset($_GET['time-start']) ) {
             $map['create_time'][] = array('egt',strtotime(I('time-start')));
@@ -303,10 +303,11 @@ class ArticleController extends \Admin\Controller\AdminController {
         $allow_publish = D('Document')->checkCategory($cate_id);
         !$allow_publish && $this->error('该分类不允许发布内容！');
 
-        /* 获取要编辑的模型模板 */
+        /* 获取要编辑的扩展模型模板 */
         $model      =   get_document_model($model_id);
         $template   =   strtolower($model['name']);
-        $extend     =   $this->fetch($template);
+
+        //处理结果
         $info['pid']            =   $_GET['pid']?$_GET['pid']:0;
         $info['model_id']       =   $model_id;
         $info['category_id']    =   $cate_id;
@@ -315,9 +316,14 @@ class ArticleController extends \Admin\Controller\AdminController {
             $article            =   M('Document')->field('id,title,type')->find($info['pid']);
             $this->assign('article',$article);
         }
+
+        //获取表单字段排序
+        $fields = json_decode(get_document_model($model_id, 'fields'), true);
+
         $this->assign('info',       $info);
         $this->assign('template',   $template);
-        $this->assign('extend',     $extend);
+        $this->assign('field',  	$fields);
+        $this->assign('extend',     $this->fetch($template));
         $this->assign('type_list',  get_type_bycate($cate_id));
 
         $this->meta_title       =   '新增'.$model['title'];
@@ -349,6 +355,10 @@ class ArticleController extends \Admin\Controller\AdminController {
         }
         $this->assign('info', $data);
         $this->assign('model_id', $data['model_id']);
+
+        //获取表单字段排序
+        $fields = json_decode(get_document_model($data['model_id'], 'fields'), true);
+        $this->assign('field',  $fields);
 
         /* 获取要编辑的模型模板 */
         $data['template']   =   strtolower(get_document_model($data['model_id'], 'name'));

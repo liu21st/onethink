@@ -117,16 +117,31 @@ class ModelController extends AdminController {
 
         //获取模型字段
         if(empty($data['fields'])){
-        	$base = array('name','title','description','position','link_id','cover_id','display','dateline','level','create_time');
+
+        	/* 获取基础模型字段 */
+        	$base = M('Document')->getDbFields();
+        	//id字段不需要排序
+        	if(in_array('id', $base)){
+        		unset($base[array_search('id', $base)]);
+        	}
         	$base = array_flip($base);
+        	//排序起始值从1开始
         	foreach ($base as $key=>$value){
         		$base[$key] = $value + 1;
         	}
+
+        	/* 获取扩展模型字段 */
         	$extend = D(ucfirst($data['name']), 'Logic')->getDbFields();
+        	//id字段不需要排序
+        	if(in_array('id', $extend)){
+        		unset($extend[array_search('id', $extend)]);
+        	}
         	$extend = array_flip($extend);
+        	//扩展里的排序从-1开始
         	foreach ($extend as $key=>$value){
         		$extend[$key] = ($value + 1) * -1;
         	}
+
         	$data['fields'] = array_merge($base, $extend);
         }else{
         	$data['fields'] = json_decode($data['fields'], true);
