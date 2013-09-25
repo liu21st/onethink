@@ -62,7 +62,7 @@ class AdminController extends Controller {
         // 获取当前用户ID
         define('UID',is_login());
         if( !UID ){// 还没登录 跳转到登录页面
-            $this->redirect('Admin/Index/login');
+            $this->redirect('Public/login');
         }
         /* 读取数据库中的配置 */
 		$config	=	S('DB_CONFIG_DATA');
