@@ -68,14 +68,17 @@
                 <button class="btn">高 级<i class="btn-arrowdown"></i></button>
                 <div class="dropdown cf">
                 	<div class="row">
-                		<label>创建时间：</label>
+                		<label>更新时间：</label>
                 		<input type="text" id="time-start" name="time-start" class="text input-2x" value="" placeholder="起始时间" /> -
-                		<input type="text" id="time-end" name="time-end" class="text input-2x" value="" placeholder="结束时间" />
+                        <div class="input-append date" id="datetimepicker" style="display:inline-block">
+                            <input type="text" id="time-end" name="time-end" class="text input-2x" value="" placeholder="结束时间"/>
+                            <span class="add-on"><i class="icon-th"></i></span>
+                        </div>
                 	</div>
-                	<div class="row">
-                		<label>创建者：</label>
-                		<input type="text" name="nickname" class="text input-2x" value="" placeholder="请输入用户名">
-                	</div>
+                    <!-- <div class="row"> -->
+                        <!-- <label>创建者：</label> -->
+                        <!-- <input type="text" name="username" class="text input-2x" value="" placeholder="请输入用户名"> -->
+                    <!-- </div> -->
                 </div>
             </div>
 		</div>
@@ -138,6 +141,7 @@
 </block>
 <block name="script">
 <link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+<php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
 <link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
@@ -197,12 +201,13 @@ $(function(){
 	    autoclose:true
     });
 
-    $('#time-end').datetimepicker({
-        format: 'yyyy-mm-dd',
+    $('#datetimepicker').datetimepicker({
+       format: 'yyyy-mm-dd',
         language:"zh-CN",
-	    minView:2,
-	    autoclose:true
-    });
+        minView:2,
+        autoclose:true,
+        pickerPosition:'bottom-left'
+    })
 })
 </script>
 </block>
