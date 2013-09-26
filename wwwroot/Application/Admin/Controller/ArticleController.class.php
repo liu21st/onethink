@@ -528,8 +528,8 @@ class ArticleController extends \Admin\Controller\AdminController {
         if(empty($_POST['ids'])) {
             $this->error('请选择要移动的文档！');
         }
-        $_SESSION['moveArticle']    =   $_POST['ids'];
-        unset($_SESSION['copyArticle']);
+        session('moveArticle', $_POST['ids']);
+        session('copyArticle', null);
         $this->success('请选择要移动到的分类！');
     }
 
@@ -541,8 +541,8 @@ class ArticleController extends \Admin\Controller\AdminController {
         if(empty($_POST['ids'])) {
             $this->error('请选择要复制的文档！');
         }
-        $_SESSION['copyArticle']    =   $_POST['ids'];
-        unset($_SESSION['moveArticle']);
+        session('copyArticle', $_POST['ids']);
+        session('moveArticle', null);
         $this->success('请选择要复制到的分类！');
     }
 
@@ -551,7 +551,9 @@ class ArticleController extends \Admin\Controller\AdminController {
      * @author huajie <banhuajie@163.com>
      */
     public function paste() {
-        if(empty($_SESSION['moveArticle']) && empty($_SESSION['copyArticle'])) {
+    	$moveList = session('moveArticle');
+    	$copyList = session('copyArticle');
+        if(empty($moveList) && empty($copyList)) {
             $this->error('没有选择文档！');
         }
         if(!isset($_POST['cate_id'])) {
@@ -559,8 +561,6 @@ class ArticleController extends \Admin\Controller\AdminController {
         }
         $cate_id = I('post.cate_id');	//当前分类
         $pid = I('post.pid', 0);		//当前父类数据id
-        $moveList = $_SESSION['moveArticle'];
-        $copyList = $_SESSION['copyArticle'];
 
         //检查所选择的数据是否符合粘贴要求
         $check = $this->checkPaste(empty($moveList) ? $copyList : $moveList, $cate_id, $pid);
@@ -576,7 +576,7 @@ class ArticleController extends \Admin\Controller\AdminController {
 				$data['pid'] 		=   $pid;
 				$res = $Model->where($map)->save($data);
         	}
-        	unset($_SESSION['moveArticle']);
+        	session('moveArticle', null);
         	if(false !== $res){
         		$this->success('文档移动成功！');
         	}else{
@@ -600,7 +600,7 @@ class ArticleController extends \Admin\Controller\AdminController {
             		$res 		= 	$logic->add($data);
             	}
             }
-            unset($_SESSION['copyArticle']);
+            session('copyArticle', null);
             if($res){
             	$this->success('文档复制成功！');
             }else{
@@ -615,6 +615,7 @@ class ArticleController extends \Admin\Controller\AdminController {
      */
     protected function checkPaste($list, $cate_id, $pid){
     	$return = array('status'=>1);
+    	$Document = D('Document');
 
     	// 检查支持的文档模型
     	$modelList =   M('Category')->getFieldById($cate_id,'model');	// 当前分类支持的文档模型
@@ -626,7 +627,7 @@ class ArticleController extends \Admin\Controller\AdminController {
     			return $return;
     		}
     		// 移动文档的所属文档模型
-    		$modelType  =   M('Document')->getFieldById($value,'model_id');
+    		$modelType  =   $Document->getFieldById($value,'model_id');
     		if(!in_array($modelType,explode(',',$modelList))) {
     			$return['status'] = 0;
     			$return['info'] = '当前分类的“文档模型“不支持编号为 '.$value.' 的数据！';
@@ -634,14 +635,20 @@ class ArticleController extends \Admin\Controller\AdminController {
     		}
     	}
 
-    	// 检查支持的文档类型
+    	// 检查支持的文档类型和层级规则
     	$typeList =   M('Category')->getFieldById($cate_id,'type');	// 当前分类支持的文档模型
     	foreach ($list as $key=>$value){
     		// 移动文档的所属文档模型
-    		$modelType  =   M('Document')->getFieldById($value,'type');
+    		$modelType  =   $Document->getFieldById($value,'type');
     		if(!in_array($modelType,explode(',',$typeList))) {
     			$return['status'] = 0;
     			$return['info'] = '当前分类的“文档类型“不支持编号为 '.$value.' 的数据！';
+    			return $return;
+    		}
+    		$res = $Document->checkDocumentType($modelType, $pid);
+    		if(!$res['status']){
+    			$return['status'] = 0;
+    			$return['info'] = $res['info'].'。错误数据编号：'.$value;
     			return $return;
     		}
     	}
