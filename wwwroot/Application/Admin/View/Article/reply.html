@@ -61,7 +61,7 @@
 						<li><a href="javascript:;" value="2">待审核</a></li>
 					</ul>
 				</div>
-				<input type="text" name="title" class="search-input" value="{:I('title')}" placeholder="请输入标题文档">
+				<input type="text" name="content" class="search-input" value="{:I('content')}" placeholder="请输入回复关键字">
 				<a class="sch-btn" href="javascript:;" id="search" url="{:U('article/index','pid='.I('pid',0).'&cate_id='.$cate_id,false)}"><i class="btn-search"></i></a>
 			</div>
             <div class="btn-group-click adv-sch-pannel fl">
@@ -110,7 +110,7 @@
                 'uid'  =>array(
                     '_title'=>'创建者',
                     'tag' =>'span',
-                    'func'  =>'get_nickname($uid)',
+                    'func'  =>'get_username($uid)',
                 ),
                 'update_time'=>array(
                     '_title'=>'最后更新',
