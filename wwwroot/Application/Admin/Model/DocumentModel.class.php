@@ -512,12 +512,12 @@ class DocumentModel extends Model{
     }
 
     /**
-     * 获取目录树
-     * @param intger $pid 目录树的根节点
+     * 获取目录列表
+     * @param intger $pid 目录的根节点
      * @return boolean
      * @author huajie <banhuajie@163.com>
      */
-    public function getDirectoryTree($pid = null){
+    public function getDirectoryList($pid = null){
     	if(empty($pid)){
     		return false;
     	}
