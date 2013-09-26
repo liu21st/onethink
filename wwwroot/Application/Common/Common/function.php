@@ -476,7 +476,7 @@ function get_document_model($id = null, $field = null){
 
     /* 读取缓存数据 */
     if(empty($list)){
-        $list = S('sys_document_model_list');
+        $list = S('DOCUMENT_MODEL_LIST');
     }
 
     /* 获取模型名称 */
@@ -486,7 +486,7 @@ function get_document_model($id = null, $field = null){
         foreach ($model as $value) {
             $list[$value['id']] = $value;
         }
-        S('sys_document_model_list', $list); //更新缓存
+        S('DOCUMENT_MODEL_LIST', $list); //更新缓存
     }
 
     /* 根据条件返回数据 */

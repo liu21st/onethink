@@ -113,13 +113,14 @@ class Auth{
             }
         }
         $list = array(); //保存验证通过的规则名
+        if ($mode=='url') {
+            $REQUEST = unserialize( strtolower(serialize($_REQUEST)) );
+        }
         foreach ( $authList as $auth ) {
             $query = preg_replace('/^.+\?/U','',$auth);
             if ($mode=='url' && $query!=$auth ) {
                 parse_str($query,$param); //解析规则中的param
-                $get = strtolower(serialize($_REQUEST));
-                $_REQUEST = unserialize($get);
-                $intersect = array_intersect_assoc($_REQUEST,$param);
+                $intersect = array_intersect_assoc($REQUEST,$param);
                 $auth = preg_replace('/\?.*$/U','',$auth);
                 if ( in_array($auth,$name) && $intersect==$param ) {  //如果节点相符且url参数满足
                     $list[] = $auth ;
