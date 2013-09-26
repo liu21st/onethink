@@ -142,6 +142,13 @@ class DocumentModel extends Model{
      * @author huajie <banhuajie@163.com>
      */
     public function update(){
+    	/* 检查文档类型是否符合要求 */
+    	$res = $this->checkDocumentType( I('post.type'), I('post.pid') );
+    	if(!$res['status']){
+    		$this->error = $res['info'];
+    		return false;
+    	}
+
         /* 获取数据对象 */
         $data = $this->create();
         if(empty($data)){
@@ -529,6 +536,12 @@ class DocumentModel extends Model{
 		return $res;
     }
 
+    /**
+     * 递归查询子文档
+     * @param intger $pid
+     * @return array: 子文档数组
+     * @author huajie <banhuajie@163.com>
+     */
     private function getChild($pid){
     	$tree = array();
     	$map = array('status'=>1,'type'=>1);
@@ -545,6 +558,44 @@ class DocumentModel extends Model{
     		$tree = array_merge($child, $this->getChild($pids));
     	}
     	return $tree;
+    }
+
+    /**
+     * 检查指定文档下面子文档的类型
+     * @param intger $type 子文档类型
+     * @param intger $pid 父文档类型
+     * @return array 键值：status=>是否允许（0,1），'info'=>提示信息
+     * @author huajie <banhuajie@163.com>
+     */
+    public function checkDocumentType($type = null, $pid = null){
+    	$res = array('status'=>1, 'info'=>'');
+		if(empty($type)){
+			return array('status'=>0, 'info'=>'文档类型不能为空');
+		}
+		if(empty($pid)){
+			return $res;
+		}
+		//查询父文档的类型
+		if(is_numeric($pid)){
+			$ptype = $this->getFieldById($pid, 'type');
+		}else{
+			$ptype = $this->getFieldByName($pid, 'type');
+		}
+		//父文档为目录时
+		if($ptype == 1){
+			return $res;
+		}
+		//父文档为主题时
+		if($ptype == 2){
+			if($type != 3){
+				return array('status'=>0, 'info'=>'主题下面只允许添加段落');
+			}
+		}
+		//父文档为段落时
+		if($ptype == 3){
+			return array('status'=>0, 'info'=>'段落下面不允许再添加子内容');
+		}
+		return array('status'=>0, 'info'=>'父文档类型不正确');
     }
 
 }
