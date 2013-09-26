@@ -227,7 +227,7 @@ class ArticleController extends \Admin\Controller\AdminController {
             }
 
             $list = $this->lists($Document,$map,'level DESC,id DESC');
-            intToString($list);
+            int_to_string($list);
             if($map['pid']){
                 // 获取上级文档
                 $article    =   $Document->field('id,title,type')->find($map['pid']);
@@ -441,7 +441,7 @@ class ArticleController extends \Admin\Controller\AdminController {
         $map        =   array('status'=>3,'uid'=>UID);
         $list       =   $this->lists($Document,$map);
         //获取状态文字
-        //intToString($list);
+        //int_to_string($list);
 
         $this->assign('list', $list);
         $this->meta_title = '草稿箱';
@@ -475,7 +475,7 @@ class ArticleController extends \Admin\Controller\AdminController {
         //只查询pid为0的文章
         $map['pid'] = 0;
         $list = $this->lists($Document,$map,'update_time desc');
-        intToString($list);
+        int_to_string($list);
         $this->assign('status', $status);
         $this->assign('list', $list);
         $this->assign('status', $status);

@@ -45,7 +45,6 @@
                 		<label>创建时间：</label>
                 		<input type="text" id="time-start" name="time-start" class="text input-2x" value="" placeholder="起始时间" /> -                		
                         <div class="input-append date" id="datetimepicker"  style="display:inline-block">
-                            <!-- <input size="16" type="text" value="12-02-2012" readonly> -->
                             <input type="text" id="time-end" name="time-end" class="text input-2x" value="" placeholder="结束时间" />
                             <span class="add-on"><i class="icon-th"></i></span>
                         </div>
@@ -165,14 +164,6 @@ $(function(){
 	    minView:2,
 	    autoclose:true
     });
-
-    // $('#time-end').datetimepicker({
-    //     format: 'yyyy-mm-dd',
-    //     language:"zh-CN",
-	   //  minView:2,
-	   //  autoclose:true,
-    //     pickerPosition:'top-left'
-    // });
 
     $('#datetimepicker').datetimepicker({
        format: 'yyyy-mm-dd',

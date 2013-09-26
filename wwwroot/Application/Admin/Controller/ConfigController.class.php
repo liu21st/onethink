@@ -146,7 +146,7 @@ class ConfigController extends AdminController {
         if($list) {
             $this->assign('list',$list);
         }
-        $this->meta_title = $type[$id];
+        $this->meta_title = $type[$id].'设置';
         $this->display();
     }
 }
