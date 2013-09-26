@@ -46,7 +46,7 @@ class UserController extends AdminController {
     public function index(){
         $Member = M("Member")->field(true)->where(array('status'=>array('egt',0)))->order('uid DESC');
         $list   = $this->lists($Member);
-        intToString($list);
+        int_to_string($list);
         $this->assign('_list', $list);
         $this->meta_title = '用户信息';
         $this->display();
@@ -143,7 +143,7 @@ class UserController extends AdminController {
         //获取列表数据
         $Action = M('Action')->where(array('status'=>array('gt',-1)));
         $list   = $this->lists($Action);
-        intToString($list);
+        int_to_string($list);
         $this->assign('_list', $list);
         $this->meta_title = '用户行为';
         $this->display();

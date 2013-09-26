@@ -82,14 +82,14 @@ $list = $this->lists($list,null,null,null);
 > OneThink中状态字段 status 的值与含义对应关系是：-1:删除，0:禁用，1:正常，2:审核通过，3:草稿; 如果数据集含义status字段，直接使用以下函数处理即可：
 
 ```php
-intToString($list);
+int_to_string($list);
 ```
 
 如果需要转换的字段不止一个，可以这样调用：
 
 ```php
 
-intToString($list,array(
+int_to_string($list,array(
     array('status'    =>array(1=>'正常',-1=>'删除',0=>'禁用',2=>'审核通过')),
     array('model_type'=>array(1=>'文章',2=>'下载',3=>'图集')),
 ));

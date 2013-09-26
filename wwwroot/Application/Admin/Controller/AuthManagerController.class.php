@@ -119,7 +119,7 @@ class AuthManagerController extends AdminController{
      */
     public function index(){
         $list = $this->lists('AuthGroup',array('module'=>'admin'),'id asc');
-        $list = intToString($list);
+        $list = int_to_string($list);
         $this->assign( '_list', $list );
         $this->assign( '_use_tip', true );
         $this->meta_title = '权限管理';
@@ -245,7 +245,7 @@ class AuthManagerController extends AdminController{
                        ->join ( $r_table.' a ON m.uid=a.uid' );
         $_REQUEST = array();
         $list = $this->lists($list,null,null,null);
-        intToString($list);
+        int_to_string($list);
         $this->assign( '_list',     $list );
         $this->assign('auth_group', $auth_group);
         $this->assign('this_group', $auth_group[(int)$_GET['group_id']]);

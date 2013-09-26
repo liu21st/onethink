@@ -54,7 +54,7 @@ class ModelController extends AdminController {
     public function index(){
         $map = array('status'=>array('gt',-1));
         $list = $this->lists('DocumentModel',$map);
-        intToString($list);
+        int_to_string($list);
         $this->assign('_list', $list);
         $this->meta_title = '模型管理';
         $this->display();
