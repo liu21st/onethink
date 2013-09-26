@@ -481,7 +481,6 @@ class ArticleController extends \Admin\Controller\AdminController {
         int_to_string($list);
         $this->assign('status', $status);
         $this->assign('list', $list);
-        $this->assign('status', $status);
         $this->meta_title = '我的文档';
         $this->display();
     }
