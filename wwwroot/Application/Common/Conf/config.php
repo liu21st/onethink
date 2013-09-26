@@ -51,5 +51,5 @@ return array(
     'DB_PREFIX' => 'onethink_', // 数据库表前缀
 
     /* 文档模型配置 (文档模型核心配置，请勿更改) */
-    'DOCUMENT_MODEL_TYPE' => array(2 => '主题', 1 => '目录', 3 => '段落', 0 => '专辑'),
+    'DOCUMENT_MODEL_TYPE' => array(2 => '主题', 1 => '目录', 3 => '段落'),
 );
