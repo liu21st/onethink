@@ -174,9 +174,9 @@ class ArticleController extends \Admin\Controller\AdminController {
     /**
      * 分类文档列表页
      * @param $cate_id 分类id
-     * @author huajie <banhuajie@163.com>
+     * @author 朱亚杰 <xcoolcc@gmail.com>
      */
-    public function index($cate_id = null, $status = null, $title = null){
+    public function index($cate_id = null){
     	//获取左边菜单
     	$this->getMenu();
 
@@ -215,12 +215,14 @@ class ArticleController extends \Admin\Controller\AdminController {
     {
         /* 查询条件初始化 */
         $map = array();
-        if(isset($title)){
-            $map['title']  = array('like', '%'.$title.'%');
+        if(isset($_GET['content'])){
+            $map['content']  = array('like', '%'.(string)I('content').'%');
         }
-        if(isset($status)){
-            $map['status'] = $status;
+        if(isset($_GET['status'])){
+            $map['status'] = I('status');
+            $status = $map['status'];
         }else{
+            $status = null;
             $map['status'] = array('egt', 0);
         }
         if ( !isset($_GET['pid']) ) {
@@ -283,12 +285,14 @@ class ArticleController extends \Admin\Controller\AdminController {
     {
         /* 查询条件初始化 */
         $map = array();
-        if(isset($title)){
-            $map['title']  = array('like', '%'.$title.'%');
+        if(isset($_GET['title'])){
+            $map['title']  = array('like', '%'.(string)I('title').'%');
         }
-        if(isset($status)){
-            $map['status'] = $status;
+        if(isset($_GET['status'])){
+            $map['status'] = I('status');
+            $status = $map['status'];
         }else{
+            $status = null;
             $map['status'] = array('egt', 0);
         }
         if ( !isset($_GET['pid']) ) {
