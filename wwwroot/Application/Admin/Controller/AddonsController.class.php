@@ -180,7 +180,7 @@ str;
         if($custom_adminlist)
             $data[]     =   "{$addon_dir}{$custom_adminlist}";
 
-        createDirOrFiles($files);
+        create_dir_or_files($files);
 
         //写文件
         file_put_contents("{$addon_dir}{$addon_name}", $addonFile);
