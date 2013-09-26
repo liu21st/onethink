@@ -229,15 +229,13 @@ class ArticleController extends \Admin\Controller\AdminController {
             $map['pid']    = 0;
         }
         if ( isset($_GET['time-start']) ) {
-            $map['create_time'][] = array('egt',strtotime(I('time-start')));
-
+            $map['update_time'][] = array('egt',strtotime(I('time-start')));
         }
         if ( isset($_GET['time-end']) ) {
-            $map['create_time'][] = array('elt',24*60*60 + strtotime(I('time-end')));
-
+            $map['update_time'][] = array('elt',24*60*60 + strtotime(I('time-end')));
         }
-        if ( isset($_GET['nickname']) ) {
-            $map['uid'] = M('Member')->where(array('nickname'=>I('nickname')))->getField('uid');
+        if ( isset($_GET['username']) ) {
+            $map['uid'] = M('UcenterMember')->where(array('username'=>I('username')))->getField('id');
         }
 
         // 构建列表数据
@@ -251,7 +249,7 @@ class ArticleController extends \Admin\Controller\AdminController {
         $prefix   = C('DB_PREFIX');
         $l_table  = $prefix.('document');
         $r_table  = $prefix.('document_model_article');
-        $list     = M()->field( 'l.id id,l.pid pid,l.title title,l.create_time create_time,l.uid uid,l.status status,r.content content' )
+        $list     = M()->field( 'l.id id,l.pid pid,l.title title,l.update_time update_time,l.uid uid,l.status status,r.content content' )
                        ->table( $l_table.' l' )
                        ->where( $map )
                        ->order( 'l.id DESC')
@@ -299,12 +297,10 @@ class ArticleController extends \Admin\Controller\AdminController {
             $map['pid']    = 0;
         }
         if ( isset($_GET['time-start']) ) {
-            $map['create_time'][] = array('egt',strtotime(I('time-start')));
-
+            $map['update_time'][] = array('egt',strtotime(I('time-start')));
         }
         if ( isset($_GET['time-end']) ) {
-            $map['create_time'][] = array('elt',24*60*60 + strtotime(I('time-end')));
-
+            $map['update_time'][] = array('elt',24*60*60 + strtotime(I('time-end')));
         }
         if ( isset($_GET['nickname']) ) {
             $map['uid'] = M('Member')->where(array('nickname'=>I('nickname')))->getField('uid');
