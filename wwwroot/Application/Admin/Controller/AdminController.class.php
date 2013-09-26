@@ -344,7 +344,7 @@ class AdminController extends Controller {
 
 			//处理控制器中的节点
 			foreach ($menus['main'] as $key=>$item){
-				if (!is_array($item) || empty($item['title']) || empty($item['url']) || empty($item['controllers'])) {
+				if (!is_array($item) || empty($item['title']) || empty($item['url']) ) {
 					$this->error('控制器基类$menus属性元素配置有误');
 				}
 
@@ -361,6 +361,7 @@ class AdminController extends Controller {
 					unset($menus['main'][$key]);
 				}
 
+                if (empty($item['controllers'])) { continue; }
 				$other_controller = explode(',',$item['controllers']);
 				if ( in_array( $controller, $other_controller ) ) {
 					$menus['main'][$key]['class']='current';
@@ -432,6 +433,8 @@ class AdminController extends Controller {
             if($nodes[$key]['hide'] && !$tree){
                 unset($nodes[$key]);//删除隐藏的主节点
             }
+
+            if (empty($value['controllers'])) { continue; }
             $controllers    =   explode(',',$value['controllers']);
             foreach ($controllers as $c){
                 $class      =   'Admin\\Controller\\'.$c.'Controller';
@@ -591,7 +594,7 @@ class AdminController extends Controller {
             if(!empty($list)){
                 preg_replace_callback('/\$([a-zA-Z_]+)/',function($matches) use($keys){
                     if( !in_array($matches[1],$keys) ){
-                        die('<h1>'.'严重问题：数据列表表头定义使用了数据集中不存在的字段:$'.$matches[1].'</h1>');
+                        die('<h1>'.'严重问题：数据列表表头定义使用了数据集中不存在的字段:$'.$matches[1].', 请检查表头和数据集.</h1>');
                     }
                 },$s_thead);
             }
@@ -642,6 +645,7 @@ class AdminController extends Controller {
         }
 
         foreach ($controllers as $controller){
+            if (empty($controller)) {continue;}
             $CReflection = new \ReflectionClass('Admin\\Controller\\'.$controller.'Controller');
             $public = $CReflection->getMethods( \ReflectionMethod::IS_PUBLIC );
             $static = $CReflection->getMethods( \ReflectionMethod::IS_STATIC );
