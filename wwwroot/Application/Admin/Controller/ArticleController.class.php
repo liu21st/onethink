@@ -16,6 +16,9 @@ use COM\Page;
 
 class ArticleController extends \Admin\Controller\AdminController {
 
+	/* 保存允许访问的公共方法 */
+	static protected $allow = array( 'draftbox','mydocument');
+
     /* 左侧节点菜单定义 */
     static protected $nodes =   array(
         array(
@@ -33,9 +36,6 @@ class ArticleController extends \Admin\Controller\AdminController {
             ),
         ),
     	array(
-    		'title'=>'草稿箱', 'url'=>'article/draftbox', 'group'=>'个人中心',
-    	),
-    	array(
     		'title'=>'回收站', 'url'=>'article/recycle', 'group'=>'内容',
     		'operator'=>array(
     			//权限管理页面的按钮
@@ -46,29 +46,6 @@ class ArticleController extends \Admin\Controller\AdminController {
     );
 
     private $cate_id        =   null; //文档分类id
-
-    /**
-     * 控制器初始化方法
-     * @see AdminController::_init()
-     * @author huajie <banhuajie@163.com>
-     */
-    protected function _initialize(){
-        //调用父类的初始化方法
-        parent::_initialize();
-
-        //获取左边菜单
-        if(ACTION_NAME == 'index' || ACTION_NAME == 'add' || ACTION_NAME == 'edit' || ACTION_NAME == 'recycle' || ACTION_NAME == 'draftbox'
-            || ACTION_NAME == 'mydocument'){
-            $this->getMenu();
-        }
-
-        //获取回收站权限
-        $show_recycle = $this->checkRule('Admin/article/recycle');
-        $this->assign('show_recycle', IS_ROOT || $show_recycle);
-        //获取草稿箱权限
-        $show_draftbox = $this->checkRule('Admin/article/draftbox');
-        $this->assign('show_draftbox', IS_ROOT || $show_draftbox);
-    }
 
     /**
      * 检测需要动态判断的文档类目有关的权限
@@ -120,6 +97,7 @@ class ArticleController extends \Admin\Controller\AdminController {
     protected function getMenu(){
         //获取动态分类
         $cate_auth  =   AuthGroupModel::getAuthCategories(UID);	//获取当前用户所有的内容权限节点
+        $cate_auth  =	$cate_auth == null ? array() : $cate_auth;
         $cate       =   M('Category')->where(array('status'=>1))->field('id,title,pid,allow_publish')->order('pid,sort')->select();
 
         //没有权限的分类则不显示
@@ -184,6 +162,13 @@ class ArticleController extends \Admin\Controller\AdminController {
         //获取面包屑信息
         $nav = get_parent_category($cate_id);
         $this->assign('rightNav',   $nav);
+
+        //获取回收站权限
+        $show_recycle = $this->checkRule('Admin/article/recycle');
+        $this->assign('show_recycle', IS_ROOT || $show_recycle);
+        //获取草稿箱权限
+        $show_draftbox = C('OPEN_DRAFTBOX');
+        $this->assign('show_draftbox', IS_ROOT || $show_draftbox);
     }
 
     /**
@@ -192,6 +177,9 @@ class ArticleController extends \Admin\Controller\AdminController {
      * @author huajie <banhuajie@163.com>
      */
     public function index($cate_id = null, $status = null, $title = null){
+    	//获取左边菜单
+    	$this->getMenu();
+
         if($cate_id===null){
             $cate_id = $this->cate_id;
         }
@@ -293,6 +281,9 @@ class ArticleController extends \Admin\Controller\AdminController {
      * @author huajie <banhuajie@163.com>
      */
     public function add(){
+    	//获取左边菜单
+    	$this->getMenu();
+
         $cate_id    =   I('get.cate_id',0);
         $model_id   =   I('get.model_id',0);
 
@@ -335,6 +326,9 @@ class ArticleController extends \Admin\Controller\AdminController {
      * @author huajie <banhuajie@163.com>
      */
     public function edit(){
+    	//获取左边菜单
+    	$this->getMenu();
+
         $id     =   I('get.id','');
         if(empty($id)){
             $this->error('参数不能为空！');
@@ -395,6 +389,9 @@ class ArticleController extends \Admin\Controller\AdminController {
      * @author huajie <banhuajie@163.com>
      */
     public function recycle(){
+    	//获取左边菜单
+    	$this->getMenu();
+
         if ( IS_ROOT ) {
             $map        =   array('status'=>-1);
         }else{
@@ -437,6 +434,9 @@ class ArticleController extends \Admin\Controller\AdminController {
      * @author huajie <banhuajie@163.com>
      */
     public function draftBox(){
+    	//获取左边菜单
+    	$this->getMenu();
+
         $Document   =   D('Document');
         $map        =   array('status'=>3,'uid'=>UID);
         $list       =   $this->lists($Document,$map);
@@ -453,6 +453,9 @@ class ArticleController extends \Admin\Controller\AdminController {
      * @author huajie <banhuajie@163.com>
      */
     public function mydocument($status = null, $title = null){
+    	//获取左边菜单
+    	$this->getMenu();
+
         $Document   =   D('Document');
         /* 查询条件初始化 */
         $map['uid'] = UID;
