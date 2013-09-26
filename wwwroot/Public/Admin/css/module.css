@@ -462,20 +462,27 @@ label.textarea ~ .check-tips {
     padding: 0 14px;
     height: 30px;
     line-height: 30px;
-    color: #fff;
-    border: 1px solid #387C0B;
-    background-color: #4bbd00;
+    color: #000;
+    border-top: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+    /*background-color: #4bbd00;*/
 }
-.page a:hover,
-.page .current {
+.page a:hover
+ {
     text-decoration: none;
     background-color: #387C0B;
+}
+.page .current {
+	border-top: 1px solid #387C0B;
 }
 .page .next,
 .page .prev {
     font-family: "宋体";
+    font-weight: bold;
 }
-
+.page .rows {
+	border-right: 1px solid #CCCCCC;
+}
 /* = 分类管理树形菜单（目前只支持3级）
 ------------------------------------------ */
 .category {
