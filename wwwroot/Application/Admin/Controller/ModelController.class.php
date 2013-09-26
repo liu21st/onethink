@@ -163,9 +163,9 @@ class ModelController extends AdminController {
             $this->error(D('DocumentModel')->getError());
         }else{
             if($res['id']){
-                $this->success('更新成功', U('/admin/model/index'));
+                $this->success('更新成功', U('index'));
             }else{
-                $this->success('新增成功', U('/admin/model/index'));
+                $this->success('新增成功', U('index'));
             }
         }
     }
