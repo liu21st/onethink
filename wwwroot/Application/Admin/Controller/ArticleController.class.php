@@ -172,7 +172,7 @@ class ArticleController extends \Admin\Controller\AdminController {
     }
 
     /**
-     * 内容管理首页
+     * 分类文档列表页
      * @param $cate_id 分类id
      * @author huajie <banhuajie@163.com>
      */
@@ -183,6 +183,36 @@ class ArticleController extends \Admin\Controller\AdminController {
         if($cate_id===null){
             $cate_id = $this->cate_id;
         }
+
+        //获取对应分类下的模型
+        if(!empty($cate_id)){   //没有权限则不查询数据
+            //获取分类绑定的模型
+            $models = get_category($cate_id, 'model');
+            $pid = I('pid');
+            if ( $pid==0 ) {
+                //开发者可根据分类绑定的模型,按需定制分类文档列表
+                $template = $this->indexOfArticle( $cate_id, $models ); //转入默认文档列表方法
+            }else{
+                //开发者可根据父文档的模型类型,按需定制子文档列表
+                $doc_model = M('Document')->where(array('id'=>$pid))->getField('model_id');
+                switch($doc_model){
+                    default:
+                        $template = $this->indexOfReply( $cate_id, $models ); //转入默认文档列表方法
+                }
+            }
+            $this->display($template);
+        }else{
+            $this->error('非法的文档分类');
+        }   
+    }
+
+    /**
+     * 默认文档回复列表方法
+     * @param $models 文档绑定的模型id
+     * @author huajie <banhuajie@163.com>
+     */
+    protected function indexOfReply($cate_id,$models)
+    {
         /* 查询条件初始化 */
         $map = array();
         if(isset($title)){
@@ -192,6 +222,9 @@ class ArticleController extends \Admin\Controller\AdminController {
             $map['status'] = $status;
         }else{
             $map['status'] = array('egt', 0);
+        }
+        if ( !isset($_GET['pid']) ) {
+            $map['pid']    = 0;
         }
         if ( isset($_GET['time-start']) ) {
             $map['create_time'][] = array('egt',strtotime(I('time-start')));
@@ -206,37 +239,99 @@ class ArticleController extends \Admin\Controller\AdminController {
         }
 
         // 构建列表数据
-        if(!empty($cate_id)){   //没有权限则不查询数据
-            $Document = M('Document');
-            $map['category_id'] =   $cate_id;
-            $map['pid']         =   I('pid',0);
-            if($map['pid']){ // 子文档列表忽略分类
-                unset($map['category_id']);
-            }
-
-            $list = $this->lists($Document,$map,'level DESC,id DESC');
-            int_to_string($list);
-            if($map['pid']){
-                // 获取上级文档
-                $article    =   $Document->field('id,title,type')->find($map['pid']);
-                $this->assign('article',$article);
-            }
-            //获取对应分类下的模型
-            $models = get_category($cate_id, 'model');
-            //检查该分类是否允许发布内容
-            $allow_publish  =   get_category($cate_id, 'allow_publish');
-
-            $this->assign('model',  $models);
-            $this->assign('status', $status);
-            $this->assign('list',   $list);
-            $this->assign('allow',  $allow_publish);
-            $this->assign('pid',    $map['pid']);
-
-            $this->meta_title = '文档列表';
-            $this->display();
-        }else{
-            $this->error('非法的文档分类');
+        $Document = M('Document');
+        $map['category_id'] =   $cate_id;
+        $map['pid']         =   I('pid',0);
+        if($map['pid']){ // 子文档列表忽略分类
+            unset($map['category_id']);
         }
+
+        $prefix   = C('DB_PREFIX');
+        $l_table  = $prefix.('document');
+        $r_table  = $prefix.('document_model_article');
+        $list     = M()->field( 'l.id id,l.pid pid,l.title title,l.create_time create_time,l.uid uid,l.status status,r.content content' )
+                       ->table( $l_table.' l' )
+                       ->where( $map )
+                       ->order( 'l.id DESC')
+                       ->join ( $r_table.' r ON l.id=r.id' );
+        $_REQUEST = array();
+        $list = $this->lists($list,null,null,null);
+        int_to_string($list);
+
+        if($map['pid']){
+            // 获取上级文档
+            $article    =   $Document->field('id,title,type')->find($map['pid']);
+            $this->assign('article',$article);
+        }
+        //检查该分类是否允许发布内容
+        $allow_publish  =   get_category($cate_id, 'allow_publish');
+
+        $this->assign('model',  array(1));
+        $this->assign('status', $status);
+        $this->assign('list',   $list);
+        $this->assign('allow',  $allow_publish);
+        $this->assign('pid',    $map['pid']);
+        $this->meta_title = '回复列表';
+        return 'reply';//默认回复列表模板
+    }
+    /**
+     * 默认文档列表方法
+     * @param $models 文档绑定的模型id
+     * @author huajie <banhuajie@163.com>
+     */
+    protected function indexOfArticle($cate_id,$models)
+    {
+        /* 查询条件初始化 */
+        $map = array();
+        if(isset($title)){
+            $map['title']  = array('like', '%'.$title.'%');
+        }
+        if(isset($status)){
+            $map['status'] = $status;
+        }else{
+            $map['status'] = array('egt', 0);
+        }
+        if ( !isset($_GET['pid']) ) {
+            $map['pid']    = 0;
+        }
+        if ( isset($_GET['time-start']) ) {
+            $map['create_time'][] = array('egt',strtotime(I('time-start')));
+
+        }
+        if ( isset($_GET['time-end']) ) {
+            $map['create_time'][] = array('elt',24*60*60 + strtotime(I('time-end')));
+
+        }
+        if ( isset($_GET['nickname']) ) {
+            $map['uid'] = M('Member')->where(array('nickname'=>I('nickname')))->getField('uid');
+        }
+
+        // 构建列表数据
+        $Document = M('Document');
+        $map['category_id'] =   $cate_id;
+        $map['pid']         =   I('pid',0);
+        if($map['pid']){ // 子文档列表忽略分类
+            unset($map['category_id']);
+        }
+
+        $list = $this->lists($Document,$map,'level DESC,id DESC');
+        int_to_string($list);
+        if($map['pid']){
+            // 获取上级文档
+            $article    =   $Document->field('id,title,type')->find($map['pid']);
+            $this->assign('article',$article);
+        }
+        //检查该分类是否允许发布内容
+        $allow_publish  =   get_category($cate_id, 'allow_publish');
+
+        $this->assign('model',  $models);
+        $this->assign('status', $status);
+        $this->assign('list',   $list);
+        $this->assign('allow',  $allow_publish);
+        $this->assign('pid',    $map['pid']);
+
+        $this->meta_title = '文档列表';
+        return 'index';
     }
 
     /**

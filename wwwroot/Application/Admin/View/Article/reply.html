@@ -9,7 +9,7 @@
 	<!-- 标题 -->
 	<div class="main-title">
 		<h2>
-		文档列表({$_total}) [
+		回复列表({$_total}) [
 		<volist name="rightNav" id="nav">
 		<a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a>
 			<if condition="count($rightNav) gt $i"><i class="ca"></i></if>
@@ -43,9 +43,6 @@
 			</div>
             <button class="btn ajax-post" target-form="ids" url="{:U("Article/setStatus",array("status"=>1))}">启 用</button>
 			<button class="btn ajax-post" target-form="ids" url="{:U("Article/setStatus",array("status"=>0))}">禁 用</button>
-			<button class="btn ajax-post" target-form="ids" url="{:U("Article/move")}">移 动</button>
-			<button class="btn ajax-post" target-form="ids" url="{:U("Article/copy")}">复 制</button>
-			<button class="btn ajax-post" target-form="ids" hide-data="true" url="{:U("Article/paste")}">粘 贴</button>
 			<input type="hidden" class="hide-data" name="cate_id" value="{$cate_id}"/>
 			<input type="hidden" class="hide-data" name="pid" value="{$pid}"/>
 			<button class="btn ajax-post confirm" target-form="ids" url="{:U("Article/setStatus",array("status"=>-1))}">删 除</button>
@@ -99,17 +96,17 @@
                     'tag'   =>'a',
                     'href'  =>'Article/index?cate_id=$category_id&pid=$id',
                 ),
+                'content'=>array(
+					'_title'=>'回复',
+                    'tag'   =>'a',
+                    'href'  =>'Article/edit?cate_id=$category_id&id=$id',
+                    'func'  =>'mb_strimwidth(($content),0,60,"...","utf-8")',
+				),
 				'pid'=>array(
 					'_title'=>'子文档',
 					'tag'   =>'span',
 					'func'	=>	'get_subdocument_count($id)',
 				),
-				'type'=>array(
-					'_title'=>'类型',
-					'tag'   =>'span',
-					'func'	=>	'get_document_type($type)',
-				),
-                'level'=>'优先级',
                 'uid'  =>array(
                     '_title'=>'创建者',
                     'tag' =>'span',
@@ -121,7 +118,6 @@
                     'func'  => 'date("m-d H:i",$update_time)',
                 ),
                 'status_text'=>'状态',
-                'view'=>'浏览',
                 '操作'=>array(
 					'编辑'=>array( 'href' => 'Article/edit?cate_id=$category_id&id=$id',),
                     '审核'=>array( 'href' => 'Article/setStatus?status=1&ids=$id', 'class'=>'ajax-get', 'condition'=>'$status==2',),
