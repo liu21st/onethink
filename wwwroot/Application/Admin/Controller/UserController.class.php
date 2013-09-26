@@ -182,9 +182,9 @@ class UserController extends AdminController {
             $this->error(D('Action')->getError());
         }else{
             if($res['id']){
-                $this->success('更新行为成功！', U('/admin/user/action'));
+                $this->success('更新行为成功！', U('action'));
             }else{
-                $this->success('新增行为成功！', U('/admin/user/action'));
+                $this->success('新增行为成功！', U('action'));
             }
         }
     }

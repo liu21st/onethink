@@ -52,6 +52,16 @@ class PublicController extends \Think\Controller {
             if(is_login()){
                 $this->redirect('Index/index');
             }else{
+				/* 读取数据库中的配置 */
+				$config	=	S('DB_CONFIG_DATA');
+				if(!$config){
+					$config	=	D('Config')->lists();
+					S('DB_CONFIG_DATA',$config);
+				}
+				C($config); //添加配置
+				
+				// 初始化钩子
+				init_hooks();
                 $this->display();
             }
         }
