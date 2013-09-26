@@ -564,7 +564,7 @@ body{
     border:1px solid #cdcdcd;
     color: #404040;
     line-height: 35px;
-    width: 49%;
+    width: 20%;
     height: 376px;
     
 }
@@ -582,8 +582,14 @@ body{
     overflow-y:scroll;
     height: 334px; 
 }
-.edit_sort_r {
-    float: right;
+.edit_sort_l {
+    float: left;
+    margin-right: 20px;
+}
+.tab2 p {
+    margin-bottom: 10px;
+    font-weight: bold;
+    text-indent: 15px;
 }
 .dragsort li {
     margin-bottom: 5px;
