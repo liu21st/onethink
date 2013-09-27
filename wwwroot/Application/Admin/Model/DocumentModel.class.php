@@ -143,7 +143,7 @@ class DocumentModel extends Model{
      */
     public function update(){
     	/* 检查文档类型是否符合要求 */
-    	$res = $this->checkDocumentType( I('post.type'), I('post.pid') );
+    	$res = $this->checkDocumentType( I('type'), I('pid') );
     	if(!$res['status']){
     		$this->error = $res['info'];
     		return false;
@@ -589,6 +589,8 @@ class DocumentModel extends Model{
 		if($ptype == 2){
 			if($type != 3){
 				return array('status'=>0, 'info'=>'主题下面只允许添加段落');
+			}else{
+				return $res;
 			}
 		}
 		//父文档为段落时
