@@ -43,7 +43,7 @@
 							</volist>
 						</ul>
 					</div>
-					
+
 					<div class="form-item cf edit_sort edit_sort_r">
 						<span>高级</span>
 						<ul id="extend" class="dragsort">
@@ -54,7 +54,9 @@
 							</volist>
 						</ul>
 					</div>
-					<input type="hidden" name="fields" value="{:htmlspecialchars(json_encode($fields))}">
+					<if condition="!empty($fields)">
+						<input type="hidden" name="fields" value="{:htmlspecialchars(json_encode($fields))}">
+					</if>
 				</div>
 
 				<!-- 按钮 -->
