@@ -208,7 +208,7 @@ class ArticleController extends \Admin\Controller\AdminController {
             $this->display($template);
         }else{
             $this->error('非法的文档分类');
-        }   
+        }
     }
 
     /**
@@ -228,7 +228,7 @@ class ArticleController extends \Admin\Controller\AdminController {
             $status = $map['status'];
         }else{
             $status = null;
-            $map['status'] = array('egt', 0);
+            $map['status'] = array('in', '0,1,2');
         }
         if ( !isset($_GET['pid']) ) {
             $map['pid']    = 0;
@@ -296,7 +296,7 @@ class ArticleController extends \Admin\Controller\AdminController {
             $status = $map['status'];
         }else{
             $status = null;
-            $map['status'] = array('egt', 0);
+            $map['status'] = array('in', '0,1,2');
         }
         if ( !isset($_GET['pid']) ) {
             $map['pid']    = 0;
@@ -685,6 +685,7 @@ class ArticleController extends \Admin\Controller\AdminController {
             	$Model  =   M('Document');
             	$data   =   $Model->find($value);
             	unset($data['id']);
+            	unset($data['name']);
             	$data['category_id']    =   $cate_id;
             	$data['pid'] 			=   $pid;
             	$data['create_time']    =   NOW_TIME;
