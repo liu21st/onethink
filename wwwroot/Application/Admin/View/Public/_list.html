@@ -54,13 +54,13 @@ foreach ($_thead as $key => $th){
             <if condition="array_key_exists($key,$_thead)" >
                     <td>
 <?php
-                    $td = strip_tags($td);
                     if( strpos($key,'_')===0 ){
                         $td = preg_replace_callback('/\$([a-zA-Z_]+)/',function($matches) use($row) {
                             return ($row[$matches[1]]);
                         },$td);
                         echo $td;
                     }else if( is_array($_thead[$key]) ) { 
+                        $td = strip_tags($td);
                         if ( array_key_exists('func',$_thead[$key]) ) {
                             $_bool=true;
                             $_func = preg_replace_callback('/\$([a-zA-Z_]+)/',function($matches) use($row,&$_bool) {
