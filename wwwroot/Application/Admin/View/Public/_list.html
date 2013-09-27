@@ -54,6 +54,7 @@ foreach ($_thead as $key => $th){
             <if condition="array_key_exists($key,$_thead)" >
                     <td>
 <?php
+                    $td = strip_tags($td);
                     if( strpos($key,'_')===0 ){
                         $td = preg_replace_callback('/\$([a-zA-Z_]+)/',function($matches) use($row) {
                             return ($row[$matches[1]]);
