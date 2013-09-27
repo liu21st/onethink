@@ -188,6 +188,7 @@ class ArticleController extends \Admin\Controller\AdminController {
         if(!empty($cate_id)){   //没有权限则不查询数据
             //获取分类绑定的模型
             $models = get_category($cate_id, 'model');
+            $allow_reply = get_category($cate_id, 'reply');//分类文档允许回复
             $pid = I('pid');
             if ( $pid==0 ) {
                 //开发者可根据分类绑定的模型,按需定制分类文档列表
@@ -198,7 +199,7 @@ class ArticleController extends \Admin\Controller\AdminController {
 
                 switch($doc_model['model_id']){
                     default:
-                        if($doc_model['type']==2){
+                        if($doc_model['type']==2 && $allow_reply){
                             $template = $this->indexOfReply( $cate_id, $models ); //转入子文档列表方法
                         }else{
                             $template = $this->indexOfArticle( $cate_id, $models ); //转入默认文档列表方法

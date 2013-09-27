@@ -23,7 +23,7 @@ class ChannelModel extends Model{
 	 */
 	public function lists($field = true){
 		$map = array('status' => 1);
-		$list = $this->field($field)->where($map)->select();
+		$list = $this->field($field)->where($map)->order('sort desc')->select();
 
 		return list_to_tree($list, 'id', 'pid', '_');
 	}
