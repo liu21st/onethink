@@ -234,12 +234,20 @@ class DocumentModel extends Model{
 	}
 
 	/**
-	 * 获取数据状态
-	 * @return integer 数据状态
-	 */
-	protected function getStatus(){
-		return 1; //TODO: 根据实际情况返回status
-	}
+     * 获取数据状态
+     * @return integer 数据状态
+     * @author huajie <banhuajie@163.com>
+     */
+    protected function getStatus(){
+        $cate = I('post.category_id');
+        $check = M('Category')->getFieldById($cate, 'check');
+        if($check){
+            $status = 2;
+        }else{
+        	$status = 1;
+        }
+        return $status;
+    }
 
 	/**
 	 * 验证分类是否允许发布内容
