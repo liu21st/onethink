@@ -5,20 +5,46 @@
     <include file="sidemenu" />
 </block>
 
-
 <block name="body">
 	<!-- 标题 -->
 	<div class="main-title">
 		<h2>
-		我的文档({$_total})
+		回复列表({$_total}) [
+		<volist name="rightNav" id="nav">
+		<a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a>
+			<if condition="count($rightNav) gt $i"><i class="ca"></i></if>
+		</volist>
+		<present name="article">：<a href="{:U('article/index','cate_id='.$cate_id.'&pid='.$article['id'])}">{$article.title}</a></present>
+		]
+		<eq name="allow" value="0">（该分类不允许发布内容）</eq>
 		</h2>
 	</div>
 
 	<!-- 按钮工具栏 -->
 	<div class="cf">
 		<div class="fl">
+			<div class="btn-group">
+				<eq name="allow" value="1">
+					<button class="btn" id="document_add" <if condition="count($model) eq 1">url="{:U('article/add',array('cate_id'=>$cate_id,'pid'=>I('pid',0),'model_id'=>$model[0]))}"</if>>新 增
+						<if condition="count($model) gt 1"><i class="btn-arrowdown"></i></if>
+					</button>
+					<if condition="count($model) gt 1">
+					<ul class="dropdown nav-list">
+						<volist name="model" id="vo">
+						<li><a href="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$vo,'pid'=>I('pid',0)))}">{$vo|get_document_model='title'}</a></li>
+						</volist>
+					</ul>
+					</if>
+				<else/>
+					<button class="btn disabled" >新 增
+						<if condition="count($model) gt 1"><i class="btn-arrowdown"></i></if>
+					</button>
+				</eq>
+			</div>
             <button class="btn ajax-post" target-form="ids" url="{:U("Article/setStatus",array("status"=>1))}">启 用</button>
 			<button class="btn ajax-post" target-form="ids" url="{:U("Article/setStatus",array("status"=>0))}">禁 用</button>
+			<input type="hidden" class="hide-data" name="cate_id" value="{$cate_id}"/>
+			<input type="hidden" class="hide-data" name="pid" value="{$pid}"/>
 			<button class="btn ajax-post confirm" target-form="ids" url="{:U("Article/setStatus",array("status"=>-1))}">删 除</button>
 		</div>
 
@@ -35,25 +61,28 @@
 						<li><a href="javascript:;" value="2">待审核</a></li>
 					</ul>
 				</div>
-				<input type="text" name="title" class="search-input" value="{:I('title')}" placeholder="请输入标题文档">
-				<a class="sch-btn" href="javascript:;" id="search" url="{:U('article/mydocument','pid='.I('pid',0).'&cate_id='.$cate_id,false)}"><i class="btn-search"></i></a>
+				<input type="text" name="content" class="search-input" value="{:I('content')}" placeholder="请输入回复关键字">
+				<a class="sch-btn" href="javascript:;" id="search" url="{:U('article/index','pid='.I('pid',0).'&cate_id='.$cate_id,false)}"><i class="btn-search"></i></a>
 			</div>
             <div class="btn-group-click adv-sch-pannel fl">
                 <button class="btn">高 级<i class="btn-arrowdown"></i></button>
                 <div class="dropdown cf">
                 	<div class="row">
-                		<label>创建时间：</label>
-                		<input type="text" id="time-start" name="time-start" class="text input-2x" value="" placeholder="起始时间" /> -                		
-                        <div class="input-append date" id="datetimepicker"  style="display:inline-block">
-                            <input type="text" id="time-end" name="time-end" class="text input-2x" value="" placeholder="结束时间" />
+                		<label>更新时间：</label>
+                		<input type="text" id="time-start" name="time-start" class="text input-2x" value="" placeholder="起始时间" /> -
+                        <div class="input-append date" id="datetimepicker" style="display:inline-block">
+                            <input type="text" id="time-end" name="time-end" class="text input-2x" value="" placeholder="结束时间"/>
                             <span class="add-on"><i class="icon-th"></i></span>
                         </div>
                 	</div>
+                    <!-- <div class="row"> -->
+                        <!-- <label>创建者：</label> -->
+                        <!-- <input type="text" name="username" class="text input-2x" value="" placeholder="请输入用户名"> -->
+                    <!-- </div> -->
                 </div>
             </div>
 		</div>
 	</div>
-
 
 	<!-- 数据表格 -->
     <div class="data-table">
@@ -70,32 +99,31 @@
                     'tag'   =>'a',
                     'href'  =>'Article/index?cate_id=$category_id&pid=$id',
                 ),
+                'content'=>array(
+					'_title'=>'回复',
+                    'tag'   =>'a',
+                    'href'  =>'Article/edit?cate_id=$category_id&id=$id',
+                    'func'  =>'mb_strimwidth(($content),0,60,"...","utf-8")',
+				),
 				'pid'=>array(
 					'_title'=>'子文档',
 					'tag'   =>'span',
 					'func'	=>	'get_subdocument_count($id)',
 				),
-				'type'=>array(
-					'_title'=>'类型',
-					'tag'   =>'span',
-					'func'	=>	'get_document_type($type)',
-				),
-                'category_id'  =>array(
-                    '_title'=>'分类',
+                'uid'  =>array(
+                    '_title'=>'创建者',
                     'tag' =>'span',
-                    'func'  =>'get_cate($category_id)',
+                    'func'  =>'get_username($uid)',
                 ),
-                'level'=>'优先级',
                 'update_time'=>array(
                     '_title'=>'最后更新',
                     'tag'   =>'span',
                     'func'  => 'date("m-d H:i",$update_time)',
                 ),
                 'status_text'=>'状态',
-                'view'=>'浏览',
                 '操作'=>array(
 					'编辑'=>array( 'href' => 'Article/edit?cate_id=$category_id&id=$id',),
-                    '禁用'=>array( 'href' => 'Article/setStatus?status=1&ids=$id', 'class'=>'ajax-get', 'condition'=>'$status==2',),
+                    '审核'=>array( 'href' => 'Article/setStatus?status=1&ids=$id', 'class'=>'ajax-get', 'condition'=>'$status==2',),
                     '禁用'=>array( 'href' => 'Article/setStatus?status=0&ids=$id', 'class'=>'ajax-get', 'condition'=>'$status==1',),
                     '启用'=>array( 'href' => 'Article/setStatus?status=1&ids=$id', 'class'=>'ajax-get', 'condition'=>'$status==0',),
                     '删除'=>array( 'href' => 'Article/setStatus?status=-1&ids=$id', 'class'=>'confirm ajax-get' ),
@@ -104,7 +132,6 @@
             echo $_table_list = $__controller__->tableList($list,$thead);
         ?>
 	</div>
-
 	<!-- 分页 -->
     <div class="page">
         {$_page}
@@ -152,6 +179,14 @@ $(function(){
 		})
 	});
 
+	//只有一个模型时，点击新增
+	$('#document_add').click(function(){
+		var url = $(this).attr('url');
+		if(url != undefined && url != ''){
+			window.location.href = url;
+		}
+	});
+
     //回车自动提交
     $('.search-form').find('input').keyup(function(event){
         if(event.keyCode===13){
@@ -173,7 +208,6 @@ $(function(){
         autoclose:true,
         pickerPosition:'bottom-left'
     })
-    
 })
 </script>
 </block>

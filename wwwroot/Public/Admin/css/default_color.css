@@ -85,12 +85,9 @@ a:hover{
 .page span {
     color: #686868;
     border: 1px solid #CCCCCC;
-    /*border: 1px solid #CCCCCC;*/
-    /*background-color: #4bbd00;*/
 }
 .page a:hover
  {
-    /*background-color: #387C0B;*/
     background: #E1E1E1;
 }
 .page .current {
