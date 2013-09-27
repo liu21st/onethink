@@ -108,7 +108,7 @@ function check_document_position($pos = 0, $contain = 0){
  *  )
  *
  */
-function int_to_string(&$data,$map=array('status'=>array(1=>'正常',-1=>'删除',0=>'禁用',2=>'审核通过',3=>'草稿'))) {
+function int_to_string(&$data,$map=array('status'=>array(1=>'正常',-1=>'删除',0=>'禁用',2=>'未审核',3=>'草稿'))) {
     $data = (array)$data;
     foreach ($data as $key => $row){
         foreach ($map as $col=>$pair){

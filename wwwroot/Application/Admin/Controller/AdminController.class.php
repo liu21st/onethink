@@ -197,7 +197,6 @@ class AdminController extends Controller {
      */
     protected function forbid ( $model , $where = array() , $msg = array( 'success'=>'状态禁用成功！', 'error'=>'状态禁用失败！')){
         $data    =  array('status' => 0);
-        $where   =  array_merge(array('status' => 1),$where);
         $this->editRow( $model , $data, $where, $msg);
     }
 
@@ -212,7 +211,6 @@ class AdminController extends Controller {
      */
     protected function resume (  $model , $where = array() , $msg = array( 'success'=>'状态恢复成功！', 'error'=>'状态恢复失败！')){
         $data    =  array('status' => 1);
-        $where   =  array_merge(array('status' => 0),$where);
         $this->editRow(   $model , $data, $where, $msg);
     }
 

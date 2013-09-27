@@ -7,7 +7,7 @@ $operator=array();
 $i=1;
 foreach ($_thead as $key => $th){
     if( isset($th['condition']) ){
-        $c = @eval( 'return '.$th['condition'].';' );
+        $c = @eval( 'return '.addslashes($th['condition']).';' );
         if (!$c){
             unset($_thead[$key]);
             continue;
@@ -60,13 +60,14 @@ foreach ($_thead as $key => $th){
                         },$td);
                         echo $td;
                     }else if( is_array($_thead[$key]) ) { 
+                        $td = strip_tags($td);
                         if ( array_key_exists('func',$_thead[$key]) ) {
                             $_bool=true;
                             $_func = preg_replace_callback('/\$([a-zA-Z_]+)/',function($matches) use($row,&$_bool) {
                                 if ($row[$matches[1]]===null || !is_scalar($row[$matches[1]])) {
                                     $_bool = false;
                                 }
-                                return ('"'.$row[$matches[1]].'"');
+                                return ('\''. addcslashes($row[$matches[1]],"'").'\'');
                             },$_thead[$key]['func']);
 
                             if ($_bool) {
@@ -81,10 +82,18 @@ foreach ($_thead as $key => $th){
 
                         $Doc = new DOMDocument('1.0','utf-8');
                         //创建元素
-                        $ele = $Doc->createElement($_thead[$key]['tag'],$td);
+                        if ( preg_match('/\/.*?\.(:?jpg|jpeg|gif|png)$/i',$td) && isset($_thead[$key]['_img']) ) {
+                            //图片元素
+                            $img = $Doc->createElement('img');
+                            $img->setAttribute('src',$td);
+                            $ele = $Doc->createElement($_thead[$key]['tag']);
+                            $ele->appendChild($img);
+                        }else{
+                            $ele = $Doc->createElement($_thead[$key]['tag'],$td);
+                        }
                         //为元素添加属性
                         foreach ($_thead[$key] as $k=>$v) {
-                            if(strtolower($k)!='_title' && strtolower($k)!='tag' && strtolower($k)!='func'){
+                            if(strtolower($k)!='_title' && strtolower($k)!='_img' &&strtolower($k)!='tag' && strtolower($k)!='func'){
                                 $_bool = true;
                                 $_v = preg_replace_callback('/\$([a-zA-Z_]+)/',function($matches) use($row,&$_bool) {
                                     if ($row[$matches[1]]===null || !is_scalar($row[$matches[1]])) {
@@ -134,7 +143,7 @@ foreach ($_thead as $key => $th){
 
                                 if( strtolower($attr)=='condition' ){
                                     if ( $_bool ) {
-                                        $_c = @eval( 'return '.$_value.';' );
+                                        $_c = @eval( 'return '.addslashes($_value).';' );
                                         if (!$_c){
                                             continue 2;
                                         }

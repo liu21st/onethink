@@ -10,3 +10,9 @@ MODIFY COLUMN `name`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT
 */
 ALTER TABLE `onethink_document`
 MODIFY COLUMN `type`  tinyint(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '内容类型（1-目录，2-主题，3-段落）' AFTER `model_id`;
+/**
+分类表增加是否需要审核的字段
+2013-9-27
+*/
+ALTER TABLE `think_category`
+ADD COLUMN `check`  tinyint(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '发布的文章是否需要审核（0：不需要，1：需要）' AFTER `reply`;

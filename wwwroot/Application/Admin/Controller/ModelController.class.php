@@ -132,6 +132,7 @@ class ModelController extends AdminController {
 
         	/* 获取扩展模型字段 */
         	$extend = D(ucfirst($data['name']), 'Logic')->getDbFields();
+        	$extend = empty($extend) ? array() : $extend;
         	//id字段不需要排序
         	if(in_array('id', $extend)){
         		unset($extend[array_search('id', $extend)]);
@@ -142,7 +143,7 @@ class ModelController extends AdminController {
         		$extend[$key] = ($value + 1) * -1;
         	}
 
-        	$data['fields'] = array_merge($base, $extend);
+        	$data['fields'] = empty($extend) ? array() : array_merge($base, $extend);
         }else{
         	$data['fields'] = json_decode($data['fields'], true);
         }
