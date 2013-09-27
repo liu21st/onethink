@@ -37,7 +37,7 @@ class Local{
      */
     public function checkRootPath(){
         if(!(is_dir($this->rootPath) && is_writable($this->rootPath))){
-            $this->error = '上传根目录不存在！';
+            $this->error = '上传根目录不存在！请尝试手动创建:'.$this->rootPath;
             return false;
         }
         return true;
