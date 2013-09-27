@@ -108,10 +108,10 @@ a:hover{
 	border-bottom-color: #E7E7E7;
 }
 .category .fold .icon-fold {
-	background-image: url(../images/fold_icon.png);
+	background-image: url(../images/blue_color/bg_icon.png) -100px 25px;
 }
 .category .fold .icon-unfold {
-	background-image: url(../images/fold_icon.png);
+	background-image: url(../images/blue_color/bg_icon.png) -125px 25px;
 }
 .category .tab-sign {
 	background-image: url(../images/tab_sign.png);
@@ -124,7 +124,7 @@ a:hover{
 }
 
 .icon-add {
-	background: url(../images/add.png) no-repeat 0 0;
+	background: url(../images/blue_color/bg_icon.png) no-repeat 0 0;
 }
 
 .close {
