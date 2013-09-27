@@ -88,11 +88,7 @@ a:hover{
 .page a,
 .page span {
     color: #fff;
-    background-color: #696969;
-}
-.page a:hover,
-.page .current {
-    background-color: #a0a0a0;
+    /*background-color: #696969;*/
 }
 
 /* uploadify插件上传按钮 */
@@ -193,7 +189,7 @@ select {
 }
 .btn-search {
 	/* 搜索提交按钮图片 */
-	background: url(../images/icon_search.png) no-repeat 0 0;
+	background: url(../images/blue_color/bg_icon.png) no-repeat -50px 0;
 }
 
 .focus{
@@ -278,10 +274,10 @@ select {
 
 /*高级搜索箭头*/
 .btn-arrowdown {
-    background: url(../images/angle-down.png) no-repeat 0 0;
+    background: url(../images/blue_color/bg_icon.png) no-repeat 0 -25;
 }
 .btn-arrowup {
-    background: url(../images/angle-up.png) no-repeat 0 0;
+    background: url(../images/blue_color/bg_icon.png) no-repeat -25 -25;
 }
 
 /* 下拉弹出按钮 */
@@ -313,7 +309,7 @@ select {
     background-color: #353535;
 }
 .header .logo {
-    background: url(../images/logo.png) no-repeat 10px center;
+    background: url(../images/blue_color/bg_icon.png) no-repeat 0 -45px;
 }
 /* 主导航 */
 .main-nav a {
@@ -331,7 +327,7 @@ select {
 
 /* 顶部右侧 用户bar */
 .header .user-bar .user-entrance {
-    background: url(../images/user.png) no-repeat 0 0;
+    background: url(../images/blue_color/bg_icon.png) no-repeat -150px 0;
 }
 .header .user-menu {
     border-color: #ddd;
@@ -362,15 +358,15 @@ select {
 /* 侧边图标 */
 .subnav h3 .icon {
 	/* 展开后图标 */
-    background: url(../images/minus.png) no-repeat center center;
+    background: url(../images/blue_color/bg_icon.png) no-repeat -100px 0px;
 }
 .subnav h3 .icon-fold {
 	/* 收起后图标 */
-    background: url(../images/plus.png) no-repeat center center;
+    background: url(../images/blue_color/bg_icon.png) no-repeat -75px 0px;
 }
 .recycle {
 	/* 回收站图标 */
-    background: url(../images/recycle.png) no-repeat center center;
+    background: url(../images/blue_color/bg_icon.png) no-repeat -125px 0px;
 }
 
 /* 左侧二级菜单 */
@@ -430,13 +426,17 @@ select {
 /* 列表分页 */
 .page a,
 .page span {
-    color: #fff;
-    border: 1px solid #3c289c;
-    background-color: #7963df;
+    color: #000;
+    border: 1px solid #ccc;
+    /*background-color: #7963df;*/
 }
-.page a:hover,
+.page a:hover {
+    background-color: #E1E1E1;
+}
 .page .current {
-    background-color: #3c289c;
+	border-top: 3px solid #7963DF;
+	height: 28px;
+	line-height: 26px;
 }
 
 /* 版权信息 */
