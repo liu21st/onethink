@@ -15,4 +15,4 @@ MODIFY COLUMN `type`  tinyint(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '内容类�
 2013-9-27
 */
 ALTER TABLE `think_category`
-ADD COLUMN `check`  tinyint(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '发布的文章是否需要审核' AFTER `reply`;
+ADD COLUMN `check`  tinyint(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '发布的文章是否需要审核（0：不需要，1：需要）' AFTER `reply`;
