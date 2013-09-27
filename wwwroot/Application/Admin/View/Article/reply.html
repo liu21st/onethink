@@ -9,7 +9,7 @@
 	<!-- 标题 -->
 	<div class="main-title">
 		<h2>
-		回复列表({$_total}) [
+		子文档列表({$_total}) [
 		<volist name="rightNav" id="nav">
 		<a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a>
 			<if condition="count($rightNav) gt $i"><i class="ca"></i></if>
@@ -61,7 +61,7 @@
 						<li><a href="javascript:;" value="2">待审核</a></li>
 					</ul>
 				</div>
-				<input type="text" name="content" class="search-input" value="{:I('content')}" placeholder="请输入回复关键字">
+				<input type="text" name="content" class="search-input" value="{:I('content')}" placeholder="请输入内容关键字">
 				<a class="sch-btn" href="javascript:;" id="search" url="{:U('article/index','pid='.I('pid',0).'&cate_id='.$cate_id,false)}"><i class="btn-search"></i></a>
 			</div>
             <div class="btn-group-click adv-sch-pannel fl">
