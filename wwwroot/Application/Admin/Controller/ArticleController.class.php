@@ -563,12 +563,10 @@ class ArticleController extends \Admin\Controller\AdminController {
             $map['status']  =   array('egt', 0);
         }
         if ( isset($_GET['time-start']) ) {
-            $map['create_time'][] = array('egt',strtotime(I('time-start')));
-
+            $map['update_time'][] = array('egt',strtotime(I('time-start')));
         }
         if ( isset($_GET['time-end']) ) {
-            $map['create_time'][] = array('elt',24*60*60 + strtotime(I('time-end')));
-
+            $map['update_time'][] = array('elt',24*60*60 + strtotime(I('time-end')));
         }
         //只查询pid为0的文章
         $map['pid'] = 0;
