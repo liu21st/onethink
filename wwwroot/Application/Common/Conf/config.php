@@ -20,10 +20,6 @@ return array(
     /* 系统数据加密设置 */
     'DATA_AUTH_KEY' => 'kWdi?&#LZ[PYjDag4*7z,Rf/|CxpVtN)@09UsvBq', //默认数据加密KEY
 
-	'APP_SUB_DOMAIN_DEPLOY'	=>true,
-	'APP_SUB_DOMAIN_RULES'=>array(
-		'admin'=>array('Admin/')
-	),
     /* 调试配置 */
     'SHOW_PAGE_TRACE' => true,
 

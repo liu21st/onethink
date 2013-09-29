@@ -23,7 +23,6 @@ class DocumentModel extends Model{
 		array('title', 'require', '标题不能为空', self::VALUE_VALIDATE, 'regex', self::MODEL_BOTH),
 		array('category_id', 'require', '分类不能为空', self::MUST_VALIDATE , 'regex', self::MODEL_INSERT),
 		array('category_id', 'require', '分类不能为空', self::EXISTS_VALIDATE , 'regex', self::MODEL_UPDATE),
-		array('category_id,type', 'checkCategory', '该分类不允许发布内容', self::MUST_VALIDATE , 'callback', self::MODEL_INSERT),
 		array('category_id', 'checkCategory', '该分类不允许发布内容', self::EXISTS_VALIDATE , 'callback', self::MODEL_UPDATE),
 		array('model_id,category_id', 'checkModel', '该分类没有绑定当前模型', self::MUST_VALIDATE , 'callback', self::MODEL_INSERT),
 	);
@@ -255,19 +254,8 @@ class DocumentModel extends Model{
 	 * @return boolean     true-允许发布内容，false-不允许发布内容
 	 */
 	protected function checkCategory($id){
-		if(is_array($id)){
-			if($id['category_id'] == 0 && in_array($id['type'], array(1, 3))){ //段落和目录分类必须为0
-				return true;
-			} elseif($id['category_id'] != 0 && in_array($id['type'], array(0, 2))) {
-				$publish = get_category($id['category_id'], 'allow_publish');
-				return $publish ? true : false;
-			} else {
-				return false;
-			}
-		} else {
-			$publish = get_category($id, 'allow_publish');
-			return $publish ? true : false;
-		}
+		$publish = get_category($id, 'allow_publish');
+		return $publish ? true : false;
 	}
 
 	/**
