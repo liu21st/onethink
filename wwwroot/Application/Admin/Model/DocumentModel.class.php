@@ -442,6 +442,13 @@ class DocumentModel extends Model{
     public function autoSave(){
         $post = I('post.');
 
+        /* 检查文档类型是否符合要求 */
+        $res = $this->checkDocumentType( I('type'), I('pid') );
+        if(!$res['status']){
+        	$this->error = $res['info'];
+        	return false;
+        }
+
         //触发自动保存的字段
         $save_list = array('name','title','description','position','link_id','cover_id','dateline','create_time','content');
         foreach ($save_list as $value){
@@ -464,7 +471,6 @@ class DocumentModel extends Model{
             array('link_id', 'url', '外链格式不正确', self::VALUE_VALIDATE, 'regex', self::MODEL_BOTH),
             array('description', '1,140', '简介长度不能超过140个字符', self::VALUE_VALIDATE, 'length', self::MODEL_BOTH),
             array('category_id', 'require', '分类不能为空', self::MUST_VALIDATE , 'regex', self::MODEL_BOTH),
-            array('category_id,type', 'checkCategory', '该分类不允许发布内容', self::MUST_VALIDATE , 'callback', self::MODEL_INSERT),
             array('category_id', 'checkCategory', '该分类不允许发布内容', self::EXISTS_VALIDATE , 'callback', self::MODEL_UPDATE),
             array('model_id,category_id', 'checkModel', '该分类没有绑定当前模型', self::MUST_VALIDATE , 'callback', self::MODEL_INSERT),
             array('dateline', '/^\d{4,4}-\d{1,2}-\d{1,2}(\s\d{1,2}:\d{1,2}(:\d{1,2})?)?$/', '日期格式不合法,请使用"年-月-日 时:分"格式,全部为数字', self::VALUE_VALIDATE  , 'regex', self::MODEL_BOTH),
