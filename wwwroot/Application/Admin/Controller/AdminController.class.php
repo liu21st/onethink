@@ -17,7 +17,7 @@ use Admin\Model\AuthGroupModel;
 class AdminController extends Controller {
 
     /* 保存禁止通过url访问的公共方法,例如定义在控制器中的工具方法 ;deny优先级高于allow*/
-    static protected $deny  = array('getMenus','tableList','record_list');
+    static protected $deny  = array('getMenus','tableList','recordList');
 
     /* 保存允许访问的公共方法 */
     static protected $allow = array( 'login','logout','get');
@@ -546,19 +546,18 @@ class AdminController extends Controller {
      * 数据集分页
      * @param array $records 传入的数据集
      */
-    public function record_list($records){
-        $REQUEST    =   (array)I('request.');
+    public function recordList($records){
+        $request    =   (array)I('request.');
         $total      =   $records? count($records) : 1 ;
-        if( isset($REQUEST['r']) ){
-            $listRows = (int)$REQUEST['r'];
+        if( isset($request['r']) ){
+            $listRows = (int)$request['r'];
         }else{
             $listRows = C('LIST_ROWS') > 0 ? C('LIST_ROWS') : 10;
         }
-        $page       =   new \COM\Page($total, $listRows, $REQUEST);
+        $page       =   new \COM\Page($total, $listRows, $request);
         $voList     =   array_slice($records, $page->firstRow, $page->listRows);
+        $p			=	$page->show();
         $this->assign('_list', $voList);
-        $p =$page->show();
-        $this->assign('_page', $p? $p: '');
         $this->assign('_page', $p? $p: '');
     }
 
