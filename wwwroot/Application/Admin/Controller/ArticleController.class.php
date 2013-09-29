@@ -566,7 +566,7 @@ class ArticleController extends \Admin\Controller\AdminController {
         if(isset($status)){
             $map['status']  =   $status;
         }else{
-            $map['status']  =   array('egt', 0);
+            $map['status']  =   array('in', '0,1,2');
         }
         if ( isset($_GET['time-start']) ) {
             $map['update_time'][] = array('egt',strtotime(I('time-start')));
