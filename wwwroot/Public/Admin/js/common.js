@@ -199,7 +199,7 @@
                 e.stopPropagation();
             }else{
                 $(this).find("i").removeClass("btn-arrowup");
-            }            
+            }
         })
         $(".dropdown").click(function(e) {
             e.stopPropagation();
@@ -229,6 +229,10 @@ $(function(){
         var winW = $(window).width();
         var winH = $(window).height();
         $(".upload-img-box").click(function(){
+        	//如果没有图片则不显示
+        	if($(this).find('img').attr('src') === undefined){
+        		return false;
+        	}
             // 创建弹出框以及获取弹出图片
             var imgPopup = "<div id=\"uploadPop\" class=\"upload-img-popup\"></div>"
             var imgItem = $(this).find(".upload-pre-item").html();
@@ -237,8 +241,8 @@ $(function(){
             var popupLen = $(".upload-img-popup").length;
             if( popupLen < 1 ) {
                 $(imgPopup).appendTo("body");
-                $(".upload-img-popup").html( 
-                    imgItem + "<a class=\"close-pop\" href=\"javascript:;\" title=\"关闭\"></a>" 
+                $(".upload-img-popup").html(
+                    imgItem + "<a class=\"close-pop\" href=\"javascript:;\" title=\"关闭\"></a>"
                 );
             }
 
@@ -266,7 +270,7 @@ $(function(){
         if(!isSmall){
             $(node).height($(node).height()*1.2);
         } else {
-            $(node).height($(node).height()*0.8);           
+            $(node).height($(node).height()*0.8);
         }
     }
 })
