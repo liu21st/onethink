@@ -226,7 +226,7 @@ str;
     public function index(){
         $this->meta_title = '插件列表';
         $list = D('Addons')->getList();
-        $this->record_list($list);
+        $this->recordList($list);
         $this->display();
     }
 
