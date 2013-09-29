@@ -23,7 +23,8 @@ class DocumentModel extends Model{
 		array('title', 'require', '标题不能为空', self::VALUE_VALIDATE, 'regex', self::MODEL_BOTH),
 		array('category_id', 'require', '分类不能为空', self::MUST_VALIDATE , 'regex', self::MODEL_INSERT),
 		array('category_id', 'require', '分类不能为空', self::EXISTS_VALIDATE , 'regex', self::MODEL_UPDATE),
-		array('category_id', 'checkCategory', '该分类不允许发布内容', self::EXISTS_VALIDATE , 'callback', self::MODEL_UPDATE),
+		array('category_id,type', 'checkCategory', '内容类型不正确', self::MUST_VALIDATE , 'callback', self::MODEL_INSERT),
+		array('category_id', 'checkCategory', '该分类不允许发布内容', self::EXISTS_VALIDATE , 'callback', self::MODEL_BOTH),
 		array('model_id,category_id', 'checkModel', '该分类没有绑定当前模型', self::MUST_VALIDATE , 'callback', self::MODEL_INSERT),
 	);
 
@@ -127,6 +128,14 @@ class DocumentModel extends Model{
 	}
 
 	public function update(){
+		/* 检查文档类型是否符合要求 */
+		$Model = new \Admin\Model\DocumentModel();
+		$res = $Model->checkDocumentType( I('type'), I('pid') );
+		if(!$res['status']){
+			$this->error = $res['info'];
+			return false;
+		}
+
 		/* 获取数据对象 */
 		$data = $this->field('pos,display', true)->create();
 		if(empty($data)){
@@ -254,8 +263,13 @@ class DocumentModel extends Model{
 	 * @return boolean     true-允许发布内容，false-不允许发布内容
 	 */
 	protected function checkCategory($id){
-		$publish = get_category($id, 'allow_publish');
-		return $publish ? true : false;
+		if(is_array($id)){
+			$type = get_category($id['category_id'], 'type');
+			return in_array($id['type'], $type);
+		} else {
+			$publish = get_category($id, 'allow_publish');
+			return $publish ? true : false;
+		}
 	}
 
 	/**
