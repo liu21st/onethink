@@ -204,7 +204,7 @@ $('#submit').click(function(){
         if(data.status){
         	$("#cover_id").val(data.id);
         	$("#cover_id").parent().find('.upload-img-box').html(
-        		'<div class="upload-pre-item"><img src="' + data.path + '"/></div>'
+        		'<div class="upload-pre-item"><img src="__ROOT__' + data.path + '"/></div>'
         	);
         } else {
         	updateAlert(data.info);
