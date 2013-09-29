@@ -176,7 +176,7 @@ $('#submit').click(function(){
         if(data.status){
         	$("input[name=file]").val(data.data);
         	$("input[name=file]").parent().find('.upload-img-box').html(
-        		"<div class=\"uplaod-pre-file\">" + data.info + "</div>"
+        		"<div class=\"upload-pre-file\">" + data.info + "</div>"
         	);
         } else {
         	updateAlert(data.info);
