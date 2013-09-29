@@ -9,8 +9,14 @@
 			<div class="sys-info">
 				<table>
 					<tr>
-						<th>系统程序版本</th>
-						<td>OneThink v{$Think.ONETHINK_VERSION}</td>
+						<th>OneThink版本</th>
+						<td>{$Think.ONETHINK_VERSION}&nbsp;&nbsp;&nbsp;
+							<notempty name="addons_config.new_version">
+								<a href="http://www.onethink.cn" target="_blank">
+									发现新版本[{$addons_config.new_version}]
+								</a>
+							</notempty>
+						</td>
 					</tr>
 					<tr>
 						<th>服务器系统及PHP版本</th>
