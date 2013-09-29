@@ -122,7 +122,6 @@
 		</div>
 
 		<div class="form-item cf">
-			<button class="btn submit-btn" id="submit-next" type="button">下一步</button>
 			<button class="btn submit-btn ajax-post hidden" id="submit" type="submit" target-form="form-horizontal">确 定</button>
 			<a class="btn btn-return" href="{:U('article/index?cate_id='.$cate_id)}">返 回</a>
 			<if condition="C('OPEN_DRAFTBOX') and (ACTION_NAME eq 'add' or $info['status'] eq 3)">
@@ -221,7 +220,7 @@ $(function(){
 	    minView:2,
 	    autoclose:true
     });
-	nextTab();
+    showTab();
 
 	<if condition="C('OPEN_DRAFTBOX') and (ACTION_NAME eq 'add' or $info['status'] eq 3)">
 	//保存草稿

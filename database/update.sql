@@ -16,3 +16,9 @@ MODIFY COLUMN `type`  tinyint(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '内容类�
 */
 ALTER TABLE `think_category`
 ADD COLUMN `check`  tinyint(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '发布的文章是否需要审核（0：不需要，1：需要）' AFTER `reply`;
+/**
+分类表删除回复所允许的文档类型字段
+2013-9-27
+*/
+ALTER TABLE `onethink_category`
+DROP COLUMN `reply_type`;
