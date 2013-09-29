@@ -17,8 +17,8 @@ class QiuBaiController extends AddonsController{
         if(!extension_loaded('curl')){
             $this->error('糗事百科插件需要开启PHP的CURL扩展');
         }
-		$content = S('QiuBai_content');
-		if(!$content){
+		$lists = S('QiuBai_content');
+		if(!$lists){
 			$config = get_addon_config('QiuBai');
 			$HTTP_Server = "www.qiushibaike.com/8hr";
 			$HTTP_URL = "/";
@@ -34,15 +34,17 @@ class QiuBaiController extends AddonsController{
 	        // curl_setopt($ch,CURLOPT_COOKIE,$HTTP_SESSION);
 
 	        $content = curl_exec($ch);
-	        if($content)
-                S('QiuBai_content',$content,$config['cache_time']);
 	        curl_close($ch);
+            if($content){
+                preg_match_all('/<div class="content" title="(.*?)">\s*(.*?)\s*<\/div>/is', $content, $match);
+                unset($match[0]);
+                $lists = array_map(function($a, $b) {
+                    return array('time' => $a, 'content' => $b);
+                }, $match[1], $match[2]);
+                S('QiuBai_content',$lists,$config['cache_time']);
+            }
         }
-        preg_match_all('/<div class="content" title="(.*?)">\s*(.*?)\s*<\/div>/is', $content, $match);
-        unset($match[0]);
-        $lists = array_map(function($a, $b) {
-            return array('time' => $a, 'content' => $b);
-        }, $match[1], $match[2]);
+        
 
         #dom对象方式匹配内容
         // if($content){
@@ -63,24 +65,5 @@ class QiuBaiController extends AddonsController{
         }
         $this->assign('qiubai_list', $lists);
 	}
-
-	private function xml2data($xml, &$data) {
-        dump(strval($xml));
-        foreach ($xml->children() as $items) {
-            $key = $items->getName();
-            $attr = $items->attributes();
-            if ($key == $item && isset($attr[$id])) {
-                $key = strval($attr[$id]);
-            }
-
-            if ($items->count()) {
-                $this->xml2data($items, $val);
-            } else {
-                $val = strval($items);
-            }
-
-            $data[$key] = $val;
-        }
-    }
 
 }

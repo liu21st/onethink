@@ -56,13 +56,13 @@ class Upload{
     	$this->setDriver($driver, $driverConfig);
 
         /* 调整配置，把字符串配置参数转换为数组 */
-        if(!empty($this->mimes)){
+        if(!empty($this->config['mimes'])){
             if(is_string($this->mimes)) {
                 $this->config['mimes'] = explode(',', $this->mimes);
             }
             $this->config['mimes'] = array_map('strtolower', $this->mimes);
         }
-        if(!empty($this->exts)){
+        if(!empty($this->config['exts'])){
             if (is_string($this->exts)){
                 $this->config['exts'] = explode(',', $this->exts);
             }
@@ -127,6 +127,9 @@ class Upload{
                 $file['type'] = mime_content_type($file['tmp_name']);
             }
 
+            /* 获取上传文件后缀，允许上传无后缀文件 */
+            $file['ext'] = pathinfo($file['name'], PATHINFO_EXTENSION);
+
             /* 文件上传检测 */
             if (!$this->check($file)){
                 continue;
@@ -142,13 +145,6 @@ class Upload{
             if($this->callback && ($data = call_user_func($this->callback, $file))){
                 $info[$key] = $data;
                 continue;
-            }
-
-            /* 获取上传文件后缀，允许上传无后缀文件 */
-            if(empty($this->saveExt)){ //原后缀
-                $file['ext'] = pathinfo($file['name'], PATHINFO_EXTENSION);
-            } else { //强制文件后缀
-                $file['ext'] = $this->saveExt;
             }
 
             /* 生成保存文件名 */
@@ -289,7 +285,7 @@ class Upload{
      * @param string $mime 数据
      */
     private function checkMime($mime) {
-        return empty($this->mimes) ? true : in_array(strtolower($mime), $this->mimes);
+        return empty($this->config['mimes']) ? true : in_array(strtolower($mime), $this->mimes);
     }
 
     /**
@@ -297,7 +293,7 @@ class Upload{
      * @param string $ext 后缀
      */
     private function checkExt($ext) {
-        return empty($this->exts) ? true : in_array(strtolower($ext), $this->exts);
+        return empty($this->config['exts']) ? true : in_array(strtolower($ext), $this->exts);
     }
 
     /**
@@ -317,7 +313,11 @@ class Upload{
                 return false;
             }
         }
-        return $savename . '.' . $file['ext'];
+
+        /* 文件保存后缀，支持强制更改文件后缀 */
+        $ext = empty($this->config['saveExt']) ? $file['ext'] : $this->saveExt;
+
+        return $savename . '.' . $ext;
     }
 
     /**
