@@ -46,7 +46,7 @@ class DocumentModel extends Model{
         array('extend', 0, self::MODEL_INSERT),
         array('create_time', 'getCreateTime', self::MODEL_BOTH,'callback'),
         array('update_time', NOW_TIME, self::MODEL_BOTH),
-        array('status', 'getStatus', self::MODEL_BOTH, 'callback'),
+        array('status', '1', self::MODEL_INSERT, 'string'),
         array('position', 'getPosition', self::MODEL_BOTH, 'callback'),
         array('dateline', 'strtotime', self::MODEL_BOTH, 'function'),
     );
@@ -143,7 +143,7 @@ class DocumentModel extends Model{
      */
     public function update(){
     	/* 检查文档类型是否符合要求 */
-    	$res = $this->checkDocumentType( I('post.type'), I('post.pid') );
+    	$res = $this->checkDocumentType( I('type'), I('pid') );
     	if(!$res['status']){
     		$this->error = $res['info'];
     		return false;
@@ -257,12 +257,14 @@ class DocumentModel extends Model{
      * @return integer 数据状态
      */
     protected function getStatus(){
-        $id = I('post.id');
-        $status = $this->getFieldById($id, 'status');
-        if($status == 3){
-            $status = 1;
+        $cate = I('post.category_id');
+        $check = M('Category')->getFieldById($cate, 'check');
+        if($check){
+            $status = 2;
+        }else{
+        	$status = 1;
         }
-        return !isset($status) ? 1 : $status;
+        return $status;
     }
 
     /**
@@ -281,15 +283,7 @@ class DocumentModel extends Model{
      * @return boolean     true-允许发布内容，false-不允许发布内容
      */
     public function checkCategory($id){
-        if(is_array($id)){/*
-            if($id['category_id'] == 0 && in_array($id['type'], array(1, 3))){ //段落和目录分类必须为0
-                return true;
-            } elseif($id['category_id'] != 0 && in_array($id['type'], array(0, 2))) {
-                $publish = get_category($id['category_id'], 'allow_publish');
-                return $publish ? true : false;
-            } else {
-                return false;
-            }*/
+        if(is_array($id)){
             $publish = get_category($id['category_id'], 'allow_publish');
             return $publish ? true : false;
         } else {
@@ -589,6 +583,8 @@ class DocumentModel extends Model{
 		if($ptype == 2){
 			if($type != 3){
 				return array('status'=>0, 'info'=>'主题下面只允许添加段落');
+			}else{
+				return $res;
 			}
 		}
 		//父文档为段落时

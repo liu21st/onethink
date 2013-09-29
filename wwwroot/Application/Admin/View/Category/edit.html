@@ -45,6 +45,15 @@
 						</div>
 					</div>
 					<div class="form-item">
+						<label class="item-label">
+							<em class="must">*</em>是否审核<span class="check-tips">（在该分类下发布的内容是否需要审核）</span>
+						</label>
+						<div class="controls">
+							<label class="inline radio"><input type="radio" name="check" value="0" checked>不需要</label>
+							<label class="inline radio"><input type="radio" name="check" value="1">需要</label>
+						</div>
+					</div>
+					<div class="form-item">
 						<label class="item-label"><em class="must">*</em>绑定文档模型</label>
 						<div class="controls">
 							<volist name=":get_document_model()" id="list">
@@ -190,6 +199,7 @@
 <block name="script">
 	<script type="text/javascript">
 		Think.setValue("allow_publish", {$info.allow_publish|default=1});
+		Think.setValue("check", {$info.check|default=0});
 		Think.setValue("model[]", {$info.model|json_encode} || [1]);
 		Think.setValue("type[]", {$info.type|json_encode} || [2]);
 		Think.setValue("display", {$info.display|default=1});

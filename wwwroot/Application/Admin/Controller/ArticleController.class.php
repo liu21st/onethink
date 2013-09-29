@@ -188,6 +188,7 @@ class ArticleController extends \Admin\Controller\AdminController {
         if(!empty($cate_id)){   //没有权限则不查询数据
             //获取分类绑定的模型
             $models = get_category($cate_id, 'model');
+            $allow_reply = get_category($cate_id, 'reply');//分类文档允许回复
             $pid = I('pid');
             if ( $pid==0 ) {
                 //开发者可根据分类绑定的模型,按需定制分类文档列表
@@ -198,7 +199,7 @@ class ArticleController extends \Admin\Controller\AdminController {
 
                 switch($doc_model['model_id']){
                     default:
-                        if($doc_model['type']==2){
+                        if($doc_model['type']==2 && $allow_reply){
                             $template = $this->indexOfReply( $cate_id, $models ); //转入子文档列表方法
                         }else{
                             $template = $this->indexOfArticle( $cate_id, $models ); //转入默认文档列表方法
@@ -208,7 +209,7 @@ class ArticleController extends \Admin\Controller\AdminController {
             $this->display($template);
         }else{
             $this->error('非法的文档分类');
-        }   
+        }
     }
 
     /**
@@ -228,7 +229,7 @@ class ArticleController extends \Admin\Controller\AdminController {
             $status = $map['status'];
         }else{
             $status = null;
-            $map['status'] = array('egt', 0);
+            $map['status'] = array('in', '0,1,2');
         }
         if ( !isset($_GET['pid']) ) {
             $map['pid']    = 0;
@@ -296,7 +297,7 @@ class ArticleController extends \Admin\Controller\AdminController {
             $status = $map['status'];
         }else{
             $status = null;
-            $map['status'] = array('egt', 0);
+            $map['status'] = array('in', '0,1,2');
         }
         if ( !isset($_GET['pid']) ) {
             $map['pid']    = 0;
@@ -685,6 +686,7 @@ class ArticleController extends \Admin\Controller\AdminController {
             	$Model  =   M('Document');
             	$data   =   $Model->find($value);
             	unset($data['id']);
+            	unset($data['name']);
             	$data['category_id']    =   $cate_id;
             	$data['pid'] 			=   $pid;
             	$data['create_time']    =   NOW_TIME;
