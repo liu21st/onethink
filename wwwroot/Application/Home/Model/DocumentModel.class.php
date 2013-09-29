@@ -30,8 +30,8 @@ class DocumentModel extends Model{
 	/* 自动完成规则 */
 	protected $_auto = array(
 		array('uid', 'session', self::MODEL_INSERT, 'function', 'user_auth.uid'),
-		// array('title', 'htmlspecialchars', self::MODEL_BOTH, 'function'),
-		// array('description', 'htmlspecialchars', self::MODEL_BOTH, 'function'),
+		array('title', 'htmlspecialchars', self::MODEL_BOTH, 'function'),
+		array('description', 'htmlspecialchars', self::MODEL_BOTH, 'function'),
 		array('attach', 0, self::MODEL_INSERT),
 		array('view', 0, self::MODEL_INSERT),
 		array('comment', 0, self::MODEL_INSERT),
