@@ -167,18 +167,18 @@ class DocumentModel extends Model{
 	}
 
 	/**
-	 * 获取子内容列表
+	 * 获取段落列表
 	 * @param  integer $id    文档ID
 	 * @param  integer $page  显示页码
 	 * @param  boolean $field 查询字段
 	 * @param  boolean $logic 是否查询模型数据
 	 * @return array
 	 */
-	public function child($id, $page = 1, $field = true, $logic = true){
-		$map  = array('status' => 1, 'pid' => $id);
+	public function part($id, $page = 1, $field = true, $logic = true){
+		$map  = array('status' => 1, 'pid' => $id, 'type' => 3);
 		$info = $this->field($field)->where($map)->page($page, 10)->order('id')->select();
 		if(!$info) {
-			$this->error = '该文档没有子内容！';
+			$this->error = '该文档没有段落！';
 			return false;
 		}
 
@@ -206,12 +206,12 @@ class DocumentModel extends Model{
 	}
 
 	/**
-	 * 获取指定文档的子内容总数
+	 * 获取指定文档的段落总数
 	 * @param  number $id 段落ID
 	 * @return number     总数
 	 */
-	public function childCount($id){
-		$map = array('status' => 1, 'pid' => $id);
+	public function partCount($id){
+		$map = array('status' => 1, 'pid' => $id, 'type' => 3);
 		return $this->where($map)->count('id');
 	}
 

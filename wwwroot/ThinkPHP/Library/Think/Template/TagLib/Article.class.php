@@ -19,8 +19,8 @@ class Article extends TagLib{
 	 * @var array
 	 */
 	protected $tags   =  array(
-		'childlist' => array('attr' => 'id,field,page,name', 'close' => 1), //段落列表
-		'childpage' => array('attr' => 'id,listrow', 'close' => 0), //段落分页
+		'partlist' => array('attr' => 'id,field,page,name', 'close' => 1), //段落列表
+		'partpage' => array('attr' => 'id,listrow', 'close' => 0), //段落分页
 		'prev'      => array('attr' => 'name,info', 'close' => 1), //获取上一篇文章信息
 		'next'      => array('attr' => 'name,info', 'close' => 1), //获取下一篇文章信息
 		'page'      => array('attr' => 'cate,listrow', 'close' => 0), //列表分页
@@ -111,25 +111,25 @@ class Article extends TagLib{
 	}
 
 	/* 子内容数据分页 */
-	public function _childpage($attr){
+	public function _partpage($attr){
 		$tag     = $this->parseXmlAttr($attr, 'next');
 		$id      = $tag['id'];
 		$listrow = $tag['listrow'];
 		$parse   = '<?php ';
-		$parse  .= '$__PAGE__ = new \COM\Page(get_child_count(' . $id . '), ' . $listrow . ');';
+		$parse  .= '$__PAGE__ = new \COM\Page(get_part_count(' . $id . '), ' . $listrow . ');';
 		$parse  .= 'echo $__PAGE__->show();';
 		$parse  .= ' ?>';
 		return $parse;
 	}
 
 	/* 子内容列表 */
-	public function _childlist($attr, $content){
+	public function _partlist($attr, $content){
 		$tag    = $this->parseXmlAttr($attr, 'partlist');
 		$id     = $tag['id'];
 		$field  = $tag['field'];
 		$name   = $tag['name'];
 		$parse  = '<?php ';
-		$parse .= '$__PARTLIST__ = D(\'Document\')->child(' . $id . ', $page, \'' . $field . '\');';
+		$parse .= '$__PARTLIST__ = D(\'Document\')->part(' . $id . ', $page, \'' . $field . '\');';
 		$parse .= ' ?>';
 		$parse .= '<volist name="__PARTLIST__" id="'. $name .'">';
 		$parse .= $content;
