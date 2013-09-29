@@ -15,7 +15,9 @@
 			<input type="file" id="download-file">
 			<input type="hidden" name="file" value="{$info.file}"/>
 			<div class="upload-img-box">
-				<div class="upload-pre-file"><span class="upload_icon_all"></span>{$info.file_id.name}</div>
+				<present name="info['file_id']">
+					<div class="upload-pre-file"><span class="upload_icon_all"></span>{$info.file_id.name}</div>
+				</present>
 			</div>
 		</div>
 	</div>
