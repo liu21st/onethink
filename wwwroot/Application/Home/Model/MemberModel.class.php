@@ -9,6 +9,7 @@
 
 namespace Home\Model;
 use Think\Model;
+use User\Api\UserApi;
 
 /**
  * 文档基础模型
@@ -36,7 +37,9 @@ class MemberModel extends Model{
         $user = $this->field(true)->find($uid);
         if(!$user){ //未注册
             /* 在当前应用中注册用户 */
-            $user = $this->create(array('status' => 1));
+        	$Api = new UserApi();
+        	$info = $Api->info($uid);
+            $user = $this->create(array('nickname' => $info[1], 'status' => 1));
             $user['uid'] = $uid;
             if(!$this->add($user)){
                 $this->error = '前台用户信息注册失败，请重试！';
