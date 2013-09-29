@@ -106,16 +106,6 @@
 							</volist>
 						</div>
 					</div>
-					<div class="form-item reply hidden">
-						<label class="item-label">回复允许的文档类型</label>
-						<div class="controls">
-							<volist name=":C('DOCUMENT_MODEL_TYPE')" id="type">
-								<label class="checkbox">
-									<input type="checkbox" name="reply_type[]" value="{$key}">{$type}
-								</label>
-							</volist>
-						</div>
-					</div>
 					<div class="form-item">
 						<label class="item-label">
 							排序<span class="check-tips">（仅对当前层级分类有效）</span>
