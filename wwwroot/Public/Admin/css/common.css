@@ -232,3 +232,11 @@ button.close {
 .upload-img-popup img {
 	display: block;
 }
+.upload_icon_all {
+	width: 15px;
+	height: 15px;
+	background: url(../images/attachment_1.png);
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: 5px
+}
