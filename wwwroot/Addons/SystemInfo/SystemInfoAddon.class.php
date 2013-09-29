@@ -63,8 +63,10 @@ use Common\Controller\Addon;
                 $data  = curl_exec($ch);
                 $error = curl_error($ch);
                 curl_close($ch);
-            } else {
-                
+            }
+
+            if(!empty($data)){
+                $config['new_version'] = $data;
             }
 
             $this->assign('addons_config', $config);
