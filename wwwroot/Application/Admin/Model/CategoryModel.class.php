@@ -32,8 +32,6 @@ class CategoryModel extends Model{
         array('type', null, self::MODEL_BOTH, 'ignore'),
         array('reply_model', 'arr2str', self::MODEL_BOTH, 'function'),
         array('reply_model', null, self::MODEL_BOTH, 'ignore'),
-        array('reply_type', 'arr2str', self::MODEL_BOTH, 'function'),
-        array('reply_type', null, self::MODEL_BOTH, 'ignore'),
         array('extend', 'json_encode', self::MODEL_BOTH, 'function'),
         array('extend', null, self::MODEL_BOTH, 'ignore'),
         array('create_time', NOW_TIME, self::MODEL_INSERT),
