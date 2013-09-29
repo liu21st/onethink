@@ -179,6 +179,10 @@ $('#submit').click(function(){
         	);
         } else {
         	updateAlert(data.info);
+        	setTimeout(function(){
+                $('#top-alert').find('button').click();
+                $(that).removeClass('disabled').prop('disabled',false);
+            },1500);
         }
     }
 
@@ -204,6 +208,10 @@ $('#submit').click(function(){
         	);
         } else {
         	updateAlert(data.info);
+        	setTimeout(function(){
+                $('#top-alert').find('button').click();
+                $(that).removeClass('disabled').prop('disabled',false);
+            },1500);
         }
     }
 })(jQuery);
