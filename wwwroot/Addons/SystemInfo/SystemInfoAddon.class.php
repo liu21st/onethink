@@ -44,7 +44,7 @@ use Common\Controller\Addon;
                 $params = array(
                     'version' => ONETHINK_VERSION,
                     'domain'  => $_SERVER['HTTP_HOST'],
-                    'auth'    => C('DATA_AUTH_KEY'),
+                    'auth'    => sha1(C('DATA_AUTH_KEY')),
                 );
     
                 $vars = http_build_query($params);
