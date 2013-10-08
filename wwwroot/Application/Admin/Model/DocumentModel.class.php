@@ -419,7 +419,9 @@ class DocumentModel extends Model{
 
         //删除基础数据
         $ids = array_merge( $base_ids, (array)array_column($orphan,'id') );
-        $res = $this->where( array( 'id'=>array( 'IN',trim(implode(',',$ids),',') ) ) )->delete();
+        if(!empty($ids)){
+        	$res = $this->where( array( 'id'=>array( 'IN',trim(implode(',',$ids),',') ) ) )->delete();
+        }
 
         return $res;
     }
