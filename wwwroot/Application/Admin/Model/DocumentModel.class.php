@@ -381,7 +381,7 @@ class DocumentModel extends Model{
         }else{
             $pos = 0;
             foreach ($position as $key=>$value){
-                $pos ^= $value;		//将各个推荐位的值按位与
+                $pos += $value;		//将各个推荐位的值相加
             }
             return $pos;
         }
