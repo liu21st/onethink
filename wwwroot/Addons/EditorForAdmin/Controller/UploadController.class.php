@@ -26,7 +26,7 @@ class UploadController extends AddonsController{
 		if($info){
 			$url = C('EDITOR_UPLOAD.rootPath').$info['imgFile']['savepath'].$info['imgFile']['savename'];
 			$url = str_replace('./', '/', $url);
-			$info['fullpath'] = $url;
+			$info['fullpath'] = __ROOT__.$url;
 		}
 		return $info;
 	}

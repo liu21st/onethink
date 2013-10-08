@@ -43,10 +43,10 @@ function get_list_count($category, $status = 1){
  * @return integer    段落总数
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
-function get_child_count($id){
+function get_part_count($id){
     static $count;
     if(!isset($count[$id])){
-        $count[$id] = D('Document')->childCount($id);
+        $count[$id] = D('Document')->partCount($id);
     }
     return $count[$id];
 }

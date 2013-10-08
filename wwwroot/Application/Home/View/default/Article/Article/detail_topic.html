@@ -37,26 +37,27 @@
         <section id="contents">{$info.content}</section>
         <hr/>
 	
-		<article:childlist id="$info['id']" name="childlist">
+		<article:partlist id="$info['id']" name="partlist">
 			<div class="clearfix">
 				<div class="pull-left clearfix">{$i*$page}楼</div>
                 <div class="pull-right clearfix">
-                    <a href="javascript:;">{$childlist.uid|get_username}</a>
-                    <span>发表于 {$childlist.create_time|date='Y/m/d',###}</span>
+                    <a href="javascript:;">{$partlist.uid|get_username}</a>
+                    <span>发表于 {$partlist.create_time|date='Y/m/d',###}</span>
                 </div>
 			</div>
-			<p>{$childlist.content}</p>
+			<p>{$partlist.content}</p>
     		<hr/>
-		</article:childlist>
+		</article:partlist>
 		<!-- 回复表单 -->
         <div class="control-group">
             <form action="{:U('save')}" method="post">
             	<textarea name="content" rows="5" class="span9"> </textarea>
             	<input type="hidden" name="title" value="RE:{$info.title}">
+                <input type="hidden" name="description" value="">
             	<input type="hidden" name="model_id" value="1">
 				<input type="hidden" name="category_id" value="{$info.category_id}">
 				<input type="hidden" name="pid" value="{$info.id}">
-				<input type="hidden" name="type" value="2">
+				<input type="hidden" name="type" value="3">
 				<input type="hidden" name="parse" value="0">
             	<div> 
             	    <button class="btn">发表回复</button>

@@ -23,16 +23,16 @@ class DocumentModel extends Model{
 		array('title', 'require', '标题不能为空', self::VALUE_VALIDATE, 'regex', self::MODEL_BOTH),
 		array('category_id', 'require', '分类不能为空', self::MUST_VALIDATE , 'regex', self::MODEL_INSERT),
 		array('category_id', 'require', '分类不能为空', self::EXISTS_VALIDATE , 'regex', self::MODEL_UPDATE),
-		array('category_id,type', 'checkCategory', '该分类不允许发布内容', self::MUST_VALIDATE , 'callback', self::MODEL_INSERT),
-		array('category_id', 'checkCategory', '该分类不允许发布内容', self::EXISTS_VALIDATE , 'callback', self::MODEL_UPDATE),
+		array('category_id,type', 'checkCategory', '内容类型不正确', self::MUST_VALIDATE , 'callback', self::MODEL_INSERT),
+		array('category_id', 'checkCategory', '该分类不允许发布内容', self::EXISTS_VALIDATE , 'callback', self::MODEL_BOTH),
 		array('model_id,category_id', 'checkModel', '该分类没有绑定当前模型', self::MUST_VALIDATE , 'callback', self::MODEL_INSERT),
 	);
 
 	/* 自动完成规则 */
 	protected $_auto = array(
 		array('uid', 'session', self::MODEL_INSERT, 'function', 'user_auth.uid'),
-		// array('title', 'htmlspecialchars', self::MODEL_BOTH, 'function'),
-		// array('description', 'htmlspecialchars', self::MODEL_BOTH, 'function'),
+		array('title', 'htmlspecialchars', self::MODEL_BOTH, 'function'),
+		array('description', 'htmlspecialchars', self::MODEL_BOTH, 'function'),
 		array('attach', 0, self::MODEL_INSERT),
 		array('view', 0, self::MODEL_INSERT),
 		array('comment', 0, self::MODEL_INSERT),
@@ -128,6 +128,14 @@ class DocumentModel extends Model{
 	}
 
 	public function update(){
+		/* 检查文档类型是否符合要求 */
+		$Model = new \Admin\Model\DocumentModel();
+		$res = $Model->checkDocumentType( I('type'), I('pid') );
+		if(!$res['status']){
+			$this->error = $res['info'];
+			return false;
+		}
+
 		/* 获取数据对象 */
 		$data = $this->field('pos,display', true)->create();
 		if(empty($data)){
@@ -167,18 +175,18 @@ class DocumentModel extends Model{
 	}
 
 	/**
-	 * 获取子内容列表
+	 * 获取段落列表
 	 * @param  integer $id    文档ID
 	 * @param  integer $page  显示页码
 	 * @param  boolean $field 查询字段
 	 * @param  boolean $logic 是否查询模型数据
 	 * @return array
 	 */
-	public function child($id, $page = 1, $field = true, $logic = true){
-		$map  = array('status' => 1, 'pid' => $id);
+	public function part($id, $page = 1, $field = true, $logic = true){
+		$map  = array('status' => 1, 'pid' => $id, 'type' => 3);
 		$info = $this->field($field)->where($map)->page($page, 10)->order('id')->select();
 		if(!$info) {
-			$this->error = '该文档没有子内容！';
+			$this->error = '该文档没有段落！';
 			return false;
 		}
 
@@ -206,12 +214,12 @@ class DocumentModel extends Model{
 	}
 
 	/**
-	 * 获取指定文档的子内容总数
+	 * 获取指定文档的段落总数
 	 * @param  number $id 段落ID
 	 * @return number     总数
 	 */
-	public function childCount($id){
-		$map = array('status' => 1, 'pid' => $id);
+	public function partCount($id){
+		$map = array('status' => 1, 'pid' => $id, 'type' => 3);
 		return $this->where($map)->count('id');
 	}
 
@@ -256,14 +264,8 @@ class DocumentModel extends Model{
 	 */
 	protected function checkCategory($id){
 		if(is_array($id)){
-			if($id['category_id'] == 0 && in_array($id['type'], array(1, 3))){ //段落和目录分类必须为0
-				return true;
-			} elseif($id['category_id'] != 0 && in_array($id['type'], array(0, 2))) {
-				$publish = get_category($id['category_id'], 'allow_publish');
-				return $publish ? true : false;
-			} else {
-				return false;
-			}
+			$type = get_category($id['category_id'], 'type');
+			return in_array($id['type'], $type);
 		} else {
 			$publish = get_category($id, 'allow_publish');
 			return $publish ? true : false;
