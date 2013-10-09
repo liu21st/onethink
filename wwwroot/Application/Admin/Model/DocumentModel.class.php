@@ -45,7 +45,7 @@ class DocumentModel extends Model{
         array('extend', 0, self::MODEL_INSERT),
         array('create_time', 'getCreateTime', self::MODEL_BOTH,'callback'),
         array('update_time', NOW_TIME, self::MODEL_BOTH),
-        array('status', '1', self::MODEL_INSERT, 'string'),
+        array('status', 'getStatus', self::MODEL_BOTH, 'callback'),
         array('position', 'getPosition', self::MODEL_BOTH, 'callback'),
         array('dateline', 'strtotime', self::MODEL_BOTH, 'function'),
     );
@@ -256,12 +256,16 @@ class DocumentModel extends Model{
      * @return integer 数据状态
      */
     protected function getStatus(){
+    	$id = I('post.id');
         $cate = I('post.category_id');
-        $check = M('Category')->getFieldById($cate, 'check');
-        if($check){
-            $status = 2;
-        }else{
+        if(empty($id)){	//新增
         	$status = 1;
+        }else{				//更新
+			$status = $this->getFieldById($id, 'status');
+			//编辑草稿改变状态
+			if($status == 3){
+				$status = 1;
+			}
         }
         return $status;
     }
@@ -415,7 +419,9 @@ class DocumentModel extends Model{
 
         //删除基础数据
         $ids = array_merge( $base_ids, (array)array_column($orphan,'id') );
-        $res = $this->where( array( 'id'=>array( 'IN',trim(implode(',',$ids),',') ) ) )->delete();
+        if(!empty($ids)){
+        	$res = $this->where( array( 'id'=>array( 'IN',trim(implode(',',$ids),',') ) ) )->delete();
+        }
 
         return $res;
     }

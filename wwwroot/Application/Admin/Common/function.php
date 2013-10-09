@@ -271,6 +271,12 @@ function get_subdocument_count($id=0){
 
 function get_stemma($pids,Model &$model, $field='id'){
     $collection = array();
+
+    //非空判断
+    if(empty($pids)){
+    	return $collection;
+    }
+
     if( is_array($pids) ){
         $pids = trim(implode(',',$pids),',');
     }
