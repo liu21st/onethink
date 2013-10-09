@@ -39,8 +39,15 @@ class ConfigController extends AdminController {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function index(){
+    	/* 查询条件初始化 */
+    	$map = array();
         $map  = array('status' => 1);
-        $list = M('Config')->where($map)->order('id DESC')->field('id,name,title,value,group,type,remark')->select();
+        if(isset($_GET['name'])){
+        	$map['name']  = array('like', '%'.(string)I('name').'%');
+        }
+
+		$list = $this->lists('Config', $map);
+
         $this->assign('list', $list);
         $this->meta_title = '配置管理';
         $this->display();
