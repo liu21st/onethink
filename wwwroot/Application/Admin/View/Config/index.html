@@ -74,6 +74,13 @@ $(function(){
         }
 		window.location.href = url;
 	});
+	//回车搜索
+	$(".search-input").keyup(function(e){
+		if(e.keyCode === 13){
+			$("#search").click();
+			return false;
+		}
+	});
 });
 </script>
 </block>
