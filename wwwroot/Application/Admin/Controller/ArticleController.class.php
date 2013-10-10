@@ -509,7 +509,8 @@ class ArticleController extends \Admin\Controller\AdminController {
     		$content = I('content');
     		$_POST['content'] = '';	//重置内容
     		preg_match_all('/[^\r]+/', $content, $matchs);	//获取每一个目录的数据
-    		foreach ($matchs[0] as $value){
+    		$list = $matchs[0];
+    		foreach ($list as $value){
     			$data = explode('|', str_replace(array("\r", "\r\n", "\n"), '', $value));
     			//构造新增的数据
     			$data = array('name'=>$data[0], 'title'=>$data[1], 'category_id'=>$cate_id, 'model_id'=>$model_id);
