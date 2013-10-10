@@ -50,18 +50,7 @@
 			<input type="hidden" class="hide-data" name="pid" value="{$pid}"/>
 			<button class="btn ajax-post confirm" target-form="ids" url="{:U("Article/setStatus",array("status"=>-1))}">删 除</button>
 
-			<div class="btn-group">
-			<button class="btn document_add" <if condition="count($model) eq 1">url="{:U('article/batchOperate',array('cate_id'=>$cate_id,'pid'=>I('pid',0),'model_id'=>$model[0]))}"</if>>导入
-				<if condition="count($model) gt 1"><i class="btn-arrowdown"></i></if>
-			</button>
-			<if condition="count($model) gt 1">
-			<ul class="dropdown nav-list">
-				<volist name="model" id="vo">
-				<li><a href="{:U('article/batchOperate',array('cate_id'=>$cate_id,'model_id'=>$vo,'pid'=>I('pid',0)))}">{$vo|get_document_model='title'}</a></li>
-				</volist>
-			</ul>
-			</if>
-			</div>
+			<button class="btn document_add" url="{:U('article/batchOperate',array('cate_id'=>$cate_id,'pid'=>I('pid',0)))}">批量导入</button>
 		</div>
 
 		<!-- 高级搜索 -->

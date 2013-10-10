@@ -8,7 +8,7 @@
 <block name="body">
 	<div class="main-title cf">
 		<h2>
-			批量导入{$model_id|get_document_model='title'} [
+			批量导入 [
 			<volist name="rightNav" id="nav">
 			<a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a>
 			<if condition="count($rightNav) gt $i"><i class="ca"></i></if>
@@ -25,6 +25,16 @@
 		<!-- 基础文档模型 -->
 		<div id="tab1" class="tab-pane in tab1">
 
+			<div class="form-item cf">
+				<label class="item-label">文档模型<span class="check-tips">（文档类模决定了文档的数据结构）</span></label>
+				<div class="controls">
+					<select name="model_id">
+						<volist name=":get_category($cate_id, 'model')" id="vo">
+							<option value="{$vo.id}">{:get_document_model($vo['title'],'title')}</option>
+						</volist>
+					</select>
+				</div>
+			</div>
 			<div class="form-item cf">
 				<label class="item-label">文档类型<span class="check-tips">（文档类型标识了文档的显示结构，一般普通文章选择主题）</span></label>
 				<div class="controls">
@@ -48,7 +58,6 @@
 			<button class="btn submit-btn ajax-post hidden" id="submit" type="submit" target-form="form-horizontal">确 定</button>
 			<a class="btn btn-return" href="{:U('article/index?cate_id='.$cate_id)}">返 回</a>
 			<input type="hidden" name="pid" value="{$pid}"/>
-			<input type="hidden" name="model_id" value="{$model_id}"/>
 			<input type="hidden" name="cate_id" value="{$cate_id}">
 		</div>
 	</form>
