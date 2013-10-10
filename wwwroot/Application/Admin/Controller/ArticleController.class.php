@@ -486,6 +486,54 @@ class ArticleController extends \Admin\Controller\AdminController {
     }
 
     /**
+     * 批量操作
+     * @author huajie <banhuajie@163.com>
+     */
+    public function batchOperate(){
+    	//获取左边菜单
+    	$this->getMenu();
+
+    	$pid = I('pid', 0);
+    	$cate_id = I('cate_id');
+    	$model_id = I('model_id');
+
+    	empty($cate_id) && $this->error('参数不能为空！');
+    	empty($model_id) && $this->error('该分类未绑定模型！');
+
+    	//检查该分类是否允许发布
+    	$allow_publish = D('Document')->checkCategory($cate_id);
+    	!$allow_publish && $this->error('该分类不允许发布内容！');
+
+    	//批量导入目录
+    	if(IS_POST){
+    		$content = I('content');
+    		$_POST['content'] = '';	//重置内容
+    		preg_match_all('/[^\r]+/', $content, $matchs);	//获取每一个目录的数据
+    		foreach ($matchs[0] as $value){
+    			$data = explode('|', str_replace(array("\r", "\r\n", "\n"), '', $value));
+    			//构造新增的数据
+    			$data = array('name'=>$data[0], 'title'=>$data[1], 'category_id'=>$cate_id, 'model_id'=>$model_id);
+    			$data['description'] = '';
+    			$data['type'] = 1;
+    			$res = D('Document')->update($data);
+    		}
+    		if($res){
+    			$this->success('批量导入成功！');
+    		}else{
+    			$this->error(D('Document')->getError());
+    		}
+    	}
+
+    	$this->assign('pid',        $pid);
+    	$this->assign('cate_id',	$cate_id);
+    	$this->assign('model_id',  	$model_id);
+    	$this->assign('type_list',  get_type_bycate($cate_id));
+
+    	$this->meta_title       =   '批量导入';
+    	$this->display('batchoperate');
+    }
+
+    /**
      * 回收站列表
      * @author huajie <banhuajie@163.com>
      */
