@@ -550,7 +550,7 @@ class DocumentModel extends Model{
     	}else{
     		$map['pid'] = $pid;
     	}
-    	$child = $this->where($map)->field('id,name,title,pid')->select();
+    	$child = $this->where($map)->field('id,name,title,pid')->order('level DESC,id DESC')->select();
     	if(!empty($child)){
     		foreach ($child as $key=>$value){
     			$pids[] = $value['id'];
