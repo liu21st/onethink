@@ -137,10 +137,11 @@ class DocumentModel extends Model{
 
     /**
      * 新增或更新一个文档
+     * @param array  $data 手动传入的数据
      * @return boolean fasle 失败 ， int  成功 返回完整的数据
      * @author huajie <banhuajie@163.com>
      */
-    public function update(){
+    public function update($data = null){
     	/* 检查文档类型是否符合要求 */
     	$res = $this->checkDocumentType( I('type'), I('pid') );
     	if(!$res['status']){
@@ -149,7 +150,7 @@ class DocumentModel extends Model{
     	}
 
         /* 获取数据对象 */
-        $data = $this->create();
+        $data = $this->create($data);
         if(empty($data)){
             return false;
         }
