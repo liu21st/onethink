@@ -518,7 +518,7 @@ class ArticleController extends \Admin\Controller\AdminController {
     			$res = D('Document')->update($data);
     		}
     		if($res){
-    			$this->success('批量导入成功！');
+    			$this->success('批量导入成功！', U('index?pid='.$pid.'&cate_id='.$cate_id));
     		}else{
     			$this->error(D('Document')->getError());
     		}
