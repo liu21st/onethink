@@ -514,6 +514,7 @@ class ArticleController extends \Admin\Controller\AdminController {
     			//构造新增的数据
     			$data = array('name'=>$data[0], 'title'=>$data[1], 'category_id'=>$cate_id, 'model_id'=>$model_id);
     			$data['description'] = '';
+    			$data['pid'] = $pid;
     			$data['type'] = $type;
     			$res = D('Document')->update($data);
     		}
