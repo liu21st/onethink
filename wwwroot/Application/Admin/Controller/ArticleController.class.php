@@ -495,10 +495,8 @@ class ArticleController extends \Admin\Controller\AdminController {
 
     	$pid = I('pid', 0);
     	$cate_id = I('cate_id');
-    	$model_id = I('model_id');
 
     	empty($cate_id) && $this->error('参数不能为空！');
-    	empty($model_id) && $this->error('该分类未绑定模型！');
 
     	//检查该分类是否允许发布
     	$allow_publish = D('Document')->checkCategory($cate_id);
@@ -506,6 +504,8 @@ class ArticleController extends \Admin\Controller\AdminController {
 
     	//批量导入目录
     	if(IS_POST){
+    		$model_id = I('model_id');
+    		$type = 1;	//TODO:目前只支持目录，要动态获取
     		$content = I('content');
     		$_POST['content'] = '';	//重置内容
     		preg_match_all('/[^\r]+/', $content, $matchs);	//获取每一个目录的数据
@@ -514,7 +514,7 @@ class ArticleController extends \Admin\Controller\AdminController {
     			//构造新增的数据
     			$data = array('name'=>$data[0], 'title'=>$data[1], 'category_id'=>$cate_id, 'model_id'=>$model_id);
     			$data['description'] = '';
-    			$data['type'] = 1;
+    			$data['type'] = $type;
     			$res = D('Document')->update($data);
     		}
     		if($res){
@@ -526,7 +526,6 @@ class ArticleController extends \Admin\Controller\AdminController {
 
     	$this->assign('pid',        $pid);
     	$this->assign('cate_id',	$cate_id);
-    	$this->assign('model_id',  	$model_id);
     	$this->assign('type_list',  get_type_bycate($cate_id));
 
     	$this->meta_title       =   '批量导入';
