@@ -50,7 +50,7 @@
 			<input type="hidden" class="hide-data" name="pid" value="{$pid}"/>
 			<button class="btn ajax-post confirm" target-form="ids" url="{:U("Article/setStatus",array("status"=>-1))}">删 除</button>
 
-			<button class="btn document_add" url="{:U('article/batchOperate',array('cate_id'=>$cate_id,'pid'=>I('pid',0)))}">批量导入</button>
+			<button class="btn document_add" url="{:U('article/batchOperate',array('cate_id'=>$cate_id,'pid'=>I('pid',0)))}">导入</button>
 		</div>
 
 		<!-- 高级搜索 -->
