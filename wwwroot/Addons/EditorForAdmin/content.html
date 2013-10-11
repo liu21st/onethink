@@ -2,6 +2,9 @@
 	<case value="1">
 		{// 纯文本 }
 		<input type="hidden" name="parse" value="0">
+		<script type="text/javascript">
+			$('textarea[name="{$addons_data.name}"]').height('{$addons_config.editor_height}');
+		</script>
 	</case>
 	<case value="2">
 		{// 富文本 }
