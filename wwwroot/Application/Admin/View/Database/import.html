@@ -1,0 +1,39 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <!-- 标题栏 -->
+    <div class="main-title">
+        <h2>数据备份</h2>
+    </div>
+    <!-- /标题栏 -->
+
+    <!-- 应用列表 -->
+    <div class="data-table table-striped">
+        <table>
+            <thead>
+                <tr>
+                    <th width="200">备份名称</th>
+                    <th width="120">卷数</th>
+                    <th width="120">数据大小</th>
+                    <th>备份时间</th>
+                    <th width="120">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <volist name="list" id="data">
+                    <tr>
+                        <td>{$data.time|date='Ymd-His',###}-part.sql</td>
+                        <td>{$data.part}</td>
+                        <td>{$data.size|format_bytes}</td>
+                        <td>{$key}</td>
+                        <td class="action">
+                            <a class="ajax-get no-refresh" href="{:U('import?time='.$data['time'])}">还原</a>&nbsp;
+                            <a class="ajax-get confirm" href="{:U('delete?time='.$data['time'])}">删除</a>
+                        </td>
+                    </tr>
+                </volist>
+            </tbody>
+        </table>
+    </div>
+    <!-- /应用列表 -->
+</block>

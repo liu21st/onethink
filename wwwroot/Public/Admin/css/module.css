@@ -626,6 +626,9 @@ label.textarea ~ .check-tips {
 .category > dl > dd > dl:last-child > dd > dl:last-child > dt .tab-sign {
 	background-position: 0 -120px;
 }
+.category > dl > dd > dl:last-child > dd > dl:last-child > dt .add-sub-cate{
+    display: none;
+}
 .category input{
 	height: 16px;
 }
