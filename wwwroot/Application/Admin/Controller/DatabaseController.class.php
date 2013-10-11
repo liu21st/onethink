@@ -21,8 +21,17 @@ class DatabaseController extends AdminController{
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     static protected $nodes = array(
-        array( 'title' => '数据备份', 'url' => 'Database/index?type=export', 'group' => '其他设置'),
-        array( 'title' => '数据恢复', 'url' => 'Database/index?type=import', 'group' => '其他设置'),
+        array( 'title' => '数据备份', 'url' => 'Database/index?type=export', 'group' => '数据备份',
+                'operator'=>array(
+                    array('title'=>'备份','url'=>'Database/export','tip'=>'备份数据库'),
+                    array('title'=>'优化表','url'=>'Database/optimize','tip'=>'优化数据表'),
+                    array('title'=>'修复表','url'=>'Database/repair','tip'=>'修复数据表'),
+                )),
+        array( 'title' => '数据恢复', 'url' => 'Database/index?type=import', 'group' => '数据备份',
+                'operator'=>array(
+                    array('title'=>'恢复','url'=>'Database/import','tip'=>'数据库恢复'),
+                    array('title'=>'删除','url'=>'Database/delete','tip'=>'删除备份文件'),
+                )),
     );
 
     /**
