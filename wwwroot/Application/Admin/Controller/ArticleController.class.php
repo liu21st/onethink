@@ -511,18 +511,24 @@ class ArticleController extends \Admin\Controller\AdminController {
     		preg_match_all('/[^\r]+/', $content, $matchs);	//获取每一个目录的数据
     		$list = $matchs[0];
     		foreach ($list as $value){
-    			$data = explode('|', str_replace(array("\r", "\r\n", "\n"), '', $value));
-    			//构造新增的数据
-    			$data = array('name'=>$data[0], 'title'=>$data[1], 'category_id'=>$cate_id, 'model_id'=>$model_id);
-    			$data['description'] = '';
-    			$data['pid'] = $pid;
-    			$data['type'] = $type;
-    			$res = D('Document')->update($data);
+    			if(!empty($value) && (strpos($value, '|') !== false)){
+    				$data = explode('|', str_replace(array("\r", "\r\n", "\n"), '', $value));
+    				//构造新增的数据
+    				$data = array('name'=>$data[0], 'title'=>$data[1], 'category_id'=>$cate_id, 'model_id'=>$model_id);
+    				$data['description'] = '';
+    				$data['pid'] = $pid;
+    				$data['type'] = $type;
+    				$res = D('Document')->update($data);
+    			}
     		}
     		if($res){
     			$this->success('批量导入成功！', U('index?pid='.$pid.'&cate_id='.$cate_id));
     		}else{
-    			$this->error(D('Document')->getError());
+    			if(isset($res)){
+    				$this->error(D('Document')->getError());
+    			}else{
+    				$this->error('批量导入失败，请检查内容格式！');
+    			}
     		}
     	}
 
