@@ -2,9 +2,15 @@
 
 <block name="body">
 	<div class="main-title">
-		<h2>{$info['id']?'编辑':'新增'}导航</h2>
+		<h2>
+			{$info['id']?'编辑':'新增'}导航
+			<notempty name="pid">
+				[&nbsp;父导航：<a href="{:U('index','pid='.$pid)}">{$parent.title}</a>&nbsp;]
+			</notempty>
+		</h2>
 	</div>
 	<form action="__SELF__" method="post" class="form-horizontal">
+		<input type="hidden" name="pid" value="{$pid}">
 		<div class="form-item">
 			<label class="item-label">导航标题<span class="check-tips">（用于显示的文字）</span></label>
 			<div class="controls">

@@ -6,7 +6,7 @@
 	</div>
 
 	<div class="cf">
-		<a class="btn" href="{:U('add')}">新 增</a>
+		<a class="btn" href="{:U('add','pid='.$pid)}">新 增</a>
 		<a class="btn" href="javascript:;">删 除</a>
 	</div>
 
@@ -30,10 +30,10 @@
 						<td><input class="ids row-selected" type="checkbox" name="" id=""> </td>
 						<td>{$channel.id}</td>
 						<td>{$channel.sort}</td>
-						<td><a href="{:U('edit?id='.$channel['id'])}">{$channel.title}</a></td>
+						<td><a href="{:U('index?pid='.$channel['id'])}">{$channel.title}</a></td>
 						<td>{$channel.url}</td>
 						<td>
-							<a title="编辑" href="{:U('edit?id='.$channel['id'])}">编辑</a>
+							<a title="编辑" href="{:U('edit?id='.$channel['id'].'&pid='.$pid)}">编辑</a>
 							<a class="confirm ajax-get" title="删除" href="{:U('del?id='.$channel['id'])}">删除</a>
 						</td>
 					</tr>
