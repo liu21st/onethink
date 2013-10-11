@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 
 namespace Admin\Controller;
+use Think\Db;
 
 /**
  * 后台系统控制器
@@ -23,9 +24,8 @@ class SystemController extends AdminController {
     static protected $nodes = array(
         /* 其他设置 */
         // array( 'title' => '数据迁移', 'url' => 'System/index5', 'group' => '其他设置'),
-        // array( 'title' => '数据备份/恢复', 'url' => 'System/index6', 'group' => '其他设置'),
+        // array( 'title' => '数据备份/恢复', 'url' => 'System/database', 'group' => '其他设置'),
         // array( 'title' => '系统日志', 'url' => 'System/index7', 'group' => '其他设置'),
     );
-
 
 }

@@ -13,8 +13,10 @@
  */
 return array(
     /* 数据缓存设置 */
-    'DATA_CACHE_PREFIX' => 'onethink_', // 缓存前缀
-    'DATA_CACHE_TYPE'   => 'File', // 数据缓存类型
+    'DATA_CACHE_PREFIX'    => 'onethink_', // 缓存前缀
+    'DATA_CACHE_TYPE'      => 'File', // 数据缓存类型
+    'DATA_BACKUP_PATH'     => './Data/', //数据备份文件夹
+    'DATA_BACKUP_PARTSIZE' => 10485760, //（10*1024*1024）数据备份分卷大小
 
     /* 文件上传相关配置 */
     'DOWNLOAD_UPLOAD' => array(
