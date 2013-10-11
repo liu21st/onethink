@@ -33,6 +33,7 @@ class ArticleController extends \Admin\Controller\AdminController {
             	array('title'=>'移动','url'=>'article/move'),
             	array('title'=>'复制','url'=>'article/copy'),
             	array('title'=>'粘贴','url'=>'article/paste'),
+            	array('title'=>'导入','url'=>'article/batchOperate'),
             ),
         ),
     	array(
