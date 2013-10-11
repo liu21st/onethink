@@ -313,7 +313,10 @@ label.textarea ~ .check-tips {
     color: #fff;
     background-color: #ff2610;
 }
-.btn.disabled {
+.btn[disabled],
+.btn.disabled,
+.btn[disabled]:hover,
+.btn.disabled:hover {
     background-color: #8d8d8d;
 }
 .save-btn {

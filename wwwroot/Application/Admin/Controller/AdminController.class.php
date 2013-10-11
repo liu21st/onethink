@@ -49,7 +49,7 @@ class AdminController extends Controller {
         array( 'title'=>'内容','url'=>'Article/mydocument', 'controllers'=>'Article',),
         array( 'title'=>'用户','url'=>'User/index',         'controllers'=>'User,AuthManager'),
         array( 'title'=>'扩展','url'=>'Addons/index',       'controllers'=>'Addons,Model',),
-        array( 'title'=>'系统','url'=>'Config/group',       'controllers'=>'Config,Channel,System,Category',),
+        array( 'title'=>'系统','url'=>'Config/group',       'controllers'=>'Config,Channel,System,Category,Database',),
         array( 'title'=>'其他','url'=>'other',              'controllers'=>'File','hide'=>true),//专门放置不需要显示在任何菜单中的节点
     );
 
