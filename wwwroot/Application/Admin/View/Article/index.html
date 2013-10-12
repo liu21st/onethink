@@ -25,7 +25,7 @@
 		<div class="fl">
 			<div class="btn-group">
 				<eq name="allow" value="1">
-					<button class="btn" id="document_add" <if condition="count($model) eq 1">url="{:U('article/add',array('cate_id'=>$cate_id,'pid'=>I('pid',0),'model_id'=>$model[0]))}"</if>>新 增
+					<button class="btn document_add" <if condition="count($model) eq 1">url="{:U('article/add',array('cate_id'=>$cate_id,'pid'=>I('pid',0),'model_id'=>$model[0]))}"</if>>新 增
 						<if condition="count($model) gt 1"><i class="btn-arrowdown"></i></if>
 					</button>
 					<if condition="count($model) gt 1">
@@ -49,6 +49,8 @@
 			<input type="hidden" class="hide-data" name="cate_id" value="{$cate_id}"/>
 			<input type="hidden" class="hide-data" name="pid" value="{$pid}"/>
 			<button class="btn ajax-post confirm" target-form="ids" url="{:U("Article/setStatus",array("status"=>-1))}">删 除</button>
+
+			<button class="btn document_add" url="{:U('article/batchOperate',array('cate_id'=>$cate_id,'pid'=>I('pid',0)))}">导入</button>
 		</div>
 
 		<!-- 高级搜索 -->
@@ -181,7 +183,7 @@ $(function(){
 	});
 
 	//只有一个模型时，点击新增
-	$('#document_add').click(function(){
+	$('.document_add').click(function(){
 		var url = $(this).attr('url');
 		if(url != undefined && url != ''){
 			window.location.href = url;

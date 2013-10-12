@@ -38,7 +38,7 @@ class CategoryController extends AdminController {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function index(){
-        $tree = D('Category')->getTree(0,'id,name,title,sort,pid');
+        $tree = D('Category')->getTree(0,'id,name,title,sort,pid,allow_publish');
         $this->assign('tree', $tree);
         C('_SYS_GET_CATEGORY_TREE_', true); //标记系统获取分类树模板
         $this->meta_title = '分类管理';

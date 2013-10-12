@@ -45,7 +45,7 @@ class DocumentModel extends Model{
         array('extend', 0, self::MODEL_INSERT),
         array('create_time', 'getCreateTime', self::MODEL_BOTH,'callback'),
         array('update_time', NOW_TIME, self::MODEL_BOTH),
-        array('status', '1', self::MODEL_INSERT, 'string'),
+        array('status', 'getStatus', self::MODEL_BOTH, 'callback'),
         array('position', 'getPosition', self::MODEL_BOTH, 'callback'),
         array('dateline', 'strtotime', self::MODEL_BOTH, 'function'),
     );
@@ -137,10 +137,11 @@ class DocumentModel extends Model{
 
     /**
      * 新增或更新一个文档
+     * @param array  $data 手动传入的数据
      * @return boolean fasle 失败 ， int  成功 返回完整的数据
      * @author huajie <banhuajie@163.com>
      */
-    public function update(){
+    public function update($data = null){
     	/* 检查文档类型是否符合要求 */
     	$res = $this->checkDocumentType( I('type'), I('pid') );
     	if(!$res['status']){
@@ -149,7 +150,7 @@ class DocumentModel extends Model{
     	}
 
         /* 获取数据对象 */
-        $data = $this->create();
+        $data = $this->create($data);
         if(empty($data)){
             return false;
         }
@@ -256,12 +257,16 @@ class DocumentModel extends Model{
      * @return integer 数据状态
      */
     protected function getStatus(){
+    	$id = I('post.id');
         $cate = I('post.category_id');
-        $check = M('Category')->getFieldById($cate, 'check');
-        if($check){
-            $status = 2;
-        }else{
+        if(empty($id)){	//新增
         	$status = 1;
+        }else{				//更新
+			$status = $this->getFieldById($id, 'status');
+			//编辑草稿改变状态
+			if($status == 3){
+				$status = 1;
+			}
         }
         return $status;
     }
@@ -381,7 +386,7 @@ class DocumentModel extends Model{
         }else{
             $pos = 0;
             foreach ($position as $key=>$value){
-                $pos ^= $value;		//将各个推荐位的值按位与
+                $pos += $value;		//将各个推荐位的值相加
             }
             return $pos;
         }
@@ -415,7 +420,9 @@ class DocumentModel extends Model{
 
         //删除基础数据
         $ids = array_merge( $base_ids, (array)array_column($orphan,'id') );
-        $res = $this->where( array( 'id'=>array( 'IN',trim(implode(',',$ids),',') ) ) )->delete();
+        if(!empty($ids)){
+        	$res = $this->where( array( 'id'=>array( 'IN',trim(implode(',',$ids),',') ) ) )->delete();
+        }
 
         return $res;
     }
@@ -544,7 +551,7 @@ class DocumentModel extends Model{
     	}else{
     		$map['pid'] = $pid;
     	}
-    	$child = $this->where($map)->field('id,name,title,pid')->select();
+    	$child = $this->where($map)->field('id,name,title,pid')->order('level DESC,id DESC')->select();
     	if(!empty($child)){
     		foreach ($child as $key=>$value){
     			$pids[] = $value['id'];

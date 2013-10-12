@@ -33,13 +33,13 @@
                                 <ul class="subitem">
                                 	<foreach name="three_menu['_child']" item="four_menu">
                                     <li>
-                                        <eq name="four_menu['allow_publish']" value="1"><a class="item" href="{$four_menu.url|U}">{$four_menu.title}</a><else/>{$four_menu.title}</eq>
+                                        <eq name="four_menu['allow_publish']" value="1"><a class="item" href="{:U('index','cate_id='.$four_menu['id'])}">{$four_menu.title}</a><else/>{$four_menu.title}</eq>
                                         <!-- 三级子菜单 -->
                                         <present name="four_menu['_child']">
                                         <ul class="subitem">
                                         	<volist name="four_menu['_child']" id="five_menu">
                                             <li>
-                                            	<eq name="five_menu['allow_publish']" value="1"><a class="item" href="{$five_menu.url|U}">{$five_menu.title}</a><else/>{$five_menu.title}</eq>
+                                            	<eq name="five_menu['allow_publish']" value="1"><a class="item" href="{:U('index','cate_id='.$five_menu['id'])}">{$five_menu.title}</a><else/>{$five_menu.title}</eq>
                                             </li>
                                             </volist>
                                         </ul>
@@ -69,3 +69,12 @@
     </h3>
     </eq>
 </div>
+<script>
+    $(function(){
+        $(".side-sub-menu li").hover(function(){
+            $(this).addClass("hover");
+        },function(){
+            $(this).removeClass("hover");
+        });
+    })
+</script>

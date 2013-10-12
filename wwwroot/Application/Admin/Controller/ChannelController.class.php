@@ -36,11 +36,13 @@ class ChannelController extends AdminController {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function index(){
+    	$pid = i('get.pid', 0);
         /* 获取频道列表 */
-        $map  = array('status' => 1);
+        $map  = array('status' => 1, 'pid'=>$pid);
         $list = M('Channel')->where($map)->order('sort')->select();
 
         $this->assign('list', $list);
+        $this->assign('pid', $pid);
         $this->meta_title = '导航管理';
         $this->display();
     }
@@ -64,6 +66,14 @@ class ChannelController extends AdminController {
                 $this->error($Channel->getError());
             }
         } else {
+        	$pid = i('get.pid', 0);
+        	//获取父导航
+            if(!empty($pid)){
+            	$parent = M('Channel')->where(array('id'=>$pid))->field('title')->find();
+            	$this->assign('parent', $parent);
+            }
+
+        	$this->assign('pid', $pid);
             $this->meta_title = '新增导航';
             $this->display('edit');
         }
@@ -96,6 +106,14 @@ class ChannelController extends AdminController {
                 $this->error('获取配置信息错误');
             }
 
+            $pid = i('get.pid', 0);
+            //获取父导航
+            if(!empty($pid)){
+            	$parent = M('Channel')->where(array('id'=>$pid))->field('title')->find();
+            	$this->assign('parent', $parent);
+            }
+
+            $this->assign('pid', $pid);
             $this->assign('info', $info);
             $this->meta_title = '编辑导航';
             $this->display();

@@ -8,6 +8,13 @@
 	<div class="cf">
 		<a class="btn" href="{:U('add')}">新 增</a>
 		<a class="btn" href="javascript:;">删 除</a>
+		<!-- 高级搜索 -->
+		<div class="search-form fr cf">
+			<div class="sleft">
+				<input type="text" name="name" class="search-input" value="{:I('name')}" placeholder="请输入配置名称">
+				<a class="sch-btn" href="javascript:;" id="search" url="{:U('config/index')}"><i class="btn-search"></i></a>
+			</div>
+		</div>
 	</div>
 
 	<div class="data-table table-striped">
@@ -44,5 +51,36 @@
 				</volist>
 			</tbody>
 		</table>
+		<!-- 分页 -->
+	    <div class="page">
+	        {$_page}
+	    </div>
 	</div>
+</block>
+
+<block name="script">
+<script type="text/javascript">
+$(function(){
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+		window.location.href = url;
+	});
+	//回车搜索
+	$(".search-input").keyup(function(e){
+		if(e.keyCode === 13){
+			$("#search").click();
+			return false;
+		}
+	});
+});
+</script>
 </block>

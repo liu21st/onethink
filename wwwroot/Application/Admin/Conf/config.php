@@ -13,8 +13,8 @@
  */
 return array(
     /* 数据缓存设置 */
-    'DATA_CACHE_PREFIX' => 'onethink_', // 缓存前缀
-    'DATA_CACHE_TYPE'   => 'File', // 数据缓存类型
+    'DATA_CACHE_PREFIX'    => 'onethink_', // 缓存前缀
+    'DATA_CACHE_TYPE'      => 'File', // 数据缓存类型
 
     /* 文件上传相关配置 */
     'DOWNLOAD_UPLOAD' => array(
