@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2012 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006-2013 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -21,7 +21,7 @@ defined('THINK_PATH') or exit();
 if(!is_dir(COMMON_PATH)) {
     // 创建项目目录结构
     build_app_dir();
-}elseif(!is_dir(CACHE_PATH)){
+}elseif(!is_dir(LOG_PATH)){
     // 检查缓存目录
     check_runtime();
 }

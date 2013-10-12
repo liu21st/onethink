@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2012 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006-2013 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -206,17 +206,9 @@ function I($name,$default='',$filter=null) {
         default:
             return NULL;
     }
-    // 全局过滤
-    // array_walk_recursive($input,'filter_exp');
-    if(C('VAR_FILTERS')) {
-        $_filters    =   explode(',',C('VAR_FILTERS'));
-        foreach($_filters as $_filter){
-            // 全局参数过滤
-            array_walk_recursive($input,$_filter);
-        }
-    }
     if(empty($name)) { // 获取全部变量
         $data       =   $input;
+        array_walk_recursive($data,'filter_exp');
         $filters    =   isset($filter)?$filter:C('DEFAULT_FILTER');
         if($filters) {
             $filters    =   explode(',',$filters);
@@ -226,6 +218,7 @@ function I($name,$default='',$filter=null) {
         }
     }elseif(isset($input[$name])) { // 取值操作
         $data       =   $input[$name];
+        array_walk_recursive($data,'filter_exp');
         $filters    =   isset($filter)?$filter:C('DEFAULT_FILTER');
         if($filters) {
             $filters    =   explode(',',$filters);
@@ -773,7 +766,7 @@ function U($url='',$vars='',$suffix=true,$redirect=false,$domain=false) {
     if(C('URL_MODEL') == 0) { // 普通模式URL转换
         $url        =   __APP__.'?'.C('VAR_MODULE')."={$module}&".http_build_query(array_reverse($var));
         if(!empty($vars)) {
-            $vars   =   http_build_query($vars);
+            $vars   =   urldecode(http_build_query($vars));
             $url   .=   '&'.$vars;
         }
     }else{ // PATHINFO模式或者兼容URL模式
@@ -912,6 +905,7 @@ function F($name, $value='', $path=DATA_PATH) {
             if(false !== strpos($name,'*')){
                 return false; // TODO 
             }else{
+                unset($_cache[$name]);
                 return Think\Storage::unlink($filename,'F');
             }
         } else {
@@ -924,7 +918,7 @@ function F($name, $value='', $path=DATA_PATH) {
     // 获取缓存数据
     if (isset($_cache[$name]))
         return $_cache[$name];
-    if (Think\Storage::has($filename)){
+    if (Think\Storage::has($filename,'F')){
         $value      =   unserialize(Think\Storage::read($filename,'F'));
         $_cache[$name]  =   $value;
     } else {
