@@ -42,10 +42,9 @@ function get_document_type($type = null){
         return false;
     }
     switch ($type){
-        case 0  : return    '专辑'; break;
         case 1  : return    '目录'; break;
         case 2  : return    '主题'; break;
-        case 2  : return    '段落'; break;
+        case 3  : return    '段落'; break;
         default : return    false;  break;
     }
 }

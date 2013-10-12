@@ -16,7 +16,7 @@ class ExportModel{
      * 备份文件指针
      * @var resource
      */
-    private $gz;
+    private $fp;
 
     /**
      * 备份文件信息 part - 卷号，name - 文件名
@@ -31,17 +31,17 @@ class ExportModel{
     private $size = 0;
 
     /**
-     * 分卷大小
+     * 备份配置
      * @var integer
      */
-    private $partSize = 2097152; //2*1024*1024
+    private $config = 2097152; //2*1024*1024
 
     /**
      * 构造方法，用于打开文件和初始化参数
      */
     public function __construct(){
-        $this->file = session('backup_file');
-        $this->partSize = C('DATA_BACKUP_PARTSIZE');
+        $this->file   = session('backup_file');
+        $this->config = session('backup_config');
     }
 
     /**
@@ -49,19 +49,24 @@ class ExportModel{
      * @param  integer $size 写入数据的大小
      */
     private function open($size){
-        if($this->gz){
+        if($this->fp){
             $this->size += $size;
-            if($this->size > $this->partSize){
-                @gzclose($this->gz);
-                $this->gz = null;
+            if($this->size > $this->config['part']){
+                $this->config['compress'] ? @gzclose($this->fp) : @fclose($this->fp);
+                $this->fp = null;
                 $this->file['part']++;
                 session('backup_file', $this->file);
                 $this->create();
             }
         } else {
-            $backuppath = C('DATA_BACKUP_PATH');
-            $filename   = "{$backuppath}{$this->file['name']}-{$this->file['part']}.sql.gz";
-            $this->gz   = @gzopen($filename, 'a9');
+            $backuppath = $this->config['path'];
+            $filename   = "{$backuppath}{$this->file['name']}-{$this->file['part']}.sql";
+            if($this->config['compress']){
+                $filename = "{$filename}.gz";
+                $this->fp = @gzopen($filename, "a{$this->config['level']}");
+            } else {
+                $this->fp = @fopen($filename, 'a');
+            }
             $this->size = filesize($filename) + $size;
         }
     }
@@ -71,8 +76,7 @@ class ExportModel{
      * @return boolean true - 写入成功，false - 写入失败
      */
     public function create(){
-        $sql  = pack("CCC",0xef,0xbb,0xbf); //添加UTF8 BOM 避免备份文件显示乱码
-        $sql .= "-- -----------------------------\n";
+        $sql  = "-- -----------------------------\n";
         $sql .= "-- Think MySQL Data Transfer \n";
         $sql .= "-- \n";
         $sql .= "-- Host     : " . C('DB_HOST') . "\n";
@@ -92,11 +96,14 @@ class ExportModel{
      * @return boolean     true - 写入成功，false - 写入失败！
      */
     private function write($sql){
+        $size = strlen($sql);
+        
         //由于压缩原因，无法计算出压缩后的长度，这里假设压缩率为50%，
         //一般情况压缩率都会高于50%；
-        $this->open(strlen($sql)/2); 
+        $size = $this->config['compress'] ? $size / 2 : $size;
         
-        return @gzwrite($this->gz, $sql);
+        $this->open($size); 
+        return $this->config['compress'] ? @gzwrite($this->fp, $sql) : @fwrite($this->fp, $sql);
     }
 
     /**
@@ -161,6 +168,6 @@ class ExportModel{
      * 析构方法，用于关闭文件资源
      */
     public function __destruct(){
-        @gzclose($this->gz);
+        $this->config['compress'] ? @gzclose($this->fp) : @fclose($this->fp);
     }
 }
