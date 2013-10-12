@@ -115,7 +115,7 @@ body{
     z-index:2;
 }
 .subnav {
-    padding: 0 0 66px 15px;
+    padding-left: 15px;
 }
 
 /* 子导航标题栏 */
