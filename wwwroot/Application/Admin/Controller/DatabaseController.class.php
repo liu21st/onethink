@@ -30,7 +30,7 @@ class DatabaseController extends AdminController{
         array( 'title' => '数据恢复', 'url' => 'Database/index?type=import', 'group' => '数据备份',
                 'operator'=>array(
                     array('title'=>'恢复','url'=>'Database/import','tip'=>'数据库恢复'),
-                    array('title'=>'删除','url'=>'Database/delete','tip'=>'删除备份文件'),
+                    array('title'=>'删除','url'=>'Database/del','tip'=>'删除备份文件'),
                 )),
     );
 
@@ -50,7 +50,7 @@ class DatabaseController extends AdminController{
 
                 $list = array();
                 foreach ($glob as $name => $file) {
-                    if(preg_match('/^\d{8,8}-\d{6,6}-\d+\.sql$/', $name)){
+                    if(preg_match('/^\d{8,8}-\d{6,6}-\d+\.sql.gz$/', $name)){
                         $name = sscanf($name, "%4s%2s%2s-%2s%2s%2s-%d");
                         
                         $date = "{$name[0]}-{$name[1]}-{$name[2]}";
@@ -70,7 +70,7 @@ class DatabaseController extends AdminController{
                         $list["{$date} {$time}"] = $info;
                     }
                 }
-
+                $title = '数据还原';
                 break;
             
             /* 数据备份 */
@@ -78,6 +78,7 @@ class DatabaseController extends AdminController{
                 $Db = Db::getInstance();
                 $list = $Db->query('SHOW TABLE STATUS');
                 $list = array_map('array_change_key_case', $list);
+                $title = '数据备份';
                 break;
             
             default:
@@ -85,6 +86,7 @@ class DatabaseController extends AdminController{
         }
 
         //渲染模板
+        $this->assign('meta_title', $title);
         $this->assign('list', $list);
         $this->display($type);
     }
@@ -154,9 +156,9 @@ class DatabaseController extends AdminController{
      * @param  Integer $time 备份时间
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
-    public function delete($time = 0){
+    public function del($time = 0){
         if($time){
-            $name  = date('Ymd-His', $time) . '-*.sql';
+            $name  = date('Ymd-His', $time) . '-*.sql.gz';
             $path  = C('DATA_BACKUP_PATH') . $name;
             $files = glob($path);
             foreach ($files as $value) {
