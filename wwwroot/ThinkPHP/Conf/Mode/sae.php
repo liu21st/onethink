@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
-// | Author: liu21st <liu21st@gmail.com>
+// | Author: luofei614 <weibo.com/luofei614>
 // +----------------------------------------------------------------------
       
 /**
@@ -16,6 +16,7 @@ return array(
 	// 配置文件
 	'config'	=>	array(
 		THINK_PATH.'Conf/convention.php', // 惯例配置
+        THINK_PATH.'Conf/convention_sae.php',//[sae] sae的惯例配置
 		COMMON_PATH.'Conf/config.php',		// 项目配置
 	),
 
@@ -80,5 +81,7 @@ return array(
 	    ),
 	    'view_end'      =>  array(),
 	),
-	'tags'	=>	COMMON_PATH.'Conf/tags.php',
+	'tags'	=>	array(
+		COMMON_PATH.'Conf/tags.php',
+	),
 );
