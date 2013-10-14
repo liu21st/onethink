@@ -30,7 +30,7 @@ class ArticleLogic extends BaseLogic{
 	public function update($id = 0){
 		/* 获取文章数据 */
 		$data = $this->create();
-		if(!$data){
+		if($data === false){
 			return false;
 		}
 
