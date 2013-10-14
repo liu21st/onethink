@@ -19,7 +19,7 @@ class DocumentModel extends Model{
     /* 自动验证规则 */
     protected $_validate = array(
         array('name', '/^[a-zA-Z]\w{0,39}$/', '文档标识不合法', self::VALUE_VALIDATE, 'regex', self::MODEL_BOTH),
-        array('name', '', '标识已经存在', self::VALUE_VALIDATE, 'unique', self::MODEL_BOTH),
+        array('name', 'checkName', '标识已经存在', self::VALUE_VALIDATE, 'callback', self::MODEL_BOTH),
         array('title', 'require', '标题不能为空', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
         array('title', '1,80', '标题长度不能超过80个字符', self::MUST_VALIDATE, 'length', self::MODEL_BOTH),
     	array('level', '/^[\d]+$/', '优先级只能填正整数', self::VALUE_VALIDATE, 'regex', self::MODEL_BOTH),
@@ -339,17 +339,20 @@ class DocumentModel extends Model{
     }
 
     /**
-     * 检查标识是否已存在
+     * 检查标识是否已存在(只需在同一父节点下不重复)
      * @param string $name
      * @return true无重复，false已存在
      * @author huajie <banhuajie@163.com>
      */
     protected function checkName(){
         $name = I('post.name');
-        if(empty($name)){
-            $name = $this->generateName();
+        $pid = I('post.pid', 0);
+        $map = array('pid'=>$pid, 'name'=>$name);
+        $res = $this->where($map)->getField('id');
+        if($res){
+        	return false;
         }
-        return $name;
+        return true;
     }
 
     /**
