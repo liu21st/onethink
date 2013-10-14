@@ -29,7 +29,7 @@
                         <td>{$data.size|format_bytes}</td>
                         <td>{$key}</td>
                         <td class="action">
-                            <a class="ajax-get no-refresh" href="{:U('import'.$data['time'])}">还原</a>&nbsp;
+                            <a class="ajax-get no-refresh" href="{:U('import?time='.$data['time'])}">还原</a>&nbsp;
                             <a class="ajax-get confirm" href="{:U('del?time='.$data['time'])}">删除</a>
                         </td>
                     </tr>
