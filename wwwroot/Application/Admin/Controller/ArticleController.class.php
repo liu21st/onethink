@@ -513,12 +513,16 @@ class ArticleController extends \Admin\Controller\AdminController {
     		$list = $matchs[0];
     		foreach ($list as $value){
     			if(!empty($value) && (strpos($value, '|') !== false)){
+    				//过滤换行回车并分割
     				$data = explode('|', str_replace(array("\r", "\r\n", "\n"), '', $value));
     				//构造新增的数据
     				$data = array('name'=>$data[0], 'title'=>$data[1], 'category_id'=>$cate_id, 'model_id'=>$model_id);
     				$data['description'] = '';
     				$data['pid'] = $pid;
     				$data['type'] = $type;
+    				//构造post数据用于自动验证
+    				$_POST = $data;
+
     				$res = D('Document')->update($data);
     			}
     		}
