@@ -12,10 +12,9 @@ onethink官网规划
 + 精华插件展示
 + 精华讨论展示
 + 优秀案例展示
++ 业界资讯
 
 ### 讨论区
-
-> 规划多个版块
 
 + 主题和回复允许使用富文本编辑器
 + 收藏和分享
@@ -28,6 +27,7 @@ onethink官网规划
 + onethink讨论区
 + 站长交流区
 + 站务/新闻(只读板块)
++ 业界资讯
 
 #### 页面
 
@@ -72,3 +72,65 @@ onethink官网规划
 + 签到
 + 关注
 + @
+
+
+OneThink.cn前端开发规范
+==============
+
+> 官网对IE浏览器支持起点为IE9,部分css降级支持到IE8, 开发阶段完全不需要考虑IE6/7
+> 在选择js插件时,优先按以下条件选择:
+> 
+> * 托管在github上的开源项目
+> * 对移动设备支持较好
+> * 源码规范,有注释
+> * 小巧实用或强大但灵活易用易扩展
+> * 依赖较少
+> * 有文档和示例
+> * 协议为:BSD,MIT,Apache
+
+JS插件
+------
+
+插件                      描述                                     浏览器支持                 其他需求
+Selectize.js              一个自定义的文本`<select>`实现           IE9+,(IE8需es5-shim),ios5+
+iCheck                    一个可高度自定义的radio,checkbox实现     所有桌面和移动浏览器
+naeka/jquery-switchbutton on/off按钮                               ie6+                       'jQuery UI Widget'
+casperin/nod              表单验证                                 ie6+
+bootstrap-daterangepicker 日期范围选择插件(用户体验超棒)           ie8+                       Bootstrap2/3,Moment.js
+typeahead.js              输入框自动完成插件                       ie6+                       jQuery1.9+
+qTip2                     强大的tip提示插件(可实现Dialog)          ie6+,ios4+
+jaz303/tipsy              单纯的tip插件，小巧好用                  ie6+
+momentjs                  非常全面的时间展示插件                   all
+jquery.cookie             cookie操作插件                           all
+underscorejs              提供了大量工具方法                       all
+jamesallardice/Placeholders.js  为所有浏览器提供placeholder支持    all
+derek-watson/jsUri        uri分析插件                              all
+JangoSteve/jQuery-EasyTabs                                         ie7+
+zeroclipboard/zeroclipboard 复制到剪贴板                           ie6+
+responsive-nav.js         独立的响应式导航插件                     ie6+
+DateTimePicker            时间日期选择器                           ie9+
+idiot/unslider            一个超小的jQuery轮播插件                 ie9+
+makeusabrew/bootbox       bs2/3的对话框插件                        ie8+
+
+ui解决方案
+----------
+
++ 以bootstrap3作为前端前端解决方案(支持至ie8)
++ 以[yui/pure](http://purecss.io/)作为布局向下兼容至ie7解决方案
++ 需要自己写css和js实现的部分,尽量封装成可重用的组件
+
+UI参考
+------
+
+> 有优秀的可参考网页,请在下面补充
+
++ http://www.oschina.net/news/44046/10-super-useful-free-flat-ui-kits
++ http://www.xenserver.org/
++ http://designmodo.com/flat/
++ bootswatch.com
+
+
+其他资源
+--------
+
++ [每位设计师都应该拥有的50个CSS代码片段](http://www.oschina.net/translate/css-snippets-for-designers)
