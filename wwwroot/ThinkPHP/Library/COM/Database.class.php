@@ -4,16 +4,18 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2006-2012 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
+// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
+// +----------------------------------------------------------------------
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
-namespace Admin\Model;
+namespace COM;
 use Think\Db;
 
 //数据导出模型
-class ExportModel{
+class Database{
     /**
-     * 备份文件指针
+     * 文件指针
      * @var resource
      */
     private $fp;
@@ -34,14 +36,17 @@ class ExportModel{
      * 备份配置
      * @var integer
      */
-    private $config = 2097152; //2*1024*1024
+    private $config;
 
     /**
-     * 构造方法，用于打开文件和初始化参数
+     * 数据库备份构造方法
+     * @param array  $file   备份或还原的文件信息
+     * @param array  $config 备份配置信息
+     * @param string $type   执行类型，export - 备份数据， import - 还原数据
      */
-    public function __construct(){
-        $this->file   = session('backup_file');
-        $this->config = session('backup_config');
+    public function __construct($file, $config, $type = 'export'){
+        $this->file   = $file;
+        $this->config = $config;
     }
 
     /**
@@ -162,6 +167,49 @@ class ExportModel{
 
         //备份下一表
         return 0;
+    }
+
+    public function import($start){
+        //还原数据
+        $DB = array(
+            'DB_TYPE'=>'mysql',
+            'DB_HOST'=>'192.168.1.200',
+            'DB_NAME'=>'onethink',
+            'DB_USER'=>'root',
+            'DB_PWD'=>'',
+            'DB_PORT'=>'3306',
+            'DB_PREFIX'=>'onethink_',
+        );
+        $db   = Db::getInstance($DB);
+
+        if($this->config['compress']){
+            $gz   = gzopen($this->file[1], 'r');
+            $size = 0;
+        } else {
+            $size = filesize($this->file[1]);
+            $gz   = fopen($this->file[1], 'r');
+        }
+        
+        $sql  = '';
+        if($start){
+            $this->config['compress'] ? gzseek($gz, $start) : fseek($gz, $start);
+        }
+        
+        for($i = 0; $i < 1000; $i++){
+            $sql .= $this->config['compress'] ? gzgets($gz) : fgets($gz); 
+            if(preg_match('/.*;$/', trim($sql))){
+                if(false !== $db->query($sql)){
+                    $start += strlen($sql);
+                } else {
+                    return false;
+                }
+                $sql = '';
+            } elseif ($this->config['compress'] ? gzeof($gz) : feof($gz)) {
+                return 0;
+            }
+        }
+
+        return array($start, $size);
     }
 
     /**
