@@ -171,16 +171,7 @@ class Database{
 
     public function import($start){
         //还原数据
-        $DB = array(
-            'DB_TYPE'=>'mysql',
-            'DB_HOST'=>'192.168.1.200',
-            'DB_NAME'=>'onethink',
-            'DB_USER'=>'root',
-            'DB_PWD'=>'',
-            'DB_PORT'=>'3306',
-            'DB_PREFIX'=>'onethink_',
-        );
-        $db   = Db::getInstance($DB);
+        $db = Db::getInstance();
 
         if($this->config['compress']){
             $gz   = gzopen($this->file[1], 'r');
