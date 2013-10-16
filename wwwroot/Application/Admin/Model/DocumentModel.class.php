@@ -38,6 +38,7 @@ class DocumentModel extends Model{
         array('uid', 'is_login', self::MODEL_INSERT, 'function'),
         array('title', 'htmlspecialchars', self::MODEL_BOTH, 'function'),
         array('description', 'htmlspecialchars', self::MODEL_BOTH, 'function'),
+    	array('root', 'getRoot', self::MODEL_BOTH, 'callback'),
         array('link_id', 'getLink', self::MODEL_BOTH, 'callback'),
         array('attach', 0, self::MODEL_INSERT),
         array('view', 0, self::MODEL_INSERT),
@@ -272,6 +273,20 @@ class DocumentModel extends Model{
     }
 
     /**
+     * 获取根节点id
+     * @return integer 数据id
+     * @author huajie <banhuajie@163.com>
+     */
+    protected function getRoot(){
+    	$pid = I('post.pid');
+    	if($pid == 0){
+    		return 0;
+    	}
+    	$p_root = $this->getFieldById($pid, 'root');
+    	return $p_root == 0 ? $pid : $p_root;
+    }
+
+    /**
      * 创建时间不写则取当前时间
      * @return int 时间戳
      * @author huajie <banhuajie@163.com>
@@ -339,7 +354,7 @@ class DocumentModel extends Model{
     }
 
     /**
-     * 检查标识是否已存在(只需在同一父节点下不重复)
+     * 检查标识是否已存在(只需在同一根节点下不重复)
      * @param string $name
      * @return true无重复，false已存在
      * @author huajie <banhuajie@163.com>
@@ -347,9 +362,10 @@ class DocumentModel extends Model{
     protected function checkName(){
         $name = I('post.name');
         $pid = I('post.pid', 0);
-        $map = array('pid'=>$pid, 'name'=>$name);
+        $id = I('post.id', 0);
+        $map = array('root'=>$pid, 'name'=>$name);
         $res = $this->where($map)->getField('id');
-        if($res){
+        if($res && $res != $id){
         	return false;
         }
         return true;
