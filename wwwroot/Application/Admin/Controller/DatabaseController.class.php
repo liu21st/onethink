@@ -9,6 +9,7 @@
 
 namespace Admin\Controller;
 use Think\Db;
+use COM\Database;
 
 /**
  * 数据库备份还原控制器
@@ -51,7 +52,7 @@ class DatabaseController extends AdminController{
                 $list = array();
                 foreach ($glob as $name => $file) {
                     if(preg_match('/^\d{8,8}-\d{6,6}-\d+\.sql(?:\.gz)?$/', $name)){
-                        $name = sscanf($name, "%4s%2s%2s-%2s%2s%2s-%d");
+                        $name = sscanf($name, '%4s%2s%2s-%2s%2s%2s-%d');
                         
                         $date = "{$name[0]}-{$name[1]}-{$name[2]}";
                         $time = "{$name[3]}:{$name[4]}:{$name[5]}";
@@ -78,9 +79,9 @@ class DatabaseController extends AdminController{
             
             /* 数据备份 */
             case 'export':
-                $Db = Db::getInstance();
-                $list = $Db->query('SHOW TABLE STATUS');
-                $list = array_map('array_change_key_case', $list);
+                $Db    = Db::getInstance();
+                $list  = $Db->query('SHOW TABLE STATUS');
+                $list  = array_map('array_change_key_case', $list);
                 $title = '数据备份';
                 break;
             
@@ -162,11 +163,8 @@ class DatabaseController extends AdminController{
     public function del($time = 0){
         if($time){
             $name  = date('Ymd-His', $time) . '-*.sql*';
-            $path  = C('DATA_BACKUP_PATH') . $name;
-            $files = glob($path);
-            foreach ($files as $value) {
-                @unlink($value);
-            }
+            $path  = realpath(C('DATA_BACKUP_PATH')) . DIRECTORY_SEPARATOR . $name;
+			array_map("unlink", glob($path));
             if(count(glob($path))){
                 $this->success('备份文件删除失败，请检查权限！');
             } else {
@@ -218,7 +216,8 @@ class DatabaseController extends AdminController{
             session('backup_tables', $tables);
 
             //创建备份文件
-            if(false !== D('Export')->create()){
+            $Database = new Database($file, $config);
+            if(false !== $Database->create()){
                 $tab = array('id' => 0, 'start' => 0);
                 $this->success('初始化成功！', '', array('tables' => $tables, 'tab' => $tab));
             } else {
@@ -227,7 +226,8 @@ class DatabaseController extends AdminController{
         } elseif (IS_GET && is_numeric($id) && is_numeric($start)) { //备份数据
             $tables = session('backup_tables');
             //备份指定表
-            $start  = D('Export')->backup($tables[$id], $start);
+            $Database = new Database(session('backup_file'), session('backup_config'));
+            $start  = $Database->backup($tables[$id], $start);
             if(false === $start){ //出错
                 $this->error('备份出错！');
             } elseif (0 === $start) { //下一表
@@ -243,12 +243,12 @@ class DatabaseController extends AdminController{
                 }
             } else {
                 $tab  = array('id' => $id, 'start' => $start[0]);
-                $rate = floor(100*($start[0]/$start[1]));
+                $rate = floor(100 * ($start[0] / $start[1]));
                 $this->success("正在备份...({$rate}%)", '', array('tab' => $tab));
             }
 
         } else { //出错
-            $this->error('请指定要备份的表！');
+            $this->error('参数错误！');
         }
     }
 
@@ -256,8 +256,61 @@ class DatabaseController extends AdminController{
      * 还原数据库
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
-    public function import(){
-        $this->success('此功能暂未开放，敬请期待！');
+    public function import($time = 0, $part = null, $start = null){
+        if(is_numeric($time) && is_null($part) && is_null($start)){ //初始化
+            //获取备份文件信息
+            $name  = date('Ymd-His', $time) . '-*.sql*';
+            $path  = realpath(C('DATA_BACKUP_PATH')) . DIRECTORY_SEPARATOR . $name;
+            $files = glob($path);
+            $list  = array();
+            foreach($files as $name){
+                $basename = basename($name);
+                $match    = sscanf($basename, '%4s%2s%2s-%2s%2s%2s-%d');
+                $gz       = preg_match('/^\d{8,8}-\d{6,6}-\d+\.sql.gz$/', $basename);
+                $list[$match[6]] = array($match[6], $name, $gz);
+            }
+            ksort($list);
+
+            //检测文件正确性
+            $last = end($list);
+            if(count($list) === $last[0]){
+                session('backup_list', $list); //缓存备份列表
+                $this->success('初始化完成！', '', array('part' => 1, 'start' => 0));
+            } else {
+                $this->error('备份文件可能已经损坏，请检查！');
+            }
+        } elseif(is_numeric($part) && is_numeric($start)) {
+            $list  = session('backup_list');
+            $db = new Database($list[$part], array(
+                'path'     => realpath(C('DATA_BACKUP_PATH')) . DIRECTORY_SEPARATOR,
+                'compress' => $list[$part][2]));
+
+            $start = $db->import($start);
+
+            if(false === $start){
+                $this->error('还原数据出错！');
+            } elseif(0 === $start) { //下一卷
+                if(isset($list[++$part])){
+                    $data = array('part' => $part, 'start' => 0);
+                    $this->success("正在还原...#{$part}", '', $data);
+                } else {
+                    session('backup_list', null);
+                    $this->success('还原完成！');
+                }
+            } else {
+                $data = array('part' => $part, 'start' => $start[0]);
+                if($start[1]){
+                    $rate = floor(100 * ($start[0] / $start[1]));
+                    $this->success("正在还原...#{$part} ({$rate}%)", '', $data);
+                } else {
+                    $data['gz'] = 1;
+                    $this->success("正在还原...#{$part}", '', $data);
+                }
+            }
+
+        } else {
+            $this->error('参数错误！');
+        }
     }
 
 }
