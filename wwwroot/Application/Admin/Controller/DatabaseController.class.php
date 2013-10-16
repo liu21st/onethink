@@ -164,10 +164,7 @@ class DatabaseController extends AdminController{
         if($time){
             $name  = date('Ymd-His', $time) . '-*.sql*';
             $path  = realpath(C('DATA_BACKUP_PATH')) . DIRECTORY_SEPARATOR . $name;
-            $files = glob($path);
-            foreach ($files as $value) {
-                @unlink($value);
-            }
+			array_map("unlink", glob($path));
             if(count(glob($path))){
                 $this->success('备份文件删除失败，请检查权限！');
             } else {
