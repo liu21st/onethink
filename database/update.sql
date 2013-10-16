@@ -22,3 +22,9 @@ ADD COLUMN `check`  tinyint(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '发布的文
 */
 ALTER TABLE `onethink_category`
 DROP COLUMN `reply_type`;
+/**
+基础文档表增加字段“根节点”
+2013-10-16
+*/
+ALTER TABLE `onethink_document`
+ADD COLUMN `root`  int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '根节点' AFTER `description`;
