@@ -33,6 +33,7 @@ class DocumentModel extends Model{
 		array('uid', 'session', self::MODEL_INSERT, 'function', 'user_auth.uid'),
 		array('title', 'htmlspecialchars', self::MODEL_BOTH, 'function'),
 		array('description', 'htmlspecialchars', self::MODEL_BOTH, 'function'),
+		array('root', 'getRoot', self::MODEL_BOTH, 'callback'),
 		array('attach', 0, self::MODEL_INSERT),
 		array('view', 0, self::MODEL_INSERT),
 		array('comment', 0, self::MODEL_INSERT),
@@ -255,6 +256,22 @@ class DocumentModel extends Model{
         	$status = 1;
         }
         return $status;
+    }
+
+    /**
+     * 获取根节点id
+     * @return integer 数据id
+     * @author huajie <banhuajie@163.com>
+     */
+    protected function getRoot(){
+    	$pid = I('post.pid');
+    	$check = M('Category')->getFieldById($cate, 'check');
+    	if($check){
+    		$status = 2;
+    	}else{
+    		$status = 1;
+    	}
+    	return $status;
     }
 
 	/**
