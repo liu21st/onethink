@@ -145,4 +145,49 @@ class CategoryController extends AdminController {
             $this->error('删除分类失败！');
         }
     }
+
+    /**
+     * 移动分类
+     * @author huajie <banhuajie@163.com>
+     */
+    public function move(){
+    	$to = I('post.to');
+    	$from = I('post.from');
+    	$res = M('Category')->where(array('id'=>$from))->setField('pid', $to);
+    	if($res !== false){
+    		$this->success('分类移动成功！');
+    	}else{
+    		$this->error('分类移动失败！');
+    	}
+    }
+
+    /**
+     * 合并分类
+     * @author huajie <banhuajie@163.com>
+     */
+    public function merge(){
+		$to = I('post.to');
+    	$from = I('post.from');
+    	$Model = M('Category');
+
+    	//检查分类绑定的模型
+    	$from_models = explode(',', $Model->getFieldById($from, 'model'));
+    	$to_models = explode(',', $Model->getFieldById($to, 'model'));
+    	foreach ($from_models as $value){
+    		if(!in_array($value, $to_models)){
+    			$this->error('请给目标分类绑定' . get_document_model($value, 'title') . '模型');
+    		}
+    	}
+
+    	//检查分类选择的文档类型
+    	$from_types = explode(',', $Model->getFieldById($from, 'type'));
+    	$to_types = explode(',', $Model->getFieldById($to, 'type'));
+    	foreach ($from_types as $value){
+    		if(!in_array($value, $to_types)){
+    			$types = C('DOCUMENT_MODEL_TYPE');
+    			$this->error('请给目标分类绑定' . $types[$value] . '的文档类型');
+    		}
+    	}
+
+    }
 }
