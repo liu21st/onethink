@@ -265,13 +265,11 @@ class DocumentModel extends Model{
      */
     protected function getRoot(){
     	$pid = I('post.pid');
-    	$check = M('Category')->getFieldById($cate, 'check');
-    	if($check){
-    		$status = 2;
-    	}else{
-    		$status = 1;
+    	if($pid == 0){
+    		return 0;
     	}
-    	return $status;
+    	$p_root = $this->getFieldById($pid, 'root');
+    	return $p_root == 0 ? $pid : $p_root;
     }
 
 	/**
