@@ -733,6 +733,14 @@ class ArticleController extends \Admin\Controller\AdminController {
         		$map['id']          =   $value;
         		$data['category_id']=   $cate_id;
 				$data['pid'] 		=   $pid;
+				$data['name']		=	'';
+				//获取root
+				if($pid == 0){
+					$data['root'] = 0;
+				}else{
+					$p_root = $Model->getFieldById($pid, 'root');
+					$data['root'] = $p_root == 0 ? $pid : $p_root;
+				}
 				$res = $Model->where($map)->save($data);
         	}
         	session('moveArticle', null);
@@ -751,6 +759,13 @@ class ArticleController extends \Admin\Controller\AdminController {
             	$data['pid'] 			=   $pid;
             	$data['create_time']    =   NOW_TIME;
             	$data['update_time']    =   NOW_TIME;
+            	//获取root
+            	if($pid == 0){
+            		$data['root'] = 0;
+            	}else{
+            		$p_root = $Model->getFieldById($pid, 'root');
+            		$data['root'] = $p_root == 0 ? $pid : $p_root;
+            	}
 
             	$result   =  $Model->add($data);
             	if($result){
