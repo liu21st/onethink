@@ -363,9 +363,18 @@ class DocumentModel extends Model{
         $name = I('post.name');
         $pid = I('post.pid', 0);
         $id = I('post.id', 0);
-        $map = array('root'=>$pid, 'name'=>$name);
+
+        //获取根节点
+        if($pid == 0){
+        	$root = 0;
+        }else{
+        	$root = $this->getFieldById($pid, 'root');
+        	$root = $root == 0 ? $pid : $root;
+        }
+
+        $map = array('root'=>$root, 'name'=>$name, 'id'=>array('neq',$id));
         $res = $this->where($map)->getField('id');
-        if($res && $res != $id){
+        if($res){
         	return false;
         }
         return true;
