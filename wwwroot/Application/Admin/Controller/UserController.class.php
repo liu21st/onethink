@@ -44,8 +44,16 @@ class UserController extends AdminController {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function index(){
-        $Member = M("Member")->field(true)->where(array('status'=>array('egt',0)))->order('uid DESC');
-        $list   = $this->lists($Member);
+    	$nickname = I('nickname');
+    	$map = array('status'=>array('egt',0));
+    	if(isset($nickname)){
+    		if(intval($nickname) !== 0){
+    			$map['uid'] = intval($nickname);
+    		}else{
+    			$map['nickname']  = array('like', '%'.(string)$nickname.'%');
+    		}
+    	}
+        $list   = $this->lists('Member', $map);
         int_to_string($list);
         $this->assign('_list', $list);
         $this->meta_title = '用户信息';
