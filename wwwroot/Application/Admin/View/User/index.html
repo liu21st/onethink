@@ -7,6 +7,7 @@
 	</div>
 	<div class="cf">
 		<div class="fl">
+            <a class="btn" href="{:U('User/add')}">新 增</a>
             <button class="btn ajax-post" url="{:U('User/changeStatus',array('method'=>'resumeUser'))}" target-form="ids">启 用</button>
             <button class="btn ajax-post" url="{:U('User/changeStatus',array('method'=>'forbidUser'))}" target-form="ids">禁 用</button>
             <button class="btn ajax-post confirm" url="{:U('User/changeStatus',array('method'=>'deleteUser'))}" target-form="ids">删 除</button>

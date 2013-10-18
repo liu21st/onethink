@@ -30,7 +30,7 @@
 					<td>{$vo.name}</td>
 					<td>{$vo.description}</td>
 					<td>{$vo.status_text|default="未安装"}</td>
-					<td>{$vo.author}</td>
+					<td><a target="_blank" href="{$vo.url|default='http://www.onethink.cn'}">{$vo.author}</a></td>
 					<td>{$vo.version}</td>
 					<td>
 						<empty name="vo.uninstall">

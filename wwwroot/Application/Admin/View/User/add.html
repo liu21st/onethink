@@ -1,0 +1,44 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <div class="main-title">
+        <h2>{$info['id']?'编辑':'新增'}用户</h2>
+    </div>
+    <form action="__SELF__" method="post" class="form-horizontal">
+        <div class="form-item">
+            <label class="item-label">用户名<span class="check-tips">（用户名会作为默认的昵称）</span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="username" value="{$info.name|default=''}">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">密码<span class="check-tips">（用户密码不能少于6位）</span></label>
+            <div class="controls">
+                <input type="password" class="text input-large" name="password" value="{$info.title|default=''}">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">确认密码</label>
+            <div class="controls">
+                <input type="password" class="text input-large" name="repassword" value="{$info.title|default=''}">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">邮箱<span class="check-tips">（系统会根据不同类型解析配置值）</span></label>
+            <div class="controls">
+                <div class="controls">
+                <input type="text" class="text input-large" name="email" value="{$info.title|default=''}">
+            </div>
+            </div>
+        </div>
+    </form>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        // Think.setValue("type", {$info.type|default=0});
+        // Think.setValue("group", {$info.group|default=0});
+        //导航高亮
+        $('.side-sub-menu').find('a[href="{:U('User/index')}"]').closest('li').addClass('current');
+    </script>
+</block>

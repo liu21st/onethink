@@ -245,4 +245,8 @@ class UserController extends AdminController {
         }
     }
 
+    public function add(){
+        $this->display();
+    }
+
 }
