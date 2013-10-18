@@ -147,6 +147,35 @@ class CategoryController extends AdminController {
     }
 
     /**
+     * 操作分类初始化
+     * @param string $type
+     * @author huajie <banhuajie@163.com>
+     */
+    public function operate($type = 'move'){
+    	//检查操作参数
+    	if(strcmp($type, 'move') == 0){
+    		$operate = '移动';
+    	}elseif(strcmp($type, 'merge') == 0){
+    		$operate = '合并';
+    	}else{
+    		$this->error('参数错误！');
+    	}
+    	$from = intval(I('get.from'));
+    	empty($from) && $this->error('参数错误！');
+
+    	//获取分类
+    	$map = array('status'=>1, 'id'=>array('neq', $from));
+		$list = M('Category')->where($map)->field('id,title')->select();
+
+    	$this->assign('type'	, $type);
+    	$this->assign('operate'	, $operate);
+    	$this->assign('from'	, $from);
+    	$this->assign('list'	, $list);
+    	$this->meta_title = $operate.'分类';
+    	$this->display();
+    }
+
+    /**
      * 移动分类
      * @author huajie <banhuajie@163.com>
      */
@@ -155,7 +184,7 @@ class CategoryController extends AdminController {
     	$from = I('post.from');
     	$res = M('Category')->where(array('id'=>$from))->setField('pid', $to);
     	if($res !== false){
-    		$this->success('分类移动成功！');
+    		$this->success('分类移动成功！', U('index'));
     	}else{
     		$this->error('分类移动失败！');
     	}
@@ -185,8 +214,19 @@ class CategoryController extends AdminController {
     	foreach ($from_types as $value){
     		if(!in_array($value, $to_types)){
     			$types = C('DOCUMENT_MODEL_TYPE');
-    			$this->error('请给目标分类绑定' . $types[$value] . '的文档类型');
+    			$this->error('请给目标分类绑定文档类型：' . $types[$value]);
     		}
+    	}
+
+    	//合并文档
+    	$res = M('Document')->where(array('category_id'=>$from))->setField('category_id', $to);
+
+    	if($res){
+    		//删除被合并的分类
+    		$Model->delete($from);
+    		$this->success('合并分类成功！', U('index'));
+    	}else{
+    		$this->error('合并分类失败！');
     	}
 
     }
