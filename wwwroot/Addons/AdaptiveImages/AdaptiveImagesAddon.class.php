@@ -23,7 +23,8 @@ use Common\Controller\Addon;
             'description'=>'通过检测手机的宽度，在小设备访问图片时返回合适尺寸的小图片，到小尺寸设备达到图片响应式。',
             'status'=>0,
             'author'=>'thinkphp',
-            'version'=>'0.1'
+            'version'=>'0.1',
+            'url'=> 'http://www.thinkphp.cn'
         );
 
         public function install(){
