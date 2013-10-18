@@ -51,6 +51,7 @@ class UrlModel extends Model {
         /* 添加或新增行为 */
         if(empty($data['id'])){ //新增数据
             $id = $this->add();
+            $data['id'] = $id;
             if(!$id){
                 $this->error = '新增链接出错！';
                 return false;
