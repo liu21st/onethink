@@ -24,17 +24,22 @@ class UserController extends AdminController {
      */
     static protected $nodes = array(
         /* 系统设置 */
-        array( 'title' => '用户信息', 'url' => 'User/index', 'group' => '用户管理'),
+        array( 'title' => '用户信息', 'url' => 'User/index', 'group' => '用户管理',
+            'operator'=>array(
+                //权限管理页面的五种按钮
+                array('title'=>'新增用户','url'=>'User/add','tip'=>'添加新用户'),
+            ),
+        ),
         array( 'title' => '用户行为', 'url' => 'User/action', 'group' => '用户管理',
             'operator'=>array(
                 //权限管理页面的五种按钮
-                array('title'=>'新增用户行为','url'=>'user/addAction','tip'=>'"用户->用户行为"中的新增'),
-                array('title'=>'编辑用户行为','url'=>'user/editAction','tip'=>'"用户->用户行为"点击标题进行编辑'),
-                array('title'=>'保存用户行为','url'=>'user/saveAction','tip'=>'"用户->用户行为"保存编辑和新增的用户行为'),
-                array('title'=>'变更行为状态','url'=>'user/setStatus','tip'=>'"用户->用户行为"中的启用,禁用和删除权限'),
-                array('title'=>'禁用会员','url'=>'user/changeStatus?method=forbidUser','tip'=>'"用户->用户信息"中的禁用'),
-                array('title'=>'启用会员','url'=>'user/changeStatus?method=resumeUser','tip'=>'"用户->用户信息"中的启用'),
-                array('title'=>'删除会员','url'=>'user/changeStatus?method=deleteUser','tip'=>'"用户->用户信息"中的删除'),
+                array('title'=>'新增用户行为','url'=>'User/addAction','tip'=>'"用户->用户行为"中的新增'),
+                array('title'=>'编辑用户行为','url'=>'User/editAction','tip'=>'"用户->用户行为"点击标题进行编辑'),
+                array('title'=>'保存用户行为','url'=>'User/saveAction','tip'=>'"用户->用户行为"保存编辑和新增的用户行为'),
+                array('title'=>'变更行为状态','url'=>'User/setStatus','tip'=>'"用户->用户行为"中的启用,禁用和删除权限'),
+                array('title'=>'禁用会员','url'=>'User/changeStatus?method=forbidUser','tip'=>'"用户->用户信息"中的禁用'),
+                array('title'=>'启用会员','url'=>'User/changeStatus?method=resumeUser','tip'=>'"用户->用户信息"中的启用'),
+                array('title'=>'删除会员','url'=>'User/changeStatus?method=deleteUser','tip'=>'"用户->用户信息"中的删除'),
             ),
         ),
     );
@@ -230,11 +235,11 @@ class UserController extends AdminController {
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     public function changeStatus($method=null){
-        $id    = array_unique((array)I('id',0));
+        $id = array_unique((array)I('id',0));
         if( in_array(C('USER_ADMINISTRATOR'), $id)){
             $this->error("不允许对超级管理员执行该操作!");
         }
-        $id    = is_array($id) ? implode(',',$id) : $id;
+        $id = is_array($id) ? implode(',',$id) : $id;
         if ( empty($id) ) {
             $this->error('请选择要操作的数据!');
         }
@@ -253,8 +258,52 @@ class UserController extends AdminController {
         }
     }
 
-    public function add(){
-        $this->display();
+    public function add($username = '', $password = '', $repassword = '', $email = ''){
+        if(IS_POST){
+            /* 检测密码 */
+            if($password != $repassword){
+                $this->error('密码和重复密码不一致！');
+            }           
+
+            /* 调用注册接口注册用户 */
+            $User = new UserApi;
+            $uid = $User->register($username, $password, $email);
+            if(0 < $uid){ //注册成功
+                $user = array('uid' => $uid, 'nickname' => $username, 'status' => 1);
+                if(!M('Member')->add($user)){
+                    $this->error('用户添加失败！');
+                } else {
+                    $this->success('用户添加成功！',U('index'));
+                }
+            } else { //注册失败，显示错误信息
+                $this->error($this->showRegError($uid));
+            }
+        } else {
+            $this->display();
+        }
+    }
+
+    /**
+     * 获取用户注册错误信息
+     * @param  integer $code 错误编码
+     * @return string        错误信息
+     */
+    private function showRegError($code = 0){
+        switch ($code) {
+            case -1:  $error = '用户名长度必须在16个字符以内！'; break;
+            case -2:  $error = '用户名被禁止注册！'; break;
+            case -3:  $error = '用户名被占用！'; break;
+            case -4:  $error = '密码长度必须在6-30个字符之间！'; break;
+            case -5:  $error = '邮箱格式不正确！'; break;
+            case -6:  $error = '邮箱长度必须在1-32个字符之间！'; break;
+            case -7:  $error = '邮箱被禁止注册！'; break;
+            case -8:  $error = '邮箱被占用！'; break;
+            case -9:  $error = '手机格式不正确！'; break;
+            case -10: $error = '手机被禁止注册！'; break;
+            case -11: $error = '手机号被占用！'; break;
+            default:  $error = '未知错误';
+        }
+        return $error;
     }
 
 }
