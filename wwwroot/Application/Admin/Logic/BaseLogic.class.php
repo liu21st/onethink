@@ -24,7 +24,7 @@ abstract class BaseLogic extends Model{
 	 */
 	public function __construct($name = '', $tablePrefix = '', $connection = '') {
 		/* 设置默认的表前缀 */
-		$this->tablePrefix = C('DB_PREFIX') . 'document_model_';
+		$this->tablePrefix = C('DB_PREFIX') . 'document_';
 		/* 执行构造方法 */
 		parent::__construct($name, $tablePrefix, $connection);
 	}
