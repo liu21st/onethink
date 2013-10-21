@@ -44,7 +44,7 @@ class SiteStatAddon extends Addon{
             $info['action']		=	M('ActionLog')->count();
             $info['document']	=	M('Document')->count();
             $info['category']	=	M('Category')->count();
-            $info['model']		=	M('DocumentModel')->count();
+            $info['model']		=	M('Model')->count();
             $this->assign('info',$info);
             $this->display('info');
         }
