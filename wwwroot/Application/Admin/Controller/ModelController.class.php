@@ -53,7 +53,7 @@ class ModelController extends AdminController {
      */
     public function index(){
         $map = array('status'=>array('gt',-1));
-        $list = $this->lists('DocumentModel',$map);
+        $list = $this->lists('Model',$map);
         int_to_string($list);
         $this->assign('_list', $list);
         $this->meta_title = '模型管理';
@@ -73,7 +73,7 @@ class ModelController extends AdminController {
         }
 
         /*拼接参数并修改状态*/
-        $Model = 'DocumentModel';
+        $Model = 'Model';
         $map = array();
         if(is_array($ids)){
             $map['id'] = array('in', implode(',', $ids));
@@ -109,7 +109,7 @@ class ModelController extends AdminController {
         }
 
         /*获取一条记录的详细数据*/
-        $Model = M('DocumentModel');
+        $Model = M('Model');
         $data = $Model->field(true)->find($id);
         if(!$data){
             $this->error($Model->getError());
@@ -159,9 +159,9 @@ class ModelController extends AdminController {
      * @author huajie <banhuajie@163.com>
      */
     public function update(){
-        $res = D('DocumentModel')->update();
+        $res = D('Model')->update();
         if(!$res){
-            $this->error(D('DocumentModel')->getError());
+            $this->error(D('Model')->getError());
         }else{
             if($res['id']){
                 $this->success('更新成功', U('index'));
