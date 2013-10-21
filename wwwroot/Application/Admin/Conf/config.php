@@ -46,7 +46,17 @@ return array(
 		'replace'  => false, //存在同名是否覆盖
 		'hash'     => true, //是否生成hash编码
 		'callback' => false, //检测文件是否存在回调函数，如果存在返回文件信息数组
-    ), //下载模型上传配置（文件上传类配置）
+    ), //图片上传相关配置（文件上传类配置）
+
+    'PICTURE_UPLOAD_DRIVER'=>'Local',
+    'UPLOAD_LOCAL_CONFIG'=>array(),//本地上传文件驱动配置
+    'UPLOAD_BCS_CONFIG'=>array(
+        'AccessKey'=>'',
+        'SecretKey'=>'',
+        'bucket'=>'',
+        'rename'=>false
+    ),
+
 
     /* 编辑器图片上传相关配置 */
     'EDITOR_UPLOAD' => array(

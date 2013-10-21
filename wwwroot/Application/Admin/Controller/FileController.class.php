@@ -75,7 +75,13 @@ class FileController extends AdminController {
 
         /* 调用文件上传组件上传文件 */
         $Picture = D('Picture');
-        $info = $Picture->upload($_FILES, C('PICTURE_UPLOAD')); //TODO:上传到远程服务器
+        $pic_driver = C('PICTURE_UPLOAD_DRIVER');
+        $info = $Picture->upload(
+            $_FILES,
+            C('PICTURE_UPLOAD'),
+            C('PICTURE_UPLOAD_DRIVER'),
+            C("UPLOAD_{$pic_driver}_CONFIG")
+        ); //TODO:上传到远程服务器
 
         /* 记录图片信息 */
         if($info){
