@@ -13,7 +13,7 @@ use Think\Model;
 /**
  * 文档基础模型
  */
-class DocumentModelModel extends Model{
+class ModelModel extends Model{
 
     /* 自动验证规则 */
     protected $_validate = array(
