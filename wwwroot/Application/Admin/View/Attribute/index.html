@@ -1,0 +1,71 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>属性列表</h2>
+
+	</div>
+    <div class="tools">
+        <a class="btn" href="{:U('Attribute/add')}">新 增</a>
+        <button class="btn ajax-post" target-form="ids" url="{:U('Attribute/setStatus',array('status'=>1))}">启 用</button>
+        <button class="btn ajax-post" target-form="ids" url="{:U('Attribute/setStatus',array('status'=>0))}">禁 用</button>
+    </div>
+
+	<!-- 数据列表 -->
+	<div class="data-table">
+        <div class="data-table table-striped">
+            <?php
+                $thead = array(
+                    '_html'=>array(
+                        '_th'=>'row-selected',
+                        'th'=>'<input class="check-all" type="checkbox"/>',
+                        'td'=>'<input class="ids" type="checkbox" name="id[]" value="$id" />',
+                    ),
+                    'id'  => '编号',
+                    'name'=>'字段',
+                    'title'=>array(
+                        '_title'=>'名称',
+                        'data-id'=>'$id',
+                        'href'   =>'Attribute/edit?id=$id',
+                    ),
+                    'create_time'=>array(
+                        '_title'=>'创建时间',
+                        'tag'   =>'span',
+                        'func'  => 'date("Y-m-d H:i:s",$create_time)',
+                    ),
+                    'status_text'=>'状态',
+                    '操作'=>array(
+                        '禁用'=>array( 'href' => 'Attribute/setStatus?id=$id&status=0', 'class'=>'ajax-get', 'condition'=>'$status==1',),
+                        '启用'=>array( 'href' => 'Attribute/setStatus?id=$id&status=1', 'class'=>'ajax-get', 'condition'=>'$status==0',),
+						'编辑'=>array( 'href' => 'Attribute/edit?id=$id'),
+                    ),
+                );
+                echo $_table_list = $__controller__->tableList($_list,$thead);
+            ?>
+        </div>
+    </div>
+    <div class="page">
+        {$_page}
+    </div>
+</block>
+
+<block name="script">
+    <script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+    <script type="text/javascript">
+    $(function(){
+    	$("#search").click(function(){
+    		var url = $(this).attr('url');
+    		var status = $('select[name=status]').val();
+    		var search = $('input[name=search]').val();
+    		if(status != ''){
+    			url += '/status/' + status;
+    		}
+    		if(search != ''){
+    			url += '/search/' + search;
+    		}
+    		window.location.href = url;
+    	});
+})
+</script>
+</block>

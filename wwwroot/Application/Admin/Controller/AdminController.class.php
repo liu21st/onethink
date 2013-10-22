@@ -50,7 +50,7 @@ class AdminController extends Controller {
         array( 'title'=>'用户','url'=>'User/index',         'controllers'=>'User,AuthManager'),
         array( 'title'=>'扩展','url'=>'Addons/index',       'controllers'=>'Addons,Model',),
         array( 'title'=>'系统','url'=>'Config/group',       'controllers'=>'Config,Channel,System,Category,Database',),
-        array( 'title'=>'其他','url'=>'other',              'controllers'=>'File','hide'=>true),//专门放置不需要显示在任何菜单中的节点
+        array( 'title'=>'其他','url'=>'other',              'controllers'=>'File,Attribute','hide'=>true),//专门放置不需要显示在任何菜单中的节点
     );
 
     protected $nav      =   array();
@@ -71,7 +71,7 @@ class AdminController extends Controller {
 			S('DB_CONFIG_DATA',$config);
 		}
         C($config); //添加配置
-        
+
         // 初始化钩子
         init_hooks();
 
@@ -119,11 +119,11 @@ class AdminController extends Controller {
 
     /**
      * 检测是否是需要动态判断的权限
-     * @return boolean|null  
+     * @return boolean|null
      *      返回true则表示当前访问有权限
      *      返回false则表示当前访问无权限
-     *      返回null，则会进入checkRule根据节点授权判断权限 
-     *      
+     *      返回null，则会进入checkRule根据节点授权判断权限
+     *
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
     protected function checkDynamic(){

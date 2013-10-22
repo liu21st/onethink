@@ -19,13 +19,74 @@
 					<div class="form-item cf">
 						<label class="item-label">模型标识<span class="check-tips">（请输入文档模型标识）</span></label>
 						<div class="controls">
-							<input type="text" class="text input-large" name="name" value="{$name}">
+							<input type="text" class="text input-large" name="name" value="{$info.name}">
 						</div>
 					</div>
 					<div class="form-item cf">
 						<label class="item-label">模型名称<span class="check-tips">（请输入模型的名称）</span></label>
 						<div class="controls">
-							<input type="text" class="text input-large" name="title" value="{$title}">
+							<input type="text" class="text input-large" name="title" value="{$info.title}">
+						</div>
+					</div>
+					<div class="form-item cf">
+						<label class="item-label">模型类型<span class="check-tips">（目前支持独立模型和文档模型）</span></label>
+						<div class="controls">
+							<select name="type">
+								<option value="1">独立模型</option>
+								<option value="2">文档模型</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-item cf">
+						<label class="item-label">字段管理<span class="check-tips">（）</span></label>
+						<div class="controls">
+							<a href="{:U('Attribute/add?model_id='.$info['id'])}" target="_balnk">新增</a>
+							<a href="{:U('Attribute/index?model_id='.$info['id'])}" target="_balnk">管理</a>
+							<input type="text" class="text input-large" name="attribute_list" value="{$info.attribute_list}">
+						</div>
+					</div>
+					<div class="form-item cf">
+						<label class="item-label">列表模板<span class="check-tips">（）</span></label>
+						<div class="controls">
+							<input type="text" class="text input-large" name="template_list" value="{$info.template_list}">
+						</div>
+					</div>
+					<div class="form-item cf">
+						<label class="item-label">列表定义<span class="check-tips">（）</span></label>
+						<div class="controls">
+							<label class="textarea input-large">
+								<textarea name="list_grid">{$info.list_grid}</textarea>
+							</label>
+						</div>
+					</div>
+					<div class="form-item cf">
+						<label class="item-label">新增模板<span class="check-tips">（）</span></label>
+						<div class="controls">
+							<input type="text" class="text input-large" name="template_add" value="{$info.template_add}">
+						</div>
+					</div>
+					<div class="form-item cf">
+						<label class="item-label">编辑模板<span class="check-tips">（）</span></label>
+						<div class="controls">
+							<input type="text" class="text input-large" name="template_edit" value="{$info.template_edit}">
+						</div>
+					</div>
+					<div class="form-item cf">
+						<label class="item-label">列表数据大小<span class="check-tips">（）</span></label>
+						<div class="controls">
+							<input type="text" class="text input-large" name="list_length" value="{$info.list_length}">
+						</div>
+					</div>
+					<div class="form-item cf">
+						<label class="item-label">默认搜索字段<span class="check-tips">（）</span></label>
+						<div class="controls">
+							<input type="text" class="text input-large" name="search_key" value="{$info.search_key}">
+						</div>
+					</div>
+					<div class="form-item cf">
+						<label class="item-label">高级搜索字段<span class="check-tips">（）</span></label>
+						<div class="controls">
+							<input type="text" class="text input-large" name="search_list" value="{$info.search_list}">
 						</div>
 					</div>
 				</div>
@@ -36,7 +97,7 @@
 					<div class="form-item cf edit_sort edit_sort_l">
 						<span>基础</span>
 						<ul id=base class="dragsort">
-							<volist name="fields" id="field">
+							<volist name="info['fields']" id="field">
 								<gt name="field" value="0">
 									<li class="getSort"><b>&times;</b><em>{$key}</em></li>
 								</gt>
@@ -47,15 +108,15 @@
 					<div class="form-item cf edit_sort edit_sort_r">
 						<span>高级</span>
 						<ul id="extend" class="dragsort">
-							<volist name="fields" id="field">
+							<volist name="info['fields']" id="field">
 								<lt name="field" value="0">
 									<li class="getSort"><b>&times;</b><em>{$key}</em></li>
 								</lt>
 							</volist>
 						</ul>
 					</div>
-					<if condition="!empty($fields)">
-						<input type="hidden" name="fields" value="{:htmlspecialchars(json_encode($fields))}">
+					<if condition="!empty($info['fields'])">
+						<input type="hidden" name="fields" value="{:htmlspecialchars(json_encode($info['fields']))}">
 					</if>
 				</div>
 
@@ -63,7 +124,7 @@
 				<div class="form-item cf">
 					<label class="item-label"></label>
 					<div class="controls edit_sort_btn">
-						<input type="hidden" name="id" value="{$id}"/>
+						<input type="hidden" name="id" value="{$info['id']}"/>
 						<button class="btn submit-btn ajax-post no-refresh" type="submit" target-form="form-horizontal">确 定</button>
 						<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
 					</div>
@@ -75,12 +136,13 @@
 <block name="script">
 <script type="text/javascript" src="__STATIC__/jquery.dragsort-0.5.1.min.js"></script>
 <script type="text/javascript" charset="utf-8">
-    //导航高亮
-    $('.side-sub-menu').find('a[href="{:U('Model/index')}"]').closest('li').addClass('current');
+Think.setValue("type", {$info.type|default=1});
+//导航高亮
+$('.side-sub-menu').find('a[href="{:U('Model/index')}"]').closest('li').addClass('current');
 
-    $(function(){
-    	showTab();
-    })
+$(function(){
+	showTab();
+})
 //拖曳插件初始化
 $(function(){
 	$(".dragsort").dragsort({

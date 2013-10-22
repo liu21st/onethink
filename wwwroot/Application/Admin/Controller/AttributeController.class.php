@@ -10,11 +10,11 @@
 namespace Admin\Controller;
 
 /**
- * 模型管理控制器
+ * 属性控制器
  * @author huajie <banhuajie@163.com>
  */
 
-class ModelController extends AdminController {
+class AttributeController extends AdminController {
 
     /**
      * 左侧导航节点定义
@@ -22,41 +22,32 @@ class ModelController extends AdminController {
      */
     static protected $nodes = array(
         array(
-            'title'     =>  '模型管理',
-            'url'       =>  'Model/index',
+            'title'     =>  '属性管理',
+            'url'       =>  'Attribute/index',
             'group'     =>  '扩展',
             'operator'  =>  array(
                 //权限管理页面的五种按钮
-                array('title'=>'新增','url'=>'model/add'),
-                array('title'=>'编辑','url'=>'model/edit'),
-                array('title'=>'改变状态','url'=>'model/setStatus'),
-                array('title'=>'保存数据','url'=>'model/update'),
+                array('title'=>'新增','url'=>'Attribute/add'),
+                array('title'=>'编辑','url'=>'Attribute/edit'),
+                array('title'=>'改变状态','url'=>'Attribute/setStatus'),
+                array('title'=>'保存数据','url'=>'Attribute/update'),
             ),
         ),
     );
 
     /**
-     * 初始化方法，与AddonsController同步
-     * @see AdminController::_initialize()
-     * @author huajie <banhuajie@163.com>
-     */
-    public function _initialize(){
-        $this->assign('_extra_menu',array(
-                '已装插件后台'=>D('Addons')->getAdminList(),
-        ));
-        parent::_initialize();
-    }
-
-    /**
-     * 模型管理首页
+     * 属性列表
      * @author huajie <banhuajie@163.com>
      */
     public function index(){
-        $map = array('status'=>array('gt',-1));
-        $list = $this->lists('Model',$map);
-        int_to_string($list);
-        $this->assign('_list', $list);
-        $this->meta_title = '模型管理';
+    	$model_id = I('get.model_id');
+    	/* 查询条件初始化 */
+        $map  = array('model_id' => $model_id);
+
+		$list = $this->lists('Attribute', $map);
+
+        $this->assign('list', $list);
+        $this->meta_title = '属性列表';
         $this->display();
     }
 
@@ -73,7 +64,7 @@ class ModelController extends AdminController {
         }
 
         /*拼接参数并修改状态*/
-        $Model = 'Model';
+        $Model = 'Attribute';
         $map = array();
         if(is_array($ids)){
             $map['id'] = array('in', implode(',', $ids));
@@ -94,8 +85,10 @@ class ModelController extends AdminController {
      * @author huajie <banhuajie@163.com>
      */
     public function add(){
-        $this->meta_title = '新增文档模型';
-        $this->display();
+    	$model_id = I('get.model_id');
+    	$this->assign('info', array('model_id'=>$model_id));
+        $this->meta_title = '新增属性';
+        $this->display('edit');
     }
 
     /**
@@ -109,51 +102,13 @@ class ModelController extends AdminController {
         }
 
         /*获取一条记录的详细数据*/
-        $Model = M('Model');
+        $Model = M('Attribute');
         $data = $Model->field(true)->find($id);
         if(!$data){
             $this->error($Model->getError());
         }
-
-        //获取模型字段
-        if(empty($data['fields'])){
-        	$base = array();
-			if($data['type'] == 2){
-	        	/* 获取基础模型字段 */
-	        	$base = M('Document')->getDbFields();
-	        	//id字段不需要排序
-	        	if(in_array('id', $base)){
-	        		unset($base[array_search('id', $base)]);
-	        	}
-	        	$base = array_flip($base);
-	        	//排序起始值从1开始
-	        	foreach ($base as $key=>$value){
-	        		$base[$key] = $value + 1;
-	        	}
-			}
-
-        	/* 获取扩展模型字段 */
-        	$extend = D(ucfirst($data['name']), 'Logic')->getDbFields();
-        	$extend = empty($extend) ? array() : $extend;
-        	//id字段不需要排序
-        	if(in_array('id', $extend)){
-        		unset($extend[array_search('id', $extend)]);
-        	}
-        	$extend = array_flip($extend);
-        	//扩展里的排序从-1开始
-        	foreach ($extend as $key=>$value){
-        		$extend[$key] = ($value + 1) * -1;
-        	}
-
-        	$data['fields'] = empty($extend) ? array() : array_merge($base, $extend);
-
-        }else{
-        	$data['fields'] = json_decode($data['fields'], true);
-        }
-
-
         $this->assign('info', $data);
-        $this->meta_title = '编辑文档模型';
+        $this->meta_title = '编辑属性';
         $this->display();
     }
 
@@ -162,9 +117,9 @@ class ModelController extends AdminController {
      * @author huajie <banhuajie@163.com>
      */
     public function update(){
-        $res = D('Model')->update();
+        $res = D('Attribute')->update();
         if(!$res){
-            $this->error(D('Model')->getError());
+            $this->error(D('Attribute')->getError());
         }else{
             if($res['id']){
                 $this->success('更新成功', U('index'));
@@ -173,5 +128,4 @@ class ModelController extends AdminController {
             }
         }
     }
-
 }
