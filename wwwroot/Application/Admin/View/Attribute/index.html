@@ -7,7 +7,7 @@
 
 	</div>
     <div class="tools">
-        <a class="btn" href="{:U('Attribute/add')}">新 增</a>
+        <a class="btn" href="{:U('Attribute/add?model_id='.$model_id)}">新 增</a>
         <button class="btn ajax-post" target-form="ids" url="{:U('Attribute/setStatus',array('status'=>1))}">启 用</button>
         <button class="btn ajax-post" target-form="ids" url="{:U('Attribute/setStatus',array('status'=>0))}">禁 用</button>
     </div>

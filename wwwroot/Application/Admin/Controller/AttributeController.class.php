@@ -32,6 +32,7 @@ class AttributeController extends AdminController {
                 array('title'=>'改变状态','url'=>'Attribute/setStatus'),
                 array('title'=>'保存数据','url'=>'Attribute/update'),
             ),
+        	'hide'		=>	true,
         ),
     );
 
@@ -45,8 +46,10 @@ class AttributeController extends AdminController {
         $map  = array('model_id' => $model_id);
 
 		$list = $this->lists('Attribute', $map);
+		int_to_string($list);
 
-        $this->assign('list', $list);
+        $this->assign('_list', $list);
+        $this->assign('model_id', $model_id);
         $this->meta_title = '属性列表';
         $this->display();
     }
@@ -122,9 +125,9 @@ class AttributeController extends AdminController {
             $this->error(D('Attribute')->getError());
         }else{
             if($res['id']){
-                $this->success('更新成功', U('index'));
+                $this->success('更新成功', U('index','model_id='.$res['model_id']));
             }else{
-                $this->success('新增成功', U('index'));
+                $this->success('新增成功', U('index','model_id='.$res['model_id']));
             }
         }
     }
