@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2012 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006-2013 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -47,7 +47,6 @@ class Page{
         $this->parameter  = empty($parameter) ? $_GET : $parameter;
         $this->nowPage    = empty($_GET[$this->p]) ? 1 : intval($_GET[$this->p]);
         $this->firstRow   = $this->listRows * ($this->nowPage - 1);
-        unset($this->parameter[C('VAR_URL_PARAMS')]);
     }
 
     /**
