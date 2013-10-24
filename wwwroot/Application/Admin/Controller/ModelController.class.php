@@ -94,7 +94,11 @@ class ModelController extends AdminController {
      * @author huajie <banhuajie@163.com>
      */
     public function add(){
-        $this->meta_title = '新增文档模型';
+    	//获取所有的模型
+    	$models = M('Model')->where(array('extend'=>0))->field('id,title')->select();
+
+    	$this->assign('models', $models);
+        $this->meta_title = '新增模型';
         $this->display();
     }
 
@@ -151,9 +155,12 @@ class ModelController extends AdminController {
         	$data['fields'] = json_decode($data['fields'], true);
         }
 
+        //获取所有的模型
+    	$models = M('Model')->where(array('extend'=>0))->field('id,title')->select();
 
+    	$this->assign('models', $models);
         $this->assign('info', $data);
-        $this->meta_title = '编辑文档模型';
+        $this->meta_title = '编辑模型';
         $this->display();
     }
 
@@ -172,6 +179,30 @@ class ModelController extends AdminController {
                 $this->success('新增成功', U('index'));
             }
         }
+    }
+
+    /**
+     * 生成一个模型
+     * @author huajie <banhuajie@163.com>
+     */
+    public function generate(){
+    	if(!IS_POST){
+    		//获取所有的数据表
+    		$tables = D('Model')->getTables();
+
+    		$this->assign('tables', $tables);
+    		$this->meta_title = '生成模型';
+    		$this->display();
+    	}else{
+    		$table = I('post.table');
+    		empty($table) && $this->error('请选择要生成的数据表！');
+			$res = D('Model')->generate($table);
+			if($res){
+				$this->success('生成模型成功！', U('index'));
+			}else{
+				$this->error(D('Model')->getError());
+			}
+    	}
     }
 
 }

@@ -20,11 +20,10 @@ class AttributeModel extends Model {
     /* 自动验证规则 */
     protected $_validate = array(
         array('name', 'require', '字段名必须', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
-        array('name', '/^[a-zA-Z]{1,30}$/', '字段名不合法', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
-    	array('name', '', '字段名已存在', self::MUST_VALIDATE, 'unique', self::MODEL_BOTH),
+        array('name', '/^[a-zA-Z_]{1,30}$/', '字段名不合法', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
+    	array('name', 'checkName', '字段名已存在', self::MUST_VALIDATE, 'callback', self::MODEL_BOTH),
     	array('field', 'require', '字段定义必须', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
     	array('field', '1,100', '注释长度不能超过100个字符', self::VALUE_VALIDATE, 'length', self::MODEL_BOTH),
-    	array('type', 'require', '数据类型必须', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
         array('title', '1,100', '注释长度不能超过100个字符', self::VALUE_VALIDATE, 'length', self::MODEL_BOTH),
         array('remark', '1,100', '备注不能超过100个字符', self::VALUE_VALIDATE, 'length', self::MODEL_BOTH),
     	array('model_id', 'require', '未选择操作的模型', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
@@ -45,9 +44,10 @@ class AttributeModel extends Model {
      * @return boolean fasle 失败 ， int  成功 返回完整的数据
      * @author huajie <banhuajie@163.com>
      */
-    public function update(){
+    public function update($data = null, $create = true){
         /* 获取数据对象 */
-        $data = $this->create($_POST);
+    	$data = empty($data) ? $_POST : $data;
+        $data = $this->create($data);
         if(empty($data)){
             return false;
         }
@@ -61,19 +61,23 @@ class AttributeModel extends Model {
                 return false;
             }
 
-            //新增表字段
-			$res = $this->addField($data);
-			if(!$res){
-				$this->error = '新建字段出错！';
-				return false;
-			}
+            if($create){
+            	//新增表字段
+            	$res = $this->addField($data);
+            	if(!$res){
+            		$this->error = '新建字段出错！';
+            		return false;
+            	}
+            }
 
         } else { //更新数据
+        	if($create){
         	//更新表字段
-        	$res = $this->updateField($data);
-        	if(!$res){
-        		$this->error = '更新字段出错！';
-        		return false;
+	        	$res = $this->updateField($data);
+	        	if(!$res){
+	        		$this->error = '更新字段出错！';
+	        		return false;
+	        	}
         	}
 
             $status = $this->save();
@@ -87,6 +91,22 @@ class AttributeModel extends Model {
         //内容添加或更新完成
         return $data;
 
+    }
+
+    /**
+     * 检查同一张表是否有相同的字段
+     * @author huajie <banhuajie@163.com>
+     */
+    protected function checkName(){
+    	$name = I('post.name');
+    	$model_id = I('post.model_id');
+    	$id = I('post.id');
+    	$map = array('name'=>$name, 'model_id'=>$model_id);
+    	if(!empty($id)){
+    		$map['id'] = array('neq', $id);
+    	}
+    	$res = $this->where($map)->find();
+    	return empty($res);
     }
 
     /**

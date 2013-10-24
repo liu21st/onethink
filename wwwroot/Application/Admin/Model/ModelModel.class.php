@@ -26,6 +26,7 @@ class ModelModel extends Model{
 
     /* 自动完成规则 */
     protected $_auto = array(
+    	array('name', 'strtolower', self::MODEL_INSERT, 'function'),
         array('create_time', NOW_TIME, self::MODEL_INSERT),
         array('update_time', NOW_TIME, self::MODEL_BOTH),
         array('status', '1', self::MODEL_INSERT, 'string'),
@@ -64,6 +65,10 @@ class ModelModel extends Model{
         return $data;
     }
 
+    /**
+     * 处理字段排序数据
+     * @author huajie <banhuajie@163.com>
+     */
     protected function getFields($fields){
     	return str_replace(array('[',']','\\'), array('{','}',''), $fields);
     }
@@ -78,6 +83,43 @@ class ModelModel extends Model{
     		$tables[$key] = $value['Tables_in_'.C('DB_NAME')];
     	}
     	return $tables;
+    }
+
+    /**
+     * 根据数据表生成模型及其属性数据
+     * @author huajie <banhuajie@163.com>
+     */
+    public function generate($table){
+    	//新增模型数据
+    	$name = substr($table, strlen(C('DB_PREFIX')));
+    	$data = array('name'=>$name, 'title'=>$name);
+    	$data = $this->create($data);
+    	$res = $this->add($data);
+    	if(!$res){
+    		return false;
+    	}
+
+    	//新增属性
+		$fields = M()->query('SHOW FULL COLUMNS FROM '.$table);
+		foreach ($fields as $key=>$value){
+			//不新增id字段
+			if(strcmp($value['Field'], 'id') == 0){
+				continue;
+			}
+
+			//生成属性数据
+			$data = array();
+			$data['name'] = $value['Field'];
+			$data['title'] = $value['Comment'];
+			//获取字段定义
+			$is_null = strcmp($value['Null'], 'NO') == 0 ? ' NOT NULL ' : ' NULL ';
+			$data['field'] = $value['Type'].$is_null;
+			$data['value'] = $value['Default'] == null ? '' : $value['Default'];
+			$data['model_id'] = $res;
+			$_POST = $data;		//便于自动验证
+			D('Attribute')->update($data, false);
+		}
+    	return $res;
     }
 
 }
