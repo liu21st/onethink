@@ -55,13 +55,13 @@ return  array(
     'DEFAULT_FILTER'        =>  'htmlspecialchars', // 默认参数过滤方法 用于 $this->_get('变量名');$this->_post('变量名')...
 
     /* 数据库设置 */
-    'DB_TYPE'               =>  'mysql',     // 数据库类型
-    'DB_HOST'               =>  'localhost', // 服务器地址
+    'DB_TYPE'               =>  '',     // 数据库类型
+    'DB_HOST'               =>  '', // 服务器地址
     'DB_NAME'               =>  '',          // 数据库名
-    'DB_USER'               =>  'root',      // 用户名
+    'DB_USER'               =>  '',      // 用户名
     'DB_PWD'                =>  '',          // 密码
     'DB_PORT'               =>  '',        // 端口
-    'DB_PREFIX'             =>  'think_',    // 数据库表前缀
+    'DB_PREFIX'             =>  '',    // 数据库表前缀
     'DB_FIELDTYPE_CHECK'    =>  false,       // 是否进行字段类型检查
     'DB_FIELDS_CACHE'       =>  true,        // 启用字段缓存
     'DB_CHARSET'            =>  'utf8',      // 数据库编码默认采用utf8
@@ -122,6 +122,7 @@ return  array(
     'URL_HTML_SUFFIX'       =>  'html',  // URL伪静态后缀设置
     'URL_DENY_SUFFIX'       =>  'ico|png|gif|jpg', // URL禁止访问的后缀设置
     'URL_PARAMS_BIND'       =>  true, // URL变量绑定到Action方法参数
+    'URL_PARAMS_BIND_TYPE'  =>  0, // URL变量绑定的类型 0 按变量名绑定 1 按变量顺序绑定
     'URL_404_REDIRECT'      =>  '', // 404 跳转页面 部署模式有效
 	'URL_ROUTER_ON'         =>	false,   // 是否开启URL路由
 	'URL_ROUTE_RULES'       =>	array(), // 默认路由规则 针对模块
@@ -133,7 +134,6 @@ return  array(
     'VAR_AJAX_SUBMIT'       =>  'ajax',  // 默认的AJAX提交变量
 	'VAR_JSONP_HANDLER'     =>  'callback',
     'VAR_PATHINFO'          =>  's',	// PATHINFO 兼容模式获取变量例如 ?s=/module/action/id/1 后面的参数取决于URL_PATHINFO_DEPR
-    'VAR_URL_PARAMS'        =>  '_URL_', // PATHINFO URL参数变量
     'VAR_TEMPLATE'          =>  't',		// 默认模板切换变量
     'VAR_FILTERS'           =>  'filter_exp',     // 全局系统变量的默认过滤方法 多个用逗号分割
 

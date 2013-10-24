@@ -151,7 +151,7 @@ class View {
 
         // 获取当前模块
         $module   =  MODULE_NAME;
-        if(strpos($template,'@')){ // 跨模块调用模版文件
+        if(strpos($template,'@')){ // 跨分组调用模版文件
             list($module,$template)  =   explode('@',$template);
         }
         // 获取当前主题的模版路径

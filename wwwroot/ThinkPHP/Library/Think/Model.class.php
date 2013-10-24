@@ -30,8 +30,10 @@ class Model {
     protected $db               =   null;
     // 主键名称
     protected $pk               =   'id';
+    // 主键是否自动增长
+    protected $autoinc          =   false;    
     // 数据表前缀
-    protected $tablePrefix      =   '';
+    protected $tablePrefix      =   null;
     // 模型名称
     protected $name             =   '';
     // 数据库名称
@@ -87,8 +89,8 @@ class Model {
             $this->tablePrefix = '';
         }elseif('' != $tablePrefix) {
             $this->tablePrefix = $tablePrefix;
-        }else{
-            $this->tablePrefix = $this->tablePrefix?$this->tablePrefix:C('DB_PREFIX');
+        }elseif(!isset($this->tablePrefix)){
+            $this->tablePrefix = C('DB_PREFIX');
         }
 
         // 数据库初始化操作
@@ -111,11 +113,8 @@ class Model {
                 $db   =  $this->dbName?$this->dbName:C('DB_NAME');
                 $fields = F('_fields/'.strtolower($db.'.'.$this->name));
                 if($fields) {
-                    $version    =   C('DB_FIELD_VERSION');
-                    if(empty($version) || $fields['_version']== $version) {
-                        $this->fields   =   $fields;
-                        return ;
-                    }
+                    $this->fields   =   $fields;
+                    return ;
                 }
             }
             // 每次都会读取数据表信息
@@ -136,18 +135,16 @@ class Model {
             return false;
         }
         $this->fields   =   array_keys($fields);
-        $this->fields['_autoinc'] = false;
         foreach ($fields as $key=>$val){
             // 记录字段类型
-            $type[$key]    =   $val['type'];
+            $type[$key]     =   $val['type'];
             if($val['primary']) {
-                $this->fields['_pk'] = $key;
-                if($val['autoinc']) $this->fields['_autoinc']   =   true;
+                $this->pk   =   $key;
+                if($val['autoinc']) $this->autoinc   =   true;
             }
         }
         // 记录字段类型信息
         $this->fields['_type'] =  $type;
-        if(C('DB_FIELD_VERSION')) $this->fields['_version'] =   C('DB_FIELD_VERSION');
 
         // 2008-3-7 增加缓存开关控制
         if(C('DB_FIELDS_CACHE')){
@@ -243,17 +240,27 @@ class Model {
      */
      protected function _facade($data) {
 
-        // 检查非数据字段
+        // 检查数据字段合法性
         if(!empty($this->fields)) {
+            if(!empty($this->options['field'])) {
+                $fields =   $this->options['field'];
+                unset($this->options['field']);
+                if(is_string($fields)) {
+                    $fields =   explode(',',$fields);
+                }    
+            }else{
+                $fields =   $this->fields;
+            }        
             foreach ($data as $key=>$val){
-                if(!in_array($key,$this->fields,true)){
+                if(!in_array($key,$fields,true)){
                     unset($data[$key]);
                 }elseif(is_scalar($val)) {
-                    // 字段类型检查
+                    // 字段类型检查 和 强制转换
                     $this->_parseType($data,$key);
                 }
             }
         }
+       
         // 安全过滤
         if(!empty($this->options['filter'])) {
             $data = array_map($this->options['filter'],$data);
@@ -564,7 +571,7 @@ class Model {
      * @return void
      */
     protected function _parseType(&$data,$key) {
-        if(empty($this->options['bind'][':'.$key])){
+        if(empty($this->options['bind'][':'.$key]) && isset($this->fields['_type'][$key])){
             $fieldType = strtolower($this->fields['_type'][$key]);
             if(false !== strpos($fieldType,'enum')){
                 // 支持ENUM类型优先检测
@@ -1331,7 +1338,7 @@ class Model {
      * @return string
      */
     public function getPk() {
-        return isset($this->fields['_pk'])?$this->fields['_pk']:$this->pk;
+        return $this->pk;
     }
 
     /**
@@ -1346,7 +1353,7 @@ class Model {
         }
         if($this->fields) {
             $fields     =  $this->fields;
-            unset($fields['_autoinc'],$fields['_pk'],$fields['_type'],$fields['_version']);
+            unset($fields['_type']);
             return $fields;
         }
         return false;

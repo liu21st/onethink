@@ -1,8 +1,8 @@
 <?php
-namespace COM\Upload\Driver\Bcs;
-use COM\Upload\Driver\Bcs\BCS_MimeTypes;
-use COM\Upload\Driver\Bcs\BCS_RequestCore;
-use COM\Upload\Driver\Bcs\BCS_ResponseCore;
+namespace COM\ThinkUpload\Driver\Bcs;
+use COM\ThinkUpload\Driver\Bcs\BCS_MimeTypes;
+use COM\ThinkUpload\Driver\Bcs\BCS_RequestCore;
+use COM\ThinkUpload\Driver\Bcs\BCS_ResponseCore;
 
 if (! defined ( 'BCS_API_PATH' )) {
 	define ( 'BCS_API_PATH', dirname ( __FILE__ ) );
