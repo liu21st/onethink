@@ -41,7 +41,10 @@
 							<div class="controls">
 								<foreach name="form.options" item="opt" key="opt_k">
 									<label class="checkbox">
-										<input type="checkbox" name="config[{$o_key}]" value="{$opt_k}" <eq name="form.value" value="$opt_k"> checked</eq>>{$opt}
+										<php>
+											is_null($form["value"]) && $form["value"] = array();
+										</php>
+										<input type="checkbox" name="config[{$o_key}][]" value="{$opt_k}" <in name="opt_k" value="$form.value"> checked</in>>{$opt}
 									</label>
 								</foreach>
 							</div>
@@ -99,8 +102,9 @@
 												<case value="checkbox">
 													<foreach name="tab_form.options" item="opt" key="opt_k">
 														<label class="checkbox">
-															<input type="checkbox" name="config[{$o_tab_key}]" value="{$opt_k}" <eq name="tab_form.value" value="$opt_k"> checked</eq>>{$opt}
-														</label>
+															<php> is_null($tab_form["value"]) && $tab_form["value"] = array();</php>
+            												<input type="checkbox" name="config[{$o_tab_key}][]" value="{$opt_k}" <in name="opt_k" value="$tab_form.value"> checked</in>>{$opt}
+        												</label>
 													</foreach>
 												</case>
 												<case value="select">
