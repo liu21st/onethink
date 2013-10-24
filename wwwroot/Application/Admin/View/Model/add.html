@@ -25,11 +25,13 @@
 						</div>
 					</div>
 					<div class="form-item cf">
-						<label class="item-label">模型类型<span class="check-tips">（目前支持独立模型和文档模型）</span></label>
+						<label class="item-label">模型继承<span class="check-tips">（决定了表名前缀）</span></label>
 						<div class="controls">
-							<select name="type">
-								<option value="1">独立模型</option>
-								<option value="2">文档模型</option>
+							<select name="extend">
+								<option value="0">不继承</option>
+								<volist name="models" id="model">
+									<option value="{$model.id}">{$model.title}</option>
+								</volist>
 							</select>
 						</div>
 					</div>
