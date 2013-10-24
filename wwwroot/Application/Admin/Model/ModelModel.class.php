@@ -68,4 +68,16 @@ class ModelModel extends Model{
     	return str_replace(array('[',']','\\'), array('{','}',''), $fields);
     }
 
+    /**
+     * 获取指定数据库的所有表名
+     * @author huajie <banhuajie@163.com>
+     */
+    public function getTables($connection = null){
+    	$tables = M()->query('SHOW TABLES;');
+    	foreach ($tables as $key=>$value){
+    		$tables[$key] = $value['Tables_in_'.C('DB_NAME')];
+    	}
+    	return $tables;
+    }
+
 }
