@@ -254,12 +254,13 @@ function init_hooks(){
     if(!$data){
         $hooks = M('Hooks')->getField('name,addons');
         foreach ($hooks as $key => $value) {
-            if($value){
+            if($value && $key == 'AdminIndex'){
                 $map['status']  =   1;
-                $map['name']    =   array('IN',explode(',',$value));
+                $names = explode(',',$value);
+                $map['name']    =   array('IN',$names);
                 $data = M('Addons')->where($map)->getField('id,name');
                 if($data){
-                    $addons =   array_values($data);
+                    $addons = array_intersect($names, $data);
                     \Think\Hook::add($key,$addons);
                 }
             }
