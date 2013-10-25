@@ -66,6 +66,8 @@ class AttributeModel extends Model {
             	$res = $this->addField($data);
             	if(!$res){
             		$this->error = '新建字段出错！';
+            		//删除新增数据
+            		$this->delete($id);
             		return false;
             	}
             }
@@ -143,18 +145,19 @@ sql;
     	//检查表是否存在
     	$table_exist = $this->checkTableExist($field['model_id']);
 
+    	//获取默认值
+    	$default = $field['value']!='' ? ' DEFAULT '.$field['value'] : '';
+
     	if($table_exist){
-    		$fields = M()->query('SHOW COLUMNS FROM '.$this->table_name);
-    		$last_field = end($fields);
     		$sql = <<<sql
 				ALTER TABLE `{$this->table_name}`
-ADD COLUMN `{$field['name']}`  {$field['field']} DEFAULT '{$field['value']}' COMMENT '{$field['title']}';
+ADD COLUMN `{$field['name']}`  {$field['field']} {$default} COMMENT '{$field['title']}';
 sql;
     	}else{		//新建表时默认新增“id主键”字段
     		$sql = <<<sql
 				CREATE TABLE IF NOT EXISTS `{$this->table_name}` (
 				`id`  int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键' ,
-				`{$field['name']}`  {$field['field']} DEFAULT {$field['value']} COMMENT '{$field['title']}' ,
+				`{$field['name']}`  {$field['field']} {$default} COMMENT '{$field['title']}' ,
 				PRIMARY KEY (`id`)
 				)
 				ENGINE=MyISAM
@@ -183,9 +186,12 @@ sql;
     	//获取原字段名
     	$last_field = $this->getFieldById($field['id'], 'name');
 
+    	//获取默认值
+    	$default = $field['value']!='' ? ' DEFAULT '.$field['value'] : '';
+
     	$sql = <<<sql
 			ALTER TABLE `{$this->table_name}`
-CHANGE COLUMN `{$last_field}` `{$field['name']}`  {$field['field']} DEFAULT {$field['value']} COMMENT '{$field['title']}' ;
+CHANGE COLUMN `{$last_field}` `{$field['name']}`  {$field['field']} {$default} COMMENT '{$field['title']}' ;
 sql;
     	$res = M()->execute($sql);
     	return $res !== false;
