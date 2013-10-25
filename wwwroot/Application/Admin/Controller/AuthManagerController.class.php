@@ -42,6 +42,8 @@ class AuthManagerController extends AdminController{
                   array('title'=>'保存成员授权','url'=>'AuthManager/addToGroup',                     'tip'=>'"用户信息"列表页"授权"时的"保存"按钮和"成员授权"里右上角的"添加"按钮)'),
                   array('title'=>'分类授权',    'url'=>'AuthManager/category',                       'tip'=>'"后台 \ 用户 \ 权限管理"列表页的"分类授权"操作按钮'),
                   array('title'=>'保存分类授权','url'=>'AuthManager/addToCategory',                  'tip'=>'"分类授权"页面的"保存"按钮'),
+                  array('title'=>'模型授权',    'url'=>'AuthManager/modelauth',                       'tip'=>'"后台 \ 用户 \ 权限管理"列表页的"模型授权"操作按钮'),
+                  array('title'=>'保存模型授权','url'=>'AuthManager/addToModel',                  'tip'=>'"分类授权"页面的"保存"按钮'),
               ),
         ),
     );

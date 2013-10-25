@@ -65,9 +65,27 @@ class ModelController extends AdminController {
         //
         //提供的工具方法：
         //$AUTH_GROUP = D('AuthGroup');
-        // $AUTH_GROUP->checkModelId($mid);      //检查模型id列表是否存在
+        // $AUTH_GROUP->checkModelId($mid);      //检查模型id列表是否全部存在
         // AuthGroupModel::getModelOfGroup($gid);//获取某个用户组拥有权限的模型id
-        // AuthGroupModel::getAuthModels($uid);  //获取某个用户拥有权限的模型id
+        $model_ids = AuthGroupModel::getAuthModels(UID);
+        $id        = I('id');
+        switch(strtolower(ACTION_NAME)){
+            case 'edit':    //编辑
+            case 'update':  //更新
+                if ( in_array($id,$model_ids) ) {
+                    return true;
+                }else{
+                    return false;
+                }
+            case 'setstatus': //更改状态
+                if ( is_array($id) && array_intersect($id,(array)$model_ids)==$id ) {
+                    return true;
+                }elseif( in_array($id,$model_ids) ){
+                    return true;
+                }else{
+                    return false;
+                }
+        }
 
         return null;//不明,需checkRule
     }
