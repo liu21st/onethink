@@ -20,7 +20,7 @@ class AttributeModel extends Model {
     /* 自动验证规则 */
     protected $_validate = array(
         array('name', 'require', '字段名必须', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
-        array('name', '/^[a-zA-Z_]{1,30}$/', '字段名不合法', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
+        array('name', '/^[a-zA-Z][\w_]{1,29}$/', '字段名不合法', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
     	array('name', 'checkName', '字段名已存在', self::MUST_VALIDATE, 'callback', self::MODEL_BOTH),
     	array('field', 'require', '字段定义必须', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
     	array('field', '1,100', '注释长度不能超过100个字符', self::VALUE_VALIDATE, 'length', self::MODEL_BOTH),
