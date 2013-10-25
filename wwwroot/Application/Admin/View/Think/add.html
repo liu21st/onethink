@@ -14,42 +14,42 @@
     </ul>
     <div class="tab-content">
     <!-- 表单 -->
-    <form id="form" action="{:U('edit?model='.$model)}" method="post" class="form-horizontal">
+    <form id="form" action="{:U('add?model='.$model)}" method="post" class="form-horizontal">
         <!-- 基础文档模型 -->
         <div id="tab1" class="tab-pane in tab1">
             <volist name="fields" id="field">
-                <if condition="$field['is_show'] == 1 || $field['is_show'] == 3">
+                <if condition="$field['is_show'] == 1 || $field['is_show'] == 2">
                 <div class="form-item cf">
                     <label class="item-label">{$field['title']}<span class="check-tips">（{$field['remark']}）</span></label>
                     <div class="controls">
                         <switch name="field.type">
                             <case value="num">
-                                <input type="text" class="text input-large" name="{$field.name}" value="{$data[$field['name']]}">
+                                <input type="text" class="text input-large" name="{$field.name}" value="">
                             </case>
                             <case value="string">
-                                <input type="text" class="text input-large" name="{$field.name}" value="{$data[$field['name']]}">
+                                <input type="text" class="text input-large" name="{$field.name}" value="">
                             </case>
                             <case value="textarea">
                                 <label class="textarea input-large">
-                                <textarea name="{$field.name}">{$data[$field['name']]}</textarea>
+                                <textarea name="{$field.name}"></textarea>
                                 </label>
                             </case>
                             <case value="bool">
                                 <select name="{$field.name}">
                                     <volist name=":parse_field_attr($field['extra'])" id="vo">
-                                        <option value="{$key}" <eq name="data[$field['name']]" value="$key">selected</eq>>{$vo}</option>
+                                        <option value="{$key}" <eq name="field.value" value="$key">selected</eq>>{$vo}</option>
                                     </volist>
                                 </select>
                             </case>
                             <case value="select">
                                 <select name="{$field.name}">
                                     <volist name=":parse_field_attr($field['extra'])" id="vo">
-                                        <option value="{$key}" <eq name="data[$field['name']]" value="$key">selected</eq>>{$vo}</option>
+                                        <option value="{$key}" <eq name="field.value" value="$key">selected</eq>>{$vo}</option>
                                     </volist>
                                 </select>
                             </case>
                             <default/>
-                            <input type="text" class="text input-large" name="{$field.name}" value="{$data[$field['name']]}">
+                            <input type="text" class="text input-large" name="{$field.name}" value="">
                         </switch>
                     </div>
                 </div>
@@ -63,8 +63,7 @@
 
 
         <div class="form-item cf">
-            <input type="hidden" name="id" value="{$data.id}">
-            <button class="btn submit-btn ajax-post hidden" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+            <button class="btn submit-btn hidden" id="submit" type="submit" target-form="form-horizontal">确 定</button>
             <a class="btn btn-return" href="javascript:;">返 回</a>
         </div>
     </form>

@@ -38,19 +38,8 @@
                                 <td>{:get_list_field($data, $field['field'])}</td>
                             </volist>
                             <td>
-                                <switch name="data.status">
-                                    <case value="0">
-                                        <a href="{:U('setStatus?status=1&model='.$model.'&ids='.$data['id'])}">启用</a>
-                                    </case>
-                                    <case value="1">
-                                        <a href="{:U('setStatus?status=0&model='.$model.'&ids='.$data['id'])}">禁用</a>
-                                    </case>
-                                    <case value="2">
-                                        <a href="{:U('setStatus?status=1&model='.$model.'&ids='.$data['id'])}">通过</a>
-                                    </case>
-                                </switch>
                                 <a href="{:U('edit?model='.$model.'&id='.$data['id'])}">编辑</a>
-                                <a href="{:U('setStatus?status=-1&model='.$model.'&ids='.$data['id'])}">删除</a>
+                                <a href="{:U('del?model='.$model.'&ids='.$data['id'])}">删除</a>
                             </td>
                         </tr>
                     </volist>
