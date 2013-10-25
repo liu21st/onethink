@@ -82,7 +82,7 @@ class Bcs{
      * @param  boolean $replace 同名文件是否覆盖
      * @return boolean          保存状态，true-成功，false-失败
      */
-    public function save($file) {
+    public function save(&$file) {
         $opt = array ();
         $opt ['acl'] = BaiduBCS::BCS_SDK_ACL_TYPE_PUBLIC_WRITE;
         $opt ['curlopts'] = array (
@@ -92,13 +92,14 @@ class Bcs{
         $object = "/{$file['savepath']}{$file['savename']}";
         $response = $this->bcs->create_object ( $this->config['bucket'], $object, $file['tmp_name'], $opt );
         $url = $this->download($object);
+        $file['url'] = $url;
         return $response->isOK() ? true : false;
     }
 
     public function download($file){
         $file = str_replace('./', '/', $file);
         $opt = array();
-        $opt['time'] = time() + 3600; //有效时间1小时
+        $opt['time'] = mktime('2049-12-31'); //这是最长有效时间!--
         $response = $this->bcs->generate_get_object_url ( $this->config['bucket'], $file, $opt );
         return $response;
     }

@@ -201,10 +201,12 @@ $('#submit').click(function(){
     });
 	function uploadPicture(file, data){
     	var data = $.parseJSON(data);
+    	var src = '';
         if(data.status){
         	$("#cover_id").val(data.id);
+        	src = data.url || '__ROOT__' + data.path
         	$("#cover_id").parent().find('.upload-img-box').html(
-        		'<div class="upload-pre-item"><img src="__ROOT__' + data.path + '"/></div>'
+        		'<div class="upload-pre-item"><img src="__ROOT__' + src + '"/></div>'
         	);
         } else {
         	updateAlert(data.info);
