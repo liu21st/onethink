@@ -146,7 +146,11 @@
 		}
 
 		public function downLink($key){
-			return "http://{$this->domain}/{$key}";
+			$url = "http://{$this->domain}/{$key}";
+			if(strpos($url, 'm//') !== false){
+				$url = str_replace('m//', 'm/@/', $url);
+			}
+			return $url;
 		}
 
 		//重命名单个文件

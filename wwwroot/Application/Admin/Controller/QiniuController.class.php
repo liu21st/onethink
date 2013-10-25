@@ -89,7 +89,7 @@ class QiniuController extends AdminController {
 		$result = $this->qiniu->info($key);
 		if($result){
 			if(in_array($result['mimeType'], array('image/jpeg','image/png'))){
-				$img = "<img src='http://{$this->qiniu->domain}/$key?imageView/2/w/203/h/203'>";
+				$img = "<img src='{$this->qiniu->downlink($key)}?imageView/2/w/203/h/203'>";
 			}else{
 				$img = '<img class="file-prev" src="https://dn-portal-static.qbox.me/v104/static/theme/default/image/resource/no-prev.png">';
 			}
@@ -105,7 +105,7 @@ class QiniuController extends AdminController {
 						{$img}
 					</div>
 					<p class="file-info-item">
-						外链地址：<input class="file-share-link" type="text" readonly="readonly" value="{$this->qiniu->domain}/{$key}">
+						外链地址：<input class="file-share-link" type="text" readonly="readonly" value="{$this->qiniu->downlink($key)}">
 					</p>
 					<p class="file-info-item">
 						最后更新时间：<span>{$time}</span>
