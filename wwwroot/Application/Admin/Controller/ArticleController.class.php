@@ -452,9 +452,10 @@ class ArticleController extends \Admin\Controller\AdminController {
         $this->assign('info', $data);
         $this->assign('model_id', $data['model_id']);
 
-        //获取表单字段排序 TODO : 考虑模型的继承
+        //获取表单字段排序
         $fields = array();
-        $list = M('Attribute')->where(array('model_id'=>$data['model_id']))->field('name,sort')->select();
+        $extend = M('Model')->getFieldById($data['model_id'], 'extend');
+        $list = M('Attribute')->where(array('model_id'=>array('in', $data['model_id'].','.$extend)))->field('name,sort')->select();
         foreach ($list as $value){
         	$fields[$value['name']] = $value['sort'];
         }
