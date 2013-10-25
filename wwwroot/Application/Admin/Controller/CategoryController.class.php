@@ -29,6 +29,8 @@ class CategoryController extends AdminController {
                 array('title'=>'编辑','url'=>'Category/edit','tip'=>'编辑和保存栏目分类'),
             	array('title'=>'新增','url'=>'Category/add','tip'=>'新增栏目分类'),
             	array('title'=>'删除','url'=>'Category/remove','tip'=>'删除栏目分类'),
+            	array('title'=>'移动','url'=>'Category/move','tip'=>'移动栏目分类'),
+            	array('title'=>'合并','url'=>'Category/merge','tip'=>'合并栏目分类'),
             ),
         ),
     );
