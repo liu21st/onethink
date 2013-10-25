@@ -27,12 +27,12 @@ class ThinkController extends AdminController {
         $page = $page ? $page : 1; //默认显示第一页数据
         
         //获取模型信息
-        $info = M('Model')->getByName($model);
-        $info || $this->error('模型不存在！');
+        $model = M('Model')->getByName($model);
+        $model || $this->error('模型不存在！');
 
         //解析列表规则
         $fields = array();
-        $grids  = preg_split('/[;\r\n]+/s', $info['list_grid']);
+        $grids  = preg_split('/[;\r\n]+/s', $model['list_grid']);
         foreach ($grids as &$value) {
             $val      = explode(':', $value);
             $val[0]   = explode('|', $val[0]);
@@ -40,9 +40,12 @@ class ThinkController extends AdminController {
             $fields[] = $val[0][0];
         }
 
+        in_array('id', $fields) && array_push($fields, 'id');
+        in_array('status', $fields) && array_push($fields, 'status');
+
         //读取模型数据列表
-        $name = 'Document' . parse_name($info, true);
-        $row  = empty($info['list_row']) ? 10 : $info['list_row'];
+        $name = parse_name(get_table_name($model['id']), true);
+        $row  = empty($model['list_row']) ? 10 : $model['list_row'];
         $map  = array('status' => array('egt', 0));
         $data = M($name)
                 /* 查询指定字段，不指定则查询所有字段 */
@@ -66,10 +69,10 @@ class ThinkController extends AdminController {
         }
 
         //
-        $this->assign('model', $model);
+        $this->assign('model', $model['id']);
         $this->assign('list_grids', $grids);
         $this->assign('list_data', $data);
-        $this->display($info['template_list']);
+        $this->display($model['template_list']);
     }
 
     public function setStatus($model = null){
@@ -81,7 +84,7 @@ class ThinkController extends AdminController {
         }
 
         /*拼接参数并修改状态*/
-        $Model  =   $model;
+        $Model  =   get_table_name($model);
         $map    =   array();
         if(is_array($ids)){
             $map['id'] = array('in', implode(',', $ids));
@@ -108,8 +111,14 @@ class ThinkController extends AdminController {
 
     }
 
-    public function add(){
+    public function add($model = null){
+        //获取模型信息
+        $model = M('Model')->where(array('status' => 1))->find($model);
+        $model || $this->error('模型不存在！');
+        $fields = get_model_attribute($model['id']);
 
+        $this->assign('fields', $fields);
+        $this->display('edit');
     }
 
 }
