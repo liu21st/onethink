@@ -707,11 +707,11 @@ function get_table_name($model_id = null){
  * @param  string  $field 要获取的字段名
  * @return string         属性信息
  */
-function get_attribute_info($id, $field = null){
+function get_model_attribute($model_id){
 	static $list;
 
 	/* 非法ID */
-	if(empty($id) || !is_numeric($id)){
+	if(empty($model_id) || !is_numeric($model_id)){
 		return '';
 	}
 
@@ -722,10 +722,10 @@ function get_attribute_info($id, $field = null){
 
 	/* 获取属性 */
 	if(!isset($list[$id])){
-		$info = M('Attribute')->getById($id);
-		$list[$id] = $info;
+		$info = M('Attribute')->where(array('model_id'=>$model_id))->select();
+		$list[$model_id] = $info;
 		S('attribute_list', $list); //更新缓存
 	}
 
-	return is_null($field) ? $list[$id] : $list[$id][$field];
+	return $list[$model_id];
 }
