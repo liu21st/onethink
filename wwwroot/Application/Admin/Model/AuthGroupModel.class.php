@@ -20,8 +20,9 @@ class AuthGroupModel extends Model {
     const MEMBER               = 'member';
     const UCENTER_MEMBER       = 'ucenter_member';
     const AUTH_GROUP_ACCESS    = 'auth_group_access';  //关系表表名
-    const AUTH_CATEGORY_ACCESS = 'auth_category_access';//用户可管理的分类
+    const AUTH_EXTEND = 'auth_extend';        //动态权限扩展信息表
     const AUTH_GROUP           = 'auth_group';         //用户组表名
+    const AUTH_EXTEND_CATEGORY_TYPE = 1; //分类权限标识
 
     protected $_validate = array(
         array('title','require', '必须设置用户组标题', Model::MUST_VALIDATE ,'regex',Model::MODEL_INSERT),
@@ -121,11 +122,12 @@ class AuthGroupModel extends Model {
             return $result;
         }
         $prefix = C('DB_PREFIX');
+        $type   = self::AUTH_EXTEND_CATEGORY_TYPE;
         $result = M()
             ->table($prefix.self::AUTH_GROUP_ACCESS.' g')
-            ->join($prefix.self::AUTH_CATEGORY_ACCESS.' c on g.group_id=c.group_id')
-            ->where("g.uid='$uid' and !isnull(category_id)")
-            ->getfield('category_id',true);
+            ->join($prefix.self::AUTH_EXTEND.' c on g.group_id=c.group_id')
+            ->where("g.uid='$uid' and c.type='$type' and !isnull(extend_id)")
+            ->getfield('extend_id',true);
         if ( $uid == UID ) {
             session('AUTH_CATEGORY',$result);
         }
@@ -143,7 +145,7 @@ class AuthGroupModel extends Model {
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     static public function getCategoryOfGroup($gid){
-        return M(self::AUTH_CATEGORY_ACCESS)->where( array('group_id'=>$gid) )->getfield('category_id',true);
+        return M(self::AUTH_EXTEND)->where( array('group_id'=>$gid,'type'=>self::AUTH_EXTEND_CATEGORY_TYPE) )->getfield('extend_id',true);
     }
     
     
@@ -159,7 +161,7 @@ class AuthGroupModel extends Model {
         $gid = is_array($gid)?implode(',',$gid):trim($gid,',');
         $cid = is_array($cid)?$cid:explode( ',',trim($cid,',') );
 
-        $Access = M(self::AUTH_CATEGORY_ACCESS);
+        $Access = M(self::AUTH_EXTEND);
         $del = $Access->where( array('group_id'=>array('in',$gid)) )->delete();
 
         $gid = explode(',',$gid);
@@ -168,7 +170,7 @@ class AuthGroupModel extends Model {
             foreach ($gid as $g){
                 foreach ($cid as $c){
                     if( is_numeric($g) && is_numeric($c) ){
-                        $add[] = array('group_id'=>$g,'category_id'=>$c);
+                        $add[] = array('group_id'=>$g,'extend_id'=>$c,'type'=>self::AUTH_EXTEND_CATEGORY_TYPE);
                     }
                 }
             }
