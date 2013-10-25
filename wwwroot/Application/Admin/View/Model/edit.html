@@ -28,6 +28,7 @@
 							<input type="text" class="text input-large" name="title" value="{$info.title}">
 						</div>
 					</div>
+					<!--
 					<div class="form-item cf">
 						<label class="item-label">模型继承<span class="check-tips">（决定了表名前缀）</span></label>
 						<div class="controls">
@@ -39,6 +40,7 @@
 							</select>
 						</div>
 					</div>
+					 -->
 					<div class="form-item cf">
 						<label class="item-label">字段管理<span class="check-tips">（只有新增了字段，该表才会真正建立）</span></label>
 						<div class="controls">
@@ -46,6 +48,35 @@
 							<a href="{:U('Attribute/index?model_id='.$info['id'])}" target="_balnk">管理</a>
 						</div>
 					</div>
+					<p>表单字段排序</p>
+					<div class="form-item cf edit_sort edit_sort_l">
+						<span>基础</span>
+						<ul id=base class="dragsort">
+							<volist name="fields" id="field">
+								<egt name="field['sort']" value="0">
+									<li class="getSort"><b>&times;</b><em data="{$field['id']}">{$field['name']}({$field['title']})</em></li>
+								</egt>
+							</volist>
+						</ul>
+					</div>
+
+					<div class="form-item cf edit_sort edit_sort_r">
+						<span>高级</span>
+						<ul id="extend" class="dragsort">
+							<volist name="fields" id="field">
+								<lt name="field['sort']" value="0">
+									<li class="getSort"><b>&times;</b><em data="{$field['id']}">{$field['name']}({$field['title']})</em></li>
+								</lt>
+							</volist>
+						</ul>
+					</div>
+					<volist name="fields" id="field">
+						<input type="hidden" id="field-{$field['id']}" name="fields[]" value="{$field['id']}:{$field['sort']}">
+					</volist>
+				</div>
+
+				<!-- 高级 -->
+				<div id="tab2" class="tab-pane tab2">
 					<div class="form-item cf">
 						<label class="item-label">列表模板<span class="check-tips">（自定义的列表模板，不写则使用默认模板）</span></label>
 						<div class="controls">
@@ -90,35 +121,7 @@
 							<input type="text" class="text input-large" name="search_list" value="{$info.search_list}">
 						</div>
 					</div>
-				</div>
 
-				<!-- 高级 -->
-				<div id="tab2" class="tab-pane tab2">
-					<p>表单字段排序</p>
-					<div class="form-item cf edit_sort edit_sort_l">
-						<span>基础</span>
-						<ul id=base class="dragsort">
-							<volist name="info['fields']" id="field">
-								<gt name="field" value="0">
-									<li class="getSort"><b>&times;</b><em>{$key}</em></li>
-								</gt>
-							</volist>
-						</ul>
-					</div>
-
-					<div class="form-item cf edit_sort edit_sort_r">
-						<span>高级</span>
-						<ul id="extend" class="dragsort">
-							<volist name="info['fields']" id="field">
-								<lt name="field" value="0">
-									<li class="getSort"><b>&times;</b><em>{$key}</em></li>
-								</lt>
-							</volist>
-						</ul>
-					</div>
-					<if condition="!empty($info['fields'])">
-						<input type="hidden" name="fields" value="{:htmlspecialchars(json_encode($info['fields']))}">
-					</if>
 				</div>
 
 				<!-- 按钮 -->
@@ -162,23 +165,17 @@ $(function(){
 
 	// 更新排序后的隐藏域的值
 	function updateVal() {
-		var sortVal = [];
 		var i = 1;
 		var val = '';
 	   	$('#base li').each(function(){
-	   		sortVal[i++] = $(this).find('em').text();
+	   		var id = $(this).find('em').attr('data');
+	   		$('#field-' + id).val(id + ':' + i++);
 	   	});
-	   	i = -1;
+	   	i = -1 * ($('#extend li').length);
 	   	$('#extend li').each(function(){
-	   		sortVal[i--] = $(this).find('em').text();
+	   		var id = $(this).find('em').attr('data');
+	   		$('#field-' + id).val(id + ':' + i++);
 	   	});
-	   	//将排序数组拼接成json格式字符串
-	   	val += "[";
-	   	for (k in sortVal){
-	   		val += "\"" + sortVal[k] + "\"" + ":" + k + ",";
-	   	}
-	   	val = val.substr(0,val.length - 1) + "]";
-	    $("input[name='fields']").val(val);
 	}
 })
 </script>

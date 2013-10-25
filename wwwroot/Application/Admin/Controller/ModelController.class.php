@@ -119,46 +119,15 @@ class ModelController extends AdminController {
             $this->error($Model->getError());
         }
 
-        //获取模型字段
-        if(empty($data['fields'])){
-        	$base = array();
-			if($data['type'] == 2){
-	        	/* 获取基础模型字段 */
-	        	$base = M('Document')->getDbFields();
-	        	//id字段不需要排序
-	        	if(in_array('id', $base)){
-	        		unset($base[array_search('id', $base)]);
-	        	}
-	        	$base = array_flip($base);
-	        	//排序起始值从1开始
-	        	foreach ($base as $key=>$value){
-	        		$base[$key] = $value + 1;
-	        	}
-			}
+        /* 获取模型排序字段 */
+        $fields = M('Attribute')->where(array('model_id'=>$data['id']))->field('id,name,title,sort')->order('sort')->select();
 
-        	/* 获取扩展模型字段 */
-        	$extend = D(ucfirst($data['name']), 'Logic')->getDbFields();
-        	$extend = empty($extend) ? array() : $extend;
-        	//id字段不需要排序
-        	if(in_array('id', $extend)){
-        		unset($extend[array_search('id', $extend)]);
-        	}
-        	$extend = array_flip($extend);
-        	//扩展里的排序从-1开始
-        	foreach ($extend as $key=>$value){
-        		$extend[$key] = ($value + 1) * -1;
-        	}
-
-        	$data['fields'] = empty($extend) ? array() : array_merge($base, $extend);
-
-        }else{
-        	$data['fields'] = json_decode($data['fields'], true);
-        }
 
         //获取所有的模型
     	$models = M('Model')->where(array('extend'=>0))->field('id,title')->select();
 
     	$this->assign('models', $models);
+    	$this->assign('fields', $fields);
         $this->assign('info', $data);
         $this->meta_title = '编辑模型';
         $this->display();
@@ -170,6 +139,22 @@ class ModelController extends AdminController {
      */
     public function update(){
         $res = D('Model')->update();
+
+        //更新属性排序
+        $fields = I('post.fields');
+        $id = I('post.id');
+        foreach ($fields as $value){
+        	$field = explode(':', $value);
+        	M('Attribute')->where(array('id'=>$field[0]))->setField('sort', $field[1]);
+        }
+
+        //更新缓存
+        $list = S('attribute_list');
+        if(isset($list[$id])){
+        	unset($list[$id]);
+        }
+        S('attribute_list', $list);
+
         if(!$res){
             $this->error(D('Model')->getError());
         }else{

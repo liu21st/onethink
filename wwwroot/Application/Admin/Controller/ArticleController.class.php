@@ -452,8 +452,12 @@ class ArticleController extends \Admin\Controller\AdminController {
         $this->assign('info', $data);
         $this->assign('model_id', $data['model_id']);
 
-        //获取表单字段排序
-        $fields = json_decode(get_document_model($data['model_id'], 'fields'), true);
+        //获取表单字段排序 TODO : 考虑模型的继承
+        $fields = array();
+        $list = M('Attribute')->where(array('model_id'=>$data['model_id']))->field('name,sort')->select();
+        foreach ($list as $value){
+        	$fields[$value['name']] = $value['sort'];
+        }
         $this->assign('field',  $fields);
 
         /* 获取要编辑的模型模板 */

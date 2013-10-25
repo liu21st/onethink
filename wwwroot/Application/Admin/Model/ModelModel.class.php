@@ -111,7 +111,7 @@ class ModelModel extends Model{
 			$data = array();
 			$data['name'] = $value['Field'];
 			$data['title'] = $value['Comment'];
-			$data['type'] = 'string';
+			$data['type'] = 'string';	//TODO:根据字段定义生成合适的数据类型
 			//获取字段定义
 			$is_null = strcmp($value['Null'], 'NO') == 0 ? ' NOT NULL ' : ' NULL ';
 			$data['field'] = $value['Type'].$is_null;
