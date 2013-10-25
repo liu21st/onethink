@@ -112,6 +112,7 @@
 							<td>{$vo.putTime|strval|substr=###,0,11|bcmul="1000000000"|date="Y-m-d H:i:s",###}</td>
 							<td>{$vo.fsize|format_bytes}</td>
 							<td>
+								<a href="javascript:;" data-href="{:U('rename?file='.$vo['key'])}" class="rename" title="{$vo.key}">重命名</a>
 								<a href="{:$qiniu->downLink($vo['key'])}" target="_blank">下载</a>
 								<a href="{:U('del?file='.$vo['key'])}">删除</a>
 							</td>
@@ -129,6 +130,17 @@
 
 <block name="script">
 	<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+	<script type="text/javascript" src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+	<script id="hooktpl" type="text/tpl">
+		<form action="" method="post" class="form-horizontal hooktpl" id="rename_form">
+			<label class="item-label">请输入文件名：</label>
+			<div class="controls">
+				<label class="textarea">
+					<input type="text" name="new_name" class="input-large" />
+				</label>
+			</div>
+		</form>
+	</script>
 	<script type="text/javascript">
 		(function($){
 			//上传文件
@@ -208,6 +220,56 @@
 				}
 				return false;
 			});
+
+			//重命名
+
+
+			$('.rename').click(function(){
+				var action = $.trim($(this).data('href'));
+				var html = $($("#hooktpl").html());
+				html.find("input[name=new_name]").val(this.title);
+				html.find("input[name=new_name]").parents('form').attr('action', action);
+				//ajaxForm 公共函数
+		        function ajaxForm(element,callback,dataType){
+		            var form = $(element).closest('form');
+		            var dataType = dataType || 'json';
+		            $.ajax({
+		                type: "POST",
+		                url: form.attr('action'),
+		                data: form.serialize(),
+		                async: false,
+		                dataType:dataType,
+		                success: function(data) {
+		                    if($.isFunction(callback)){
+		                        callback(data,form);
+		                    }
+		                }
+		            });
+		        }
+
+				option = {
+					title:'文件名更改',
+					actions:['close'],
+					drag:true,
+					tools:true,
+					buttons:{"ok":['保存', 'blue',function(){
+						var _this = this;
+						ajaxForm(this.find('.input-large'),function(data){
+							if (data.status){
+								_this.hide();
+								updateAlert(data.info,'alert-success');
+								setTimeout(function(){
+		                        	location.reload(true);
+		                        },1000);
+				            }else{
+				            	updateAlert(data.info);
+				            }
+						})
+					}]}
+				}
+				$.thinkbox(html,option);
+			});
+
 		})(jQuery);
 	</script>
 </block>

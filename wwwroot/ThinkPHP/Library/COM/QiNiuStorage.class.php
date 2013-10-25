@@ -146,7 +146,21 @@
 		}
 
 		public function downLink($key){
-			return "http://{$this->domain}/{$key}";
+			$url = "http://{$this->domain}/{$key}";
+			if(strpos($url, 'm//') !== false){
+				$url = str_replace('m//', 'm/@/', $url);
+			}
+			return $url;
+		}
+
+		//重命名单个文件
+		public function rename($file, $new_file){
+			$key = trim($file);
+			$url = "{$this->QINIU_RS_HOST}/move/" . self::Qiniu_Encode("{$this->bucket}:{$key}") .'/'. self::Qiniu_Encode("{$this->bucket}:{$new_file}");
+			trace($url);
+			$accessToken = $this->accessToken($url);
+			$response = $this->request($url, 'POST', array('Authorization'=>"QBox $accessToken"));
+			return $response;
 		}
 
 		//删除单个文件
