@@ -680,3 +680,52 @@ if(!function_exists('array_column')){
         return $result;
     }
 }
+
+/**
+ * 获取表名（不含表前缀）
+ * @param string $model_id
+ * @return string 表名
+ * @author huajie <banhuajie@163.com>
+ */
+function get_table_name($model_id = null){
+	if(empty($model_id)){
+		return false;
+	}
+	$Model = M('Model');
+	$name = '';
+	$info = $Model->getById($model_id);
+	if($info['extend'] != 0){
+		$name = $Model->getFieldById($info['extend'], 'name').'_';
+	}
+	$name .= $info['name'];
+	return $name;
+}
+
+/**
+ * 获取属性信息并缓存
+ * @param  integer $id    属性ID
+ * @param  string  $field 要获取的字段名
+ * @return string         属性信息
+ */
+function get_attribute_info($id, $field = null){
+	static $list;
+
+	/* 非法ID */
+	if(empty($id) || !is_numeric($id)){
+		return '';
+	}
+
+	/* 读取缓存数据 */
+	if(empty($list)){
+		$list = S('attribute_list');
+	}
+
+	/* 获取属性 */
+	if(!isset($list[$id])){
+		$info = M('Attribute')->getById($id);
+		$list[$id] = $info;
+		S('attribute_list', $list); //更新缓存
+	}
+
+	return is_null($field) ? $list[$id] : $list[$id][$field];
+}
