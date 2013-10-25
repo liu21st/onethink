@@ -145,6 +145,7 @@
 			return $response;
 		}
 
+		//获取文件下载资源链接
 		public function downLink($key){
 			$url = "http://{$this->domain}/{$key}";
 			if(strpos($url, 'm//') !== false){

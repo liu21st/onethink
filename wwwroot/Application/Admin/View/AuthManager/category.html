@@ -1,3 +1,4 @@
+<!-- 分类授权编辑页面 -->
 <extend name="Public/base" />
 <block name="body">
 <div class="tab-wrap">
@@ -5,6 +6,7 @@
         <li><a href="{:U('AuthManager/access',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">访问授权</a></li>
         <li><a href="{:U('AuthManager/user',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">成员授权</a></li>
         <li class="current"><a href="javascript:;">分类授权</a></li>
+        <li><a href="{:U('AuthManager/modelauth',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">模型授权</a></li>
 	    <li class="fr">
 		    <select name="group">
 			    <volist name="auth_group" id="vo">
@@ -63,9 +65,6 @@
 		    location.href = this.value;
 	    });
     }(jQuery);
-	$('select[name=group]').change(function(){
-		location.href = this.value;
-	});
     //导航高亮
     $('.side-sub-menu').find('a[href="{:U('AuthManager/index')}"]').closest('li').addClass('current');
 </script>

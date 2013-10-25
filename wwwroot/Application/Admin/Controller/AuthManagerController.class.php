@@ -42,6 +42,8 @@ class AuthManagerController extends AdminController{
                   array('title'=>'保存成员授权','url'=>'AuthManager/addToGroup',                     'tip'=>'"用户信息"列表页"授权"时的"保存"按钮和"成员授权"里右上角的"添加"按钮)'),
                   array('title'=>'分类授权',    'url'=>'AuthManager/category',                       'tip'=>'"后台 \ 用户 \ 权限管理"列表页的"分类授权"操作按钮'),
                   array('title'=>'保存分类授权','url'=>'AuthManager/addToCategory',                  'tip'=>'"分类授权"页面的"保存"按钮'),
+                  array('title'=>'模型授权',    'url'=>'AuthManager/modelauth',                       'tip'=>'"后台 \ 用户 \ 权限管理"列表页的"模型授权"操作按钮'),
+                  array('title'=>'保存模型授权','url'=>'AuthManager/addToModel',                  'tip'=>'"分类授权"页面的"保存"按钮'),
               ),
         ),
     );
@@ -270,6 +272,23 @@ class AuthManagerController extends AdminController{
         $this->display();
     }
 
+    /**
+     * 将模型添加到用户组的编辑页面
+     * @author 朱亚杰 <xcoolcc@gmail.com>
+     */
+    public function modelAuth(){
+        $auth_group     =   M('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
+            ->getfield('id,id,title,rules');
+        $model_list     = M('Model')->where(array('status'=>array('gt',0)))->select();
+        $authed_model   =   AuthGroupModel::getModelOfGroup(I('group_id'));
+        $this->assign('authed_model',   implode(',',(array)$authed_model));
+        $this->assign('model_list',     $model_list);
+        $this->assign('auth_group',     $auth_group);
+        $this->assign('this_group',     $auth_group[(int)$_GET['group_id']]);
+        $this->meta_title = '模型授权';
+        $this->display();
+    }
+
     public function tree($tree = null){
         $this->assign('tree', $tree);
         $this->display('tree');
@@ -366,6 +385,30 @@ class AuthManagerController extends AdminController{
             $this->error($AuthGroup->error);
         }
         if ( $AuthGroup->addToCategory($gid,$cid) ){
+            $this->success('操作成功');
+        }else{
+            $this->error('操作失败');
+        }
+    }
+
+    /**
+     * 将模型添加到用户组  入参:mid,group_id
+     * @author 朱亚杰 <xcoolcc@gmail.com>
+     */
+    public function addToModel(){
+        $mid = I('id');
+        $gid = I('get.group_id');
+        if( empty($gid) ){
+            $this->error('参数有误');
+        }
+        $AuthGroup = D('AuthGroup');
+        if( !$AuthGroup->find($gid)){
+            $this->error('用户组不存在');
+        }
+        if( $mid && !$AuthGroup->checkModelId($mid)){
+            $this->error($AuthGroup->error);
+        }
+        if ( $AuthGroup->addToModel($gid,$mid) ){
             $this->success('操作成功');
         }else{
             $this->error('操作失败');

@@ -40,7 +40,7 @@ class Upyun{
         /* 默认FTP配置 */
         $this->config = array_merge($this->config, $config);
         $this->config['password'] = md5($this->config['password']);
-        
+
         /* 设置根目录 */
         $this->rootPath = trim($root, './') . '/';
 	}
@@ -77,7 +77,7 @@ class Upyun{
      * @param  boolean $replace 同名文件是否覆盖
      * @return boolean          保存状态，true-成功，false-失败
      */
-    public function save($file, $replace) {
+    public function save($file, $replace = true) {
         $header['Content-Type'] = $file['type'];
         $header['Content-MD5'] = md5_file($file['md5']);
         $header['Mkdir'] = 'true';
@@ -102,7 +102,7 @@ class Upyun{
      * @param  string   $method  请求方法
      * @param  array    $headers 请求header
      * @param  resource $body    上传文件资源
-     * @return boolean  
+     * @return boolean
      */
     private function request($path, $method, $headers = null, $body = null){
     	$uri = "/{$this->config['bucket']}/{$path}";

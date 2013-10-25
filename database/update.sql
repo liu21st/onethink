@@ -34,4 +34,5 @@ rename table onethink_auth_category_access  to onethink_auth_extend;
 alter table onethink_auth_extend add column type tinyint(1) unsigned not null comment '扩展类型标识 1:栏目分类权限;2:模型权限';
 update onethink_auth_extend  set type=1;
 alter table onethink_auth_extend change category_id extend_id mediumint(8) unsigned NOT NULL COMMENT '扩展表中数据的id';
+ALTER TABLE `onethink_auth_extend`  DROP INDEX `uid_group_id` ,ADD UNIQUE INDEX `group_extend_type` (`group_id`, `extend_id`, `type`) USING BTREE ;
 # 配合模型管理权限需求 auth_category_access表修改 END

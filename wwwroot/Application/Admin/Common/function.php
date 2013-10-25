@@ -11,6 +11,13 @@
  * 后台公共文件
  * 主要定义后台公共函数库
  */
+function get_list_field($data, $field){
+    $value = $data[$field[0]];
+    if(isset($field[1])){
+        $value = call_user_func($field[1], $value);
+    }
+    return $value;
+}
 
 /**
  * 获取对应状态的文字信息

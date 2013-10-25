@@ -48,12 +48,11 @@ class AdminController extends Controller {
         array( 'title'=>'首页','url'=>'Index/index',        'controllers'=>'Index',),
         array( 'title'=>'内容','url'=>'Article/mydocument', 'controllers'=>'Article',),
         array( 'title'=>'用户','url'=>'User/index',         'controllers'=>'User,AuthManager'),
-        array( 'title'=>'扩展','url'=>'Addons/index',       'controllers'=>'Addons,Model,Attribute',),
+        array( 'title'=>'扩展','url'=>'Addons/index',       'controllers'=>'Addons,Model,Attribute,Think',),
         array( 'title'=>'系统','url'=>'Config/group',       'controllers'=>'Config,Channel,System,Category,Database',),
         array( 'title'=>'其他','url'=>'other',              'controllers'=>'File','hide'=>true),//专门放置不需要显示在任何菜单中的节点
     );
 
-    protected $nav      =   array();
 
     /**
      * 后台控制器初始化
@@ -675,67 +674,6 @@ class AdminController extends Controller {
                     trace(" 公共方法 '{$value}' 尚未进行任何权限配置!",$controller.'Controller','dev');
                 }
             }
-        }
-    }
-
-
-    /**
-     * 构建nav的1和last元素
-     * @author 朱亚杰 <zhuyajie@topthink.net>
-     */
-    final protected function _nav(){
-        if(!isset($_SERVER["HTTP_REFERER"])){
-            $_SERVER["HTTP_REFERER"]=U('Admin/Index/index');
-        }
-
-        $first  =   M('AuthRule')->where(array('module'=>'admin','status'=>1, 'type'=>2))->getField('name,title',true);
-
-
-        $arr    =   array();
-        foreach ($first as $key => $value){
-            $arr[U($key,$vars='',$suffix=true,$redirect=false,$domain=true)] = $value;
-        }
-
-        $nav    =   session('nav')?session('nav'):array();
-
-        $port = $_SERVER['SERVER_PORT']==80?'':':'.$_SERVER['SERVER_PORT'];
-        $last = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$port .$_SERVER['REQUEST_URI'];
-        if( array_key_exists( $_SERVER["HTTP_REFERER"],$arr ) ){
-            $nav    =   array();//清空
-            $nav[1] =   array( $_SERVER["HTTP_REFERER"]=>$arr[$_SERVER["HTTP_REFERER"]] );
-        }
-        if( array_key_exists( $last,$arr ) ){
-            $nav         =   array();//清空
-            $nav[1]      =   array( $last=>$arr[$last]);
-            $this->nav   =   $nav;
-            session('nav',$this->nav);
-            return;
-        }
-        $nav['last'] = $last;
-        $this->nav = $nav;
-    }
-
-    /**
-     * 设置nav
-     * @param int    $level  菜单层级
-     * @param string $title  菜单名称
-     * @author 朱亚杰 <zhuyajie@topthink.net>
-     */
-    protected function nav($level,$title,$show=false){
-        if ( is_numeric($level) ) {
-            $this->nav[$level] = array ($this->nav['last']=>$title);
-            unset($this->nav['last']);
-            ksort($this->nav);
-            $this->nav  =   array_slice($this->nav,0,$level,true);
-            $arr        =   array();
-            foreach ($this->nav as $key => $value){
-                foreach ($value as $k => $v){
-                    $arr[$k] =  $v;
-                }
-            }
-            session( 'nav', $this->nav );
-            $this->assign('_nav',$arr);
-            $this->assign('_show_nav',$show);
         }
     }
 }
