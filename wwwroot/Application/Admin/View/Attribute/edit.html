@@ -2,7 +2,7 @@
 
 <block name="body">
 	<div class="main-title cf">
-		<h2><if condition="ACTION_NAME eq 'add'">新增<else/>编辑</if>属性</h2>
+		<h2><if condition="ACTION_NAME eq 'add'">新增<else/>编辑</if>属性 : <a href="{:U('index','model_id='.$info['model_id'])}">返回列表</a></h2>
 	</div>
 
 	<!-- 标签页导航 -->
@@ -25,28 +25,33 @@
 						</div>
 					</div>
 					<div class="form-item cf">
-						<label class="item-label">默认值<span class="check-tips">（）</span></label>
+						<label class="item-label">数据类型<span class="check-tips">（控制字段在表单中的展示方式，目前支持一部分通用的类型）</span></label>
+						<div class="controls">
+							<select name="type" id="data-type">
+								<option value="">----请选择----</option>
+								<option value="num" rule="int(10) UNSIGNED NOT NULL">数字</option>
+								<option value="string" rule="varchar(255) NOT NULL">字符串</option>
+								<option value="textarea" rule="text NOT NULL">文本域</option>
+								<option value="datetime" rule="datetime NOT NULL">时间</option>
+								<option value="bool" rule="tinyint(2) NOT NULL">布尔型</option>
+								<option value="select" rule="char(50) NOT NULL">枚举型</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-item cf">
+						<label class="item-label">字段定义<span class="check-tips">（字段属性的sql表示）</span></label>
+						<div class="controls">
+							<input type="text" class="text input-large" name="field" value="{$info.field}" id="data-field">
+						</div>
+					</div>
+					<div class="form-item cf">
+						<label class="item-label">默认值<span class="check-tips">（字段的默认值,空字符串请输入''）</span></label>
 						<div class="controls">
 							<input type="text" class="text input-large" name="value" value="{$info.value}">
 						</div>
 					</div>
 					<div class="form-item cf">
-						<label class="item-label">数据类型<span class="check-tips">（目前支持一部分通用的类型）</span></label>
-						<div class="controls">
-							<select name="type">
-								<option value="string" rule="varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL">字符串</option>
-								<option value="char" rule="char(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL">字符型</option>
-							</select>
-						</div>
-					</div>
-					<div class="form-item cf">
-						<label class="item-label">字段定义<span class="check-tips">（）</span></label>
-						<div class="controls">
-							<input type="text" class="text input-large" name="field" value="{$info.field}">
-						</div>
-					</div>
-					<div class="form-item cf">
-						<label class="item-label">备注<span class="check-tips">（）</span></label>
+						<label class="item-label">备注<span class="check-tips"></span></label>
 						<div class="controls">
 							<label class="textarea input-large">
 								<textarea name="remark">{$info.remark}</textarea>
@@ -54,7 +59,7 @@
 						</div>
 					</div>
 					<div class="form-item cf">
-						<label class="item-label">是否显示<span class="check-tips">（）</span></label>
+						<label class="item-label">是否显示<span class="check-tips">（控制其在表单中是否显示）</span></label>
 						<div class="controls">
 							<select name="is_show">
 								<option value="1">始终显示</option>
@@ -65,7 +70,7 @@
 						</div>
 					</div>
 					<div class="form-item cf">
-						<label class="item-label">参数<span class="check-tips">（）</span></label>
+						<label class="item-label">参数<span class="check-tips">（提供字段展示时的额外数据）</span></label>
 						<div class="controls">
 							<label class="textarea input-large">
 								<textarea name="extra">{$info.extra}</textarea>
@@ -73,7 +78,7 @@
 						</div>
 					</div>
 					<div class="form-item cf">
-						<label class="item-label">是否必填<span class="check-tips">（）</span></label>
+						<label class="item-label">是否必填<span class="check-tips">（用于自动验证）</span></label>
 						<div class="controls">
 							<select name="is_must">
 								<option value="0">否</option>
@@ -99,7 +104,11 @@
 </block>
 <block name="script">
 <script type="text/javascript" charset="utf-8">
-
+$(function(){
+	$('#data-type').change(function(){
+		$('#data-field').val($(this).find('option:selected').attr('rule'));
+	});
+})
 </script>
 </block>
 
