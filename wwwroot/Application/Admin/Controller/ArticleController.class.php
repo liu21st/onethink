@@ -255,7 +255,7 @@ class ArticleController extends \Admin\Controller\AdminController {
 
         $prefix   = C('DB_PREFIX');
         $l_table  = $prefix.('document');
-        $r_table  = $prefix.('document_model_article');
+        $r_table  = $prefix.('document_article');
         $list     = M()->field( 'l.id id,l.pid pid,l.title title,l.update_time update_time,l.uid uid,l.status status,r.content content' )
                        ->table( $l_table.' l' )
                        ->where( $map )

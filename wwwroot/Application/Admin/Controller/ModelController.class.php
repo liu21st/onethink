@@ -247,5 +247,4 @@ class ModelController extends AdminController {
 			}
     	}
     }
-
 }

@@ -1,0 +1,68 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <!-- 标题栏 -->
+    <div class="main-title">
+        <h2>列表</h2>
+
+    </div>
+    <div class="tools">
+        <a class="btn" href="{:U('add?model='.$model)}">新 增</a>
+        <button class="btn ajax-post" target-form="ids" url="{:U('setStatus?status=1&model='.$model)}">启 用</button>
+        <button class="btn ajax-post" target-form="ids" url="{:U('setStatus?status=0&model='.$model)}">禁 用</button>
+    </div>
+
+    <!-- 数据列表 -->
+    <div class="data-table">
+        <div class="data-table table-striped">
+            <table>
+                <!-- 表头 -->
+                <thead>
+                    <tr>
+                        <th class="row-selected row-selected">
+                            <input class="check-all" type="checkbox">
+                        </th>
+                        <volist name="list_grids" id="field">
+                            <th>{$field.title}</th>
+                        </volist>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+
+                <!-- 列表 -->
+                <tbody>
+                    <volist name="list_data" id="data">
+                        <tr>
+                            <td><input class="ids" type="checkbox" value="{$data['id']}" name="ids[]"></td>
+                            <volist name="list_grids" id="field">
+                                <td>{:get_list_field($data, $field['field'])}</td>
+                            </volist>
+                            <td>
+                                <switch name="data.status">
+                                    <case value="0">
+                                        <a href="{:U('setStatus?status=1&model='.$model.'&ids='.$data['id'])}">启用</a>
+                                    </case>
+                                    <case value="1">
+                                        <a href="{:U('setStatus?status=0&model='.$model.'&ids='.$data['id'])}">禁用</a>
+                                    </case>
+                                    <case value="2">
+                                        <a href="{:U('setStatus?status=1&model='.$model.'&ids='.$data['id'])}">通过</a>
+                                    </case>
+                                </switch>
+                                <a href="{:U('edit?model='.$model.'&id='.$data['id'])}">编辑</a>
+                                <a href="{:U('setStatus?status=-1&model='.$model.'&ids='.$data['id'])}">删除</a>
+                            </td>
+                        </tr>
+                    </volist>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="page">
+        {$_page|default=''}
+    </div>
+</block>
+
+<block name="script">
+
+</block>
