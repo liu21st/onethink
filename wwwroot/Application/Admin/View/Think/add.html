@@ -14,7 +14,7 @@
     </ul>
     <div class="tab-content">
     <!-- 表单 -->
-    <form id="form" action="{:U('update')}" method="post" class="form-horizontal">
+    <form id="form" action="{:U('add?model='.$model)}" method="post" class="form-horizontal">
         <!-- 基础文档模型 -->
         <div id="tab1" class="tab-pane in tab1">
             <volist name="fields" id="field">
@@ -63,7 +63,7 @@
 
 
         <div class="form-item cf">
-            <button class="btn submit-btn ajax-post hidden" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+            <button class="btn submit-btn hidden" id="submit" type="submit" target-form="form-horizontal">确 定</button>
             <a class="btn btn-return" href="javascript:;">返 回</a>
         </div>
     </form>
