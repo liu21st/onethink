@@ -8,8 +8,6 @@
 	</div>
     <div class="tools">
         <a class="btn" href="{:U('Attribute/add?model_id='.$model_id)}">新 增</a>
-        <button class="btn ajax-post" target-form="ids" url="{:U('Attribute/setStatus',array('status'=>1))}">启 用</button>
-        <button class="btn ajax-post" target-form="ids" url="{:U('Attribute/setStatus',array('status'=>0))}">禁 用</button>
     </div>
 
 	<!-- 数据列表 -->
@@ -29,6 +27,7 @@
                         'data-id'=>'$id',
                         'href'   =>'Attribute/edit?id=$id',
                     ),
+					'type'=>'数据类型',
                     'create_time'=>array(
                         '_title'=>'创建时间',
                         'tag'   =>'span',
@@ -36,8 +35,6 @@
                     ),
                     'status_text'=>'状态',
                     '操作'=>array(
-                        '禁用'=>array( 'href' => 'Attribute/setStatus?id=$id&status=0', 'class'=>'ajax-get', 'condition'=>'$status==1',),
-                        '启用'=>array( 'href' => 'Attribute/setStatus?id=$id&status=1', 'class'=>'ajax-get', 'condition'=>'$status==0',),
 						'编辑'=>array( 'href' => 'Attribute/edit?id=$id'),
                     ),
                 );
