@@ -73,6 +73,14 @@
 					<volist name="fields" id="field">
 						<input type="hidden" id="field-{$field['id']}" name="fields[]" value="{$field['id']}:{$field['sort']}">
 					</volist>
+					<div class="form-item cf">
+						<label class="item-label">列表定义<span class="check-tips">（默认列表模板的展示规则）</span></label>
+						<div class="controls">
+							<label class="textarea input-large">
+								<textarea name="list_grid">{$info.list_grid}</textarea>
+							</label>
+						</div>
+					</div>
 				</div>
 
 				<!-- 高级 -->
@@ -81,14 +89,6 @@
 						<label class="item-label">列表模板<span class="check-tips">（自定义的列表模板，不写则使用默认模板）</span></label>
 						<div class="controls">
 							<input type="text" class="text input-large" name="template_list" value="{$info.template_list}">
-						</div>
-					</div>
-					<div class="form-item cf">
-						<label class="item-label">列表定义<span class="check-tips">（默认列表模板的展示规则）</span></label>
-						<div class="controls">
-							<label class="textarea input-large">
-								<textarea name="list_grid">{$info.list_grid}</textarea>
-							</label>
 						</div>
 					</div>
 					<div class="form-item cf">
