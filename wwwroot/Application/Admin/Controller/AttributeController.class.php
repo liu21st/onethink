@@ -36,6 +36,13 @@ class AttributeController extends AdminController {
         ),
     );
 
+    public function _initialize(){
+    	$this->assign('_extra_menu',array(
+    			'已装插件后台'=> D('Addons')->getAdminList(),
+    	));
+    	parent::_initialize();
+    }
+
     /**
      * 属性列表
      * @author huajie <banhuajie@163.com>

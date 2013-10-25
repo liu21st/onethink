@@ -16,6 +16,13 @@ namespace Admin\Controller;
 
 class ThinkController extends AdminController {
 
+	public function _initialize(){
+		$this->assign('_extra_menu',array(
+				'已装插件后台'=> D('Addons')->getAdminList(),
+		));
+		parent::_initialize();
+	}
+
     /**
      * 显示指定模型列表数据
      * @param  String $model 模型标识
@@ -25,7 +32,7 @@ class ThinkController extends AdminController {
         $model || $this->error('模型名标识必须！');
         $page = intval($p);
         $page = $page ? $page : 1; //默认显示第一页数据
-        
+
         //获取模型信息
         $model = M('Model')->getByName($model);
         $model || $this->error('模型不存在！');
@@ -49,19 +56,19 @@ class ThinkController extends AdminController {
         $map  = array('status' => array('egt', 0));
         $data = M($name)
                 /* 查询指定字段，不指定则查询所有字段 */
-                ->field(empty($fields) ? true : $fields) 
+                ->field(empty($fields) ? true : $fields)
                 ->where($map)
                 /* 默认通过id逆序排列 */
                 ->order('id DESC')
                 /* 数据分页 */
                 ->page($page, $row)
                 /* 执行查询 */
-                ->select(); 
+                ->select();
 
         /* 查询记录总数 */
-        $count = M($name)->where($map)->count(); 
+        $count = M($name)->where($map)->count();
         //分页
-        
+
         if($count > $row){
             $page = new \COM\Page($count, $row);
             $page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
