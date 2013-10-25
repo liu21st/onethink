@@ -107,18 +107,37 @@ class ThinkController extends AdminController {
         }
     }
 
-    public function edit(){
+    public function edit($model = null, $id = 0){
+        if(IS_POST){
 
+        } else {
+            //获取模型信息
+            $model = M('Model')->where(array('status' => 1))->find($model);
+            $model || $this->error('模型不存在！');
+            $fields = get_model_attribute($model['id']);
+
+            //获取数据
+            $data = M(get_table_name($model))->find($id);
+            $data || $this->error('数据不存在！');
+
+            $this->assign('fields', $fields);
+            $this->assign('data', $data);
+            $this->display('edit');
+        }
     }
 
     public function add($model = null){
-        //获取模型信息
-        $model = M('Model')->where(array('status' => 1))->find($model);
-        $model || $this->error('模型不存在！');
-        $fields = get_model_attribute($model['id']);
+        if(IS_POST){
 
-        $this->assign('fields', $fields);
-        $this->display('edit');
+        } else {
+            //获取模型信息
+            $model = M('Model')->where(array('status' => 1))->find($model);
+            $model || $this->error('模型不存在！');
+            $fields = get_model_attribute($model['id']);
+
+            $this->assign('fields', $fields);
+            $this->display('edit');
+        }
     }
 
 }
