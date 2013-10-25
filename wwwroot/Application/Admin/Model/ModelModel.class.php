@@ -111,6 +111,7 @@ class ModelModel extends Model{
 			$data = array();
 			$data['name'] = $value['Field'];
 			$data['title'] = $value['Comment'];
+			$data['type'] = 'string';
 			//获取字段定义
 			$is_null = strcmp($value['Null'], 'NO') == 0 ? ' NOT NULL ' : ' NULL ';
 			$data['field'] = $value['Type'].$is_null;
