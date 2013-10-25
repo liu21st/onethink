@@ -19,6 +19,10 @@ function get_list_field($data, $field){
     return $value;
 }
 
+function get_model_by_id($id){
+    return $model = M('Model')->getFieldById($id,'title');
+}
+
 /**
  * 获取对应状态的文字信息
  * @param int $status
