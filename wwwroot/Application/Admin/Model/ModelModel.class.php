@@ -22,6 +22,7 @@ class ModelModel extends Model{
         array('name', '', '标识已经存在', self::VALUE_VALIDATE, 'unique', self::MODEL_BOTH),
         array('title', 'require', '标题不能为空', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
         array('title', '1,16', '标题长度不能超过16个字符', self::MUST_VALIDATE, 'length', self::MODEL_BOTH),
+    	array('list_grid', 'require', '列表定义不能为空', self::MUST_VALIDATE , 'regex', self::MODEL_BOTH),
     );
 
     /* 自动完成规则 */
