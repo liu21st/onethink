@@ -138,4 +138,29 @@ class AttributeController extends AdminController {
             }
         }
     }
+
+    /**
+     * 删除一条数据
+     * @author huajie <banhuajie@163.com>
+     */
+    public function remove(){
+    	$id = I('id');
+    	empty($id) && $this->error('参数错误！');
+
+    	$Model = D('Attribute');
+
+    	$info = $Model->getById($id);
+    	empty($info) && $this->error('该字段不存在！');
+
+    	//删除属性数据
+    	$res = $Model->delete($id);
+
+    	//删除表字段
+    	$Model->deleteField($info);
+    	if(!$res){
+    		$this->error(D('Attribute')->getError());
+    	}else{
+    		$this->success('删除成功', U('index','model_id='.$info['model_id']));
+    	}
+    }
 }

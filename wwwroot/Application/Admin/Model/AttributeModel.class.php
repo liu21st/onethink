@@ -197,4 +197,22 @@ sql;
     	return $res !== false;
     }
 
+    /**
+     * 删除一个字段
+     * @param array $field 需要删除的字段属性
+     * @return boolean true 成功 ， false 失败
+     * @author huajie <banhuajie@163.com>
+     */
+    public function deleteField($field){
+    	//检查表是否存在
+    	$table_exist = $this->checkTableExist($field['model_id']);
+
+    	$sql = <<<sql
+			ALTER TABLE `{$this->table_name}`
+DROP COLUMN `{$field['name']}`;
+sql;
+    	$res = M()->execute($sql);
+    	return $res !== false;
+    }
+
 }

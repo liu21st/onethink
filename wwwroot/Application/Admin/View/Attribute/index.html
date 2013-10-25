@@ -36,6 +36,7 @@
                     'status_text'=>'状态',
                     '操作'=>array(
 						'编辑'=>array( 'href' => 'Attribute/edit?id=$id'),
+						'删除'=>array( 'href' => 'Attribute/remove?id=$id', 'class'=>'confirm ajax-get'),
                     ),
                 );
                 echo $_table_list = $__controller__->tableList($_list,$thead);
