@@ -362,7 +362,7 @@ body{
     height: 255px;
     overflow-y: auto;
     background-color: #fafafa;
-    *overflow-x:hidden; 
+    *overflow-x:hidden;
 }
 
 /* 系统信息列表 */
@@ -557,7 +557,7 @@ body{
 
 /* 拖动排序列表 */
 .dragsort {
-    
+
 }
 .edit_sort {
     display: inline-block;
@@ -566,21 +566,21 @@ body{
     line-height: 35px;
     width: 20%;
     height: 376px;
-    
+
 }
 .edit_sort span {
     background: #EEEEEE;
     width: 100%;
     display: inline-block;
     font-weight: bold;
-    text-indent: 10px; 
+    text-indent: 10px;
     border-bottom: 1px solid #cdcdcd;
     margin-bottom:5px;
 }
 .edit_sort ul {
     padding: 0 5px;
     overflow-y:scroll;
-    height: 334px; 
+    height: 334px;
 }
 .edit_sort_l {
     float: left;
@@ -598,6 +598,7 @@ body{
     line-height: 30px;
     border: 1px solid #eee;
     background-color: #fff;
+	overflow: hidden;
 }
 .dragsort li em {
     font-style: normal;
