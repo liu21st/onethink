@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 
 namespace Admin\Controller;
+use Admin\Model\AuthGroupModel;
 
 /**
  * 模型管理控制器
@@ -45,6 +46,30 @@ class ModelController extends AdminController {
                 '已装插件后台'=>D('Addons')->getAdminList(),
         ));
         parent::_initialize();
+    }
+
+    /**
+     * 检测是否是需要动态判断的权限
+     * @return boolean|null
+     *      返回true则表示当前访问有权限
+     *      返回false则表示当前访问无权限
+     *      返回null，则会进入checkRule根据节点授权判断权限
+     *
+     * @author 朱亚杰  <xcoolcc@gmail.com>
+     */
+    protected function checkDynamic(){
+        if(IS_ROOT){
+            return true;//管理员允许访问任何页面
+        }
+        //模型权限业务检查逻辑
+        //
+        //提供的工具方法：
+        //$AUTH_GROUP = D('AuthGroup');
+        // $AUTH_GROUP->checkModelId($mid);      //检查模型id列表是否存在
+        // AuthGroupModel::getModelOfGroup($gid);//获取某个用户组拥有权限的模型id
+        // AuthGroupModel::getAuthModels($uid);  //获取某个用户拥有权限的模型id
+
+        return null;//不明,需checkRule
     }
 
     /**

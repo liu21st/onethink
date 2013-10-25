@@ -6,6 +6,7 @@
 			<li class="current"><a href="javascript:;">访问授权</a></li>
             <li><a href="{:U('AuthManager/user',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">成员授权</a></li>
             <li><a href="{:U('AuthManager/category',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">分类授权</a></li>
+            <li><a href="{:U('AuthManager/modelauth',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">模型授权</a></li>
 			<li class="fr">
 				<select name="group">
 					<volist name="auth_group" id="vo">
