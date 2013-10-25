@@ -58,6 +58,18 @@ class QiniuController extends AdminController {
 		}
 	}
 
+	public function rename(){
+		$key = I('get.file');
+		$new = I('new_name');
+		$result = $this->qiniu->rename($key, $new);
+		if(false === $result){
+			trace($this->qiniu->error);
+			$this->error($this->qiniu->errorStr);
+		}else{
+			$this->success('改名成功');
+		}
+	}
+
 	public function batchDel(){
 		$files = $_GET['key'];
 		if(is_array($files) && $files !== array()){
