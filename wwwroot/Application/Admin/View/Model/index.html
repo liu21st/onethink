@@ -3,13 +3,14 @@
 <block name="body">
 	<!-- 标题栏 -->
 	<div class="main-title">
-		<h2>文档模型列表</h2>
+		<h2>模型列表</h2>
 
 	</div>
     <div class="tools">
         <a class="btn" href="{:U('Model/add')}">新 增</a>
         <button class="btn ajax-post" target-form="ids" url="{:U('Model/setStatus',array('status'=>1))}">启 用</button>
         <button class="btn ajax-post" target-form="ids" url="{:U('Model/setStatus',array('status'=>0))}">禁 用</button>
+        <a class="btn" href="{:U('Model/generate')}">生 成</a>
     </div>
 
 	<!-- 数据列表 -->
@@ -23,9 +24,9 @@
                         'td'=>'<input class="ids" type="checkbox" name="id[]" value="$id" />',
                     ),
                     'id'  => '编号',
-                    'name'=>'文档模型',
+                    'name'=>'标识',
                     'title'=>array(
-                        '_title'=>'标题',
+                        '_title'=>'名称',
                         'data-id'=>'$id',
                         'href'   =>'Model/edit?id=$id',
                     ),
