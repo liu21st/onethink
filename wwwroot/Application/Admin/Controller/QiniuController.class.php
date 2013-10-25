@@ -44,7 +44,7 @@ class QiniuController extends AdminController {
 		$this->display();
 	}
 
-	public function delete(){
+	public function del(){
 		$file = trim(I('file'));
 		if($file){
 			$result = $this->qiniu->del($file);
@@ -55,6 +55,21 @@ class QiniuController extends AdminController {
 			}
 		}else{
 			$this->error('错误的文件名');
+		}
+	}
+
+	public function batchDel(){
+		$files = $_GET['key'];
+		if(is_array($files) && $files !== array()){
+			$files = array_column($files,'value');
+			$result = $this->qiniu->delBatch($files);
+			if(false === $result){
+				$this->error($this->qiniu->errorStr);
+			}else{
+				$this->success('删除成功');
+			}
+		}else{
+			$this->error('请至少选择一个文件');
 		}
 	}
 
@@ -81,7 +96,7 @@ class QiniuController extends AdminController {
 						外链地址：<input class="file-share-link" type="text" readonly="readonly" value="{$this->qiniu->domain}/{$key}">
 					</p>
 					<p class="file-info-item">
-						最后更新时间：<span data-bind="text: $data">{$time}</span>
+						最后更新时间：<span>{$time}</span>
 					</p>
 					<p class="file-info-item">
 						文件大小：<span class="file-size">{$filesize}</span>

@@ -6,12 +6,14 @@
 		public $QINIU_RSF_HOST = 'http://rsf.qbox.me';
 		public $QINIU_RS_HOST = 'http://rs.qbox.me';
 		public $QINIU_UP_HOST = 'http://up.qiniu.com';
+		public $timeout = '';
 
 		public function __construct($config){
 			$this->sk = $config['secrectKey'];
 			$this->ak = $config['accessKey'];
 			$this->domain = $config['domain'];
 			$this->bucket = $config['bucket'];
+			$this->timeout = isset($config['timeout'])? $config['timeout'] : 3600;
 		}
 
 		static function sign($sk, $ak, $data){
@@ -24,7 +26,7 @@
 			return self::sign($sk, $ak, $data) . ':' . $data;
 		}
 
-		public function accessToken($url, $body){
+		public function accessToken($url, $body=''){
 			$parsed_url = parse_url($url);
 		    $path = $parsed_url['path'];
 		    $access = $path;
@@ -104,7 +106,6 @@
 			array_push($data, '');
 
 			$body = implode("\r\n", $data);
-			file_put_contents('./upload', $body, FILE_APPEND);
 			$response = $this->request($url, 'POST', $header, $body);
 			return $response;
 		}
@@ -128,7 +129,6 @@
 		public function getList($query = array(), $path = ''){
 			$query = array_merge(array('bucket'=>$this->bucket), $query);
 			$url = "{$this->QINIU_RSF_HOST}/list?".http_build_query($query);
-			trace($url);
 			$accessToken = $this->accessToken($url);
 			$response = $this->request($url, 'POST', array('Authorization'=>"QBox $accessToken"));
 			return $response;
@@ -153,6 +153,21 @@
 		public function del($file){
 			$key = trim($file);
 			$url = "{$this->QINIU_RS_HOST}/delete/" . self::Qiniu_Encode("{$this->bucket}:{$key}");
+			$accessToken = $this->accessToken($url);
+			$response = $this->request($url, 'POST', array('Authorization'=>"QBox $accessToken"));
+			return $response;
+		}
+
+		//批量删除文件
+		public function delBatch($files){
+			$url = $this->QINIU_RS_HOST . '/batch';
+			$ops = array();
+			foreach ($files as $file) {
+				$ops[] = "/delete/". self::Qiniu_Encode("{$this->bucket}:{$file}");
+			}
+			$params = 'op=' . implode('&op=', $ops);
+			$url .= '?'.$params;
+			trace($url);
 			$accessToken = $this->accessToken($url);
 			$response = $this->request($url, 'POST', array('Authorization'=>"QBox $accessToken"));
 			return $response;
@@ -213,7 +228,7 @@
 	        array_push($_headers, "Date: {$date}");
 
 	        curl_setopt($ch, CURLOPT_HTTPHEADER, $_headers);
-	        curl_setopt($ch, CURLOPT_TIMEOUT, $this->config['timeout']);
+	        curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout);
 	        curl_setopt($ch, CURLOPT_HEADER, 1);
 	        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);
