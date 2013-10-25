@@ -47,7 +47,7 @@ class ThinkController extends AdminController {
             $fields[] = $val[0][0];
         }
 
-        in_array('id', $fields) && array_push($fields, 'id');
+        in_array('id', $fields) || array_push($fields, 'id');
 
         //读取模型数据列表
         $name = parse_name(get_table_name($model['id']), true);
@@ -73,7 +73,7 @@ class ThinkController extends AdminController {
         }
 
         //
-        $this->assign('model', $model['id']);
+        $this->assign('model', $model);
         $this->assign('list_grids', $grids);
         $this->assign('list_data', $data);
         $this->display($model['template_list']);
@@ -118,7 +118,7 @@ class ThinkController extends AdminController {
             $data = M(get_table_name($model['id']))->find($id);
             $data || $this->error('数据不存在！');
 
-            $this->assign('model', $model['id']);
+            $this->assign('model', $model);
             $this->assign('fields', $fields);
             $this->assign('data', $data);
             $this->display();
@@ -140,7 +140,7 @@ class ThinkController extends AdminController {
         } else {
 
             $fields = get_model_attribute($model['id']);
-            $this->assign('model', $model['id']);
+            $this->assign('model', $model);
             $this->assign('fields', $fields);
             $this->display();
         }

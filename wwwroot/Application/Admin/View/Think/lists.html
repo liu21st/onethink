@@ -3,13 +3,13 @@
 <block name="body">
     <!-- 标题栏 -->
     <div class="main-title">
-        <h2>列表</h2>
+        <h2>[{$model['title']}] 列表</h2>
 
     </div>
     <div class="tools">
-        <a class="btn" href="{:U('add?model='.$model)}">新 增</a>
-        <button class="btn ajax-post" target-form="ids" url="{:U('setStatus?status=1&model='.$model)}">启 用</button>
-        <button class="btn ajax-post" target-form="ids" url="{:U('setStatus?status=0&model='.$model)}">禁 用</button>
+        <a class="btn" href="{:U('add?model='.$model['id'])}">新 增</a>
+        <button class="btn ajax-post" target-form="ids" url="{:U('setStatus?status=1&model='.$model['id'])}">启 用</button>
+        <button class="btn ajax-post" target-form="ids" url="{:U('setStatus?status=0&model='.$model['id'])}">禁 用</button>
     </div>
 
     <!-- 数据列表 -->
@@ -38,8 +38,8 @@
                                 <td>{:get_list_field($data, $field['field'])}</td>
                             </volist>
                             <td>
-                                <a href="{:U('edit?model='.$model.'&id='.$data['id'])}">编辑</a>
-                                <a href="{:U('del?model='.$model.'&ids='.$data['id'])}">删除</a>
+                                <a href="{:U('edit?model='.$model['id'].'&id='.$data['id'])}">编辑</a>
+                                <a href="{:U('del?model='.$model['id'].'&ids='.$data['id'])}">删除</a>
                             </td>
                         </tr>
                     </volist>

@@ -707,7 +707,7 @@ function get_table_name($model_id = null){
  * @param  string  $field 要获取的字段名
  * @return string         属性信息
  */
-function get_model_attribute($model_id){
+function get_model_attribute($model_id, $group = true){
 	static $list;
 
 	/* 非法ID */
@@ -722,10 +722,23 @@ function get_model_attribute($model_id){
 
 	/* 获取属性 */
 	if(!isset($list[$id])){
-		$info = M('Attribute')->where(array('model_id'=>$model_id))->select();
+		$info = M('Attribute')->where(array('model_id'=>$model_id))->order('sort')->select();
 		$list[$model_id] = $info;
 		S('attribute_list', $list); //更新缓存
 	}
 
-	return $list[$model_id];
+    $attr = $list[$model_id];
+    if($group){
+        $group = array();
+        foreach ($attr as $value) {
+            if($value['sort'] < 0){
+                $group[1][] = $value;
+            } else {
+                $group[0][] = $value;
+            }
+        }
+        $attr = $group;
+    }
+
+	return $attr;
 }
