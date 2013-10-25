@@ -104,6 +104,7 @@
 </block>
 <block name="script">
 <script type="text/javascript" charset="utf-8">
+Think.setValue('type', "{$info.type|default=''}");
 $(function(){
 	$('#data-type').change(function(){
 		$('#data-field').val($(this).find('option:selected').attr('rule'));
