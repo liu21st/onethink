@@ -19,8 +19,23 @@ function get_list_field($data, $field){
     return $value;
 }
 
+// 获取模型名称
 function get_model_by_id($id){
     return $model = M('Model')->getFieldById($id,'title');
+}
+
+// 获取属性类型信息
+function get_attribute_type($type=''){
+    // TODO 可以加入系统配置
+    static $_type = array(
+        'num'       =>  array('数字','int(10) UNSIGNED NOT NULL'),
+        'string'    =>  array('字符串','varchar(255) NOT NULL'),
+        'textarea'  =>  array('文本框','text NOT NULL'),
+        'datetime'  =>  array('时间','datetime NOT NULL'),
+        'bool'      =>  array('布尔','tinyint(2) NOT NULL'),
+        'select'    =>  array('枚举','char(50) NOT NULL'),
+    );
+    return $type?$_type[$type][0]:$_type;
 }
 
 /**

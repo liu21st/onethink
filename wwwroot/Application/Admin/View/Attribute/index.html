@@ -27,7 +27,11 @@
                         'data-id'=>'$id',
                         'href'   =>'Attribute/edit?id=$id',
                     ),
-					'type'=>'数据类型',
+					'type'=>array(
+						'_title'=>'数据类型',
+						'tag'   =>'span',
+						'func'=>'get_attribute_type($type)',
+					),
                     'create_time'=>array(
                         '_title'=>'创建时间',
                         'tag'   =>'span',

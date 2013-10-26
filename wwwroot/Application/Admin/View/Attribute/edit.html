@@ -2,7 +2,7 @@
 
 <block name="body">
 	<div class="main-title cf">
-		<h2><if condition="ACTION_NAME eq 'add'">新增<else/>编辑</if>属性 : <a href="{:U('index','model_id='.$info['model_id'])}">返回列表</a></h2>
+		<h2><if condition="ACTION_NAME eq 'add'">新增<else/>编辑</if> [{:get_model_by_id($info['model_id'])}] 属性 : <a href="{:U('index','model_id='.$info['model_id'])}">返回列表</a></h2>
 	</div>
 
 	<!-- 标签页导航 -->
@@ -29,12 +29,9 @@
 						<div class="controls">
 							<select name="type" id="data-type">
 								<option value="">----请选择----</option>
-								<option value="num" rule="int(10) UNSIGNED NOT NULL">数字</option>
-								<option value="string" rule="varchar(255) NOT NULL">字符串</option>
-								<option value="textarea" rule="text NOT NULL">文本域</option>
-								<option value="datetime" rule="datetime NOT NULL">时间</option>
-								<option value="bool" rule="tinyint(2) NOT NULL">布尔型</option>
-								<option value="select" rule="char(50) NOT NULL">枚举型</option>
+								<volist name=":get_attribute_type()" id="type">
+								<option value="{$key}" rule="{$type[1]}">{$type[0]}</option>
+								</volist>
 							</select>
 						</div>
 					</div>
