@@ -743,3 +743,18 @@ function get_model_attribute($model_id, $group = true){
 
 	return $attr;
 }
+
+/**
+ * 调用系统的API接口方法
+ * @param  string  $name 格式 [模块名/]接口名/方法名
+ * @param  array|string  $vars 参数 
+ */
+function api($name,$vars=array()){
+    list($classname,$method) =  explode('/',$name);
+    $class  =   '\\Common\Api\\'.$classname.'Api';
+    $api    =   new $class();
+    if(is_string($vars)) {
+        parse_str($vars,$vars);
+    }
+    return call_user_func_array(array(&$api,$method),$vars);
+}
