@@ -721,20 +721,21 @@ function get_model_attribute($model_id, $group = true){
 	}
 
 	/* 获取属性 */
-	if(!isset($list[$id])){
+	if(!isset($list[$model_id])){
 		$info = M('Attribute')->where(array('model_id'=>$model_id))->order('sort')->select();
 		$list[$model_id] = $info;
-		S('attribute_list', $list); //更新缓存
+		//S('attribute_list', $list); //更新缓存
 	}
 
     $attr = $list[$model_id];
     if($group){
+        $keys   =   array_keys(parse_config_attr(M('Model')->getFieldById($model_id,'field_group')));
         $group = array();
         foreach ($attr as $value) {
-            if($value['sort'] < 0){
-                $group[1][] = $value;
-            } else {
-                $group[0][] = $value;
+            if(in_array($value['group'],$keys)){
+                $group[$value['group']][] = $value;
+            }else{
+                $group[$keys[0]][] = $value;
             }
         }
         $attr = $group;

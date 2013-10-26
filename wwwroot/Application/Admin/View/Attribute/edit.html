@@ -42,6 +42,14 @@
 						</div>
 					</div>
 					<div class="form-item cf">
+						<label class="item-label">参数<span class="check-tips">（提供字段展示时的额外数据）</span></label>
+						<div class="controls">
+							<label class="textarea input-large">
+								<textarea name="extra">{$info.extra}</textarea>
+							</label>
+						</div>
+					</div>
+					<div class="form-item cf">
 						<label class="item-label">默认值<span class="check-tips">（字段的默认值,空字符串请输入''）</span></label>
 						<div class="controls">
 							<input type="text" class="text input-large" name="value" value="{$info.value}">
@@ -56,6 +64,17 @@
 						</div>
 					</div>
 					<div class="form-item cf">
+						<label class="item-label">字段分组<span class="check-tips">（用于表单显示）</span></label>
+						<div class="controls">
+							<select name="group">
+								<option value="">-选择分组-</option>
+								<volist name=":parse_config_attr($model['field_group'])" id="group">
+								<option value="{$key}">{$group}</option>
+								</volist>
+							</select>
+						</div>
+					</div>
+					<div class="form-item cf">
 						<label class="item-label">是否显示<span class="check-tips">（控制其在表单中是否显示）</span></label>
 						<div class="controls">
 							<select name="is_show">
@@ -64,14 +83,6 @@
 								<option value="3">编辑时显示</option>
 								<option value="0">不显示</option>
 							</select>
-						</div>
-					</div>
-					<div class="form-item cf">
-						<label class="item-label">参数<span class="check-tips">（提供字段展示时的额外数据）</span></label>
-						<div class="controls">
-							<label class="textarea input-large">
-								<textarea name="extra">{$info.extra}</textarea>
-							</label>
 						</div>
 					</div>
 					<div class="form-item cf">
@@ -102,6 +113,7 @@
 <block name="script">
 <script type="text/javascript" charset="utf-8">
 Think.setValue('type', "{$info.type|default=''}");
+Think.setValue('group', "{$info.group|default=''}");
 <eq name="ACTION_NAME" value="add">
 $(function(){
 	$('#data-type').change(function(){

@@ -7,15 +7,17 @@
     <!-- 标签页导航 -->
 <div class="tab-wrap">
     <ul class="tab-nav nav">
-        <li data-tab="tab1" class="current"><a href="javascript:void(0);">基 础</a></li>
-        <li data-tab="tab2"><a href="javascript:void(0);">高 级</a></li>
+			<volist name=":parse_config_attr($model['field_group'])" id="group">
+			<li data-tab="tab{$key}" <eq name="key" value="1">class="current"</eq>><a href="javascript:void(0);">{$group}</a></li>
+			</volist>
     </ul>
     <div class="tab-content">
     <!-- 表单 -->
     <form id="form" action="{:U('edit?model='.$model['id'])}" method="post" class="form-horizontal">
         <!-- 基础文档模型 -->
-        <div id="tab1" class="tab-pane in tab1">
-            <volist name="fields.0" id="field">
+		<volist name=":parse_config_attr($model['field_group'])" id="group">
+		<div id="tab{$key}" class="tab-pane in tab{$key}">
+            <volist name="fields[$key]" id="field">
                 <if condition="$field['is_show'] == 1 || $field['is_show'] == 3">
                 <div class="form-item cf">
                     <label class="item-label">{$field['title']}<span class="check-tips">（{$field['remark']}）</span></label>
@@ -57,48 +59,8 @@
                 </if>
             </volist>
         </div>
-
-        <div id="tab2" class="tab-pane tab2">
-            <volist name="fields.1" id="field">
-                <if condition="$field['is_show'] == 1 || $field['is_show'] == 3">
-                <div class="form-item cf">
-                    <label class="item-label">{$field['title']}<span class="check-tips">（{$field['remark']}）</span></label>
-                    <div class="controls">
-                        <switch name="field.type">
-                            <case value="num">
-                                <input type="text" class="text input-large" name="{$field.name}" value="{$data[$field['name']]}">
-                            </case>
-                            <case value="string">
-                                <input type="text" class="text input-large" name="{$field.name}" value="{$data[$field['name']]}">
-                            </case>
-                            <case value="textarea">
-                                <label class="textarea input-large">
-                                <textarea name="{$field.name}">{$data[$field['name']]}</textarea>
-                                </label>
-                            </case>
-                            <case value="bool">
-                                <select name="{$field.name}">
-                                    <volist name=":parse_field_attr($field['extra'])" id="vo">
-                                        <option value="{$key}" <eq name="data[$field['name']]" value="$key">selected</eq>>{$vo}</option>
-                                    </volist>
-                                </select>
-                            </case>
-                            <case value="select">
-                                <select name="{$field.name}">
-                                    <volist name=":parse_field_attr($field['extra'])" id="vo">
-                                        <option value="{$key}" <eq name="data[$field['name']]" value="$key">selected</eq>>{$vo}</option>
-                                    </volist>
-                                </select>
-                            </case>
-                            <default/>
-                            <input type="text" class="text input-large" name="{$field.name}" value="{$data[$field['name']]}">
-                        </switch>
-                    </div>
-                </div>
-                </if>
-            </volist>
-        </div>
-
+		</volist>
+        
 
         <div class="form-item cf">
             <input type="hidden" name="id" value="{$data.id}">
