@@ -745,16 +745,16 @@ function get_model_attribute($model_id, $group = true){
 }
 
 /**
- * 调用系统的API接口方法
- * @param  string  $name 格式 [模块名/]接口名/方法名
+ * 调用系统的API接口方法（静态方法）
+ * @param  string  $name 格式 接口名/方法名
  * @param  array|string  $vars 参数 
+ * @param  string  $module 模块名
  */
-function api($name,$vars=array()){
+function api($name,$vars=array(),$module='Common'){
     list($classname,$method) =  explode('/',$name);
-    $class  =   '\\Common\Api\\'.$classname.'Api';
-    $api    =   new $class();
+    $callback  =   $module.'\\Api\\'.$classname.'Api::'.$method;
     if(is_string($vars)) {
         parse_str($vars,$vars);
     }
-    return call_user_func_array(array(&$api,$method),$vars);
+    return call_user_func_array($callback,$vars);
 }
