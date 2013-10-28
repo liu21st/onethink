@@ -1,0 +1,64 @@
+<!-- 模型授权编辑页面 -->
+<extend name="Public/base" />
+<block name="body">
+<div class="tab-wrap">
+    <ul class="tab-nav nav">
+        <li><a href="{:U('AuthManager/access',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">访问授权</a></li>
+        <li><a href="{:U('AuthManager/user',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">成员授权</a></li>
+        <li><a href="{:U('AuthManager/category',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">分类授权</a></li>
+        <li class="current"><a href="javascript:;">模型授权</a></li>
+	    <li class="fr">
+		    <select name="group">
+			    <volist name="auth_group" id="vo">
+				    <option value="{:U('AuthManager/modelauth',array('group_id'=>$vo['id'],'group_name'=>$vo['title']))}" <eq name="vo['id']" value="$this_group['id']">selected</eq> >{$vo.title}</option>
+			    </volist>
+		    </select>
+	    </li>
+    </ul>
+    <!-- 表格列表 -->
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+        <?php
+            $thead = array(
+                '_html'=>array(
+                    'th'=>'<input class="check-all" type="checkbox"/>',
+                    'td'=>'<input class="ids" type="checkbox" name="id[]" value="$id" />',
+                ),
+                'name'=> array(
+                    '_title'=>'标识',
+                    '_th'   =>'wid',
+                    'tag'   =>'span',
+                ),
+                'title'=>'模型名称',
+            );
+            echo  $__controller__->tableList($model_list,$thead);
+        ?>
+    </div>
+	<div class="main-title">
+        <div class="tools fl auth-botton">
+            <a url="{:U('addToModel',array('group_id'=> I('group_id')))}" class="btn ajax-post" target-form="ids" >授 权</a>
+        </div>
+		<div class="page_nav fr">
+			{$_page}
+		</div>
+	</div>
+</div>
+<!-- /表格列表 -->
+</block>
+<block name="script">
+<script type="text/javascript">
+    +function($){
+        var auth_models = [{$authed_model}];
+        $('.ids').each(function(){
+            if( $.inArray( parseInt(this.value,10),auth_models )>-1 ){
+                $(this).prop('checked',true);
+            }
+        });
+	    $('select[name=group]').change(function(){
+		    location.href = this.value;
+	    });
+    }(jQuery);
+    //导航高亮
+    $('.side-sub-menu').find('a[href="{:U('AuthManager/index')}"]').closest('li').addClass('current');
+</script>
+</block>
