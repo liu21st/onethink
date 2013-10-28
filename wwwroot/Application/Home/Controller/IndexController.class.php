@@ -27,7 +27,7 @@ class IndexController extends HomeController {
         } else {
             $category = D('Category')->getTree();
             $lists    = D('Document')->lists(null);
-            
+
             $this->assign('category',$category);//栏目
             $this->assign('lists',$lists);//列表
             $this->assign('page',D('Document')->page);//分页
@@ -75,6 +75,12 @@ class IndexController extends HomeController {
         $this->assign('policy', $policy);
         $this->assign('sign', $sign);
         $this->display();
+    }
+
+    public function test(){
+        $table = new \OT\DataDictionary;
+        $out = $table->generateAll();
+        // print_r($out);
     }
 
 }

@@ -6,9 +6,7 @@
 // +----------------------------------------------------------------------
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
-//[install]
-//$_GET['m'] = 'Install';
-//[/install]
+
 if(version_compare(PHP_VERSION,'5.3.0','<'))  die('require PHP > 5.3.0 !');
 
 /**
@@ -16,7 +14,7 @@ if(version_compare(PHP_VERSION,'5.3.0','<'))  die('require PHP > 5.3.0 !');
  * 项目正式部署后请设置为false
  */
 define ( 'APP_DEBUG', true );
- 
+
 /**
  * 应用目录设置
  * 安全期间，建议安装调试完成后移动到非WEB目录
