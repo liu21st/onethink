@@ -67,9 +67,8 @@
 						<label class="item-label">字段分组<span class="check-tips">（用于表单显示）</span></label>
 						<div class="controls">
 							<select name="group">
-								<option value="">-选择分组-</option>
 								<volist name=":parse_config_attr($model['field_group'])" id="group">
-								<option value="{$key}">{$group}</option>
+								<option value="{$key}" <eq name="info['group']" value="$key">selected="selected"</eq>>{$group}</option>
 								</volist>
 							</select>
 						</div>
@@ -113,7 +112,6 @@
 <block name="script">
 <script type="text/javascript" charset="utf-8">
 Think.setValue('type', "{$info.type|default=''}");
-Think.setValue('group', "{$info.group|default=''}");
 <eq name="ACTION_NAME" value="add">
 $(function(){
 	$('#data-type').change(function(){

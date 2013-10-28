@@ -163,7 +163,23 @@ class ModelController extends AdminController {
         }
 
         /* 获取模型排序字段 */
-        $fields = M('Attribute')->where(array('model_id'=>$data['id']))->field('id,name,title,sort')->order('sort')->select();
+        $fields = json_decode($data['field_sort'], true);dump($fields);
+        if(empty($fields)){
+        	$base_fields = M('Attribute')->where(array('model_id'=>$data['id']))->field('id,name,title,group')->select();
+        	//是否继承了其他模型
+        	if($data['extend'] != 0){
+        		$extend_fields = M('Attribute')->where(array('model_id'=>$data['extend']))->field('id,name,title,group')->select();
+        		$all_fields = array_merge($base_fields, $extend_fields);
+        	}
+			foreach ($all_fields as $key=>$value){
+				$fields[$value['id']] = $value;
+			}
+        }else{
+        	foreach ($fields as $key=>$value){
+        		$fields[$key] = explode('|', $value);
+        	}
+        }
+        $data['field_sort'] = json_encode($fields);
 
 
         //获取所有的模型
