@@ -37,7 +37,7 @@
                                            <span class="child_row">
                                                <volist name="child['operator']" id="op">
                                                    <label class="checkbox" <notempty name="op['tip']">title='{$op.tip}'</notempty>>
-                                                       <input class="auth_rules" type="checkbox" name="rules[]" 
+                                                       <input class="auth_rules" type="checkbox" name="rules[]"
                                                        value="<?php echo $auth_rules[$op['url']] ?>"/>{$op.title}
                                                    </label>
                                                </volist>
@@ -62,7 +62,7 @@
 			<div class="tab-pane"></div>
 		</div>
 	</div>
-    
+
 </block>
 <block name="script">
 <script type="text/javascript" src="__STATIC__/qtip/jquery.qtip.min.js"></script>

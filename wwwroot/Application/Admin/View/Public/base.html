@@ -19,7 +19,11 @@
 </head>
 <body>
     <!-- 头部 -->
-    <php>$__base_menu__ = $__controller__->getMenus();</php>
+    <php>$__base_menu__ = $__controller__->getMenus2();
+    //file_put_contents('./asd.php',var_export($__base_menu__,1));
+    //file_put_contents('./asd2.php',var_export($__controller__->getMenus2(),1));
+    //trace($__base_menu__);
+    </php>
     <div class="header">
         <!-- Logo -->
         <span class="logo"></span>
@@ -58,7 +62,7 @@
                 <volist name="__base_menu__.child" id="sub_menu">
                     <!-- 子导航 -->
                     <notempty name="sub_menu">
-                        <h3><i class="icon icon-unfold"></i>{$key}</h3>
+                        <notempty name="key"><h3><i class="icon icon-unfold"></i>{$key}</h3></notempty>
                         <ul class="side-sub-menu">
                             <volist name="sub_menu" id="menu">
                                 <li>

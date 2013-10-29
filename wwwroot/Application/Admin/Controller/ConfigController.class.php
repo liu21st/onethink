@@ -221,7 +221,7 @@ class ConfigController extends AdminController {
             if($data){
                 if($Menu->save()!== false){
                     // S('DB_CONFIG_DATA',null);
-                    $this->success('更新成功', U('menu'));
+                    $this->success('更新成功', U('menu?pid='.$data['pid']));
                 } else {
                     $this->error('更新失败');
                 }
