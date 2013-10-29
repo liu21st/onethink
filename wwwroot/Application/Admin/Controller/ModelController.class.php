@@ -163,23 +163,36 @@ class ModelController extends AdminController {
         }
 
         /* 获取模型排序字段 */
-        $fields = json_decode($data['field_sort'], true);dump($fields);
+        $fields = json_decode($data['field_sort'], true);
+
         if(empty($fields)){
         	$base_fields = M('Attribute')->where(array('model_id'=>$data['id']))->field('id,name,title,group')->select();
         	//是否继承了其他模型
+        	$extend_fields = array();
         	if($data['extend'] != 0){
         		$extend_fields = M('Attribute')->where(array('model_id'=>$data['extend']))->field('id,name,title,group')->select();
-        		$all_fields = array_merge($base_fields, $extend_fields);
         	}
-			foreach ($all_fields as $key=>$value){
-				$fields[$value['id']] = $value;
-			}
+        	$all_fields = array_merge($base_fields, $extend_fields);
         }else{
-        	foreach ($fields as $key=>$value){
-        		$fields[$key] = explode('|', $value);
+        	$ids = call_user_func_array('array_merge', $fields);
+        	$keys = array_keys($fields);
+        	//字段数据
+			$fields = array();
+        	foreach ($ids as $key=>$value){
+        		$fields[] = M('Attribute')->where(array('id'=>$value))->field('id,name,title,group')->find();
+        	}
+        	//检查字段分组是否被修改
+        	$group = array_keys(parse_field_attr($data['field_group']));
+        	foreach ($keys as $value){
+        		if(!in_array($value, $group)){
+					//重置字段分组
+        			foreach ($fields as $k=>$v){
+        				$fields[$k]['group'] = 0;
+        			}
+        		}
         	}
         }
-        $data['field_sort'] = json_encode($fields);
+//         $data['field_sort'] = json_encode($fields);
 
 
         //获取所有的模型
@@ -199,12 +212,12 @@ class ModelController extends AdminController {
     public function update(){
         $res = D('Model')->update();
 
-        //更新属性排序
-        $fields = I('post.fields');
+        //更新属性分组
+        $fields = I('post.field_sort');
         $id = I('post.id');
-        foreach ($fields as $value){
-        	$field = explode(':', $value);
-        	M('Attribute')->where(array('id'=>$field[0]))->setField('sort', $field[1]);
+        foreach ($fields as $key=>$value){
+        	$ids = array_values($value);
+        	M('Attribute')->where(array('id'=>array('in', $ids)))->setField('group', $key);
         }
 
         //更新缓存
