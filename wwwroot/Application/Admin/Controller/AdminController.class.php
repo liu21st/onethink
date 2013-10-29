@@ -333,6 +333,85 @@ class AdminController extends Controller {
      * 获取控制器菜单数组,二级菜单元素位于一级菜单的'_child'元素中
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
+    final public function getMenus2($controller=CONTROLLER_NAME){
+        // $menus  =   session('ADMIN_MENU_LIST'.$controller);
+        if(!$menus){
+            $menus['main']  = M('Menu')->where("pid=0 AND hide=0")->order('sort asc')->select(); //获取主节点
+            $menus['child'] = array(); //设置子节点
+
+            //高亮主菜单
+            $current = M('Menu')->where("url like '%{$controller}%/".ACTION_NAME."'")->field('id')->find();
+            $nav = D('Menu')->getPath($current['id']);
+            $nav_first_title = $nav[0]['title'];
+
+            foreach ($menus['main'] as $key => $item) {
+                if (!is_array($item) || empty($item['title']) || empty($item['url']) ) {
+                    $this->error('控制器基类$menus属性元素配置有误');
+                }
+                if( stripos($item['url'],MODULE_NAME)!==0 ){
+                    $item['url'] = MODULE_NAME.'/'.$item['url'];
+                }
+                //判断节点权限
+                if ( !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null) ) {  //检测节点权限
+                    unset($menus['main'][$key]);
+                    continue;//继续循环
+                }
+
+                if($item['title'] == $nav_first_title){
+                    $menus['main'][$key]['class']='current';
+                    //生成child树
+                    $groups = M('Menu')->where("pid = {$item['id']}")->distinct(true)->field("coalesce(`group`,'default') as `group`")->select();
+                    $groups = array_column($groups, 'group');
+
+                    //获取二级分类的合法url
+                    $second_urls = M('Menu')->where("pid = {$item['id']}")->getField('id,url');
+                    $to_check_urls = array();
+                    $childs = array();
+                    foreach ($second_urls as $key => $value) {
+                        $child =  M('Menu')->where("pid={$key}")->getField('id,url');
+                        if($child)
+                            $childs = array_merge($childs, $child);
+                    }
+
+
+                    if($childs && $childs!== array()){
+                        $second_urls = array_merge($second_urls, $childs);
+                    }
+
+                    trace($second_urls);
+                    foreach ($second_urls as $key=>$to_check_url) {
+
+                        if( stripos($to_check_url,MODULE_NAME)!==0 ){
+                            $rule = MODULE_NAME.'/'.$to_check_url;
+                        }else{
+                            $rule = $to_check_url;
+                        }
+
+                        if($this->checkRule($rule, AuthRuleModel::RULE_URL,null))
+                            $to_check_urls[] = $to_check_url;
+                    }
+                    foreach ($groups as $g) {
+                        $map = array('group'=>$g);
+                        if($to_check_urls !== array())
+                            $map['url'] = array('in', $to_check_urls);
+                        $menuList = M('Menu')->where($map)->field('id,pid,title,url,tip')->select();
+                        $menus['child'][$g] = list_to_tree($menuList, 'id', 'pid', 'operater', $item['id']);
+                    }
+                    if($menus['child'] === array()){
+                        $this->error('主菜单下缺少子菜单，请去系统=》后台菜单管理里添加');
+                    }
+                }
+            }
+
+            // session('ADMIN_MENU_LIST'.$controller,$menus);
+        }
+        return $menus;
+    }
+
+    /**
+     * 获取控制器菜单数组,二级菜单元素位于一级菜单的'_child'元素中
+     * @author 朱亚杰  <xcoolcc@gmail.com>
+     */
     final public function getMenus($controller=CONTROLLER_NAME){
 		$menus	=	session('ADMIN_MENU_LIST'.$controller);
 		if(!$menus){
