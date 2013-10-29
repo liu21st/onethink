@@ -165,35 +165,43 @@ class ModelController extends AdminController {
         /* 获取模型排序字段 */
         $fields = json_decode($data['field_sort'], true);
 
-        if(empty($fields)){
-        	$base_fields = M('Attribute')->where(array('model_id'=>$data['id']))->field('id,name,title,group')->select();
+        if(empty($fields)){		//未排序
+        	$base_fields = M('Attribute')->where(array('model_id'=>$data['id'],'is_show'=>1))->field('id,name,title')->select();
         	//是否继承了其他模型
         	$extend_fields = array();
         	if($data['extend'] != 0){
-        		$extend_fields = M('Attribute')->where(array('model_id'=>$data['extend']))->field('id,name,title,group')->select();
+        		$extend_fields = M('Attribute')->where(array('model_id'=>$data['extend'],'is_show'=>1))->field('id,name,title')->select();
         	}
-        	$all_fields = array_merge($base_fields, $extend_fields);
-        }else{
-        	$ids = call_user_func_array('array_merge', $fields);
+        	$fields = array_merge($base_fields, $extend_fields);
+        	//默认分组设为1
+        	foreach ($fields as $key=>$value){
+				$fields[$key]['group'] = 1;
+        	}
+        }else{						//已排序
+        	//查询字段数据
+			$fields_list = array();
+        	foreach ($fields as $key=>$value){
+        		foreach ($value as $k=>$v){
+        			$info = M('Attribute')->where(array('id'=>$v))->field('id,name,title')->find();
+        			if(!empty($info)){
+        				$info['group'] = $key;
+        				$fields_list[] = $info;
+        			}
+        		}
+        	}
+        	//检查字段分组规则是否被修改
         	$keys = array_keys($fields);
-        	//字段数据
-			$fields = array();
-        	foreach ($ids as $key=>$value){
-        		$fields[] = M('Attribute')->where(array('id'=>$value))->field('id,name,title,group')->find();
-        	}
-        	//检查字段分组是否被修改
         	$group = array_keys(parse_field_attr($data['field_group']));
         	foreach ($keys as $value){
         		if(!in_array($value, $group)){
 					//重置字段分组
-        			foreach ($fields as $k=>$v){
-        				$fields[$k]['group'] = 0;
+        			foreach ($fields_list as $k=>$v){
+        				$fields_list[$k]['group'] = 1;
         			}
         		}
         	}
+        	$fields = $fields_list;
         }
-//         $data['field_sort'] = json_encode($fields);
-
 
         //获取所有的模型
     	$models = M('Model')->where(array('extend'=>0))->field('id,title')->select();
@@ -211,21 +219,6 @@ class ModelController extends AdminController {
      */
     public function update(){
         $res = D('Model')->update();
-
-        //更新属性分组
-        $fields = I('post.field_sort');
-        $id = I('post.id');
-        foreach ($fields as $key=>$value){
-        	$ids = array_values($value);
-        	M('Attribute')->where(array('id'=>array('in', $ids)))->setField('group', $key);
-        }
-
-        //更新缓存
-        $list = S('attribute_list');
-        if(isset($list[$id])){
-        	unset($list[$id]);
-        }
-        S('attribute_list', $list);
 
         if(!$res){
             $this->error(D('Model')->getError());
