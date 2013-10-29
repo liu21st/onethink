@@ -43,32 +43,54 @@ class Dispatcher {
             if(isset($rules[$_SERVER['HTTP_HOST']])) { // 完整域名或者IP配置
                 $rule = $rules[$_SERVER['HTTP_HOST']];
             }else{
-                $subDomain  = strtolower(substr($_SERVER['HTTP_HOST'],0,strpos($_SERVER['HTTP_HOST'],'.')));
-                define('SUB_DOMAIN',$subDomain); // 二级域名定义
-                if($subDomain && isset($rules[$subDomain])) {
-                    $rule =  $rules[$subDomain];
-                }elseif(isset($rules['*'])){ // 泛域名支持
-                    if('www' != $subDomain && !in_array($subDomain,C('APP_SUB_DOMAIN_DENY'))) {
-                        $rule =  $rules['*'];
+                $domain = array_slice(explode('.', $_SERVER['HTTP_HOST']), 0, -2);
+                if(!empty($domain)) {
+                    $subDomain = implode('.', $domain);
+                    define('SUB_DOMAIN',$subDomain); // 当前完整子域名
+                    $domain2   = array_pop($domain); // 二级域名
+                    if($domain) { // 存在三级域名
+                        $domain3 = array_pop($domain);
+                    }
+                    if(isset($rules[$subDomain])) { // 子域名
+                        $rule = $rules[$subDomain];
+                    }elseif(isset($rules['*.' . $domain2]) && !empty($domain3)){ // 泛三级域名
+                        $rule = $rules['*.' . $domain2];
+                        $panDomain = $domain3;
+                    }elseif(isset($rules['*']) && !empty($domain2) && 'www' != $domain2 ){ // 泛二级域名
+                        $rule      = $rules['*'];
+                        $panDomain = $domain2;
                     }
                 }                
             }
 
             if(!empty($rule)) {
-                // 子域名部署规则 '子域名'=>array('模块名/[控制器名]','var1=a&var2=b');
-                $array      =   explode('/',$rule[0]);
-                $controller =   array_pop($array);
-                if(!empty($controller)) {
-                    $_GET[$varController]  =   $controller;
-                    $domainController           =   true;
+                // 子域名部署规则 '子域名'=>array('模块名[/控制器名]','var1=a&var2=b');
+                if(is_array($rule)){
+                    list($rule,$vars) = $rule;
                 }
+                $array      =   explode('/',$rule);
+                // 模块绑定
+                $_GET[$varModule]     =   array_shift($array);
+                define('BIND_MODULE',$_GET[$varModule]);
+                $domainModule         =   true;       
+                // 控制器绑定         
                 if(!empty($array)) {
-                    $_GET[$varModule]   =   array_pop($array);
-                    define('BIND_MODULE',$_GET[$varModule]);
-                    $domainModule            =   true;
+                    $controller  =   array_shift($array);
+                    if($controller){
+                        $_GET[$varController]   =   $controller;
+                        $domainController       =   true;
+                    }
+                    
                 }
-                if(isset($rule[1])) { // 传入参数
-                    parse_str($rule[1],$parms);
+                if(isset($vars)) { // 传入参数
+                    parse_str($vars,$parms);
+                    if(isset($panDomain)){
+                        $pos = array_search('*', $parms);
+                        if(false !== $pos) {
+                            // 泛域名作为参数
+                            $parms[$pos] = $panDomain;
+                        }                         
+                    }                   
                     $_GET   =  array_merge($_GET,$parms);
                 }
             }
@@ -117,7 +139,7 @@ class Dispatcher {
         // 获取模块名称
         define('MODULE_NAME', self::getModule($varModule));
         // 检测模块是否存在
-        if( MODULE_NAME && !in_array(MODULE_NAME,C('MODULE_DENY_LIST'))  && is_dir(APP_PATH.MODULE_NAME)){
+        if( MODULE_NAME && (!in_array(MODULE_NAME,C('MODULE_DENY_LIST')) || $domainModule ) && is_dir(APP_PATH.MODULE_NAME)){
             
             // 定义当前模块路径
             define('MODULE_PATH', APP_PATH.MODULE_NAME.'/');
@@ -136,6 +158,8 @@ class Dispatcher {
             // 加载模块函数文件
             if(is_file(MODULE_PATH.'Common/function.php'))
                 include MODULE_PATH.'Common/function.php';
+            // 加载模块的扩展配置文件
+            load_ext_file(MODULE_PATH);
         }else{
             E(L('_MODULE_NOT_EXIST_').':'.MODULE_NAME);
         }
@@ -257,7 +281,14 @@ class Dispatcher {
                     // 记录当前别名
                     define('ACTION_ALIAS',strtolower($action));
                     // 获取实际的操作名
-                    return   $maps[ACTION_ALIAS];
+                    if(is_array($maps[ACTION_ALIAS])){
+                        parse_str($maps[ACTION_ALIAS][1],$vars);
+                        $_GET   =   array_merge($_GET,$vars);
+                        return $maps[ACTION_ALIAS][0];
+                    }else{
+                        return $maps[ACTION_ALIAS];
+                    }
+                    
                 }elseif(array_search(strtolower($action),$maps)){
                     // 禁止访问原始操作
                     return   '';
