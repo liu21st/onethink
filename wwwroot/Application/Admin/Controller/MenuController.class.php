@@ -4,7 +4,7 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
+// | Author: yangweijie <yangweijiester@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
 namespace Admin\Controller;
@@ -44,7 +44,7 @@ class MenuController extends AdminController {
 
     /**
      * 新增彩电
-     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+     * @author yangweijie <yangweijiester@gmail.com>
      */
     public function add(){
         if(IS_POST){
@@ -72,7 +72,7 @@ class MenuController extends AdminController {
 
     /**
      * 编辑配置
-     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+     * @author yangweijie <yangweijiester@gmail.com>
      */
     public function edit($id = 0){
         if(IS_POST){
@@ -106,7 +106,7 @@ class MenuController extends AdminController {
 
     /**
      * 删除后台菜单
-     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+     * @author yangweijie <yangweijiester@gmail.com>
      */
     public function del(){
         $id = array_unique((array)I('id',0));
@@ -124,7 +124,7 @@ class MenuController extends AdminController {
         }
     }
 
-    public function import($tree = null, $pid=0){
+    public function importFile($tree = null, $pid=0){
         if($tree == null){
             $file = APP_PATH."Admin/Conf/Menu.php";
             $tree = require_once($file);
@@ -144,6 +144,42 @@ class MenuController extends AdminController {
             if($value['operator']){
                 $this->import($value['operator'], $add_pid);
             }
+        }
+    }
+
+    public function import(){
+        if(IS_POST){
+            $tree = I('post.tree');
+            $lists = explode(PHP_EOL, $tree);
+            $menuModel = M('Menu');
+            if($lists == array()){
+                $this->error('请按格式填写批量导入的菜单，至少一个菜单');
+            }else{
+                $pid = I('post.pid');
+                foreach ($lists as $key => $value) {
+                    $record = explode('|', $value);
+                    if(count($record) == 2){
+                        $menuModel->add(array(
+                            'title'=>$record[0],
+                            'url'=>$record[1],
+                            'pid'=>$pid,
+                            'sort'=>0,
+                            'hide'=>0,
+                            'tip'=>'',
+                            'is_dev'=>0,
+                            'group'=>'',
+                        ));
+                    }
+                }
+                $this->success('导入成功',U('index?pid='.$pid));
+            }
+        }else{
+            $this->meta_title = '批量导入后台菜单';
+            $pid = (int)I('get.pid');
+            $this->assign('pid', $pid);
+            $data = M('Menu')->where("id={$pid}")->field(true)->find();
+            $this->assign('data', $data);
+            $this->display();
         }
     }
 }

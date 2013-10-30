@@ -29,7 +29,6 @@
 					<th>标题</th>
 					<th>分组</th>
 					<th>类型</th>
-					<th>说明</th>
 					<th>操作</th>
 				</tr>
 			</thead>
@@ -42,7 +41,6 @@
 						<td>{$config.title}</td>
 						<td>{$config.group|get_config_group}</td>
 						<td>{$config.type|get_config_type}</td>
-						<td>{$config.remark}</td>
 						<td>
 							<a title="编辑" href="{:U('edit?id='.$config['id'])}">编辑</a>
 							<a class="confirm ajax-get" title="删除" href="{:U('del?id='.$config['id'])}">删除</a>

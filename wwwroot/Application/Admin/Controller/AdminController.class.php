@@ -22,37 +22,6 @@ class AdminController extends Controller {
     /* 保存允许访问的公共方法 */
     static protected $allow = array( 'login','logout','get');
 
-    /**
-     * 节点配置
-     *   配置项目的键必须小写
-     *   菜单节点必须配置title元素和url元素(供U函数作使用的合法字符串,参数必须使用?k=v&k2=v2...格式)
-     *   array(
-     *       //值的元素  title:节点名字；url:链接; group:链接组; tip:链接提示文字
-     *       array( 'title'=>'节点标题','url'=>'Index/action?query=vaule', 'group'=>'扩展','tip'=>''),
-     *   )
-     */
-    static protected $nodes = array();
-
-    /**
-     * 主节点配置示例:
-     *   配置项目的键必须小写
-     *   菜单节点必须配置title元素和url元素(供U函数作使用的合法字符串,参数必须使用?k=v&k2=v2...格式)和controllers元素
-     *   array(
-     *       //值的元素  title:节点名字；url:链接; controller:从哪些控制器查询节点,多个逗号分隔; tip:链接提示文字
-     *       array( 'title'=>'节点标题', 'url'=>'Index/index?param=value','controllers'=>'', 'tip'=>''),
-     *        ......
-     *     )
-     *
-     */
-    private $menus      =   array(
-        array( 'title'=>'首页','url'=>'Index/index',        'controllers'=>'Index',),
-        array( 'title'=>'内容','url'=>'Article/mydocument', 'controllers'=>'Article',),
-        array( 'title'=>'用户','url'=>'User/index',         'controllers'=>'User,AuthManager,Action'),
-        array( 'title'=>'扩展','url'=>'Addons/index',       'controllers'=>'Addons,Model,Attribute,Think',),
-        array( 'title'=>'系统','url'=>'Config/group',       'controllers'=>'Config,Channel,System,Category,Database',),
-        array( 'title'=>'其他','url'=>'other',              'controllers'=>'File','hide'=>true),//专门放置不需要显示在任何菜单中的节点
-    );
-
 
     /**
      * 后台控制器初始化
@@ -76,6 +45,7 @@ class AdminController extends Controller {
 
         // 是否是超级管理员
         define('IS_ROOT',   is_administrator());
+		// 检测访问权限
         $access =   $this->accessControl();
         if ( $access === false ) {
             $this->error('403:禁止访问');
@@ -92,7 +62,6 @@ class AdminController extends Controller {
             }
         }
         $this->assign('__controller__', $this);
-        $this->checkNodes();
     }
 
     /**
@@ -285,58 +254,20 @@ class AdminController extends Controller {
     }
 
     /**
-     * 获取控制器的节点配置$nodes
-     * @param  string  $controller   控制器类名(不含命名空间)
-     * @param  boolean $group        是否分组(按配置中的group合并分组)
-     * @author 朱亚杰  <xcoolcc@gmail.com>
-     */
-    final static public function getNodes($controller,$group=true){
-        if ( !$controller || !is_string($controller) || !is_array($controller::$nodes) ) {
-            return false;
-        }
-        $nodes = array('default'=>array());
-        foreach ($controller::$nodes as $value){
-            if (!is_array($value) || !isset($value['title'],$value['url'])) {
-                $action = A(CONTROLLER_NAME);
-                $action->error("内部错误:{$controller}控制器 nodes属性配置有误");
-            }
-            if( strpos($value['url'],'/')===false ){
-                $value['url'] = MODULE_NAME.'/'.strtr($controller,array('Controller'=>'')).'/'.$value['url'];
-            }elseif( stripos($value['url'],MODULE_NAME)!==0 ){
-                $value['url'] = MODULE_NAME.'/'.$value['url'];
-            }
-
-            if ( isset($value['operator']) ) {
-                foreach ($value['operator'] as &$v){
-                    if( strpos($v['url'],'/')===false ){
-                        $v['url'] = MODULE_NAME.'/'.strtr($controller,array('Controller'=>'')).'/'.$v['url'];
-                    }elseif( stripos($v['url'],MODULE_NAME)!==0 ){
-                        $v['url'] = MODULE_NAME.'/'.$v['url'];
-                    }
-                }
-            }
-
-            if ( $group ) {
-                //为节点分组,默认分组为default
-                $group_name = empty($value['group']) ?'default': $value['group'];
-                unset($value['group']);
-                $nodes[$group_name][] = $value;
-            }else{
-                unset($value['group']);
-                $nodes[]=$value;
-            }
-        }
-        return $nodes;
-    }
-
-    /**
      * 获取控制器菜单数组,二级菜单元素位于一级菜单的'_child'元素中
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
-    final public function getMenus2($controller=CONTROLLER_NAME){
+    final public function getMenus($controller=CONTROLLER_NAME){
         // $menus  =   session('ADMIN_MENU_LIST'.$controller);
         if(!$menus){
-            $menus['main']  = M('Menu')->where("pid=0 AND hide=0")->order('sort asc')->select(); //获取主节点
+			// 获取主菜单
+			$where['pid']	=	0;
+			$where['hide']	=	0;
+			if(!C('DEVELOP_MODE')){ // 是否开发者模式
+				$where['is_dev']	=	0;
+			}
+            $menus['main']  =	M('Menu')->where($where)->order('sort asc')->select();
+
             $menus['child'] = array(); //设置子节点
 
             //高亮主菜单
@@ -351,130 +282,73 @@ class AdminController extends Controller {
                 if( stripos($item['url'],MODULE_NAME)!==0 ){
                     $item['url'] = MODULE_NAME.'/'.$item['url'];
                 }
-                //判断节点权限
-                if ( !IS_ROOT && !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null) ) {  //检测节点权限
+                // 判断主菜单权限
+                if ( !IS_ROOT && !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null) ) {
                     unset($menus['main'][$key]);
                     continue;//继续循环
                 }
 
-
+				// 获取当前主菜单的子菜单项
                 if($item['title'] == $nav_first_title){
                     $menus['main'][$key]['class']='current';
                     //生成child树
-                    $groups = M('Menu')->where("pid = {$item['id']}")->distinct(true)->field("coalesce(`group`,'default') as `group`")->select();
-                    $groups = array_column($groups, 'group');
+                    $groups = M('Menu')->where("pid = {$item['id']}")->distinct(true)->field("`group`")->select();
+					if($groups){
+						$groups = array_column($groups, 'group');
+					}else{
+						$groups	=	array();
+					}
 
                     //获取二级分类的合法url
-                    $second_urls = M('Menu')->where("pid = {$item['id']} AND hide=0")->getField('id,url');
+					$where			=	array();
+					$where['pid']	=	$item['id'];
+					$where['hide']	=	0;
+					if(!C('DEVELOP_MODE')){ // 是否开发者模式
+						$where['is_dev']	=	0;
+					}
+                    $second_urls = M('Menu')->where($where)->getField('id,url');
 
-                    $to_check_urls = array();
-					/*
-                    $childs = array();
-                    foreach ($second_urls as $key => $value) {
-                        $child =  M('Menu')->where("pid={$key} AND hide=0")->getField('id,url');
-                        if($child)
-                            $childs = array_merge($childs, $child);
-                    }
-
-
-                    if($childs && $childs!== array()){
-                        $second_urls = array_merge($second_urls, $childs);
-                    }*/
-
-                    trace($second_urls);
+                    // trace($second_urls);
 					if(!IS_ROOT){
+						// 检测菜单权限
+						$to_check_urls = array();
 						foreach ($second_urls as $key=>$to_check_url) {
-
 							if( stripos($to_check_url,MODULE_NAME)!==0 ){
 								$rule = MODULE_NAME.'/'.$to_check_url;
 							}else{
 								$rule = $to_check_url;
 							}
-
 							if($this->checkRule($rule, AuthRuleModel::RULE_URL,null))
 								$to_check_urls[] = $to_check_url;
 						}
 					}
+					// 按照分组生成子菜单树
                     foreach ($groups as $g) {
                         $map = array('group'=>$g);
-                        if($to_check_urls !== array())
-                            $map['url'] = array('in', $to_check_urls);
+                        if(isset($to_check_urls)){
+							if(empty($to_check_urls)){
+								// 没有任何权限
+								continue;
+							}else{
+								$map['url'] = array('in', $to_check_urls);
+							}
+						}
 						$map['pid']	=	$item['id'];
+						$map['hide']	=	0;
+						if(!C('DEVELOP_MODE')){ // 是否开发者模式
+							$map['is_dev']	=	0;
+						}
                         $menuList = M('Menu')->where($map)->field('id,pid,title,url,tip')->order('sort asc')->select();
                         $menus['child'][$g] = list_to_tree($menuList, 'id', 'pid', 'operater', $item['id']);
                     }
                     if($menus['child'] === array()){
-                        $this->error('主菜单下缺少子菜单，请去系统=》后台菜单管理里添加');
+                        //$this->error('主菜单下缺少子菜单，请去系统=》后台菜单管理里添加');
                     }
                 }
             }
 
             // session('ADMIN_MENU_LIST'.$controller,$menus);
         }
-        return $menus;
-    }
-
-    /**
-     * 获取控制器菜单数组,二级菜单元素位于一级菜单的'_child'元素中
-     * @author 朱亚杰  <xcoolcc@gmail.com>
-     */
-    final public function getMenus($controller=CONTROLLER_NAME){
-		$menus	=	session('ADMIN_MENU_LIST'.$controller);
-		if(!$menus){
-			$menus['main']  = $this->getVal('menus'); //获取主节点
-			$menus['child'] = array(); //设置子节点
-
-			//处理控制器中的节点
-			foreach ($menus['main'] as $key=>$item){
-				if (!is_array($item) || empty($item['title']) || empty($item['url']) ) {
-					$this->error('控制器基类$menus属性元素配置有误');
-				}
-
-				if( stripos($item['url'],MODULE_NAME)!==0 ){
-					$item['url'] = MODULE_NAME.'/'.$item['url'];
-				}
-				//判断节点权限
-				if ( !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null) ) {  //检测节点权限
-					unset($menus['main'][$key]);
-					continue;//继续循环
-				}
-
-				if ( !empty($item['hide']) ){
-					unset($menus['main'][$key]);
-				}
-
-                if (empty($item['controllers'])) { continue; }
-				$other_controller = explode(',',$item['controllers']);
-				if ( in_array( $controller, $other_controller ) ) {
-					$menus['main'][$key]['class']='current';
-					foreach ($other_controller as $c){
-						//从控制器中读取节点
-						$child = 'Admin\\Controller\\'.$c.'Controller';
-						$child_nodes = $child::getNodes($child);
-						if ($child_nodes===false) {
-							$this->error("内部错误:请检查{$child}控制器 nodes 属性");
-						}
-						foreach ( $child_nodes as $group => $value ) {
-							//$value  分组数组
-							foreach ($value as $k=>$v){
-								//$v  节点配置
-								if ( !empty($v['hide']) || !$this->checkRule($v['url'],AuthRuleModel::RULE_URL,null ) ) {   //检测节点权限
-									unset($value[$k]);
-								}
-							}
-							if ( isset($menus['child'][$group]) ) {
-								//如果分组已存在,合并到分组中
-								$menus['child'][$group] = array_merge( $menus['child'][$group], $value);
-							}else{
-								//否则直接保存
-								$menus['child'][$group] = $value;
-							}
-						}
-					}
-				}
-			}
-			session('ADMIN_MENU_LIST'.$controller,$menus);
-		}
         return $menus;
     }
 
@@ -496,7 +370,7 @@ class AdminController extends Controller {
      *
      * @author 朱亚杰 <xcoolcc@gmail.com>
      */
-    final protected function returnNodes2($tree = true){
+    final protected function returnNodes($tree = true){
         static $tree_nodes = array();
         if ( $tree && !empty($tree_nodes[(int)$tree]) ) {
             return $tree_nodes[$tree];
@@ -517,75 +391,16 @@ class AdminController extends Controller {
             }
         }else{
             $nodes = M('Menu')->field('title,url,tip')->order('sort asc')->select();
+            foreach ($nodes as $key => $value) {
+                if( stripos($value['url'],MODULE_NAME)!==0 ){
+                    $nodes[$key]['url'] = MODULE_NAME.'/'.$value['url'];
+                }
+            }
         }
         $tree_nodes[(int)$tree]   = $nodes;
         return $nodes;
     }
 
-    /**
-     * 返回后台节点数据
-     * @param boolean $tree    是否返回多维数组结构(生成菜单时用到),为false返回一维数组(生成权限节点时用到)
-     * @retrun array
-     *
-     * 注意,返回的主菜单节点数组中有'controller'元素,以供区分子节点和主节点
-     *
-     * @author 朱亚杰 <xcoolcc@gmail.com>
-     */
-    final protected function returnNodes($tree = true){
-        static $tree_nodes = array();
-        if ( $tree && !empty($tree_nodes[(int)$tree]) ) {
-            return $tree_nodes[$tree];
-        }
-
-        $nodes  =   $this->getVal('menus'); //获取主节点
-        //所有子菜单接单
-
-        $child  =   array();//$tree为false时,保存所有控制器中的节点
-        foreach ($nodes as $key => $value){
-            if( stripos($value['url'],MODULE_NAME)!==0 ){
-                $value['url']       =   MODULE_NAME.'/'.$value['url'];
-            }
-            $nodes[$key]['url']     =   $value['url'];
-            $nodes[$key]['child']   =   array();
-            if($nodes[$key]['hide'] && !$tree){
-                unset($nodes[$key]);//删除隐藏的主节点
-            }
-
-            if (empty($value['controllers'])) { continue; }
-            $controllers    =   explode(',',$value['controllers']);
-            foreach ($controllers as $c){
-                $class      =   'Admin\\Controller\\'.$c.'Controller';
-                if( class_exists($class) && method_exists($class,'getNodes') ){
-                    $temp   =   $class::getNodes($class,false);
-                }else{
-                    continue;
-                }
-                if($tree){
-                    $nodes[$key]['child'] = array_merge($nodes[$key]['child'],$temp);
-                }else{
-                    foreach ($temp as $k=>$operator){//分离菜单节点下的操作节点
-                        if ( isset($operator['operator']) ) {
-                            $child = array_merge($child,$operator['operator']);
-                            unset($temp[$k]['operator']);
-                        }
-                    }
-                    $child = array_merge($child,$temp);
-                }
-            }
-            if (!$tree) {
-                unset($nodes[$key]['child']);
-            }else{
-                unset($nodes[$key]['child']['default']);
-            }
-        }
-
-        if (!$tree) {
-            $nodes = array_merge($nodes,$child);
-            unset($nodes['default']);
-        }
-        $tree_nodes[(int)$tree]   = $nodes;
-        return $nodes;
-    }
 
     /**
      * 通用分页列表数据集获取方法,获取的数据集主要供tableList()方法用来生成表格列表
@@ -735,65 +550,4 @@ class AdminController extends Controller {
         return $this->fetch('Public:_list');
     }
 
-    /**
-     * debug模式下检查是否存在不受权限系统管理的公共方法
-     * @author 朱亚杰 <zhuyajie@topthink.net>
-     */
-    protected function checkNodes(){
-        if ( APP_DEBUG!=true ){
-            return;
-        }
-        $controllers    =   array();
-        foreach ($this->menus as $value){
-           $con         =   explode(',',$value['controllers']);
-           $controllers =   array_merge($controllers,$con);
-        }
-
-        $nodes          =   M('AuthRule')->where(array('module'=>'admin','status'=>1))->getField('name',true);
-        if($nodes===null){
-            return;
-        }
-        foreach ((array)$nodes as $k=>$n){
-            if( ($pos = strpos($n,'?'))>0){
-                $n      =   substr($n,0,$pos);
-            }
-            $nodes[$k]  =   strtolower($n);
-        }
-
-        foreach ($controllers as $controller){
-            if (empty($controller)) {continue;}
-            $CReflection = new \ReflectionClass('Admin\\Controller\\'.$controller.'Controller');
-            $public = $CReflection->getMethods( \ReflectionMethod::IS_PUBLIC );
-            $static = $CReflection->getMethods( \ReflectionMethod::IS_STATIC );
-            $method = array_diff($public,$static);
-            $class  = 'Admin\\Controller\\'.$controller.'Controller';
-
-            $deny   = $class::getDeny($controller);
-            $allow  = $class::getAllow($controller);
-            $deny_allow = array_merge($deny,$allow,array('__get','__set','__call','__construct','__destruct','__isset','__sleep','__wakeup','__clone'));
-
-            $collect = array();
-            foreach ($method as $value){
-                if($value->class=='Think\\Action' || (strpos($value->name,'_')===0) ){
-                    continue;
-                }
-                if( in_array( strtolower($value->name),$deny_allow) ){
-                    continue;
-                }else{
-                    $name = strtolower(MODULE_NAME.'/'.$controller.'/'.$value->name);
-                    if( in_array($name,(array)$nodes) ){
-                        continue;
-                    }else{
-                        $collect[]=$value->name;
-                    }
-                }
-            }
-            if( count($collect) ){
-                C('TRACE_PAGE_TABS', array('BASE'=>'基本','FILE'=>'文件','INFO'=>'流程','ERR|NOTIC'=>'错误','SQL'=>'SQL','DEBUG'=>'调试','DEV'=>'开发提示'));
-                foreach ($collect as $value){
-                    trace(" 公共方法 '{$value}' 尚未进行任何权限配置!",$controller.'Controller','dev');
-                }
-            }
-        }
-    }
 }
