@@ -357,6 +357,7 @@ class AdminController extends Controller {
                     continue;//继续循环
                 }
 
+
                 if($item['title'] == $nav_first_title){
                     $menus['main'][$key]['class']='current';
                     //生成child树
@@ -365,6 +366,7 @@ class AdminController extends Controller {
 
                     //获取二级分类的合法url
                     $second_urls = M('Menu')->where("pid = {$item['id']} AND hide=0")->getField('id,url');
+					/*
                     $to_check_urls = array();
                     $childs = array();
                     foreach ($second_urls as $key => $value) {
@@ -376,7 +378,7 @@ class AdminController extends Controller {
 
                     if($childs && $childs!== array()){
                         $second_urls = array_merge($second_urls, $childs);
-                    }
+                    }*/
 
                     trace($second_urls);
                     foreach ($second_urls as $key=>$to_check_url) {
@@ -390,10 +392,12 @@ class AdminController extends Controller {
                         if($this->checkRule($rule, AuthRuleModel::RULE_URL,null))
                             $to_check_urls[] = $to_check_url;
                     }
+
                     foreach ($groups as $g) {
                         $map = array('group'=>$g);
-                        if($to_check_urls !== array())
-                            $map['url'] = array('in', $to_check_urls);
+                        //if($to_check_urls !== array())
+                            //$map['url'] = array('in', $to_check_urls);
+						$map['pid']	=	$item['id'];
                         $menuList = M('Menu')->where($map)->field('id,pid,title,url,tip')->order('sort asc')->select();
                         $menus['child'][$g] = list_to_tree($menuList, 'id', 'pid', 'operater', $item['id']);
                     }
