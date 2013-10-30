@@ -366,7 +366,7 @@ class AdminController extends Controller {
 
                     //获取二级分类的合法url
                     $second_urls = M('Menu')->where("pid = {$item['id']} AND hide=0")->getField('id,url');
-					
+
                     $to_check_urls = array();
 					/*
                     $childs = array();
@@ -502,7 +502,7 @@ class AdminController extends Controller {
             return $tree_nodes[$tree];
         }
         if((int)$tree){
-            $list = M('Menu')->field('id,pid,title,url,tip,hide')->select();
+            $list = M('Menu')->field('id,pid,title,url,tip,hide')->order('sort asc')->select();
             foreach ($list as $key => $value) {
                 if( stripos($value['url'],MODULE_NAME)!==0 ){
                     $list[$key]['url'] = MODULE_NAME.'/'.$value['url'];
@@ -516,7 +516,7 @@ class AdminController extends Controller {
                 }
             }
         }else{
-            $nodes = M('Menu')->field('title,url,tip')->select();
+            $nodes = M('Menu')->field('title,url,tip')->order('sort asc')->select();
         }
         $tree_nodes[(int)$tree]   = $nodes;
         return $nodes;
