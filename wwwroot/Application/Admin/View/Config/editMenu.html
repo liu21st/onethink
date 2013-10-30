@@ -63,9 +63,9 @@
 
 <block name="script">
     <script type="text/javascript">
-        Think.setValue("pid", {$info.pid | default = 0});
-                Think.setValue("hide", {$info.hide | default = 0});
-                //导航高亮
-                $('.side-sub-menu').find('a[href="{:U('menu')}"]').closest('li').addClass('current');
+        Think.setValue("pid", {$info.pid|default = 0});
+        Think.setValue("hide", {$info.hide|default = 0});
+        //导航高亮
+        $('.side-sub-menu').find('a[href="{:U('menu')}"]').closest('li').addClass('current');
     </script>
 </block>

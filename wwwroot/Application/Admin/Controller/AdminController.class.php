@@ -340,7 +340,7 @@ class AdminController extends Controller {
             $menus['child'] = array(); //设置子节点
 
             //高亮主菜单
-            $current = M('Menu')->where("url like '%{$controller}%/".ACTION_NAME."'")->field('id')->find();
+            $current = M('Menu')->where("url like '%{$controller}/".ACTION_NAME."%'")->field('id')->find();
             $nav = D('Menu')->getPath($current['id']);
             $nav_first_title = $nav[0]['title'];
 
