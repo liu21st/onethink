@@ -336,7 +336,14 @@ class AdminController extends Controller {
     final public function getMenus2($controller=CONTROLLER_NAME){
         // $menus  =   session('ADMIN_MENU_LIST'.$controller);
         if(!$menus){
-            $menus['main']  = M('Menu')->where("pid=0 AND hide=0")->order('sort asc')->select(); //获取主节点
+			// 获取主菜单
+			$where['pid']	=	0;
+			$where['hide']	=	0;
+			if(!C('DEVELOP_MODE')){ // 是否开发者模式
+				$where['is_dev']	=	0;
+			}
+            $menus['main']  =	M('Menu')->where($where)->order('sort asc')->select(); 
+
             $menus['child'] = array(); //设置子节点
 
             //高亮主菜单
@@ -351,13 +358,13 @@ class AdminController extends Controller {
                 if( stripos($item['url'],MODULE_NAME)!==0 ){
                     $item['url'] = MODULE_NAME.'/'.$item['url'];
                 }
-                //判断节点权限
-                if ( !IS_ROOT && !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null) ) {  //检测节点权限
+                // 判断主菜单权限
+                if ( !IS_ROOT && !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null) ) {  
                     unset($menus['main'][$key]);
                     continue;//继续循环
                 }
 
-
+				// 获取当前主菜单的子菜单项
                 if($item['title'] == $nav_first_title){
                     $menus['main'][$key]['class']='current';
                     //生成child树
@@ -365,30 +372,44 @@ class AdminController extends Controller {
                     $groups = array_column($groups, 'group');
 
                     //获取二级分类的合法url
-                    $second_urls = M('Menu')->where("pid = {$item['id']} AND hide=0")->getField('id,url');
-
-                    $to_check_urls = array();
-
-                    trace($second_urls);
+					$where			=	array();
+					$where['pid']	=	$item['id'];
+					$where['hide']	=	0;
+					if(!C('DEVELOP_MODE')){ // 是否开发者模式
+						$where['is_dev']	=	0;
+					}
+                    $second_urls = M('Menu')->where($where)->getField('id,url');
+					
+                    // trace($second_urls);
 					if(!IS_ROOT){
+						// 检测菜单权限
+						$to_check_urls = array();
 						foreach ($second_urls as $key=>$to_check_url) {
-
 							if( stripos($to_check_url,MODULE_NAME)!==0 ){
 								$rule = MODULE_NAME.'/'.$to_check_url;
 							}else{
 								$rule = $to_check_url;
 							}
-
 							if($this->checkRule($rule, AuthRuleModel::RULE_URL,null))
 								$to_check_urls[] = $to_check_url;
 						}
 					}
+					// 按照分组生成子菜单树
                     foreach ($groups as $g) {
                         $map = array('group'=>$g);
-                        if($to_check_urls !== array())
-                            $map['url'] = array('in', $to_check_urls);
+                        if(isset($to_check_urls)){
+							if(empty($to_check_urls)){
+								// 没有任何权限
+								continue;
+							}else{
+								$map['url'] = array('in', $to_check_urls);
+							}
+						}
 						$map['pid']	=	$item['id'];
 						$map['hide']	=	0;
+						if(!C('DEVELOP_MODE')){ // 是否开发者模式
+							$map['is_dev']	=	0;
+						}
                         $menuList = M('Menu')->where($map)->field('id,pid,title,url,tip')->order('sort asc')->select();
                         $menus['child'][$g] = list_to_tree($menuList, 'id', 'pid', 'operater', $item['id']);
                     }
