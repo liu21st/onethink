@@ -352,7 +352,7 @@ class AdminController extends Controller {
                     $item['url'] = MODULE_NAME.'/'.$item['url'];
                 }
                 //判断节点权限
-                if ( !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null) ) {  //检测节点权限
+                if ( !IS_ROOT && !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null) ) {  //检测节点权限
                     unset($menus['main'][$key]);
                     continue;//继续循环
                 }
@@ -366,8 +366,9 @@ class AdminController extends Controller {
 
                     //获取二级分类的合法url
                     $second_urls = M('Menu')->where("pid = {$item['id']} AND hide=0")->getField('id,url');
-					/*
+					
                     $to_check_urls = array();
+					/*
                     $childs = array();
                     foreach ($second_urls as $key => $value) {
                         $child =  M('Menu')->where("pid={$key} AND hide=0")->getField('id,url');
@@ -381,18 +382,19 @@ class AdminController extends Controller {
                     }*/
 
                     trace($second_urls);
-                    foreach ($second_urls as $key=>$to_check_url) {
+					if(!IS_ROOT){
+						foreach ($second_urls as $key=>$to_check_url) {
 
-                        if( stripos($to_check_url,MODULE_NAME)!==0 ){
-                            $rule = MODULE_NAME.'/'.$to_check_url;
-                        }else{
-                            $rule = $to_check_url;
-                        }
+							if( stripos($to_check_url,MODULE_NAME)!==0 ){
+								$rule = MODULE_NAME.'/'.$to_check_url;
+							}else{
+								$rule = $to_check_url;
+							}
 
-                        if($this->checkRule($rule, AuthRuleModel::RULE_URL,null))
-                            $to_check_urls[] = $to_check_url;
-                    }
-
+							if($this->checkRule($rule, AuthRuleModel::RULE_URL,null))
+								$to_check_urls[] = $to_check_url;
+						}
+					}
                     foreach ($groups as $g) {
                         $map = array('group'=>$g);
                         if($to_check_urls !== array())
