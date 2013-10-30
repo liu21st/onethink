@@ -16,13 +16,6 @@ namespace Admin\Controller;
 
 class ThinkController extends AdminController {
 
-	public function _initialize(){
-		$this->assign('_extra_menu',array(
-				'已装插件后台'=> D('Addons')->getAdminList(),
-		));
-		parent::_initialize();
-	}
-
     /**
      * 显示指定模型列表数据
      * @param  String $model 模型标识
@@ -146,4 +139,4 @@ class ThinkController extends AdminController {
         }
     }
 
-}
+} 

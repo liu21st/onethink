@@ -352,10 +352,11 @@ class AdminController extends Controller {
                     $item['url'] = MODULE_NAME.'/'.$item['url'];
                 }
                 //判断节点权限
-                if ( !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null) ) {  //检测节点权限
+                if ( !IS_ROOT && !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null) ) {  //检测节点权限
                     unset($menus['main'][$key]);
                     continue;//继续循环
                 }
+
 
                 if($item['title'] == $nav_first_title){
                     $menus['main'][$key]['class']='current';
@@ -364,11 +365,13 @@ class AdminController extends Controller {
                     $groups = array_column($groups, 'group');
 
                     //获取二级分类的合法url
-                    $second_urls = M('Menu')->where("pid = {$item['id']}")->getField('id,url');
+                    $second_urls = M('Menu')->where("pid = {$item['id']} AND hide=0")->getField('id,url');
+
                     $to_check_urls = array();
+					/*
                     $childs = array();
                     foreach ($second_urls as $key => $value) {
-                        $child =  M('Menu')->where("pid={$key}")->getField('id,url');
+                        $child =  M('Menu')->where("pid={$key} AND hide=0")->getField('id,url');
                         if($child)
                             $childs = array_merge($childs, $child);
                     }
@@ -376,25 +379,28 @@ class AdminController extends Controller {
 
                     if($childs && $childs!== array()){
                         $second_urls = array_merge($second_urls, $childs);
-                    }
+                    }*/
 
                     trace($second_urls);
-                    foreach ($second_urls as $key=>$to_check_url) {
+					if(!IS_ROOT){
+						foreach ($second_urls as $key=>$to_check_url) {
 
-                        if( stripos($to_check_url,MODULE_NAME)!==0 ){
-                            $rule = MODULE_NAME.'/'.$to_check_url;
-                        }else{
-                            $rule = $to_check_url;
-                        }
+							if( stripos($to_check_url,MODULE_NAME)!==0 ){
+								$rule = MODULE_NAME.'/'.$to_check_url;
+							}else{
+								$rule = $to_check_url;
+							}
 
-                        if($this->checkRule($rule, AuthRuleModel::RULE_URL,null))
-                            $to_check_urls[] = $to_check_url;
-                    }
+							if($this->checkRule($rule, AuthRuleModel::RULE_URL,null))
+								$to_check_urls[] = $to_check_url;
+						}
+					}
                     foreach ($groups as $g) {
                         $map = array('group'=>$g);
                         if($to_check_urls !== array())
                             $map['url'] = array('in', $to_check_urls);
-                        $menuList = M('Menu')->where($map)->field('id,pid,title,url,tip')->select();
+						$map['pid']	=	$item['id'];
+                        $menuList = M('Menu')->where($map)->field('id,pid,title,url,tip')->order('sort asc')->select();
                         $menus['child'][$g] = list_to_tree($menuList, 'id', 'pid', 'operater', $item['id']);
                     }
                     if($menus['child'] === array()){
@@ -479,6 +485,41 @@ class AdminController extends Controller {
      */
     final protected function getVal($val){
         return $this->$val;
+    }
+
+    /**
+     * 返回后台节点数据
+     * @param boolean $tree    是否返回多维数组结构(生成菜单时用到),为false返回一维数组(生成权限节点时用到)
+     * @retrun array
+     *
+     * 注意,返回的主菜单节点数组中有'controller'元素,以供区分子节点和主节点
+     *
+     * @author 朱亚杰 <xcoolcc@gmail.com>
+     */
+    final protected function returnNodes2($tree = true){
+        static $tree_nodes = array();
+        if ( $tree && !empty($tree_nodes[(int)$tree]) ) {
+            return $tree_nodes[$tree];
+        }
+        if((int)$tree){
+            $list = M('Menu')->field('id,pid,title,url,tip,hide')->order('sort asc')->select();
+            foreach ($list as $key => $value) {
+                if( stripos($value['url'],MODULE_NAME)!==0 ){
+                    $list[$key]['url'] = MODULE_NAME.'/'.$value['url'];
+                }
+            }
+            $nodes = list_to_tree($list,$pk='id',$pid='pid',$child='operator',$root=0);
+            foreach ($nodes as $key => $value) {
+                if(!empty($value['operator'])){
+                    $nodes[$key]['child'] = $value['operator'];
+                    unset($nodes[$key]['operator']);
+                }
+            }
+        }else{
+            $nodes = M('Menu')->field('title,url,tip')->order('sort asc')->select();
+        }
+        $tree_nodes[(int)$tree]   = $nodes;
+        return $nodes;
     }
 
     /**

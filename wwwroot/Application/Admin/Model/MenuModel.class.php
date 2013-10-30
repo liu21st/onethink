@@ -17,6 +17,10 @@ use Think\Model;
 
 class MenuModel extends Model {
 
+	protected $_validate = array(
+		array('url','require','url必须填写'), //默认情况下用正则进行验证
+	);
+
 	//获取树的根到子节点的路径
 	public function getPath($id){
 		$path = array();
