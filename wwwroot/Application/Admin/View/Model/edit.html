@@ -46,13 +46,12 @@
 
 						<div class="controls">
 						<div class="form-item cf edit_sort edit_sort_l form_field_sort">
-							<span>字段列表 		<a href="{:U('Attribute/add?model_id='.$info['id'])}" target="_balnk">新增</a>
-							<a href="{:U('Attribute/index?model_id='.$info['id'])}" target="_balnk">管理</a></span>
-							<ul class="dragsort" data-group="{$key}">
+							<span>字段列表 		[ <a href="{:U('Attribute/add?model_id='.$info['id'])}" target="_balnk">新增</a>
+							<a href="{:U('Attribute/index?model_id='.$info['id'])}" target="_balnk">管理</a> ] </span>
+							<ul class="dragsort">
 								<foreach name="fields" item="field" key="k">
-										<li class="getSort">
-											<b>&times;</b>
-											<em data="{$field['id']}">{$field['name']}({$field['title']})</em>
+										<li >
+											<em >{$field['name']}({$field['title']})</em>
 										</li>
 								</foreach>
 							</ul>
@@ -75,7 +74,6 @@
 								<foreach name="fields" item="field" key="k">
 									<if condition="($field['group'] eq $key) or (($i eq 1) and ($field['group'] eq 1))">
 										<li class="getSort">
-											<b>&times;</b>
 											<em data="{$field['id']}">{$field['name']}({$field['title']})</em>
 											<input type="hidden" name="field_sort[{$key}][]" value="{$field['id']}"/>
 										</li>
