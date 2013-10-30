@@ -167,6 +167,7 @@ class MenuController extends AdminController {
                             'hide'=>0,
                             'tip'=>'',
                             'is_dev'=>0,
+                            'group'=>'',
                         ));
                     }
                 }
