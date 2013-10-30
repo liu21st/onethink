@@ -47,7 +47,7 @@ class AdminController extends Controller {
     private $menus      =   array(
         array( 'title'=>'首页','url'=>'Index/index',        'controllers'=>'Index',),
         array( 'title'=>'内容','url'=>'Article/mydocument', 'controllers'=>'Article',),
-        array( 'title'=>'用户','url'=>'User/index',         'controllers'=>'User,AuthManager'),
+        array( 'title'=>'用户','url'=>'User/index',         'controllers'=>'User,AuthManager,Action'),
         array( 'title'=>'扩展','url'=>'Addons/index',       'controllers'=>'Addons,Model,Attribute,Think',),
         array( 'title'=>'系统','url'=>'Config/group',       'controllers'=>'Config,Channel,System,Category,Database',),
         array( 'title'=>'其他','url'=>'other',              'controllers'=>'File','hide'=>true),//专门放置不需要显示在任何菜单中的节点
