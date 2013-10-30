@@ -36,17 +36,6 @@ class ModelController extends AdminController {
         ),
     );
 
-    /**
-     * 初始化方法，与AddonsController同步
-     * @see AdminController::_initialize()
-     * @author huajie <banhuajie@163.com>
-     */
-    public function _initialize(){
-        $this->assign('_extra_menu',array(
-                '已装插件后台'=>D('Addons')->getAdminList(),
-        ));
-        parent::_initialize();
-    }
 
     /**
      * 检测是否是需要动态判断的权限
