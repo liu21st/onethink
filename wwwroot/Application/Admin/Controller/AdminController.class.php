@@ -342,7 +342,7 @@ class AdminController extends Controller {
 			if(!C('DEVELOP_MODE')){ // 是否开发者模式
 				$where['is_dev']	=	0;
 			}
-            $menus['main']  =	M('Menu')->where($where)->order('sort asc')->select(); 
+            $menus['main']  =	M('Menu')->where($where)->order('sort asc')->select();
 
             $menus['child'] = array(); //设置子节点
 
@@ -359,7 +359,7 @@ class AdminController extends Controller {
                     $item['url'] = MODULE_NAME.'/'.$item['url'];
                 }
                 // 判断主菜单权限
-                if ( !IS_ROOT && !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null) ) {  
+                if ( !IS_ROOT && !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null) ) {
                     unset($menus['main'][$key]);
                     continue;//继续循环
                 }
@@ -379,7 +379,7 @@ class AdminController extends Controller {
 						$where['is_dev']	=	0;
 					}
                     $second_urls = M('Menu')->where($where)->getField('id,url');
-					
+
                     // trace($second_urls);
 					if(!IS_ROOT){
 						// 检测菜单权限
@@ -527,6 +527,11 @@ class AdminController extends Controller {
             }
         }else{
             $nodes = M('Menu')->field('title,url,tip')->order('sort asc')->select();
+            foreach ($nodes as $key => $value) {
+                if( stripos($value['url'],MODULE_NAME)!==0 ){
+                    $nodes[$key]['url'] = MODULE_NAME.'/'.$value['url'];
+                }
+            }
         }
         $tree_nodes[(int)$tree]   = $nodes;
         return $nodes;
