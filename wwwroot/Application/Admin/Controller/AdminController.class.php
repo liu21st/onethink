@@ -395,8 +395,8 @@ class AdminController extends Controller {
 
                     foreach ($groups as $g) {
                         $map = array('group'=>$g);
-                        //if($to_check_urls !== array())
-                            //$map['url'] = array('in', $to_check_urls);
+                        if($to_check_urls !== array())
+                            $map['url'] = array('in', $to_check_urls);
 						$map['pid']	=	$item['id'];
                         $menuList = M('Menu')->where($map)->field('id,pid,title,url,tip')->order('sort asc')->select();
                         $menus['child'][$g] = list_to_tree($menuList, 'id', 'pid', 'operater', $item['id']);
