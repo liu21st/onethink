@@ -213,6 +213,8 @@ class UserController extends AdminController {
         if(empty($ids) || !isset($status)){
             $this->error('请选择要操作的数据');
         }
+        //删除缓存
+        S('action_list', null);
 
         /*拼接参数并修改状态*/
         $Model = 'Action';
@@ -263,7 +265,7 @@ class UserController extends AdminController {
             /* 检测密码 */
             if($password != $repassword){
                 $this->error('密码和重复密码不一致！');
-            }           
+            }
 
             /* 调用注册接口注册用户 */
             $User = new UserApi;

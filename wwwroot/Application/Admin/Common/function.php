@@ -332,3 +332,44 @@ function parse_field_attr($string) {
     }
     return $value;
 }
+
+/**
+ * 获取行为数据
+ * @param string $id 行为id
+ * @param string $field 需要获取的字段
+ * @author huajie <banhuajie@163.com>
+ */
+function get_action($id = null, $field = null){
+	if(empty($id) && !is_numeric($id)){
+		return false;
+	}
+	$list = S('action_list');
+	if(empty($list[$id])){
+		$map = array('status'=>array('gt', -1), 'id'=>$id);
+		$list[$id] = M('Action')->where($map)->field(true)->find();
+	}
+	return empty($field) ? $list[$id] : $list[$id][$field];
+}
+
+/**
+ * 根据条件字段获取数据
+ * @param mixed $value 条件，可用常量或者数组
+ * @param string $condition 条件字段
+ * @param string $field 需要返回的字段，不传则返回整个数据
+ * @author huajie <banhuajie@163.com>
+ */
+function get_document_field($value = null, $condition = 'id', $field = null){
+	if(empty($value)){
+		return false;
+	}
+
+	//拼接参数
+	$map[$condition] = $value;
+	$info = M('Model')->where($map);
+	if(empty($field)){
+		$info = $info->field(true)->find();
+	}else{
+		$info = $info->getField($field);
+	}
+	return $info;
+}

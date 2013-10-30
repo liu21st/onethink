@@ -1,0 +1,64 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>行为日志</h2>
+	</div>
+
+    <div>
+        <button class="btn ajax-post" target-form="ids" url="{:u('setstatus',array('status'=>1))}" >启 用</button>
+        <button class="btn ajax-post" target-form="ids" url="{:u('setstatus',array('status'=>0))}">禁 用</button>
+        <button class="btn ajax-post confirm" target-form="ids" url="{:U('setStatus',array('status'=>-1))}">删 除</button>
+    </div>
+	<!-- 数据列表 -->
+	<div class="data-table">
+        <?php
+            $thead = array(
+                '_html'=>array(
+                    '_th'=>'row-selected',
+                    'th'=>'<input class="check-all" type="checkbox"/>',
+                    'td'=>'<input class="ids" type="checkbox" name="ids[]" value="$id" />',
+                ),
+                'id'=>'编号',
+                'action_id'=>array(
+					'_title'=> '行为名称',
+					'tag'	=> 'a',
+					'func'	=> 'get_action($action_id, "title")',
+					'href'	=> 'Think/edit?model=$model_id&id=$record_id'
+				),
+                'user_id'=>array(
+                    '_title'=>'执行者',
+                    'tag'   =>'span',
+                    'func'  =>'get_nickname()'
+                ),
+                'create_time'=>array(
+                    '_title'=>'执行时间',
+                    'tag'   =>'span',
+                    'func'  =>'date("y-m-d H:i",$create_time)'
+                ),
+                'status_text'=>'状态',
+                '操作'=>array(
+					'查看'=>array( 'href' => 'Think/edit?model=$model_id&id=$record_id'),
+                    '禁用'=>array( 'href' => 'User/setStatus?status=0&ids=$id', 'class'=>'ajax-get', 'condition'=>'$status==1',),
+                    '启用'=>array( 'href' => 'User/setStatus?status=1&ids=$id', 'class'=>'ajax-get', 'condition'=>'$status==0',),
+                    '删除'=>array( 'href' => 'User/setStatus?status=-1&ids=$id', 'class'=>'confirm ajax-get' ),
+                ),
+            );
+            echo $_table_list = $__controller__->tableList($_list,$thead);
+        ?>
+	</div>
+	<!-- 分页 -->
+	<div class="page">{$_page}</div>
+	<!-- /分页 -->
+
+</block>
+<block name="script">
+<script type="text/javascript">
+$(function(){
+	$("#action_add").click(function(){
+		window.location.href = $(this).attr('url');
+	})
+})
+</script>
+</block>
