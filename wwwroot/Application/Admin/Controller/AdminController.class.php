@@ -364,11 +364,11 @@ class AdminController extends Controller {
                     $groups = array_column($groups, 'group');
 
                     //获取二级分类的合法url
-                    $second_urls = M('Menu')->where("pid = {$item['id']}")->getField('id,url');
+                    $second_urls = M('Menu')->where("pid = {$item['id']} AND hide=0")->getField('id,url');
                     $to_check_urls = array();
                     $childs = array();
                     foreach ($second_urls as $key => $value) {
-                        $child =  M('Menu')->where("pid={$key}")->getField('id,url');
+                        $child =  M('Menu')->where("pid={$key} AND hide=0")->getField('id,url');
                         if($child)
                             $childs = array_merge($childs, $child);
                     }
@@ -394,7 +394,7 @@ class AdminController extends Controller {
                         $map = array('group'=>$g);
                         if($to_check_urls !== array())
                             $map['url'] = array('in', $to_check_urls);
-                        $menuList = M('Menu')->where($map)->field('id,pid,title,url,tip')->select();
+                        $menuList = M('Menu')->where($map)->field('id,pid,title,url,tip')->order('sort asc')->select();
                         $menus['child'][$g] = list_to_tree($menuList, 'id', 'pid', 'operater', $item['id']);
                     }
                     if($menus['child'] === array()){
