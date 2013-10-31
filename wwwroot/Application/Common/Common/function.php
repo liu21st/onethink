@@ -514,7 +514,7 @@ function ubb($data){
 /**
  * 记录行为日志，并执行该行为的规则
  * @param string $action 行为标识
- * @param string $model 触发行为的表名（不加表前缀）
+ * @param string $model 触发行为的模型名
  * @param int $record_id 触发行为的记录id
  * @param int $user_id 执行行为的用户id
  * @return boolean
@@ -749,7 +749,7 @@ function get_model_attribute($model_id, $group = true){
  * api('User/getName','id=5'); 调用公共模块的User接口的getName方法
  * api('Admin/User/getName','id=5');  调用Admin模块的User接口
  * @param  string  $name 格式 [模块名]/接口名/方法名
- * @param  array|string  $vars 参数 
+ * @param  array|string  $vars 参数
  */
 function api($name,$vars=array()){
     $array      =   explode('/',$name);
