@@ -1,4 +1,22 @@
 <div id="subnav" class="subnav">
+    <notempty name="_extra_menu">
+        {// 动态扩展菜单 //}
+        {:extra_menu($_extra_menu,$__base_menu__)}
+    </notempty>
+    <volist name="__base_menu__.child" id="sub_menu">
+        <!-- 子导航 -->
+        <notempty name="sub_menu">
+            <notempty name="key"><h3><i class="icon icon-unfold"></i>{$key}</h3></notempty>
+            <ul class="side-sub-menu">
+                <volist name="sub_menu" id="menu">
+                    <li>
+                        <a class="item" href="{$menu.url|U}">{$menu.title}</a>
+                    </li>
+                </volist>
+            </ul>
+        </notempty>
+        <!-- /子导航 -->
+    </volist>
  <h3>
  	<i class="icon <if condition="ACTION_NAME neq 'mydocument' and ACTION_NAME neq 'draftbox'">icon-fold</if>"></i>
  	个人中心

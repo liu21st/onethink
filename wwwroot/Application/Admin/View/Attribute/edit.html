@@ -19,13 +19,13 @@
 						</div>
 					</div>
 					<div class="form-item cf">
-						<label class="item-label">字段注释<span class="check-tips">（请输入字段注释）</span></label>
+						<label class="item-label">字段标题<span class="check-tips">（请输入字段标题）</span></label>
 						<div class="controls">
 							<input type="text" class="text input-large" name="title" value="{$info.title}">
 						</div>
 					</div>
 					<div class="form-item cf">
-						<label class="item-label">数据类型<span class="check-tips">（控制字段在表单中的展示方式，目前支持一部分通用的类型）</span></label>
+						<label class="item-label">字段类型<span class="check-tips">（控制字段在表单中的展示方式，目前支持一部分通用的类型）</span></label>
 						<div class="controls">
 							<select name="type" id="data-type">
 								<option value="">----请选择----</option>
@@ -56,7 +56,7 @@
 						</div>
 					</div>
 					<div class="form-item cf">
-						<label class="item-label">备注<span class="check-tips"></span></label>
+						<label class="item-label">字段备注<span class="check-tips"></span></label>
 						<div class="controls">
 							<label class="textarea input-large">
 								<textarea name="remark">{$info.remark}</textarea>
@@ -78,8 +78,8 @@
 						<div class="controls">
 							<select name="is_show">
 								<option value="1">始终显示</option>
-								<option value="2">新增时显示</option>
-								<option value="3">编辑时显示</option>
+								<option value="2">新增显示</option>
+								<option value="3">编辑显示</option>
 								<option value="0">不显示</option>
 							</select>
 						</div>

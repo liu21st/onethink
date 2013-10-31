@@ -722,7 +722,7 @@ function get_model_attribute($model_id, $group = true){
 
 	/* 获取属性 */
 	if(!isset($list[$model_id])){
-		$info = M('Attribute')->where(array('model_id'=>$model_id))->order('sort')->select();
+		$info = M('Attribute')->where(array('model_id'=>$model_id))->select();
 		$list[$model_id] = $info;
 		//S('attribute_list', $list); //更新缓存
 	}
