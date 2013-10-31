@@ -181,9 +181,22 @@ class DocumentModel extends Model{
             return false;
         }
 
+        //行为记录
+        if($id){
+        	switch ($data['category_id']){
+        		case 2:
+        			//发表博客
+        			action_log('add_document_blog', 'document', $id, UID);
+        			break;
+        		case 4:
+        			//发表讨论
+        			action_log('add_document_topic', 'document', $id, UID);
+        			break;
+        	}
+        }
+
         //内容添加或更新完成
         return $data;
-
     }
 
     /**

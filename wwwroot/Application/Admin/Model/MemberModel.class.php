@@ -40,6 +40,9 @@ class MemberModel extends Model {
             return false;
         }
 
+        //记录行为
+        action_log('user_login', 'member', $uid, $uid);
+
         /* 登录用户 */
         $this->autoLogin($user);
         return true;
