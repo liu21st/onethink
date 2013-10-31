@@ -34,6 +34,9 @@ function get_attribute_type($type=''){
         'datetime'  =>  array('时间','datetime NOT NULL'),
         'bool'      =>  array('布尔','tinyint(2) NOT NULL'),
         'select'    =>  array('枚举','char(50) NOT NULL'),
+    	'editor'    =>  array('编辑器','text NOT NULL'),
+    	'picture'   =>  array('上传图片','int(10) UNSIGNED NOT NULL'),
+    	'file'    	=>  array('上传附件','int(10) UNSIGNED NOT NULL'),
     );
     return $type?$_type[$type][0]:$_type;
 }
