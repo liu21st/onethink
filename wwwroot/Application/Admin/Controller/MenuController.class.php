@@ -124,6 +124,14 @@ class MenuController extends AdminController {
         }
     }
 
+    public function toogleHide($id,$value = 1){
+        $this->editRow('Menu', array('hide'=>$value), array('id'=>$id));
+    }
+
+    public function toogleDev($id,$value = 1){
+        $this->editRow('Menu', array('is_dev'=>$value), array('id'=>$id));
+    }
+
     public function importFile($tree = null, $pid=0){
         if($tree == null){
             $file = APP_PATH."Admin/Conf/Menu.php";
