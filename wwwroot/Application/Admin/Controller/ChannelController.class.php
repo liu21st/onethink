@@ -56,9 +56,11 @@ class ChannelController extends AdminController {
             $Channel = D('Channel');
             $data = $Channel->create();
             if($data){
-
-                if($Channel->add()){
+				$id = $Channel->add();
+                if($id){
                     $this->success('新增成功', U('index'));
+                    //记录行为
+                    action_log('update_channel', 'channel', $id, UID);
                 } else {
                     $this->error('新增失败');
                 }
@@ -89,6 +91,8 @@ class ChannelController extends AdminController {
             $data = $Channel->create();
             if($data){
                 if($Channel->save()){
+                	//记录行为
+                	action_log('update_channel', 'channel', $data['id'], UID);
                     $this->success('编辑成功', U('index'));
                 } else {
                     $this->error('编辑失败');
@@ -133,6 +137,8 @@ class ChannelController extends AdminController {
 
         $map = array('id' => array('in', $id) );
         if(M('Channel')->where($map)->delete()){
+        	//记录行为
+        	action_log('update_channel', 'channel', $id, UID);
             $this->success('删除成功');
         } else {
             $this->error('删除失败！');

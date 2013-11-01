@@ -19,13 +19,23 @@
 			</div>
 		</div>
 		<div class="form-item cf">
+			<label class="item-label">行为类型<span class="check-tips">（选择行为类型）</span></label>
+			<div class="controls">
+				<select name="type">
+					<volist name=":get_action_type(null,true)" id="vo">
+						<option value="{$key}">{$vo}</option>
+					</volist>
+				</select>
+			</div>
+		</div>
+		<div class="form-item cf">
 			<label class="item-label">行为描述<span class="check-tips">（输入行为描述）</span></label>
 			<div class="controls">
 				<label class="textarea input-large"><textarea name="remark">{$remark}</textarea></label>
 			</div>
 		</div>
 		<div class="form-item cf">
-			<label class="item-label">行为规则<span class="check-tips">（输入行为规则）</span></label>
+			<label class="item-label">行为规则<span class="check-tips">（输入行为规则，不写则只记录日志）</span></label>
 			<div class="controls">
 				<label class="textarea input-large"><textarea name="rule">{$rule}</textarea></label>
 				<span class="check-tips">
@@ -53,6 +63,7 @@
 <block name="script">
 <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
 <script type="text/javascript" charset="utf-8">
+	Think.setValue('type',{$type});
     //导航高亮
     $('.side-sub-menu').find('a[href="{:U('User/Action')}"]').closest('li').addClass('current');
 </script>

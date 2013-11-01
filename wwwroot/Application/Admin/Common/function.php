@@ -376,3 +376,20 @@ function get_document_field($value = null, $condition = 'id', $field = null){
 	}
 	return $info;
 }
+
+/**
+ * 获取行为类型
+ * @param intger $type 类型
+ * @param bool $all 是否返回全部类型
+ * @author huajie <banhuajie@163.com>
+ */
+function get_action_type($type, $all = false){
+	$list = array(
+		1=>'系统',
+		2=>'用户',
+	);
+	if($all){
+		return $list;
+	}
+	return $list[$type];
+}

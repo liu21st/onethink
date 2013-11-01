@@ -89,6 +89,8 @@ class ConfigController extends AdminController {
             if($data){
                 if($Config->save()){
 					S('DB_CONFIG_DATA',null);
+					//记录行为
+					action_log('update_config','config',$data['id'],UID);
                     $this->success('更新成功', U('index'));
                 } else {
                     $this->error('更新失败');
@@ -140,6 +142,8 @@ class ConfigController extends AdminController {
         $map = array('id' => array('in', $id) );
         if(M('Config')->where($map)->delete()){
 			S('DB_CONFIG_DATA',null);
+			//记录行为
+			action_log('update_config','config',$id,UID);
             $this->success('删除成功');
         } else {
             $this->error('删除失败！');

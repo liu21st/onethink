@@ -164,6 +164,8 @@ class AttributeController extends AdminController {
     	if(!$res){
     		$this->error(D('Attribute')->getError());
     	}else{
+    		//记录行为
+    		action_log('update_attribute', 'attribute', $id, UID);
     		$this->success('删除成功', U('index','model_id='.$info['model_id']));
     	}
     }

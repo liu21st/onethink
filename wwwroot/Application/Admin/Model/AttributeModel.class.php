@@ -90,6 +90,9 @@ class AttributeModel extends Model {
 
         }
 
+        //记录行为
+        action_log('update_attribute', 'attribute', $data['id'] ? $data['id'] : $id, UID);
+
         //内容添加或更新完成
         return $data;
 

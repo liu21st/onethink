@@ -142,6 +142,8 @@ class CategoryController extends AdminController {
         //删除该分类信息
         $res = M('Category')->delete($cate_id);
         if($res !== false){
+        	//记录行为
+        	action_log('update_category', 'category', $cate_id, UID);
             $this->success('删除分类成功！');
         }else{
             $this->error('删除分类失败！');
