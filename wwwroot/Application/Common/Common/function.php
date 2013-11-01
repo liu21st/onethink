@@ -726,22 +726,37 @@ function get_model_attribute($model_id, $group = true){
 
 	/* 获取属性 */
 	if(!isset($list[$model_id])){
-		$info = M('Attribute')->where(array('model_id'=>$model_id))->select();
+        $map = array('model_id'=>$model_id);
+        $model = M('Model')->getFieldById($model_id,'extend');
+        if($model['extend']){
+            $map = array('model_id'=> array("in", array($model_id, $model['extend'])));
+        }
+		$info = M('Attribute')->where($map)->select();
 		$list[$model_id] = $info;
 		//S('attribute_list', $list); //更新缓存
 	}
 
-    $attr = $list[$model_id];
+    $attr = array();
+    foreach ($list[$model_id] as $value) {
+        $attr[$value['id']] = $value;
+    }
+
     if($group){
-        $keys   =   array_keys(parse_config_attr(M('Model')->getFieldById($model_id,'field_group')));
-        $group = array();
-        foreach ($attr as $value) {
-            if(in_array($value['group'],$keys)){
-                $group[$value['group']][] = $value;
-            }else{
-                $group[$keys[0]][] = $value;
+        $sort  = M('Model')->getFieldById($model_id,'field_sort');
+        $group = json_decode($sort, true);
+
+        $keys  = array_keys($group);
+        foreach ($group as &$value) {
+            foreach ($value as $key => $val) {
+                $value[$key] = $attr[$val];
+                unset($attr[$val]);
             }
         }
+
+        if(!empty($attr)){
+            $group[$keys[0]] = array_merge($group[$keys[0]], $attr);
+        }
+
         $attr = $group;
     }
 
@@ -756,11 +771,11 @@ function get_model_attribute($model_id, $group = true){
  * @param  array|string  $vars 参数
  */
 function api($name,$vars=array()){
-    $array      =   explode('/',$name);
-    $method     =   array_pop($array);
-    $classname  =   array_pop($array);
-    $module     =   $array? array_pop($array) : 'Common';
-    $callback   =   $module.'\\Api\\'.$classname.'Api::'.$method;
+    $array     = explode('/',$name);
+    $method    = array_pop($array);
+    $classname = array_pop($array);
+    $module    = $array? array_pop($array) : 'Common';
+    $callback  = $module.'\\Api\\'.$classname.'Api::'.$method;
     if(is_string($vars)) {
         parse_str($vars,$vars);
     }

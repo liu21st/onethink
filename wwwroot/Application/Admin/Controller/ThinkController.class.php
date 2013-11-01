@@ -40,12 +40,35 @@ class ThinkController extends AdminController {
             $fields[] = $val[0][0];
         }
 
-        in_array('id', $fields) || array_push($fields, 'id');
-
         //读取模型数据列表
-        $name = parse_name(get_table_name($model['id']), true);
-        $row  = empty($model['list_row']) ? 10 : $model['list_row'];
-        $data = M($name)
+        if($model['extend']){
+            $name   = get_table_name($model['id']);
+            $parent = get_table_name($model['extend']);
+            $row    = empty($model['list_row']) ? 10 : $model['list_row'];
+            $fix    = C("DB_PREFIX");
+
+            $key = array_search('id', $fields);
+            if(false === $key){
+                array_push($fields, "{$fix}{$parent}.id as id");
+            } else {
+                $fields[$key] = "{$fix}{$parent}.id as id";
+            }
+
+            $data   = M($parent)
+                ->join("{$fix}{$name} ON {$fix}{$parent}.id = {$fix}{$name}.id")
+                /* 查询指定字段，不指定则查询所有字段 */
+                ->field(empty($fields) ? true : $fields)
+                /* 默认通过id逆序排列 */
+                ->order("{$fix}{$parent}.id DESC")
+                /* 数据分页 */
+                ->page($page, $row)
+                /* 执行查询 */
+                ->select();
+        } else {
+            in_array('id', $fields) || array_push($fields, 'id');
+            $name = parse_name(get_table_name($model['id']), true);
+            $row  = empty($model['list_row']) ? 10 : $model['list_row'];
+            $data = M($name)
                 /* 查询指定字段，不指定则查询所有字段 */
                 ->field(empty($fields) ? true : $fields)
                 /* 默认通过id逆序排列 */
@@ -55,8 +78,10 @@ class ThinkController extends AdminController {
                 /* 执行查询 */
                 ->select();
 
-        /* 查询记录总数 */
-        $count = M($name)->where($map)->count();
+            /* 查询记录总数 */
+            $count = M($name)->where($map)->count();
+        }
+            
         //分页
 
         if($count > $row){
@@ -133,6 +158,7 @@ class ThinkController extends AdminController {
         } else {
 
             $fields = get_model_attribute($model['id']);
+
             $this->assign('model', $model);
             $this->assign('fields', $fields);
             $this->display();

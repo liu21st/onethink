@@ -37,7 +37,7 @@ return array(
     'DEFAULT_FILTER' => '', //全局过滤函数
 
     /* 数据库配置 */
-    'DB_TYPE'   => 'mysql', // 数据库类型
+    'DB_TYPE'   => 'mysqli', // 数据库类型
     'DB_HOST'   => '192.168.1.200', // 服务器地址
     'DB_NAME'   => 'onethink_v01', // 数据库名
     'DB_USER'   => 'root', // 用户名
