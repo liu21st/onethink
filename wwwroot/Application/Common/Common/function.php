@@ -533,7 +533,7 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
     //查询行为,判断是否执行
     $action_info = M('Action')->getByName($action);
     if($action_info['status'] != 1){
-        return '该行为被禁用';
+        return '该行为被禁用或删除';
     }
 
     //插入行为日志
@@ -543,13 +543,17 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
     $data['model'] = $model;
     $data['record_id'] = $record_id;
     $data['create_time'] = NOW_TIME;
+    //系统日志记录操作url参数
+    $data['remark'] = '操作url：'.$_SERVER['REQUEST_URI'];
     M('ActionLog')->add($data);
 
-    //解析行为
-    $rules = parse_action($action, $user_id);
+    if(!empty($action_info['rule'])){
+    	//解析行为
+    	$rules = parse_action($action, $user_id);
 
-    //执行行为
-    $res = execute_action($rules, $action_info['id'], $user_id);
+    	//执行行为
+    	$res = execute_action($rules, $action_info['id'], $user_id);
+    }
 }
 
 /**
