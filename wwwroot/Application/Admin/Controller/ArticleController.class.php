@@ -738,7 +738,7 @@ class ArticleController extends \Admin\Controller\AdminController {
         		$map['id']          =   $value;
         		$data['category_id']=   $cate_id;
 				$data['pid'] 		=   $pid;
-				$data['name']		=	'';
+				//$data['name']		=	'';
 				//获取root
 				if($pid == 0){
 					$data['root'] = 0;
