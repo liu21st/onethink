@@ -121,6 +121,9 @@ class CategoryModel extends Model{
         //更新分类缓存
         S('sys_category_list', null);
 
+        //记录行为
+        action_log('update_category', 'category', $data['id'] ? $data['id'] : $res, UID);
+
         return $res;
     }
 

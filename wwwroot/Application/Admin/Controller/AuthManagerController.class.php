@@ -68,10 +68,10 @@ class AuthManagerController extends AdminController{
             $temp['name']   = $value['url'];
             $temp['title']  = $value['title'];
             $temp['module'] = 'admin';
-            if(isset($value['controllers'])){
-                $temp['type'] = AuthRuleModel::RULE_MAIN;
-            }else{
+            if($value['pid'] >0){
                 $temp['type'] = AuthRuleModel::RULE_URL;
+            }else{
+                $temp['type'] = AuthRuleModel::RULE_MAIN;
             }
             $temp['status']   = 1;
             $data[strtolower($temp['name'].$temp['module'].$temp['type'])] = $temp;//去除重复项

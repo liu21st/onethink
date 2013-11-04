@@ -34,6 +34,9 @@ function get_attribute_type($type=''){
         'datetime'  =>  array('时间','datetime NOT NULL'),
         'bool'      =>  array('布尔','tinyint(2) NOT NULL'),
         'select'    =>  array('枚举','char(50) NOT NULL'),
+    	'editor'    =>  array('编辑器','text NOT NULL'),
+    	'picture'   =>  array('上传图片','int(10) UNSIGNED NOT NULL'),
+    	'file'    	=>  array('上传附件','int(10) UNSIGNED NOT NULL'),
     );
     return $type?$_type[$type][0]:$_type;
 }
@@ -372,4 +375,21 @@ function get_document_field($value = null, $condition = 'id', $field = null){
 		$info = $info->getField($field);
 	}
 	return $info;
+}
+
+/**
+ * 获取行为类型
+ * @param intger $type 类型
+ * @param bool $all 是否返回全部类型
+ * @author huajie <banhuajie@163.com>
+ */
+function get_action_type($type, $all = false){
+	$list = array(
+		1=>'系统',
+		2=>'用户',
+	);
+	if($all){
+		return $list;
+	}
+	return $list[$type];
 }

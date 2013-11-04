@@ -28,6 +28,11 @@
                     'tag'   =>'a',
                     'href'  =>'editAction?id=$id'
                 ),
+				'type'=>array(
+                    '_title'=>'类型',
+                    'tag'   =>'span',
+                    'func'  =>'get_action_type($type)'
+                ),
                 'remark'=>'规则说明',
                 'status_text'=>'状态',
                 '操作'=>array(

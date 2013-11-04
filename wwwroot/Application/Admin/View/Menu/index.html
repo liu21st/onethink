@@ -50,10 +50,14 @@
                         <td>{$menu.url}</td>
                         <td>{$menu.sort}</td>
                         <td>
+                            <a href="{:U('toogleDev',array('id'=>$menu['id'],'value'=>abs($menu['is_dev']-1)))}" class="ajax-get">
                             {$menu.is_dev_text}
+                            </a>
                         </td>
                         <td>
+                            <a href="{:U('toogleHide',array('id'=>$menu['id'],'value'=>abs($menu['hide']-1)))}" class="ajax-get">
                             {$menu.hide_text}
+                            </a>
                         </td>
                         <td>
                             <a title="编辑" href="{:U('edit?id='.$menu['id'])}">编辑</a>

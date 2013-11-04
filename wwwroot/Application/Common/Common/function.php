@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 
 // OneThink常量定义
-const ONETHINK_VERSION    = '1.0.131025';
+const ONETHINK_VERSION    = '1.0.131101';
 const ONETHINK_ADDON_PATH = './Addons/';
 
 /**
@@ -514,7 +514,7 @@ function ubb($data){
 /**
  * 记录行为日志，并执行该行为的规则
  * @param string $action 行为标识
- * @param string $model 触发行为的表名（不加表前缀）
+ * @param string $model 触发行为的模型名
  * @param int $record_id 触发行为的记录id
  * @param int $user_id 执行行为的用户id
  * @return boolean
@@ -533,7 +533,7 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
     //查询行为,判断是否执行
     $action_info = M('Action')->getByName($action);
     if($action_info['status'] != 1){
-        return '该行为被禁用';
+        return '该行为被禁用或删除';
     }
 
     //插入行为日志
@@ -543,13 +543,17 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
     $data['model'] = $model;
     $data['record_id'] = $record_id;
     $data['create_time'] = NOW_TIME;
+    //系统日志记录操作url参数
+    $data['remark'] = '操作url：'.$_SERVER['REQUEST_URI'];
     M('ActionLog')->add($data);
 
-    //解析行为
-    $rules = parse_action($action, $user_id);
+    if(!empty($action_info['rule'])){
+    	//解析行为
+    	$rules = parse_action($action, $user_id);
 
-    //执行行为
-    $res = execute_action($rules, $action_info['id'], $user_id);
+    	//执行行为
+    	$res = execute_action($rules, $action_info['id'], $user_id);
+    }
 }
 
 /**
@@ -722,22 +726,37 @@ function get_model_attribute($model_id, $group = true){
 
 	/* 获取属性 */
 	if(!isset($list[$model_id])){
-		$info = M('Attribute')->where(array('model_id'=>$model_id))->select();
+        $map = array('model_id'=>$model_id);
+        $model = M('Model')->getFieldById($model_id,'extend');
+        if($model['extend']){
+            $map = array('model_id'=> array("in", array($model_id, $model['extend'])));
+        }
+		$info = M('Attribute')->where($map)->select();
 		$list[$model_id] = $info;
 		//S('attribute_list', $list); //更新缓存
 	}
 
-    $attr = $list[$model_id];
+    $attr = array();
+    foreach ($list[$model_id] as $value) {
+        $attr[$value['id']] = $value;
+    }
+
     if($group){
-        $keys   =   array_keys(parse_config_attr(M('Model')->getFieldById($model_id,'field_group')));
-        $group = array();
-        foreach ($attr as $value) {
-            if(in_array($value['group'],$keys)){
-                $group[$value['group']][] = $value;
-            }else{
-                $group[$keys[0]][] = $value;
+        $sort  = M('Model')->getFieldById($model_id,'field_sort');
+        $group = json_decode($sort, true);
+
+        $keys  = array_keys($group);
+        foreach ($group as &$value) {
+            foreach ($value as $key => $val) {
+                $value[$key] = $attr[$val];
+                unset($attr[$val]);
             }
         }
+
+        if(!empty($attr)){
+            $group[$keys[0]] = array_merge($group[$keys[0]], $attr);
+        }
+
         $attr = $group;
     }
 
@@ -749,14 +768,14 @@ function get_model_attribute($model_id, $group = true){
  * api('User/getName','id=5'); 调用公共模块的User接口的getName方法
  * api('Admin/User/getName','id=5');  调用Admin模块的User接口
  * @param  string  $name 格式 [模块名]/接口名/方法名
- * @param  array|string  $vars 参数 
+ * @param  array|string  $vars 参数
  */
 function api($name,$vars=array()){
-    $array      =   explode('/',$name);
-    $method     =   array_pop($array);
-    $classname  =   array_pop($array);
-    $module     =   $array? array_pop($array) : 'Common';
-    $callback   =   $module.'\\Api\\'.$classname.'Api::'.$method;
+    $array     = explode('/',$name);
+    $method    = array_pop($array);
+    $classname = array_pop($array);
+    $module    = $array? array_pop($array) : 'Common';
+    $callback  = $module.'\\Api\\'.$classname.'Api::'.$method;
     if(is_string($vars)) {
         parse_str($vars,$vars);
     }

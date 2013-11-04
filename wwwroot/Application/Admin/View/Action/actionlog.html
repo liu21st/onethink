@@ -23,7 +23,7 @@
                 'id'=>'编号',
                 'action_id'=>array(
 					'_title'=> '行为名称',
-					'tag'	=> 'a',
+					'tag'	=> 'span',
 					'func'	=> 'get_action($action_id, "title")',
 					'href'	=> 'Think/edit?model=$model_id&id=$record_id'
 				),
@@ -39,7 +39,8 @@
                 ),
                 'status_text'=>'状态',
                 '操作'=>array(
-					'查看'=>array( 'href' => 'Think/edit?model=$model_id&id=$record_id'),
+					'详细'=>array( 'href' => 'Action/edit?id=$id', 'condition'=>'get_action($action_id,type)==1'),
+					'查看'=>array( 'href' => 'Think/edit?model=$model_id&id=$record_id', 'condition'=>'get_action($action_id,type)==2'),
                     '禁用'=>array( 'href' => 'User/setStatus?status=0&ids=$id', 'class'=>'ajax-get', 'condition'=>'$status==1',),
                     '启用'=>array( 'href' => 'User/setStatus?status=1&ids=$id', 'class'=>'ajax-get', 'condition'=>'$status==0',),
                     '删除'=>array( 'href' => 'User/setStatus?status=-1&ids=$id', 'class'=>'confirm ajax-get' ),

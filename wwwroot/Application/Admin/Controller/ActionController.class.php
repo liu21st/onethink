@@ -70,6 +70,19 @@ class ActionController extends AdminController {
         $this->display();
     }
 
+    /**
+     * 查看行为日志
+     * @author huajie <banhuajie@163.com>
+     */
+	public function edit($id = 0){
+		empty($id) && $this->error('参数错误！');
+
+        $info = M('ActionLog')->field(true)->find($id);
+
+        $this->assign('info', $info);
+        $this->meta_title = '查看行为日志';
+        $this->display();
+    }
 
     /**
      * 设置一条或者多条数据的状态

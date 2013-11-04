@@ -90,6 +90,9 @@ class AttributeModel extends Model {
 
         }
 
+        //记录行为
+        action_log('update_attribute', 'attribute', $data['id'] ? $data['id'] : $id, UID);
+
         //内容添加或更新完成
         return $data;
 
@@ -153,8 +156,11 @@ sql;
 				ALTER TABLE `{$this->table_name}`
 ADD COLUMN `{$field['name']}`  {$field['field']} {$default} COMMENT '{$field['title']}';
 sql;
-    	}else{		//新建表时默认新增“id主键”字段
-    		$sql = <<<sql
+    	}else{
+    		//新建表时是否默认新增“id主键”字段
+    		$need_pk = M('Model')->getFieldById($field['model_id'], 'need_pk');
+    		if($need_pk){
+    			$sql = <<<sql
 				CREATE TABLE IF NOT EXISTS `{$this->table_name}` (
 				`id`  int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键' ,
 				`{$field['name']}`  {$field['field']} {$default} COMMENT '{$field['title']}' ,
@@ -167,6 +173,20 @@ sql;
 				DELAY_KEY_WRITE=0
 				;
 sql;
+    		}else{
+    			$sql = <<<sql
+				CREATE TABLE IF NOT EXISTS `{$this->table_name}` (
+				`{$field['name']}`  {$field['field']} {$default} COMMENT '{$field['title']}'
+				)
+				ENGINE=MyISAM
+				DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+				CHECKSUM=0
+				ROW_FORMAT=DYNAMIC
+				DELAY_KEY_WRITE=0
+				;
+sql;
+    		}
+
     	}
 
     	$res = M()->execute($sql);

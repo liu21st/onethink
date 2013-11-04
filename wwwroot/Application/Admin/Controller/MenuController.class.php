@@ -55,8 +55,11 @@ class MenuController extends AdminController {
             $Menu = D('Menu');
             $data = $Menu->create();
             if($data){
-                if($Menu->add()){
+            	$id = $Menu->add();
+                if($id){
                     // S('DB_CONFIG_DATA',null);
+                	//记录行为
+                	action_log('update_menu', 'Menu', $id, UID);
                     $this->success('新增成功', U('index?pid='.I('pid')));
                 } else {
                     $this->error('新增失败');
@@ -85,6 +88,8 @@ class MenuController extends AdminController {
             if($data){
                 if($Menu->save()!== false){
                     // S('DB_CONFIG_DATA',null);
+                	//记录行为
+                	action_log('update_menu', 'Menu', $data['id'], UID);
                     $this->success('更新成功', U('index?pid='.$data['pid']));
                 } else {
                     $this->error('更新失败');
@@ -122,10 +127,20 @@ class MenuController extends AdminController {
         $map = array('id' => array('in', $id) );
         if(M('Menu')->where($map)->delete()){
             // S('DB_CONFIG_DATA',null);
+        	//记录行为
+        	action_log('update_menu', 'Menu', $id, UID);
             $this->success('删除成功');
         } else {
             $this->error('删除失败！');
         }
+    }
+
+    public function toogleHide($id,$value = 1){
+        $this->editRow('Menu', array('hide'=>$value), array('id'=>$id));
+    }
+
+    public function toogleDev($id,$value = 1){
+        $this->editRow('Menu', array('is_dev'=>$value), array('id'=>$id));
     }
 
     public function importFile($tree = null, $pid=0){
