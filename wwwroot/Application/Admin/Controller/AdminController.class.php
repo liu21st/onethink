@@ -390,7 +390,7 @@ class AdminController extends Controller {
                 }
             }
         }else{
-            $nodes = M('Menu')->field('title,url,tip')->order('sort asc')->select();
+            $nodes = M('Menu')->field('title,url,tip,pid')->order('sort asc')->select();
             foreach ($nodes as $key => $value) {
                 if( stripos($value['url'],MODULE_NAME)!==0 ){
                     $nodes[$key]['url'] = MODULE_NAME.'/'.$value['url'];
