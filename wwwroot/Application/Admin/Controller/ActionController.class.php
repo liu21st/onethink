@@ -85,6 +85,26 @@ class ActionController extends AdminController {
     }
 
     /**
+     * 删除日志
+     * @param number $ids
+     * @author huajie <banhuajie@163.com>
+     */
+    public function remove($ids = 0){
+    	empty($ids) && $this->error('参数错误！');
+    	if(is_array($ids)){
+            $map['id'] = array('in', implode(',', $ids));
+        }elseif (is_numeric($ids)){
+            $map['id'] = $ids;
+        }
+        $res = M('ActionLog')->where($map)->delete();
+        if($res !== false){
+        	$this->success('删除成功！');
+        }else {
+        	$this->error('删除失败！');
+        }
+    }
+
+    /**
      * 设置一条或者多条数据的状态
      * @author huajie <banhuajie@163.com>
      */

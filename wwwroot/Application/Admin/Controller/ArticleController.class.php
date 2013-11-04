@@ -732,13 +732,12 @@ class ArticleController extends \Admin\Controller\AdminController {
         	$this->error($check['info']);
         }
 
-        if(!empty($moveList)) {// 移动
+        if(!empty($moveList)) {// 移动	TODO:检查name重复
         	foreach ($moveList as $key=>$value){
         		$Model              =   M('Document');
         		$map['id']          =   $value;
         		$data['category_id']=   $cate_id;
 				$data['pid'] 		=   $pid;
-				//$data['name']		=	'';
 				//获取root
 				if($pid == 0){
 					$data['root'] = 0;
