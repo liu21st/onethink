@@ -58,6 +58,11 @@ class QiniuController extends AdminController {
 		}
 	}
 
+	public function dealImage($key){
+		$url = $this->qiniu->dealWithType($key, 'img') ;
+		redirect($url);
+	}
+
 	public function rename(){
 		$key = I('get.file');
 		$new = I('new_name');

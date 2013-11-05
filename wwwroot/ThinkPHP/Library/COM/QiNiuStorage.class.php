@@ -110,19 +110,37 @@
 			return $response;
 		}
 
-		function dealWithType($upload, $type, $param){
+		public function dealWithType($key, $type){
 			$param = $this->buildUrlParam();
+			$url = '';
 
 			switch($type){
-				case 'img': //TODO 图片处理
+				case 'img':
+					$url = $this->downLink($key);
+					if($param['imageInfo']){
+						$url .= '?imageInfo';
+					}else if($param['exif']){
+						$url .= '?exif';
+					}else if($param['imageView']){
+						$url .= '?imageView/'.$param['mode'];
+						if($param['w'])
+							$url .= "/w/{$param['w']}";
+						if($param['h'])
+							$url .= "/h/{$param['h']}";
+						if($param['q'])
+							$url .= "/q/{$param['q']}";
+						if($param['format'])
+							$url .= "/format/{$param['format']}";
+					}
+					break;
 				case 'video': //TODO 视频处理
 				case 'doc': //TODO markdown处理
 			}
+			return $url;
 		}
 
-		//TODO 发送请求url参数处理
-		function buildUrlParam(){
-
+		public function buildUrlParam(){
+			return $_REQUEST;
 		}
 
 		//获取某个路径下的文件列表
@@ -147,10 +165,9 @@
 
 		//获取文件下载资源链接
 		public function downLink($key){
+			$key = urlencode($key);
+			$key = self::Qiniu_escapeQuotes($key);
 			$url = "http://{$this->domain}/{$key}";
-			if(strpos($url, 'm//') !== false){
-				$url = str_replace('m//', 'm/@/', $url);
-			}
 			return $url;
 		}
 
