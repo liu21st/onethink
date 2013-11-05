@@ -36,3 +36,18 @@ update onethink_auth_extend  set type=1;
 alter table onethink_auth_extend change category_id extend_id mediumint(8) unsigned NOT NULL COMMENT '扩展表中数据的id';
 ALTER TABLE `onethink_auth_extend`  DROP INDEX `uid_group_id` ,ADD UNIQUE INDEX `group_extend_type` (`group_id`, `extend_id`, `type`) USING BTREE ;
 # 配合模型管理权限需求 auth_category_access表修改 END
+/**
+article模型增加＂收藏数＂
+*/
+ALTER TABLE `onethink_document_article`
+ADD COLUMN `bookmark`  int UNSIGNED NOT NULL COMMENT '收藏数' AFTER `template`;
+/**
+用户扩展数据表
+*/
+CREATE TABLE `onethink_userdata` (
+`uid`  int UNSIGNED NOT NULL COMMENT '用户id' ,
+`type`  tinyint UNSIGNED NOT NULL COMMENT '类型标识:1:收藏' ,
+`target_id`  int UNSIGNED NOT NULL COMMENT '目标id' ,
+UNIQUE INDEX (`uid`, `type`, `target_id`)
+)
+;

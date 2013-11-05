@@ -7,9 +7,7 @@
 	</div>
 
     <div>
-        <button class="btn ajax-post" target-form="ids" url="{:u('setstatus',array('status'=>1))}" >启 用</button>
-        <button class="btn ajax-post" target-form="ids" url="{:u('setstatus',array('status'=>0))}">禁 用</button>
-        <button class="btn ajax-post confirm" target-form="ids" url="{:U('setStatus',array('status'=>-1))}">删 除</button>
+        <button class="btn ajax-post confirm" target-form="ids" url="{:U('remove')}">删 除</button>
     </div>
 	<!-- 数据列表 -->
 	<div class="data-table">
@@ -37,13 +35,10 @@
                     'tag'   =>'span',
                     'func'  =>'date("y-m-d H:i",$create_time)'
                 ),
-                'status_text'=>'状态',
                 '操作'=>array(
 					'详细'=>array( 'href' => 'Action/edit?id=$id', 'condition'=>'get_action($action_id,type)==1'),
 					'查看'=>array( 'href' => 'Think/edit?model=$model_id&id=$record_id', 'condition'=>'get_action($action_id,type)==2'),
-                    '禁用'=>array( 'href' => 'User/setStatus?status=0&ids=$id', 'class'=>'ajax-get', 'condition'=>'$status==1',),
-                    '启用'=>array( 'href' => 'User/setStatus?status=1&ids=$id', 'class'=>'ajax-get', 'condition'=>'$status==0',),
-                    '删除'=>array( 'href' => 'User/setStatus?status=-1&ids=$id', 'class'=>'confirm ajax-get' ),
+                    '删除'=>array( 'href' => 'Action/remove?ids=$id', 'class'=>'confirm ajax-get' ),
                 ),
             );
             echo $_table_list = $__controller__->tableList($_list,$thead);
