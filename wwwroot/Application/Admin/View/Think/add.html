@@ -34,6 +34,9 @@
                                 <textarea name="{$field.name}"></textarea>
                                 </label>
                             </case>
+                            <case value="datetime">
+                                <input type="text" name="{$field.name}" class="text input-large time" value="" placeholder="请选择时间" />
+                            </case>
                             <case value="bool">
                                 <select name="{$field.name}">
                                     <volist name=":parse_field_attr($field['extra'])" id="vo">
@@ -47,6 +50,23 @@
                                         <option value="{$key}" <eq name="field.value" value="$key">selected</eq>>{$vo}</option>
                                     </volist>
                                 </select>
+                            </case>
+                            <case value="editor">
+                                <label class="textarea">
+                                <textarea name="{$field.name}"></textarea>
+                                {:hook('adminArticleEdit', array('name'=>$field['name'],'value'=>''))}
+                                </label>
+                            </case>
+                            <case value="picture">
+                                <div class="controls">
+									<input type="file" id="upload_picture">
+									<input type="hidden" id="cover_id" name="cover_id" value="{$info.cover_id}"/>
+									<div class="upload-img-box">
+									<notempty name="info['cover_id']">
+										<div class="upload-pre-item"><img src="{$info.cover_id|get_cover='path'}"/></div>
+									</notempty>
+									</div>
+								</div>
                             </case>
                             <default/>
                             <input type="text" class="text input-large" name="{$field.name}" value="">
@@ -84,13 +104,7 @@ $('#submit').click(function(){
 });
 
 $(function(){
-    $('#dateline').datetimepicker({
-        format: 'yyyy-mm-dd hh:ii',
-        language:"zh-CN",
-        minView:2,
-        autoclose:true
-    });
-    $('#create_time').datetimepicker({
+    $('.time').datetimepicker({
         format: 'yyyy-mm-dd hh:ii',
         language:"zh-CN",
         minView:2,

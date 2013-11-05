@@ -26,9 +26,6 @@
                             <case value="num">
                                 <input type="text" class="text input-large" name="{$field.name}" value="{$data[$field['name']]}">
                             </case>
-                            <case value="num">
-                                <input type="text" class="text input-large" name="{$field.name}" value="{$data[$field['name']]}">
-                            </case>
                             <case value="string">
                                 <input type="text" class="text input-large" name="{$field.name}" value="{$data[$field['name']]}">
                             </case>
@@ -36,6 +33,9 @@
                                 <label class="textarea input-large">
                                 <textarea name="{$field.name}">{$data[$field['name']]}</textarea>
                                 </label>
+                            </case>
+                            <case value="datetime">
+                                <input type="text" name="{$field.name}" class="text input-large time" value="{$data[$field['name']]|date='Y-m-d H:i'}" placeholder="请选择时间" />
                             </case>
                             <case value="bool">
                                 <select name="{$field.name}">
@@ -51,6 +51,12 @@
                                     </volist>
                                 </select>
                             </case>
+                            <case value="editor">
+                                <label class="textarea">
+                                <textarea name="{$field.name}"></textarea>
+                                {:hook('adminArticleEdit', array('name'=>$field['name'],'value'=>$data[$field['name']]))}
+                                </label>
+                            </case>
                             <default/>
                             <input type="text" class="text input-large" name="{$field.name}" value="{$data[$field['name']]}">
                         </switch>
@@ -60,7 +66,7 @@
             </volist>
         </div>
 		</volist>
-        
+
 
         <div class="form-item cf">
             <input type="hidden" name="id" value="{$data.id}">
@@ -87,13 +93,7 @@ $('#submit').click(function(){
 });
 
 $(function(){
-    $('#dateline').datetimepicker({
-        format: 'yyyy-mm-dd hh:ii',
-        language:"zh-CN",
-        minView:2,
-        autoclose:true
-    });
-    $('#create_time').datetimepicker({
+	$('.time').datetimepicker({
         format: 'yyyy-mm-dd hh:ii',
         language:"zh-CN",
         minView:2,
