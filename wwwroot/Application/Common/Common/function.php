@@ -743,19 +743,25 @@ function get_model_attribute($model_id, $group = true){
 
     if($group){
         $sort  = M('Model')->getFieldById($model_id,'field_sort');
-        $group = json_decode($sort, true);
 
-        $keys  = array_keys($group);
-        foreach ($group as &$value) {
-            foreach ($value as $key => $val) {
-                $value[$key] = $attr[$val];
-                unset($attr[$val]);
-            }
+        if(empty($sort)){	//未排序
+        	$group = array(1=>array_merge($attr));
+        }else{
+        	$group = json_decode($sort, true);
+
+        	$keys  = array_keys($group);
+        	foreach ($group as &$value) {
+        		foreach ($value as $key => $val) {
+        			$value[$key] = $attr[$val];
+        			unset($attr[$val]);
+        		}
+        	}
+
+        	if(!empty($attr)){
+        		$group[$keys[0]] = array_merge($group[$keys[0]], $attr);
+        	}
         }
 
-        if(!empty($attr)){
-            $group[$keys[0]] = array_merge($group[$keys[0]], $attr);
-        }
 
         $attr = $group;
     }
