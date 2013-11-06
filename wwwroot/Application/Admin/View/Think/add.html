@@ -1,6 +1,7 @@
 <extend name="Public/base" />
 
 <block name="body">
+<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
     <div class="main-title cf">
         <h2>新增 [{$model['title']}]</h2>
     </div>
@@ -20,7 +21,7 @@
             <volist name="fields[$key]" id="field">
                 <if condition="$field['is_show'] == 1 || $field['is_show'] == 2">
                 <div class="form-item cf">
-                    <label class="item-label">{$field['title']}<span class="check-tips">（{$field['remark']}）</span></label>
+                    <label class="item-label">{$field['title']}<span class="check-tips"><notempty name="field['remark']">（{$field['remark']}）</notempty></span></label>
                     <div class="controls">
                         <switch name="field.type">
                             <case value="num">
@@ -59,14 +60,87 @@
                             </case>
                             <case value="picture">
                                 <div class="controls">
-									<input type="file" id="upload_picture">
-									<input type="hidden" id="cover_id" name="cover_id" value="{$info.cover_id}"/>
+									<input type="file" id="upload_picture_{$field.name}">
+									<input type="hidden" name="{$field.name}" id="cover_id_{$field.name}"/>
 									<div class="upload-img-box">
-									<notempty name="info['cover_id']">
-										<div class="upload-pre-item"><img src="{$info.cover_id|get_cover='path'}"/></div>
+									<notempty name="data[$field['name']]">
+										<div class="upload-pre-item"><img src="{$data[$field['name']]|get_cover='path'}"/></div>
 									</notempty>
 									</div>
 								</div>
+								<script type="text/javascript">
+								//上传图片
+							    /* 初始化上传插件 */
+								$("#upload_picture_{$field.name}").uploadify({
+							        "height"          : 30,
+							        "swf"             : "__STATIC__/uploadify/uploadify.swf",
+							        "fileObjName"     : "download",
+							        "buttonText"      : "上传图片",
+							        "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+							        "width"           : 120,
+							        'removeTimeout'	  : 1,
+							        'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
+							        "onUploadSuccess" : uploadPicture{$field.name}
+							    });
+								function uploadPicture{$field.name}(file, data){
+							    	var data = $.parseJSON(data);
+							    	var src = '';
+							        if(data.status){
+							        	$("#cover_id_{$field.name}").val(data.id);
+							        	src = data.url || '__ROOT__' + data.path
+							        	$("#cover_id_{$field.name}").parent().find('.upload-img-box').html(
+							        		'<div class="upload-pre-item"><img src="__ROOT__' + src + '"/></div>'
+							        	);
+							        } else {
+							        	updateAlert(data.info);
+							        	setTimeout(function(){
+							                $('#top-alert').find('button').click();
+							                $(that).removeClass('disabled').prop('disabled',false);
+							            },1500);
+							        }
+							    }
+								</script>
+                            </case>
+                            <case value="file">
+								<div class="controls">
+									<input type="file" id="upload_file_{$field.name}">
+									<input type="hidden" name="{$field.name}" value="{$data[$field['name']]}"/>
+									<div class="upload-img-box">
+										<present name="data[$field['name']]">
+											<div class="upload-pre-file"><span class="upload_icon_all"></span>{$data[$field['name']]}</div>
+										</present>
+									</div>
+								</div>
+								<script type="text/javascript">
+								//上传图片
+							    /* 初始化上传插件 */
+								$("#upload_file_{$field.name}").uploadify({
+							        "height"          : 30,
+							        "swf"             : "__STATIC__/uploadify/uploadify.swf",
+							        "fileObjName"     : "download",
+							        "buttonText"      : "上传附件",
+							        "uploader"        : "{:U('File/upload',array('session_id'=>session_id()))}",
+							        "width"           : 120,
+							        'removeTimeout'	  : 1,
+							        "onUploadSuccess" : uploadFile{$field.name}
+							    });
+								function uploadFile{$field.name}(file, data){
+									var data = $.parseJSON(data);
+							        if(data.status){
+							        	var name = "{$field.name}";
+							        	$("input[name="+name+"]").val(data.data);
+							        	$("input[name="+name+"]").parent().find('.upload-img-box').html(
+							        		"<div class=\"upload-pre-file\"><span class=\"upload_icon_all\"></span>" + data.info + "</div>"
+							        	);
+							        } else {
+							        	updateAlert(data.info);
+							        	setTimeout(function(){
+							                $('#top-alert').find('button').click();
+							                $(that).removeClass('disabled').prop('disabled',false);
+							            },1500);
+							        }
+							    }
+								</script>
                             </case>
                             <default/>
                             <input type="text" class="text input-large" name="{$field.name}" value="">
@@ -93,12 +167,9 @@
 <link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
 <php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
 <link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
 <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
 <script type="text/javascript">
-
-
 $('#submit').click(function(){
     $('#form').submit();
 });
@@ -111,6 +182,7 @@ $(function(){
         autoclose:true
     });
     showTab();
+
 });
 </script>
 </block>
