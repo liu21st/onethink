@@ -24,30 +24,6 @@ class AuthManagerController extends AdminController{
     /* 保存允许所有管理员访问的公共方法 */
     static protected $allow =   array();
 
-    static protected $nodes =   array(
-        //权限管理页
-        array('title'=>'权限管理','url'=>'AuthManager/index','group'=>'用户管理',
-              'operator'=>array(
-                  //权限管理页面的五种按钮
-                  array('title'=>'删除',        'url'=>'AuthManager/changeStatus?method=deleteGroup','tip'=>'删除用户组'),
-                  array('title'=>'禁用',        'url'=>'AuthManager/changeStatus?method=forbidGroup','tip'=>'禁用用户组'),
-                  array('title'=>'恢复',        'url'=>'AuthManager/changeStatus?method=resumeGroup','tip'=>'恢复已禁用的用户组'),
-                  array('title'=>'新增',        'url'=>'AuthManager/createGroup',                    'tip'=>'创建新的用户组'),
-                  array('title'=>'编辑',        'url'=>'AuthManager/editGroup',                      'tip'=>'编辑用户组名称和描述'),
-                  array('title'=>'保存用户组',  'url'=>'AuthManager/writeGroup',                     'tip'=>'新增和编辑用户组的"保存"按钮'),
-                  array('title'=>'授权',        'url'=>'AuthManager/group',                          'tip'=>'"后台 \ 用户 \ 用户信息"列表页的"授权"操作按钮,用于设置用户所属用户组'),
-                  array('title'=>'访问授权',    'url'=>'AuthManager/access',                         'tip'=>'"后台 \ 用户 \ 权限管理"列表页的"访问授权"操作按钮'),
-                  array('title'=>'成员授权',    'url'=>'AuthManager/user',                           'tip'=>'"后台 \ 用户 \ 权限管理"列表页的"成员授权"操作按钮'),
-                  array('title'=>'解除授权',    'url'=>'AuthManager/removeFromGroup',                'tip'=>'"成员授权"列表页内的解除授权操作按钮'),
-                  array('title'=>'保存成员授权','url'=>'AuthManager/addToGroup',                     'tip'=>'"用户信息"列表页"授权"时的"保存"按钮和"成员授权"里右上角的"添加"按钮)'),
-                  array('title'=>'分类授权',    'url'=>'AuthManager/category',                       'tip'=>'"后台 \ 用户 \ 权限管理"列表页的"分类授权"操作按钮'),
-                  array('title'=>'保存分类授权','url'=>'AuthManager/addToCategory',                  'tip'=>'"分类授权"页面的"保存"按钮'),
-                  array('title'=>'模型授权',    'url'=>'AuthManager/modelauth',                       'tip'=>'"后台 \ 用户 \ 权限管理"列表页的"模型授权"操作按钮'),
-                  array('title'=>'保存模型授权','url'=>'AuthManager/addToModel',                  'tip'=>'"分类授权"页面的"保存"按钮'),
-              ),
-        ),
-    );
-
     /**
      * 后台节点配置的url作为规则存入auth_rule
      * 执行新节点的插入,已有节点的更新,无效规则的删除三项任务

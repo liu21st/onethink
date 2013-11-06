@@ -19,14 +19,6 @@ class IndexController extends AdminController {
     static protected $allow = array( 'verify');
 
     /**
-     * 左侧导航节点定义
-     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
-     */
-    static protected $nodes = array(
-        array( 'title' => '管理首页', 'url' => 'Index/index', 'group' => '常用菜单'),
-    );
-
-    /**
      * 后台首页
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */

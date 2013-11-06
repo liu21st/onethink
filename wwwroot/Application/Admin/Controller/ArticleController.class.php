@@ -19,33 +19,6 @@ class ArticleController extends \Admin\Controller\AdminController {
 	/* 保存允许访问的公共方法 */
 	static protected $allow = array( 'draftbox','mydocument');
 
-    /* 左侧节点菜单定义 */
-    static protected $nodes =   array(
-        array(
-            'title'=>'文档列表', 'url'=>'article/index', 'group'=>'内容','hide'=>true,
-            'operator'=>array(
-                //权限管理页面的按钮
-                array('title'=>'新增','url'=>'article/add'),
-                array('title'=>'编辑','url'=>'article/edit'),
-                array('title'=>'改变状态','url'=>'article/setStatus'),
-                array('title'=>'保存','url'=>'article/update'),
-            	array('title'=>'保存草稿','url'=>'article/autoSave'),
-            	array('title'=>'移动','url'=>'article/move'),
-            	array('title'=>'复制','url'=>'article/copy'),
-            	array('title'=>'粘贴','url'=>'article/paste'),
-            	array('title'=>'导入','url'=>'article/batchOperate'),
-            ),
-        ),
-    	array(
-    		'title'=>'回收站', 'url'=>'article/recycle', 'group'=>'内容',
-    		'operator'=>array(
-    			//权限管理页面的按钮
-    			array('title'=>'还原','url'=>'article/permit'),
-    			array('title'=>'清空','url'=>'article/clear'),
-    		),
-    	),
-    );
-
     private $cate_id        =   null; //文档分类id
 
     /**

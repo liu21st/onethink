@@ -16,29 +16,6 @@ namespace Admin\Controller;
 
 class AddonsController extends AdminController {
 
-    static protected $nodes = array(
-        array(
-            'title'=>'插件管理', 'url'=>'Addons/index', 'group'=>'扩展',
-            'operator'=>array(
-                //权限管理页面的五种按钮
-                array('title'=>'创建','url'=>'Addons/create','tip'=>'服务器上创建插件结构向导'),
-                array('title'=>'检测创建','url'=>'Addons/checkForm','tip'=>'检测插件是否可以创建'),
-                array('title'=>'预览','url'=>'Addons/preview','tip'=>'预览插件定义类文件'),
-                array('title'=>'快速生成插件','url'=>'Addons/build','tip'=>'开始生成插件结构'),
-                array('title'=>'设置','url'=>'Addons/config','tip'=>'设置插件配置'),
-                array('title'=>'禁用','url'=>'Addons/disable','tip'=>'禁用插件'),
-                array('title'=>'启用','url'=>'Addons/enable','tip'=>'启用插件'),
-                array('title'=>'安装','url'=>'Addons/install','tip'=>'安装插件'),
-                array('title'=>'卸载','url'=>'Addons/uninstall','tip'=>'卸载插件'),
-                array('title'=>'更新配置','url'=>'Addons/saveconfig','tip'=>'更新插件配置处理'),
-                array('title'=>'插件后台列表','url'=>'Addons/adminList'),
-                array('title'=>'URL方式访问插件','url'=>'Addons/execute','tip'=>'控制是否有权限通过url访问插件控制器方法')
-            ),
-        ),
-        array( 'title'=>'钩子管理', 'url'=>'Addons/hooks', 'group'=>'扩展',
-        ),
-    );
-
     static protected $deny  = array('addhook','edithook','delhook','updateHook');
 
     public function _initialize(){
