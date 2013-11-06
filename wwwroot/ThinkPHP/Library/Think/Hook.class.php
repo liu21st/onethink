@@ -9,7 +9,9 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 namespace Think;
-
+/**
+ * ThinkPHP系统钩子实现
+ */
 class Hook {
 
     static private  $tags       =   array();
@@ -36,8 +38,10 @@ class Hook {
      * @param array $tags 插件信息
      * @return void
      */
-    static public function import($tag) {
-        self::$tags =   array_merge(self::$tags,$tag);
+    static public function import($tag,$recursive=true) {
+        self::$tags =   $recursive?
+			array_merge_recursive(self::$tags,$tag):
+			array_merge(self::$tags,$tag);
     }
 
     /**
@@ -88,6 +92,7 @@ class Hook {
     /**
      * 执行某个插件
      * @param string $name 插件名称
+     * @param string $tag 方法名（标签名）     
      * @param Mixed $params 传入的参数
      * @return void
      */
@@ -102,6 +107,5 @@ class Hook {
         }
         $addon   = new $class();
         return $addon->$tag($params);
-        return ;
     }
 }
