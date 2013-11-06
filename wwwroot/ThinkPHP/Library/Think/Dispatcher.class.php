@@ -12,10 +12,6 @@ namespace Think;
 /**
  * ThinkPHP内置的Dispatcher类
  * 完成URL解析、路由和调度
- * @category   Think
- * @package  Think
- * @subpackage  Core
- * @author    liu21st <liu21st@gmail.com>
  */
 class Dispatcher {
 
@@ -43,7 +39,11 @@ class Dispatcher {
             if(isset($rules[$_SERVER['HTTP_HOST']])) { // 完整域名或者IP配置
                 $rule = $rules[$_SERVER['HTTP_HOST']];
             }else{
-                $domain = array_slice(explode('.', $_SERVER['HTTP_HOST']), 0, -2);
+                if(strpos(C('APP_DOMAIN_SUFFIX'),'.')){ // com.cn net.cn 
+                    $domain = array_slice(explode('.', $_SERVER['HTTP_HOST']), 0, -3);
+                }else{
+                    $domain = array_slice(explode('.', $_SERVER['HTTP_HOST']), 0, -2);                    
+                }
                 if(!empty($domain)) {
                     $subDomain = implode('.', $domain);
                     define('SUB_DOMAIN',$subDomain); // 当前完整子域名

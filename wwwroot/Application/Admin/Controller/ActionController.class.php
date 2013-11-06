@@ -17,18 +17,6 @@ namespace Admin\Controller;
 class ActionController extends AdminController {
 
     static protected $allow = array();
-	/**
-     * 左侧导航节点定义
-     * @author huajie <banhuajie@163.com>
-     */
-    static protected $nodes = array(
-        /* 系统设置 */
-        array( 'title' => '行为日志', 'url' => 'Action/actionLog', 'group' => '行为管理',
-            'operator'=>array(
-                //权限管理页面的五种按钮
-            ),
-        ),
-    );
 
     /**
      * 用户管理首页

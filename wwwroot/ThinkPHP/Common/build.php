@@ -11,9 +11,6 @@
 
 /**
  * ThinkPHP 目录创建和初始化
- * @category   Think
- * @package  Common
- * @author   liu21st <liu21st@gmail.com>
  */
 defined('THINK_PATH') or exit();
 

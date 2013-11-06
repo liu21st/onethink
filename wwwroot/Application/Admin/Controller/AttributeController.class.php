@@ -16,25 +16,6 @@ namespace Admin\Controller;
 
 class AttributeController extends AdminController {
 
-    /**
-     * 左侧导航节点定义
-     * @author huajie <banhuajie@163.com>
-     */
-    static protected $nodes = array(
-        array(
-            'title'     =>  '属性管理',
-            'url'       =>  'Attribute/index',
-            'group'     =>  '扩展',
-            'operator'  =>  array(
-                //权限管理页面的五种按钮
-                array('title'=>'新增','url'=>'Attribute/add'),
-                array('title'=>'编辑','url'=>'Attribute/edit'),
-                array('title'=>'改变状态','url'=>'Attribute/setStatus'),
-                array('title'=>'保存数据','url'=>'Attribute/update'),
-            ),
-        	'hide'		=>	true,
-        ),
-    );
 
     public function _initialize(){
     	$this->assign('_extra_menu',array(

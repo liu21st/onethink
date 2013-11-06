@@ -22,6 +22,10 @@ class MenuController extends AdminController {
      */
     public function index(){
         $pid  = I('get.pid',0);
+		if($pid){
+			$data = M('Menu')->where("id={$pid}")->field(true)->find();
+			$this->assign('data',$data);
+		}
         $title = trim(I('get.title'));
         $type = C('CONFIG_GROUP_LIST');
         $all_menu = M('Menu')->getField('id,title');
@@ -38,7 +42,7 @@ class MenuController extends AdminController {
             }
             $this->assign('list',$list);
         }
-        $this->meta_title = '后台菜单列表';
+        $this->meta_title = '菜单列表';
         $this->display();
     }
 

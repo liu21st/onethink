@@ -17,25 +17,6 @@ namespace Admin\Controller;
 class ConfigController extends AdminController {
 
     /**
-     * 左侧导航节点定义
-     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
-     */
-    static protected $nodes = array(
-        array( 'title' => '网站设置', 'url' => 'Config/group', 'group' => '系统设置'),
-        array( 'title' => '配置管理', 'url' => 'Config/index', 'group' => '系统设置',
-            'operator'=>array(
-                array('title'=>'编辑','url'=>'Config/edit','tip'=>'新增编辑和保存配置'),
-                array('title'=>'删除','url'=>'Config/del','tip'=>'删除配置'),
-            	array('title'=>'新增','url'=>'Config/add','tip'=>'新增配置'),
-            	array('title'=>'保存','url'=>'Config/save','tip'=>'保存配置'),
-            ),
-        ),
-        array( 'title' => '后台菜单管理', 'url' => 'Config/menu', 'group' => '系统设置'),
-        // array( 'title' => '静态规则设置', 'url' => 'System/index1', 'group' => '系统设置'),
-        // array( 'title' => 'SEO优化设置', 'url' => 'System/index2', 'group' => '系统设置'),
-    );
-
-    /**
      * 配置管理
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */

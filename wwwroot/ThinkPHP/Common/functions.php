@@ -10,10 +10,7 @@
 // +----------------------------------------------------------------------
 
 /**
- * Think 基础函数库
- * @category   Think
- * @package  Common
- * @author   liu21st <liu21st@gmail.com>
+ * Think 函数库
  */
 
 /**
@@ -149,18 +146,21 @@ function T($template='',$layer=''){
         $baseUrl    =   APP_PATH.$module.$layer.'/';
     }
     // 获取主题
-    $array  =   explode('/',$file);
-    if(count($array)>2){
-        $theme  =   array_shift($array);
-    }else{
-        $theme  =   C('DEFAULT_THEME');
-    }
+    $theme  =   substr_count($file,'/')<2 ? C('DEFAULT_THEME') : '';
+
     // 分析模板文件规则
+    $depr   =   C('TMPL_FILE_DEPR');
     if('' == $file) {
         // 如果模板文件名为空 按照默认规则定位
-        $file = CONTROLLER_NAME . C('TMPL_FILE_DEPR') . ACTION_NAME;
+        $file = CONTROLLER_NAME . $depr . ACTION_NAME;
     }elseif(false === strpos($file, '/')){
-        $file = CONTROLLER_NAME . C('TMPL_FILE_DEPR') . $file;
+        $file = CONTROLLER_NAME . $depr . $file;
+    }elseif('/' != $depr){
+        if(substr_count($file,'/')>1){
+            $file   =   substr_replace($file,$depr,strrpos($file,'/'),1);
+        }else{
+            $file   =   str_replace('/', $depr, $file);
+        }
     }
     return $baseUrl.($theme?$theme.'/':'').$file.C('TMPL_TEMPLATE_SUFFIX');
 }
@@ -215,18 +215,18 @@ function I($name,$default='',$filter=null) {
         if($filters) {
             $filters    =   explode(',',$filters);
             foreach($filters as $filter){
-                $data   =   array_map($filter,$data); // 参数过滤
+                $data   =   array_map_recursive($filter,$data); // 参数过滤
             }
         }
     }elseif(isset($input[$name])) { // 取值操作
         $data       =   $input[$name];
-        array_walk_recursive($data,'filter_exp');
+        is_array($data) && array_walk_recursive($data,'filter_exp');
         $filters    =   isset($filter)?$filter:C('DEFAULT_FILTER');
         if($filters) {
             $filters    =   explode(',',$filters);
             foreach($filters as $filter){
                 if(function_exists($filter)) {
-                    $data   =   is_array($data)?array_map($filter,$data):$filter($data); // 参数过滤
+                    $data   =   is_array($data)?array_map_recursive($filter,$data):$filter($data); // 参数过滤
                 }else{
                     $data   =   filter_var($data,is_int($filter)?$filter:filter_id($filter));
                     if(false === $data) {
@@ -240,6 +240,16 @@ function I($name,$default='',$filter=null) {
     }
     return $data;
 }
+
+function array_map_recursive($filter, $data) {
+     $result = array();
+     foreach ($data as $key => $val) {
+         $result[$key] = is_array($val)
+             ? array_map_recursive($filter, $val)
+             : call_user_func($filter, $val);
+     }
+     return $result;
+ }
 
 /**
  * 设置和获取统计数据

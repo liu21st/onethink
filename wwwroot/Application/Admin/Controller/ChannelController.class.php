@@ -17,21 +17,6 @@ namespace Admin\Controller;
 class ChannelController extends AdminController {
 
     /**
-     * 左侧导航节点定义
-     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
-     */
-    static protected $nodes = array(
-        /* 导航栏目设置 */
-        array( 'title' => '导航管理', 'url' => 'Channel/index', 'group' => '导航栏目设置',
-    			'operator'=>array(
-    				array('title'=>'新增','url'=>'Channel/add'),
-    				array('title'=>'编辑','url'=>'Channel/edit'),
-    				array('title'=>'删除','url'=>'Channel/del'),
-    			)
-    	),
-    );
-
-    /**
      * 频道列表
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */

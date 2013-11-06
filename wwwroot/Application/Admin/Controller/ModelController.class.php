@@ -17,25 +17,6 @@ use Admin\Model\AuthGroupModel;
 
 class ModelController extends AdminController {
 
-    /**
-     * 左侧导航节点定义
-     * @author huajie <banhuajie@163.com>
-     */
-    static protected $nodes = array(
-        array(
-            'title'     =>  '模型管理',
-            'url'       =>  'Model/index',
-            'group'     =>  '扩展',
-            'operator'  =>  array(
-                //权限管理页面的五种按钮
-                array('title'=>'新增','url'=>'model/add'),
-                array('title'=>'编辑','url'=>'model/edit'),
-                array('title'=>'改变状态','url'=>'model/setStatus'),
-                array('title'=>'保存数据','url'=>'model/update'),
-            ),
-        ),
-    );
-
 
     /**
      * 检测是否是需要动态判断的权限

@@ -267,7 +267,7 @@ function init_hooks(){
         }
         S('hooks',\Think\Hook::get());
     }else{
-        \Think\Hook::import($data);
+        \Think\Hook::import($data,false);
     }
 }
 
