@@ -81,7 +81,7 @@ class ThinkController extends AdminController {
             /* 查询记录总数 */
             $count = M($name)->where($map)->count();
         }
-            
+
         //分页
 
         if($count > $row){

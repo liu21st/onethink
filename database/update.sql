@@ -46,8 +46,18 @@ ADD COLUMN `bookmark`  int UNSIGNED NOT NULL COMMENT '收藏数' AFTER `template
 */
 CREATE TABLE `onethink_userdata` (
 `uid`  int UNSIGNED NOT NULL COMMENT '用户id' ,
-`type`  tinyint UNSIGNED NOT NULL COMMENT '类型标识:1:收藏' ,
+`type`  tinyint UNSIGNED NOT NULL COMMENT '类型标识:1:收藏;建议二次开发使用10以上数字，10以下留给系统' ,
 `target_id`  int UNSIGNED NOT NULL COMMENT '目标id' ,
 UNIQUE INDEX (`uid`, `type`, `target_id`)
 )
+;
+/**
+统计扩展数据
+*/
+CREATE TABLE `onethink_statistics` (
+`key`  tinyint UNSIGNED NOT NULL COMMENT '数据标识：１-搜索关键词统计;建议二次开发使用10以上数字，10以下留给系统' ,
+`value`  varchar(20) NOT NULL COMMENT '需要统计的数据' ,
+`count`  int UNSIGNED NOT NULL COMMENT '统计值' ,
+UNIQUE INDEX (`key`, `value`)
+) COMMENT='统计扩展数据表'
 ;
