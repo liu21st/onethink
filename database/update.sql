@@ -61,3 +61,12 @@ CREATE TABLE `onethink_statistics` (
 UNIQUE INDEX (`key`, `value`)
 ) COMMENT='统计扩展数据表'
 ;
+/**
+加上主键字段
+2013-11-6
+*/
+ALTER TABLE `onethink_member`
+ADD COLUMN `id`  int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键' FIRST ,
+DROP PRIMARY KEY,
+ADD PRIMARY KEY (`id`),
+ADD UNIQUE INDEX `ix_uid` (`uid`) USING BTREE ;
