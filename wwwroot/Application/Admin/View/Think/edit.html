@@ -21,7 +21,7 @@
             <volist name="fields[$key]" id="field">
                 <if condition="$field['is_show'] == 1 || $field['is_show'] == 3">
                 <div class="form-item cf">
-                    <label class="item-label">{$field['title']}<span class="check-tips">（{$field['remark']}）</span></label>
+                    <label class="item-label">{$field['title']}<span class="check-tips"><notempty name="field['remark']">（{$field['remark']}）</notempty></span></label>
                     <div class="controls">
                         <switch name="field.type">
                             <case value="num">
@@ -51,6 +51,20 @@
                                         <option value="{$key}" <eq name="data[$field['name']]" value="$key">selected</eq>>{$vo}</option>
                                     </volist>
                                 </select>
+                            </case>
+                            <case value="radio">
+                                <volist name=":parse_field_attr($field['extra'])" id="vo">
+                                	<label>
+                                    {$vo}&nbsp;&nbsp;<input type="radio" value="{$key}" name="{$field.name}" <eq name="data[$field['name']]" value="$key">checked="checked"</eq>>&nbsp;&nbsp;&nbsp;&nbsp;
+                                	</label>
+                                </volist>
+                            </case>
+                            <case value="checkbox">
+                                <volist name=":parse_field_attr($field['extra'])" id="vo">
+                                	<label>
+                                    {$vo}&nbsp;&nbsp;<input type="checkbox" value="{$key}" name="{$field.name}" <eq name="data[$field['name']]" value="$key">checked="checked"</eq>>&nbsp;&nbsp;&nbsp;&nbsp;
+                                	</label>
+                                </volist>
                             </case>
                             <case value="editor">
                                 <label class="textarea">

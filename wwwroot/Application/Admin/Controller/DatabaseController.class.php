@@ -36,7 +36,7 @@ class DatabaseController extends AdminController{
                 foreach ($glob as $name => $file) {
                     if(preg_match('/^\d{8,8}-\d{6,6}-\d+\.sql(?:\.gz)?$/', $name)){
                         $name = sscanf($name, '%4s%2s%2s-%2s%2s%2s-%d');
-                        
+
                         $date = "{$name[0]}-{$name[1]}-{$name[2]}";
                         $time = "{$name[3]}:{$name[4]}:{$name[5]}";
                         $part = $name[6];
@@ -49,7 +49,7 @@ class DatabaseController extends AdminController{
                             $info['part'] = $part;
                             $info['size'] = $file->getSize();
                         }
-                        
+
                         $extension        = strtoupper($file->getExtension());
                         $info['compress'] = ($extension === 'SQL') ? '-' : $extension;
                         $info['time']     = strtotime("{$date} {$time}");
@@ -59,7 +59,7 @@ class DatabaseController extends AdminController{
                 }
                 $title = '数据还原';
                 break;
-            
+
             /* 数据备份 */
             case 'export':
                 $Db    = Db::getInstance();
@@ -67,7 +67,7 @@ class DatabaseController extends AdminController{
                 $list  = array_map('array_change_key_case', $list);
                 $title = '数据备份';
                 break;
-            
+
             default:
                 $this->error('参数错误！');
         }
@@ -89,7 +89,7 @@ class DatabaseController extends AdminController{
             if(is_array($tables)){
                 $tables = implode('`,`', $tables);
                 $list = $Db->query("OPTIMIZE TABLE `{$tables}`");
-                
+
                 if($list){
                     $this->success("数据表优化完成！");
                 } else {
@@ -119,7 +119,7 @@ class DatabaseController extends AdminController{
             if(is_array($tables)){
                 $tables = implode('`,`', $tables);
                 $list = $Db->query("REPAIR TABLE `{$tables}`");
-                
+
                 if($list){
                     $this->success("数据表修复完成！");
                 } else {
@@ -174,7 +174,7 @@ class DatabaseController extends AdminController{
                 'compress' => C('DATA_BACKUP_COMPRESS'),
                 'level'    => C('DATA_BACKUP_COMPRESS_LEVEL'),
             );
-            
+
             //检查是否有正在执行的任务
             $lock = "{$config['path']}backup.lock";
             if(is_file($lock)){
@@ -187,14 +187,14 @@ class DatabaseController extends AdminController{
             //检查备份目录是否可写
             is_writeable($config['path']) || $this->error('备份目录不存在或不可写，请检查后重试！');
             session('backup_config', $config);
-            
+
             //生成备份文件信息
             $file = array(
                 'name' => date('Ymd-His', NOW_TIME),
                 'part' => 1,
             );
             session('backup_file', $file);
-            
+
             //缓存要备份的表
             session('backup_tables', $tables);
 
