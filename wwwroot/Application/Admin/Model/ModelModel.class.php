@@ -75,7 +75,7 @@ class ModelModel extends Model{
      * @author huajie <banhuajie@163.com>
      */
     protected function getFields($fields){
-    	return json_encode($fields);
+    	return empty($fields) ? '' : json_encode($fields);
     }
 
     /**
