@@ -54,15 +54,15 @@
                             </case>
                             <case value="radio">
                                 <volist name=":parse_field_attr($field['extra'])" id="vo">
-                                	<label>
-                                    {$vo}&nbsp;&nbsp;<input type="radio" value="{$key}" name="{$field.name}">&nbsp;&nbsp;&nbsp;&nbsp;
+                                	<label class="radio">
+                                    <input type="radio" value="{$key}" name="{$field.name}">{$vo}
                                 	</label>
                                 </volist>
                             </case>
                             <case value="checkbox">
                                 <volist name=":parse_field_attr($field['extra'])" id="vo">
-                                	<label>
-                                    {$vo}&nbsp;&nbsp;<input type="checkbox" value="{$key}" name="{$field.name}">&nbsp;&nbsp;&nbsp;&nbsp;
+                                	<label class="checkbox">
+                                    <input type="checkbox" value="{$key}" name="{$field.name}">{$vo}
                                 	</label>
                                 </volist>
                             </case>
