@@ -29,7 +29,7 @@ class ThinkController extends AdminController {
         //获取模型信息
         $model = M('Model')->getByName($model);
         $model || $this->error('模型不存在！');
-
+		
         //解析列表规则
         $fields = array();
         $grids  = preg_split('/[;\r\n]+/s', $model['list_grid']);
@@ -39,7 +39,19 @@ class ThinkController extends AdminController {
             $value    = array('field' => $val[0], 'title' => $val[1]);
             $fields[] = $val[0][0];
         }
-
+		// 关键字搜索
+		$map	=	array();
+		$key	=	$model['search_key']?$model['search_key']:'title';
+		if(isset($_REQUEST[$key])){
+			$map[$key]	=	array('like','%'.$_GET[$key].'%');
+			unset($_REQUEST[$key]);
+		}
+		// 条件搜索
+		foreach($_REQUEST as $name=>$val){
+			if(in_array($name,$fields)){
+				$map[$name]	=	$val;
+			}
+		}
         $row    = empty($model['list_row']) ? 10 : $model['list_row'];
 
         //读取模型数据列表
@@ -55,10 +67,16 @@ class ThinkController extends AdminController {
                 $fields[$key] = "{$fix}{$parent}.id as id";
             }
 
+			/* 查询记录数 */
+			$count = M($parent)->join("RIGHT JOIN {$fix}{$name} ON {$fix}{$parent}.id = {$fix}{$name}.id")->where($map)->count();
+
+			// 查询数据
             $data   = M($parent)
                 ->join("RIGHT JOIN {$fix}{$name} ON {$fix}{$parent}.id = {$fix}{$name}.id")
                 /* 查询指定字段，不指定则查询所有字段 */
                 ->field(empty($fields) ? true : $fields)
+				// 查询条件
+				->where($map)
                 /* 默认通过id逆序排列 */
                 ->order("{$fix}{$parent}.id DESC")
                 /* 数据分页 */
@@ -72,16 +90,18 @@ class ThinkController extends AdminController {
             $data = M($name)
                 /* 查询指定字段，不指定则查询所有字段 */
                 ->field(empty($fields) ? true : $fields)
+				// 查询条件
+				->where($map)
                 /* 默认通过id逆序排列 */
                 ->order('id DESC')
                 /* 数据分页 */
                 ->page($page, $row)
                 /* 执行查询 */
                 ->select();
-        }
 
-		/* 查询记录总数 */
-		$count = M($name)->where($map)->count();
+			/* 查询记录总数 */
+			$count = M($name)->where($map)->count();
+        }
 
         //分页
         if($count > $row){
@@ -90,7 +110,6 @@ class ThinkController extends AdminController {
             $this->assign('_page', $page->show());
         }
 
-        //
         $this->assign('model', $model);
         $this->assign('list_grids', $grids);
         $this->assign('list_data', $data);
