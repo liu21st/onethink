@@ -4,15 +4,14 @@
     <!-- 标题栏 -->
     <div class="main-title">
         <h2>[{$model['title']}] 列表</h2>
-
     </div>
 	<div class="cf">
-	<div class="fl">
-    <div class="tools">
-        <a class="btn" href="{:U('add?model='.$model['id'])}">新 增</a>
-		<button class="btn ajax-post confirm" target-form="ids" url="{:U('del?model='.$model['id'])}">删 除</button>
-    </div>
-</div>
+		<div class="fl">
+			<div class="tools">
+				<a class="btn" href="{:U('add?model='.$model['id'])}">新 增</a>
+				<button class="btn ajax-post confirm" target-form="ids" url="{:U('del?model='.$model['id'])}">删 除</button>
+			</div>
+		</div>
 		<!-- 高级搜索 -->
 		<div class="search-form fr cf">
 			<div class="sleft">
@@ -35,7 +34,7 @@
             </div>
 		</div>
 	</div>
-	</div>
+
 
     <!-- 数据列表 -->
     <div class="data-table">
