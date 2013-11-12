@@ -232,7 +232,7 @@ class DocumentModel extends Model{
 	 * @param  boolean $filed    查询字段
 	 * @return array             数据列表
 	 */
-	public function position($pos, $category = null, $limit = null, $filed = true){
+	public function position($pos, $category = null, $limit = null, $field = true){
 		$map = $this->listMap($category, 1, $pos);
 
 		/* 设置列表数量 */
