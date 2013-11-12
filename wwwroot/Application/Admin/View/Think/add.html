@@ -17,7 +17,7 @@
     <form id="form" action="{:U('add?model='.$model['id'])}" method="post" class="form-horizontal">
         <!-- 基础文档模型 -->
 		<volist name=":parse_config_attr($model['field_group'])" id="group">
-        <div id="tab{$key}" class="tab-pane in tab{$key}">
+        <div id="tab{$key}" class="tab-pane <eq name="key" value="1">in</eq> tab{$key}">
             <volist name="fields[$key]" id="field">
                 <if condition="$field['is_show'] == 1 || $field['is_show'] == 2">
                 <div class="form-item cf">
