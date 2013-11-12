@@ -55,7 +55,7 @@ class ThinkController extends AdminController {
             }
 
             $data   = M($parent)
-                ->join("{$fix}{$name} ON {$fix}{$parent}.id = {$fix}{$name}.id")
+                ->join("RIGHT JOIN {$fix}{$name} ON {$fix}{$parent}.id = {$fix}{$name}.id")
                 /* 查询指定字段，不指定则查询所有字段 */
                 ->field(empty($fields) ? true : $fields)
                 /* 默认通过id逆序排列 */
@@ -94,6 +94,7 @@ class ThinkController extends AdminController {
         $this->assign('model', $model);
         $this->assign('list_grids', $grids);
         $this->assign('list_data', $data);
+		$this->meta_title = $model['title'].'列表';
         $this->display($model['template_list']);
     }
 
@@ -139,6 +140,7 @@ class ThinkController extends AdminController {
             $this->assign('model', $model);
             $this->assign('fields', $fields);
             $this->assign('data', $data);
+			$this->meta_title = '编辑'.$model['title'];
             $this->display();
         }
     }
@@ -161,6 +163,7 @@ class ThinkController extends AdminController {
 
             $this->assign('model', $model);
             $this->assign('fields', $fields);
+			$this->meta_title = '新增'.$model['title'];
             $this->display();
         }
     }
