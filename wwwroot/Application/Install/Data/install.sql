@@ -166,7 +166,7 @@ CREATE TABLE `onethink_auth_extend` (
   `group_id` mediumint(10) unsigned NOT NULL COMMENT '用户id',
   `extend_id` mediumint(8) unsigned NOT NULL COMMENT '扩展表中数据的id',
   `type` tinyint(1) unsigned NOT NULL COMMENT '扩展类型标识 1:栏目分类权限;2:模型权限',
-  UNIQUE KEY `group_extend_type` (`group_id`,`extend_id`,`type`) USING HASH,
+  UNIQUE KEY `group_extend_type` (`group_id`,`extend_id`,`type`),
   KEY `uid` (`group_id`),
   KEY `group_id` (`extend_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户组与分类的对应关系表';
