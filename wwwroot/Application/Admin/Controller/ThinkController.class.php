@@ -37,6 +37,9 @@ class ThinkController extends AdminController {
             $val      = explode(':', $value);
             $val[0]   = explode('|', $val[0]);
             $value    = array('field' => $val[0], 'title' => $val[1]);
+			if(isset($val[2])){
+				$value['href']	=	$val[2];
+			}
             $fields[] = $val[0][0];
         }
 		// 关键字搜索

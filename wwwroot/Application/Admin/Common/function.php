@@ -11,11 +11,15 @@
  * 后台公共文件
  * 主要定义后台公共函数库
  */
-function get_list_field($data, $field){
+function get_list_field($data, $field,$href=''){
     $value = $data[$field[0]];
     if(isset($field[1])){
         $value = call_user_func($field[1], $value);
     }
+	if($href){
+		$href	=	preg_replace_callback('/\[(\w+)\]/', function($match) use($data){return $data[$match[1]];}, $href); 
+		$value	=	'<a href="'.U($href).'">'.$value.'</a>';
+	}
     return $value;
 }
 
