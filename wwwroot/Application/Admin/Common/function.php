@@ -40,8 +40,12 @@ function get_list_field($data, $grid,$model){
                 $val[]  =   $data2[$matches[1]];
             }else{
                 $show   =   isset($array[1])?$array[1]:$value;
-                // 替换系统特殊变量
-                $href	=	str_replace('[MODEL]',$model['id'],$href);
+                // 替换系统特殊字符串
+                $href	=	str_replace(
+                    array('[DELETE]','[EDIT]','[MODEL]'),
+                    array('del?id=[id]&model=[MODEL]','edit?id=[id]&model=[MODEL]',$model['id'],),
+                    $href);
+
                 // 替换数据变量
                 $href	=	preg_replace_callback('/\[([a-z]+)\]/', function($match) use($data){return $data[$match[1]];}, $href); 
 
