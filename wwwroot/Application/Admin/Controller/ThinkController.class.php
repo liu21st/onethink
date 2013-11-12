@@ -40,11 +40,12 @@ class ThinkController extends AdminController {
             $fields[] = $val[0][0];
         }
 
+        $row    = empty($model['list_row']) ? 10 : $model['list_row'];
+
         //读取模型数据列表
         if($model['extend']){
             $name   = get_table_name($model['id']);
             $parent = get_table_name($model['extend']);
-            $row    = empty($model['list_row']) ? 10 : $model['list_row'];
             $fix    = C("DB_PREFIX");
 
             $key = array_search('id', $fields);
@@ -64,10 +65,10 @@ class ThinkController extends AdminController {
                 ->page($page, $row)
                 /* 执行查询 */
                 ->select();
+
         } else {
             in_array('id', $fields) || array_push($fields, 'id');
             $name = parse_name(get_table_name($model['id']), true);
-            $row  = empty($model['list_row']) ? 10 : $model['list_row'];
             $data = M($name)
                 /* 查询指定字段，不指定则查询所有字段 */
                 ->field(empty($fields) ? true : $fields)
@@ -77,13 +78,12 @@ class ThinkController extends AdminController {
                 ->page($page, $row)
                 /* 执行查询 */
                 ->select();
-
-            /* 查询记录总数 */
-            $count = M($name)->where($map)->count();
         }
 
-        //分页
+		/* 查询记录总数 */
+		$count = M($name)->where($map)->count();
 
+        //分页
         if($count > $row){
             $page = new \COM\Page($count, $row);
             $page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
