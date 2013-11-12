@@ -13,7 +13,7 @@
  */
 function get_list_field($data, $grid,$model){
 	$fields	=	$grid['field'];
-	$href	=	$grid['href'];
+
 	// 获取当前字段数据
     foreach($fields as $field){
         $array  =   explode('|',$field);
@@ -22,9 +22,13 @@ function get_list_field($data, $grid,$model){
         if(isset($array[1])){
             $temp = call_user_func($array[1], $temp);
         }
-        $value[]    =   $temp;
+        $data2[$array[0]]    =   $temp;
     }
-    $value  =   implode(' ',$value);
+    if(!empty($grid['format'])){
+        $value  =   preg_replace_callback('/\[([a-z]+)\]/', function($match) use($data2){return $data2[$match[1]];}, $grid['format']); 
+    }else{
+        $value  =   implode(' ',$data2);
+    }
 
 	// 链接支持
 	if($grid['href']){
@@ -32,13 +36,17 @@ function get_list_field($data, $grid,$model){
         foreach($links as $link){
             $array  =   explode('|',$link);
             $href   =   $array[0];
-            $show   =   isset($array[1])?$array[1]:$value;
-            // 替换系统特殊变量
-            $href	=	str_replace('[MODEL]',$model['id'],$href);
-            // 替换数据变量
-            $href	=	preg_replace_callback('/\[([a-z]+)\]/', function($match) use($data){return $data[$match[1]];}, $href); 
+            if(preg_match('/^\[([a-z]+)\]$/',$href,$matches)){
+                $val[]  =   $data2[$matches[1]];
+            }else{
+                $show   =   isset($array[1])?$array[1]:$value;
+                // 替换系统特殊变量
+                $href	=	str_replace('[MODEL]',$model['id'],$href);
+                // 替换数据变量
+                $href	=	preg_replace_callback('/\[([a-z]+)\]/', function($match) use($data){return $data[$match[1]];}, $href); 
 
-            $val[]	=	'<a href="'.U($href).'">'.$show.'</a>';
+                $val[]	=	'<a href="'.U($href).'">'.$show.'</a>';
+            }
         }
         $value  =   implode(' ',$val);
 	}
