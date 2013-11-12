@@ -58,8 +58,8 @@
                     <volist name="list_data" id="data">
                         <tr>
                             <td><input class="ids" type="checkbox" value="{$data['id']}" name="ids[]"></td>
-                            <volist name="list_grids" id="field">
-                                <td>{:get_list_field($data, $field['field'],$field['href'])}</td>
+                            <volist name="list_grids" id="grid">
+                                <td>{:get_list_field($data,$grid,$model)}</td>
                             </volist>
                             <td>
                                 <a href="{:U('edit?model='.$model['id'].'&id='.$data['id'])}">编辑</a>

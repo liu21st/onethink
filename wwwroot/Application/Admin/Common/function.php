@@ -11,13 +11,23 @@
  * 后台公共文件
  * 主要定义后台公共函数库
  */
-function get_list_field($data, $field,$href=''){
-    $value = $data[$field[0]];
+function get_list_field($data, $grid,$model){
+	$field	=	$grid['field'];
+	$href	=	$grid['href'];
+	// 获取当前字段数据
+    $value	=	$data[$field[0]];
+
+	// 函数支持
     if(isset($field[1])){
         $value = call_user_func($field[1], $value);
     }
+	// 链接支持
 	if($href){
+		// 替换系统特殊变量
+		$href	=	str_replace('[MODEL]',$model['id'],$href);
+		// 替换数据变量
 		$href	=	preg_replace_callback('/\[(\w+)\]/', function($match) use($data){return $data[$match[1]];}, $href); 
+
 		$value	=	'<a href="'.U($href).'">'.$value.'</a>';
 	}
     return $value;
