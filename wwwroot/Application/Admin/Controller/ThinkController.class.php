@@ -34,14 +34,24 @@ class ThinkController extends AdminController {
         $fields = array();
         $grids  = preg_split('/[;\r\n]+/s', $model['list_grid']);
         foreach ($grids as &$value) {
+			// 字段:标题:链接
             $val      = explode(':', $value);
-            $val[0]   = explode('|', $val[0]);
-            $value    = array('field' => $val[0], 'title' => $val[1]);
+			// 支持多个字段显示
+            $field   = explode(',', $val[0]);
+            $value    = array('field' => $field, 'title' => $val[1]);
 			if(isset($val[2])){
+                // 链接信息
 				$value['href']	=	$val[2];
+                // 搜索链接信息中的字段信息
+                preg_replace_callback('/\[([a-z]+)\]/', function($match) use(&$fields){$fields[$match[1]]=$match[1];}, $value['href']); 
 			}
-            $fields[] = $val[0][0];
+			foreach($field as $val){
+				$array	=	explode('|',$val);
+                $fields[$array[0]] = $array[0];
+			}
         }
+        // 过滤重复字段信息
+        $fields =   array_unique($fields);
 		// 关键字搜索
 		$map	=	array();
 		$key	=	$model['search_key']?$model['search_key']:'title';
