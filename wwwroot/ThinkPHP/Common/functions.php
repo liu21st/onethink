@@ -438,7 +438,7 @@ function M($name='', $tablePrefix='',$connection='') {
     }else{
         $class      =   'Think\\Model';
     }
-    $guid           =   $tablePrefix . $name . '_' . $class;
+    $guid           =   (is_array($connection)?implode('',$connection):$connection).$tablePrefix . $name . '_' . $class;
     if (!isset($_model[$guid]))
         $_model[$guid] = new $class($name,$tablePrefix,$connection);
     return $_model[$guid];
