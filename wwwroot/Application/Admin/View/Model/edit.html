@@ -51,7 +51,7 @@
 							<ul class="dragsort">
 								<foreach name="fields" item="field" key="k">
 										<li >
-											<em >{$field['name']}({$field['title']})</em>
+											<em >{$field['title']} [{$field['name']}]</em>
 										</li>
 								</foreach>
 							</ul>
@@ -74,7 +74,7 @@
 								<foreach name="fields" item="field" key="k">
 									<if condition="($field['group'] eq $key) or (($i eq 1) and ($field['group'] eq 1))">
 										<li class="getSort">
-											<em data="{$field['id']}">{$field['name']}({$field['title']})</em>
+											<em data="{$field['id']}">{$field['title']} [{$field['name']}]</em>
 											<input type="hidden" name="field_sort[{$key}][]" value="{$field['id']}"/>
 										</li>
 									</if>

@@ -37,6 +37,7 @@
 			<label class="item-label">配置分组<span class="check-tips">（配置分组 用于批量设置）</span></label>
 			<div class="controls">
 				<select name="group">
+					<option value="0">不分组</option>
 					<volist name="Think.config.CONFIG_GROUP_LIST" id="group">
 						<option value="{$key}">{$group}</option>
 					</volist>
