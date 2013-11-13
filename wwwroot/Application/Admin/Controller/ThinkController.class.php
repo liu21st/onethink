@@ -43,7 +43,7 @@ class ThinkController extends AdminController {
                 // 链接信息
 				$value['href']	=	$val[2];
                 // 搜索链接信息中的字段信息
-                preg_replace_callback('/\[([a-z]+)\]/', function($match) use(&$fields){$fields[$match[1]]=$match[1];}, $value['href']); 
+                preg_replace_callback('/\[([a-z]+)\]/', function($match) use(&$fields){$fields[]=$match[1];}, $value['href']); 
 			}
             if(strpos($val[1],'|')){
                 // 显示格式定义
@@ -51,7 +51,7 @@ class ThinkController extends AdminController {
             }
 			foreach($field as $val){
 				$array	=	explode('|',$val);
-                $fields[$array[0]] = $array[0];
+                $fields[] = $array[0];
 			}
         }
         // 过滤重复字段信息
@@ -85,11 +85,11 @@ class ThinkController extends AdminController {
             }
 
 			/* 查询记录数 */
-			$count = M($parent)->join("RIGHT JOIN {$fix}{$name} ON {$fix}{$parent}.id = {$fix}{$name}.id")->where($map)->count();
+			$count = M($parent)->join("INNER JOIN {$fix}{$name} ON {$fix}{$parent}.id = {$fix}{$name}.id")->where($map)->count();
 
 			// 查询数据
             $data   = M($parent)
-                ->join("RIGHT JOIN {$fix}{$name} ON {$fix}{$parent}.id = {$fix}{$name}.id")
+                ->join("INNER JOIN {$fix}{$name} ON {$fix}{$parent}.id = {$fix}{$name}.id")
                 /* 查询指定字段，不指定则查询所有字段 */
                 ->field(empty($fields) ? true : $fields)
 				// 查询条件

@@ -12,10 +12,9 @@
  * 主要定义后台公共函数库
  */
 function get_list_field($data, $grid,$model){
-	$fields	=	$grid['field'];
 
 	// 获取当前字段数据
-    foreach($fields as $field){
+    foreach($grid['field'] as $field){
         $array  =   explode('|',$field);
         $temp  =	$data[$array[0]];
         // 函数支持
