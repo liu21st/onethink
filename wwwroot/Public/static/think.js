@@ -122,7 +122,7 @@
 				if(suffix){
 					url += "." + suffix;
 				}
-				}
+			}
 		}
 
 		url = this.APP + url;
