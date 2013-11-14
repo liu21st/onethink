@@ -1,4 +1,4 @@
 <?php
-	return array(
-		'app_init'=>array('Common\Behavior\InitApp')
-    );
+return array(
+	'app_init'=>array('Common\Behavior\InitHook')
+);
