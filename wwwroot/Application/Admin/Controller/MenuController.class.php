@@ -47,7 +47,7 @@ class MenuController extends AdminController {
     }
 
     /**
-     * 新增彩电
+     * 新增菜单
      * @author yangweijie <yangweijiester@gmail.com>
      */
     public function add(){

@@ -216,6 +216,7 @@ str;
         if(!class_exists($class))
             $this->error('插件不存在');
         $addon  =   new $class();
+        $this->assign('addon', $addon);
         $param  =   $addon->admin_list;
         if(!$param)
             $this->error('插件列表信息不正确');

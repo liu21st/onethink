@@ -41,7 +41,7 @@ class AdminController extends Controller {
         C($config); //添加配置
 
         // 初始化钩子
-        init_hooks();
+        // init_hooks();
 
         // 是否是超级管理员
         define('IS_ROOT',   is_administrator());
