@@ -113,7 +113,6 @@ class Think extends TagLib{
         if(!empty($tag['gc'])) {
             $parseStr .= '<?php unset($'.$result.');?>';
         }
-        $parseStr .= "<?php endif;?>";
         return $parseStr;
     }
 
