@@ -9,12 +9,13 @@
 namespace OT\TagLib;
 use Think\Template\TagLib;
 /**
- * OT文档模型标签库
+ * OT系统标签库
  */
-class Ot extends TagLib{
+class Think extends TagLib{
     // 标签定义
     protected $tags   =  array(
         // 标签定义： attr 属性列表 close 是否闭合（0 或者1 默认1） alias 标签别名 level 嵌套层次
+		'nav'		=>	array('attr' => 'field,name', 'close' => 1), //获取导航
         'query'     =>  array('attr'=>'sql,result','close'=>0),
         'cate'      =>  array('attr'=>'id,name,limit,pid,result','level'=>3),
         'article'   =>  array('attr'=>'id,name,cate,pid,pos,type,limit,where,order,field','level'=>3),
@@ -22,6 +23,20 @@ class Ot extends TagLib{
         'data'      =>  array('attr'=>'name,field,limit,order,where,join,group,having,table,result,gc','level'=>2),
         'datalist'  =>  array('attr'=>'name,field,limit,order,where,table,join,having,group,result,count,key,mod,gc','level'=>3),
         );
+
+	/* 导航列表 */
+	public function _nav($attr, $content){
+		$tag    = $this->parseXmlAttr($attr, 'next');
+		$filed  = empty($tag['filed']) ? 'true' : $tag['filed'];
+		$name   = $tag['name'];
+		$parse  = $parse   = '<?php ';
+		$parse .= '$__NAV__ = D(\'Channel\')->lists(' . $field . ');';
+		$parse .= ' ?>';
+		$parse .= '<volist name="__NAV__" id="'. $name .'">';
+		$parse .= $content;
+		$parse .= '</volist>';
+		return $parse;
+	}
 
     // sql查询
     public function _query($attr,$content) {
@@ -179,7 +194,7 @@ class Ot extends TagLib{
         $order   =  empty($tag['order'])?'level desc,create_time desc':$tag['order'];
         $join   =   'INNER JOIN __'.strtoupper($name).'__ ON __DOCUMENT__.id = __'.strtoupper($name).'__.id';
         if(!empty($tag['id'])) { // 获取单个数据
-            $parseStr   =  '<data name="Document" where="status=1 AND id='.$tag['id'].'" field="'.$tag['field'].'" result="'.$result.'" order="'.$order.'" join="'.$join.'" >'.$content.'</data>';
+			return $this->_data('name="Document" where="status=1 AND id='.$tag['id'].'" field="'.$tag['field'].'" result="'.$result.'" order="'.$order.'" join="'.$join.'"',$content);
         }else{ // 获取数据集
             $where = 'status=1 ';
             
@@ -202,10 +217,8 @@ class Ot extends TagLib{
             if(!empty($tag['where'])) {
                 $where  .=  ' AND '.$tag['where'];
             }
-
-            $parseStr = '<datalist name="Document" where="'.$where.'" field="'.$tag['field'].'" result="'.$result.'" order="'.$order.'" join="'.$join.'" limit="'.$tag['limit'].'" >'.$content.'</datalist>';
+			return $this->_datalist('name="Document" where="'.$where.'" field="'.$tag['field'].'" result="'.$result.'" order="'.$order.'" join="'.$join.'" limit="'.$tag['limit'].'" ',$content);
         }
-        return $parseStr;
     }
 
 }

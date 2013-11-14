@@ -125,7 +125,7 @@ class Dispatcher {
             $paths      =   explode($depr,__INFO__,2);
             $allowList  =   C('MODULE_ALLOW_LIST');
             $module     =   preg_replace('/\.' . __EXT__ . '$/i', '',$paths[0]);
-            if( empty($allowList) || (is_array($allowList) && in_array($module, $allowList))){
+            if( empty($allowList) || (is_array($allowList) && in_array(ucfirst($module), $allowList))){
                 $_GET[$varModule]       =   $module;
                 $_SERVER['PATH_INFO']   =   isset($paths[1])?$paths[1]:'';     
             };
@@ -134,7 +134,7 @@ class Dispatcher {
         }
 
         // URL常量
-        define('__SELF__',strip_tags($_SERVER['REQUEST_URI']));
+        define('__SELF__',strip_tags($_SERVER[C('URL_REQUEST_URI')]));
 
         // 获取模块名称
         define('MODULE_NAME', self::getModule($varModule));
@@ -200,7 +200,7 @@ class Dispatcher {
             }
 
             $depr = C('URL_PATHINFO_DEPR');
-            $paths = explode($depr,$_SERVER['PATH_INFO']);
+            $paths = explode($depr,trim($_SERVER['PATH_INFO'],$depr));
 
             if(!isset($_GET[$varController])) {// 获取控制器
                 if(C('CONTROLLER_LEVEL')>1){// 控制器层次
