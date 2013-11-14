@@ -135,7 +135,8 @@
 
             /* 左边菜单高亮 */
             url = window.location.pathname + window.location.search;
-            $subnav.find("a[href='" + url + "']").parent().addClass("current");
+            url = url.replace(".html", "").replace(/(\/p\/\d+)|(&p=\d+)/, "");
+            $subnav.find("a[href^='" + url + "']").parent().addClass("current");
 
             /* 左边菜单显示收起 */
             $("#subnav").on("click", "h3", function(){
