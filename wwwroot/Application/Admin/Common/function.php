@@ -24,7 +24,7 @@ function get_list_field($data, $grid,$model){
         $data2[$array[0]]    =   $temp;
     }
     if(!empty($grid['format'])){
-        $value  =   preg_replace_callback('/\[([a-z]+)\]/', function($match) use($data2){return $data2[$match[1]];}, $grid['format']); 
+        $value  =   preg_replace_callback('/\[([a-z_]+)\]/', function($match) use($data2){return $data2[$match[1]];}, $grid['format']); 
     }else{
         $value  =   implode(' ',$data2);
     }
@@ -46,7 +46,7 @@ function get_list_field($data, $grid,$model){
                     $href);
 
                 // 替换数据变量
-                $href	=	preg_replace_callback('/\[([a-z]+)\]/', function($match) use($data){return $data[$match[1]];}, $href); 
+                $href	=	preg_replace_callback('/\[([a-z_]+)\]/', function($match) use($data){return $data[$match[1]];}, $href); 
 
                 $val[]	=	'<a href="'.U($href).'">'.$show.'</a>';
             }

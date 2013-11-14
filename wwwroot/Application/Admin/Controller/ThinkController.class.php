@@ -43,7 +43,7 @@ class ThinkController extends AdminController {
                 // 链接信息
 				$value['href']	=	$val[2];
                 // 搜索链接信息中的字段信息
-                preg_replace_callback('/\[([a-z]+)\]/', function($match) use(&$fields){$fields[]=$match[1];}, $value['href']); 
+                preg_replace_callback('/\[([a-z_]+)\]/', function($match) use(&$fields){$fields[]=$match[1];}, $value['href']); 
 			}
             if(strpos($val[1],'|')){
                 // 显示格式定义
