@@ -87,7 +87,7 @@ class Think extends TagLib{
         $tag        =	$this->parseXmlAttr($attr,'data');
 		$name	=	!empty($tag['name'])?$tag['name']:'Document';
         $result      =  !empty($tag['result'])?$tag['result']:'artcile';
-        $parseStr   =  '<?php $'.$result.' =M("'.$name.'")';
+        $parseStr   =  '<?php $'.$result.' =M("'.$name.'")->alias("__DOCUMENT")';
         if(!empty($tag['table'])) {
             $parseStr .= '->table("'.$tag['table'].'")';
         }
@@ -124,7 +124,7 @@ class Think extends TagLib{
         $key     =   !empty($tag['key'])?$tag['key']:'i';
         $mod    =   isset($tag['mod'])?$tag['mod']:'2';
         $count    =   isset($tag['count'])?$tag['count']:'count';
-        $parseStr   =  '<?php $'.$result.' =M("'.$name.'")';
+        $parseStr   =  '<?php $'.$result.' =M("'.$name.'")->alias("__DOCUMENT")';
         if(!empty($tag['table'])) {
             $parseStr .= '->table("'.$tag['table'].'")';
         }
@@ -191,9 +191,9 @@ class Think extends TagLib{
         $result      =  !empty($tag['result'])?$tag['result']:'article';
 		$name	=	!empty($tag['name'])?$tag['name']:'Article';
         $order   =  empty($tag['order'])?'level desc,create_time desc':$tag['order'];
-        $join   =   'INNER JOIN __'.strtoupper($name).'__ ON __DOCUMENT__.id = __'.strtoupper($name).'__.id';
+        $join   =   'INNER JOIN __DOCUMENT_'.strtoupper($name).'__ ON __DOCUMENT.id = __DOCUMENT_'.strtoupper($name).'__.id';
         if(!empty($tag['id'])) { // 获取单个数据
-			return $this->_data('name="Document" where="status=1 AND id='.$tag['id'].'" field="'.$tag['field'].'" result="'.$result.'" order="'.$order.'" join="'.$join.'"',$content);
+			return $this->_data('name="Document" where="status=1 AND __DOCUMENT.id='.$tag['id'].'" field="'.$tag['field'].'" result="'.$result.'" order="'.$order.'" join="'.$join.'"',$content);
         }else{ // 获取数据集
             $where = 'status=1 ';
             
