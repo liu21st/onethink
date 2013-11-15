@@ -30,7 +30,7 @@ function get_list_field($data, $grid,$model){
     }
 
 	// 链接支持
-	if($grid['href']){
+	if(!empty($grid['href'])){
 		$links  =   explode(',',$grid['href']);
         foreach($links as $link){
             $array  =   explode('|',$link);

@@ -256,7 +256,7 @@ class AdminController extends Controller {
      */
     final public function getMenus($controller=CONTROLLER_NAME){
         // $menus  =   session('ADMIN_MENU_LIST'.$controller);
-        if(!$menus){
+        if(empty($menus)){
 			// 获取主菜单
 			$where['pid']	=	0;
 			$where['hide']	=	0;

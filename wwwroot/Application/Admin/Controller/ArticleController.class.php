@@ -213,6 +213,7 @@ class ArticleController extends \Admin\Controller\AdminController {
             }
 
             $this->assign('list_grids', $grids);
+            $this->assign('model_list', $model);
             $this->display($template);
         }else{
             $this->error('非法的文档分类');
@@ -279,7 +280,7 @@ class ArticleController extends \Admin\Controller\AdminController {
         //检查该分类是否允许发布内容
         $allow_publish  =   get_category($cate_id, 'allow_publish');
 
-        $this->assign('model',  array(1));
+        $this->assign('model',  array(2));
         $this->assign('status', $status);
         $this->assign('list',   $list);
         $this->assign('allow',  $allow_publish);
