@@ -16,7 +16,7 @@ return array(
     'AUTOLOAD_NAMESPACE' => array('Addons' => ONETHINK_ADDON_PATH), //扩展模块列表
     'DEFAULT_MODULE'     => 'Home',
     'MODULE_DENY_LIST'   => array('Common'),
-    'MODULE_ALLOW_LIST'  => array('Home','Admin'),
+    //'MODULE_ALLOW_LIST'  => array('Home','Admin'),
 
     /* 系统数据加密设置 */
     'DATA_AUTH_KEY' => 'kWdi?&#LZ[PYjDag4*7z,Rf/|CxpVtN)@09UsvBq', //默认数据加密KEY
@@ -49,5 +49,4 @@ return array(
 
     /* 文档模型配置 (文档模型核心配置，请勿更改) */
     'DOCUMENT_MODEL_TYPE' =>    array(2 => '主题', 1 => '目录', 3 => '段落'),
-    'TAGLIB_PRE_LOAD'     =>    'OT\\TagLib\\Article,OT\\TagLib\\Think',
 );
