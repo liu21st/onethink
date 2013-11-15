@@ -158,6 +158,34 @@ class ArticleController extends \Admin\Controller\AdminController {
             $cate_id = $this->cate_id;
         }
 
+        //获取模型信息
+        $model = M('Model')->getByName('document');
+        
+        //解析列表规则
+        $fields = array();
+        $grids  = preg_split('/[;\r\n]+/s', $model['list_grid']);
+        foreach ($grids as &$value) {
+            // 字段:标题:链接
+            $val      = explode(':', $value);
+            // 支持多个字段显示
+            $field   = explode(',', $val[0]);
+            $value    = array('field' => $field, 'title' => $val[1]);
+            if(isset($val[2])){
+                // 链接信息
+                $value['href']  =   $val[2];
+                // 搜索链接信息中的字段信息
+                preg_replace_callback('/\[([a-z_]+)\]/', function($match) use(&$fields){$fields[]=$match[1];}, $value['href']); 
+            }
+            if(strpos($val[1],'|')){
+                // 显示格式定义
+                list($value['title'],$value['format'])    =   explode('|',$val[1]);
+            }
+            foreach($field as $val){
+                $array  =   explode('|',$val);
+                $fields[] = $array[0];
+            }
+        }
+
         //获取对应分类下的模型
         if(!empty($cate_id)){   //没有权限则不查询数据
             //获取分类绑定的模型
@@ -180,6 +208,8 @@ class ArticleController extends \Admin\Controller\AdminController {
                         }
                 }
             }
+
+            $this->assign('list_grids', $grids);
             $this->display($template);
         }else{
             $this->error('非法的文档分类');

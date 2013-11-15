@@ -88,52 +88,31 @@
 
 	<!-- 数据表格 -->
     <div class="data-table">
-        <?php
-            $thead = array(
-                '_html'=>array(
-                    '_th'=>'row-selected',
-                    'th'=>'<input class="check-all" type="checkbox"/>',
-                    'td'=>'<input class="ids" type="checkbox" name="ids[]" value="$id" />',
-                ),
-				'id'=>'编号',
-                'title'=>array(
-                    '_title'=>'标题',
-                    'tag'   =>'a',
-                    'href'  =>'Article/index?cate_id=$category_id&pid=$id',
-                ),
-				'pid'=>array(
-					'_title'=>'子文档',
-					'tag'   =>'span',
-					'func'	=>	'get_subdocument_count($id)',
-				),
-				'type'=>array(
-					'_title'=>'类型',
-					'tag'   =>'span',
-					'func'	=>	'get_document_type($type)',
-				),
-                'level'=>'优先级',
-                'uid'  =>array(
-                    '_title'=>'创建者',
-                    'tag' =>'span',
-                    'func'  =>'get_username($uid)',
-                ),
-                'update_time'=>array(
-                    '_title'=>'最后更新',
-                    'tag'   =>'span',
-                    'func'  => 'date("m-d H:i",$update_time)',
-                ),
-                'status_text'=>'状态',
-                'view'=>'浏览',
-                '操作'=>array(
-					'编辑'=>array( 'href' => 'Article/edit?cate_id=$category_id&id=$id',),
-                    '审核'=>array( 'href' => 'Article/setStatus?status=1&ids=$id', 'class'=>'ajax-get', 'condition'=>'$status==2',),
-                    '禁用'=>array( 'href' => 'Article/setStatus?status=0&ids=$id', 'class'=>'ajax-get', 'condition'=>'$status==1',),
-                    '启用'=>array( 'href' => 'Article/setStatus?status=1&ids=$id', 'class'=>'ajax-get', 'condition'=>'$status==0',),
-                    '删除'=>array( 'href' => 'Article/setStatus?status=-1&ids=$id', 'class'=>'confirm ajax-get' ),
-                ),
-            );
-            echo $_table_list = $__controller__->tableList($list,$thead);
-        ?>
+		<table>
+            <!-- 表头 -->
+            <thead>
+                <tr>
+                    <th class="row-selected row-selected">
+                        <input class="check-all" type="checkbox">
+                    </th>
+                    <volist name="list_grids" id="field">
+                        <th>{$field.title}</th>
+                    </volist>
+                </tr>
+            </thead>
+
+            <!-- 列表 -->
+            <tbody>
+                <volist name="list" id="data">
+                    <tr>
+                        <td><input class="ids" type="checkbox" value="{$data['id']}" name="ids[]"></td>
+                        <volist name="list_grids" id="grid">
+                            <td>{:get_list_field($data,$grid,$model)}</td>
+                        </volist>
+                    </tr>
+                </volist>
+            </tbody>
+        </table>
 	</div>
 	<!-- 分页 -->
     <div class="page">
