@@ -214,6 +214,31 @@ function list_to_tree($list, $pk='id', $pid = 'pid', $child = '_child', $root = 
 }
 
 /**
+ * 将list_to_tree的树还原成列表
+ * @param  array $tree  原来的树
+ * @param  string $child 孩子节点的键
+ * @param  string $order 排序显示的键，一般是主键 升序排列
+ * @param  array  $list  过渡用的中间数组，
+ * @return array        返回排过序的列表数组
+ * @author yangweijie <yangweijiester@gmail.com>
+ */
+function tree_to_list($tree, $child = '_child', $order='id', $list = array()){
+    if(is_array($tree)) {
+        $refer = array();
+        foreach ($tree as $key => $value) {
+            $reffer = $value;
+            if(isset($reffer[$child])){
+                unset($reffer[$child]);
+                tree_to_list($value[$child], $child, $order, &$list);
+            }
+            $list[] = $reffer;
+        }
+        $list = list_sort_by($list, $order, $sortby='asc');
+    }
+    return $list;
+}
+
+/**
  * 格式化字节大小
  * @param  number $size      字节数
  * @param  string $delimiter 数字和单位分隔符
