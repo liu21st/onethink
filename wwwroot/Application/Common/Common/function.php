@@ -222,14 +222,14 @@ function list_to_tree($list, $pk='id', $pid = 'pid', $child = '_child', $root = 
  * @return array        返回排过序的列表数组
  * @author yangweijie <yangweijiester@gmail.com>
  */
-function tree_to_list($tree, $child = '_child', $order='id', $list = array()){
+function tree_to_list($tree, $child = '_child', $order='id', &$list = array()){
     if(is_array($tree)) {
         $refer = array();
         foreach ($tree as $key => $value) {
             $reffer = $value;
             if(isset($reffer[$child])){
                 unset($reffer[$child]);
-                tree_to_list($value[$child], $child, $order, &$list);
+                tree_to_list($value[$child], $child, $order, $list);
             }
             $list[] = $reffer;
         }
