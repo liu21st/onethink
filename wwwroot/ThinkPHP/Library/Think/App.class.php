@@ -35,7 +35,7 @@ class App {
         define('IS_AJAX',       ((isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') || !empty($_POST[C('VAR_AJAX_SUBMIT')]) || !empty($_GET[C('VAR_AJAX_SUBMIT')])) ? true : false);
 
         // URL调度结束标签
-        Hook::listen('url_dispatch');         
+        Hook::listen('url_dispatch');
 
         // 日志目录转换为绝对路径
         C('LOG_PATH',realpath(LOG_PATH).'/');
@@ -112,7 +112,7 @@ class App {
                             $args[] =   $param->getDefaultValue();
                         }else{
                             E(L('_PARAM_ERROR_').':'.$name);
-                        }   
+                        }
                     }
                     $method->invokeArgs($module,$args);
                 }else{
@@ -129,7 +129,7 @@ class App {
                 // 操作方法不是Public 抛出异常
                 throw new \ReflectionException();
             }
-        } catch (\ReflectionException $e) { 
+        } catch (\ReflectionException $e) {
             // 方法调用发生异常后 引导到__call方法处理
             $method = new \ReflectionMethod($module,'__call');
             $method->invokeArgs($module,array($action,''));

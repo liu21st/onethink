@@ -1,0 +1,13 @@
+
+1
+Think\Behavior\ReadHtmlCache
+Think\Behavior\ParseTemplate
+Think\Behavior\ContentReplace
+Think\Behavior\ParseTemplate
+Think\Behavior\ContentReplace
+Think\Behavior\TokenBuild
+Think\Behavior\WriteHtmlCache
+Think\Behavior\TokenBuild
+Think\Behavior\WriteHtmlCache
+Think\Behavior\ShowPageTrace
+ininin

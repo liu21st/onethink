@@ -47,7 +47,7 @@ class MenuController extends AdminController {
     }
 
     /**
-     * 新增彩电
+     * 新增菜单
      * @author yangweijie <yangweijiester@gmail.com>
      */
     public function add(){
@@ -71,6 +71,7 @@ class MenuController extends AdminController {
             $this->assign('info',array('pid'=>I('pid')));
             $menus = M('Menu')->field(true)->select();
             $menus = D('Common/Tree')->toFormatTree($menus);
+            $menus = array_merge(array(0=>array('id'=>0,'title_show'=>'顶级菜单')), $menus);
             $this->assign('Menus', $menus);
             $this->meta_title = '新增菜单';
             $this->display('edit');
@@ -103,6 +104,8 @@ class MenuController extends AdminController {
             $info = M('Menu')->field(true)->find($id);
             $menus = M('Menu')->field(true)->select();
             $menus = D('Common/Tree')->toFormatTree($menus);
+
+            $menus = array_merge(array(0=>array('id'=>0,'title_show'=>'顶级菜单')), $menus);
             $this->assign('Menus', $menus);
             if(false === $info){
                 $this->error('获取后台菜单信息错误');

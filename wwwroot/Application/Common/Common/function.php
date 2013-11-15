@@ -246,32 +246,6 @@ function get_redirect_url(){
 }
 
 /**
- * 初始化钩子信息
- * @return void
- */
-function init_hooks(){
-    $data = S('hooks');
-    if(!$data){
-        $hooks = M('Hooks')->getField('name,addons');
-        foreach ($hooks as $key => $value) {
-            if($value){
-                $map['status']  =   1;
-                $names = explode(',',$value);
-                $map['name']    =   array('IN',$names);
-                $data = M('Addons')->where($map)->getField('id,name');
-                if($data){
-                    $addons = array_intersect($names, $data);
-                    \Think\Hook::add($key,$addons);
-                }
-            }
-        }
-        S('hooks',\Think\Hook::get());
-    }else{
-        \Think\Hook::import($data,false);
-    }
-}
-
-/**
  * 处理插件钩子
  * @param string $hook   钩子名称
  * @param mixed $params 传入参数
