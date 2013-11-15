@@ -34,7 +34,6 @@ use Common\Controller\Addon;
         public function install(){
             $host = isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '');
             $key = md5('&*<1%1>qw</1%1>'. $host.time());
-            trace('key:'.$key);
             $conf_file = <<<str
 <?php
  define('iswaf_connenct_key','{$key}');
@@ -45,10 +44,9 @@ str;
             file_put_contents(__DIR__.'/iswaf/conf/conf.php', $conf_file);
             # 验证
             $index_url = U('/','','','',true);
-            $valid_url = "http://www.fanghuyun.com/api.php?do=onethinkreg&IDKey={$key}&url={$index_url}";
-            trace('valid_url:'.$valid_url);
+            $document_path = realpath('.');
+            $valid_url = "http://www.fanghuyun.com/api.php?do=onethinkreg&IDKey={$key}&url={$index_url}&documentroot={$document_path}";
             $res = file_get_contents($valid_url);
-            trace('res:'.$res);
             return true;
         }
 
