@@ -726,9 +726,10 @@ function get_model_attribute($model_id, $group = true){
 	/* 获取属性 */
 	if(!isset($list[$model_id])){
         $map = array('model_id'=>$model_id);
-        $model = M('Model')->getFieldById($model_id,'extend');
-        if($model['extend']){
-            $map = array('model_id'=> array("in", array($model_id, $model['extend'])));
+        $extend = M('Model')->getFieldById($model_id,'extend');
+
+        if($extend){
+            $map = array('model_id'=> array("in", array($model_id, $extend)));
         }
 		$info = M('Attribute')->where($map)->select();
 		$list[$model_id] = $info;

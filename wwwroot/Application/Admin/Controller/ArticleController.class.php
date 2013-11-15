@@ -405,7 +405,6 @@ class ArticleController extends \Admin\Controller\AdminController {
 
         /* 获取要编辑的扩展模型模板 */
         $model      =   get_document_model($model_id);
-        $template   =   strtolower($model['name']);
 
         //处理结果
         $info['pid']            =   $_GET['pid']?$_GET['pid']:0;
@@ -419,15 +418,12 @@ class ArticleController extends \Admin\Controller\AdminController {
 
         //获取表单字段排序
         $fields = get_model_attribute($model['id']);
-
         $this->assign('info',       $info);
-        $this->assign('template',   $template);
         $this->assign('fields',     $fields);
-        $this->assign('extend',     $this->fetch($template));
         $this->assign('type_list',  get_type_bycate($cate_id));
         $this->assign('model',      $model);
         $this->meta_title = '新增'.$model['title'];
-        $this->display('edit');
+        $this->display();
     }
 
     /**
@@ -449,30 +445,23 @@ class ArticleController extends \Admin\Controller\AdminController {
         if(!$data){
             $this->error($Document->getError());
         }
-        $data['create_time']    =   empty($data['create_time']) ? '' : date('Y-m-d H:i',$data['create_time']);
-        $data['dateline']       =   empty($data['dateline']) ? '' : date('Y-m-d H:i',$data['dateline']);
+
         if($data['pid']){
             // 获取上级文档
             $article        =   M('Document')->field('id,title,type')->find($data['pid']);
             $this->assign('article',$article);
         }
-        $this->assign('info', $data);
+        $this->assign('data', $data);
         $this->assign('model_id', $data['model_id']);
+        
+        /* 获取要编辑的扩展模型模板 */
+        $model      =   get_document_model($data['model_id']);
+        $this->assign('model',      $model);
 
         //获取表单字段排序
-        $fields = array();
-        $extend = M('Model')->getFieldById($data['model_id'], 'extend');
-        $list = M('Attribute')->where(array('model_id'=>array('in', $data['model_id'].','.$extend)))->field('name,sort')->select();
-        foreach ($list as $value){
-        	$fields[$value['name']] = $value['sort'];
-        }
-        $this->assign('field',  $fields);
+        $fields = get_model_attribute($model['id']);
+        $this->assign('fields',     $fields);
 
-        /* 获取要编辑的模型模板 */
-        $data['template']   =   strtolower(get_document_model($data['model_id'], 'name'));
-        //获取扩展模板
-        $extend = $this->fetch($data['template']);
-        $this->assign('extend', $extend);
 
         //获取当前分类的文档类型
         $this->assign('type_list', get_type_bycate($data['category_id']));

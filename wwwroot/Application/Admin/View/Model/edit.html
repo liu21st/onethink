@@ -72,7 +72,7 @@
 							<span>{$vo}</span>
 							<ul class="dragsort" data-group="{$key}">
 								<foreach name="fields" item="field" key="k">
-									<if condition="($field['group'] eq $key) or (($i eq 1) and ($field['group'] eq 1))">
+									<if condition="(($field['group'] eq $key) or (($i eq 1) and ($field['group'] eq 1))) and ($field['is_show'] eq 1)">
 										<li class="getSort">
 											<em data="{$field['id']}">{$field['title']} [{$field['name']}]</em>
 											<input type="hidden" name="field_sort[{$key}][]" value="{$field['id']}"/>

@@ -152,7 +152,7 @@ class ModelController extends AdminController {
 			$fields_list = array();
         	foreach ($fields as $key=>$value){
         		foreach ($value as $k=>$v){
-        			$info = M('Attribute')->where(array('id'=>$v))->field('id,name,title')->find();
+        			$info = M('Attribute')->where(array('id'=>$v))->field('id,name,title,is_show')->find();
         			if(!empty($info)){
         				$info['group'] = $key;
         				$fields_list[] = $info;

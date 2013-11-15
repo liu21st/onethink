@@ -9,12 +9,12 @@
 	<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
 	<div class="main-title cf">
 		<h2>
-			编辑{$data.model_id|get_document_model='title'} [
+			新增{$info.model_id|get_document_model='title'} [
 			<volist name="rightNav" id="nav">
 			<a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a>
 			<if condition="count($rightNav) gt $i"><i class="ca"></i></if>
 			</volist>
-			<present name="article">：<a href="{:U('article/index','cate_id='.$data['category_id'].'&pid='.$article['id'])}">{$article.title}</a></present>
+			<present name="article">：<a href="{:U('article/index','cate_id='.$info['category_id'].'&pid='.$article['id'])}">{$article.title}</a></present>
 			]
 		</h2>
 	</div>
@@ -32,63 +32,63 @@
 		<volist name=":parse_config_attr($model['field_group'])" id="group">
         <div id="tab{$key}" class="tab-pane <eq name="key" value="1">in</eq> tab{$key}">
             <volist name="fields[$key]" id="field">
-                <if condition="$field['is_show'] == 1 || $field['is_show'] == 3">
+                <if condition="$field['is_show'] == 1 || $field['is_show'] == 2">
                 <div class="form-item cf">
                     <label class="item-label">{$field['title']}<span class="check-tips"><notempty name="field['remark']">（{$field['remark']}）</notempty></span></label>
                     <div class="controls">
                         <switch name="field.type">
                             <case value="num">
-                                <input type="text" class="text input-large" name="{$field.name}" value="{$data[$field['name']]}">
+                                <input type="text" class="text input-large" name="{$field.name}" value="">
                             </case>
                             <case value="string">
-                                <input type="text" class="text input-large" name="{$field.name}" value="{$data[$field['name']]}">
+                                <input type="text" class="text input-large" name="{$field.name}" value="">
                             </case>
                             <case value="textarea">
                                 <label class="textarea input-large">
-                                <textarea name="{$field.name}">{$data[$field['name']]}</textarea>
+                                <textarea name="{$field.name}"></textarea>
                                 </label>
                             </case>
                             <case value="datetime">
-                                <input type="text" name="{$field.name}" class="text input-large time" value="{$data[$field['name']]|time_format}" placeholder="请选择时间" />
+                                <input type="text" name="{$field.name}" class="text input-large time" value="" placeholder="请选择时间" />
                             </case>
                             <case value="bool">
                                 <select name="{$field.name}">
                                     <volist name=":parse_field_attr($field['extra'])" id="vo">
-                                        <option value="{$key}" <eq name="data[$field['name']]" value="$key">selected</eq>>{$vo}</option>
+                                        <option value="{$key}" <eq name="field.value" value="$key">selected</eq>>{$vo}</option>
                                     </volist>
                                 </select>
                             </case>
                             <case value="select">
                                 <select name="{$field.name}">
                                     <volist name=":parse_field_attr($field['extra'])" id="vo">
-                                        <option value="{$key}" <eq name="data[$field['name']]" value="$key">selected</eq>>{$vo}</option>
+                                        <option value="{$key}" <eq name="field.value" value="$key">selected</eq>>{$vo}</option>
                                     </volist>
                                 </select>
                             </case>
                             <case value="radio">
                                 <volist name=":parse_field_attr($field['extra'])" id="vo">
                                 	<label class="radio">
-                                    <input type="radio" value="{$key}" name="{$field.name}" <eq name="data[$field['name']]" value="$key">checked="checked"</eq>>{$vo}
+                                    <input type="radio" value="{$key}" name="{$field.name}">{$vo}
                                 	</label>
                                 </volist>
                             </case>
                             <case value="checkbox">
                                 <volist name=":parse_field_attr($field['extra'])" id="vo">
                                 	<label class="checkbox">
-                                    <input type="checkbox" value="{$key}" name="{$field.name}" <eq name="data[$field['name']]" value="$key">checked="checked"</eq>>{$vo}
+                                    <input type="checkbox" value="{$key}" name="{$field.name}">{$vo}
                                 	</label>
                                 </volist>
                             </case>
                             <case value="editor">
                                 <label class="textarea">
-                                <textarea name="{$field.name}">{$data[$field['name']]}</textarea>
-                                {:hook('adminArticleEdit', array('name'=>$field['name'],'value'=>$data[$field['name']]))}
+                                <textarea name="{$field.name}"></textarea>
+                                {:hook('adminArticleEdit', array('name'=>$field['name'],'value'=>''))}
                                 </label>
                             </case>
                             <case value="picture">
                                 <div class="controls">
 									<input type="file" id="upload_picture_{$field.name}">
-									<input type="hidden" name="{$field.name}" id="cover_id_{$field.name}" value="{$data[$field['name']]}"/>
+									<input type="hidden" name="{$field.name}" id="cover_id_{$field.name}"/>
 									<div class="upload-img-box">
 									<notempty name="data[$field['name']]">
 										<div class="upload-pre-item"><img src="{$data[$field['name']]|get_cover='path'}"/></div>
@@ -134,7 +134,7 @@
 									<input type="hidden" name="{$field.name}" value="{$data[$field['name']]}"/>
 									<div class="upload-img-box">
 										<present name="data[$field['name']]">
-											<div class="upload-pre-file"><span class="upload_icon_all"></span>{$data[$field['name']]|get_table_field=###,'id','name','File'}</div>
+											<div class="upload-pre-file"><span class="upload_icon_all"></span>{$data[$field['name']]}</div>
 										</present>
 									</div>
 								</div>
@@ -170,7 +170,7 @@
 								</script>
                             </case>
                             <default/>
-                            <input type="text" class="text input-large" name="{$field.name}" value="{$data[$field['name']]}">
+                            <input type="text" class="text input-large" name="{$field.name}" value="">
                         </switch>
                     </div>
                 </div>
@@ -182,15 +182,15 @@
 		<div class="form-item cf">
 			<button class="btn submit-btn ajax-post hidden" id="submit" type="submit" target-form="form-horizontal">确 定</button>
 			<a class="btn btn-return" href="{:U('article/index?cate_id='.$cate_id)}">返 回</a>
-			<if condition="C('OPEN_DRAFTBOX') and (ACTION_NAME eq 'add' or $data['status'] eq 3)">
+			<if condition="C('OPEN_DRAFTBOX') and (ACTION_NAME eq 'add' or $info['status'] eq 3)">
 			<button class="btn save-btn" url="{:U('article/autoSave')}" target-form="form-horizontal" id="autoSave">
 				存草稿
 			</button>
 			</if>
-			<input type="hidden" name="id" value="{$data.id|default=''}"/>
-			<input type="hidden" name="pid" value="{$data.pid|default=''}"/>
-			<input type="hidden" name="model_id" value="{$data.model_id|default=''}"/>
-			<input type="hidden" name="category_id" value="{$data.category_id|default=''}">
+			<input type="hidden" name="id" value="{$info.id|default=''}"/>
+			<input type="hidden" name="pid" value="{$info.pid|default=''}"/>
+			<input type="hidden" name="model_id" value="{$info.model_id|default=''}"/>
+			<input type="hidden" name="category_id" value="{$info.category_id|default=''}">
 		</div>
 	</form>
 	</div>
@@ -205,8 +205,8 @@
 <script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
 <script type="text/javascript">
 
-Think.setValue("type", {$data.type|default='""'});
-Think.setValue("display", {$data.display|default=0});
+Think.setValue("type", {$info.type|default='""'});
+Think.setValue("display", {$info.display|default=0});
 
 $('#submit').click(function(){
 	$('#form').submit();
@@ -221,7 +221,7 @@ $(function(){
     });
     showTab();
 
-	<if condition="C('OPEN_DRAFTBOX') and (ACTION_NAME eq 'add' or $data['status'] eq 3)">
+	<if condition="C('OPEN_DRAFTBOX') and (ACTION_NAME eq 'add' or $info['status'] eq 3)">
 	//保存草稿
 	var interval;
 	$('#autoSave').click(function(){

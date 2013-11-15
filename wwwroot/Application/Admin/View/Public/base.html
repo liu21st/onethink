@@ -135,7 +135,8 @@
 
             /* 左边菜单高亮 */
             url = window.location.pathname + window.location.search;
-            url = url.replace(".html", "").replace(/(\/p\/\d+)|(&p=\d+)/, "");
+            url = url.replace(".html", "")
+                .replace(/(\/(p)\/\d+)|(&p=\d+)|(\/(id)\/\d+)|(&id=\d+)/, "");
             $subnav.find("a[href^='" + url + "']").parent().addClass("current");
 
             /* 左边菜单显示收起 */
