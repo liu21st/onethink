@@ -18,6 +18,8 @@ class InitHookBehavior extends Behavior {
 
     // 行为扩展的执行入口必须是run
     public function run(&$content){
+        if($_GET['m'] === 'Install') return;
+        
         $data = S('hooks');
         if(!$data){
             $hooks = M('Hooks')->getField('name,addons');
