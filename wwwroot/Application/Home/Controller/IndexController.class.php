@@ -79,7 +79,9 @@ class IndexController extends HomeController {
 
     public function test(){
         $table = new \OT\DataDictionary;
+        echo "<pre>".PHP_EOL;
         $out = $table->generateAll();
+        echo "</pre>";
         // print_r($out);
     }
 
