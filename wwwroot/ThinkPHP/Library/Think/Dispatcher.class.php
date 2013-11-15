@@ -37,7 +37,8 @@ class Dispatcher {
         if(C('APP_SUB_DOMAIN_DEPLOY')) {
             $rules      = C('APP_SUB_DOMAIN_RULES');
             if(isset($rules[$_SERVER['HTTP_HOST']])) { // 完整域名或者IP配置
-                $rule = $rules[$_SERVER['HTTP_HOST']];
+                define('APP_DOMAIN',$_SERVER['HTTP_HOST']); // 当前完整域名
+                $rule = $rules[APP_DOMAIN];
             }else{
                 if(strpos(C('APP_DOMAIN_SUFFIX'),'.')){ // com.cn net.cn 
                     $domain = array_slice(explode('.', $_SERVER['HTTP_HOST']), 0, -3);
@@ -125,7 +126,7 @@ class Dispatcher {
             $paths      =   explode($depr,__INFO__,2);
             $allowList  =   C('MODULE_ALLOW_LIST');
             $module     =   preg_replace('/\.' . __EXT__ . '$/i', '',$paths[0]);
-            if( empty($allowList) || (is_array($allowList) && in_array(ucfirst($module), $allowList))){
+            if( empty($allowList) || (is_array($allowList) && in_array($module, $allowList))){
                 $_GET[$varModule]       =   $module;
                 $_SERVER['PATH_INFO']   =   isset($paths[1])?$paths[1]:'';     
             };

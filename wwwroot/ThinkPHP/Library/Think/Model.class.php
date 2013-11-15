@@ -110,7 +110,7 @@ class Model {
                 $fields = F('_fields/'.strtolower($db.'.'.$this->name));
                 if($fields) {
                     $this->fields   =   $fields;
-					$this->pk		=	$fields['_pk'];
+                    $this->pk       =   $fields['_pk'];
                     return ;
                 }
             }
@@ -137,7 +137,7 @@ class Model {
             $type[$key]     =   $val['type'];
             if($val['primary']) {
                 $this->pk   =   $key;
-				$this->fields['_pk']	=	$key;
+                $this->fields['_pk']   =   $key;
                 if($val['autoinc']) $this->autoinc   =   true;
             }
         }
@@ -1376,13 +1376,14 @@ class Model {
      * 查询SQL组装 join
      * @access public
      * @param mixed $join
+     * @param string $type JOIN类型
      * @return Model
      */
-    public function join($join) {
+    public function join($join,$type='INNER') {
         if(is_array($join)) {
             $this->options['join']      =   $join;
         }elseif(!empty($join)) {
-            $this->options['join'][]    =   $join;
+            $this->options['join'][]    =   false !== stripos($join,'JOIN')? $join : $type.' JOIN '.$join;
         }
         return $this;
     }

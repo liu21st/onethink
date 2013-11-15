@@ -142,9 +142,12 @@ function T($template='',$layer=''){
     $auto   =   C('AUTOLOAD_NAMESPACE');
     if($auto && isset($auto[$extend])){ // 扩展资源
         $baseUrl    =   $auto[$extend].$module.$layer.'/';
+    }elseif(C('VIEW_PATH')){ // 指定视图目录
+        $baseUrl    =   C('VIEW_PATH').$module.'/';
     }else{
         $baseUrl    =   APP_PATH.$module.$layer.'/';
     }
+
     // 获取主题
     $theme  =   substr_count($file,'/')<2 ? C('DEFAULT_THEME') : '';
 
@@ -754,9 +757,9 @@ function U($url='',$vars='',$suffix=true,$redirect=false,$domain=false) {
                 $var[C('VAR_MODULE')]    =   array_pop($path);
             }else{
                 if(C('MULTI_MODULE')) {
-					if(MODULE_NAME != C('DEFAULT_MODULE') || !C('MODULE_ALLOW_LIST')){
-						$var[C('VAR_MODULE')]=   MODULE_NAME;
-					}
+                    if(MODULE_NAME != C('DEFAULT_MODULE') || !C('MODULE_ALLOW_LIST')){
+                        $var[C('VAR_MODULE')]=   MODULE_NAME;
+                    }
                 }
             }
             if($maps = C('URL_MODULE_MAP')) {
