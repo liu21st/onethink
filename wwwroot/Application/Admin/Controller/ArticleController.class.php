@@ -186,6 +186,9 @@ class ArticleController extends \Admin\Controller\AdminController {
             }
         }
 
+        // 过滤重复字段信息 TODO: 传入到查询方法
+        $fields = array_unique($fields);
+
         //获取对应分类下的模型
         if(!empty($cate_id)){   //没有权限则不查询数据
             //获取分类绑定的模型
@@ -414,15 +417,15 @@ class ArticleController extends \Admin\Controller\AdminController {
         }
 
         //获取表单字段排序
-        $fields = json_decode(get_document_model($model_id, 'fields'), true);
+        $fields = get_model_attribute($model['id']);
 
         $this->assign('info',       $info);
         $this->assign('template',   $template);
-        $this->assign('field',  	$fields);
+        $this->assign('fields',     $fields);
         $this->assign('extend',     $this->fetch($template));
         $this->assign('type_list',  get_type_bycate($cate_id));
-
-        $this->meta_title       =   '新增'.$model['title'];
+        $this->assign('model',      $model);
+        $this->meta_title = '新增'.$model['title'];
         $this->display('edit');
     }
 
