@@ -1,4 +1,4 @@
 onethink
 ========
 
-a content manager develop framwork base on thinkphp3.2
+a content manager framework base on thinkphp3.2
