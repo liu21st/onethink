@@ -1,0 +1,66 @@
+<extend name="Base/common"/>
+
+<block name="header">
+    <header class="jumbotron subhead" id="overview">
+		<div class="container">
+			<h2>{$info.title}</h2>
+			<p>
+				<span  class="pull-left">
+					<span class="author">{$info.uid|get_username}</span>
+					<span> 发表于 {$info.create_time|date='Y-m-d H:i:s',###}</span>
+				</span>
+				<span class="pull-right">
+					<article:prev name="prev" info="info">
+                        <a href="{:U('?id='.$prev['id'])}">上一篇</a>
+                    </article:prev>
+                    <article:next name="next" info="info">
+                        <a href="{:U('?id='.$next['id'])}">下一篇</a>
+                    </article:next>
+				</span>
+			</p>
+		</div>
+	</header>
+</block>
+
+<block name="side">
+<!-- 左侧 nav
+================================================== -->
+    <div class="span3 bs-docs-sidebar">
+        <ul class="nav nav-list bs-docs-sidenav">
+            <li>
+                <a href="{:U('File/download?id='.$info['id'])}" class="btn btn-primary btn-block btn-large">立即下载</a>
+            </li>
+        </ul>
+        <ul class="nav nav-list bs-docs-sidenav">
+            {:W('Category/lists', array($category['id'], ACTION_NAME == 'index'))}
+        </ul>
+    </div>
+</block>
+
+<block name="body">
+      <div class="span9 main-content">
+        <!-- Contents
+        ================================================== -->
+        <section id="contents">
+            <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <td width="20%">文件尺寸</td>
+                            <td>{$info.size}</td>
+                        </tr>
+                        <tr>
+                            <td>下载次数</td>
+                            <td>{$info.download}</td>
+                        </tr>
+                        <tr>
+                            <td>文件描述</td>
+                            <td>{$info.description|default='暂无描述'}</td>
+                        </tr>
+                    </tbody>
+            </table>
+
+            <div>{$info.content}</div>
+            {:hook('documentDetailAfter')}
+        </section>
+    </div>
+</block>
