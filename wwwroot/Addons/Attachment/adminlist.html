@@ -1,0 +1,32 @@
+<table>
+	<thead>
+		<tr>
+			<th>序号</th>
+			<volist name="listKey" id="vo">
+				<th>{$vo}</th>
+			</volist>
+			<!-- <th>操作</th> -->
+		</tr>
+	</thead>
+	<tbody>
+		<volist name="_list" id="lv" key="vo">
+		<tr>
+			<td>{$lv.id}</td>
+			<volist name="listKey" id="lk">
+				<td>{$lv.$key}</td>
+			</volist>
+			<td>
+				<!-- <a class="update" href="javascript:;" data-id="{$lv.id}">更新</a> -->
+			</td>
+		</tr>
+		</volist>
+	</tbody>
+</table>
+<script type="text/javascript">
+	$(function(){
+		$('a.update').click(function(){
+			id = $(this).data('id');
+			alert(id);
+		});
+	})
+</script>

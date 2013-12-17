@@ -1,0 +1,86 @@
+<link rel="stylesheet" type="text/css" href="__ADDONROOT__/css/style.css">
+<link rel="stylesheet" type="text/css" href="__ADDONROOT__/css/font-awesome.min.css">
+<script type="text/javascript">
+	var vote_flag=false;
+	var uid = {:is_login()};
+	function vote(id,type){
+		if({:is_login()} == 0){
+			alert('请登录后再投票');
+			return;
+		}
+		if(vote_flag == true){
+			alert('{$addons_config.stop_repeat_tip}');
+			return;
+		}
+		$.ajax({
+			url: '{:addons_url("Digg://Digg/vote")}',
+			data: {
+				'id':id,
+				'type':type
+			},
+			success:function(data){
+				if(data.status){
+					$('#vote_'+type).text(parseInt($('#vote_'+type).text())+1);
+					update_vote();
+				}else{
+					alert(data.info);
+				}
+				wvote_flag = true;
+			},
+			error:function(XMLHttpRequest, textStatus, errorThrown){
+				alert('发送请求失败了，请刷新后继续投票');
+			}
+		});
+	}
+
+	function update_vote(){
+		var sUp = parseInt($('#vote_1').text());
+		var sDown = parseInt($("#vote_2").text());
+		var sTotal = sUp+sDown;
+		if(sTotal == 0){
+			var spUp = spDown = 50;
+		}else{
+			var spUp = (sUp/sTotal)*100;
+			spUp = Math.round(spUp*10)/10;
+			var spDown=100-spUp;
+			spDown=Math.round(spDown*10)/10;
+		}
+		$('#sp1').text(spUp+'%');
+		$('#sp2').text(spDown+'%');
+		$('#eimg1').width(parseInt(spUp/100*70));
+		$('#eimg2').width(parseInt(spDown/100*70));
+	}
+
+	$(function(){
+		update_vote();
+	})
+
+</script>
+<div id="vote_addon_box">
+	<div class="pub_style up" onclick="vote({$addons_vote_record.document_id},1)">
+		<div class="font_line">
+			<i class="fa fa-thumbs-o-up fa-lg"></i><span>{$addons_config.good_tip}</span>
+		</div>
+		<div class="bar_line">
+			<div class="prosess_bar">
+				<div class="prosess_bar_content" id="eimg1"></div>
+			</div>
+			<span id="sp1">%</span>
+			(<span id="vote_1">{$addons_vote_record.good|default=0}</span>)
+		</div>
+		<b>顶</b>
+	</div>
+	<div class="pub_style down" onclick="vote({$addons_vote_record.document_id},2)">
+		<div class="font_line">
+			<i class="fa fa-thumbs-o-down fa-lg"></i><span>{$addons_config.bad_tip}</span>
+		</div>
+		<div class="bar_line">
+			<div class="prosess_bar">
+				<div class="prosess_bar_content" id="eimg2"></div>
+			</div>
+			<span id="sp2">%</span>
+			(<span id="vote_2">{$addons_vote_record.bad|default=0}</span>)
+		</div>
+		<b>踩</b>
+	</div>
+</div>

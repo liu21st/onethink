@@ -1,0 +1,16 @@
+/**
+  * 描    述：附件列表样式
+  * 类    型：插件
+  * 涉及区域：所有附件列表
+  */
+ 
+ .attachment-default h3 {
+ 	margin: 10px 0 -5px;
+	font-size: 16px;
+ }
+ .attachment-default .attachment-list {
+    margin: 10px 0 -15px;
+    padding-top: 5px;
+ 	r-top: 1px dashed #D4D4D4;	
+ }
+  .attachment-default .attachment-list li 

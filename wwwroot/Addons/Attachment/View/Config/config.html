@@ -1,0 +1,130 @@
+<extend name="Public/base" />
+
+<block name="body">
+	<div class="main-title"> <h2>保存配置</h2> </div> 
+	<div class="data-table">
+		<form action="{:addons_url('Attachment://Attachment/saveConfig?id='.$_GET['id'])}" class="form-horizontal config-form">
+			<fieldset>
+				<legend>全局配置</legend>
+				<div class="form-item">
+					<label class="item-label">是否上传：</label>
+					<div class="controls">
+						<label class="radio">
+							<input type="radio" name="addons[ATTACHMENT_DEFAULT][is_upload]" <eq name="data[ATTACHMENT_DEFAULT][is_upload]" value="1"> checked</eq> value="1">是
+						</label>
+						<label class="radio">
+							<input type="radio" name="addons[ATTACHMENT_DEFAULT][is_upload]" <eq name="data[ATTACHMENT_DEFAULT][is_upload]" value="0"> checked</eq>value="0">否
+						</label>
+					</div>
+				</div>
+				<div class="form-item">
+					<label class="item-label">允许的附件类型：</label>
+					<div class="controls">
+						<label class="radio">
+							<input type="text" name="addons[ATTACHMENT_DEFAULT][is_upload]" class="text" value="{$data[ATTACHMENT_DEFAULT][is_upload]|default='1,2,3'}">
+						</label>
+					</div>
+				</div>
+				<div class="form-item">
+					<label class="item-label">驱动</label>
+					<div class="controls">
+						<input type="text" name="addons[ATTACHMENT_DEFAULT][driver_config]" class="text" value="{$data[ATTACHMENT_DEFAULT][driver_config]|default=''}">
+					</div>
+				</div>
+			</fieldset>
+			<fieldset>
+				<legend>上传配置</legend>
+				<div class="form-item">
+					<label class="item-label">文件mime类型</label>
+					<div class="controls">
+						<input type="text" name="addons[ATTACHMENT_UPLOAD][mimes]" class="text" value="{$data[ATTACHMENT_UPLOAD][mimes]|default=''}">
+						<span class="check-tips">不填无限制， 填写了多个以‘,’分割</span>
+					</div>
+				</div>
+				<div class="form-item">
+					<label class="item-label">文件大小上限</label>
+					<div class="controls">
+						<input type="text" name="addons[ATTACHMENT_UPLOAD][maxSize]" class="text" value="{$data[ATTACHMENT_UPLOAD][maxSize]|default=(5*1024*1024)}">
+						<span class="check-tips">不填无限制， 填写了以字节byte为单位</span>
+					</div>
+				</div>
+				<div class="form-item">
+					<label class="item-label">允许上传的文件后缀</label>
+					<div class="controls">
+						<input type="text" name="addons[ATTACHMENT_UPLOAD][exts]" class="text" value="{$data[ATTACHMENT_UPLOAD][exts]|default=''}">
+					</div>
+				</div>
+				<div class="form-item">
+					<label class="item-label">自动子目录保存文件</label>
+					<div class="controls">
+						<lable class="radio">
+							<input type="radio" name="addons[ATTACHMENT_UPLOAD][autoSub]" <eq name="data[ATTACHMENT_UPLOAD][autoSub]" value="1"> checked</eq> value="1">是
+						</lable>
+						<lable class="radio">
+							<input type="radio" name="addons[ATTACHMENT_UPLOAD][autoSub]" <eq name="data[ATTACHMENT_UPLOAD][autoSub]" value="0"> checked</eq>value="0">否
+						</lable>
+					</div>
+				</div>
+				<div class="form-item">
+					<label class="item-label">子目录创建方式</label>
+					<div class="controls">
+						<label>函数名：<input type="text" name="addons[ATTACHMENT_UPLOAD][subName][fun]" class="text input-small" value="{$data[ATTACHMENT_UPLOAD][subName][fun]|default='date'}"></label>
+						<label>参数：<input type="text" name="addons[ATTACHMENT_UPLOAD][subName][param]" class="text input-small" value="{$data[ATTACHMENT_UPLOAD][subName][param]|default='Y-m-d'}"></label>
+					</div>
+				</div>
+				<div class="form-item">
+					<label class="item-label">保存根路径</label>
+					<div class="controls">
+						<input type="text" name="addons[ATTACHMENT_UPLOAD][rootPath]" class="text" value="{$data[ATTACHMENT_UPLOAD][rootPath]|default='./Uploads/Attachment/'}">
+					</div>
+				</div>
+				<div class="form-item">
+					<label class="item-label">保存路径</label>
+					<div class="controls">
+						<input type="text" name="addons[ATTACHMENT_UPLOAD][savePath]" class="text" value="{$data[ATTACHMENT_UPLOAD][savePath]}">
+					</div>
+				</div>
+				<div class="form-item">
+					<label class="item-label">上传文件命名规则</label>
+					<div class="controls">
+						<label>函数名：<input type="text" name="addons[ATTACHMENT_UPLOAD][saveName][fun]" class="text input-small" value="{$data[ATTACHMENT_UPLOAD][saveName][fun]|default='uniqid'}"></label>
+						<label>参数：<input type="text" name="addons[ATTACHMENT_UPLOAD][saveName][param]" class="text input-small" value="{$data[ATTACHMENT_UPLOAD][saveName][param]|default=''}"></label>
+					</div>
+				</div>
+				<div class="form-item">
+					<label class="item-label">文件保存后缀</label>
+					<div class="controls">
+						<input type="text" name="addons[ATTACHMENT_UPLOAD][saveExt]" class="text" value="{$data[ATTACHMENT_UPLOAD][saveExt]|default=''}">
+						<span class="check-tips">空则使用原后缀</span>
+					</div>
+				</div>
+				<div class="form-item">
+					<label class="item-label">存在同名是否覆盖</label>
+					<div class="controls">
+						<label class="radio"><input type="radio" name="addons[ATTACHMENT_UPLOAD][replace]" <eq name="data[ATTACHMENT_UPLOAD][replace]" value="1"> checked</eq> value="1">是</label>
+						<label class="radio"><input type="radio" name="addons[ATTACHMENT_UPLOAD][replace]" <eq name="data[ATTACHMENT_UPLOAD][replace]" value="0"> checked</eq>value="0">否</label>
+					</div>
+				</div>
+				<div class="form-item">
+					<label class="item-label">是否生成hash编码</label>
+					<div class="controls">
+						<label class="radio"><input type="radio" name="addons[ATTACHMENT_UPLOAD][hash]" <eq name="data[ATTACHMENT_UPLOAD][hash]" value="1"> checked</eq> value="1">是</label>
+						<label class="radio"><input type="radio" name="addons[ATTACHMENT_UPLOAD][hash]" <eq name="data[ATTACHMENT_UPLOAD][hash]" value="0"> checked</eq>value="0">否</label>
+					</div>
+				</div>
+				<div class="form-item">
+					<label class="item-label">检测文件是否存在回调函数</label>
+					<div class="controls">
+						<input type="text" name="addons[ATTACHMENT_UPLOAD][callback]" class="text" value="{$data[ATTACHMENT_UPLOAD][callback]|default=''}">
+						<span class="check-tips">检测文件是否存在回调函数，如果存在返回文件信息数组</span>
+					</div>
+				</div>
+			</fieldset>
+			<button type="submit" class="btn">提交</button>
+			<button type="reset" class="btn">重置</button>
+			<button class="btn" onclick="javascript:history.back(-1);"><i class="icon-redo"></i>返回</button>
+		</form>
+	</div>
+</block>
+
+<block name="script"></block>

@@ -1,0 +1,41 @@
+<extend name="Base/common"/>
+
+<block name="header">
+	<header class="jumbotron subhead" id="overview">
+		<div class="container">
+			<h2>源自相同起点，演绎不同精彩！</h2>
+			<p class="lead"></p>
+		</div>
+	</header>
+</block>
+
+<block name="body">
+      <div class="span9">
+        <!-- Contents
+        ================================================== -->
+        <section id="contents">
+
+			<volist name="list" id="data">
+				<div class="">
+					<h3 class="ellipsis"><a href="{:U('Article/detail?id='.$data['id'])}">{$data.title}</a></h3>
+				</div>
+				<div>
+					<p class="lead">{$data.description}</p>
+				</div>
+				<div>
+					<span><a href="{:U('Article/detail?id='.$data['id'])}">查看全文</a></span>
+					<span class="pull-right">
+						<span class="author">{$data.uid|get_username}</span>&nbsp;&nbsp;
+						<span>发表于 {$data.create_time|date='Y-m-d H:i:s',###}</span>
+						<span>阅读({$data.view})</span>&nbsp;&nbsp;
+				</div>
+				<hr/>
+	        </volist>
+
+            <div class="onethink pagination pagination-right pagination-large">
+                <article:page cate="$category['id']" listrow="$category['list_row']" />
+            </div>
+        </section>
+      </div>
+    </div>
+</block>

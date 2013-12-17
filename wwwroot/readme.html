@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>OneThink&#8250;使用说明</title>
+	<style type="text/css">
+		html,body {
+			font: 16px/1.5 "microsoft yahei", Helvetica, Tahoma, Arial, sans-serif;
+			color:#404040;
+			background-color:#fafafa;
+		}
+		body,p,pre,h1,h2,h3,h4,h5,h6,			
+		dl,dt,dd,ul,ol,li {
+			margin:0;
+			padding:0;
+		}
+		ul,ol {
+			margin-left: 16px;
+			line-height: 1.8;
+		}
+		fieldset,img {
+			border:0 none;
+		}
+		img {
+			max-width: 100%;
+		}
+		a {
+			color: #08c;
+			text-decoration:none;
+		}
+		a:hover{
+			color: #058;
+		}
+		.main {
+			margin: 20px auto;
+			padding: 34px;
+			width: 930px;
+			border: 1px solid #dfdfdf;
+			background-color: #fff;
+		}
+		#logo {
+			padding: 0;
+			text-align: center;
+			border-bottom: 0 none;
+		}
+		#logo span {
+			display: block;
+			margin-top: 15px;
+			font: normal normal 30px Georgia;
+		}
+		#logo b {
+			font-size: .7em;
+		}
+		h1 {
+			margin-bottom: 10px;
+			padding: 8px 0;
+			font-size: 24px;
+			font-weight: normal;
+			color: #666;
+			border-bottom: 1px solid #dfdfdf;
+		}
+		p {
+			line-height: 1.8;
+		}
+		pre {
+			font-family: Consolas,"微软雅黑";
+		}
+		.solgan {
+			margin-bottom: 50px;
+			font-size: 22px;
+			font-weight: bold;
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+<div class="main">
+	<h1 id="logo">
+		<a href="http://www.onethink.cn/"><img alt="OneThink" src="logo.png" /></a>
+		<span>Version 1.0 </span>
+	</h1>
+	<p class="solgan">OneThink是一个开源的内容管理框架，致力于让网站开发变得更简单。</p>
+
+	<h1>写在最前</h1>
+	<p>感谢大家使用OneThink！OneThink对我来说是一个比ThinkPHP更有意义的产品，因为她能让开发者和最终用户都能受益。作为一个开源产品，希望大家都能参与进来为OneThink添砖加瓦，OneThink团队一直都在致力于让OneThink更加优秀。现在，感谢您也参与其中。</p>
+	<p style="text-align: right; margin: 10px 0 30px">&#8212; ThinkPHP创始人 刘晨</p>
+
+	<h1>目录说明</h1>
+<pre style="margin-bottom: 30px;">
+wwwroot
+├─index.php     OneThink入口文件
+├─Addons 插件目录
+│  
+├─Application 应用模块目录
+│  ├─Admin 后台模块
+│  │  ├─Conf 后台配置文件目录
+│  │  ├─Common 后台函数公共目录
+│  │  ├─Controller 后台控制器目录
+│  │  ├─Model 后台模型目录
+│  │  ├─Logic 后台模型逻辑目录
+│  │  └─View 后台视图文件目录
+│  │  
+│  ├─Common 公共模块目录（不能直接访问）
+│  │  ├─Conf 公共配置文件目录
+│  │  ├─Common 公共函数文件目录
+│  │  ├─Controller 模块访问控制器目录
+│  │  └─Model 公共模型目录
+│  │  
+│  ├─Home Home 前台模块
+│  │  ├─Conf 前台配置文件目录
+│  │  ├─Common 前台函数公共目录
+│  │  ├─Controller 前台控制器目录
+│  │  ├─Model 前台模型目录
+│  │  └─View 模块视图文件目录
+│  │
+│  └─User 用户模块（不能直接访问）
+│     ├─Api 用户接口文件目录
+│     ├─Conf 用户配置目录
+│     ├─Common 后台函数公共目录
+│     ├─Model 用户模型目录
+│     └─Service 用户Service文件目录
+│
+├─Public 应用资源文件目录
+│  ├─Admin 后台资源文件目录
+│  │  ├─css 样式文件目录
+│  │  ├─images 图片文件目录
+│  │  └─js 脚本文件目录
+│  │
+│  ├─Home 前台资源文件目录
+│  │  ├─css 样式文件目录
+│  │  ├─images 图片文件目录
+│  │  └─js 脚本文件目录
+│  │
+│  └─static 公共资源文件目录
+│  
+├─Runtime 应用运行时目录
+├─ThinkPHP 框架目录
+└─Uploads 上传根目录
+  ├─Download 文件上传目录
+  ├─Picture 图片上传目录
+  └─Editor 编辑器图片上传目录
+</pre>
+
+	<h1>安装</h1>
+	<ol style="margin-bottom: 30px;">
+		<li>将OneThink压缩包解压至一个空文件夹，并上传它。</li>
+		<li>首次在浏览器中访问<span class="file"><a href="index.php">index.php</a></span>，将会进入安装向导。
+		</li>
+		<li>按照安装向导完成安装。若在安装过程中出现问题，请访问<a href="http://www.onethink.cn/bbs/" title="OneThink讨论区">官网讨论区</a>寻求帮助。</li>
+	</ol>
+
+	<h1>最低系统需求</h1>
+	<ul style="margin-bottom: 30px;">
+		<li><a href="http://php.net/">PHP</a> <strong style="font-weight: normal">5.3.0</strong> 或更高版本。</li>
+		<li><a href="http://www.mysql.com/">MySQL</a> <strong style="font-weight: normal">5.0</strong> 或更高版本。</li>
+	</ul>
+
+	<h1>系统推荐</h1>
+	<ul style="margin-bottom: 30px;">
+		<li>启用<a href="http://httpd.apache.org/docs/2.2/mod/mod_rewrite.html">mod_rewrite</a>这一Apache模块。</li>
+		<li>在您的站点设置至<a href="http://www.onethink.cn/">http://www.onethink.cn</a>的链接。</li>
+	</ul>
+
+	<h1>最后</h1>
+	<ul style="margin-bottom: 30px;">
+		<li>对 OneThink有任何建议、想法、评论或发现了bug，请到<a href="http://www.onethink.cn/bbs/">官网讨论区</a>。</li>
+	        <li>官方的<a href="http://www.onethink.cn/app/">应用仓库</a>包含了官方和第三方的各类插件。</li>
+	</ul>
+
+	<h1>分享精神</h1>
+	<p>非常感谢您的支持！如果您喜欢OneThink，请将它介绍给自己的朋友，或者帮助他人安装一个OneThink，又或者写一篇赞扬我们的文章。</p>
+	<p style="margin-bottom: 30px;">OneThink是对刘晨创建的<a href="http://thinkphp.cn/">ThinkPHP</a>的传承和新的传奇。由<a href="http://www.onethink.cn/">OneThink 开发团队</a>完成开发。如果您愿意支持我们的工作，欢迎您对OneThink进行<a href="http://thinkphp.cn/donate/">捐赠</a>。</p>
+
+	<h1>许可证</h1>
+	<p>OneThink基于<abbr title="Apache2开源许可协议">Apache</abbr>第二版开源协议发布。详见<a href="license.txt">license.txt</a>。</p>
+</div>
+</body>
+</html>

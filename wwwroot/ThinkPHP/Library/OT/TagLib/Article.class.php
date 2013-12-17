@@ -70,7 +70,7 @@ class Article extends TagLib{
 		$cate    = $tag['cate'];
 		$listrow = $tag['listrow'];
 		$parse   = '<?php ';
-		$parse  .= '$__PAGE__ = new \Com\Page(get_list_count(' . $cate . '), ' . $listrow . ');';
+		$parse  .= '$__PAGE__ = new \Think\Page(get_list_count(' . $cate . '), ' . $listrow . ');';
 		$parse  .= 'echo $__PAGE__->show();';
 		$parse  .= ' ?>';
 		return $parse;
@@ -111,7 +111,7 @@ class Article extends TagLib{
 			$listrow = 10;
 		}
 		$parse   = '<?php ';
-		$parse  .= '$__PAGE__ = new \Com\Page(get_part_count(' . $id . '), ' . $listrow . ');';
+		$parse  .= '$__PAGE__ = new \Think\Page(get_part_count(' . $id . '), ' . $listrow . ');';
 		$parse  .= 'echo $__PAGE__->show();';
 		$parse  .= ' ?>';
 		return $parse;

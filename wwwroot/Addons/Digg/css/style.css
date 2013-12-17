@@ -1,0 +1,52 @@
+#vote_addon_box .pub_style {
+	background: -moz-linear-gradient(center top , #FFF5C0, #fff 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+	float: left;
+	border:1px solid #B2B2B2;
+	border-radius: 3px;
+	position: relative;
+	padding: 5px 43px 5px 13px;
+	cursor: pointer;
+	box-shadow:  2px 2px 3px #AAAAAA
+}
+#vote_addon_box .up:hover, #vote_addon_box .down:hover{
+	background: rgb(255, 248, 142);
+}
+#vote_addon_box .pub_style b {
+	font-size: 30px;
+	font-style: normal;
+	position: absolute;
+	right: 7px;
+	top: 10px;
+}
+#vote_addon_box .pub_style .fa {
+	margin-right: 7px;
+	color: #C98320
+}
+#vote_addon_box .font_line {
+	line-height: 23px;
+}
+#vote_addon_box .font_line span,
+#vote_addon_box .bar_line span {
+	font-size: 13px;
+}
+#vote_addon_box .up b {
+	color: #FF8101;
+}
+#vote_addon_box .down {
+	margin-left: 21px;
+}
+#vote_addon_box .down b {
+	color: #49AA00;
+}
+#vote_addon_box .prosess_bar {
+	height: 8px;
+	width: 70px;
+	border:1px solid #40A300;
+	border-radius: 2px;
+	display: inline-block;
+}
+#vote_addon_box .prosess_bar_content {
+	background: green;
+	height: 100%;
+	width: 92%;
+}

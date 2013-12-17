@@ -1,0 +1,24 @@
+<switch name="addons_config.comment_type">
+	<case value="1">
+		<!-- UY BEGIN -->
+		<div id="uyan_frame"></div>
+		<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid={$addons.config.comment_uid_youyan}"></script>
+		<!-- UY END -->
+	</case>
+	<case value="2">
+		<!-- Duoshuo Comment BEGIN -->
+		<div class="ds-thread" data-form-positon="{$addons_config.comment_form_pos_duoshuo}" data-limit="{$addons_config.comment_data_list_duoshuo}" data-order="{$addons_config.comment_data_order_duoshuo}"></div>
+		<script type="text/javascript">
+		var duoshuoQuery = { short_name: "{$addons_config.comment_short_name_duoshuo}"};
+			(function() {
+				var ds = document.createElement('script');
+				ds.type = 'text/javascript';ds.async = true;
+				ds.src = 'http://static.duoshuo.com/embed.js';
+				ds.charset = 'UTF-8';
+				(document.getElementsByTagName('head')[0]
+				|| document.getElementsByTagName('body')[0]).appendChild(ds);
+			})();
+			</script>
+		<!-- Duoshuo Comment END -->
+	</case>
+</switch>
