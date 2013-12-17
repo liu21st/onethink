@@ -80,7 +80,7 @@ class AdminController extends Controller {
         }
         static $Auth    =   null;
         if (!$Auth) {
-            $Auth       =   new \Org\Util\Auth();
+            $Auth       =   new \Think\Auth();
         }
         if(!$Auth->check($rule,UID,$type,$mode)){
             return false;
