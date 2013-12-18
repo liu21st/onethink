@@ -23,6 +23,9 @@ class ConfigController extends AdminController {
         /* 查询条件初始化 */
         $map = array();
         $map  = array('status' => 1);
+        if(isset($_GET['group'])){
+            $map['group']  = I('get.group',0);
+        }
         if(isset($_GET['name'])){
             $map['name']  = array('like', '%'.(string)I('name').'%');
         }
