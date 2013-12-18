@@ -542,46 +542,46 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
     }
 
     //插入行为日志
-    $data['action_id'] = $action_info['id'];
-    $data['user_id'] = $user_id;
-    $data['action_ip'] = ip2long(get_client_ip());
-    $data['model'] = $model;
-    $data['record_id'] = $record_id;
-    $data['create_time'] = NOW_TIME;
+    $data['action_id']      =   $action_info['id'];
+    $data['user_id']        =   $user_id;
+    $data['action_ip']      =   ip2long(get_client_ip());
+    $data['model']          =   $model;
+    $data['record_id']      =   $record_id;
+    $data['create_time']    =   NOW_TIME;
 
     //解析日志规则,生成日志备注
     if(!empty($action_info['log'])){
-    	if(preg_match_all('/\[(\S+?)\]/', $action_info['log'], $match)){
-            $log['user']   =   $user_id;
-            $log['record'] =   $record_id;
-            $log['model']  =   $model;
-            $log['time']   =   NOW_TIME;
-            $log['data']   =   array('user'=>$user_id,'model'=>$model,'record'=>$record_id,'time'=>NOW_TIME);
-        	foreach ($match[1] as $value){
-        		$param = explode('|', $value);
-        		if(isset($param[1])){
-        			$replace[] = call_user_func($param[1],$log[$param[0]]);
-        		}else{
-        			$replace[] = $log[$param[0]];
-        		}
-        	}
-        	$data['remark']    = str_replace($match[0], $replace, $action_info['log']);
+        if(preg_match_all('/\[(\S+?)\]/', $action_info['log'], $match)){
+            $log['user']    =   $user_id;
+            $log['record']  =   $record_id;
+            $log['model']   =   $model;
+            $log['time']    =   NOW_TIME;
+            $log['data']    =   array('user'=>$user_id,'model'=>$model,'record'=>$record_id,'time'=>NOW_TIME);
+            foreach ($match[1] as $value){
+                $param = explode('|', $value);
+                if(isset($param[1])){
+                    $replace[] = call_user_func($param[1],$log[$param[0]]);
+                }else{
+                    $replace[] = $log[$param[0]];
+                }
+            }
+            $data['remark'] =   str_replace($match[0], $replace, $action_info['log']);
         }else{
-            $data['remark']    = $action_info['log'];
+            $data['remark'] =   $action_info['log'];
         }
     }else{
-    	//未定义日志规则，记录操作url
-    	$data['remark'] = '操作url：'.$_SERVER['REQUEST_URI'];
+        //未定义日志规则，记录操作url
+        $data['remark']     =   '操作url：'.$_SERVER['REQUEST_URI'];
     }
 
     M('ActionLog')->add($data);
 
     if(!empty($action_info['rule'])){
-    	//解析行为
-    	$rules = parse_action($action, $user_id);
+        //解析行为
+        $rules = parse_action($action, $user_id);
 
-    	//执行行为
-    	$res = execute_action($rules, $action_info['id'], $user_id);
+        //执行行为
+        $res = execute_action($rules, $action_info['id'], $user_id);
     }
 }
 
@@ -720,17 +720,17 @@ if(!function_exists('array_column')){
  * @author huajie <banhuajie@163.com>
  */
 function get_table_name($model_id = null){
-	if(empty($model_id)){
-		return false;
-	}
-	$Model = M('Model');
-	$name = '';
-	$info = $Model->getById($model_id);
-	if($info['extend'] != 0){
-		$name = $Model->getFieldById($info['extend'], 'name').'_';
-	}
-	$name .= $info['name'];
-	return $name;
+    if(empty($model_id)){
+        return false;
+    }
+    $Model = M('Model');
+    $name = '';
+    $info = $Model->getById($model_id);
+    if($info['extend'] != 0){
+        $name = $Model->getFieldById($info['extend'], 'name').'_';
+    }
+    $name .= $info['name'];
+    return $name;
 }
 
 /**
@@ -740,30 +740,30 @@ function get_table_name($model_id = null){
  * @return string         属性信息
  */
 function get_model_attribute($model_id, $group = true){
-	static $list;
+    static $list;
 
-	/* 非法ID */
-	if(empty($model_id) || !is_numeric($model_id)){
-		return '';
-	}
+    /* 非法ID */
+    if(empty($model_id) || !is_numeric($model_id)){
+        return '';
+    }
 
-	/* 读取缓存数据 */
-	if(empty($list)){
-		$list = S('attribute_list');
-	}
+    /* 读取缓存数据 */
+    if(empty($list)){
+        $list = S('attribute_list');
+    }
 
-	/* 获取属性 */
-	if(!isset($list[$model_id])){
+    /* 获取属性 */
+    if(!isset($list[$model_id])){
         $map = array('model_id'=>$model_id);
         $extend = M('Model')->getFieldById($model_id,'extend');
 
         if($extend){
             $map = array('model_id'=> array("in", array($model_id, $extend)));
         }
-		$info = M('Attribute')->where($map)->select();
-		$list[$model_id] = $info;
-		//S('attribute_list', $list); //更新缓存
-	}
+        $info = M('Attribute')->where($map)->select();
+        $list[$model_id] = $info;
+        //S('attribute_list', $list); //更新缓存
+    }
 
     $attr = array();
     foreach ($list[$model_id] as $value) {
@@ -774,25 +774,25 @@ function get_model_attribute($model_id, $group = true){
         $sort  = M('Model')->getFieldById($model_id,'field_sort');
 
         if(empty($sort)){	//未排序
-        	$group = array(1=>array_merge($attr));
+            $group = array(1=>array_merge($attr));
         }else{
-        	$group = json_decode($sort, true);
+            $group = json_decode($sort, true);
 
-        	$keys  = array_keys($group);
-        	foreach ($group as &$value) {
-        		foreach ($value as $key => $val) {
-        			$value[$key] = $attr[$val];
-        			unset($attr[$val]);
-        		}
-        	}
+            $keys  = array_keys($group);
+            foreach ($group as &$value) {
+                foreach ($value as $key => $val) {
+                    $value[$key] = $attr[$val];
+                    unset($attr[$val]);
+                }
+            }
 
-        	if(!empty($attr)){
-        		$group[$keys[0]] = array_merge($group[$keys[0]], $attr);
-        	}
+            if(!empty($attr)){
+                $group[$keys[0]] = array_merge($group[$keys[0]], $attr);
+            }
         }
         $attr = $group;
     }
-	return $attr;
+    return $attr;
 }
 
 /**
@@ -823,19 +823,19 @@ function api($name,$vars=array()){
  * @author huajie <banhuajie@163.com>
  */
 function get_table_field($value = null, $condition = 'id', $field = null, $table = null){
-	if(empty($value) || empty($table)){
-		return false;
-	}
+    if(empty($value) || empty($table)){
+        return false;
+    }
 
-	//拼接参数
-	$map[$condition] = $value;
-	$info = M(ucfirst($table))->where($map);
-	if(empty($field)){
-		$info = $info->field(true)->find();
-	}else{
-		$info = $info->getField($field);
-	}
-	return $info;
+    //拼接参数
+    $map[$condition] = $value;
+    $info = M(ucfirst($table))->where($map);
+    if(empty($field)){
+        $info = $info->field(true)->find();
+    }else{
+        $info = $info->getField($field);
+    }
+    return $info;
 }
 
 /**
@@ -904,7 +904,7 @@ function get_stemma($pids,Model &$model, $field='id'){
 
     //非空判断
     if(empty($pids)){
-    	return $collection;
+        return $collection;
     }
 
     if( is_array($pids) ){
@@ -915,7 +915,7 @@ function get_stemma($pids,Model &$model, $field='id'){
 
     while( !empty($child_ids) ){
         $collection = array_merge($collection,$result);
-        $result     = $model->field($field)->where( array( 'pid'=>array( 'IN', trim(implode(',',$child_ids),',') ) ) )->select();
+        $result     = $model->field($field)->where( array( 'pid'=>array( 'IN', $child_ids ) ) )->select();
         $child_ids  = array_column((array)$result,'id');
     }
     return $collection;
