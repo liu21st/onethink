@@ -118,7 +118,7 @@ class Dispatcher {
         }
         $depr = C('URL_PATHINFO_DEPR');
         define('MODULE_PATHINFO_DEPR',  $depr);
-        define('__INFO__',              trim($_SERVER['PATH_INFO'],$depr));
+        define('__INFO__',              trim($_SERVER['PATH_INFO'],'/'));
         // URL后缀
         define('__EXT__', strtolower(pathinfo($_SERVER['PATH_INFO'],PATHINFO_EXTENSION)));
 
@@ -168,20 +168,17 @@ class Dispatcher {
         }
         if(!IS_CLI){
             $urlMode        =   C('URL_MODEL');
-            if($urlMode == URL_COMPAT ){
-                // 兼容模式判断
+            if($urlMode == URL_COMPAT ){// 兼容模式判断
                 define('PHP_FILE',_PHP_FILE_.'?'.$varPath.'=');
             }elseif($urlMode == URL_REWRITE ) {
-                //当前项目地址
                 $url    =   dirname(_PHP_FILE_);
                 if($url == '/' || $url == '\\')
                     $url    =   '';
                 define('PHP_FILE',$url);
             }else {
-                //当前项目地址
                 define('PHP_FILE',_PHP_FILE_);
             }
-            // 当前项目地址
+            // 当前应用地址
             define('__APP__',strip_tags(PHP_FILE));
             // 模块URL地址
             $moduleName    =   defined('MODULE_ALIAS')?MODULE_ALIAS:MODULE_NAME;

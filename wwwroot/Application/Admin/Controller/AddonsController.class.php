@@ -298,7 +298,7 @@ str;
         }
         $this->assign('data',$addon);
         if($addon['custom_config'])
-            $this->assign('custom_config', $addon['addon_path'].$addon['custom_config']);
+            $this->assign('custom_config', $this->fetch($addon['addon_path'].$addon['custom_config']));
         $this->display();
     }
 
