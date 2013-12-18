@@ -132,7 +132,7 @@
 			</foreach>
 		<else />
 			<present name="custom_config">
-				<include file="$custom_config" />
+				{$custom_config}
 			</present>
 		</empty>
 		<input type="hidden" name="id" value="{:I('id')}" readonly>
