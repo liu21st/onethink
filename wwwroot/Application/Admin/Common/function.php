@@ -168,6 +168,9 @@ function get_config_group($group=0){
  *
  */
 function int_to_string(&$data,$map=array('status'=>array(1=>'正常',-1=>'删除',0=>'禁用',2=>'未审核',3=>'草稿'))) {
+    if($data===false||$data===null){
+        return $data;
+    }
     $data = (array)$data;
     foreach ($data as $key => $row){
         foreach ($map as $col=>$pair){
