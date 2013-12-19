@@ -132,6 +132,9 @@ class UserController extends HomeController {
      * @author huajie <banhuajie@163.com>
      */
     public function profile(){
+		if ( !is_login() ) {
+			$this->error( '您还没有登陆',U('User/login') );
+		}
         if ( IS_POST ) {
             //获取参数
             $uid        =   is_login();

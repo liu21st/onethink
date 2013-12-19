@@ -168,6 +168,8 @@
 </block>
 <block name="script">
 <script type="text/javascript" charset="utf-8">
+//导航高亮
+$('.side-sub-menu').find('a[href="{:U('Model/index')}"]').closest('li').addClass('current');
 Think.setValue('type', "{$info.type|default=''}");
 Think.setValue('is_show', "{$info.is_show|default=1}");
 Think.setValue('is_must', "{$info.is_must|default=0}");

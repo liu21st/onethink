@@ -42,7 +42,7 @@
 		<td colspan="6" class="text-center"> aOh! 暂时还没有内容! </td>
 		</notempty>
 	</tbody>
-    </table> 
+    </table>
         </div>
     </div>
     <div class="page">
@@ -53,6 +53,8 @@
 <block name="script">
     <script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
     <script type="text/javascript">
+  	//导航高亮
+	$('.side-sub-menu').find('a[href="{:U('Model/index')}"]').closest('li').addClass('current');
     $(function(){
     	$("#search").click(function(){
     		var url = $(this).attr('url');
