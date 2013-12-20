@@ -51,7 +51,6 @@ class AttributeModel extends Model {
         if(empty($data)){
             return false;
         }
-
         /* 添加或新增属性 */
         if(empty($data['id'])){ //新增属性
 
@@ -87,8 +86,11 @@ class AttributeModel extends Model {
                 $this->error = '更新属性出错！';
                 return false;
             }
-
         }
+        //删除字段缓存文件
+        $model_name = M('Model')->field('name')->find($data['model_id']);
+        $cache_name = C('DB_NAME').'.'.preg_replace('/\W+|\_+/','',$model_name['name']);
+        F($cache_name, null, DATA_PATH.'_fields/');
 
         //记录行为
         action_log('update_attribute', 'attribute', $data['id'] ? $data['id'] : $id, UID);
