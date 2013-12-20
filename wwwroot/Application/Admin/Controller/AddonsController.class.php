@@ -233,7 +233,7 @@ str;
         extract($param);
         $this->assign('title', $addon->info['title']);
         if($addon->custom_adminlist)
-            $this->assign('custom_adminlist', $addon->addon_path.$addon->custom_adminlist);
+            $this->assign('custom_adminlist', $this->fetch($addon->addon_path.$addon->custom_adminlist));
         $this->assign($param);
         if(!isset($fields))
             $fields = '*';
