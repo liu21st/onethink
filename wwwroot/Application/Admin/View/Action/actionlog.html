@@ -30,7 +30,7 @@
             <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
 			<td>{$vo.id} </td>
 			<td>{:get_action($vo['action_id'],'title')}</td>
-			<td>{:get_nickname()}</td>
+			<td>{:get_nickname($vo['user_id'])}</td>
 			<td><span>{$vo.create_time|time_format}</span></td>
 			<td><a href="{:U('Action/edit?id='.$vo['id'])}">详细</a>
 				<a class="confirm ajax-get" href="{:U('Action/remove?ids='.$vo['id'])}">删除</a>
