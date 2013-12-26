@@ -17,14 +17,16 @@ namespace Home\Controller;
 class FileController extends HomeController {
 	/* 文件上传 */
 	public function upload(){
-		//TODO: 用户登录检测
-		
-		/* 返回标准数据 */
 		$return  = array('status' => 1, 'info' => '上传成功', 'data' => '');
-
 		/* 调用文件上传组件上传文件 */
 		$File = D('File');
-		$info = $File->upload($_FILES, C('DOWNLOAD_UPLOAD')); //TODO:上传到远程服务器
+		$file_driver = C('DOWNLOAD_UPLOAD_DRIVER');
+		$info = $File->upload(
+			$_FILES,
+			C('DOWNLOAD_UPLOAD'),
+			C('DOWNLOAD_UPLOAD_DRIVER'),
+			C("UPLOAD_{$file_driver}_CONFIG")
+		);
 
 		/* 记录附件信息 */
 		if($info){
