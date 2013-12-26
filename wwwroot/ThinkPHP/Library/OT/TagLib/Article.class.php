@@ -122,8 +122,13 @@ class Article extends TagLib{
 		$id     = $tag['id'];
 		$field  = $tag['field'];
 		$name   = $tag['name'];
+		if ( isset($tag['listrow']) ) {
+			$listrow = $tag['listrow'];
+		}else{
+			$listrow = 10;
+		}
 		$parse  = '<?php ';
-		$parse .= '$__PARTLIST__ = D(\'Document\')->part(' . $id . ',  !empty($_GET["p"])?$_GET["p"]:1, \'' . $field . '\');';
+		$parse .= '$__PARTLIST__ = D(\'Document\')->part(' . $id . ',  !empty($_GET["p"])?$_GET["p"]:1, \'' . $field . '\','. $listrow .');';
 		$parse .= ' ?>';
 		$parse .= '<?php $page=(!empty($_GET["p"])?$_GET["p"]:1)-1; ?>';
 		$parse .= '<volist name="__PARTLIST__" id="'. $name .'">';
