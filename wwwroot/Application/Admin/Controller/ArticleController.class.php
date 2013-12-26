@@ -266,13 +266,12 @@ class ArticleController extends AdminController {
         $prefix   = C('DB_PREFIX');
         $l_table  = $prefix.('document');
         $r_table  = $prefix.('document_article');
-        $list     = M()->field( 'l.id id,l.pid pid,l.category_id,l.title title,l.update_time update_time,l.uid uid,l.status status,r.content content' )
-                       ->table( $l_table.' l' )
+        $list     = M() ->table( $l_table.' l' )
                        ->where( $map )
                        ->order( 'l.id DESC')
                        ->join ( $r_table.' r ON l.id=r.id' );
         $_REQUEST = array();
-        $list = $this->lists($list,null,null,null);
+        $list = $this->lists($list,null,null,null,'l.id id,l.pid pid,l.category_id,l.title title,l.update_time update_time,l.uid uid,l.status status,r.content content' );
         int_to_string($list);
 
         if($map['pid']){
