@@ -114,19 +114,26 @@ class ModelController extends AdminController {
 
         /* 获取模型排序字段 */
         $field_sort = json_decode($data['field_sort'], true);
-        foreach($fields as $key=>$field){
-            if(empty($field_sort)){
-                $fields[$key]['group'] = 1;
-            }else{
-                foreach($field_sort as $k=>$ids){
-                    if(in_array($field['id'],$ids)){
-                        $fields[$key]['group'] = $k;
-                    }
-                }
-            }
-        }
+        /* 对字段数组重新整理 */
+		$fields_f = array();
+		foreach($fields as $v){
+			$fields_f[$v['id']] = $v;
+		}
 
-        $this->assign('fields', $fields);
+		$fields_s = array();
+		foreach($field_sort as $groupkey => $group){
+			foreach($group as $key){
+				$fields_s[] = array(
+					'id'		=> $fields_f[$key]['id'],
+					'name'		=> $fields_f[$key]['name'],
+					'title'		=> $fields_f[$key]['title'],
+					'is_show'	=> $fields_f[$key]['is_show'],
+					'group'		=> $groupkey
+				);
+			}
+		}
+
+        $this->assign('fields', $fields_s);
         $this->assign('info', $data);
         $this->meta_title = '编辑模型';
         $this->display();
