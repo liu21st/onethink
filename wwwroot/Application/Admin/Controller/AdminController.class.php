@@ -58,10 +58,10 @@ class AdminController extends Controller {
                 //检测非动态权限
                 $rule  = strtolower(MODULE_NAME.'/'.CONTROLLER_NAME.'/'.ACTION_NAME);
                 if ( !$this->checkRule($rule,array('in','1,2')) ){
-                    $this->error('提示:无权访问,您可能需要联系管理员为您授权!');
+                    $this->error('未授权访问!');
                 }
             }elseif( $dynamic === false ){
-                $this->error('提示:无权访问,您可能需要联系管理员为您授权!');
+                $this->error('未授权访问!');
             }
         }
         $this->assign('__MENU__', $this->getMenus());
@@ -119,13 +119,13 @@ class AdminController extends Controller {
         if(IS_ROOT){
             return true;//管理员允许访问任何页面
         }
-		$allow = unserialize(strtolower(serialize(C('ALLOW_VISIT'))));
-		$deny  = unserialize(strtolower(serialize(C('DENY_VISIT'))));
+		$allow = C('ALLOW_VISIT');
+		$deny  = C('DENY_VISIT');
 		$check = strtolower(CONTROLLER_NAME.'/'.ACTION_NAME);
-        if ( !empty($deny)  && in_array($check,$deny) ) {
+        if ( !empty($deny)  && in_array_case($check,$deny) ) {
             return false;//非超管禁止访问deny中的方法
         }
-        if ( !empty($allow) && in_array($check,$allow) ) {
+        if ( !empty($allow) && in_array_case($check,$allow) ) {
             return true;
         }
         return null;//需要检测节点权限
@@ -451,25 +451,6 @@ class AdminController extends Controller {
         $model->setProperty('options',$options);
 
         return $model->field($field)->select();
-    }
-
-    /**
-     * 数据集分页
-     * @param array $records 传入的数据集
-     */
-    public function recordList($records){
-        $request    =   (array)I('request.');
-        $total      =   $records? count($records) : 1 ;
-        if( isset($request['r']) ){
-            $listRows = (int)$request['r'];
-        }else{
-            $listRows = C('LIST_ROWS') > 0 ? C('LIST_ROWS') : 10;
-        }
-        $page       =   new \Think\Page($total, $listRows, $request);
-        $voList     =   array_slice($records, $page->firstRow, $page->listRows);
-        $p          =   $page->show();
-        $this->assign('_list', $voList);
-        $this->assign('_page', $p? $p: '');
     }
 
 }
