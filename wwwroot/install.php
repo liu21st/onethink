@@ -7,7 +7,7 @@
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
-if(version_compare(PHP_VERSION,'5.3.6','<'))  die('require PHP > 5.3.6 !');
+if(version_compare(PHP_VERSION,'5.3.0','<'))  die('require PHP > 5.3.0 !');
 
 $_GET['m'] = 'Install';
 
