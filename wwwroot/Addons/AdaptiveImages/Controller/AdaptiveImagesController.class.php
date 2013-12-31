@@ -14,8 +14,7 @@ class AdaptiveImagesController extends AddonsController{
 
 	public function view(){
 		error_reporting(0);
-		$addon = addons('AdaptiveImages');
-		$config = $addon->getConfig();
+		$config = get_addon_config('AdaptiveImages');
 		$document_root  = __ROOT__;
 		$resolutions = $this->resolutions = explode(',', trim($config['resolutions']));
 		$this->cache_path = $config['cache_path'];
