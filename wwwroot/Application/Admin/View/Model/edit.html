@@ -70,7 +70,7 @@
 					<volist name=":parse_field_attr($info['field_group'])" id="vo">
 						<div class="form-item cf edit_sort edit_sort_l form_field_sort">
 							<span>{$vo}</span>
-							<ul class="dragsort" data-group="{$key}">
+							<ul class="dragsort needdragsort" data-group="{$key}">
 								<foreach name="fields" item="field" key="k">
 									<if condition="(($field['group'] eq $key) or($i eq 1 and !isset($field['group']))) and ($field['is_show'] eq 1)">
 										<li class="getSort">
@@ -161,36 +161,15 @@ $(function(){
 })
 //拖曳插件初始化
 $(function(){
-	$(".dragsort").dragsort({
+	$(".needdragsort").dragsort({
 	     dragSelector:'li',
 	     placeHolderTemplate: '<li class="draging-place">&nbsp;</li>',
 	     dragBetween:true,	//允许拖动到任意地方
 	     dragEnd:function(){
 	    	 var self = $(this);
 	    	 self.find('input').attr('name', 'field_sort[' + self.closest('ul').data('group') + '][]');
-	     	//updateVal();
 	     }
 	 });
-
-	$('#sortUl li b').click(function(){
-		$(this).parent().remove();
-		updateVal();
-	});
-
-	// 更新排序后的隐藏域的值
-	function updateVal() {
-		var fields = new Array();
-		$('.form_field_sort').each(function(){
-			var i = 1;
-			var self = this;
-			var group = $(self).attr('group');
-			$(self).find('li').each(function(){
-		   		var id = $(this).find('em').attr('data');
-		   		$('#field-' + id).val(id + ':' + group + ':' + i++);
-		   	});
-		});
-
-	}
 })
 </script>
 </block>
