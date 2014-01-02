@@ -241,7 +241,7 @@ class UcenterMemberModel extends Model{
 
 		//更新用户信息
 		$data = $this->create($data);
-		if(data){
+		if($data){
 			return $this->where(array('id'=>$uid))->save($data);
 		}
 		return false;
