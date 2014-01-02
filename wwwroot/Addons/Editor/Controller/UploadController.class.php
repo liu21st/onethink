@@ -17,6 +17,7 @@ class UploadController extends AddonsController{
 
 	/* 上传图片 */
 	public function upload(){
+		session('upload_error', null);
 		/* 上传配置 */
 		$setting = C('EDITOR_UPLOAD');
 
@@ -24,13 +25,12 @@ class UploadController extends AddonsController{
 		$this->uploader = new Upload($setting, 'Local');
 		$info   = $this->uploader->upload($_FILES);
 		if($info){
-			foreach ($info as &$file) {
-				$file['rootpath'] = __ROOT__ . ltrim($setting['rootPath'], ".");
-			}
-			$this->success('文件上传成功！', '', array('files' => $info));
-		} else {
-			$this->error($this->uploader->getError());
+			$url = C('EDITOR_UPLOAD.rootPath').$info['imgFile']['savepath'].$info['imgFile']['savename'];
+			$url = str_replace('./', '/', $url);
+			$info['fullpath'] = __ROOT__.$url;
 		}
+		session('upload_error', $this->uploader->getError());
+		return $info;
 	}
 
 	//keditor编辑器上传图片处理
@@ -44,7 +44,7 @@ class UploadController extends AddonsController{
 			unset($return['info'], $return['data']);
 		} else {
 			$return['error'] = 1;
-			$return['message']   = $this->uploader->getError();
+			$return['message']   = session('upload_error');
 		}
 
 		/* 返回JSON数据 */
@@ -60,7 +60,7 @@ class UploadController extends AddonsController{
 		$title = htmlspecialchars($_POST['pictitle'], ENT_QUOTES);
 		$return['title'] = $title;
 		$return['original'] = $img['imgFile']['name'];
-		$return['state'] = ($img)? 'SUCCESS' : $this->uploader->getError();
+		$return['state'] = ($img)? 'SUCCESS' : session('upload_error');
 		/* 返回JSON数据 */
 		$this->ajaxReturn($return);
 	}
