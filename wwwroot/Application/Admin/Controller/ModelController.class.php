@@ -121,10 +121,20 @@ class ModelController extends AdminController {
                 foreach($field_sort as $k=>$ids){
                     if(in_array($field['id'],$ids)){
                         $fields[$key]['group'] = $k;
+                        $fields[$key]['sort'] = array_search($field['id'], $ids);
+                        break;
+                    }else{
+                    	$fields[$key]['sort'] = -1;
                     }
                 }
             }
         }
+        !empty($field_sort) && usort($fields, function($a, $b){
+        	if($a['sort']  ==  $b['sort']){
+        		return 0;
+        	}
+        	return ($a['sort'] < $b['sort']) ? - 1 : 1;
+        });
 
         $this->assign('fields', $fields);
         $this->assign('info', $data);
