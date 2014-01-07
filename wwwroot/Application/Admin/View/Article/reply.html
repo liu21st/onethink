@@ -87,42 +87,39 @@
 	<!-- 数据表格 -->
     <div class="data-table">
 		<table class="">
-    <thead>
-        <tr>
-		<th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
-		<th class="">编号</th>
-		<th class="">标题</th>
-		<th class="">内容</th>
-		<th class="">创建者</th>
-		<th class="">最后更新</th>
-		<th class="">状态</th>
-		<th class="">操作</th>
-		</tr>
-    </thead>
-    <tbody>
-		<volist name="list" id="vo">
-		<tr>
-            <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
-			<td>{$vo.id} </td>
-			<td><a href="{:U('Article/index?cate_id='.$vo['category_id'].'&pid='.$vo['id'])}">{$vo.title}</a></td>
-			<td><a href="{:U('Article/index?cate_id='.$vo['category_id'].'&pid='.$vo['id'])}">{:mb_strimwidth($vo['content'],0,50,"...","utf-8")}</a></td>
-			<td><span>{:get_username($vo['uid'])}</span></td>
-			<td><span>{$vo.update_time|time_format}</span></td>
-			<td>{$vo.status_text}</td>
-			<td><a href="{:U('Article/edit?cate_id='.$vo['category_id'].'&id='.$vo['id'])}">编辑</a>
-				<a href="{:U('Article/setStatus?ids='.$vo['id'].'&status='.abs(1-$vo['status']))}" class="ajax-get">{$vo.status|show_status_op}</a>
-				<a href="{:U('Article/setStatus?status=-1&ids='.$vo['id'])}" class="confirm ajax-get">删除</a>
-                </td>
-		</tr>
-		</volist>
-	</tbody>
-    </table> 
+			<thead>
+				<tr>
+				<th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
+				<th class="">编号</th>
+				<th class="">内容</th>
+				<th class="">创建者</th>
+				<th class="">最后更新</th>
+				<th class="">状态</th>
+				<th class="">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist name="list" id="vo">
+				<tr>
+					<td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
+					<td>{$vo.id} </td>
+					<td><a href="{:U('Article/index?cate_id='.$vo['category_id'].'&pid='.$vo['id'])}">{:mb_strimwidth($vo['content'],0,50,"...","utf-8")}</a></td>
+					<td><span>{:get_username($vo['uid'])}</span></td>
+					<td><span>{$vo.update_time|time_format}</span></td>
+					<td>{$vo.status_text}</td>
+					<td><a href="{:U('Article/edit?cate_id='.$vo['category_id'].'&id='.$vo['id'])}">编辑</a>
+						<a href="{:U('Article/setStatus?ids='.$vo['id'].'&status='.abs(1-$vo['status']))}" class="ajax-get">{$vo.status|show_status_op}</a>
+						<a href="{:U('Article/setStatus?status=-1&ids='.$vo['id'])}" class="confirm ajax-get">删除</a>
+						</td>
+				</tr>
+				</volist>
+			</tbody>
+		</table>
 	</div>
 	<!-- 分页 -->
     <div class="page">
         {$_page}
     </div>
-</div>
 
 </block>
 <block name="script">

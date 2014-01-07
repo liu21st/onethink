@@ -27,7 +27,7 @@ function get_list_field($data, $grid,$model){
         $data2[$array[0]]    =   $temp;
     }
     if(!empty($grid['format'])){
-        $value  =   preg_replace_callback('/\[([a-z_]+)\]/', function($match) use($data2){return $data2[$match[1]];}, $grid['format']); 
+        $value  =   preg_replace_callback('/\[([a-z_]+)\]/', function($match) use($data2){return $data2[$match[1]];}, $grid['format']);
     }else{
         $value  =   implode(' ',$data2);
     }
@@ -45,11 +45,11 @@ function get_list_field($data, $grid,$model){
                 // 替换系统特殊字符串
                 $href	=	str_replace(
                     array('[DELETE]','[EDIT]','[MODEL]'),
-                    array('del?id=[id]&model=[MODEL]','edit?id=[id]&model=[MODEL]',$model['id']),
+                    array('del?ids=[id]&model=[MODEL]','edit?id=[id]&model=[MODEL]',$model['id']),
                     $href);
 
                 // 替换数据变量
-                $href	=	preg_replace_callback('/\[([a-z_]+)\]/', function($match) use($data){return $data[$match[1]];}, $href); 
+                $href	=	preg_replace_callback('/\[([a-z_]+)\]/', function($match) use($data){return $data[$match[1]];}, $href);
 
                 $val[]	=	'<a href="'.U($href).'">'.$show.'</a>';
             }

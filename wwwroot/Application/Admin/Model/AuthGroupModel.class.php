@@ -27,9 +27,9 @@ class AuthGroupModel extends Model {
 
     protected $_validate = array(
         array('title','require', '必须设置用户组标题', Model::MUST_VALIDATE ,'regex',Model::MODEL_INSERT),
-        array('title','require', '必须设置用户组标题', Model::EXISTS_VALIDATE  ,'regex',Model::MODEL_INSERT),
+        //array('title','require', '必须设置用户组标题', Model::EXISTS_VALIDATE  ,'regex',Model::MODEL_INSERT),
         array('description','0,80', '描述最多80字符', Model::VALUE_VALIDATE , 'length'  ,Model::MODEL_BOTH ),
-        array('rules','/^(\d,?)+(?<!,)$/', '规则数据不合法', Model::VALUE_VALIDATE , 'regex'  ,Model::MODEL_BOTH ),
+       // array('rules','/^(\d,?)+(?<!,)$/', '规则数据不合法', Model::VALUE_VALIDATE , 'regex'  ,Model::MODEL_BOTH ),
     );
 
     /**
@@ -156,19 +156,6 @@ class AuthGroupModel extends Model {
     }
 
 
-    /**
-     * 返回用户拥有管理权限的模型id列表
-     * 
-     * @param int     $uid  用户id
-     * @return array
-     *  
-     *  array(2,4,8,13) 
-     *
-     * @author 朱亚杰 <zhuyajie@topthink.net>
-     */
-    static public function getAuthModels($uid){
-        return self::getAuthExtend($uid,self::AUTH_EXTEND_MODEL_TYPE,'AUTH_MODELS');
-    }
 
     /**
      * 获取用户组授权的扩展信息数据
@@ -201,20 +188,7 @@ class AuthGroupModel extends Model {
         return self::getExtendOfGroup($gid,self::AUTH_EXTEND_CATEGORY_TYPE);
     }
     
-    /**
-     * 获取用户组授权的分类id列表
-     * 
-     * @param int     $gid  用户组id
-     * @return array
-     *  
-     *  array(2,4,8,13) 
-     *
-     * @author 朱亚杰 <zhuyajie@topthink.net>
-     */
-    static public function getModelOfGroup($gid){
-        return self::getExtendOfGroup($gid,self::AUTH_EXTEND_MODEL_TYPE);
-    }
-    
+
     /**
      * 批量设置用户组可管理的扩展权限数据
      *
@@ -243,7 +217,6 @@ class AuthGroupModel extends Model {
             $Access->addAll($add);
         }
         if ($Access->getDbError()) {
-            dump($Access->getDbError());exit;
             return false;
         }else{
             return true;
@@ -262,17 +235,6 @@ class AuthGroupModel extends Model {
         return self::addToExtend($gid,$cid,self::AUTH_EXTEND_CATEGORY_TYPE);
     }
 
-    /**
-     * 批量设置用户组可管理的模型
-     *
-     * @param int|string|array $gid   用户组id
-     * @param int|string|array $mid   分类id
-     * 
-     * @author 朱亚杰 <zhuyajie@topthink.net>
-     */
-    static public function addToModel($gid,$mid){
-        return self::addToExtend($gid,$mid,self::AUTH_EXTEND_MODEL_TYPE);
-    }
 
     /**
      * 将用户从用户组中移除
@@ -348,14 +310,6 @@ class AuthGroupModel extends Model {
         return $this->checkId('Category',$cid, '以下分类id不存在:');
     }
 
-    /**
-     * 检查模型是否全部存在
-     * @param array|string $mid  模型分类id列表
-     * @author 朱亚杰 <xcoolcc@gmail.com>
-     */
-    public function checkModelId($mid){
-        return $this->checkId('Model',$mid, '以下模型id不存在:');
-    }
 
 }
 
