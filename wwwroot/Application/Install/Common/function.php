@@ -118,9 +118,7 @@ function check_func(){
 	$items = array(
 		array('mysql_connect',     '支持', 'success'),
 		array('file_get_contents', '支持', 'success'),
-		array('fsockopen',         '支持', 'success'),
 		array('mb_strlen',		   '支持', 'success'),
-		//array('mime_content_type', '支持', 'success'), //该函数非必须
 	);
 
 	foreach ($items as &$val) {
