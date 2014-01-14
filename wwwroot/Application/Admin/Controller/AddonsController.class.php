@@ -217,7 +217,7 @@ str;
         $voList     =   array_slice($list, $page->firstRow, $page->listRows);
         $p          =   $page->show();
         $this->assign('_list', $voList);
-        $this->assign('_page', $p? $p: '');        
+        $this->assign('_page', $p? $p: '');
         // 记录当前列表页的cookie
         Cookie('__forward__',$_SERVER['REQUEST_URI']);
         $this->display();
@@ -239,9 +239,9 @@ str;
         $this->meta_title = $addon->info['title'];
         extract($param);
         $this->assign('title', $addon->info['title']);
+        $this->assign($param);
         if($addon->custom_adminlist)
             $this->assign('custom_adminlist', $this->fetch($addon->addon_path.$addon->custom_adminlist));
-        $this->assign($param);
         if(!isset($fields))
             $fields = '*';
         if(!isset($map))
