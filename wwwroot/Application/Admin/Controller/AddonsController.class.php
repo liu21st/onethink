@@ -228,6 +228,8 @@ str;
      * @param string $name 插件名
      */
     public function adminList($name){
+        // 记录当前列表页的cookie
+        Cookie('__forward__',$_SERVER['REQUEST_URI']);
         $class = get_addon_class($name);
         if(!class_exists($class))
             $this->error('插件不存在');
@@ -240,8 +242,6 @@ str;
         extract($param);
         $this->assign('title', $addon->info['title']);
         $this->assign($param);
-        if($addon->custom_adminlist)
-            $this->assign('custom_adminlist', $this->fetch($addon->addon_path.$addon->custom_adminlist));
         if(!isset($fields))
             $fields = '*';
         if(!isset($map))
@@ -249,6 +249,8 @@ str;
         if(isset($model))
             $list = $this->lists(D("Addons://{$model}/{$model}")->field($fields),$map);
         $this->assign('_list', $list);
+        if($addon->custom_adminlist)
+            $this->assign('custom_adminlist', $this->fetch($addon->addon_path.$addon->custom_adminlist));
         $this->display();
     }
 
