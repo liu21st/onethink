@@ -15,8 +15,6 @@ namespace Admin\Controller;
  */
 class ActionController extends AdminController {
 
-    static protected $allow = array();
-
     /**
      * 行为日志列表
      * @author huajie <banhuajie@163.com>

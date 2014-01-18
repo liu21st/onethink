@@ -15,8 +15,6 @@ namespace Admin\Controller;
  */
 class AddonsController extends AdminController {
 
-    static protected $deny  = array('addhook','edithook','delhook','updateHook');
-
     public function _initialize(){
         $this->assign('_extra_menu',array(
             '已装插件后台'=> D('Addons')->getAdminList(),

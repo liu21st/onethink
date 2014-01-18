@@ -15,8 +15,6 @@ namespace Admin\Controller;
  */
 class CategoryController extends AdminController {
 
-    static protected $allow = array( 'tree');
-
     /**
      * 分类管理列表
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
