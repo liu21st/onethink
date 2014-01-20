@@ -45,7 +45,7 @@ class DocumentModel extends Model{
         array('view', 0, self::MODEL_INSERT),
         array('comment', 0, self::MODEL_INSERT),
         array('extend', 0, self::MODEL_INSERT),
-        array('create_time', 'getCreateTime', self::MODEL_INSERT,'callback'),
+        array('create_time', 'getCreateTime', self::MODEL_BOTH,'callback'),
 		array('reply_time', 'getCreateTime', self::MODEL_INSERT,'callback'),
         array('update_time', NOW_TIME, self::MODEL_BOTH),
         array('status', 'getStatus', self::MODEL_BOTH, 'callback'),
