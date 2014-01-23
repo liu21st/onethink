@@ -16,8 +16,6 @@ use User\Api\UserApi as UserApi;
  */
 class IndexController extends AdminController {
 
-    static protected $allow = array( 'verify');
-
     /**
      * 后台首页
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>

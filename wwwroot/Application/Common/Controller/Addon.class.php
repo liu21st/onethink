@@ -126,7 +126,15 @@ abstract class Addon{
         }else{
             $temp_arr = include $this->config_file;
             foreach ($temp_arr as $key => $value) {
-                $config[$key] = $temp_arr[$key]['value'];
+                if($value['type'] == 'group'){
+                    foreach ($value['options'] as $gkey => $gvalue) {
+                        foreach ($gvalue['options'] as $ikey => $ivalue) {
+                            $config[$ikey] = $ivalue['value'];
+                        }
+                    }
+                }else{
+                    $config[$key] = $temp_arr[$key]['value'];
+                }
             }
         }
         $_config[$name]     =   $config;

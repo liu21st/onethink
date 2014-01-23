@@ -15,8 +15,6 @@ namespace Admin\Controller;
  */
 class AddonsController extends AdminController {
 
-    static protected $deny  = array('addhook','edithook','delhook','updateHook');
-
     public function _initialize(){
         $this->assign('_extra_menu',array(
             '已装插件后台'=> D('Addons')->getAdminList(),
@@ -217,7 +215,7 @@ str;
         $voList     =   array_slice($list, $page->firstRow, $page->listRows);
         $p          =   $page->show();
         $this->assign('_list', $voList);
-        $this->assign('_page', $p? $p: '');        
+        $this->assign('_page', $p? $p: '');
         // 记录当前列表页的cookie
         Cookie('__forward__',$_SERVER['REQUEST_URI']);
         $this->display();
@@ -228,6 +226,8 @@ str;
      * @param string $name 插件名
      */
     public function adminList($name){
+        // 记录当前列表页的cookie
+        Cookie('__forward__',$_SERVER['REQUEST_URI']);
         $class = get_addon_class($name);
         if(!class_exists($class))
             $this->error('插件不存在');
@@ -239,8 +239,6 @@ str;
         $this->meta_title = $addon->info['title'];
         extract($param);
         $this->assign('title', $addon->info['title']);
-        if($addon->custom_adminlist)
-            $this->assign('custom_adminlist', $this->fetch($addon->addon_path.$addon->custom_adminlist));
         $this->assign($param);
         if(!isset($fields))
             $fields = '*';
@@ -249,6 +247,8 @@ str;
         if(isset($model))
             $list = $this->lists(D("Addons://{$model}/{$model}")->field($fields),$map);
         $this->assign('_list', $list);
+        if($addon->custom_adminlist)
+            $this->assign('custom_adminlist', $this->fetch($addon->addon_path.$addon->custom_adminlist));
         $this->display();
     }
 

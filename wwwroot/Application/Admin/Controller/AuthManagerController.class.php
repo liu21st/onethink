@@ -18,12 +18,6 @@ use Admin\Model\AuthGroupModel;
  */
 class AuthManagerController extends AdminController{
 
-    /* 因为updateRules要供缓存管理模块内部使用,无需通过url访问;*/
-    static protected $deny  =   array('updateRules','tree');
-
-    /* 保存允许所有管理员访问的公共方法 */
-    static protected $allow =   array();
-
     /**
      * 后台节点配置的url作为规则存入auth_rule
      * 执行新节点的插入,已有节点的更新,无效规则的删除三项任务
