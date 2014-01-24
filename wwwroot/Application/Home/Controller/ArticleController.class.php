@@ -29,13 +29,13 @@ class ArticleController extends HomeController {
 	}
 
 	/* 文档模型列表页 */
-	public function lists($page = 1){
+	public function lists($p = 1){
 		/* 分类信息 */
 		$category = $this->category();
 
 		/* 获取当前分类列表 */
 		$Document = D('Document');
-		$list = $Document->page($page, $category['list_row'])->lists($category['id']);
+		$list = $Document->page($p, $category['list_row'])->lists($category['id']);
 		if(false === $list){
 			$this->error('获取列表数据失败！');
 		}
@@ -47,15 +47,15 @@ class ArticleController extends HomeController {
 	}
 
 	/* 文档模型详情页 */
-	public function detail($id = 0, $page = 1){
+	public function detail($id = 0, $p = 1){
 		/* 标识正确性检测 */
 		if(!($id && is_numeric($id))){
 			$this->error('文档ID错误！');
 		}
 
 		/* 页码检测 */
-		$page = intval($page);
-		$page = empty($page) ? 1 : $page;
+		$p = intval($p);
+		$p = empty($p) ? 1 : $p;
 
 		/* 获取详细信息 */
 		$Document = D('Document');
@@ -83,7 +83,7 @@ class ArticleController extends HomeController {
 		/* 模板赋值并渲染模板 */
 		$this->assign('category', $category);
 		$this->assign('info', $info);
-		$this->assign('page', $page); //页码
+		$this->assign('page', $p); //页码
 		$this->display($tmpl);
 	}
 
