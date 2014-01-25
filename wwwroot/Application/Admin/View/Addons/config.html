@@ -93,7 +93,10 @@
 										"width"           : 120,
 										'removeTimeout'   : 1,
 										'fileTypeExts'    : '*.jpg; *.png; *.gif;',
-										"onUploadSuccess" : uploadPicture{$o_key}
+										"onUploadSuccess" : uploadPicture{$o_key},
+										'onFallback' : function() {
+								            alert('未检测到兼容版本的Flash.');
+								        }
 									});
 
 									function uploadPicture{$o_key}(file, data){
@@ -211,7 +214,10 @@
 															"width"           : 120,
 															'removeTimeout'   : 1,
 															'fileTypeExts'    : '*.jpg; *.png; *.gif;',
-															"onUploadSuccess" : uploadPicture{$o_tab_key}
+															"onUploadSuccess" : uploadPicture{$o_tab_key},
+															'onFallback' : function() {
+													            alert('未检测到兼容版本的Flash.');
+													        }
 														});
 
 														function uploadPicture{$o_tab_key}(file, data){

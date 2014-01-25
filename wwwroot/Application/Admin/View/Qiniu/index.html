@@ -264,7 +264,10 @@
 				'removeTimeout'   : 1,
 				'onInit'		  : init,
 				'multi'			  : false,
-				"onUploadSuccess" : uploadSuccess
+				"onUploadSuccess" : uploadSuccess,
+				'onFallback' : function() {
+		            alert('未检测到兼容版本的Flash.');
+		        }
 			});
 			function init(){
 				$('#upload-file, #upload-file-queue').css('display','inline-block');

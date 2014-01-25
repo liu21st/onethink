@@ -97,7 +97,10 @@
 				        "width"           : 120,
 				        'removeTimeout'	  : 1,
 				        'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
-				        "onUploadSuccess" : uploadPicture
+				        "onUploadSuccess" : uploadPicture,
+				        'onFallback' : function() {
+				            alert('未检测到兼容版本的Flash.');
+				        }
 				    });
 					function uploadPicture(file, data){
 				    	var data = $.parseJSON(data);
