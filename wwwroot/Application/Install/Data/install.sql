@@ -137,7 +137,8 @@ CREATE TABLE `onethink_attribute` (
   `auto_rule` varchar(100) NOT NULL,
   `auto_time` tinyint(1) unsigned NOT NULL,
   `auto_type` varchar(25) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+    KEY `model_id` (`model_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 COMMENT='模型属性表';
 
 -- -----------------------------
@@ -248,7 +249,7 @@ CREATE TABLE `onethink_auth_rule` (
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否有效(0:无效,1:有效)',
   `condition` varchar(300) NOT NULL DEFAULT '' COMMENT '规则附加条件',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`module`,`name`,`type`)
+  KEY `module` (`module`,`status`,`type`)
 ) ENGINE=MyISAM AUTO_INCREMENT=217 DEFAULT CHARSET=utf8;
 
 -- -----------------------------
@@ -259,7 +260,6 @@ INSERT INTO `onethink_auth_rule` VALUES ('2', 'admin', '2', 'Admin/Article/mydoc
 INSERT INTO `onethink_auth_rule` VALUES ('3', 'admin', '2', 'Admin/User/index', '用户', '1', '');
 INSERT INTO `onethink_auth_rule` VALUES ('4', 'admin', '2', 'Admin/Addons/index', '扩展', '1', '');
 INSERT INTO `onethink_auth_rule` VALUES ('5', 'admin', '2', 'Admin/Config/group', '系统', '1', '');
-INSERT INTO `onethink_auth_rule` VALUES ('6', 'admin', '1', 'Admin/Index/index', '首页', '-1', '');
 INSERT INTO `onethink_auth_rule` VALUES ('7', 'admin', '1', 'Admin/article/add', '新增', '1', '');
 INSERT INTO `onethink_auth_rule` VALUES ('8', 'admin', '1', 'Admin/article/edit', '编辑', '1', '');
 INSERT INTO `onethink_auth_rule` VALUES ('9', 'admin', '1', 'Admin/article/setStatus', '改变状态', '1', '');
@@ -501,7 +501,8 @@ CREATE TABLE `onethink_category` (
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '数据状态',
   `icon` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '分类图标',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_name` (`name`)
+  UNIQUE KEY `uk_name` (`name`),
+  KEY `pid` (`pid`)
 ) ENGINE=MyISAM AUTO_INCREMENT=39 DEFAULT CHARSET=utf8 COMMENT='分类表';
 
 -- -----------------------------
@@ -524,7 +525,8 @@ CREATE TABLE `onethink_channel` (
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态',
   `target` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '新窗口打开',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `pid` (`pid`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- -----------------------------
@@ -552,7 +554,9 @@ CREATE TABLE `onethink_config` (
   `value` text NOT NULL COMMENT '配置值',
   `sort` smallint(3) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_name` (`name`)
+  UNIQUE KEY `uk_name` (`name`),
+  KEY `type` (`type`),
+  KEY `group` (`group`)
 ) ENGINE=MyISAM AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
 
 -- -----------------------------
@@ -615,9 +619,8 @@ CREATE TABLE `onethink_document` (
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '数据状态',
   PRIMARY KEY (`id`),
-  KEY `idx_name` (`name`),
   KEY `idx_category_status` (`category_id`,`status`),
-  KEY `idx_status_type_pid` (`status`,`type`,`pid`)
+  KEY `idx_status_type_pid` (`status`,`uid`,`pid`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='文档模型基础表';
 
 -- -----------------------------
@@ -692,7 +695,7 @@ CREATE TABLE `onethink_hooks` (
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `addons` varchar(255) NOT NULL DEFAULT '' COMMENT '钩子挂载的插件 ''，''分割',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `搜索索引` (`name`)
+  UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 -- -----------------------------
@@ -727,7 +730,8 @@ CREATE TABLE `onethink_member` (
   `last_login_ip` bigint(20) NOT NULL DEFAULT '0' COMMENT '最后登录IP',
   `last_login_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后登录时间',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '会员状态',
-  PRIMARY KEY (`uid`)
+  PRIMARY KEY (`uid`),
+  KEY `status` (`status`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='会员表';
 
 -- -----------------------------
@@ -744,7 +748,8 @@ CREATE TABLE `onethink_menu` (
   `tip` varchar(255) NOT NULL DEFAULT '' COMMENT '提示',
   `group` varchar(50) DEFAULT '' COMMENT '分组',
   `is_dev` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否仅开发者模式可见',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `pid` (`pid`)
 ) ENGINE=MyISAM AUTO_INCREMENT=122 DEFAULT CHARSET=utf8;
 
 -- -----------------------------
