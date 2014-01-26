@@ -31,6 +31,7 @@
             }
         });
     });
-$('.side-sub-menu').find('a[href="{:U('User/index')}"]').closest('li').addClass('current');
+    // 导航高亮
+    highlight_subnav('{:U('User/index')}');
 </script>
 </block>

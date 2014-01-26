@@ -62,7 +62,8 @@
 <script type="text/javascript" charset="utf-8">
 Think.setValue("extend", {$info.extend|default=0});
 //导航高亮
-$('.side-sub-menu').find('a[href="{:U('Action/actionlog')}"]').closest('li').addClass('current');
+highlight_subnav('{:U('Action/actionlog')}');
+
 
 $(function(){
 	showTab();

@@ -60,6 +60,6 @@
 <script type="text/javascript" charset="utf-8">
 	Think.setValue('type',{$type|default=1});
     //导航高亮
-    $('.side-sub-menu').find('a[href="{:U('User/Action')}"]').closest('li').addClass('current');
+    highlight_subnav('{:U('User/action')}');
 </script>
 </block>

@@ -252,6 +252,6 @@
 			}).filter(":checked").change();
 		});
 		//导航高亮
-		$('.side-sub-menu').find('a[href="{:U('Category/index')}"]').closest('li').addClass('current');
+		highlight_subnav('{:U('Category/index')}');
 	</script>
 </block>

@@ -38,7 +38,7 @@
 <block name="script">
 	<script type="text/javascript">
 	//导航高亮
-	$('.side-sub-menu').find('a[href="{:U('Menu/index')}"]').closest('li').addClass('current');
+	highlight_subnav('{:U('Menu/index')}');
 		$(function(){
 			sort();
 			$(".top").click(function(){

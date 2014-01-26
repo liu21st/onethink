@@ -81,6 +81,6 @@
 		Think.setValue("type", {$info.type|default=0});
 		Think.setValue("group", {$info.group|default=0});
 		//导航高亮
-		$('.side-sub-menu').find('a[href="{:U('Config/index')}"]').closest('li').addClass('current');
+		highlight_subnav('{:U('Config/index')}');
 	</script>
 </block>

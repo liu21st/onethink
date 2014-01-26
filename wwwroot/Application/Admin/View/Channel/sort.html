@@ -37,8 +37,8 @@
 
 <block name="script">
 	<script type="text/javascript">
-	//导航高亮
-	$('.side-sub-menu').find('a[href="{:U('Channel/index')}"]').closest('li').addClass('current');
+		//导航高亮
+		highlight_subnav('{:U('Channel/index')}');
 		$(function(){
 			sort();
 			$(".top").click(function(){
