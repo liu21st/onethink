@@ -314,3 +314,8 @@ function showBtn() {
         $("#submit-next").removeClass("hidden");
     }
 }
+
+//导航高亮
+function highlight_subnav(url){
+    $('.side-sub-menu').find('a[href="'+url+'"]').closest('li').addClass('current');
+}

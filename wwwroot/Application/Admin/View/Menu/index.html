@@ -75,7 +75,7 @@
         </form>
         <!-- 分页 -->
         <div class="page">
-            
+
         </div>
     </div>
 </block>
@@ -104,7 +104,7 @@
                 }
             });
             //导航高亮
-            $('.side-sub-menu').find('a[href="{:U('index')}"]').closest('li').addClass('current');
+            highlight_subnav('{:U('index')}');
             //点击排序
         	$('.list_sort').click(function(){
         		var url = $(this).attr('url');

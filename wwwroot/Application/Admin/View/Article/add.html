@@ -107,7 +107,10 @@
 							        "width"           : 120,
 							        'removeTimeout'	  : 1,
 							        'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
-							        "onUploadSuccess" : uploadPicture{$field.name}
+							        "onUploadSuccess" : uploadPicture{$field.name},
+							        'onFallback' : function() {
+							            alert('未检测到兼容版本的Flash.');
+							        }
 							    });
 								function uploadPicture{$field.name}(file, data){
 							    	var data = $.parseJSON(data);
@@ -149,7 +152,10 @@
 							        "uploader"        : "{:U('File/upload',array('session_id'=>session_id()))}",
 							        "width"           : 120,
 							        'removeTimeout'	  : 1,
-							        "onUploadSuccess" : uploadFile{$field.name}
+							        "onUploadSuccess" : uploadFile{$field.name},
+							        'onFallback' : function() {
+							            alert('未检测到兼容版本的Flash.');
+							        }
 							    });
 								function uploadFile{$field.name}(file, data){
 									var data = $.parseJSON(data);

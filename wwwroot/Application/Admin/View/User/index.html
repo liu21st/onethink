@@ -62,7 +62,7 @@
 		<td colspan="9" class="text-center"> aOh! 暂时还没有内容! </td>
 		</notempty>
 	</tbody>
-    </table> 
+    </table>
 	</div>
     <div class="page">
         {$_page}
@@ -94,6 +94,6 @@
 		}
 	});
     //导航高亮
-    $('.side-sub-menu').find('a[href="{:U('User/index')}"]').closest('li').addClass('current');
+    highlight_subnav('{:U('User/index')}');
 	</script>
 </block>

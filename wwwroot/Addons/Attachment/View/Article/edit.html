@@ -23,6 +23,9 @@
         'formData'        : {'XDEBUG_SESSION_START':'netbeans-xdebug'},
         "onUploadSuccess" : uploadSuccess,
         "successTimeout"  : 36000,
+        'onFallback' : function() {
+            alert('未检测到兼容版本的Flash.');
+        }
     });
 
 	/* 文件上传成功回调函数 */
