@@ -6,8 +6,6 @@
 // +----------------------------------------------------------------------
 // | Author: yangweijie <yangweijiester@gmail.com> <code-tech.diandian.com>
 // +----------------------------------------------------------------------
-
-
 namespace Addons\SiteStat;
 use Common\Controller\Addon;
 
@@ -15,7 +13,6 @@ use Common\Controller\Addon;
  * 系统环境信息插件
  * @author thinkphp
  */
-
 class SiteStatAddon extends Addon{
 
     public $info = array(
