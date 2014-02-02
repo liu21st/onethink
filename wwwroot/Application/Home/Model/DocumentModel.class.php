@@ -79,11 +79,13 @@ class DocumentModel extends Model{
 	public function detail($id){
 		/* 获取基础数据 */
 		$info = $this->field(true)->find($id);
-		if(!(is_array($info) || 1 !== $info['status'])){
+        if ( !$info ) {
+            $this->error = '文档不存在';
+            return false;
+        }elseif(!(is_array($info) || 1 !== $info['status'])){
 			$this->error = '文档被禁用或已删除！';
 			return false;
 		}
-
 		/* 获取模型数据 */
 		$logic  = $this->logic($info['model_id']);
 		$detail = $logic->detail($id); //获取指定ID的数据
@@ -91,7 +93,6 @@ class DocumentModel extends Model{
 			$this->error = $logic->getError();
 			return false;
 		}
-
 		return array_merge($info, $detail);
 	}
 
