@@ -357,7 +357,7 @@ function require_cache($filename) {
  */
 function file_exists_case($filename) {
     if (is_file($filename)) {
-        if (IS_WIN && C('APP_FILE_CASE')) {
+        if (IS_WIN && APP_DEBUG) {
             if (basename(realpath($filename)) != basename($filename))
                 return false;
         }
@@ -457,7 +457,11 @@ function D($name='',$layer='') {
         $model      =   new $class(basename($name));
     }elseif(false === strpos($name,'/')){
         // 自动加载公共模块下面的模型
-        $class      =   '\\Common\\'.$layer.'\\'.$name.$layer;
+        if(!C('APP_USE_NAMESPACE')){
+            import('Common/'.$layer.'/'.$class);
+        }else{
+            $class      =   '\\Common\\'.$layer.'\\'.$name.$layer;
+        }
         $model      =   class_exists($class)? new $class($name) : new Think\Model($name);
     }else {
         Think\Log::record('D方法实例化没找到模型类'.$class,Think\Log::NOTICE);
@@ -506,13 +510,18 @@ function parse_res_name($name,$layer,$level=1){
         $module =   MODULE_NAME;
     }
     $array  =   explode('/',$name);
-    $class  =   $module.'\\'.$layer;
-    foreach($array as $name){
-        $class  .=   '\\'.parse_name($name, 1);
-    }
-    // 导入资源类库
-    if($extend){ // 扩展资源
-        $class      =   $extend.'\\'.$class;
+    if(!C('APP_USE_NAMESPACE')){
+        $class  =   parse_name($name, 1);
+        import($module.'/'.$layer.'/'.$class.$layer);
+    }else{
+        $class  =   $module.'\\'.$layer;
+        foreach($array as $name){
+            $class  .=   '\\'.parse_name($name, 1);
+        }
+        // 导入资源类库
+        if($extend){ // 扩展资源
+            $class      =   $extend.'\\'.$class;
+        }
     }
     return $class.$layer;
 }
@@ -1224,16 +1233,15 @@ function cookie($name, $value='', $option=null) {
  */
 function load_ext_file($path) {
     // 加载自定义外部文件
-    if(C('LOAD_EXT_FILE')) {
-        $files      =  explode(',',C('LOAD_EXT_FILE'));
+    if($files = C('LOAD_EXT_FILE')) {
+        $files      =  explode(',',$files);
         foreach ($files as $file){
             $file   = $path.'Common/'.$file.'.php';
             if(is_file($file)) include $file;
         }
     }
     // 加载自定义的动态配置文件
-    if(C('LOAD_EXT_CONFIG')) {
-        $configs    =  C('LOAD_EXT_CONFIG');
+    if($configs = C('LOAD_EXT_CONFIG')) {
         if(is_string($configs)) $configs =  explode(',',$configs);
         foreach ($configs as $key=>$config){
             $file   = $path.'Conf/'.$config.'.php';

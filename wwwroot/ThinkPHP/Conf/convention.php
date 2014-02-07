@@ -18,7 +18,7 @@
 defined('THINK_PATH') or exit();
 return  array(
     /* 应用设定 */
-    'APP_FILE_CASE'         =>  false,   // 是否检查文件的大小写 对Windows平台有效
+    'APP_USE_NAMESPACE'     =>  true,    // 应用类库是否使用命名空间
     'APP_SUB_DOMAIN_DEPLOY' =>  false,   // 是否开启子域名部署
     'APP_SUB_DOMAIN_RULES'  =>  array(), // 子域名部署规则
     'APP_DOMAIN_SUFFIX'     =>  '', // 域名后缀 如果是com.cn net.cn 之类的后缀必须设置    
@@ -26,6 +26,8 @@ return  array(
     'MULTI_MODULE'          =>  true, // 是否允许多模块 如果为false 则必须设置 DEFAULT_MODULE
     'MODULE_DENY_LIST'      =>  array('Common','Runtime'),
     'CONTROLLER_LEVEL'      =>  1,
+    'APP_AUTOLOAD_LAYER'    =>  'Controller,Model', // 自动加载的应用类库层 关闭APP_USE_NAMESPACE后有效
+    'APP_AUTOLOAD_PATH'     =>  '', // 自动加载的路径 关闭APP_USE_NAMESPACE后有效
 
     /* Cookie设置 */
     'COOKIE_EXPIRE'         =>  0,    // Cookie有效期
@@ -83,7 +85,6 @@ return  array(
     'ERROR_MESSAGE'         =>  '页面错误！请稍后再试～',//错误显示信息,非调试模式有效
     'ERROR_PAGE'            =>  '',	// 错误定向页面
     'SHOW_ERROR_MSG'        =>  false,    // 显示错误信息
-    'TRACE_EXCEPTION'       =>  false,   // TRACE错误信息是否抛异常 针对trace方法 
     'TRACE_MAX_RECORD'      =>  100,    // 每个级别的错误信息 最大记录数
 
     /* 日志设置 */
@@ -155,7 +156,6 @@ return  array(
     'VAR_JSONP_HANDLER'     =>  'callback',
     'VAR_PATHINFO'          =>  's',    // 兼容模式PATHINFO获取变量例如 ?s=/module/action/id/1 后面的参数取决于URL_PATHINFO_DEPR
     'VAR_TEMPLATE'          =>  't',    // 默认模板切换变量
-    'VAR_FILTERS'           =>  'filter_exp',     // 全局系统变量的默认过滤方法 多个用逗号分割
 
     'HTTP_CACHE_CONTROL'    =>  'private',  // 网页缓存控制
     'CHECK_APP_DIR'         =>  true,       // 是否检查应用目录是否创建

@@ -126,6 +126,17 @@ class Think {
         }        
     }
 
+    // 获取classmap
+    static public function getMap($class=''){
+        if(''===$class){
+            return self::$_map;
+        }elseif(isset(self::$_map[$class])){
+            return self::$_map[$class];
+        }else{
+            return null;
+        }
+    }
+
     /**
      * 类库自动加载
      * @param string $class 对象类名
@@ -135,7 +146,7 @@ class Think {
         // 检查是否存在映射
         if(isset(self::$_map[$class])) {
             include self::$_map[$class];
-        }else{
+        }elseif(strpos($class,'\\')){
           $name           =   strstr($class, '\\', true);
           if(in_array($name,array('Think','Org','Behavior','Com','Vendor')) || is_dir(LIB_PATH.$name)){ 
               // Library目录下面的命名空间自动定位
@@ -153,7 +164,22 @@ class Think {
               }
               include $filename;
           }
-        }
+        }else{
+            // 自动加载的类库层
+            foreach(explode(',',C('APP_AUTOLOAD_LAYER')) as $layer){
+                if(substr($class,-strlen($layer))==$layer){
+                    if(require_cache(MODULE_PATH.$layer.'/'.$class.EXT)) {
+                        return ;
+                    }
+                }            
+            }
+            // 根据自动加载路径设置进行尝试搜索
+            foreach (explode(',',C('APP_AUTOLOAD_PATH')) as $path){
+                if(import($path.'.'.$class))
+                    // 如果加载类成功则返回
+                    return ;
+            }
+          }
     }
 
     /**
@@ -223,9 +249,6 @@ class Think {
             if(C('LOG_RECORD')) Log::write("[$errno] ".$errorStr,Log::ERR);
             self::halt($errorStr);
             break;
-          case E_STRICT:
-          case E_USER_WARNING:
-          case E_USER_NOTICE:
           default:
             $errorStr = "[$errno] $errstr ".$errfile." 第 $errline 行.";
             self::trace($errorStr,'','NOTIC');
@@ -271,7 +294,7 @@ class Think {
                 $e              = $error;
             }
             if(IS_CLI){
-                exit($e['message'].PHP_EOL.'FILE: '.$e['file'].'('.$e['line'].')'.PHP_EOL.$e['trace']);
+                exit(iconv('UTF-8','gbk',$e['message']).PHP_EOL.'FILE: '.$e['file'].'('.$e['line'].')'.PHP_EOL.$e['trace']);
             }
         } else {
             //否则定向到错误页面
@@ -279,19 +302,13 @@ class Think {
             if (!empty($error_page)) {
                 redirect($error_page);
             } else {
-                if (C('SHOW_ERROR_MSG'))
-                    $e['message'] = is_array($error) ? $error['message'] : $error;
-                else
-                    $e['message'] = C('ERROR_MESSAGE');
+                $message        = is_array($error) ? $error['message'] : $error;
+                $e['message']   = C('SHOW_ERROR_MSG')? $message : C('ERROR_MESSAGE');
             }
         }
         // 包含异常页面模板
-        $TMPL_EXCEPTION_FILE=C('TMPL_EXCEPTION_FILE');
-        if(!$TMPL_EXCEPTION_FILE){
-            //显示在加载配置文件之前的程序错误
-            exit('<b>Error:</b>'.$e['message'].' in <b> '.$e['file'].' </b> on line <b>'.$e['line'].'</b>'); 
-        }
-        include $TMPL_EXCEPTION_FILE;
+        $exceptionFile =  C('TMPL_EXCEPTION_FILE',null,THINK_PATH.'Tpl/think_exception.tpl');
+        include $exceptionFile;
         exit;
     }
 
@@ -309,16 +326,15 @@ class Think {
             return $_trace;
         }else{
             $info   =   ($label?$label.':':'').print_r($value,true);
-            if('ERR' == $level && C('TRACE_EXCEPTION')) {// 抛出异常
-                E($info);
-            }
             $level  =   strtoupper($level);
-            if(!isset($_trace[$level]) || count($_trace[$level])>C('TRACE_MAX_RECORD')) {
-                $_trace[$level] =   array();
-            }
-            $_trace[$level][]   =   $info;
+            
             if((defined('IS_AJAX') && IS_AJAX) || !C('SHOW_PAGE_TRACE')  || $record) {
                 Log::record($info,$level,$record);
+            }else{
+                if(!isset($_trace[$level]) || count($_trace[$level])>C('TRACE_MAX_RECORD')) {
+                    $_trace[$level] =   array();
+                }
+                $_trace[$level][]   =   $info;
             }
         }
     }
