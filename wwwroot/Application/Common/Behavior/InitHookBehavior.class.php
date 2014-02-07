@@ -31,7 +31,7 @@ class InitHookBehavior extends Behavior {
                     $data = M('Addons')->where($map)->getField('id,name');
                     if($data){
                         $addons = array_intersect($names, $data);
-                        Hook::add($key,$addons);
+                        Hook::add($key,array_map('get_addon_class',$addons));
                     }
                 }
             }
