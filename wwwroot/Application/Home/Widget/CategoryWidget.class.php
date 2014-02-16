@@ -8,14 +8,14 @@
 // +----------------------------------------------------------------------
 
 namespace Home\Widget;
-use Think\Action;
+use Think\Controller;
 
 /**
  * 分类widget
  * 用于动态调用分类信息
  */
 
-class CategoryWidget extends Action{
+class CategoryWidget extends Controller{
 	
 	/* 显示指定分类的同级分类或子分类列表 */
 	public function lists($cate, $child = false){

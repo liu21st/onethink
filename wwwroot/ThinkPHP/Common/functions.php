@@ -101,7 +101,7 @@ function G($start,$end='',$dec=4) {
 /**
  * 获取和设置语言定义(不区分大小写)
  * @param string|array $name 语言变量
- * @param string $value 语言值
+ * @param mixed $value 语言值或者变量
  * @return mixed
  */
 function L($name=null, $value=null) {
@@ -112,9 +112,17 @@ function L($name=null, $value=null) {
     // 判断语言获取(或设置)
     // 若不存在,直接返回全大写$name
     if (is_string($name)) {
-        $name = strtoupper($name);
-        if (is_null($value))
+        $name   =   strtoupper($name);
+        if (is_null($value)){
             return isset($_lang[$name]) ? $_lang[$name] : $name;
+        }elseif(is_array($value)){
+            // 支持变量
+            $replace = array_keys($value);
+            foreach($replace as &$v){
+                $v = '{$'.$v.'}';
+            }
+            return str_replace($replace,$value,isset($_lang[$name]) ? $_lang[$name] : $name);        
+        }
         $_lang[$name] = $value; // 语言定义
         return;
     }
@@ -584,14 +592,13 @@ function tag($tag, &$params=NULL) {
 /**
  * 执行某个行为
  * @param string $name 行为名称
+ * @param string $tag 标签名称（行为类无需传入） 
  * @param Mixed $params 传入的参数
  * @return void
  */
-function B($name, &$params=NULL) {
-    if(strpos($name,'/')){
-        list($name,$tag) = explode('/',$name);
-    }else{
-        $tag     =   'run';
+function B($name, $tag='',&$params=NULL) {
+    if(''==$tag){
+        $name   .=  'Behavior';
     }
     return \Think\Hook::exec($name,$tag,$params);
 }
@@ -1255,19 +1262,24 @@ function load_ext_file($path) {
 /**
  * 获取客户端IP地址
  * @param integer $type 返回类型 0 返回IP地址 1 返回IPV4地址数字
+ * @param boolean $adv 是否进行高级模式获取（有可能被伪装） 
  * @return mixed
  */
-function get_client_ip($type = 0) {
+function get_client_ip($type = 0,$adv=false) {
     $type       =  $type ? 1 : 0;
     static $ip  =   NULL;
     if ($ip !== NULL) return $ip[$type];
-    if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-        $arr    =   explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-        $pos    =   array_search('unknown',$arr);
-        if(false !== $pos) unset($arr[$pos]);
-        $ip     =   trim($arr[0]);
-    }elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
-        $ip     =   $_SERVER['HTTP_CLIENT_IP'];
+    if($adv){
+        if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $arr    =   explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+            $pos    =   array_search('unknown',$arr);
+            if(false !== $pos) unset($arr[$pos]);
+            $ip     =   trim($arr[0]);
+        }elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
+            $ip     =   $_SERVER['HTTP_CLIENT_IP'];
+        }elseif (isset($_SERVER['REMOTE_ADDR'])) {
+            $ip     =   $_SERVER['REMOTE_ADDR'];
+        }
     }elseif (isset($_SERVER['REMOTE_ADDR'])) {
         $ip     =   $_SERVER['REMOTE_ADDR'];
     }

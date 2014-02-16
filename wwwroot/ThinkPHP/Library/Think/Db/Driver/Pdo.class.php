@@ -44,6 +44,9 @@ class Pdo extends Db{
             if($this->pconnect) {
                 $config['params'][\PDO::ATTR_PERSISTENT] = true;
             }
+            if(version_compare(PHP_VERSION,'5.3.6','<=')){ //禁用模拟预处理语句
+                $config['params'][\PDO::ATTR_EMULATE_PREPARES]  =   false;
+            }
             //$config['params'][PDO::ATTR_CASE] = C("DB_CASE_LOWER")?PDO::CASE_LOWER:PDO::CASE_UPPER;
             try{
                 $this->linkID[$linkNum] = new \PDO( $config['dsn'], $config['username'], $config['password'],$config['params']);
@@ -56,7 +59,7 @@ class Pdo extends Db{
                 // 由于PDO对于以上的数据库支持不够完美，所以屏蔽了 如果仍然希望使用PDO 可以注释下面一行代码
                 E('由于目前PDO暂时不能完美支持'.$this->dbType.' 请使用官方的'.$this->dbType.'驱动');
             }
-            $this->linkID[$linkNum]->exec('SET NAMES '.C('DB_CHARSET'));
+            $this->linkID[$linkNum]->exec('SET NAMES '.$config['charset']);
             // 标记连接成功
             $this->connected    =   true;
             // 注销数据库连接配置信息
