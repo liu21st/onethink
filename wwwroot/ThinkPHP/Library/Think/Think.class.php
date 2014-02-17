@@ -266,7 +266,7 @@ class Think {
               case E_CORE_ERROR:
               case E_COMPILE_ERROR:
               case E_USER_ERROR:  
-                //ob_end_clean();var_dump($e);exit;
+                ob_end_clean();
                 self::halt($e);
                 break;
             }
