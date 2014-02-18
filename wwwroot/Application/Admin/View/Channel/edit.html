@@ -27,8 +27,8 @@
             <label class="item-label">新窗口打开<span class="check-tips">（是否新窗口打开链接）</span></label>
             <div class="controls">
                 <select name="target">
-                     <option value="0">否</option>
-					 <option value="1">是</option>
+				<option value="0" <eq name="info.target" value="0" >selected</eq>>否</option>
+				<option value="1" <eq name="info.target" value="1" >selected</eq>>是</option>
                 </select>
             </div>
         </div>
