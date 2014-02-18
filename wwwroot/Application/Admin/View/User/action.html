@@ -7,10 +7,10 @@
 	</div>
 
     <div>
-        <button class="btn" id="action_add" url="{:U('user/addaction')}">新 增</button>
-        <button class="btn ajax-post" target-form="ids" url="{:u('setstatus',array('status'=>1))}" >启 用</button>
-        <button class="btn ajax-post" target-form="ids" url="{:u('setstatus',array('status'=>0))}">禁 用</button>
-        <button class="btn ajax-post confirm" target-form="ids" url="{:U('setStatus',array('status'=>-1))}">删 除</button>
+        <button class="btn" id="action_add" url="{:U('addaction')}">新 增</button>
+        <button class="btn ajax-post" target-form="ids" url="{:u('setstatus?Model=Action&status=1')}" >启 用</button>
+        <button class="btn ajax-post" target-form="ids" url="{:u('setstatus?Model=Action&status=0')}">禁 用</button>
+        <button class="btn ajax-post confirm" target-form="ids" url="{:U('setStatus?Model=Action&status=-1')}">删 除</button>
     </div>
 	<!-- 数据列表 -->
 	<div class="data-table">

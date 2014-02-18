@@ -7,9 +7,9 @@
 
     <div class="tools auth-botton">
         <a id="add-group" class="btn" href="{:U('createGroup')}">新 增</a>
-        <a url="{:U('changestatus',array('method'=>'resumeGroup'))}" class="btn ajax-post" target-form="ids" >启 用</a>
-        <a url="{:U('changestatus',array('method'=>'forbidGroup'))}" class="btn ajax-post" target-form="ids" >禁 用</a>
-        <a url="{:U('changestatus',array('method'=>'deleteGroup'))}" class="btn ajax-post confirm" target-form="ids" >删 除</a>
+        <a url="{:U('changestatus?method=resumeGroup')}" class="btn ajax-post" target-form="ids" >启 用</a>
+        <a url="{:U('changestatus?method=forbidGroup')}" class="btn ajax-post" target-form="ids" >禁 用</a>
+        <a url="{:U('changestatus?method=deleteGroup')}" class="btn ajax-post confirm" target-form="ids" >删 除</a>
     </div>
 	<!-- 数据列表 -->
 	<div class="data-table table-striped">

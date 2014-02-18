@@ -7,10 +7,10 @@
 	</div>
 	<div class="cf">
 		<div class="fl">
-            <a class="btn" href="{:U('User/add')}">新 增</a>
-            <button class="btn ajax-post" url="{:U('User/changeStatus',array('method'=>'resumeUser'))}" target-form="ids">启 用</button>
-            <button class="btn ajax-post" url="{:U('User/changeStatus',array('method'=>'forbidUser'))}" target-form="ids">禁 用</button>
-            <button class="btn ajax-post confirm" url="{:U('User/changeStatus',array('method'=>'deleteUser'))}" target-form="ids">删 除</button>
+            <a class="btn" href="{:U('add')}">新 增</a>
+            <button class="btn ajax-post" url="{:U('changeStatus?method=resumeUser')}" target-form="ids">启 用</button>
+            <button class="btn ajax-post" url="{:U('changeStatus?method=forbidUser')}" target-form="ids">禁 用</button>
+            <button class="btn ajax-post confirm" url="{:U('changeStatus?method=deleteUser')}" target-form="ids">删 除</button>
         </div>
 
         <!-- 高级搜索 -->
@@ -54,7 +54,8 @@
 				<else/>
 				<a href="{:U('User/changeStatus?method=resumeUser&id='.$vo['uid'])}" class="ajax-get">启用</a>
 				</eq>
-				<a href="{:U('AuthManager/group?uid='.$vo['uid'])}" class="confirm ajax-get">删除</a>
+				<a href="{:U('AuthManager/group?uid='.$vo['uid'])}" class="authorize">授权</a>
+                <a href="{:U('User/changeStatus?method=deleteUser&id='.$vo['uid'])}" class="confirm ajax-get">删除</a>
                 </td>
 		</tr>
 		</volist>
