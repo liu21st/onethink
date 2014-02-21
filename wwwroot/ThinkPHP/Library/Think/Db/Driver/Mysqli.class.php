@@ -44,7 +44,7 @@ class Mysqli extends Db{
             $this->linkID[$linkNum] = new \mysqli($config['hostname'],$config['username'],$config['password'],$config['database'],$config['hostport']?intval($config['hostport']):3306);
             if (mysqli_connect_errno()) E(mysqli_connect_error());
             $dbVersion = $this->linkID[$linkNum]->server_version;
-            
+
             // 设置数据库编码
             $this->linkID[$linkNum]->query("SET NAMES '".$config['charset']."'");
             //设置 sql_model
@@ -64,7 +64,9 @@ class Mysqli extends Db{
      * @access public
      */
     public function free() {
-        $this->queryID->free_result();
+    	if($this->queryID !== true && $this->queryID){
+    		$this->queryID->close();
+    	}
         $this->queryID = null;
     }
 
