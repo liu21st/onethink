@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2013 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006-2014 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -167,7 +167,7 @@ class Think {
               }
               include $filename;
           }
-        }else{
+        }elseif (!C('APP_USE_NAMESPACE')) {
             // 自动加载的类库层
             foreach(explode(',',C('APP_AUTOLOAD_LAYER')) as $layer){
                 if(substr($class,-strlen($layer))==$layer){
@@ -182,7 +182,7 @@ class Think {
                     // 如果加载类成功则返回
                     return ;
             }
-          }
+        }
     }
 
     /**
