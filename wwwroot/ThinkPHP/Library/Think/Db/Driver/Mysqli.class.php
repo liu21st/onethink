@@ -64,8 +64,8 @@ class Mysqli extends Db{
      * @access public
      */
     public function free() {
-    	if($this->queryID !== true && $this->queryID){
-    		$this->queryID->close();
+    	if(is_object($this->queryID)){
+    		$this->queryID->free_result();
     	}
         $this->queryID = null;
     }
