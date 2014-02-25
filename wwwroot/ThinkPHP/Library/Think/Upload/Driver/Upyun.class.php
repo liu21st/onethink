@@ -77,7 +77,7 @@ class Upyun{
      * @param  boolean $replace 同名文件是否覆盖
      * @return boolean          保存状态，true-成功，false-失败
      */
-    public function save($file, $replace = true) {
+    public function save(&$file, $replace = true) {
         $header['Content-Type'] = $file['type'];
         $header['Content-MD5'] = md5_file($file['md5']);
         $header['Mkdir'] = 'true';
@@ -85,6 +85,7 @@ class Upyun{
 
         $save = $this->rootPath . $file['savepath'] . $file['savename'];
         $data = $this->request($save, 'PUT', $header, $resource);
+        $file['url'] = $data? 'http://v0.api.upyun.com/'.$this->bucket.str_replace('./', '/', $save);
         return false === $data ? false : true;
     }
 

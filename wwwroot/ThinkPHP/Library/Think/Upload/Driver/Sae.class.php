@@ -26,7 +26,7 @@ class Sae{
     private $error      =   ''; 
 
     /**
-     * 构造函数，设置storage的domain， 如果有传配置，则domain为配置项，如果没有传domain为第一个路径的目录名称。 
+     * 构造函数，设置storage的domain， 如果有传配置，则domain为配置项，如果没有传domain为第一个路径的目录名称。
      * @param string $root 根目录
      * @param mixed $config 上传配置     
      */
@@ -71,8 +71,8 @@ class Sae{
      */
     public function save(&$file, $replace=true) {
         $filename = ltrim($this->rootPath .'/'. $file['savepath'] . $file['savename'],'/');
-        $st =   new \SaeStorage();
-        /* 不覆盖同名文件 */ 
+        $st = new \SaeStorage();
+        /* 不覆盖同名文件 */
         if (!$replace && $st->fileExists($this->domain,$filename)) {
             $this->error = '存在同名文件' . $file['savename'];
             return false;
@@ -85,6 +85,7 @@ class Sae{
         }else{
             $file['url'] = $st->getUrl($this->domain, $filename);
         }
+
         return true;
     }
 
