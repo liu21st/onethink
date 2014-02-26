@@ -13,7 +13,7 @@
         <!-- 基础文档模型 -->
 		<div id="tab" class="tab-pane in tab1">
             <volist name="fields" id="field">
-                <if condition="$field['is_show'] == 1 || $field['is_show'] == 3">
+                <if condition="$field['is_show'] == 1 || ($field['is_show'] == 3 && $data['id']) || ($field['is_show'] == 2 && !$data['id'])">
                 <div class="form-item cf">
                     <label class="item-label">{$field['title']}<span class="check-tips"><notempty name="field['remark']">（{$field['remark']}）</notempty></span></label>
                     <div class="controls">
