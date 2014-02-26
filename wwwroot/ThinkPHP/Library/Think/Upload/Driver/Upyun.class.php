@@ -85,7 +85,7 @@ class Upyun{
 
         $save = $this->rootPath . $file['savepath'] . $file['savename'];
         $data = $this->request($save, 'PUT', $header, $resource);
-        $file['url'] = $data? 'http://v0.api.upyun.com/'.$this->bucket.str_replace('./', '/', $save);
+        $file['url'] = false !== $data? 'http://v0.api.upyun.com/'.$this->bucket.str_replace('./', '/', $save):'';
         return false === $data ? false : true;
     }
 
