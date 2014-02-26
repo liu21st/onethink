@@ -26,11 +26,12 @@ class AttachmentAddon extends Addon{
 	);
 
 	public $admin_list = array(
-		'listKey' => array(
-			'title'=>'文件名',
-			'size'=>'大小',
-			'update_time_text'=>'更新时间',
-			'document_title'=>'文档标题'
+		'list_grid' => array(
+			'id:ID',
+			'title:文件名',
+			'size:大小',
+			'update_time_text:更新时间',
+			'document_title:文档标题'
 		),
 		'model'=>'Attachment',
 		'order'=>'id asc'

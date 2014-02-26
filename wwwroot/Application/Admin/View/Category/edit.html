@@ -81,7 +81,7 @@
 						<input type="hidden" name="icon" id="icon" value="{$info['icon']|default=''}"/>
 						<div class="upload-img-box">
 						<notempty name="info['icon']">
-							<div class="upload-pre-item"><img src="__ROOT__{$info.icon|get_cover='path'}"/></div>
+							<div class="upload-pre-item"><img src="{$info.icon|get_cover='path'}"/></div>
 						</notempty>
 						</div>
 					</div>

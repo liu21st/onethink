@@ -78,7 +78,7 @@
 									<input type="hidden" name="{$field.name}" id="cover_id_{$field.name}"/>
 									<div class="upload-img-box">
 									<notempty name="data[$field['name']]">
-										<div class="upload-pre-item"><img src="__ROOT__{$data[$field['name']]|get_cover='path'}"/></div>
+										<div class="upload-pre-item"><img src="{$data[$field['name']]|get_cover='path'}"/></div>
 									</notempty>
 									</div>
 								</div>

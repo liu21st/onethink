@@ -59,6 +59,57 @@ function get_list_field($data, $grid,$model){
     return $value;
 }
 
+/**
+ * 后台公共文件
+ * 主要定义后台公共函数库
+ */
+
+/* 解析列表定义规则*/
+
+function get_addonlist_field($data, $grid,$addon){
+    // 获取当前字段数据
+    foreach($grid['field'] as $field){
+        $array  =   explode('|',$field);
+        $temp  =    $data[$array[0]];
+        // 函数支持
+        if(isset($array[1])){
+            $temp = call_user_func($array[1], $temp);
+        }
+        $data2[$array[0]]    =   $temp;
+    }
+    if(!empty($grid['format'])){
+        $value  =   preg_replace_callback('/\[([a-z_]+)\]/', function($match) use($data2){return $data2[$match[1]];}, $grid['format']);
+    }else{
+        $value  =   implode(' ',$data2);
+    }
+
+    // 链接支持
+    if(!empty($grid['href'])){
+        $links  =   explode(',',$grid['href']);
+        foreach($links as $link){
+            $array  =   explode('|',$link);
+            $href   =   $array[0];
+            if(preg_match('/^\[([a-z_]+)\]$/',$href,$matches)){
+                $val[]  =   $data2[$matches[1]];
+            }else{
+                $show   =   isset($array[1])?$array[1]:$value;
+                // 替换系统特殊字符串
+                $href   =   str_replace(
+                    array('[DELETE]','[EDIT]','[ADDON]'),
+                    array('del?ids=[id]&name=[ADDON]','edit?id=[id]&name=[ADDON]',$addon),
+                    $href);
+
+                // 替换数据变量
+                $href   =   preg_replace_callback('/\[([a-z_]+)\]/', function($match) use($data){return $data[$match[1]];}, $href);
+
+                $val[]  =   '<a href="'.U($href).'">'.$show.'</a>';
+            }
+        }
+        $value  =   implode(' ',$val);
+    }
+    return $value;
+}
+
 // 获取模型名称
 function get_model_by_id($id){
     return $model = M('Model')->getFieldById($id,'title');

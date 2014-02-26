@@ -900,6 +900,13 @@ function get_cover($cover_id, $field = null){
         return false;
     }
     $picture = M('Picture')->where(array('status'=>1))->getById($cover_id);
+    if($field == 'path'){
+        if(!empty($picture['url'])){
+            $picture['path'] = $picture['url'];
+        }else{
+            $picture['path'] = __ROOT__.$picture['path'];
+        }
+    }
     return empty($field) ? $picture : $picture[$field];
 }
 
