@@ -291,7 +291,9 @@ str;
                     $map[$name] = $val;
                 }
             }
-            $list = $this->lists($model->field($fields),$map);
+            if(!isset($order))
+                $order = '';
+            $list = $this->lists($model->field($fields),$map,$order);
             $fields = array();
             foreach ($list_grid as &$value) {
                 // 字段:标题:链接
