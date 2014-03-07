@@ -590,7 +590,7 @@ str;
                 $template = $model['template_edit']? $model['template_edit']: '';
             else
                 $template = $model['template_add']? $model['template_add']: '';
-            $this->display($template);
+            $this->display($addon->addon_path.$template);
         }
     }
 
