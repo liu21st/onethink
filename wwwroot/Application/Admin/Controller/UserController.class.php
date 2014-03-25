@@ -155,7 +155,7 @@ class UserController extends AdminController {
 
         $this->assign('data',$data);
         $this->meta_title = '编辑行为';
-        $this->display();
+        $this->display('editaction');
     }
 
     /**
