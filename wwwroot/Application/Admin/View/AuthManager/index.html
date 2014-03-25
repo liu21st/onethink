@@ -44,7 +44,7 @@
 				<else/>
 				<a href="{:U('AuthManager/changeStatus?method=resumeGroup&id='.$vo['id'])}" class="ajax-get">启用</a>
 				</eq>
-				<a href="{:U('AuthManager/changeStatus?method=deleteGroup'.$vo['id'])}" class="confirm ajax-get">删除</a>
+				<a href="{:U('AuthManager/changeStatus?method=deleteGroup&id='.$vo['id'])}" class="confirm ajax-get">删除</a>
                 </td>
 		</tr>
 		</volist>
