@@ -140,8 +140,7 @@
             $("#subnav").on("click", "h3", function(){
                 var $this = $(this);
                 $this.find(".icon").toggleClass("icon-fold");
-                $this.next().slideToggle("fast").siblings(".side-sub-menu:visible").
-                      prev("h3").find("i").addClass("icon-fold").end().end().hide();
+                $this.next().slideToggle("fast").siblings(".side-sub-menu:visible");
             });
 
             $("#subnav h3 a").click(function(e){e.stopPropagation()});
