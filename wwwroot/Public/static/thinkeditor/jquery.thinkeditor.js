@@ -3,7 +3,7 @@
 /**
  * 定义基础内部全局变量
  */
-var 
+var
     /**
      * 当前window对象
      * @type {jQuery Object}
@@ -80,22 +80,22 @@ var
          * 显示风格
          * 目前仅支持默认风格，可自己扩展
          */
-        "style" : "default", 
-        
+        "style" : "default",
+
         /**
          * 编辑器插件按钮配置
          * 没配置到这里的插件不能显示在工具栏
          * 如果设置了快捷键依然生效
          */
-        "items" : "h1,h2,h3,h4,h5,h6,-,link,image,-,bold,italic,code,-," + 
+        "items" : "h1,h2,h3,h4,h5,h6,-,link,image,-,bold,italic,code,-," +
                   "ul,ol,blockquote,hr,-,fullscreen,save",
-        
+
         /**
          * 编辑器默认宽度
          * 默认自适应父容器
          */
         "width" : "100%",
-        
+
         /**
          * 编辑器高度，默认自适应父容器
          * 设置为100%时一定要给父元素设置高度
@@ -108,7 +108,7 @@ var
          * 可以在调用编辑器之前调用$.thinkeditor.language方法扩展
          */
         "lang" : "zh-cn",
-        
+
         /**
          * 按TAB键插入的字符
          * 默认为四个空格，一般情况下为空格或制表符
@@ -176,15 +176,15 @@ Range.prototype = {
      * @return {Object} 当前range对象
      */
     "get" : function(){
-        var textarea = this.textarea, 
+        var textarea = this.textarea,
             data     = {"start" : 0, "end" : 0, "text" : ""},
             range, dupRange, rangeNl, dupRangeNl;
 
         textarea.focus();
-        if (textarea.setSelectionRange) { // W3C  
+        if (textarea.setSelectionRange) { // W3C
             data.start = textarea.selectionStart;
             data.end   = textarea.selectionEnd;
-            data.text  = (data.start != data.end) ? 
+            data.text  = (data.start != data.end) ?
                          textarea.value.substring(data.start, data.end) : "";
         } else if (document.selection) { // For IE
             range    = document.selection.createRange(),
@@ -195,7 +195,7 @@ Range.prototype = {
             data.text  = range.text; //选中的文本内容
             rangeNl    = range.text.split("\n").length - 1; //选中文本换行数
             dupRangeNl = dupRange.text.split("\n").length - 1; //选中之前换行数
-            data.start = dupRange.text.length - range.text.length - 
+            data.start = dupRange.text.length - range.text.length -
                          dupRangeNl + rangeNl;
             data.end   = data.text.length + data.start - rangeNl;
         }
@@ -234,15 +234,15 @@ Range.prototype = {
     "insert" : function (text) {
         var textarea = this.textarea, data = this.get(),
             oValue, nValue, range, scroll;
-        
+
         if (textarea.setSelectionRange) { // W3C
             oValue         = textarea.value;
-            nValue         = oValue.substring(0, data.start) + text + 
+            nValue         = oValue.substring(0, data.start) + text +
                              oValue.substring(data.end);
             scroll         = textarea.scrollTop;
             data.end       = data.start + text.length;
             textarea.value = nValue;
-            
+
             /**
              * Fixbug:
              * After textarea.values = nValue, scrollTop value to 0
@@ -269,7 +269,7 @@ Range.prototype = {
  * @param {Object} options 编辑器配置对象
  */
 Dialog = function(editor, options){
-    var self    = this, $dialog, $modal, defaults, 
+    var self    = this, $dialog, $modal, defaults,
         $editor = $(editor.range.textarea).closest(".thinkeditor");
 
     /* 弹出层默认配置 */
@@ -288,12 +288,12 @@ Dialog = function(editor, options){
     //创建遮罩层
     this.modal  = $modal = $("<div/>").addClass("thinkeditor-dialog-modal")
                            .appendTo($editor);
-    
+
     /* 弹出层相关容器 */
     this.title   = $dialog.find(".thinkeditor-dialog-title"); //标题
     this.content = $dialog.find(".thinkeditor-dialog-body"); //内容
     this.status  = $dialog.find(".thinkeditor-dialog-status"); //状态信息
-    
+
     /* 弹出层按钮 */
     this.btn = {
         "close"  : $dialog.find(".thinkeditor-dialog-close"),
@@ -416,9 +416,9 @@ Dialog.prototype = {
  * @param  {Object} options 配置项
  */
 function create_editor_tools($editor, options){
-    var self = this, items, groups = options.items.split(",-,"), $group, 
+    var self = this, items, groups = options.items.split(",-,"), $group,
         $tools = $("<div/>");
-    
+
     /* 创建按钮组 */
     for(i in groups){
         items  = groups[i].split(",");
@@ -447,8 +447,8 @@ function create_editor_tools($editor, options){
  * @param  {event} event 事件对象
  */
 function keyboard(event){
-    var keyboard = Array(4), 
-        self     = event.data.self, 
+    var keyboard = Array(4),
+        self     = event.data.self,
         options  = event.data.options;
 
     /* 当前按键 */
@@ -489,9 +489,16 @@ ThinkEditor = function(textarea, options){
     /* 创建编辑器 */
     $textarea.wrap("<div/>").parent().wrap("<div/>");
     $editor = $textarea.parent().parent();
+
     $editor.addClass("thinkeditor thinkeditor-" + options.style);
     $editor.children("div").addClass("thinkeditor-textarea");
-
+    //如果是预览创建预览div
+    if(options.preview){
+        options.width = '50%';
+        $textarea.parent().after('<div/>');
+        $textarea.css({resize: 'none'});
+        $preview = $editor.find('.thinkeditor-textarea').next('div');
+    }
     /* 设置editor尺寸 */
     $editor.css({"width" : options.width, "height" : options.height});
 
@@ -505,6 +512,59 @@ ThinkEditor = function(textarea, options){
     for(name in Plugin){
         Plugin[name].keyboard && this.keyboard(Plugin[name].keyboard, name);
     }
+    if(options.preview){
+        $preview.css({
+            "width" : '100%',
+            "height" : $textarea.outerHeight(true)+'px',
+            left: '100%'
+        });
+        $preview.addClass('thinkeditor-preview');
+
+        $preview.html(this.preview(this.range.textarea.value));
+        _this = this;
+        $textarea.keyup(function(){
+            $preview.html(_this.preview(this.value));
+        });
+        $textarea.scroll(function(){
+            fix_img_scroll();
+        });
+        var fix_img_scroll = function(){
+            imgs = $preview.find("img") //获取预览下所有图片
+            if (imgs.length > 0){
+                imgs_height = 0
+                for (var i in imgs){
+                    tm = new Image()
+                    tm.src = this.src
+                    tow = tm.width
+                    toh = tm.height
+                    var limit_width = $preview.width()*0.5 //父容器50%的宽度
+                    if (tow > limit_width){ //如果原始图片宽度大于限制宽度，真实rh高度也要缩放比例
+                        r = tow / limit_width
+                        rh = toh / r
+                    }else{
+                        rh = toh
+                    }
+                    imgs_height += rh //这个就是得到所有图片的高度
+                }
+            }
+            caculate_and_scroll($textarea, $preview, imgs_height);
+        }
+
+        var caculate_and_scroll = function(editor, preview, imgs_height){ //这里只要再按比例计算一下滚动高度就行
+            real_height = preview[0].scrollHeight + imgs_height;
+
+            setTimeout(function(){
+                if (real_height > editor[0].scrollHeight){
+                    r = real_height / editor[0].scrollHeight;
+                    preview.prop('scrollTop', editor.scrollTop() * r);
+                }else{
+                    r = editor[0].scrollHeight / real_height;
+                    preview.prop('scrollTop', editor.scrollTop() / r);
+                }
+            }, 500);
+        }
+    }
+
 }
 
 /**
@@ -598,7 +658,7 @@ ThinkEditor.prototype = {
         var keyboard = Array(4); //[ctrl, shift, alt, code]
 
         //初始化快捷键
-        if(!this.keyboards) { 
+        if(!this.keyboards) {
             this.keyboards = {};
         }
 
@@ -625,6 +685,19 @@ ThinkEditor.prototype = {
 
     "dialog" : function(options){
         return new Dialog(this, options);
+    },
+    "preview": function(text){
+        var opt = {
+            renderer: new marked.Renderer(),
+            gfm: true,
+            tables: true,
+            breaks: false,
+            pedantic: false,
+            sanitize: true,
+            smartLists: true,
+            smartypants: false
+        }
+        return marked(text, opt);
     }
 }
 
@@ -782,8 +855,8 @@ $.thinkeditor.plugin({
 
         /* 插入图片 */
         "markdown" : function(options, self){
-            var $text, drop, dialog, start, 
-                editor = this, 
+            var $text, drop, dialog, start,
+                editor = this,
                 range  = this.range.get();
 
             /* 当选中文本是远程图片URL时不弹出上传层 */
@@ -798,7 +871,7 @@ $.thinkeditor.plugin({
             $text     = $("<span/>").text(this.lang("image-text"));
             self.drop = drop = $("<div/>").addClass("thinkeditor-plugin-image")
                                .append($text);
-            
+
             //弹出图片上传层
             self.dialog = dialog = this.dialog({
                 "title"     : this.lang("image-title"),
@@ -818,7 +891,7 @@ $.thinkeditor.plugin({
                 return false;
             });
 
-            /* 文件拖动事件，不绑定该事件 drop 事件不生效 */            
+            /* 文件拖动事件，不绑定该事件 drop 事件不生效 */
             drop.on("dragover", function(){ return false });
 
             /**
@@ -830,7 +903,7 @@ $.thinkeditor.plugin({
                 var files = event.target.files || event.dataTransfer.files;
 
                 if(!files) return; //不支持文件拖动
-                
+
                 /* 取消拖动样式，阻止事件冒泡及默认事件 */
                 drop.removeClass("thinkeditor-image-draghover");
                 event.stopPropagation();
@@ -932,7 +1005,7 @@ $.thinkeditor.plugin({
                 msg = "正在上传图片..." + progress + "%";
                 self.dialog.setStatus(msg, "success");
             }, false);
-            
+
             // 文件上传成功或是失败
             xhr.onreadystatechange = function() {
                 var data, images = [];
@@ -955,7 +1028,7 @@ $.thinkeditor.plugin({
             this.dialog.setStatus("正在上传图片...0%", "success");
             xhr.open("POST", options.uploader, true);
             xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-            xhr.send(this.data); 
+            xhr.send(this.data);
         }
 
     },
@@ -1047,7 +1120,7 @@ $.thinkeditor.plugin({
 
         /* 插入分割线 */
         "markdown" : function(options){
-            var range = this.range.get(), 
+            var range = this.range.get(),
                 start = range.start + range.text.length + 11;
 
             this.insert(range.text + "\n* * * * *\n");
@@ -1062,7 +1135,7 @@ $.thinkeditor.plugin({
 
         /* 执行全屏编辑 */
         "markdown" : function(options){
-            var $body   = $("body"), 
+            var $body   = $("body"),
                 $editor = $(this.range.textarea).closest(".thinkeditor");
 
             if($editor.hasClass("thinkeditor-fullscreen")){
