@@ -870,7 +870,7 @@ class ArticleController extends AdminController {
             if($res !== false){
                 $this->success('排序成功！');
             }else{
-                $this->eorror('排序失败！');
+                $this->error('排序失败！');
             }
         }else{
             $this->error('非法请求！');
