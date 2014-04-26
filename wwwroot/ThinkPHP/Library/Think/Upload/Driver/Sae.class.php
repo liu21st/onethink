@@ -26,26 +26,29 @@ class Sae{
     private $error      =   ''; 
 
     /**
-     * 构造函数，设置storage的domain， 如果有传配置，则domain为配置项，如果没有传domain为第一个路径的目录名称。
-     * @param string $root 根目录
+     * 构造函数，设置storage的domain， 如果有传配置，则domain为配置项，如果没有传domain为第一个路径的目录名称。 
      * @param mixed $config 上传配置     
      */
-    public function __construct($root, $config = null){
-        $arr    =   explode('/',trim($root,'./'));
-        $domain =   strtolower(array_shift($arr));
-        if(is_array($config) && isset($config['domain'])){
+    public function __construct($config = null){
+        if(is_array($config) && !empty($config['domain'])){
             $this->domain   =   strtolower($config['domain']);
-        }else{
-            $this->domain   =   $domain;
         }
-        $this->rootPath     =   implode('/',$arr);
     }
 
     /**
      * 检测上传根目录
+     * @param string $rootpath   根目录
      * @return boolean true-检测通过，false-检测失败
      */
-    public function checkRootPath(){
+    public function checkRootPath($rootpath){
+        $rootpath = trim($rootpath,'./');
+        if(!$this->domain){
+            $rootpath = explode('/', $rootpath);
+            $this->domain = strtolower(array_shift($rootpath));
+            $rootpath = implode('/', $rootpath);
+        }
+
+        $this->rootPath =  $rootpath;
         $st =   new \SaeStorage();
         if(false===$st->getDomainCapacity($this->domain)){
           $this->error  =   '您好像没有建立Storage的domain['.$this->domain.']';
@@ -71,8 +74,8 @@ class Sae{
      */
     public function save(&$file, $replace=true) {
         $filename = ltrim($this->rootPath .'/'. $file['savepath'] . $file['savename'],'/');
-        $st = new \SaeStorage();
-        /* 不覆盖同名文件 */
+        $st =   new \SaeStorage();
+        /* 不覆盖同名文件 */ 
         if (!$replace && $st->fileExists($this->domain,$filename)) {
             $this->error = '存在同名文件' . $file['savename'];
             return false;
@@ -85,7 +88,6 @@ class Sae{
         }else{
             $file['url'] = $st->getUrl($this->domain, $filename);
         }
-
         return true;
     }
 

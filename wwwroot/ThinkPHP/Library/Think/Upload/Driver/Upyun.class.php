@@ -33,23 +33,22 @@ class Upyun{
 
     /**
      * 构造函数，用于设置上传根路径
-     * @param string $root   根目录
      * @param array  $config FTP配置
      */
-    public function __construct($root, $config){
+    public function __construct($config){
         /* 默认FTP配置 */
         $this->config = array_merge($this->config, $config);
         $this->config['password'] = md5($this->config['password']);
-
-        /* 设置根目录 */
-        $this->rootPath = trim($root, './') . '/';
     }
 
     /**
      * 检测上传根目录(又拍云上传时支持自动创建目录，直接返回)
+     * @param string $rootpath   根目录
      * @return boolean true-检测通过，false-检测失败
      */
-    public function checkRootPath(){
+    public function checkRootPath($rootpath){
+        /* 设置根目录 */
+        $this->rootPath = trim($rootpath, './') . '/';
         return true;
     }
 
@@ -77,7 +76,7 @@ class Upyun{
      * @param  boolean $replace 同名文件是否覆盖
      * @return boolean          保存状态，true-成功，false-失败
      */
-    public function save(&$file, $replace = true) {
+    public function save($file, $replace = true) {
         $header['Content-Type'] = $file['type'];
         $header['Content-MD5'] = md5_file($file['md5']);
         $header['Mkdir'] = 'true';
@@ -85,7 +84,6 @@ class Upyun{
 
         $save = $this->rootPath . $file['savepath'] . $file['savename'];
         $data = $this->request($save, 'PUT', $header, $resource);
-        $file['url'] = false !== $data? 'http://v0.api.upyun.com/'.$this->bucket.str_replace('./', '/', $save):'';
         return false === $data ? false : true;
     }
 
