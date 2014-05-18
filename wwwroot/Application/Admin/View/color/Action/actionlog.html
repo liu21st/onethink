@@ -1,0 +1,57 @@
+<extend name="Public/base"/>
+
+<block name="body">
+<!-- 标题栏 -->
+<div class="main-title">
+    <h2>行为日志</h2>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">		
+		<div class="form-group">
+            <button class="btn btn-default ajax-get confirm" url="{:U('clear')}">清 空</button>
+            <button class="btn btn-default ajax-post confirm" target-form="ids" url="{:U('remove')}">删 除</button>
+		</div>		
+	</div><!-- /.panel-heading -->
+    
+	<div class="panel-body">
+		<div class="table-responsive">		
+			<table class="table table-striped table-bordered table-hover" id="dataTables-actionlog"><!-- 必须设定表格的id == -->
+				<thead>
+					<tr>
+                        <th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
+                        <th class="">编号</th>
+                        <th class="">行为名称</th>
+                        <th class="">执行者</th>
+                        <th class="">执行时间</th>
+                        <th class="">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <volist name="_list" id="vo">
+                    <tr>
+                        <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
+                        <td>{$vo.id} </td>
+                        <td>{:get_action($vo['action_id'],'title')}</td>
+                        <td>{:get_nickname($vo['user_id'])}</td>
+                        <td><span>{$vo.create_time|time_format}</span></td>
+                        <td><a href="{:U('Action/edit?id='.$vo['id'])}">详细</a>
+                            <a class="confirm ajax-get" href="{:U('Action/remove?ids='.$vo['id'])}">删除</a>
+                        </td>
+                    </tr>
+                    </volist> 
+				</tbody>
+			</table>
+		</div><!-- /.table-responsive --> 
+	</div><!-- /.panel-body -->
+</div><!-- /.panel --> 						
+</block>
+
+<block name="script">
+<script type="text/javascript">
+//启用表格功能  id 是 dataTables-actionlog
+$(document).ready(function() {
+	$('#dataTables-actionlog').dataTable();
+});
+</script>
+</block>

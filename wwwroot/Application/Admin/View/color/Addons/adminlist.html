@@ -1,0 +1,67 @@
+<extend name="Public/base" />
+
+<block name="body">
+<!-- 标题栏 -->
+<div class="main-title">
+    <h2>{$title}内容列表</h2>
+</div>
+ 
+<div class="panel panel-default">  
+    <div class="panel-heading">
+        列表
+    </div>  
+    <!-- 数据列表 -->
+	<div class="panel-body">
+		<div class="table-responsive">
+            <empty name="custom_adminlist">
+                <present name="custom_adminlist">
+                {$custom_adminlist}
+                </present>
+            <else />            
+                <table class="table table-striped table-bordered table-hover" id="dataTables-list"><!-- 必须设定表格的id == -->
+                    <thead>
+                        <tr>                    
+                            <th>
+                                <input class="check-all" type="checkbox">序号
+                            </th>
+                            <volist name="listKey" id="vo">
+                            <th>{$vo}</th>
+                            </volist>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <volist name="_list" id="lv" key="vo">
+                        <tr>
+                            <td><input class="ids" type="checkbox" value="{$lv.id}" name="id[]">{$lv.id}</td>
+                            <volist name="listKey" id="lk">
+                            <td>{$lv.$key}</td>
+                            </volist>
+                        </tr>
+                        </volist>
+                    </tbody>
+                </table>
+            </empty>             
+		</div><!-- /.table-responsive --> 
+	</div><!-- /.panel-body -->  
+</div><!-- /.panel --> 		
+
+				
+</block>
+
+
+<block name="script">
+<script type="text/javascript">
+    $(function(){
+        //全选节点
+        $('.check-all').on('change',function(){
+            $('.ids').prop('checked',this.checked);
+        });
+    })
+</script>
+<script type="text/javascript">
+//启用表格功能  id    
+$(document).ready(function() {
+	$('#dataTables-list').dataTable();
+});
+</script>
+</block>

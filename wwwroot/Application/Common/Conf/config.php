@@ -15,11 +15,11 @@ return array(
     /* 模块相关配置 */
     'AUTOLOAD_NAMESPACE' => array('Addons' => ONETHINK_ADDON_PATH), //扩展模块列表
     'DEFAULT_MODULE'     => 'Home',
-    'MODULE_DENY_LIST'   => array('Common', 'User'),
+    'MODULE_DENY_LIST'   => array('Common','User','Admin','Install'),
     //'MODULE_ALLOW_LIST'  => array('Home','Admin'),
 
     /* 系统数据加密设置 */
-    'DATA_AUTH_KEY' => '3v[upk<}F1cK)C|A{:izn@tO%^=VXWyD`P?/0Yfs', //默认数据加密KEY
+    'DATA_AUTH_KEY' => 'f%KR8-!,N3HPw<9oTW}`GIe01+m)"@&Ql6g|_];C', //默认数据加密KEY
 
     /* 调试配置 */
     'SHOW_PAGE_TRACE' => true,
@@ -38,14 +38,15 @@ return array(
     'DEFAULT_FILTER' => '', //全局过滤函数
 
     /* 数据库配置 */
-    'DB_TYPE'   => 'mysql', // 数据库类型
+    'DB_TYPE'   => 'mysqli', // 数据库类型
     'DB_HOST'   => '127.0.0.1', // 服务器地址
-    'DB_NAME'   => 'onethink', // 数据库名
+    'DB_NAME'   => 'ot', // 数据库名
     'DB_USER'   => 'root', // 用户名
-    'DB_PWD'    => '',  // 密码
+    'DB_PWD'    => 'root',  // 密码
     'DB_PORT'   => '3306', // 端口
-    'DB_PREFIX' => 'onethink_', // 数据库表前缀
+    'DB_PREFIX' => 'ot_', // 数据库表前缀
 
     /* 文档模型配置 (文档模型核心配置，请勿更改) */
     'DOCUMENT_MODEL_TYPE' => array(2 => '主题', 1 => '目录', 3 => '段落'),
+    'SHOW_PAGE_TRACE' =>true, //显示trac页面
 );

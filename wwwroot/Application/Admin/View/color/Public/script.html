@@ -1,0 +1,27 @@
+
+<!-- Core Scripts - Include with every page -->
+<load href="__STATIC__/jquery-1.10.2.min.js"  /> 
+<load href="__JS__/sb/bootstrap.min.js" /> 
+<!-- Page-Level Plugin Scripts - 侧边栏 -->
+<load href="__JS__/sb/plugins/metisMenu/jquery.metisMenu.js" / > 
+<!-- 弹出提示框，ajax用 js -->
+<load href="__JS__/sb/plugins/messenger/messenger.js" /> 
+<load href="__JS__/sb/plugins/messenger/messenger-theme-future.js" /> 
+<!-- Page-Level Plugin Scripts - Tables 表格-->
+<load href="__JS__/sb/plugins/dataTables/jquery.dataTables.js" /> 
+<load href="__JS__/sb/plugins/dataTables/dataTables.bootstrap.js" /> 
+
+<!-- SB Admin Scripts - Include with every page -->
+<load href="__JS__/sb/sb-admin.js" />
+
+<!-- Page-Level Demo Scripts - Blank - Use for reference -->
+
+<!--  think JS   ================================================== --> 
+<include file="Public/var"/>
+<load href="__JS__/sb/think.js" />
+<load href="__JS__/sb/think_ajax.js" />
+<!--include file="Public/navjs"/-->
+
+<block name="script"><!-- 用于加载js代码 --></block> 
+<!-- 页面footer钩子，一般用于加载插件JS文件和JS代码 -->
+{:hook('pageFooter', 'widget')}

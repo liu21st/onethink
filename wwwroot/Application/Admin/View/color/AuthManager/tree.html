@@ -1,0 +1,10 @@
+<volist name="tree" id="list"> 
+<li>        
+    <span><i class="fa fa-table fa-fw"></i>&nbsp;&nbsp;{$list.title}</span>&nbsp;&nbsp; <input class="cate_id" type="checkbox" name="cid[]" value="{$list.id}">&nbsp;&nbsp;权限      
+    <notempty name="list['_']"> 
+    <ul>
+        {:R('AuthManager/tree', array($list['_']))}  
+    </ul> 
+    </notempty>
+</li>
+</volist>

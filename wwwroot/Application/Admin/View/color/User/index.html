@@ -1,0 +1,80 @@
+<extend name="Public/base" />
+
+<block name="body">
+<!-- 标题栏 -->
+<div class="main-title">
+	<h2>用户列表</h2>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">		
+		<div class="fl">
+			<button class="btn btn-default" id="action_add" url="{:U('User/add')}">新 增</button>
+			<button class="btn btn-default ajax-post" url="{:U('User/changeStatus',array('method'=>'resumeUser'))}" target-form="ids">启 用</button>
+			<button class="btn btn-default ajax-post" url="{:U('User/changeStatus',array('method'=>'forbidUser'))}" target-form="ids">禁 用</button>
+			<button class="btn btn-default ajax-post confirm" url="{:U('User/changeStatus',array('method'=>'deleteUser'))}" target-form="ids">删 除</button>
+		</div>		
+	</div><!-- /.panel-heading -->
+    
+	<div class="panel-body">
+		<div class="table-responsive">		
+			<table class="table table-striped table-bordered table-hover" id="dataTables-user"><!-- 必须设定表格的id == -->
+				<thead>
+					<tr>					
+                        <th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
+                        <th class="">UID</th>
+                        <th class="">昵称</th>
+                        <th class="">积分</th>
+                        <th class="">登录次数</th>
+                        <th class="">最后登录时间</th>
+                        <th class="">最后登录IP</th>
+                        <th class="">状态</th>
+                        <th class="">操作</th>		
+					</tr>
+				</thead>
+				<tbody>
+                    <volist name="_list" id="vo">
+                    <tr>
+                        <td><input class="ids" type="checkbox" name="id[]" value="{$vo.uid}" /></td>
+                        <td>{$vo.uid} </td>
+                        <td>{$vo.nickname}</td>
+                        <td>{$vo.score}</td>
+                        <td>{$vo.login}</td>
+                        <td><span>{$vo.last_login_time|time_format}</span></td>
+                        <td><span>{:long2ip($vo['last_login_ip'])}</span></td>
+                        <td>{$vo.status_text}</td>
+                        <td><eq name="vo.status" value="1">
+                            <a href="{:U('User/changeStatus?method=forbidUser&id='.$vo['uid'])}" class="ajax-get">禁用</a>
+                            <else/>
+                            <a href="{:U('User/changeStatus?method=resumeUser&id='.$vo['uid'])}" class="ajax-get">启用</a>
+                            </eq>
+                            <a href="{:U('AuthManager/group?uid='.$vo['uid'])}" class="authorize">授权</a>
+                            <a href="{:U('User/changeStatus?method=deleteUser&id='.$vo['uid'])}" class="confirm ajax-get">删除</a>
+                            </td>
+                    </tr>
+                    </volist>
+				</tbody>
+			</table>
+		</div><!-- /.table-responsive --> 
+	</div><!-- /.panel-body -->
+</div><!-- /.panel --> 						
+</block>
+
+<block name="script">
+<script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+<script type="text/javascript">
+$(function(){
+    //新增按钮
+	$("#action_add").click(function(){
+		window.location.href = $(this).attr('url');
+	});  
+})
+</script>
+
+<script type="text/javascript">
+//启用表格功能  id 是 dataTables-user
+$(document).ready(function() {
+	$('#dataTables-user').dataTable();
+});
+</script>
+ 
+</block>

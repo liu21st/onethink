@@ -20,10 +20,10 @@ use Common\Controller\Addon;
         public $info = array(
             'name'=>'AdaptiveImages',
             'title'=>'手机端响应式图片处理',
-            'description'=>'通过检测手机的宽度，在小设备访问图片时返回合适尺寸的小图片，到小尺寸设备达到图片响应式。',
+            'description'=>'通过检测手机的宽度，在小设备访问图片时返回合适尺寸的小图片，到小尺寸设备达到图片响应式。海诺对其进行了显示修正',
             'status'=>0,
-            'author'=>'thinkphp',
-            'version'=>'0.1',
+            'author'=>'thinkphp hainuo',
+            'version'=>'0.1.1',
             'url'=> 'http://www.thinkphp.cn'
         );
 

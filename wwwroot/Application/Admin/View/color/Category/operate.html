@@ -1,0 +1,33 @@
+<extend name="Public/base"/>
+
+<block name="body">
+<div class="main-title">
+    <h2>{$operate}分类</h2>
+</div>
+
+<div class="panel panel-default"> 
+    <div class="tab-wrap panel-body">
+        <div class="row">
+            <div class="col-lg-6">              
+                <!-- 表单 -->    
+                <form action="{:U($type)}" method="post" class="form " role="form" >
+                    <div class="form-group">
+                        <label class="item-label">目标分类<span class="check-tips">（将{$operate}至的分类）</span></label>
+                        <select name="to" class="form-control" >
+                            <volist name="list" id="vo">
+                                <option value="{$vo.id}">{$vo.title}</option>
+                            </volist>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" name="from" value="{$from}">
+                        <button type="submit" id="submit" class="btn btn-default submit-btn ajax-post" target-form="form">确 定</button>
+                        <button class="btn btn-default btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>    
+</block>
+

@@ -1,0 +1,440 @@
+<style>
+    .lineD {
+        border-bottom: 1px dashed #e2e2e2;
+    }
+
+    #themes {
+        overflow: hidden;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        margin-top: 20px;
+    }
+
+    #themes li {
+        float: left;
+        padding: 10px;
+    }
+
+    #themes li.current {
+        background: yellow;
+    }
+
+    #themes li a:hover {
+        color: #f6f6f6
+    }
+</style>
+
+<?php
+         $button = $data['config']['group']['options']['button']['options'];
+         $img = $data['config']['group']['options']['img']['options'];
+         $select = $data['config']['group']['options']['select']['options'];
+         ?>
+<ul class="tab-nav nav">
+    <li data-tab="tab1" class="current"><a href="javascript:void(0);">页面按钮设置</a></li>
+    <li data-tab="tab2"><a href="javascript:void(0);">图片按钮设置</a></li>
+    <li data-tab="tab3"><a href="javascript:void(0);">划词按钮设置</a></li>
+</ul>
+
+<div class="tab-content">
+    <div id="tab1" class="tab-pane in tab1">
+        <foreach name="button" item="form" key="o_key">
+            <div class="form-item cf">
+                <label class="item-label">
+                    {$form.title|default=''}
+                    <present name="form.tip">
+                        <span class="check-tips">{$form.tip}</span>
+                    </present>
+                </label>
+                <switch name="form.type">
+                    <case value="text">
+                        <div class="controls">
+                            <input type="text" name="config[{$o_key}]" class="text input-large" value="{$form.value}">
+                        </div>
+                    </case>
+                    <case value="password">
+                        <div class="controls">
+                            <input type="password" name="config[{$o_key}]" class="text input-large" value="{$form.value}">
+                        </div>
+                    </case>
+                    <case value="hidden">
+                        <input type="hidden" name="config[{$o_key}]" value="{$form.value}">
+                    </case>
+                    <case value="radio">
+                        <div class="controls">
+                            <foreach name="form.options" item="opt" key="opt_k">
+                                <label class="radio">
+                                    <input type="radio" name="config[{$o_key}]" value="{$opt_k}" <eq name="form.value" value="$opt_k"> checked</eq>>{$opt}
+                                </label>
+                            </foreach>
+                        </div>
+                    </case>
+                    <case value="checkbox">
+                        <div class="controls">
+                            <foreach name="form.options" item="opt" key="opt_k">
+                                <label class="checkbox">
+                                    <php>
+                                        is_null($form["value"]) && $form["value"] = array();
+                                    </php>
+                                    <input type="checkbox" name="config[{$o_key}][]" value="{$opt_k}" <in name="opt_k" value="$form.value"> checked</in>>{$opt}
+                                </label>
+                            </foreach>
+                        </div>
+                    </case>
+                    <case value="select">
+                        <div class="controls">
+                            <select name="config[{$o_key}]">
+                                <foreach name="form.options" item="opt" key="opt_k">
+                                    <option value="{$opt_k}" <eq name="form.value" value="$opt_k"> selected</eq>>{$opt}</option>
+                                </foreach>
+                            </select>
+                        </div>
+                    </case>
+                    <case value="textarea">
+                        <div class="controls">
+                            <label class="textarea input-large">
+                                <textarea name="config[{$o_key}]">{$form.value}</textarea>
+                            </label>
+                        </div>
+                    </case>
+                    <case value="group">
+                        <ul class="tab-nav nav">
+                            <volist name="form.options" id="li">
+                                <li data-tab="tab{$i}" <eq name="i" value="1">class="current"</eq>><a href="javascript:void(0);">{$li.title}</a></li>
+                            </volist>
+                        </ul>
+                        <div class="tab-content">
+                            <volist name="form.options" id="tab">
+                                <div id="tab{$i}" class="tab-pane <eq name="i" value="1">in</eq> tab{$i}">
+                                <foreach name="tab['options']" item="tab_form" key="o_tab_key">
+                                    <label class="item-label">
+                                        {$tab_form.title|default=''}
+                                        <present name="tab_form.tip">
+                                            <span class="check-tips">{$tab_form.tip}</span>
+                                        </present>
+                                    </label>
+                                    <div class="controls">
+                                        <switch name="tab_form.type">
+                                            <case value="text">
+                                                <input type="text" name="config[{$o_tab_key}]" class="text input-large" value="{$tab_form.value}">
+                                            </case>
+                                            <case value="password">
+                                                <input type="password" name="config[{$o_tab_key}]" class="text input-large" value="{$tab_form.value}">
+                                            </case>
+                                            <case value="hidden">
+                                                <input type="hidden" name="config[{$o_tab_key}]" value="{$tab_form.value}">
+                                            </case>
+                                            <case value="radio">
+                                                <foreach name="tab_form.options" item="opt" key="opt_k">
+                                                    <label class="radio">
+                                                        <input type="radio" name="config[{$o_tab_key}]" value="{$opt_k}" <eq name="tab_form.value" value="$opt_k"> checked</eq>>{$opt}
+                                                    </label>
+                                                </foreach>
+                                            </case>
+                                            <case value="checkbox">
+                                                <foreach name="tab_form.options" item="opt" key="opt_k">
+                                                    <label class="checkbox">
+                                                        <php> is_null($tab_form["value"]) && $tab_form["value"] = array();</php>
+                                                        <input type="checkbox" name="config[{$o_tab_key}][]" value="{$opt_k}" <in name="opt_k" value="$tab_form.value"> checked</in>>{$opt}
+                                                    </label>
+                                                </foreach>
+                                            </case>
+                                            <case value="select">
+                                                <select name="config[{$o_tab_key}]">
+                                                    <foreach name="tab_form.options" item="opt" key="opt_k">
+                                                        <option value="{$opt_k}" <eq name="tab_form.value" value="$opt_k"> selected</eq>>{$opt}</option>
+                                                    </foreach>
+                                                </select>
+                                            </case>
+                                            <case value="textarea">
+                                                <label class="textarea input-large">
+                                                    <textarea name="config[{$o_tab_key}]">{$tab_form.value}</textarea>
+                                                </label>
+                                            </case>
+                                        </switch>
+                                    </div>
+                                </foreach>
+                        </div>
+                        </volist>
+            </div>
+            </case>
+            </switch>
+
+    </div>
+    </foreach>
+    </div>
+    <div id="tab2" class="tab-pane tab2">
+        <foreach name="img" item="form" key="o_key">
+            <div class="form-item cf">
+                <label class="item-label">
+                    {$form.title|default=''}
+                    <present name="form.tip">
+                        <span class="check-tips">{$form.tip}</span>
+                    </present>
+                </label>
+                <switch name="form.type">
+                    <case value="text">
+                        <div class="controls">
+                            <input type="text" name="config[{$o_key}]" class="text input-large" value="{$form.value}">
+                        </div>
+                    </case>
+                    <case value="password">
+                        <div class="controls">
+                            <input type="password" name="config[{$o_key}]" class="text input-large" value="{$form.value}">
+                        </div>
+                    </case>
+                    <case value="hidden">
+                        <input type="hidden" name="config[{$o_key}]" value="{$form.value}">
+                    </case>
+                    <case value="radio">
+                        <div class="controls">
+                            <foreach name="form.options" item="opt" key="opt_k">
+                                <label class="radio">
+                                    <input type="radio" name="config[{$o_key}]" value="{$opt_k}" <eq name="form.value" value="$opt_k"> checked</eq>>{$opt}
+                                </label>
+                            </foreach>
+                        </div>
+                    </case>
+                    <case value="checkbox">
+                        <div class="controls">
+                            <foreach name="form.options" item="opt" key="opt_k">
+                                <label class="checkbox">
+                                    <php>
+                                        is_null($form["value"]) && $form["value"] = array();
+                                    </php>
+                                    <input type="checkbox" name="config[{$o_key}][]" value="{$opt_k}" <in name="opt_k" value="$form.value"> checked</in>>{$opt}
+                                </label>
+                            </foreach>
+                        </div>
+                    </case>
+                    <case value="select">
+                        <div class="controls">
+                            <select name="config[{$o_key}]">
+                                <foreach name="form.options" item="opt" key="opt_k">
+                                    <option value="{$opt_k}" <eq name="form.value" value="$opt_k"> selected</eq>>{$opt}</option>
+                                </foreach>
+                            </select>
+                        </div>
+                    </case>
+                    <case value="textarea">
+                        <div class="controls">
+                            <label class="textarea input-large">
+                                <textarea name="config[{$o_key}]">{$form.value}</textarea>
+                            </label>
+                        </div>
+                    </case>
+                    <case value="group">
+                        <ul class="tab-nav nav">
+                            <volist name="form.options" id="li">
+                                <li data-tab="tab{$i}" <eq name="i" value="1">class="current"</eq>><a href="javascript:void(0);">{$li.title}</a></li>
+                            </volist>
+                        </ul>
+                        <div class="tab-content">
+                            <volist name="form.options" id="tab">
+                                <div id="tab{$i}" class="tab-pane <eq name="i" value="1">in</eq> tab{$i}">
+                                <foreach name="tab['options']" item="tab_form" key="o_tab_key">
+                                    <label class="item-label">
+                                        {$tab_form.title|default=''}
+                                        <present name="tab_form.tip">
+                                            <span class="check-tips">{$tab_form.tip}</span>
+                                        </present>
+                                    </label>
+                                    <div class="controls">
+                                        <switch name="tab_form.type">
+                                            <case value="text">
+                                                <input type="text" name="config[{$o_tab_key}]" class="text input-large" value="{$tab_form.value}">
+                                            </case>
+                                            <case value="password">
+                                                <input type="password" name="config[{$o_tab_key}]" class="text input-large" value="{$tab_form.value}">
+                                            </case>
+                                            <case value="hidden">
+                                                <input type="hidden" name="config[{$o_tab_key}]" value="{$tab_form.value}">
+                                            </case>
+                                            <case value="radio">
+                                                <foreach name="tab_form.options" item="opt" key="opt_k">
+                                                    <label class="radio">
+                                                        <input type="radio" name="config[{$o_tab_key}]" value="{$opt_k}" <eq name="tab_form.value" value="$opt_k"> checked</eq>>{$opt}
+                                                    </label>
+                                                </foreach>
+                                            </case>
+                                            <case value="checkbox">
+                                                <foreach name="tab_form.options" item="opt" key="opt_k">
+                                                    <label class="checkbox">
+                                                        <php> is_null($tab_form["value"]) && $tab_form["value"] = array();</php>
+                                                        <input type="checkbox" name="config[{$o_tab_key}][]" value="{$opt_k}" <in name="opt_k" value="$tab_form.value"> checked</in>>{$opt}
+                                                    </label>
+                                                </foreach>
+                                            </case>
+                                            <case value="select">
+                                                <select name="config[{$o_tab_key}]">
+                                                    <foreach name="tab_form.options" item="opt" key="opt_k">
+                                                        <option value="{$opt_k}" <eq name="tab_form.value" value="$opt_k"> selected</eq>>{$opt}</option>
+                                                    </foreach>
+                                                </select>
+                                            </case>
+                                            <case value="textarea">
+                                                <label class="textarea input-large">
+                                                    <textarea name="config[{$o_tab_key}]">{$tab_form.value}</textarea>
+                                                </label>
+                                            </case>
+                                        </switch>
+                                    </div>
+                                </foreach>
+                        </div>
+                        </volist>
+            </div>
+            </case>
+            </switch>
+
+    </div>
+</foreach>
+    </div>
+    <div id="tab3" class="tab-pane tab3">
+        <foreach name="select" item="form" key="o_key">
+            <div class="form-item cf">
+                <label class="item-label">
+                    {$form.title|default=''}
+                    <present name="form.tip">
+                        <span class="check-tips">{$form.tip}</span>
+                    </present>
+                </label>
+                <switch name="form.type">
+                    <case value="text">
+                        <div class="controls">
+                            <input type="text" name="config[{$o_key}]" class="text input-large" value="{$form.value}">
+                        </div>
+                    </case>
+                    <case value="password">
+                        <div class="controls">
+                            <input type="password" name="config[{$o_key}]" class="text input-large" value="{$form.value}">
+                        </div>
+                    </case>
+                    <case value="hidden">
+                        <input type="hidden" name="config[{$o_key}]" value="{$form.value}">
+                    </case>
+                    <case value="radio">
+                        <div class="controls">
+                            <foreach name="form.options" item="opt" key="opt_k">
+                                <label class="radio">
+                                    <input type="radio" name="config[{$o_key}]" value="{$opt_k}" <eq name="form.value" value="$opt_k"> checked</eq>>{$opt}
+                                </label>
+                            </foreach>
+                        </div>
+                    </case>
+                    <case value="checkbox">
+                        <div class="controls">
+                            <foreach name="form.options" item="opt" key="opt_k">
+                                <label class="checkbox">
+                                    <php>
+                                        is_null($form["value"]) && $form["value"] = array();
+                                    </php>
+                                    <input type="checkbox" name="config[{$o_key}][]" value="{$opt_k}" <in name="opt_k" value="$form.value"> checked</in>>{$opt}
+                                </label>
+                            </foreach>
+                        </div>
+                    </case>
+                    <case value="select">
+                        <div class="controls">
+                            <select name="config[{$o_key}]">
+                                <foreach name="form.options" item="opt" key="opt_k">
+                                    <option value="{$opt_k}" <eq name="form.value" value="$opt_k"> selected</eq>>{$opt}</option>
+                                </foreach>
+                            </select>
+                        </div>
+                    </case>
+                    <case value="textarea">
+                        <div class="controls">
+                            <label class="textarea input-large">
+                                <textarea name="config[{$o_key}]">{$form.value}</textarea>
+                            </label>
+                        </div>
+                    </case>
+                    <case value="group">
+                        <ul class="tab-nav nav">
+                            <volist name="form.options" id="li">
+                                <li data-tab="tab{$i}" <eq name="i" value="1">class="current"</eq>><a href="javascript:void(0);">{$li.title}</a></li>
+                            </volist>
+                        </ul>
+                        <div class="tab-content">
+                            <volist name="form.options" id="tab">
+                                <div id="tab{$i}" class="tab-pane <eq name="i" value="1">in</eq> tab{$i}">
+                                <foreach name="tab['options']" item="tab_form" key="o_tab_key">
+                                    <label class="item-label">
+                                        {$tab_form.title|default=''}
+                                        <present name="tab_form.tip">
+                                            <span class="check-tips">{$tab_form.tip}</span>
+                                        </present>
+                                    </label>
+                                    <div class="controls">
+                                        <switch name="tab_form.type">
+                                            <case value="text">
+                                                <input type="text" name="config[{$o_tab_key}]" class="text input-large" value="{$tab_form.value}">
+                                            </case>
+                                            <case value="password">
+                                                <input type="password" name="config[{$o_tab_key}]" class="text input-large" value="{$tab_form.value}">
+                                            </case>
+                                            <case value="hidden">
+                                                <input type="hidden" name="config[{$o_tab_key}]" value="{$tab_form.value}">
+                                            </case>
+                                            <case value="radio">
+                                                <foreach name="tab_form.options" item="opt" key="opt_k">
+                                                    <label class="radio">
+                                                        <input type="radio" name="config[{$o_tab_key}]" value="{$opt_k}" <eq name="tab_form.value" value="$opt_k"> checked</eq>>{$opt}
+                                                    </label>
+                                                </foreach>
+                                            </case>
+                                            <case value="checkbox">
+                                                <foreach name="tab_form.options" item="opt" key="opt_k">
+                                                    <label class="checkbox">
+                                                        <php> is_null($tab_form["value"]) && $tab_form["value"] = array();</php>
+                                                        <input type="checkbox" name="config[{$o_tab_key}][]" value="{$opt_k}" <in name="opt_k" value="$tab_form.value"> checked</in>>{$opt}
+                                                    </label>
+                                                </foreach>
+                                            </case>
+                                            <case value="select">
+                                                <select name="config[{$o_tab_key}]">
+                                                    <foreach name="tab_form.options" item="opt" key="opt_k">
+                                                        <option value="{$opt_k}" <eq name="tab_form.value" value="$opt_k"> selected</eq>>{$opt}</option>
+                                                    </foreach>
+                                                </select>
+                                            </case>
+                                            <case value="textarea">
+                                                <label class="textarea input-large">
+                                                    <textarea name="config[{$o_tab_key}]">{$tab_form.value}</textarea>
+                                                </label>
+                                            </case>
+                                        </switch>
+                                    </div>
+                                </foreach>
+                        </div>
+                        </volist>
+            </div>
+            </case>
+            </switch>
+
+    </div>
+</foreach>
+    </div>
+
+    <script type="text/javascript">
+        /**
+         * 改变选中样式
+         * @param string key 选中样式Key值
+         * @param object this 点击按钮对象
+         * @return void
+         */
+        var fChange = function (key, obj) {
+            $('#themes').find('li').removeClass('current');
+            $(obj).parent().addClass('current');
+            $('#theme').val(key);
+            return false;
+        }
+        $(function () {
+            //设置高亮主题
+            fChange(
+                    '{$theme}',
+                    $('#themes img[alt="{$theme}"]').parent()
+            );
+        });
+    </script>
+</div>

@@ -24,11 +24,11 @@ class AdaptiveImagesController extends AddonsController{
 		$this->browser_cache = $config['browser_cache'];
 
 		$requested_uri  = parse_url(urldecode($_SERVER['REQUEST_URI']), PHP_URL_PATH);
-		$requested_uri = str_replace($document_root, '', $requested_uri);
+		//因为检查到/Uploads/Picture/2014-05-18 是上传后图片文件的真实路径，故而不能够替换掉
+		//$requested_uri = str_replace($document_root, '', $requested_uri);	
 		$requested_file = basename($requested_uri);
 		$this->source_file = $source_file = '.'.$requested_uri;
 		$resolution = FALSE;
-
 		// 检测源文件是否存在
 		if (!file_exists($source_file)) {
 			header("Status: 404 Not Found");

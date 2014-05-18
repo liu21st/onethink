@@ -1,0 +1,65 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <!-- 标题栏 -->
+    <div class="main-title">
+        <h2>[{$model['title']}] 列表</h2>
+    </div>
+    
+<div class="panel panel-default">
+    <div class="panel-heading">	
+		<empty name="model.extend">
+
+		</empty>
+        <div class="tools"> 
+            <button class="btn btn-default" id="model_add" url="{:U('add?model='.$model['id'])}">新 增</button>
+            <button class="btn btn-default ajax-post confirm" target-form="ids" url="{:U('del?model='.$model['id'])}">删 除</button>
+        </div>
+    </div><!-- /.panel-heading -->
+    
+	<div class="panel-body">
+		<div class="table-responsive">		
+			<table class="table table-striped table-bordered table-hover" id="dataTables-lists"><!-- 必须设定表格的id == -->
+				<thead>
+					<tr>
+                        <th class="row-selected row-selected">
+                            <input class="check-all" type="checkbox">
+                        </th>
+                        <volist name="list_grids" id="field">
+                            <th>{$field.title}</th>
+                        </volist>
+                    </tr>
+                </thead>
+                <!-- 列表 -->
+                <tbody>
+                    <volist name="list_data" id="data">
+                        <tr>
+                            <td><input class="ids" type="checkbox" value="{$data['id']}" name="ids[]"></td>
+                            <volist name="list_grids" id="grid">
+                                <td>{:get_list_field($data,$grid,$model)}</td>
+                            </volist>
+                        </tr>
+                    </volist>
+				</tbody>
+			</table>
+		</div><!-- /.table-responsive --> 
+	</div><!-- /.panel-body -->
+</div><!-- /.panel --> 						
+</block>
+
+<block name="script">
+<script type="text/javascript">
+//新增按钮
+$(function(){
+	$("#model_add").click(function(){
+		window.location.href = $(this).attr('url');
+	})
+})
+</script>
+<script type="text/javascript">
+//启用表格功能  id 是  
+$(document).ready(function() {
+	$('#dataTables-lists').dataTable();
+});
+</script>
+</block>

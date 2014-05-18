@@ -1,0 +1,62 @@
+<extend name="Public/base" />
+
+<block name="body">
+	<div class="main-title cf">
+		<h2>
+			批量导入 [{$data.title|default='顶级菜单'}]
+		</h2>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			导入
+		</div>
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-lg-6">
+	<!-- 表单 -->
+	<form id="form" action="{:U('import')}" method="post" class="form" role="form" >
+		<!-- 基础文档模型 -->
+		<div id="tab1" class="tab-pane in tab1">
+			<div class="form-item cf">
+				<label class="item-label">导入的内容<span class="check-tips">（请按照导入格式输入）</span></label>  
+                <textarea name="tree" class="form-control" ></textarea>  
+				<span class="check-tips">导入格式：标题|url(回车键)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;标题|url</span>
+			</div>
+		</div>
+		<div class="form-item cf">
+			<button class="btn btn-default submit-btn ajax-post hidden" id="submit" type="submit" target-form="form">确 定</button>
+			<button class="btn btn-default import_cancel  btn-return" type="button" url="{:U('index?pid='.$pid)}">返 回</button>
+			<input type="hidden" name="pid" value="{$pid}"/>
+			<input type="hidden" name="cate_id" value="{$cate_id|default=0}">
+		</div>
+			</form>	
+	
+				</div>
+				<!-- /.col-lg-6 (nested) -->
+			</div>
+			<!-- /.row (nested) -->
+		</div>
+		<!-- /.panel-body -->
+	</div>
+	<!-- /.panel -->
+</block>
+
+<block name="script">
+<script type="text/javascript">
+
+$('#submit').click(function(){
+	$('#form').submit();
+});
+
+
+$(function(){
+	//导航高亮
+    $('.side-sub-menu').find('a[href="{:U('index')}"]').closest('li').addClass('current');
+    
+    //点击取消按钮
+    $('.import_cancel').click(function(){
+        window.location.href = $(this).attr('url');
+    });    
+});
+</script>
+</block>

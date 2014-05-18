@@ -1,0 +1,87 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>[{:get_model_by_id($model_id)}] 属性列表(不含继承属性)</h2>
+	</div>
+ 
+
+<div class="panel panel-default">
+    <div class="panel-heading">		
+        <div class="tools">
+          <button class="btn btn-default" id="attribute_add" url="{:U('Attribute/add?model_id='.$model_id)}">新 增</button>
+        </div>	
+	</div><!-- /.panel-heading -->
+	<div class="panel-body">
+		<div class="table-responsive">		
+			<table class="table table-striped table-bordered table-hover" id="dataTables-attribute"><!-- 必须设定表格的id == -->
+				<thead>
+					<tr>
+                        <th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
+                        <th class="">编号</th>
+                        <th class="">字段</th>
+                        <th class="">名称</th>
+                        <th class="">数据类型</th>
+                        <th class="">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <volist name="_list" id="vo">
+                    <tr>
+                        <td><input class="ids" type="checkbox" name="id[]" value="{$vo.id}" /></td>
+                        <td>{$vo.id} </td>
+                        <td>{$vo.name}</td>
+                        <td><a data-id="{$vo.id}" href="{:U('Attribute/edit?id='.$vo['id'])}">{$vo.title}</a></td>
+                        <td><span>{:get_attribute_type($vo['type'])}</span></td>
+                        <td><a href="{:U('Attribute/edit?id='.$vo['id'])}">编辑</a>
+                            <a class="confirm ajax-get" href="{:U('Attribute/remove?id='.$vo['id'])}">删除</a>
+                        </td>
+                    </tr>
+                    </volist> 
+				</tbody>
+			</table>
+		</div><!-- /.table-responsive --> 
+	</div><!-- /.panel-body -->
+</div><!-- /.panel --> 						
+</block>
+
+<block name="script">
+<script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+
+<script type="text/javascript">
+//新增按钮
+$(function(){
+	$("#attribute_add").click(function(){
+		window.location.href = $(this).attr('url');
+	})
+})
+</script>
+
+<script type="text/javascript">
+//导航高亮
+highlight_subnav('{:U('Model/index')}'); 
+    
+$(function(){
+    $("#search").click(function(){
+        var url = $(this).attr('url');
+        var status = $('select[name=status]').val();
+        var search = $('input[name=search]').val();
+        if(status != ''){
+            url += '/status/' + status;
+        }
+        if(search != ''){
+            url += '/search/' + search;
+        }
+        window.location.href = url;
+    });        
+})
+</script>
+<script type="text/javascript">
+//启用表格功能  id 是 dataTables-user
+$(document).ready(function() {
+	$('#dataTables-attribute').dataTable();
+});
+</script>
+
+</block>

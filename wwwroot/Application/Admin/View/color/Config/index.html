@@ -1,0 +1,96 @@
+<extend name="Public/base"/>
+
+<block name="body">
+<div class="main-title">
+    <h2>配置内容 [ <present name="Think.get.group">
+     <a href="{:U('index')}">全部</a><else/><strong>全部</strong></present>&nbsp;<foreach name="group" item="vo">
+    <neq name="group_id" value="$key">
+     <a href="{:U('index?group='.$key)}">{$vo}</a><else/><strong>{$vo}</strong></neq>&nbsp;     
+    </foreach> ]</h2>
+</div>
+    
+<div class="panel panel-default">
+    <div class="panel-heading">		
+		<div class="fl">
+            <button  class="btn btn-default " url="{:U('add')}" id="add-config">新 增</button> 
+            <button  class="btn btn-default " url=" href="javascript:;">删 除</button>
+            <button  class="btn btn-default list_sort" url="{:U('sort?group='.I('group'),'','')}">排序</button>        
+ 
+        </div>	
+	</div><!-- /.panel-heading -->
+	<div class="panel-body">
+		<div class="table-responsive">		
+			<table class="table table-striped table-bordered table-hover" id="dataTables-config"><!-- 必须设定表格的id == -->
+				<thead>
+					<tr>
+                        <th class="row-selected">
+                            <input class="checkbox check-all" type="checkbox">
+                        </th>
+                        <th>ID</th>
+                        <th>名称</th>
+                        <th>标题</th>
+                        <th>分组</th>
+                        <th>类型</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <volist name="list" id="config">
+                    <tr>
+                        <td><input class="ids row-selected" type="checkbox" name="id[]" value="{$config.id}"></td>
+                        <td>{$config.id}</td>
+                        <td><a href="{:U('edit?id='.$config['id'])}">{$config.name}</a></td>
+                        <td>{$config.title}</td>
+                        <td>{$config.group|get_config_group}</td>
+                        <td>{$config.type|get_config_type}</td>
+                        <td>
+                            <a title="编辑" href="{:U('edit?id='.$config['id'])}">编辑</a>
+                            <a class="confirm ajax-get" title="删除" href="{:U('del?id='.$config['id'])}">删除</a>
+                        </td>
+                    </tr>
+                    </volist>
+				</tbody>
+			</table>
+		</div><!-- /.table-responsive --> 
+	</div><!-- /.panel-body -->
+</div><!-- /.panel --> 						
+</block>
+
+<block name="script">
+<script type="text/javascript">
+//启用表格功能  id 是 dataTables-actionlog
+$(document).ready(function() {
+	$('#dataTables-config').dataTable();
+});
+</script>
+
+<script type="text/javascript">
+//新增
+$(function(){
+	$("#add-config").click(function(){
+		window.location.href = $(this).attr('url');
+	})
+
+    //点击排序
+    $('.list_sort').click(function(){
+        var url = $(this).attr('url');
+        var ids = $('.ids:checked');
+        var param = '';
+        if(ids.length > 0){
+            var str = new Array();
+            ids.each(function(){
+                str.push($(this).val());
+            });
+            param = str.join(',');
+        }
+
+        if(url != undefined && url != ''){
+            window.location.href = url + '/ids/' + param;
+        }
+    });
+    
+})
+</script>
+
+ 
+</block>

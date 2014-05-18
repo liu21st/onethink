@@ -1,0 +1,36 @@
+<div class="bdsharebuttonbox" data-tag="share_1">
+    <if condition="$addons_config['openbutton'] eq 0">
+    <volist name="addons_config.buttonlist" id="vo">
+        <a class="bds_{$vo}" data-cmd="{$vo}"></a>
+    </volist>
+    <a class="bds_more" data-cmd="more">更多</a>
+    <a class="bds_count" data-cmd="count"></a>
+    </if>
+</div>
+<script>
+    window._bd_share_config = {
+        share : [{
+            "bdSize" : {$addons_config['button_size']==null?16:$addons_config['button_size']}
+        }],
+        slide : [{
+            bdImg : 0,
+            bdPos : "right",
+            bdTop : 100
+        }],
+        <if condition="$addons_config['openimg'] eq 0">
+        image : [{
+            viewType : 'list',
+            viewPos : 'top',
+            viewColor : 'black',
+            viewSize : {$addons_config['img_size']==null?16:$addons_config['img_size']},
+            viewList : [<volist name="addons_config.imglist" id="vo"><if condition="$key eq 0">'{$vo}'<else/>,'{$vo}'</if></volist>]
+        }],
+        </if>
+        <if condition="$addons_config['openselect'] eq 0">
+        selectShare : [{
+            "bdselectMiniList" : [<volist name="addons_config.selectlist" id="vo"><if condition="$key eq 0">'{$vo}'<else/>,'{$vo}'</if></volist>]
+        }]
+        </if>
+    }
+    with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=86835285.js?cdnversion='+~(-new Date()/36e5)];
+</script>
