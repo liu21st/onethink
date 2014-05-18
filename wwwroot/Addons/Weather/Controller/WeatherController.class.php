@@ -15,7 +15,6 @@ class WeatherController extends AddonsController{
 	//获取糗事百科列表
 	public function getList(){
 		$lists = S('Weather_content');
-		var_dump($lists);
 		if(!$lists){
 			$config = get_addon_config('Weather');
 			if($config && $config['city'])
@@ -70,10 +69,8 @@ class WeatherController extends AddonsController{
 *   ]
 *
 **/
-			var_dump($url);
 			$result = file_get_contents($url);
 			$content = json_decode($result)->results[0];
-			var_dump($content);
 			$lists=array();
 			$lists['city'] = (string)$content->currentCity;
 			$lists['showday'] = $config['showday'];
