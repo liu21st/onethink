@@ -16,6 +16,16 @@ use Think\Controller;
  */
 class AddonsController extends Controller{
 
+	public function _initialize(){
+		/* 读取数据库中的配置 */
+        $config = S('DB_CONFIG_DATA');
+        if(!$config){
+            $config = api('Config/lists');
+            S('DB_CONFIG_DATA',$config);
+        }
+        C($config); //添加配置
+	}
+
 	protected $addons = null;
 
 	public function execute($_addons = null, $_controller = null, $_action = null){

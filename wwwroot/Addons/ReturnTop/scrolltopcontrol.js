@@ -12,7 +12,8 @@ $(function(){
 	$("#topcontrol").find(".top_stick").css({
 		"position" : "fixed",
 		"bottom" : 50,
-		"right": 50
+		"right": 50,
+		"z-index":999999
 	});
 
 	win.scroll(function(){

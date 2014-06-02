@@ -677,6 +677,7 @@ CREATE TABLE `onethink_file` (
   `md5` char(32) NOT NULL DEFAULT '' COMMENT '文件md5',
   `sha1` char(40) NOT NULL DEFAULT '' COMMENT '文件 sha1编码',
   `location` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '文件保存位置',
+  `url` varchar(255) NOT NULL DEFAULT '' COMMENT '远程地址',
   `create_time` int(10) unsigned NOT NULL COMMENT '上传时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_md5` (`md5`)
