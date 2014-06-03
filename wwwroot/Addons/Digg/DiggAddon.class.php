@@ -16,7 +16,7 @@ use Common\Controller\Addon;
             'description'=>'网上通用的文章顶一下，踩一下插件（不支持后台作弊修改数据）。',
             'status'=>1,
             'author'=>'thinkphp',
-            'version'=>'0.1'
+            'version'=>'0.3'
         );
 
         public function install(){
