@@ -33,6 +33,9 @@ class ThinkController extends AdminController {
         $fields = array();
         $grids  = preg_split('/[;\r\n]+/s', $model['list_grid']);
         foreach ($grids as &$value) {
+        	if(trim($value) === ''){
+        		continue;
+        	}
             // 字段:标题:链接
             $val      = explode(':', $value);
             // 支持多个字段显示
@@ -159,7 +162,7 @@ class ThinkController extends AdminController {
 
         if(IS_POST){
             $Model  =   D(parse_name(get_table_name($model['id']),1));
-            // 获取模型的字段信息 
+            // 获取模型的字段信息
             $Model  =   $this->checkAttr($Model,$model['id']);
             if($Model->create() && $Model->save()){
                 $this->success('保存'.$model['title'].'成功！', U('lists?model='.$model['name']));
@@ -187,7 +190,7 @@ class ThinkController extends AdminController {
         $model || $this->error('模型不存在！');
         if(IS_POST){
             $Model  =   D(parse_name(get_table_name($model['id']),1));
-            // 获取模型的字段信息 
+            // 获取模型的字段信息
             $Model  =   $this->checkAttr($Model,$model['id']);
             if($Model->create() && $Model->add()){
                 $this->success('添加'.$model['title'].'成功！', U('lists?model='.$model['name']));
@@ -206,12 +209,12 @@ class ThinkController extends AdminController {
     }
 
     protected function checkAttr($Model,$model_id){
-        $fields     =   get_model_attribute($model_id,false);    
+        $fields     =   get_model_attribute($model_id,false);
         $validate   =   $auto   =   array();
         foreach($fields as $key=>$attr){
             if($attr['is_must']){// 必填字段
                 $validate[]  =  array($attr['name'],'require',$attr['title'].'必须!');
-            }            
+            }
             // 自动验证规则
             if(!empty($attr['validate_rule'])) {
                 $validate[]  =  array($attr['name'],$attr['validate_rule'],$attr['error_info']?$attr['error_info']:$attr['title'].'验证错误',0,$attr['validate_type'],$attr['validate_time']);
