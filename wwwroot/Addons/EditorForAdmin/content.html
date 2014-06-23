@@ -26,7 +26,10 @@
 						urlType : 'absolute',
 						fileManagerJson : '{:U('fileManagerJson')}',
 						//uploadJson : '{:U('uploadJson')}' }
-						uploadJson : '{:addons_url("EditorForAdmin://Upload/ke_upimg")}'
+						uploadJson : '{:addons_url("EditorForAdmin://Upload/ke_upimg")}',
+						extraFileUploadParams: {
+							session_id : '{:session_id()}'
+	                    }
 					});
 				});
 
