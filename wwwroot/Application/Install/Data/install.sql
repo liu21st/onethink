@@ -867,6 +867,7 @@ INSERT INTO `onethink_menu` VALUES ('118', '文档排序', '3', '0', 'Article/so
 INSERT INTO `onethink_menu` VALUES ('119', '排序', '70', '0', 'Config/sort', '1', '', '', '0');
 INSERT INTO `onethink_menu` VALUES ('120', '排序', '75', '0', 'Menu/sort', '1', '', '', '0');
 INSERT INTO `onethink_menu` VALUES ('121', '排序', '76', '0', 'Channel/sort', '1', '', '', '0');
+INSERT INTO `onethink_menu` VALUES ('122', '数据列表', '58', '0', 'think/lists', '1', '', '', '0');
 
 -- -----------------------------
 -- Table structure for `onethink_model`
