@@ -138,7 +138,12 @@ class AdminController extends Controller {
     final protected function editRow ( $model ,$data, $where , $msg ){
         $id    = array_unique((array)I('id',0));
         $id    = is_array($id) ? implode(',',$id) : $id;
-        $where = array_merge( array('id' => array('in', $id )) ,(array)$where );
+        //如存在id字段，则加入该条件
+        $fields = M($model)->getDbFields();
+        if(in_array('id',$fields) && !empty($id)){
+        	$where = array_merge( array('id' => array('in', $id )) ,(array)$where );
+        }
+
         $msg   = array_merge( array( 'success'=>'操作成功！', 'error'=>'操作失败！', 'url'=>'' ,'ajax'=>IS_AJAX) , (array)$msg );
         if( M($model)->where($where)->save($data)!==false ) {
             $this->success($msg['success'],$msg['url'],$msg['ajax']);
@@ -200,7 +205,6 @@ class AdminController extends Controller {
      */
     protected function delete ( $model , $where = array() , $msg = array( 'success'=>'删除成功！', 'error'=>'删除失败！')) {
         $data['status']         =   -1;
-        $data['update_time']    =   NOW_TIME;
         $this->editRow(   $model , $data, $where, $msg);
     }
 
