@@ -135,8 +135,16 @@ class ModelModel extends Model{
      */
     public function del($id){
     	//获取表名
-    	$model = $this->field('name')->find($id);
-    	$table_name = C('DB_PREFIX').strtolower($model['name']);
+    	$model = $this->field('name,extend')->find($id);
+    	if($model['extend'] == 0){
+    		$table_name = C('DB_PREFIX').strtolower($model['name']);
+    	}elseif($model['extend'] == 1){
+    		$table_name = C('DB_PREFIX').'document_'.strtolower($model['name']);
+    	}else{
+    		$this->error = '只支持删除文档模型和独立模型';
+    		return false;
+    	}
+
     	//删除属性数据
     	M('Attribute')->where(array('model_id'=>$id))->delete();
     	//删除模型数据
