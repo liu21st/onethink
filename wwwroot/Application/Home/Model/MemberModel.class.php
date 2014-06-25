@@ -23,7 +23,6 @@ class MemberModel extends Model{
         array('reg_time', NOW_TIME, self::MODEL_INSERT),
         array('last_login_ip', 0, self::MODEL_INSERT),
         array('last_login_time', 0, self::MODEL_INSERT),
-        array('update_time', NOW_TIME),
         array('status', 1, self::MODEL_INSERT),
     );
 
