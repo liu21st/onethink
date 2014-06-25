@@ -21,7 +21,7 @@ class ChannelController extends AdminController {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function index(){
-        $pid = i('get.pid', 0);
+        $pid = I('get.pid', 0);
         /* 获取频道列表 */
         $map  = array('status' => array('gt', -1), 'pid'=>$pid);
         $list = M('Channel')->where($map)->order('sort asc,id asc')->select();
@@ -53,7 +53,7 @@ class ChannelController extends AdminController {
                 $this->error($Channel->getError());
             }
         } else {
-            $pid = i('get.pid', 0);
+            $pid = I('get.pid', 0);
             //获取父导航
             if(!empty($pid)){
                 $parent = M('Channel')->where(array('id'=>$pid))->field('title')->find();
@@ -96,7 +96,7 @@ class ChannelController extends AdminController {
                 $this->error('获取配置信息错误');
             }
 
-            $pid = i('get.pid', 0);
+            $pid = I('get.pid', 0);
             //获取父导航
             if(!empty($pid)){
             	$parent = M('Channel')->where(array('id'=>$pid))->field('title')->find();
