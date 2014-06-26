@@ -147,7 +147,7 @@ class DatabaseController extends AdminController{
             $path  = realpath(C('DATA_BACKUP_PATH')) . DIRECTORY_SEPARATOR . $name;
             array_map("unlink", glob($path));
             if(count(glob($path))){
-                $this->success('备份文件删除失败，请检查权限！');
+                $this->error('备份文件删除失败，请检查权限！');
             } else {
                 $this->success('备份文件删除成功！');
             }
