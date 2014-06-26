@@ -114,11 +114,11 @@
                         updateAlert(data.info ,'alert-success');
                     }
                     setTimeout(function(){
+                    	$(that).removeClass('disabled').prop('disabled',false);
                         if (data.url) {
                             location.href=data.url;
                         }else if( $(that).hasClass('no-refresh')){
                             $('#top-alert').find('button').click();
-                            $(that).removeClass('disabled').prop('disabled',false);
                         }else{
                             location.reload();
                         }
@@ -126,11 +126,11 @@
                 }else{
                     updateAlert(data.info);
                     setTimeout(function(){
+                    	$(that).removeClass('disabled').prop('disabled',false);
                         if (data.url) {
                             location.href=data.url;
                         }else{
                             $('#top-alert').find('button').click();
-                            $(that).removeClass('disabled').prop('disabled',false);
                         }
                     },1500);
                 }
