@@ -151,6 +151,12 @@ class CategoryController extends AdminController {
         $map = array('status'=>1, 'id'=>array('neq', $from));
         $list = M('Category')->where($map)->field('id,title')->select();
 
+        //移动分类时增加移至根分类
+        if(strcmp($type, 'move') == 0){
+        	$pid = M('Category')->getFieldById($from, 'pid');
+        	$pid && array_unshift($list, array('id'=>0,'title'=>'根分类'));
+        }
+
         $this->assign('type', $type);
         $this->assign('operate', $operate);
         $this->assign('from', $from);
