@@ -149,10 +149,14 @@ class CategoryController extends AdminController {
 
         //获取分类
         $map = array('status'=>1, 'id'=>array('neq', $from));
-        $list = M('Category')->where($map)->field('id,title')->select();
+        $list = M('Category')->where($map)->field('id,pid,title')->select();
+
 
         //移动分类时增加移至根分类
         if(strcmp($type, 'move') == 0){
+        	//不允许移动至其子孙分类
+        	$list = tree_to_list(list_to_tree($list));
+
         	$pid = M('Category')->getFieldById($from, 'pid');
         	$pid && array_unshift($list, array('id'=>0,'title'=>'根分类'));
         }
