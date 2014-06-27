@@ -215,7 +215,7 @@ class CategoryController extends AdminController {
         //合并文档
         $res = M('Document')->where(array('category_id'=>$from))->setField('category_id', $to);
 
-        if($res){
+        if($res !== false){
             //删除被合并的分类
             $Model->delete($from);
             $this->success('合并分类成功！', U('index'));
