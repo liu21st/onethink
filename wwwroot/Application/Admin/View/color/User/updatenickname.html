@@ -1,0 +1,33 @@
+<extend name="Public/base" />
+
+<block name="body">
+ 
+	<!-- 标题栏 -->
+	<div class="tab-wrap"> 
+		<ul class="nav nav-tabs ">
+			<li class="active"><a href="{:U('updatenickname')}">修改昵称</a></li>
+			<li ><a href="{:U('updatepassword')}">修改密码</a></li>
+		</ul>
+		<div class="tab-content">
+			<!-- 修改密码表单 -->
+			<form action="{:U('User/submitNickname')}" method="post" role="form" class="form col-lg-6" autocomplete="off">
+				<div class="form-group">
+					<label class="item-label">密码：<span class="check-tips">（请输入密码）</span></label> 
+					<input type="password" name="password" class="form-control"  autocomplete="off"/>			 
+				</div>
+				<div class="form-group">
+					<label class="item-label">昵称：<span class="check-tips">（请输入新昵称）</span></label> 
+					<input type="text" name="nickname" class="form-control" autocomplete="off" value="{:get_username()}"/>			 
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-default submit-btn ajax-post" target-form="form">确 认</button>
+					<button class="btn btn-default btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+				</div>
+			</form>
+		</div> 
+	</div>
+</block>
+
+<block name="script">
+	<script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+</block>

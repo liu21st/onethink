@@ -1,0 +1,59 @@
+<extend name="Public/base"/>
+
+<block name="body">
+<div class="main-title">
+    <h2>网站设置</h2>
+</div>
+<div class="panel panel-default">
+    <div class="tab-wrap  panel-body ">	    
+ 		<ul class="nav nav-tabs ">
+		<volist name="Think.config.CONFIG_GROUP_LIST" id="group">
+			<li <eq name="id" value="$key">class="active"</eq>><a href="{:U('?id='.$key)}">{$group}配置</a></li>
+		</volist>
+		</ul>
+        <div class="tab-content">
+            <form action="{:U('save')}" method="post" class="form col-lg-6" role="form" >
+            <volist name="list" id="config">
+                <div class="form-group">
+                    <label class="item-label ">{$config.title}<span class="check-tips">（{$config.remark}）</span> </label> 
+                    <switch name="config.type">
+                    <case value="0">
+                    <input type="text" class="form-control" name="config[{$config.name}]" value="{$config.value}">
+                    </case>
+                    <case value="1">
+                    <input type="text" class="form-control" name="config[{$config.name}]" value="{$config.value}">
+                    </case>
+                    <case value="2"> 
+                    <textarea name="config[{$config.name}]" class="form-control">{$config.value}</textarea> 
+                    </case>
+                    <case value="3"> 
+                    <textarea name="config[{$config.name}]" class="form-control">{$config.value}</textarea> 
+                    </case>
+                    <case value="4">
+                    <select name="config[{$config.name}]" class="form-control">
+                        <volist name=":parse_config_attr($config['extra'])" id="vo">
+                            <option value="{$key}" <eq name="config.value" value="$key">selected</eq>>{$vo}</option>
+                        </volist>
+                    </select>
+                    </case>
+                    </switch>			
+                </div>
+            </volist>
+                <div class="form-group">
+                    <label class="item-label"></label>
+                    <div class="controls">
+                        <empty name="list">
+                          <button type="submit" disabled class="btn btn-default submit-btn disabled" target-form="form">确 定</button>
+                        <else/>
+                          <button type="submit" class="btn btn-default submit-btn ajax-post" target-form="form">确 定</button>
+                        </empty>				
+                          <button class="btn btn-default btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+	</div>
+</div>    
+</block>
+
+ 

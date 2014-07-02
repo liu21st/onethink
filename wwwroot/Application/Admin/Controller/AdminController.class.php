@@ -413,14 +413,16 @@ class AdminController extends Controller {
             $options['order'] = $order;
         }
         unset($REQUEST['_order'],$REQUEST['_field']);
-
+        if (empty($where)) {
+            $base='';
+        }
         $options['where'] = array_filter(array_merge( (array)$base, /*$REQUEST,*/ (array)$where ),function($val){
             if($val===''||$val===null){
                 return false;
             }else{
                 return true;
             }
-        });
+        });     
         if( empty($options['where'])){
             unset($options['where']);
         }

@@ -1,0 +1,70 @@
+<extend name="Public/base" />
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>钩子列表</h2>
+	</div>
+    
+    
+<div class="panel panel-default">
+    <div class="panel-heading">		
+		<div class="fl">
+		<?php if (IS_ROOT): ?>
+            <button class="btn btn-default" id="addhook" url="{:U('addhook')}">新 增</button>
+		<?php endif ?>
+		</div>		
+	</div>
+	<!-- /.panel-heading -->
+	<div class="panel-body">
+		<div class="table-responsive">		
+			<table class="table table-striped table-bordered table-hover" id="dataTables-hooks"><!-- 必须设定表格的id == -->
+				<thead>
+					<tr>
+					<th>ID</th>
+					<th>名称</th>
+					<th>描述</th>
+					<th>类型</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist name="list" id="vo">
+					<tr>
+						<td>{$vo.id}</td>
+						<td><a href="{:U('edithook?id='.$vo['id'])}">{$vo.name}</a></td>
+						<td>{$vo.description}</td>
+						<td>{$vo.type_text}</td>
+						<td>
+							<a title="编辑" href="{:U('edithook?id='.$vo['id'])}">编辑</a>
+							<a class="confirm ajax-get" title="删除" href="{:U('delhook?id='.$vo['id'])}">删除</a>
+						</td>
+					</tr>
+				</volist>
+			</tbody>
+			</table>
+		</div>
+		<!-- /.table-responsive -->  
+	</div>
+	<!-- /.panel-body -->
+</div>
+<!-- /.panel --> 						
+</block>
+
+<block name="script">
+<script type="text/javascript">
+$(function(){
+    //新增按钮
+    $("#addhook").click(function(){
+    window.location.href = $(this).attr('url');
+});  
+})
+</script>
+
+<script type="text/javascript">
+//启用表格功能  id 是 
+$(document).ready(function() {
+	$('#dataTables-hooks').dataTable();
+});
+</script>
+</block>

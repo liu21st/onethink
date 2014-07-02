@@ -1,0 +1,29 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<div class="main-title">
+		<h2>分类管理</h2>
+	</div>
+	<!-- 树型结构===== -->  
+    <div class="tree well">
+        <ul>
+          <li>     
+            <span><i class="fa fa-sitemap fa-fw"></i>&nbsp;&nbsp;根节点</span><a class="btn btn-default" href="{:U('add')}">新增分类</a>
+            <ul>
+              {:R('Category/tree', array($tree))}   
+            </ul> 
+          </li>
+        </ul>
+    </div> 
+	<!-- /树型结构 -->
+</block>
+
+
+<block name="style">
+<load href="__CSS__/sb/tree.css" /> 
+</block>
+
+<block name="script">
+<load href="__JS__/sb/tree.js" />
+</block>
+

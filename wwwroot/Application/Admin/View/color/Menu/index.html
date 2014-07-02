@@ -1,0 +1,116 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <div class="main-title">
+        <h2><present name="data">[ {$data.title} ] 子</present>菜单管理 </h2>
+    </div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">		
+		<div class="fl">
+        <button class="btn btn-default " url="{:U('add',array('pid'=>I('get.pid',0)))}" id="add-menu">新 增</button>
+        <button class="btn btn-default ajax-post confirm" url="{:U('del')}" target-form="ids">删 除</button>
+        <button class="btn btn-default " url="{:U('import',array('pid'=>I('get.pid',0)))}" id="import">导 入</button>
+        <button class="btn btn-default list_sort" url="{:U('sort',array('pid'=>I('get.pid',0)),'')}">排序</button>
+		<!-- 高级搜索 -->
+        </div>	
+	</div>
+	<!-- /.panel-heading -->
+	<div class="panel-body">
+		<div class="table-responsive">		
+			<table class="table table-striped table-bordered table-hover" id="dataTables-menu"><!-- 必须设定表格的id == -->
+				<thead>
+					<tr>
+					<th class="row-selected">
+						<input class="checkbox check-all" type="checkbox">
+					</th> 
+                        <th>ID</th>
+                        <th>名称</th>
+                        <th>上级菜单</th>
+                        <th>分组</th>
+                        <th>URL</th>
+                        <th>排序</th>
+                        <th>仅开发者模式显示</th>
+                        <th>隐藏</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <volist name="list" id="menu">
+                    <tr>
+                        <td><input class="ids row-selected" type="checkbox" name="id[]" value="{$menu.id}"></td>
+                        <td>{$menu.id}</td>
+                        <td>
+                            <a href="{:U('index?pid='.$menu['id'])}">{$menu.title}</a>
+                        </td>
+                        <td>{$menu.up_title|default='无'}</td>
+                        <td>{$menu.group}</td>
+                        <td>{$menu.url}</td>
+                        <td>{$menu.sort}</td>
+                        <td>
+                            <a href="{:U('toogleDev',array('id'=>$menu['id'],'value'=>abs($menu['is_dev']-1)))}" class="ajax-get">
+                            {$menu.is_dev_text}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{:U('toogleHide',array('id'=>$menu['id'],'value'=>abs($menu['hide']-1)))}" class="ajax-get">
+                            {$menu.hide_text}
+                            </a>
+                        </td>
+                        <td>
+                            <a title="编辑" href="{:U('edit?id='.$menu['id'])}">编辑</a>
+                            <a class="confirm ajax-get" title="删除" href="{:U('del?id='.$menu['id'])}">删除</a>
+                        </td>
+                    </tr>
+                </volist>
+				</tbody>
+			</table>
+		</div><!-- /.table-responsive --> 
+	</div><!-- /.panel-body -->
+</div><!-- /.panel --> 						
+</block>
+
+<block name="script">
+<script type="text/javascript">
+//启用表格功能  id 是 dataTables-actionlog
+$(document).ready(function() {
+	$('#dataTables-menu').dataTable();
+});
+</script>
+
+ 
+
+<script type="text/javascript">
+$(function() {
+    //导航高亮
+    $('.side-sub-menu').find('a[href="{:U('index')}"]').closest('li').addClass('current active ');  
+    
+    //新增
+    $("#add-menu").click(function(){
+        window.location.href = $(this).attr('url');
+    })
+    //导入
+    $("#import").click(function(){
+        window.location.href = $(this).attr('url');
+    })
+
+    //点击排序
+    $('.list_sort').click(function(){
+        var url = $(this).attr('url');
+        var ids = $('.ids:checked');
+        var param = '';
+        if(ids.length > 0){
+            var str = new Array();
+            ids.each(function(){
+                str.push($(this).val());
+            });
+            param = str.join(',');
+        }
+
+        if(url != undefined && url != ''){
+            window.location.href = url + '/ids/' + param;
+        }
+    });
+});
+</script>
+</block>

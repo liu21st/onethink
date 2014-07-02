@@ -1,0 +1,11 @@
+<script type="text/javascript" src="__ROOT__/Addons/AdFloat/AdFloat.js"></script>
+<script type="text/javascript">
+    $(function() {
+        $("body").AdFloat({ 
+            imgSrc : "{$config.image|get_cover='path'}", //漂浮图片路径
+            url : "{$config.url}", //图片点击跳转页
+            openStyle : {$config.target|default='1'}, //跳转页打开方式 1为新页面打开  0为当前页打开
+            speed : {$config.speed|default='10'} //漂浮速度 单位毫秒
+        });
+    });
+</script>

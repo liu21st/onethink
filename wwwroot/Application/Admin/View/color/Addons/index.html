@@ -1,0 +1,93 @@
+<extend name="Public/base" />
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>插件列表</h2>
+	</div>
+    
+<div class="panel panel-default">
+    <div class="panel-heading">		
+		<div class="fl">        
+		<button class="btn btn-default" id="action_add" url="{:U('create')}" >快速创建</button>
+		</div>		
+	</div>
+	<!-- /.panel-heading -->
+	<div class="panel-body">
+		<div class="table-responsive">		
+			<table class="table table-striped table-bordered table-hover" id="dataTables-addons"><!-- 必须设定表格的id == -->
+				<thead>
+					<tr>
+                        <th>名称</th>
+                        <th>标识</th>
+                        <th >描述</th>
+                        <th >状态</th>
+                        <th>作者</th>
+                        <th >版本</th>
+                        <th >操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <volist name="_list" id="vo">
+                    <tr>
+                        <td>{$vo.title}</td>
+                        <td>{$vo.name}</td>
+                        <td>{$vo.description}</td>
+                        <td>{$vo.status_text|default="未安装"}</td>
+                        <td><a target="_blank" href="{$vo.url|default='http://www.onethink.cn'}">{$vo.author}</a></td>
+                        <td>{$vo.version}</td>
+                        <td>
+                            <empty name="vo.uninstall">
+                                <?php
+                                    $class	= get_addon_class($vo['name']);
+                                    if(!class_exists($class)){
+                                        $has_config = 0;
+                                    }else{
+                                        $addon = new $class();
+                                        $has_config = count($addon->getConfig());
+                                    }
+                                ?>
+                                <?php if ($has_config): ?>
+                                    <a href="{:U('config',array('id'=>$vo['id']))}">设置</a>
+                                <?php endif ?>
+                            <?php if ($vo['status'] >=0): ?>
+                                <eq name="vo.status" value="0">
+                                    <a class="ajax-get" href="{:U('enable',array('id'=>$vo['id']))}">启用</a>
+                                <else />
+                                    <a class="ajax-get" href="{:U('disable',array('id'=>$vo['id']))}">禁用</a>
+                                </eq>
+                            <?php endif ?>
+                                {// <eq name="vo.author" value="thinkphp">}
+                                    <a class="ajax-get" href="{:U('uninstall?id='.$vo['id'])}">卸载</a>
+                                {// </eq>}
+                            <else />
+                                <a class="ajax-get" href="{:U('install?addon_name='.$vo['name'])}">安装</a>
+                            </empty>
+                        </td>
+                    </tr>
+                    </volist>
+                </tbody>                
+			</table>
+		</div>
+		<!-- /.table-responsive --> 
+	</div>
+	<!-- /.panel-body -->
+</div>
+<!-- /.panel --> 						
+</block>
+
+<block name="script"> 
+<script type="text/javascript">
+$(function(){
+	$("#action_add").click(function(){
+		window.location.href = $(this).attr('url');
+	})
+})
+</script> 
+<script type="text/javascript">
+//启用表格功能  id    
+$(document).ready(function() {
+	$('#dataTables-addons').dataTable();
+});
+</script>
+</block>

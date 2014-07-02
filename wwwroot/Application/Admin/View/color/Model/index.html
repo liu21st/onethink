@@ -1,0 +1,79 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>模型列表</h2>
+
+	</div>
+<div class="panel panel-default">
+    <div class="panel-heading">	    
+        <div class="tools">
+            <button class="btn btn-default " id="model_add" url="{:U('Model/add')}">新 增</button>
+            <button class="btn btn-default ajax-post" target-form="ids" url="{:U('Model/setStatus',array('status'=>1))}">启 用</button>
+            <button class="btn btn-default ajax-post" target-form="ids" url="{:U('Model/setStatus',array('status'=>0))}">禁 用</button>
+            <button class="btn btn-default " id="model_generate" url="{:U('Model/generate')}">生 成</button>
+        </div>
+    </div><!-- /.panel-heading -->
+	<!-- 数据列表 --> 
+	<div class="panel-body">
+		<div class="table-responsive">		
+			<table class="table table-striped table-bordered table-hover" id="dataTables-model"><!-- 必须设定表格的id == -->
+				<thead>
+					<tr>
+                        <th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
+                        <th class="">编号</th>
+                        <th class="">标识</th>
+                        <th class="">名称</th>
+                        <th class="">创建时间</th>
+                        <th class="">状态</th>
+                        <th class="">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <volist name="_list" id="vo">
+                    <tr>
+                        <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
+                        <td>{$vo.id} </td>
+                        <td>{$vo.name}</td>
+                        <td><a data-id="{$vo.id}" href="{:U('model/edit?id='.$vo['id'])}">{$vo.title}</a></td>
+                        <td><span>{$vo.create_time|time_format}</span></td>
+                        <td>{$vo.status_text}</td>
+                        <td>
+                            <a href="{:U('think/lists?model='.$vo['name'])}">数据</a>
+                            <a href="{:U('model/setstatus?ids='.$vo['id'].'&status='.abs(1-$vo['status']))}" class="ajax-get">{$vo.status|show_status_op}</a>
+                            <a href="{:U('model/edit?id='.$vo['id'])}">编辑</a>
+                            <a href="{:U('model/del?ids='.$vo['id'])}" class="confirm ajax-get">删除</a>
+                        </td>
+                    </tr>
+                    </volist>
+				</tbody>
+			</table>
+		</div><!-- /.table-responsive --> 
+	</div><!-- /.panel-body -->
+</div><!-- /.panel --> 						
+</block>
+
+<block name="script">
+<script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+
+<script type="text/javascript">
+//启用表格功能  id 是 
+$(document).ready(function() {
+	$('#dataTables-model').dataTable();
+});
+</script>
+
+<script type="text/javascript">
+$(function(){
+	$("#model_add").click(function(){
+		window.location.href = $(this).attr('url');
+	})
+	$("#model_generate").click(function(){
+		window.location.href = $(this).attr('url');
+	})
+})
+</script> 
+
+
+</block>

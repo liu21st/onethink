@@ -1,0 +1,38 @@
+<extend name="Public/base" />
+<!-- 管理员用户组新增和编辑页面 -->
+<block name="body">
+<div class="main-title">
+    <h2>{$auth_group['id']?'编辑':'新增'}用户组</h2>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        {$auth_group['id']?'编辑':'新增'}
+    </div>
+    <div class="panel-body">
+        <div class="row"> 
+            <form action="{:U('AuthManager/writeGroup')}" enctype="application/x-www-form-urlencoded" method="POST"   class="form col-lg-6"  role="form" >
+                <div class="form-group">
+                    <label for="auth-title" class="item-label">用户组</label>         
+                    <input id="auth-title" type="text" name="title" class="form-control" value="{$auth_group.title}"/>         
+                </div>
+                <div class="form-group">
+                    <label for="auth-description" class="item-label">描述</label>         
+                    <textarea id="auth-description" type="text" name="description" class="form-control">{$auth_group.description}</textarea>         
+                </div>
+                <div class="form-group">
+                    <input type="hidden" name="id" value="{$auth_group.id}" />
+                    <button type="submit" class="btn btn-default submit-btn ajax-post" target-form="form">确 定</button>
+                    <button class="btn btn-default btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+                </div>
+            </form>		 
+        </div><!-- /.row (nested) -->
+    </div><!-- /.panel-body -->
+</div><!-- /.panel -->
+</block>
+
+<block name="script">
+<script type="text/javascript" charset="utf-8">
+    //导航高亮
+$('.side-sub-menu').find('a[href="{:U('AuthManager/index')}"]').closest('li').addClass('current');
+</script>
+</block>

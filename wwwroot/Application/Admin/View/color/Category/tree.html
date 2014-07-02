@@ -1,0 +1,21 @@
+<volist name="tree" id="list">
+<li>     
+    <span> 
+      <form action="{:U('edit')}" method="post" >         
+        <i class="fa fa-table fa-fw"></i>&nbsp;&nbsp;{$list.title}
+        <input type="hidden" name="id" value="{$list.id}"> 
+      </form>
+    </span>    
+    <a title="添加子分类" href="{:U('add?pid='.$list['id'])}" class="add-sub-cate" >添加</a>     
+    <a title="编辑" href="{:U('edit?id='.$list['id'].'&pid='.$list['pid'])}">编辑</a>
+    <a title="{$list.status|show_status_op}" href="{:U('setStatus?ids='.$list['id'].'&status='.abs(1-$list['status']))}" class="ajax-get">{$list.status|show_status_op}</a>
+    <a title="删除" href="{:U('remove?id='.$list['id'])}" class="confirm ajax-get">删除</a>
+    <a title="移动" href="{:U('operate?type=move&from='.$list['id'])}">移动</a>
+    <a title="合并" href="{:U('operate?type=merge&from='.$list['id'])}">合并</a>    
+    <notempty name="list['_']">
+    <ul>
+      {:R('Category/tree', array($list['_']))} 
+    </ul>
+    </notempty>
+</li>
+</volist>

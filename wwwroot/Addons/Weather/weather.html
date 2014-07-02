@@ -1,0 +1,34 @@
+<style>
+.weather{padding: 10px 0 10px;float: right;line-height: 20px;color:#FFF;position:relative;}
+.weather a{color:#999;}
+.weather a:hover{color:#fff;}
+.weather .selected{display:none;position:absolute;background:#E04040;right:0;top:40px;}
+ul.weather_list{overflow:hidden;display: inline-block;width: 300px;}
+ul.weather_list li{float:left;list-style: none outside none;width: 140px;}
+ul.weather_list li p{width:140px;text-align:center;}
+</style>
+<div class="weather">
+	<a href="javascript:void(0)">{$lists.city}：{$lists.data.1.weather}&nbsp;&nbsp;{$lists.data.1.temperature}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<div  class="selected" style="">
+		<ul class="weather_list" >
+			<volist name='lists.data' id="vo" key="i">
+			<li>
+				<p>{$vo.date}</p>
+				<p><img src="{$vo.pictureUrl}"></p>
+				<p>{$vo.temperature}</p>
+				<p>{$vo.weather}</p>
+				<p>{$vo.wind}</p>
+			</li>
+			</volist>
+		</ul>
+	</div>
+</div>
+
+<script>
+	$('.weather').mouseover(function(){
+		$(this).find('.selected').show();
+	});
+	$('.weather').mouseout(function(){
+		$(this).find('.selected').hide();
+	});
+</script>

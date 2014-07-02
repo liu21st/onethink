@@ -1,0 +1,71 @@
+<extend name="Public/base"/>
+
+<block name="body">
+<div class="main-title">
+    <h2>导航管理</h2>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">		
+		<div class="fl">
+            <button class="btn btn-default " url="{:U('add','pid='.$pid)}" id="add-channel">新 增</button>
+            <button class="btn btn-default ajax-post confirm" url="{:U('del')}" target-form="ids">删 除</button>
+            <button class="btn btn-default list_sort" url="{:U('sort',array('pid'=>I('get.pid',0)),'')}">排序</button>
+		<!-- 高级搜索 -->
+        </div>	
+	</div><!-- /.panel-heading -->
+	<div class="panel-body">
+		<div class="table-responsive">		
+			<table class="table table-striped table-bordered table-hover" id="dataTables-channel"><!-- 必须设定表格的id == -->
+				<thead>
+					<tr>
+                        <th class="row-selected">
+                            <input class="checkbox check-all" type="checkbox">
+                        </th> 
+                        <th>ID</th>
+                        <th>导航名称</th>
+                        <th>导航地址</th>
+                        <th>排序</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <volist name="list" id="channel">
+                        <tr>
+                            <td><input class="ids row-selected" type="checkbox" name="id[]" value="{$channel.id}"></td>                            
+                            <td>{$channel.id}</td>
+                            <td><a href="{:U('index?pid='.$channel['id'])}">{$channel.title}</a></td>
+                            <td>{$channel.url}</td>
+                            <td>{$channel.sort}</td>
+                            <td>
+                                <a title="编辑" href="{:U('edit?id='.$channel['id'].'&pid='.$pid)}">编辑</a>
+                                <a href="{:U('setStatus?ids='.$channel['id'].'&status='.abs(1-$channel['status']))}" class="ajax-get">{$channel.status|show_status_op}</a>
+                                <a class="confirm ajax-get" title="删除" href="{:U('del?id='.$channel['id'])}">删除</a>
+                            </td>
+                        </tr>
+                    </volist>
+				</tbody>
+			</table>
+		</div><!-- /.table-responsive --> 
+	</div><!-- /.panel-body -->
+</div><!-- /.panel --> 						
+</block>
+
+<block name="script">
+<script type="text/javascript">
+//启用表格功能  id 是 dataTables-actionlog
+$(document).ready(function() {
+	$('#dataTables-channel').dataTable();
+});
+</script>
+
+<script type="text/javascript">
+$(function() {
+    //新增
+    $("#add-channel").click(function(){
+        window.location.href = $(this).attr('url');
+    })
+ 
+});
+</script>
+</block>

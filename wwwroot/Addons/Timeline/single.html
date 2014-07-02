@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<link href="__ADDONROOT__/static/timeline.css" rel="stylesheet">
+	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+	<!--[if lt IE 9]>
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<!-- JavaScript -->
+	<script type="text/javascript" src="__STATIC__/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="__ADDONROOT__/static/timeline.js"></script>
+	<script>
+		$(document).ready(function() {
+			var timeline = new VMM.Timeline();
+			timeline.init('{:addons_url("Timeline://Timeline/json")}');
+		});
+	</script>
+	<title>毕业后的时光轴</title>
+</head>
+<body>
+	<div id="timeline"></div>
+</body>
+</html>

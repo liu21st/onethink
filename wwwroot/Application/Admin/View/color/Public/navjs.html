@@ -1,0 +1,26 @@
+<script type="text/javascript">
++function(){
+	$(window).resize(function(){
+		$("#main-container").css("min-height", $(window).height() - 130);
+	}).resize();
+	var $window = $(window), $subnav = $("#subnav"), url;
+	//左边菜单高亮 
+	//url = window.location.pathname + window.location.search;
+	//url = url.replace(/(\/(p)\/\d+)|(&p=\d+)|(\/(id)\/\d+)|(&id=\d+)|(\/(group)\/\d+)|(&group=\d+)/, "");
+	//$subnav.find("a[href='" + url + "']").parent().addClass("current active");
+	
+	//$('.side-sub-menu').find('a[href='" + url + "']"]').closest('li').addClass('active');
+
+	/* 左边菜单显示收起 */
+	$("#subnav").on("click", "h3", function(){
+		var $this = $(this);
+		$this.find(".icon").toggleClass("icon-fold");
+		$this.next().slideToggle("fast").siblings(".side-sub-menu:visible").
+			  prev("h3").find("i").addClass("icon-fold").end().end().hide();
+	});
+
+	$("#subnav h3 a").click(function(e){e.stopPropagation()}); 
+ 
+}();	
+	
+</script>

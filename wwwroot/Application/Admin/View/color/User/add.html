@@ -1,0 +1,51 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <div class="main-title">
+        <h2>新增用户</h2>
+    </div>
+	
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			新增
+		</div>
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-lg-6">				
+	
+    <form action="{:U()}" method="post"  role="form" class="form-user">
+        <div class="form-group">
+            <label class="item-label">用户名<span class="check-tips">（用户名会作为默认的昵称）</span></label> 
+			<input type="text" class="form-control" name="username" value=""> 
+        </div>
+        <div class="form-group">
+            <label class="item-label">密码<span class="check-tips">（用户密码不能少于4位）</span></label> 
+			<input type="password" class="text input-large form-control" name="password" value=""> 
+        </div>
+        <div class="form-group">
+            <label class="item-label">确认密码</label> 
+			<input type="password" class="text input-large form-control" name="repassword" value=""> 
+        </div>
+        <div class="form-group">
+            <label class="item-label">邮箱<span class="check-tips">（用户邮箱，用于找回密码等安全操作）</span></label> 
+			<input type="text" class="text input-large form-control" name="email" value=""> 
+        </div>
+        <div class="form-group">
+            <button class="btn btn-default submit-btn ajax-post" id="submit" type="submit" target-form="form-user">确 定</button>
+            <button class="btn btn-default btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </form>	
+	
+				</div>
+				<!-- /.col-lg-6 (nested) -->
+			</div>
+			<!-- /.row (nested) -->
+		</div>
+		<!-- /.panel-body -->
+	</div>
+	<!-- /.panel -->
+</block>
+
+<block name="script">
+ 
+</block>

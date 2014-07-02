@@ -1,0 +1,65 @@
+<extend name="Public/base" />
+
+<block name="body">
+<!-- 标题栏 -->
+<div class="main-title cf">
+    <h2>查看行为日志</h2>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        查看
+    </div>
+    
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-lg-6">
+                <!-- 表单 -->
+                <form action="{:U()}" method="post"  role="form" class="form-user">
+                    <!-- 基础 -->
+                    <div id="tab1" class="tab-pane in tab1">
+                        <div class="form-group">
+                            <label class="item-label">行为名称</label>
+                            <div class="form-control">
+                                <span>{:get_action($info['action_id'], "title")}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="item-label">执行者</label>
+                            <div class="form-control">
+                                <span>{:get_nickname($info['user_id'])}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="item-label">执行IP</label>
+                            <div class="form-control">
+                                <span>{:long2ip($info['action_ip'])}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="item-label">执行时间</label>
+                            <div class="form-control">
+                                <span>{:date('Y-m-d H:i:s',$info['create_time'])}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="item-label">备注</label>
+                            <textarea class="form-control" readonly="readonly" >{$info.remark}</textarea>
+                        </div>
+                    </div>
+
+                    <!-- 按钮 -->
+                    <div class="form-group"> 
+                        <button class="btn btn-default btn-return" onclick="javascript:history.back(-1);return false;">返 回</button> 
+                    </div>
+                </form>
+            </div><!-- /.col-lg-6 (nested) -->
+        </div><!-- /.row (nested) -->
+    </div><!-- /.panel-body -->
+</div><!-- /.panel -->
+</block>
+
+<block name="script">
+ 
+</block>
+
