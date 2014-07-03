@@ -72,8 +72,9 @@ class UpdateController extends AdminController{
 		$backupDatabase = I('post.backupdatabase');
 		sleep(1);
 
+		$this->showMsg('系统原始版本:'.ONETHINK_VERSION);
 		$this->showMsg('OneThink在线更新日志：');
-		$this->showMsg('更新开始时间:'.date('Y-m-d H:i:s').'；  系统原始版本:'.ONETHINK_VERSION);
+		$this->showMsg('更新开始时间:'.date('Y-m-d H:i:s'));
 		sleep(1);
 
 		/* 建立更新文件夹 */
@@ -108,6 +109,7 @@ class UpdateController extends AdminController{
 		$downZip = $this->getRemoteUrl($updatedUrl);
 		if(empty($downZip)){
 			$this->showMsg('下载更新包出错，请重试！', 'error');
+			exit;
 		}
 		File::write_file($zipPath, $downZip);
 		$this->showMsg('获取远程更新包成功,更新包路径：<a href=\''.__ROOT__.ltrim($zipPath,'.').'\'>'.$zipPath.'</a>', 'success');
@@ -165,7 +167,7 @@ class UpdateController extends AdminController{
 	 */
 	private function getRemoteUrl($url = '', $method = '', $param = ''){
 		$opts = array(
-			CURLOPT_TIMEOUT        => 5,
+			CURLOPT_TIMEOUT        => 20,
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_URL            => $url,
 			CURLOPT_USERAGENT      => $_SERVER['HTTP_USER_AGENT'],
