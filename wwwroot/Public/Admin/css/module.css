@@ -665,16 +665,28 @@ label.textarea ~ .check-tips {
 	line-height: 26px;
 	margin-right: 30px;
 	border: 1px solid #ccc;
-	padding-left:5px; 
-}		
+	padding-left:5px;
+}
 .sort_btn button{
 	display: block;
 	margin-bottom: 15px;
-}	
+}
 .sort_option {
 	float: left;
 	margin-right: 16px;
 }
 .sort_confirm {
 	float: left;
+}
+.update-version {
+	font-size: 18px;
+    line-height: 3;
+    text-align: center;
+    width: 85%;
+}
+.update-version .error {
+    color: #B94A48;
+}
+.update-version .success {
+    color: #468847;
 }
