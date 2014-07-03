@@ -21,6 +21,7 @@ class UpdateController extends AdminController{
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function index(){
+		$this->meta_title = '在线更新';
 		if(IS_POST){
 			$this->display();
 			//检查新版本
