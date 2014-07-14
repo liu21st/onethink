@@ -146,7 +146,7 @@ class DocumentModel extends Model{
      */
     public function update($data = null){
     	/* 检查文档类型是否符合要求 */
-    	$res = $this->checkDocumentType( I('type'), I('pid') );
+    	$res = $this->checkDocumentType( I('type',2), I('pid') );
     	if(!$res['status']){
     		$this->error = $res['info'];
     		return false;
@@ -491,7 +491,7 @@ class DocumentModel extends Model{
         $post = I('post.');
 
         /* 检查文档类型是否符合要求 */
-        $res = $this->checkDocumentType( I('type'), I('pid') );
+        $res = $this->checkDocumentType( I('type',2), I('pid') );
         if(!$res['status']){
         	$this->error = $res['info'];
         	return false;
