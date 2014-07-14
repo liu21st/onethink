@@ -330,7 +330,10 @@ class DocumentModel extends Model{
      * @return object         模型对象
      */
     private function logic($model){
-        return D(get_document_model($model, 'name'), 'Logic');
+        $name  = parse_name(get_document_model($model, 'name'), 1);
+        $class = is_file(MODULE_PATH . 'Logic/' . $name . 'Logic' . EXT) ? $name : 'Base';
+        $class = MODULE_NAME . '\\Logic\\' . $class . 'Logic';
+        return new $class($name);        
     }
 
     /**
@@ -614,28 +617,22 @@ class DocumentModel extends Model{
 			return $res;
 		}
 		//查询父文档的类型
-		if(is_numeric($pid)){
-			$ptype = $this->getFieldById($pid, 'type');
-		}else{
-			$ptype = $this->getFieldByName($pid, 'type');
-		}
+	    $ptype = is_numeric($pid)?$this->getFieldById($pid, 'type'):$this->getFieldByName($pid, 'type');
 		//父文档为目录时
-		if($ptype == 1){
-			return $res;
-		}
-		//父文档为主题时
-		if($ptype == 2){
-			if($type != 3){
-				return array('status'=>0, 'info'=>'主题下面只允许添加段落');
-			}else{
-				return $res;
-			}
-		}
-		//父文档为段落时
-		if($ptype == 3){
-			return array('status'=>0, 'info'=>'段落下面不允许再添加子内容');
-		}
-		return array('status'=>0, 'info'=>'父文档类型不正确');
+        switch($ptype){
+            case 1: // 目录
+                break;
+            case 2: // 主题
+                if($type != 3){
+                    return array('status'=>0, 'info'=>'主题下面只允许添加段落');
+                }
+                break;
+            case 3: // 段落
+                return array('status'=>0, 'info'=>'段落下面不允许再添加子内容');
+            default:
+                return array('status'=>0, 'info'=>'父文档类型不正确');                       
+        }
+        return $res;
     }
 
 }
