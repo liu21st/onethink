@@ -149,16 +149,50 @@ class ArticleController extends AdminController {
      * @param $cate_id 分类id
      * @author 朱亚杰 <xcoolcc@gmail.com>
      */
-    public function index($cate_id = null){
+    public function index($cate_id = null, $model_id = null, $position = null){
         //获取左边菜单
         $this->getMenu();
 
         if($cate_id===null){
             $cate_id = $this->cate_id;
         }
+        if(!empty($cate_id)){
+            //获取分类绑定的模型
+            $models         =   get_category($cate_id, 'model');
+            if(is_null($model_id) && !is_numeric($models)){
+                // 绑定多个模型 取基础模型的列表定义
+                $model = M('Model')->getByName('document');
+            }else{
+                $model_id   =   $model_id ? : $models;
+                //获取模型信息
+                $model = M('Model')->getById($model_id);
+            }   
+            $allow_reply = get_category($cate_id, 'reply'); //分类文档允许回复
+            $pid = I('pid');
+            if ($pid == 0) {
+                //开发者可根据分类绑定的模型,按需定制分类文档列表
+                $template = $this->indexOfArticle($cate_id,$model_id,$position); //转入默认文档列表方法
+                $this->assign('model', explode(',', $models));
+            } else {
+                //开发者可根据父文档的模型类型,按需定制子文档列表
+                $doc_model = M('Document')->where(array('id' => $pid))->find();
 
-        //获取模型信息
-        $model = M('Model')->getByName('document');
+                switch ($doc_model['model_id']) {
+                    default:
+                        if ($doc_model['type'] == 2 && $allow_reply) {
+                            $this->assign('model', array(2));
+                            $template = $this->indexOfReply($cate_id,$model_id); //转入子文档列表方法
+                        } else {
+                            $this->assign('model', explode(',', $models));
+                            $template = $this->indexOfArticle($cate_id,$model_id,$position); //转入默认文档列表方法
+                        }
+                }
+            }
+        }else{
+            //获取模型信息
+            $model = M('Model')->getByName('document');
+            $template = $this->indexOfArticle(0,null,$position); //转入默认文档列表方法
+        }
 
         //解析列表规则
         $fields = array();
@@ -188,40 +222,12 @@ class ArticleController extends AdminController {
         // 过滤重复字段信息 TODO: 传入到查询方法
         $fields = array_unique($fields);
 
-        //获取对应分类下的模型
-        if(!empty($cate_id)){   //没有权限则不查询数据
-            //获取分类绑定的模型
-            $models         =   get_category($cate_id, 'model');
-            $allow_reply    =   get_category($cate_id, 'reply');//分类文档允许回复
-            $pid            =   I('pid');
-            if ( $pid==0 ) {
-                //开发者可根据分类绑定的模型,按需定制分类文档列表
-                $template = $this->indexOfArticle( $cate_id ); //转入默认文档列表方法
-                $this->assign('model',  explode(',',$models));
-            }else{
-                //开发者可根据父文档的模型类型,按需定制子文档列表
-                $doc_model = M('Document')->where(array('id'=>$pid))->find();
+        $this->assign('list_grids', $grids);
+        $this->assign('model_list', $model);
+        // 记录当前列表页的cookie
+        Cookie('__forward__',$_SERVER['REQUEST_URI']);
+        $this->display($template);
 
-                switch($doc_model['model_id']){
-                    default:
-                        if($doc_model['type']==2 && $allow_reply){
-                            $this->assign('model',  array(2));
-                            $template = $this->indexOfReply( $cate_id ); //转入子文档列表方法
-                        }else{
-                            $this->assign('model',  explode(',',$models));
-                            $template = $this->indexOfArticle( $cate_id ); //转入默认文档列表方法
-                        }
-                }
-            }
-
-            $this->assign('list_grids', $grids);
-            $this->assign('model_list', $model);
-            // 记录当前列表页的cookie
-            Cookie('__forward__',$_SERVER['REQUEST_URI']);
-            $this->display($template);
-        }else{
-            $this->error('非法的文档分类');
-        }
     }
 
     /**
@@ -229,7 +235,7 @@ class ArticleController extends AdminController {
      * @param $cate_id 分类id
      * @author huajie <banhuajie@163.com>
      */
-    protected function indexOfReply($cate_id) {
+    protected function indexOfReply($cate_id,$model_id=null) {
         /* 查询条件初始化 */
         $map = array();
         if(isset($_GET['content'])){
@@ -262,7 +268,9 @@ class ArticleController extends AdminController {
         if($map['pid']){ // 子文档列表忽略分类
             unset($map['category_id']);
         }
-
+        if(!is_null($model_id)){
+            $map['model_id']    =   $model_id;
+        }
         $prefix   = C('DB_PREFIX');
         $l_table  = $prefix.('document');
         $r_table  = $prefix.('document_article');
@@ -294,7 +302,7 @@ class ArticleController extends AdminController {
      * @param $cate_id 分类id
      * @author huajie <banhuajie@163.com>
      */
-    protected function indexOfArticle($cate_id){
+    protected function indexOfArticle($cate_id=0,$model_id=null,$position=null){
         /* 查询条件初始化 */
         $map = array();
         if(isset($_GET['title'])){
@@ -322,12 +330,19 @@ class ArticleController extends AdminController {
 
         // 构建列表数据
         $Document = M('Document');
-        $map['category_id'] =   $cate_id;
+        if($cate_id){
+            $map['category_id'] =   $cate_id;
+        }
         $map['pid']         =   I('pid',0);
         if($map['pid']){ // 子文档列表忽略分类
             unset($map['category_id']);
         }
-
+        if(!is_null($model_id)){
+            $map['model_id']    =   $model_id;
+        }
+        if(!is_null($position)){
+            $map[] = "position & {$position} = {$position}";
+        }
         $list = $this->lists($Document,$map,'level DESC,id DESC');
         int_to_string($list);
         if($map['pid']){
