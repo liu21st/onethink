@@ -28,6 +28,8 @@ class CategoryModel extends Model{
     protected $_auto = array(
         array('model', 'arr2str', self::MODEL_BOTH, 'function'),
         array('model', null, self::MODEL_BOTH, 'ignore'),
+        array('model_sub', 'arr2str', self::MODEL_BOTH, 'function'),
+        array('model_sub', null, self::MODEL_BOTH, 'ignore'),
         array('type', 'arr2str', self::MODEL_BOTH, 'function'),
         array('type', null, self::MODEL_BOTH, 'ignore'),
         array('reply_model', 'arr2str', self::MODEL_BOTH, 'function'),

@@ -56,7 +56,17 @@
 						</div>
 					</div>
 					<div class="form-item">
-						<label class="item-label">绑定文档模型<span class="check-tips">（分类支持发布的文档模型）</span></label>
+						<label class="item-label">允许文档类型</label>
+						<div class="controls">
+							<volist name=":C('DOCUMENT_MODEL_TYPE')" id="type">
+								<label class="checkbox">
+									<input type="checkbox" name="type[]" value="{$key}">{$type}
+								</label>
+							</volist>
+						</div>
+					</div>
+					<div class="form-item">
+						<label class="item-label">列表绑定文档模型<span class="check-tips">（列表支持发布的文档模型）</span></label>
 						<div class="controls">
 							<volist name=":get_document_model()" id="list">
 								<label class="checkbox">
@@ -66,11 +76,11 @@
 						</div>
 					</div>
 					<div class="form-item">
-						<label class="item-label">允许文档类型</label>
+						<label class="item-label">子文档绑定绑定模型<span class="check-tips">（子文档支持发布的文档模型）</span></label>
 						<div class="controls">
-							<volist name=":C('DOCUMENT_MODEL_TYPE')" id="type">
+							<volist name=":get_document_model()" id="list">
 								<label class="checkbox">
-									<input type="checkbox" name="type[]" value="{$key}">{$type}
+									<input type="checkbox" name="model_sub[]" value="{$list.id}">{$list.title}
 								</label>
 							</volist>
 						</div>
@@ -134,25 +144,6 @@
 							</select>
 						</div>
 					</div>
-					<div class="form-item">
-						<label class="item-label">
-							回复<span class="check-tips">（是否允许对内容进行回复，需要详情页模板支持回复显示与提交）</span>
-						</label>
-						<div class="controls">
-							<label class="inline radio"><input type="radio" name="reply" value="1" checked>允许</label>
-							<label class="inline radio"><input type="radio" name="reply" value="0">不允许</label>
-						</div>
-					</div>
-					<!-- <div class="form-item reply hidden">
-						<label class="item-label">回复绑定的文档模型</label>
-						<div class="controls">
-							<volist name=":get_document_model()" id="list">
-								<label class="checkbox">
-									<input type="checkbox" name="reply_model[]" value="{$list.id}">{$list.title}
-								</label>
-							</volist>
-						</div>
-					</div> -->
 					<div class="form-item">
 						<label class="item-label">
 							排序<span class="check-tips">（仅对当前层级分类有效）</span>
@@ -239,6 +230,7 @@
 		Think.setValue("allow_publish", {$info.allow_publish|default=1});
 		Think.setValue("check", {$info.check|default=0});
 		Think.setValue("model[]", {$info.model|json_encode} || [1]);
+		Think.setValue("model_sub[]", {$info.model_sub|json_encode} || [1]);
 		Think.setValue("type[]", {$info.type|json_encode} || [2]);
 		Think.setValue("display", {$info.display|default=1});
 		Think.setValue("reply", {$info.reply|default=0});

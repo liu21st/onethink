@@ -24,9 +24,9 @@
 		</notempty>
 		]
 		<eq name="allow" value="0">（该分类不允许发布内容）</eq>
-		<if condition="count($model) gt 1">[ 模型：<empty name="Think.get.model_id"><strong>全部</strong><else/><a href="{:U('article/index',array('cate_id'=>$cate_id))}">全部</a></empty>
+		<if condition="count($model) gt 1">[ 模型：<empty name="Think.get.model_id"><strong>全部</strong><else/><a href="{:U('article/index',array('pid'=>$pid,'cate_id'=>$cate_id))}">全部</a></empty>
 			<volist name="model" id="vo">
-			<neq name="Think.get.model_id" value="$vo"><a href="{:U('article/index',array('cate_id'=>$cate_id,'model_id'=>$vo))}">{$vo|get_document_model='title'}</a><else/><strong>{$vo|get_document_model='title'}</strong></neq>&nbsp;
+			<neq name="Think.get.model_id" value="$vo"><a href="{:U('article/index',array('pid'=>$pid,'cate_id'=>$cate_id,'model_id'=>$vo))}">{$vo|get_document_model='title'}</a><else/><strong>{$vo|get_document_model='title'}</strong></neq>&nbsp;
 			</volist>
 		]</if>
 		</h2>

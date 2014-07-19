@@ -621,11 +621,7 @@ class DocumentModel extends Model{
 		//父文档为目录时
         switch($ptype){
             case 1: // 目录
-                break;
             case 2: // 主题
-                if($type != 3){
-                    return array('status'=>0, 'info'=>'主题下面只允许添加段落');
-                }
                 break;
             case 3: // 段落
                 return array('status'=>0, 'info'=>'段落下面不允许再添加子内容');

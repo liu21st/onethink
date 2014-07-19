@@ -157,8 +157,13 @@ class ArticleController extends AdminController {
             $cate_id = $this->cate_id;
         }
         if(!empty($cate_id)){
-            //获取分类绑定的模型
-            $models         =   get_category($cate_id, 'model');
+            $pid = I('pid',0);
+            // 获取列表绑定的模型
+            if ($pid == 0) {
+                $models         =   get_category($cate_id, 'model');
+            }else{ // 子文档列表
+                $models         =   get_category($cate_id, 'model_sub');
+            }
             if(is_null($model_id) && !is_numeric($models)){
                 // 绑定多个模型 取基础模型的列表定义
                 $model = M('Model')->getByName('document');
@@ -166,32 +171,15 @@ class ArticleController extends AdminController {
                 $model_id   =   $model_id ? : $models;
                 //获取模型信息
                 $model = M('Model')->getById($model_id);
-            }   
-            $allow_reply = get_category($cate_id, 'reply'); //分类文档允许回复
-            $pid = I('pid');
-            if ($pid == 0) {
-                //开发者可根据分类绑定的模型,按需定制分类文档列表
-                $template = $this->indexOfArticle($cate_id,$model_id,$position); //转入默认文档列表方法
-                $this->assign('model', explode(',', $models));
-            } else {
-                //开发者可根据父文档的模型类型,按需定制子文档列表
-                $doc_model = M('Document')->where(array('id' => $pid))->find();
-
-                switch ($doc_model['model_id']) {
-                    default:
-                        if ($doc_model['type'] == 2 && $allow_reply) {
-                            $this->assign('model', array(2));
-                            $template = $this->indexOfReply($cate_id,$model_id); //转入子文档列表方法
-                        } else {
-                            $this->assign('model', explode(',', $models));
-                            $template = $this->indexOfArticle($cate_id,$model_id,$position); //转入默认文档列表方法
-                        }
-                }
             }
+            //开发者可根据分类绑定的模型,按需定制分类文档列表
+            $this->indexOfArticle($cate_id,$model_id,$position); //转入默认文档列表方法
+            $this->assign('model', explode(',', $models));
+
         }else{
             //获取模型信息
             $model = M('Model')->getByName('document');
-            $template = $this->indexOfArticle(0,null,$position); //转入默认文档列表方法
+            $this->indexOfArticle(0,null,$position); //转入默认文档列表方法
         }
 
         //解析列表规则
@@ -226,77 +214,9 @@ class ArticleController extends AdminController {
         $this->assign('model_list', $model);
         // 记录当前列表页的cookie
         Cookie('__forward__',$_SERVER['REQUEST_URI']);
-        $this->display($template);
-
+        $this->display();
     }
 
-    /**
-     * 默认文档回复列表方法
-     * @param $cate_id 分类id
-     * @author huajie <banhuajie@163.com>
-     */
-    protected function indexOfReply($cate_id,$model_id=null) {
-        /* 查询条件初始化 */
-        $map = array();
-        if(isset($_GET['content'])){
-            $map['content']  = array('like', '%'.(string)I('content').'%');
-        }
-        if(isset($_GET['status'])){
-            $map['status'] = I('status');
-            $status = $map['status'];
-        }else{
-            $status = null;
-            $map['status'] = array('in', '0,1,2');
-        }
-        if ( !isset($_GET['pid']) ) {
-            $map['pid']    = 0;
-        }
-        if ( isset($_GET['time-start']) ) {
-            $map['update_time'][] = array('egt',strtotime(I('time-start')));
-        }
-        if ( isset($_GET['time-end']) ) {
-            $map['update_time'][] = array('elt',24*60*60 + strtotime(I('time-end')));
-        }
-        if ( isset($_GET['username']) ) {
-            $map['uid'] = M('UcenterMember')->where(array('username'=>I('username')))->getField('id');
-        }
-
-        // 构建列表数据
-        $Document = M('Document');
-        $map['category_id'] =   $cate_id;
-        $map['pid']         =   I('pid',0);
-        if($map['pid']){ // 子文档列表忽略分类
-            unset($map['category_id']);
-        }
-        if(!is_null($model_id)){
-            $map['model_id']    =   $model_id;
-        }
-        $prefix   = C('DB_PREFIX');
-        $l_table  = $prefix.('document');
-        $r_table  = $prefix.('document_article');
-        $list     = M() ->table( $l_table.' l' )
-                       ->where( $map )
-                       ->order( 'l.id DESC')
-                       ->join ( $r_table.' r ON l.id=r.id' );
-        $_REQUEST = array();
-        $list = $this->lists($list,null,null,null,'l.id id,l.pid pid,l.category_id,l.title title,l.update_time update_time,l.uid uid,l.status status,r.content content' );
-        int_to_string($list);
-
-        if($map['pid']){
-            // 获取上级文档
-            $article    =   $Document->field('id,title,type')->find($map['pid']);
-            $this->assign('article',$article);
-        }
-        //检查该分类是否允许发布内容
-        $allow_publish  =   get_category($cate_id, 'allow_publish');
-
-        $this->assign('status', $status);
-        $this->assign('list',   $list);
-        $this->assign('allow',  $allow_publish);
-        $this->assign('pid',    $map['pid']);
-        $this->meta_title = '子文档列表';
-        return 'reply';//默认回复列表模板
-    }
     /**
      * 默认文档列表方法
      * @param $cate_id 分类id
@@ -314,9 +234,6 @@ class ArticleController extends AdminController {
         }else{
             $status = null;
             $map['status'] = array('in', '0,1,2');
-        }
-        if ( !isset($_GET['pid']) ) {
-            $map['pid']    = 0;
         }
         if ( isset($_GET['time-start']) ) {
             $map['update_time'][] = array('egt',strtotime(I('time-start')));
@@ -359,7 +276,6 @@ class ArticleController extends AdminController {
         $this->assign('pid',    $map['pid']);
 
         $this->meta_title = '文档列表';
-        return 'index';
     }
 
     /**
