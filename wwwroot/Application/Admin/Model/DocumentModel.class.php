@@ -116,6 +116,8 @@ class DocumentModel extends Model{
             'id'          => array('lt', $info['id']),
             'category_id' => $info['category_id'],
             'status'      => 1,
+            'create_time' => array('lt', NOW_TIME),
+            '_string'     => 'deadline = 0 OR deadline > ' . NOW_TIME,            
         );
 
         /* 返回前一条数据 */
@@ -132,6 +134,8 @@ class DocumentModel extends Model{
             'id'          => array('gt', $info['id']),
             'category_id' => $info['category_id'],
             'status'      => 1,
+            'create_time' => array('lt', NOW_TIME),
+            '_string'     => 'deadline = 0 OR deadline > ' . NOW_TIME,            
         );
 
         /* 返回下一条数据 */
