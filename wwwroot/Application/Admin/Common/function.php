@@ -122,14 +122,15 @@ function get_attribute_type($type=''){
         'num'       =>  array('数字','int(10) UNSIGNED NOT NULL'),
         'string'    =>  array('字符串','varchar(255) NOT NULL'),
         'textarea'  =>  array('文本框','text NOT NULL'),
+        'date'      =>  array('日期','int(10) NOT NULL'),
         'datetime'  =>  array('时间','int(10) NOT NULL'),
         'bool'      =>  array('布尔','tinyint(2) NOT NULL'),
         'select'    =>  array('枚举','char(50) NOT NULL'),
-    	'radio'		=>	array('单选','char(10) NOT NULL'),
-    	'checkbox'	=>	array('多选','varchar(100) NOT NULL'),
-    	'editor'    =>  array('编辑器','text NOT NULL'),
-    	'picture'   =>  array('上传图片','int(10) UNSIGNED NOT NULL'),
-    	'file'    	=>  array('上传附件','int(10) UNSIGNED NOT NULL'),
+        'radio'     =>  array('单选','char(10) NOT NULL'),
+        'checkbox'  =>  array('多选','varchar(100) NOT NULL'),
+        'editor'    =>  array('编辑器','text NOT NULL'),
+        'picture'   =>  array('上传图片','int(10) UNSIGNED NOT NULL'),
+        'file'      =>  array('上传附件','int(10) UNSIGNED NOT NULL'),
     );
     return $type?$_type[$type][0]:$_type;
 }

@@ -49,6 +49,9 @@
                                 </label>
                             </case>
                             <case value="datetime">
+                                <input type="text" name="{$field.name}" class="text input-large date" value="" placeholder="请选择日期" />
+                            </case>
+                            <case value="datetime">
                                 <input type="text" name="{$field.name}" class="text input-large time" value="" placeholder="请选择时间" />
                             </case>
                             <case value="bool">
@@ -216,6 +219,12 @@ $('#submit').click(function(){
 });
 
 $(function(){
+    $('.date').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true
+    });
     $('.time').datetimepicker({
         format: 'yyyy-mm-dd hh:ii',
         language:"zh-CN",

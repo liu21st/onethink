@@ -777,11 +777,6 @@ function get_model_attribute($model_id, $group = true,$fields=true){
         return '';
     }
 
-    /* 读取缓存数据 */
-    if(empty($list)){
-        $list = S('attribute_list');
-    }
-
     /* 获取属性 */
     if(!isset($list[$model_id])){
         $map = array('model_id'=>$model_id);
@@ -792,15 +787,13 @@ function get_model_attribute($model_id, $group = true,$fields=true){
         }
         $info = M('Attribute')->where($map)->field($fields)->select();
         $list[$model_id] = $info;
-        //S('attribute_list', $list); //更新缓存
     }
 
     $attr = array();
-    foreach ($list[$model_id] as $value) {
-        $attr[$value['id']] = $value;
-    }
-
     if($group){
+        foreach ($list[$model_id] as $value) {
+            $attr[$value['id']] = $value;
+        }
         $sort  = M('Model')->getFieldById($model_id,'field_sort');
 
         if(empty($sort)){	//未排序
@@ -821,6 +814,10 @@ function get_model_attribute($model_id, $group = true,$fields=true){
             }
         }
         $attr = $group;
+    }else{
+        foreach ($list[$model_id] as $value) {
+            $attr[$value['name']] = $value;
+        }
     }
     return $attr;
 }

@@ -48,6 +48,9 @@
                                 <textarea name="{$field.name}">{$data[$field['name']]}</textarea>
                                 </label>
                             </case>
+                            <case value="date">
+                                <input type="text" name="{$field.name}" class="text input-large date" value="{$data[$field['name']]|date='Y-m-d',###}" placeholder="请选择日期" />
+                            </case>
                             <case value="datetime">
                                 <input type="text" name="{$field.name}" class="text input-large time" value="{$data[$field['name']]|time_format}" placeholder="请选择时间" />
                             </case>
@@ -219,6 +222,12 @@ $('#submit').click(function(){
 });
 
 $(function(){
+    $('.date').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true
+    });
     $('.time').datetimepicker({
         format: 'yyyy-mm-dd hh:ii',
         language:"zh-CN",

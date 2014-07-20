@@ -79,7 +79,7 @@
 			<td><a href="{:U('Article/edit?cate_id='.$vo['category_id'].'&id='.$vo['id'])}">{$vo.title}</a></td>
 			<td><span>{$vo['type']}</span></td>
 			<td><span>{:get_cate($vo['category_id'])}</span></td>
-			<td><span>{$vo.update_time|time_format}</span></td>
+			<td><span>{$vo.update_time}</span></td>
 			<td>{$vo.view}</td>
 			<td>{$vo.status}</td>
 			<td><a href="{:U('Article/edit?cate_id='.$vo['category_id'].'&id='.$vo['id'])}">编辑</a>

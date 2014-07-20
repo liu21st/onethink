@@ -242,7 +242,7 @@ class ArticleController extends AdminController {
                         }                        
                     }elseif('date'==$type){ // 日期型
                         $data[$key]    =   date('Y-m-d',$val);
-                    }elseif('datatime' == $type){ // 时间型
+                    }elseif('datetime' == $type){ // 时间型
                         $data[$key]    =   date('Y-m-d H:i',$val);
                     }
                 }
