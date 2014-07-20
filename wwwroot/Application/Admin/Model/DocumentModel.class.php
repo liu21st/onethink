@@ -621,7 +621,7 @@ class DocumentModel extends Model{
 			return $res;
 		}
 		//查询父文档的类型
-	    $ptype = is_numeric($pid)?$this->getFieldById($pid, 'type'):$this->getFieldByName($pid, 'type');
+	    $ptype = is_numeric($pid) ? $this->getFieldById($pid, 'type') : $this->getFieldByName($pid, 'type');
 		//父文档为目录时
         switch($ptype){
             case 1: // 目录
