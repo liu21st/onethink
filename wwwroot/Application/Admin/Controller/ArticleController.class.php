@@ -614,7 +614,7 @@ class ArticleController extends AdminController {
         //只查询pid为0的文章
         $map['pid'] = 0;
         $list = $this->lists($Document,$map,'update_time desc');
-        $list = $this->parseDocumentList($list,$Document->getDbFields(),1);
+        $list = $this->parseDocumentList($list,1);
 
         // 记录当前列表页的cookie
         Cookie('__forward__',$_SERVER['REQUEST_URI']);

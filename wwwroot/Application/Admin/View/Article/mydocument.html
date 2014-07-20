@@ -77,7 +77,7 @@
             <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
 			<td>{$vo.id} </td>
 			<td><a href="{:U('Article/edit?cate_id='.$vo['category_id'].'&id='.$vo['id'])}">{$vo.title}</a></td>
-			<td><span>{:get_document_type($vo['type'])}</span></td>
+			<td><span>{$vo['type']}</span></td>
 			<td><span>{:get_cate($vo['category_id'])}</span></td>
 			<td><span>{$vo.update_time|time_format}</span></td>
 			<td>{$vo.view}</td>
