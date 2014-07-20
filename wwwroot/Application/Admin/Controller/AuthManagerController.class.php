@@ -214,7 +214,7 @@ class AuthManagerController extends AdminController{
         $r_table  = $prefix.(AuthGroupModel::AUTH_GROUP_ACCESS);
         $model    = M()->table( $l_table.' m' )->join ( $r_table.' a ON m.uid=a.uid' );
         $_REQUEST = array();
-        $list = $this->lists($model,array('a.group_id'=>$group_id,'m.status'=>array('egt',0)),'m.uid asc',null,'m.uid,m.nickname,m.last_login_time,m.last_login_ip,m.status');
+        $list = $this->lists($model,array('a.group_id'=>$group_id,'m.status'=>array('egt',0)),'m.uid asc','m.uid,m.nickname,m.last_login_time,m.last_login_ip,m.status');
         int_to_string($list);
         $this->assign( '_list',     $list );
         $this->assign('auth_group', $auth_group);

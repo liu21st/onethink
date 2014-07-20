@@ -396,7 +396,7 @@ class AdminController extends Controller {
      * @return array|false
      * 返回数据集
      */
-    protected function lists ($model,$where=array(),$order='',$base = array('status'=>array('egt',0)),$field=true){
+    protected function lists ($model,$where=array(),$order='',$field=true){
         $options    =   array();
         $REQUEST    =   (array)I('request.');
         if(is_string($model)){
@@ -418,15 +418,11 @@ class AdminController extends Controller {
         }
         unset($REQUEST['_order'],$REQUEST['_field']);
 
-        $options['where'] = array_filter(array_merge( (array)$base, /*$REQUEST,*/ (array)$where ),function($val){
-            if($val===''||$val===null){
-                return false;
-            }else{
-                return true;
-            }
-        });
-        if( empty($options['where'])){
-            unset($options['where']);
+        if(empty($where)){
+            $where  =   array('status'=>array('egt',0));
+        }
+        if( !empty($where)){
+            $options['where']   =   $where;
         }
         $options      =   array_merge( (array)$OPT->getValue($model), $options );
         $total        =   $model->where($options['where'])->count();
