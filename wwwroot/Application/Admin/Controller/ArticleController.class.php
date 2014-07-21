@@ -296,7 +296,7 @@ class ArticleController extends AdminController {
             $map['model_id']    =   $model_id;
             if(is_array($field) && array_diff($Document->getDbFields(),$field)){
                 $modelName  =   M('Model')->getFieldById($model_id,'name');
-                $Document->alias('DOCUMENT')->group('id')->join('__DOCUMENT_'.strtoupper($modelName).'__');
+                $Document->alias('DOCUMENT')->join('__DOCUMENT_'.strtoupper($modelName).'__ '.$modelName.' ON DOCUMENT.id='.$modelName.'.id'););
                 $key = array_search('id',$field);
                 if(false  !== $key){
                     unset($field[$key]);
