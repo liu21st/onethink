@@ -31,7 +31,7 @@ class ThinkController extends AdminController {
 
         //解析列表规则
         $fields = array();
-        $grids  = preg_split('/[;\r\n]+/s', $model['list_grid']);
+        $grids  = preg_split('/[;\r\n]+/s', trim($model['list_grid']));
         foreach ($grids as &$value) {
         	if(trim($value) === ''){
         		continue;
