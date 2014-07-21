@@ -140,6 +140,10 @@ class CategoryModel extends Model{
             $data['model'] = explode(',', $data['model']);
         }
 
+        if(!empty($data['model_sub'])){
+            $data['model_sub'] = explode(',', $data['model_sub']);
+        }
+
         /* 分割文档类型 */
         if(!empty($data['type'])){
             $data['type'] = explode(',', $data['type']);
