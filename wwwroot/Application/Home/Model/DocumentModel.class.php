@@ -25,7 +25,7 @@ class DocumentModel extends Model{
 		array('category_id', 'require', '分类不能为空', self::EXISTS_VALIDATE , 'regex', self::MODEL_UPDATE),
 		array('category_id,type', 'checkCategory', '内容类型不正确', self::MUST_VALIDATE , 'callback', self::MODEL_INSERT),
 		array('category_id', 'checkCategory', '该分类不允许发布内容', self::EXISTS_VALIDATE , 'callback', self::MODEL_BOTH),
-		array('model_id,category_id', 'checkModel', '该分类没有绑定当前模型', self::MUST_VALIDATE , 'callback', self::MODEL_INSERT),
+		array('model_id,category_id,pid', 'checkModel', '该分类没有绑定当前模型', self::MUST_VALIDATE , 'callback', self::MODEL_INSERT),
 	);
 
 	/* 自动完成规则 */
@@ -299,8 +299,9 @@ class DocumentModel extends Model{
 	 * @return boolean     true-绑定了模型，false-未绑定模型
 	 */
 	protected function checkModel($info){
-		$model = get_category($info['category_id'], 'model');
-		return in_array($info['model_id'], $model);
+        $cate   =   get_category($info['category_id']);
+        $array  =   explode(',', $info['pid'] ? $cate['model_sub'] : $cate['model']);
+        return in_array($info['model_id'], $array);
 	}
 
 	/**
@@ -309,7 +310,10 @@ class DocumentModel extends Model{
 	 * @return object         模型对象
 	 */
 	private function logic($model){
-		return D(get_document_model($model, 'name'), 'Logic');
+        $name  = parse_name(get_document_model($model, 'name'), 1);
+        $class = is_file(MODULE_PATH . 'Logic/' . $name . 'Logic' . EXT) ? $name : 'Base';
+        $class = MODULE_NAME . '\\Logic\\' . $class . 'Logic';
+        return new $class($name);  		
 	}
 
 	/**
