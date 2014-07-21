@@ -29,7 +29,8 @@ class DocumentModel extends Model{
         array('category_id', 'require', '分类不能为空', self::MUST_VALIDATE , 'regex', self::MODEL_INSERT),
         array('category_id', 'require', '分类不能为空', self::EXISTS_VALIDATE , 'regex', self::MODEL_UPDATE),
         array('category_id', 'checkCategory', '该分类不允许发布内容', self::EXISTS_VALIDATE , 'callback', self::MODEL_UPDATE),
-        array('model_id,category_id', 'checkModel', '该分类没有绑定当前模型', self::MUST_VALIDATE , 'callback', self::MODEL_INSERT),
+        array('category_id,type', 'checkCategory', '内容类型不正确', self::MUST_VALIDATE, 'callback', self::MODEL_INSERT),
+        array('model_id,pid,category_id', 'checkModel', '该分类没有绑定当前模型', self::MUST_VALIDATE , 'callback', self::MODEL_INSERT),
         array('deadline', '/^\d{4,4}-\d{1,2}-\d{1,2}(\s\d{1,2}:\d{1,2}(:\d{1,2})?)?$/', '日期格式不合法,请使用"年-月-日 时:分"格式,全部为数字', self::VALUE_VALIDATE  , 'regex', self::MODEL_BOTH),
         array('create_time', '/^\d{4,4}-\d{1,2}-\d{1,2}(\s\d{1,2}:\d{1,2}(:\d{1,2})?)?$/', '日期格式不合法,请使用"年-月-日 时:分"格式,全部为数字', self::VALUE_VALIDATE  , 'regex', self::MODEL_BOTH),
     );
@@ -314,8 +315,14 @@ class DocumentModel extends Model{
      * @return boolean     true-允许发布内容，false-不允许发布内容
      */
     public function checkCategory($id){
-        $publish = get_category($id, 'allow_publish');
-        return $publish ? true : false;
+        if (is_array($id)) {
+            $type = get_category($id['category_id'], 'type');
+            $type = explode(",", $type);
+            return in_array($id['type'], $type);
+        } else {
+            $publish = get_category($id, 'allow_publish');
+            return $publish ? true : false;
+        }
     }
 
     /**
@@ -324,8 +331,9 @@ class DocumentModel extends Model{
      * @return boolean     true-绑定了模型，false-未绑定模型
      */
     protected function checkModel($info){
-        $model = get_category($info['category_id'], 'model');
-        return in_array($info['model_id'], $model);
+        $cate   =   get_category($info['category_id']);
+        $array  =   explode(',', $info['pid'] ? $cate['model_sub'] : $cate['model']);
+        return in_array($info['model_id'], $array);
     }
 
     /**
@@ -523,7 +531,8 @@ class DocumentModel extends Model{
             array('description', '1,140', '简介长度不能超过140个字符', self::VALUE_VALIDATE, 'length', self::MODEL_BOTH),
             array('category_id', 'require', '分类不能为空', self::MUST_VALIDATE , 'regex', self::MODEL_BOTH),
             array('category_id', 'checkCategory', '该分类不允许发布内容', self::EXISTS_VALIDATE , 'callback', self::MODEL_UPDATE),
-            array('model_id,category_id', 'checkModel', '该分类没有绑定当前模型', self::MUST_VALIDATE , 'callback', self::MODEL_INSERT),
+            array('category_id,type', 'checkCategory', '内容类型不正确', self::MUST_VALIDATE, 'callback', self::MODEL_INSERT),
+            array('model_id,pid,category_id', 'checkModel', '该分类没有绑定当前模型', self::MUST_VALIDATE , 'callback', self::MODEL_INSERT),
             array('deadline', '/^\d{4,4}-\d{1,2}-\d{1,2}(\s\d{1,2}:\d{1,2}(:\d{1,2})?)?$/', '日期格式不合法,请使用"年-月-日 时:分"格式,全部为数字', self::VALUE_VALIDATE  , 'regex', self::MODEL_BOTH),
             array('create_time', '/^\d{4,4}-\d{1,2}-\d{1,2}(\s\d{1,2}:\d{1,2}(:\d{1,2})?)?$/', '日期格式不合法,请使用"年-月-日 时:分"格式,全部为数字', self::VALUE_VALIDATE  , 'regex', self::MODEL_BOTH),
         );
