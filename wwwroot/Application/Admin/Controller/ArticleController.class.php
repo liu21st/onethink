@@ -172,6 +172,9 @@ class ArticleController extends AdminController {
                 $model_id   =   $model_id ? : $models;
                 //获取模型信息
                 $model = M('Model')->getById($model_id);
+                if (empty($model['list_grid'])) {
+                    $model['list_grid'] = M('Model')->getFieldByName('document','list_grid');
+                }                
             }
             $this->assign('model', explode(',', $models));
         }else{
@@ -296,7 +299,7 @@ class ArticleController extends AdminController {
             $map['model_id']    =   $model_id;
             if(is_array($field) && array_diff($Document->getDbFields(),$field)){
                 $modelName  =   M('Model')->getFieldById($model_id,'name');
-                $Document->alias('DOCUMENT')->join('__DOCUMENT_'.strtoupper($modelName).'__ '.$modelName.' ON DOCUMENT.id='.$modelName.'.id'););
+                $Document->alias('DOCUMENT')->join('__DOCUMENT_'.strtoupper($modelName).'__ '.$modelName.' ON DOCUMENT.id='.$modelName.'.id');
                 $key = array_search('id',$field);
                 if(false  !== $key){
                     unset($field[$key]);
