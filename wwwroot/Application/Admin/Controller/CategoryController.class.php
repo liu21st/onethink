@@ -13,7 +13,7 @@ namespace Admin\Controller;
  * 后台分类管理控制器
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
-class CategoryController extends AdminController {
+class CategoryController  {
 
     /**
      * 分类管理列表
@@ -91,6 +91,7 @@ class CategoryController extends AdminController {
             }
 
             /* 获取分类信息 */
+            $this->assign('info',       null);
             $this->assign('category', $cate);
             $this->meta_title = '新增分类';
             $this->display('edit');

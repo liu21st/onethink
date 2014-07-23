@@ -17,16 +17,16 @@
 		</volist>
 		<present name="article">：<a href="{:U('article/index','cate_id='.$cate_id.'&pid='.$article['id'])}">{$article.title}</a></present>
 		<else/>
-		<empty name="Think.get.position">全部<else/><a href="{:U('article/index')}">全部</a></empty>
+		<empty name="position">全部<else/><a href="{:U('article/index')}">全部</a></empty>
 			<foreach name="Think.config.DOCUMENT_POSITION" item="vo">
-			<neq name="Think.get.position" value="$key"><a href="{:U('article/index',array('position'=>$key))}">{$vo}</a><else/>{$vo}</neq>&nbsp;
+			<neq name="position" value="$key"><a href="{:U('article/index',array('position'=>$key))}">{$vo}</a><else/>{$vo}</neq>&nbsp;
 			</foreach>
 		</notempty>
 		]
 		<eq name="allow" value="0">（该分类不允许发布内容）</eq>
-		<if condition="count($model) gt 1">[ 模型：<empty name="Think.get.model_id"><strong>全部</strong><else/><a href="{:U('article/index',array('pid'=>$pid,'cate_id'=>$cate_id))}">全部</a></empty>
+		<if condition="count($model) gt 1">[ 模型：<empty name="model_id"><strong>全部</strong><else/><a href="{:U('article/index',array('pid'=>$pid,'cate_id'=>$cate_id))}">全部</a></empty>
 			<volist name="model" id="vo">
-			<neq name="Think.get.model_id" value="$vo"><a href="{:U('article/index',array('pid'=>$pid,'cate_id'=>$cate_id,'model_id'=>$vo))}">{$vo|get_document_model='title'}</a><else/><strong>{$vo|get_document_model='title'}</strong></neq>&nbsp;
+			<neq name="model_id" value="$vo"><a href="{:U('article/index',array('pid'=>$pid,'cate_id'=>$cate_id,'model_id'=>$vo))}">{$vo|get_document_model='title'}</a><else/><strong>{$vo|get_document_model='title'}</strong></neq>&nbsp;
 			</volist>
 		]</if>
 		</h2>

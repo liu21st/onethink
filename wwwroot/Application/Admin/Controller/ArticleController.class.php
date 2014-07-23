@@ -182,6 +182,7 @@ class ArticleController extends AdminController {
             $model = M('Model')->getByName('document');
             $model_id   =   null;
             $cate_id    =   0;
+            $this->assign('model', null);
         }
 
         //解析列表规则
@@ -215,7 +216,9 @@ class ArticleController extends AdminController {
         $list   =   $this->getDocumentList($cate_id,$model_id,$position,$fields);
         // 列表显示处理
         $list   =   $this->parseDocumentList($list,$model_id);
-
+        
+        $this->assign('model_id',$model_id);
+        $this->assign('position',$position);
         $this->assign('list',   $list);
         $this->assign('list_grids', $grids);
         $this->assign('model_list', $model);
@@ -232,25 +235,27 @@ class ArticleController extends AdminController {
     protected function parseDocumentList($list,$model_id=null){
         $attrList = get_model_attribute($model_id ? $model_id : 1,false,'id,name,type,extra');
         // 对列表数据进行显示处理
-        foreach ($list as $k=>$data){
-            foreach($data as $key=>$val){
-                if(isset($attrList[$key])){
-                    $extra      =   $attrList[$key]['extra'];
-                    $type       =   $attrList[$key]['type'];
-                    if('select'== $type || 'checkbox' == $type || 'radio' == $type || 'bool' == $type) {
-                        // 枚举/多选/单选/布尔型
-                        $options    =   parse_field_attr($extra);
-                        if($options && array_key_exists($val,$options)) {
-                            $data[$key]    =   $options[$val];
-                        }                        
-                    }elseif('date'==$type){ // 日期型
-                        $data[$key]    =   date('Y-m-d',$val);
-                    }elseif('datetime' == $type){ // 时间型
-                        $data[$key]    =   date('Y-m-d H:i',$val);
+        if(is_array($list)){
+            foreach ($list as $k=>$data){
+                foreach($data as $key=>$val){
+                    if(isset($attrList[$key])){
+                        $extra      =   $attrList[$key]['extra'];
+                        $type       =   $attrList[$key]['type'];
+                        if('select'== $type || 'checkbox' == $type || 'radio' == $type || 'bool' == $type) {
+                            // 枚举/多选/单选/布尔型
+                            $options    =   parse_field_attr($extra);
+                            if($options && array_key_exists($val,$options)) {
+                                $data[$key]    =   $options[$val];
+                            }                        
+                        }elseif('date'==$type){ // 日期型
+                            $data[$key]    =   date('Y-m-d',$val);
+                        }elseif('datetime' == $type){ // 时间型
+                            $data[$key]    =   date('Y-m-d H:i',$val);
+                        }
                     }
                 }
+                $list[$k]   =   $data;
             }
-            $list[$k]   =   $data;
         }
         return $list;
     }
