@@ -1,0 +1,12 @@
+ALTER TABLE `onethink_category` CHANGE COLUMN `model` `model` varchar(100) NOT NULL DEFAULT '' COMMENT '列表绑定模型';
+UPDATE `onethink_attribute` SET `extra` = '[DOCUMENT_POSITION]' WHERE `id`=10;
+ALTER TABLE `onethink_category` ADD COLUMN `model_sub` varchar(100) NOT NULL DEFAULT '' COMMENT '子文档绑定模型' AFTER `model`;
+UPDATE `onethink_category` SET `model` = '2,3', `model_sub` = '2' WHERE `id` = 1;
+UPDATE `onethink_category` SET `model` = '2,3', `model_sub` = '2', `icon` = 0 WHERE `id` = 2;
+ALTER TABLE `onethink_file` ADD COLUMN `url` varchar(255) NOT NULL DEFAULT '' COMMENT '远程地址' AFTER `location`;
+ALTER TABLE `onethink_menu` ADD COLUMN `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态' AFTER `is_dev`;
+ALTER TABLE `onethink_menu` ADD INDEX `status` (`status`);
+UPDATE `onethink_menu` SET `status` = '1' ;
+UPDATE `onethink_menu` SET `url` = 'article/index' WHERE `id` =2;
+UPDATE `onethink_model` SET `list_grid` = 'id:编号\r\ntitle:标题:article/edit?cate_id=[category_id]&id=[id]\r\ntype:类型\r\nupdate_time:最后更新\r\nstatus:状态\r\nview:浏览\r\nid:操作:[EDIT]&cate_id=[category_id]|编辑,article/setstatus?status=-1&ids=[id]|删除' WHERE `id` = 1;
+UPDATE `onethink_model` set `list_grid` = '' WHERE `id` > 2;
