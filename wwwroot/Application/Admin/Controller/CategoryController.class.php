@@ -13,7 +13,7 @@ namespace Admin\Controller;
  * 后台分类管理控制器
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
-class CategoryController  {
+class CategoryController extends AdminController {
 
     /**
      * 分类管理列表
