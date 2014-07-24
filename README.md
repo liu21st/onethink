@@ -60,4 +60,4 @@ OneThink基于Apache第二版开源协议发布。详见license.txt。
 [  [开发手册](http://document.onethink.cn/) ] 
 
 ------------------------------
-OneThink开发团队 2013
+OneThink开发团队 2013-2014

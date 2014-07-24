@@ -17,11 +17,13 @@ class IndexController extends Controller{
         if(is_file(APP_PATH . 'User/Conf/config.php')){
             // 已经安装过了 执行更新程序
             session('update',true);
+            $msg = '请删除install.lock文件后再运行升级!';
         }else{
             session('update',null);
+            $msg = '已经成功安装了OneThink，请不要重复安装!';
         }
         if(Storage::has(MODULE_PATH . 'Data/install.lock')){
-            $this->error('已经成功安装了OneThink，请不要重复安装!');
+            $this->error($msg);
         }
         $this->display();
     }
