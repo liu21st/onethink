@@ -25,7 +25,7 @@
                     <div class="controls">
                         <switch name="field.type">
                             <case value="num">
-                                <input type="text" class="text input-medium" name="{$field.name}" value="">
+                                <input type="text" class="text input-mid" name="{$field.name}" value="">
                             </case>
                             <case value="string">
                                 <input type="text" class="text input-large" name="{$field.name}" value="">
@@ -35,8 +35,11 @@
                                 <textarea name="{$field.name}"></textarea>
                                 </label>
                             </case>
+                            <case value="date">
+                                <input type="text" name="{$field.name}" class="text input-mid date" value="" placeholder="请选择日期" />
+                            </case>
                             <case value="datetime">
-                                <input type="text" name="{$field.name}" class="text input-large time" value="" placeholder="请选择时间" />
+                                <input type="text" name="{$field.name}" class="text input-mid time" value="" placeholder="请选择时间" />
                             </case>
                             <case value="bool">
                                 <select name="{$field.name}">
@@ -195,6 +198,12 @@ $('#submit').click(function(){
 });
 
 $(function(){
+    $('.date').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true
+    });
     $('.time').datetimepicker({
         format: 'yyyy-mm-dd hh:ii',
         language:"zh-CN",
