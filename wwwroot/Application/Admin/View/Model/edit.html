@@ -34,7 +34,9 @@
 						<div class="controls">
 							<select name="extend">
 								<option value="0">独立模型</option>
-								<option value="1">文档模型</option>
+								<volist name=":get_top_model()" id="list">
+								      <option value="{$list.id}">{$list.title}</option>
+								</volist>
 							</select>
 						</div>
 					</div>
