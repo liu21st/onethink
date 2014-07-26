@@ -250,22 +250,17 @@ class AdminController extends Controller {
                 $where['is_dev']    =   0;
             }
             $menus['main']  =   M('Menu')->where($where)->order('sort asc')->select();
+            $menus['child'] =   array(); //设置子节点
 
-            $menus['child'] = array(); //设置子节点
-
-            //高亮主菜单
-            $current = M('Menu')->where("url like '%{$controller}/".ACTION_NAME."%'")->field('id')->find();
-            if($current){
-                $nav = D('Menu')->getPath($current['id']);
-                $nav_first_title = $nav[0]['title'];
-
+            // 查找当前子菜单
+            $left = M('Menu')->where("pid !=0 AND url like '%{$controller}/".ACTION_NAME."%'")->field('pid')->find();
+            if($left){
+                // 查找当前主菜单
+                $nav =  M('Menu')->find($left['pid']);
+                if($nav['pid']){
+                    $nav    =   M('Menu')->find($nav['pid']);
+                }
                 foreach ($menus['main'] as $key => $item) {
-                    if (!is_array($item) || empty($item['title']) || empty($item['url']) ) {
-                        $this->error('控制器基类$menus属性元素配置有误');
-                    }
-                    if( stripos($item['url'],MODULE_NAME)!==0 ){
-                        $item['url'] = MODULE_NAME.'/'.$item['url'];
-                    }
                     // 判断主菜单权限
                     if ( !IS_ROOT && !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null) ) {
                         unset($menus['main'][$key]);
@@ -273,12 +268,12 @@ class AdminController extends Controller {
                     }
 
                     // 获取当前主菜单的子菜单项
-                    if($item['title'] == $nav_first_title){
+                    if($item['id'] == $nav['id']){
                         $menus['main'][$key]['class']='current';
                         //生成child树
                         $groups = M('Menu')->where("pid = {$item['id']}")->distinct(true)->field("`group`")->select();
                         if($groups){
-                            $groups = array_column($groups, 'group');
+                            $groups =   array_column($groups, 'group');
                         }else{
                             $groups =   array();
                         }
@@ -316,16 +311,13 @@ class AdminController extends Controller {
                                     $map['url'] = array('in', $to_check_urls);
                                 }
                             }
-                            $map['pid'] =   $item['id'];
+                            $map['pid']     =   $item['id'];
                             $map['hide']    =   0;
                             if(!C('DEVELOP_MODE')){ // 是否开发者模式
                                 $map['is_dev']  =   0;
                             }
                             $menuList = M('Menu')->where($map)->field('id,pid,title,url,tip')->order('sort asc')->select();
                             $menus['child'][$g] = list_to_tree($menuList, 'id', 'pid', 'operater', $item['id']);
-                        }
-                        if($menus['child'] === array()){
-                            //$this->error('主菜单下缺少子菜单，请去系统=》后台菜单管理里添加');
                         }
                     }
                 }
