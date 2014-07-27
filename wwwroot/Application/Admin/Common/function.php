@@ -351,7 +351,7 @@ function get_subdocument_count($id=0){
 function parse_field_attr($string) {
     if(0 === strpos($string,':')){
         // 采用函数定义
-        return   eval(substr($string,1).';');
+        return   eval('return '.substr($string,1).';');
     }elseif(0 === strpos($string,'[')){
         // 支持读取配置参数（必须是数组类型）
         return C(substr($string,1,-1));
