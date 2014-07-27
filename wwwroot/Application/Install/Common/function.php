@@ -266,13 +266,13 @@ function update_tables($db, $prefix = ''){
                 $msg  = "修改数据表{$name}";
             } else if(substr($value, 0, 11) == 'INSERT INTO'){
                 $name = preg_replace("/^INSERT INTO `(\w+)` .*/s", "\\1", $value);
-                $msg  = "插入数据表{$name}";
+                $msg  = "写入数据表{$name}";
             }
             if(($db->execute($value)) !== false){
                 show_msg($msg . '...成功');
             } else{
-                show_msg($msg . '...失败！['.$value.']', 'error');
-                session('error', true);	
+                show_msg($msg . '...失败！', 'error');
+                session('error', true);
             }
         }
     }

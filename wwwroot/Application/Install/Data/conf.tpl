@@ -21,9 +21,6 @@ return array(
     /* 系统数据加密设置 */
     'DATA_AUTH_KEY' => '[AUTH_KEY]', //默认数据加密KEY
 
-    /* 调试配置 */
-    'SHOW_PAGE_TRACE' => true,
-
     /* 用户相关设置 */
     'USER_MAX_CACHE'     => 1000, //最大缓存用户数
     'USER_ADMINISTRATOR' => 1, //管理员用户ID
