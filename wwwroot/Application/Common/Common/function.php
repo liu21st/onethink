@@ -495,17 +495,22 @@ function get_category_name($id){
 function get_category_title($id){
     return get_category($id, 'title');
 }
+
 /**
  * 获取顶级模型信息
  */
-function get_top_model(){
-        $map   = array('status' => 1, 'extend' => 0);
-        $model = M('Model')->where($map)->field(true)->select();
-        foreach ($model as $value) {
-            $list[$value['id']] = $value;
-        }
-		return $list;
+function get_top_model($model_id=null){
+    $map   = array('status' => 1, 'extend' => 0);
+    if(!is_null($model_id)){
+        $map['id']  =   array('neq',$model_id);
+    }
+    $model = M('Model')->where($map)->field(true)->select();
+    foreach ($model as $value) {
+        $list[$value['id']] = $value;
+    }
+    return $list;
 }
+
 /**
  * 获取文档模型信息
  * @param  integer $id    模型ID
