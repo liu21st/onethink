@@ -379,21 +379,23 @@ class DocumentModel extends Model{
      * @author huajie <banhuajie@163.com>
      */
     protected function checkName(){
-        $name = I('post.name');
-        $pid = I('post.pid', 0);
-        $id = I('post.id', 0);
+        $name        = I('post.name');
+        $category_id = I('post.category_id', 0);
+        $id          = I('post.id', 0);
 
-        //获取根节点
-        if($pid == 0){
-            $root = 0;
-        }else{
-            $root = $this->getFieldById($pid, 'root');
-            $root = $root == 0 ? $pid : $root;
+        $map = array('name' => $name, 'id' => array('neq', $id), 'status' => array('neq', -1));
+
+        $category = get_category($category_id);
+        if ($category['pid'] == 0) {
+            $map['category_id'] = $category_id;
+        } else {
+            $parent             = get_parent_category($category['id']);
+            $root               = array_shift($parent);
+            $map['category_id'] = array('in', D("Category")->getChildrenId($root['id']));
         }
 
-        $map = array('root'=>$root, 'name'=>$name, 'id'=>array('neq',$id));
         $res = $this->where($map)->getField('id');
-        if($res){
+        if ($res) {
             return false;
         }
         return true;
