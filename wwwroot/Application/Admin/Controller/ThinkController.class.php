@@ -129,6 +129,7 @@ class ThinkController extends AdminController {
             $this->assign('_page', $page->show());
         }
 
+        $data   =   $this->parseDocumentList($data,$model['id']);
         $this->assign('model', $model);
         $this->assign('list_grids', $grids);
         $this->assign('list_data', $data);
@@ -224,7 +225,9 @@ class ThinkController extends AdminController {
                 $auto[]  =  array($attr['name'],$attr['auto_rule'],$attr['auto_time'],$attr['auto_type']);
             }elseif('checkbox'==$attr['type']){ // 多选型
                 $auto[] =   array($attr['name'],'arr2str',3,'function');
-            }elseif('datetime' == $attr['type']){ // 日期型
+            }elseif('date' == $attr['type']){ // 日期型
+                $auto[] =   array($attr['name'],'strtotime',3,'function');
+            }elseif('datetime' == $attr['type']){ // 时间型
                 $auto[] =   array($attr['name'],'strtotime',3,'function');
             }
         }

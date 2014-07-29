@@ -438,4 +438,36 @@ class AdminController extends Controller {
         return $model->field($field)->select();
     }
 
+    /**
+     * 处理文档列表显示
+     * @param array $list 列表数据
+     * @param integer $model_id 模型id
+     */
+    protected function parseDocumentList($list,$model_id=null){
+        $attrList = get_model_attribute($model_id ? $model_id : 1,false,'id,name,type,extra');
+        // 对列表数据进行显示处理
+        if(is_array($list)){
+            foreach ($list as $k=>$data){
+                foreach($data as $key=>$val){
+                    if(isset($attrList[$key])){
+                        $extra      =   $attrList[$key]['extra'];
+                        $type       =   $attrList[$key]['type'];
+                        if('select'== $type || 'checkbox' == $type || 'radio' == $type || 'bool' == $type) {
+                            // 枚举/多选/单选/布尔型
+                            $options    =   parse_field_attr($extra);
+                            if($options && array_key_exists($val,$options)) {
+                                $data[$key]    =   $options[$val];
+                            }                        
+                        }elseif('date'==$type){ // 日期型
+                            $data[$key]    =   date('Y-m-d',$val);
+                        }elseif('datetime' == $type){ // 时间型
+                            $data[$key]    =   date('Y-m-d H:i',$val);
+                        }
+                    }
+                }
+                $list[$k]   =   $data;
+            }
+        }
+        return $list;
+    }
 }
