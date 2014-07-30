@@ -210,7 +210,11 @@ class ArticleController extends AdminController {
             }
         }
 
-        // 过滤重复字段信息 TODO: 传入到查询方法
+        // 文档模型列表始终要获取的数据字段 用于其他用途
+        $fields[] = 'category_id';
+        $fields[] = 'model_id';
+        $fields[] = 'pid';
+        // 过滤重复字段信息
         $fields =   array_unique($fields);
         // 列表查询
         $list   =   $this->getDocumentList($cate_id,$model_id,$position,$fields);
@@ -323,11 +327,11 @@ class ArticleController extends AdminController {
         empty($model_id) && $this->error('该分类未绑定模型！');
 
         //检查该分类是否允许发布
-        $allow_publish = D('Document')->checkCategory($cate_id);
+        $allow_publish = check_category($cate_id);
         !$allow_publish && $this->error('该分类不允许发布内容！');
 
-        /* 获取要编辑的扩展模型模板 */
-        $model      =   get_document_model($model_id);
+        // 获取当前的模型信息
+        $model    =   get_document_model($model_id);
 
         //处理结果
         $info['pid']            =   $_GET['pid']?$_GET['pid']:0;
@@ -362,7 +366,7 @@ class ArticleController extends AdminController {
             $this->error('参数不能为空！');
         }
 
-        /*获取一条记录的详细数据*/
+        // 获取详细数据 
         $Document = D('Document');
         $data = $Document->detail($id);
         if(!$data){
@@ -371,14 +375,14 @@ class ArticleController extends AdminController {
 
         if($data['pid']){
             // 获取上级文档
-            $article        =   M('Document')->field('id,title,type')->find($data['pid']);
+            $article        =   $Document->field('id,title,type')->find($data['pid']);
             $this->assign('article',$article);
         }
+        // 获取当前的模型信息
+        $model    =   get_document_model($data['model_id']);
+
         $this->assign('data', $data);
         $this->assign('model_id', $data['model_id']);
-
-        /* 获取要编辑的扩展模型模板 */
-        $model      =   get_document_model($data['model_id']);
         $this->assign('model',      $model);
 
         //获取表单字段排序
@@ -398,73 +402,14 @@ class ArticleController extends AdminController {
      * @author huajie <banhuajie@163.com>
      */
     public function update(){
-        $res = D('Document')->update();
+        $document   =   D('Document');
+        $res = $document->update();
         if(!$res){
-            $this->error(D('Document')->getError());
+            $this->error($document->getError());
         }else{
             $this->success($res['id']?'更新成功':'新增成功', Cookie('__forward__'));
         }
     }
-
-    /**
-     * 批量操作
-     * @author huajie <banhuajie@163.com>
-     */
-    public function batchOperate(){
-        //获取左边菜单
-        $this->getMenu();
-
-        $pid = I('pid', 0);
-        $cate_id = I('cate_id');
-
-        empty($cate_id) && $this->error('参数不能为空！');
-
-        //检查该分类是否允许发布
-        $allow_publish = D('Document')->checkCategory($cate_id);
-        !$allow_publish && $this->error('该分类不允许发布内容！');
-
-        //批量导入目录
-        if(IS_POST){
-            $model_id = I('model_id');
-            $type = 1;  //TODO:目前只支持目录，要动态获取
-            $content = I('content');
-            $_POST['content'] = ''; //重置内容
-            preg_match_all('/[^\r]+/', $content, $matchs);  //获取每一个目录的数据
-            $list = $matchs[0];
-            foreach ($list as $value){
-                if(!empty($value) && (strpos($value, '|') !== false)){
-                    //过滤换行回车并分割
-                    $data = explode('|', str_replace(array("\r", "\r\n", "\n"), '', $value));
-                    //构造新增的数据
-                    $data = array('name'=>$data[0], 'title'=>$data[1], 'category_id'=>$cate_id, 'model_id'=>$model_id);
-                    $data['description'] = '';
-                    $data['pid'] = $pid;
-                    $data['type'] = $type;
-                    //构造post数据用于自动验证
-                    $_POST = $data;
-
-                    $res = D('Document')->update($data);
-                }
-            }
-            if($res){
-                $this->success('批量导入成功！', U('index?pid='.$pid.'&cate_id='.$cate_id));
-            }else{
-                if(isset($res)){
-                    $this->error(D('Document')->getError());
-                }else{
-                    $this->error('批量导入失败，请检查内容格式！');
-                }
-            }
-        }
-
-        $this->assign('pid',        $pid);
-        $this->assign('cate_id',    $cate_id);
-        $this->assign('type_list',  get_type_bycate($cate_id));
-
-        $this->meta_title       =   '批量导入';
-        $this->display('batchoperate');
-    }
-
 
     /**
      * 待审核列表

@@ -43,9 +43,11 @@ function get_list_field($data, $grid,$model){
             }else{
                 $show   =   isset($array[1])?$array[1]:$value;
                 // 替换系统特殊字符串
-                $href	=	str_replace(
-                    array('[DELETE]','[EDIT]','[MODEL]'),
-                    array('del?ids=[id]&model=[MODEL]','edit?id=[id]&model=[MODEL]',$model['id']),
+                $href   =   str_replace(
+                    array('[DELETE]','[EDIT]','[LIST]'),
+                    array('del?ids=[id]&model=[model_id]',
+                    'edit?id=[id]&model=[model_id]&cate_id=[category_id]',
+                    'index?pid=[id]&model=[model_id]&cate_id=[category_id]'),
                     $href);
 
                 // 替换数据变量

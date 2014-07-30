@@ -532,7 +532,7 @@ function get_document_model($id = null, $field = null){
 
     /* 获取模型名称 */
     if(empty($list)){
-        $map   = array('status' => 1, 'extend' => array('gt',0));
+        $map   = array('status' => 1, 'extend' => 1);
         $model = M('Model')->where($map)->field(true)->select();
         foreach ($model as $value) {
             $list[$value['id']] = $value;
@@ -968,4 +968,31 @@ function get_stemma($pids,Model &$model, $field='id'){
         $child_ids  = array_column((array)$result,'id');
     }
     return $collection;
+}
+
+/**
+ * 验证分类是否允许发布内容
+ * @param  integer $id 分类ID
+ * @return boolean     true-允许发布内容，false-不允许发布内容
+ */
+function check_category($id){
+    if (is_array($id)) {
+        $type = get_category($id['category_id'], 'type');
+        $type = explode(",", $type);
+        return in_array($id['type'], $type);
+    } else {
+        $publish = get_category($id, 'allow_publish');
+        return $publish ? true : false;
+    }
+}
+
+/**
+ * 检测分类是否绑定了指定模型
+ * @param  array $info 模型ID和分类ID数组
+ * @return boolean     true-绑定了模型，false-未绑定模型
+ */
+function check_category_model($info){
+    $cate   =   get_category($info['category_id']);
+    $array  =   explode(',', $info['pid'] ? $cate['model_sub'] : $cate['model']);
+    return in_array($info['model_id'], $array);
 }

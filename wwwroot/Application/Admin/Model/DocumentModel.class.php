@@ -26,9 +26,9 @@ class DocumentModel extends Model{
         array('description', '1,140', '简介长度不能超过140个字符', self::VALUE_VALIDATE, 'length', self::MODEL_BOTH),
         array('category_id', 'require', '分类不能为空', self::MUST_VALIDATE , 'regex', self::MODEL_INSERT),
         array('category_id', 'require', '分类不能为空', self::EXISTS_VALIDATE , 'regex', self::MODEL_UPDATE),
-        array('category_id', 'checkCategory', '该分类不允许发布内容', self::EXISTS_VALIDATE , 'callback', self::MODEL_UPDATE),
-        array('category_id,type', 'checkCategory', '内容类型不正确', self::MUST_VALIDATE, 'callback', self::MODEL_INSERT),
-        array('model_id,pid,category_id', 'checkModel', '该分类没有绑定当前模型', self::MUST_VALIDATE , 'callback', self::MODEL_INSERT),
+        array('category_id', 'check_category', '该分类不允许发布内容', self::EXISTS_VALIDATE , 'function', self::MODEL_UPDATE),
+        array('category_id,type', 'check_category', '内容类型不正确', self::MUST_VALIDATE, 'function', self::MODEL_INSERT),
+        array('model_id,pid,category_id', 'check_category_model', '该分类没有绑定当前模型', self::MUST_VALIDATE , 'function', self::MODEL_INSERT),
     );
 
     /* 自动完成规则 */
@@ -306,33 +306,6 @@ class DocumentModel extends Model{
     }
 
     /**
-     * 验证分类是否允许发布内容
-     * @param  integer $id 分类ID
-     * @return boolean     true-允许发布内容，false-不允许发布内容
-     */
-    public function checkCategory($id){
-        if (is_array($id)) {
-            $type = get_category($id['category_id'], 'type');
-            $type = explode(",", $type);
-            return in_array($id['type'], $type);
-        } else {
-            $publish = get_category($id, 'allow_publish');
-            return $publish ? true : false;
-        }
-    }
-
-    /**
-     * 检测分类是否绑定了指定模型
-     * @param  array $info 模型ID和分类ID数组
-     * @return boolean     true-绑定了模型，false-未绑定模型
-     */
-    protected function checkModel($info){
-        $cate   =   get_category($info['category_id']);
-        $array  =   explode(',', $info['pid'] ? $cate['model_sub'] : $cate['model']);
-        return in_array($info['model_id'], $array);
-    }
-
-    /**
      * 获取扩展模型对象
      * @param  integer $model 模型编号
      * @return object         模型对象
@@ -528,9 +501,9 @@ class DocumentModel extends Model{
             array('title', '1,80', '标题长度不能超过80个字符', self::VALUE_VALIDATE, 'length', self::MODEL_BOTH),
             array('description', '1,140', '简介长度不能超过140个字符', self::VALUE_VALIDATE, 'length', self::MODEL_BOTH),
             array('category_id', 'require', '分类不能为空', self::MUST_VALIDATE , 'regex', self::MODEL_BOTH),
-            array('category_id', 'checkCategory', '该分类不允许发布内容', self::EXISTS_VALIDATE , 'callback', self::MODEL_UPDATE),
-            array('category_id,type', 'checkCategory', '内容类型不正确', self::MUST_VALIDATE, 'callback', self::MODEL_INSERT),
-            array('model_id,pid,category_id', 'checkModel', '该分类没有绑定当前模型', self::MUST_VALIDATE , 'callback', self::MODEL_INSERT),
+            array('category_id', 'check_category', '该分类不允许发布内容', self::EXISTS_VALIDATE , 'function', self::MODEL_UPDATE),
+            array('category_id,type', 'check_category', '内容类型不正确', self::MUST_VALIDATE, 'function', self::MODEL_INSERT),
+            array('model_id,pid,category_id', 'check_catgory_model', '该分类没有绑定当前模型', self::MUST_VALIDATE , 'function', self::MODEL_INSERT),
             array('deadline', '/^\d{4,4}-\d{1,2}-\d{1,2}(\s\d{1,2}:\d{1,2}(:\d{1,2})?)?$/', '日期格式不合法,请使用"年-月-日 时:分"格式,全部为数字', self::VALUE_VALIDATE  , 'regex', self::MODEL_BOTH),
             array('create_time', '/^\d{4,4}-\d{1,2}-\d{1,2}(\s\d{1,2}:\d{1,2}(:\d{1,2})?)?$/', '日期格式不合法,请使用"年-月-日 时:分"格式,全部为数字', self::VALUE_VALIDATE  , 'regex', self::MODEL_BOTH),
         );
