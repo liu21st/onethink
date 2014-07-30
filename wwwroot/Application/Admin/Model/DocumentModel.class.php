@@ -50,34 +50,6 @@ class DocumentModel extends Model{
     );
 
     /**
-     * 获取文档列表
-     * @param  integer  $category 分类ID
-     * @param  string   $order    排序规则
-     * @param  integer  $status   状态
-     * @param  boolean  $count    是否返回总数
-     * @param  string   $field    字段 true-所有字段
-     * @param  string   $limit    分页参数
-     * @param  array    $map      查询条件参数
-     * @return array              文档列表
-     * @author huajie <banhuajie@163.com>
-     */
-    public function lists($category, $order = '`id` DESC', $status = 1, $field = true, $limit = '10', $map = array()){
-        $map = array_merge($this->listMap($category, $status), $map);
-        return $this->field($field)->where($map)->order($order)->limit($limit)->select();
-    }
-
-    /**
-     * 计算列表总数
-     * @param  number  $category 分类ID
-     * @param  integer $status   状态
-     * @return integer           总数
-     */
-    public function listCount($category, $status = 1, $map = array()){
-        $map = array_merge($this->listMap($category, $status), $map);
-        return $this->where($map)->count('id');
-    }
-
-    /**
      * 获取详情页数据
      * @param  integer $id 文档ID
      * @return array       详细数据
@@ -100,42 +72,6 @@ class DocumentModel extends Model{
         $info = array_merge($info, $detail);
 
         return $info;
-    }
-
-    /**
-     * 返回前一篇文档信息
-     * @param  array $info 当前文档信息
-     * @return array
-     */
-    public function prev($info){
-        $map = array(
-            'id'          => array('lt', $info['id']),
-            'category_id' => $info['category_id'],
-            'status'      => 1,
-            'create_time' => array('lt', NOW_TIME),
-            '_string'     => 'deadline = 0 OR deadline > ' . NOW_TIME,            
-        );
-
-        /* 返回前一条数据 */
-        return $this->field(true)->where($map)->order('id DESC')->find();
-    }
-
-    /**
-     * 获取下一篇文档基本信息
-     * @param  array    $info 当前文档信息
-     * @return array
-     */
-    public function next($info){
-        $map = array(
-            'id'          => array('gt', $info['id']),
-            'category_id' => $info['category_id'],
-            'status'      => 1,
-            'create_time' => array('lt', NOW_TIME),
-            '_string'     => 'deadline = 0 OR deadline > ' . NOW_TIME,            
-        );
-
-        /* 返回下一条数据 */
-        return $this->field(true)->where($map)->order('id')->find();
     }
 
     /**
@@ -196,73 +132,6 @@ class DocumentModel extends Model{
     }
 
     /**
-     * 获取段落列表
-     * @param  integer $id    文档ID
-     * @param  integer $page  显示页码
-     * @param  boolean $field 查询字段
-     * @param  boolean $logic 是否查询模型数据
-     * @return array
-     */
-    public function part($id, $page = 1, $field = true, $logic = true){
-        $map  = array('status' => 1, 'type' => 3, 'pid' => $id);
-        $info = $this->field($field)->where($map)->page($page, 10)->order('id')->select();
-        if(!$info) {
-            $this->error = '该文档没有段落！';
-            return false;
-        }
-
-        /* 不获取段落详情 */
-        if(!$logic){
-            return $info;
-        }
-
-        /* 获取段落详情 */
-        $model = $logic = array();
-        foreach ($info as $value) {
-            $model[$value['model_id']][] = $value['id'];
-        }
-        foreach ($model as $model_id => $ids) {
-            $data   = $this->logic($model_id)->lists($ids);
-            $logic += $data;
-        }
-
-        /* 合并数据 */
-        foreach ($info as &$value) {
-            $value = array_merge($value, $logic[$value['id']]);
-        }
-
-        return $info;
-    }
-
-    /**
-     * 获取指定文档的段落总数
-     * @param  number $id 段落ID
-     * @return number     总数
-     */
-    public function partCount($id){
-        $map = array('status' => 1, 'type' => 3, 'pid' => $id);
-        return $this->where($map)->count('id');
-    }
-
-    /**
-     * 获取推荐位数据列表
-     * @param  number  $pos      推荐位 1-列表推荐，2-频道页推荐，4-首页推荐
-     * @param  number  $category 分类ID
-     * @param  number  $limit    列表行数
-     * @param  boolean $filed    查询字段
-     * @return array             数据列表
-     */
-    public function position($pos, $category = null, $limit = null, $field = true){
-        $map = $this->listMap($category, 1, $pos);
-
-        /* 设置列表数量 */
-        is_numeric($limit) && $this->limit($limit);
-
-        /* 读取数据 */
-        return $this->field($field)->where($map)->select();
-    }
-
-    /**
      * 获取数据状态
      * @return integer 数据状态
      */
@@ -315,34 +184,6 @@ class DocumentModel extends Model{
         $class = is_file(MODULE_PATH . 'Logic/' . $name . 'Logic' . EXT) ? $name : 'Base';
         $class = MODULE_NAME . '\\Logic\\' . $class . 'Logic';
         return new $class($name);
-    }
-
-    /**
-     * 设置where查询条件
-     * @param  number  $category 分类ID
-     * @param  number  $pos      推荐位
-     * @param  integer $status   状态
-     * @return array             查询条件
-     */
-    private function listMap($category, $status = 1, $pos = null){
-        /* 设置状态 */
-        $map = array('status' => $status);
-
-        /* 设置分类 */
-        if(!is_null($category)){
-            if(is_numeric($category)){
-                $map['category_id'] = $category;
-            } else {
-                $map['category_id'] = array('in', str2arr($category));
-            }
-        }
-
-        /* 设置推荐位 */
-        if(is_numeric($pos)){
-            $map[] = "position & {$pos} = {$pos}";
-        }
-
-        return $map;
     }
 
     /**
@@ -541,48 +382,6 @@ class DocumentModel extends Model{
 
         //内容添加或更新完成
         return $data;
-    }
-
-    /**
-     * 获取目录列表
-     * @param intger $pid 目录的根节点
-     * @return boolean
-     * @author huajie <banhuajie@163.com>
-     */
-    public function getDirectoryList($pid = null){
-        if(empty($pid)){
-            return false;
-        }
-        $tree = S('sys_directory_tree');
-        if(empty($tree)){
-            $tree = $this->getChild($pid);
-            S('sys_directory_tree', $tree);
-        }
-        return $tree;
-    }
-
-    /**
-     * 递归查询子文档
-     * @param intger $pid
-     * @return array: 子文档数组
-     * @author huajie <banhuajie@163.com>
-     */
-    private function getChild($pid){
-        $tree = array();
-        $map = array('status'=>1,'type'=>1);
-        if(is_array($pid)){
-            $map['pid'] = array('in', implode(',', $pid));
-        }else{
-            $map['pid'] = $pid;
-        }
-        $child = $this->where($map)->field('id,name,title,pid')->order('level DESC,id DESC')->select();
-        if(!empty($child)){
-            foreach ($child as $key=>$value){
-                $pids[] = $value['id'];
-            }
-            $tree = array_merge($child, $this->getChild($pids));
-        }
-        return $tree;
     }
 
     /**
