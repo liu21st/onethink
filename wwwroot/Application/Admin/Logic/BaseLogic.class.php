@@ -22,7 +22,7 @@ class BaseLogic extends Model {
     protected $_auto        =   array();
 
     /**
-     * 构造函数，用于这是Logic层的表前缀
+     * 构造函数
      * @param string $name 模型名称
      * @param string $tablePrefix 表前缀
      * @param mixed $connection 数据库连接信息
@@ -50,27 +50,6 @@ class BaseLogic extends Model {
             }
         }
         return $data;
-    }
-
-    /**
-     * 获取段落列表
-     * @param  array $ids 要获取的段落ID列表
-     * @return array      段落数据列表
-     */
-    public function lists($ids) {
-        $map = array();
-        if (1 === count($ids)) {
-            $map['id'] = $ids[0];
-        } else {
-            $map['id'] = array('in', $ids);
-        }
-
-        $data = $this->field(true)->where($map)->select();
-        $list = array();
-        foreach ($data as $value) {
-            $list[$value['id']] = $value;
-        }
-        return $list;
     }
 
     /**
