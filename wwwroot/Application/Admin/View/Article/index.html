@@ -149,7 +149,7 @@ $(function(){
         query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
         query = query.replace(/^&/g,'');
 		if(status != ''){
-			query += 'status=' + status + "&" + query;
+			query = 'status=' + status + "&" + query;
         }
         if( url.indexOf('?')>0 ){
             url += '&' + query;
