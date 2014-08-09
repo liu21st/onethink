@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 
 // OneThink常量定义
-const ONETHINK_VERSION    = '1.1.140726';
+const ONETHINK_VERSION    = '1.1.140809';
 const ONETHINK_ADDON_PATH = './Addons/';
 
 /**
