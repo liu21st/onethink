@@ -82,7 +82,7 @@ class DocumentModel extends Model{
         if ( !$info ) {
             $this->error = '文档不存在';
             return false;
-        }elseif(!(is_array($info) || 1 !== $info['status'])){
+        }elseif(!(is_array($info)) || 1 != $info['status']){
             $this->error = '文档被禁用或已删除！';
             return false;
         }
