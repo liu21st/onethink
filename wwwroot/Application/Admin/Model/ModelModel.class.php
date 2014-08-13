@@ -107,20 +107,21 @@ class ModelModel extends Model{
     	//新增属性
 		$fields = M()->query('SHOW FULL COLUMNS FROM '.$table);
 		foreach ($fields as $key=>$value){
+            $value  =   array_change_key_case($value);
 			//不新增id字段
-			if(strcmp($value['Field'], 'id') == 0){
+			if(strcmp($value['field'], 'id') == 0){
 				continue;
 			}
 
 			//生成属性数据
 			$data = array();
-			$data['name'] = $value['Field'];
-			$data['title'] = $value['Comment'];
+			$data['name'] = $value['field'];
+			$data['title'] = $value['comment'];
 			$data['type'] = 'string';	//TODO:根据字段定义生成合适的数据类型
 			//获取字段定义
-			$is_null = strcmp($value['Null'], 'NO') == 0 ? ' NOT NULL ' : ' NULL ';
-			$data['field'] = $value['Type'].$is_null;
-			$data['value'] = $value['Default'] == null ? '' : $value['Default'];
+			$is_null = strcmp($value['null'], 'NO') == 0 ? ' NOT NULL ' : ' NULL ';
+			$data['field'] = $value['type'].$is_null;
+			$data['value'] = $value['default'] == null ? '' : $value['default'];
 			$data['model_id'] = $res;
 			$_POST = $data;		//便于自动验证
 			D('Attribute')->update($data, false);
