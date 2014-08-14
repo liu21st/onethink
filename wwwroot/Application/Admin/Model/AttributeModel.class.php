@@ -21,18 +21,18 @@ class AttributeModel extends Model {
     protected $_validate = array(
         array('name', 'require', '字段名必须', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
         array('name', '/^[a-zA-Z][\w_]{1,29}$/', '字段名不合法', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
-    	array('name', 'checkName', '字段名已存在', self::MUST_VALIDATE, 'callback', self::MODEL_BOTH),
-    	array('field', 'require', '字段定义必须', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
-    	array('field', '1,100', '注释长度不能超过100个字符', self::VALUE_VALIDATE, 'length', self::MODEL_BOTH),
+        array('name', 'checkName', '字段名已存在', self::MUST_VALIDATE, 'callback', self::MODEL_BOTH),
+        array('field', 'require', '字段定义必须', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
+        array('field', '1,100', '注释长度不能超过100个字符', self::VALUE_VALIDATE, 'length', self::MODEL_BOTH),
         array('title', '1,100', '注释长度不能超过100个字符', self::VALUE_VALIDATE, 'length', self::MODEL_BOTH),
         array('remark', '1,100', '备注不能超过100个字符', self::VALUE_VALIDATE, 'length', self::MODEL_BOTH),
-    	array('model_id', 'require', '未选择操作的模型', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
+        array('model_id', 'require', '未选择操作的模型', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
     );
 
     /* 自动完成规则 */
     protected $_auto = array(
         array('status', 1, self::MODEL_INSERT, 'string'),
-    	array('create_time', 'time', self::MODEL_INSERT, 'function'),
+        array('create_time', 'time', self::MODEL_INSERT, 'function'),
         array('update_time', 'time', self::MODEL_BOTH, 'function'),
     );
 
@@ -46,7 +46,7 @@ class AttributeModel extends Model {
      */
     public function update($data = null, $create = true){
         /* 获取数据对象 */
-    	$data = empty($data) ? $_POST : $data;
+        $data = empty($data) ? $_POST : $data;
         $data = $this->create($data);
         if(empty($data)){
             return false;
@@ -61,25 +61,25 @@ class AttributeModel extends Model {
             }
 
             if($create){
-            	//新增表字段
-            	$res = $this->addField($data);
-            	if(!$res){
-            		$this->error = '新建字段出错！';
-            		//删除新增数据
-            		$this->delete($id);
-            		return false;
-            	}
+                //新增表字段
+                $res = $this->addField($data);
+                if(!$res){
+                    $this->error = '新建字段出错！';
+                    //删除新增数据
+                    $this->delete($id);
+                    return false;
+                }
             }
 
         } else { //更新数据
-        	if($create){
-        	//更新表字段
-	        	$res = $this->updateField($data);
-	        	if(!$res){
-	        		$this->error = '更新字段出错！';
-	        		return false;
-	        	}
-        	}
+            if($create){
+            //更新表字段
+                $res = $this->updateField($data);
+                if(!$res){
+                    $this->error = '更新字段出错！';
+                    return false;
+                }
+            }
 
             $status = $this->save();
             if(false === $status){
@@ -105,15 +105,15 @@ class AttributeModel extends Model {
      * @author huajie <banhuajie@163.com>
      */
     protected function checkName(){
-    	$name = I('post.name');
-    	$model_id = I('post.model_id');
-    	$id = I('post.id');
-    	$map = array('name'=>$name, 'model_id'=>$model_id);
-    	if(!empty($id)){
-    		$map['id'] = array('neq', $id);
-    	}
-    	$res = $this->where($map)->find();
-    	return empty($res);
+        $name = I('post.name');
+        $model_id = I('post.model_id');
+        $id = I('post.id');
+        $map = array('name'=>$name, 'model_id'=>$model_id);
+        if(!empty($id)){
+            $map['id'] = array('neq', $id);
+        }
+        $res = $this->where($map)->find();
+        return empty($res);
     }
 
     /**
@@ -123,21 +123,21 @@ class AttributeModel extends Model {
      * @author huajie <banhuajie@163.com>
      */
     protected function checkTableExist($model_id){
-    	$Model = M('Model');
-    	//当前操作的表
-		$model = $Model->where(array('id'=>$model_id))->field('name,extend')->find();
+        $Model = M('Model');
+        //当前操作的表
+        $model = $Model->where(array('id'=>$model_id))->field('name,extend')->find();
 
-		if($model['extend'] == 0){	//独立模型表名
-			$table_name = $this->table_name = C('DB_PREFIX').strtolower($model['name']);
-		}else{						//继承模型表名
-			$extend_model = $Model->where(array('id'=>$model['extend']))->field('name,extend')->find();
-			$table_name = $this->table_name = C('DB_PREFIX').strtolower($extend_model['name']).'_'.strtolower($model['name']);
-		}
-		$sql = <<<sql
-				SHOW TABLES LIKE '{$table_name}';
+        if($model['extend'] == 0){	//独立模型表名
+            $table_name = $this->table_name = C('DB_PREFIX').strtolower($model['name']);
+        }else{						//继承模型表名
+            $extend_model = $Model->where(array('id'=>$model['extend']))->field('name,extend')->find();
+            $table_name = $this->table_name = C('DB_PREFIX').strtolower($extend_model['name']).'_'.strtolower($model['name']);
+        }
+        $sql = <<<sql
+                SHOW TABLES LIKE '{$table_name}';
 sql;
-		$res = M()->query($sql);
-		return count($res);
+        $res = M()->query($sql);
+        return count($res);
     }
 
     /**
@@ -147,59 +147,59 @@ sql;
      * @author huajie <banhuajie@163.com>
      */
     protected function addField($field){
-    	//检查表是否存在
-    	$table_exist = $this->checkTableExist($field['model_id']);
+        //检查表是否存在
+        $table_exist = $this->checkTableExist($field['model_id']);
 
-    	//获取默认值
-    	if($field['value'] === ''){
-    		$default = '';
-    	}elseif (is_numeric($field['value'])){
-    		$default = ' DEFAULT '.$field['value'];
-    	}elseif (is_string($field['value'])){
-    		$default = ' DEFAULT \''.$field['value'].'\'';
-    	}else {
-    		$default = '';
-    	}
+        //获取默认值
+        if($field['value'] === ''){
+            $default = '';
+        }elseif (is_numeric($field['value'])){
+            $default = ' DEFAULT '.$field['value'];
+        }elseif (is_string($field['value'])){
+            $default = ' DEFAULT \''.$field['value'].'\'';
+        }else {
+            $default = '';
+        }
 
-    	if($table_exist){
-    		$sql = <<<sql
-				ALTER TABLE `{$this->table_name}`
+        if($table_exist){
+            $sql = <<<sql
+                ALTER TABLE `{$this->table_name}`
 ADD COLUMN `{$field['name']}`  {$field['field']} {$default} COMMENT '{$field['title']}';
 sql;
-    	}else{
-    		//新建表时是否默认新增“id主键”字段
-    		$model_info = M('Model')->field('engine_type,need_pk')->getById($field['model_id']);
-    		if($model_info['need_pk']){
-    			$sql = <<<sql
-				CREATE TABLE IF NOT EXISTS `{$this->table_name}` (
-				`id`  int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键' ,
-				`{$field['name']}`  {$field['field']} {$default} COMMENT '{$field['title']}' ,
-				PRIMARY KEY (`id`)
-				)
-				ENGINE={$model_info['engine_type']}
-				DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
-				CHECKSUM=0
-				ROW_FORMAT=DYNAMIC
-				DELAY_KEY_WRITE=0
-				;
+        }else{
+            //新建表时是否默认新增“id主键”字段
+            $model_info = M('Model')->field('engine_type,need_pk')->getById($field['model_id']);
+            if($model_info['need_pk']){
+                $sql = <<<sql
+                CREATE TABLE IF NOT EXISTS `{$this->table_name}` (
+                `id`  int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键' ,
+                `{$field['name']}`  {$field['field']} {$default} COMMENT '{$field['title']}' ,
+                PRIMARY KEY (`id`)
+                )
+                ENGINE={$model_info['engine_type']}
+                DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+                CHECKSUM=0
+                ROW_FORMAT=DYNAMIC
+                DELAY_KEY_WRITE=0
+                ;
 sql;
-    		}else{
-    			$sql = <<<sql
-				CREATE TABLE IF NOT EXISTS `{$this->table_name}` (
-				`{$field['name']}`  {$field['field']} {$default} COMMENT '{$field['title']}'
-				)
-				ENGINE={$model_info['engine_type']}
-				DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
-				CHECKSUM=0
-				ROW_FORMAT=DYNAMIC
-				DELAY_KEY_WRITE=0
-				;
+            }else{
+                $sql = <<<sql
+                CREATE TABLE IF NOT EXISTS `{$this->table_name}` (
+                `{$field['name']}`  {$field['field']} {$default} COMMENT '{$field['title']}'
+                )
+                ENGINE={$model_info['engine_type']}
+                DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+                CHECKSUM=0
+                ROW_FORMAT=DYNAMIC
+                DELAY_KEY_WRITE=0
+                ;
 sql;
-    		}
+            }
 
-    	}
-    	$res = M()->execute($sql);
-    	return $res !== false;
+        }
+        $res = M()->execute($sql);
+        return $res !== false;
     }
 
     /**
@@ -209,21 +209,21 @@ sql;
      * @author huajie <banhuajie@163.com>
      */
     protected function updateField($field){
-    	//检查表是否存在
-    	$table_exist = $this->checkTableExist($field['model_id']);
+        //检查表是否存在
+        $table_exist = $this->checkTableExist($field['model_id']);
 
-    	//获取原字段名
-    	$last_field = $this->getFieldById($field['id'], 'name');
+        //获取原字段名
+        $last_field = $this->getFieldById($field['id'], 'name');
 
-    	//获取默认值
-    	$default = $field['value']!='' ? ' DEFAULT '.$field['value'] : '';
+        //获取默认值
+        $default = $field['value']!='' ? ' DEFAULT '.$field['value'] : '';
 
-    	$sql = <<<sql
-			ALTER TABLE `{$this->table_name}`
+        $sql = <<<sql
+            ALTER TABLE `{$this->table_name}`
 CHANGE COLUMN `{$last_field}` `{$field['name']}`  {$field['field']} {$default} COMMENT '{$field['title']}' ;
 sql;
-    	$res = M()->execute($sql);
-    	return $res !== false;
+        $res = M()->execute($sql);
+        return $res !== false;
     }
 
     /**
@@ -233,15 +233,15 @@ sql;
      * @author huajie <banhuajie@163.com>
      */
     public function deleteField($field){
-    	//检查表是否存在
-    	$table_exist = $this->checkTableExist($field['model_id']);
+        //检查表是否存在
+        $table_exist = $this->checkTableExist($field['model_id']);
 
-    	$sql = <<<sql
-			ALTER TABLE `{$this->table_name}`
+        $sql = <<<sql
+            ALTER TABLE `{$this->table_name}`
 DROP COLUMN `{$field['name']}`;
 sql;
-    	$res = M()->execute($sql);
-    	return $res !== false;
+        $res = M()->execute($sql);
+        return $res !== false;
     }
 
 }
