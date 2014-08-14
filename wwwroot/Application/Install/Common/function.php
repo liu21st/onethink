@@ -220,7 +220,7 @@ function register_administrator($db, $prefix, $admin, $auth){
     $db->execute($sql);
 
     $sql = "INSERT INTO `[PREFIX]member` VALUES ".
-           "('1', '[NAME]', '0', '0', '', '0', '1', '0', '[TIME]', '0', '[TIME]', '1');";
+           "('1', '[NAME]', '0', '0000-00-00', '', '0', '1', '0', '[TIME]', '0', '[TIME]', '1');";
     $sql = str_replace(
         array('[PREFIX]', '[NAME]', '[TIME]'),
         array($prefix, $admin['username'], NOW_TIME),
