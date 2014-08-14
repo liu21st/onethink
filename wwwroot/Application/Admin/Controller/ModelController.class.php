@@ -72,30 +72,30 @@ class ModelController extends AdminController {
         /* 获取模型排序字段 */
         $field_sort = json_decode($data['field_sort'], true);
         if(!empty($field_sort)){
-        	/* 对字段数组重新整理 */
-        	$fields_f = array();
-        	foreach($fields as $v){
-        		$fields_f[$v['id']] = $v;
-        	}
-        	$fields = array();
-        	foreach($field_sort as $key => $groups){
-        		foreach($groups as $group){
-        			$fields[$fields_f[$group]['id']] = array(
-        					'id' => $fields_f[$group]['id'],
-        					'name' => $fields_f[$group]['name'],
-        					'title' => $fields_f[$group]['title'],
-        					'is_show' => $fields_f[$group]['is_show'],
-        					'group' => $key
-        			);
-        		}
-        	}
-        	/* 对新增字段进行处理 */
-        	$new_fields = array_diff_key($fields_f,$fields);
-        	foreach ($new_fields as $value){
-        		if($value['is_show'] == 1){
-        			array_unshift($fields, $value);
-        		}
-        	}
+            /* 对字段数组重新整理 */
+            $fields_f = array();
+            foreach($fields as $v){
+                $fields_f[$v['id']] = $v;
+            }
+            $fields = array();
+            foreach($field_sort as $key => $groups){
+                foreach($groups as $group){
+                    $fields[$fields_f[$group]['id']] = array(
+                            'id' => $fields_f[$group]['id'],
+                            'name' => $fields_f[$group]['name'],
+                            'title' => $fields_f[$group]['title'],
+                            'is_show' => $fields_f[$group]['is_show'],
+                            'group' => $key
+                    );
+                }
+            }
+            /* 对新增字段进行处理 */
+            $new_fields = array_diff_key($fields_f,$fields);
+            foreach ($new_fields as $value){
+                if($value['is_show'] == 1){
+                    array_unshift($fields, $value);
+                }
+            }
         }
 
         $this->assign('fields', $fields);
@@ -154,7 +154,7 @@ class ModelController extends AdminController {
         }else{
             $table = I('post.table');
             empty($table) && $this->error('请选择要生成的数据表！');
-            $res = D('Model')->generate($table);
+            $res = D('Model')->generate($table,I('post.name'),I('post.title'));
             if($res){
                 $this->success('生成模型成功！', U('index'));
             }else{

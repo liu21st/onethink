@@ -90,13 +90,20 @@ class ModelModel extends Model{
      * 根据数据表生成模型及其属性数据
      * @author huajie <banhuajie@163.com>
      */
-    public function generate($table){
+    public function generate($table,$name='',$title=''){
         //新增模型数据
-        $name = substr($table, strlen(C('DB_PREFIX')));
-        $data = array('name'=>$name, 'title'=>$name);
+        if(empty($name)){
+            $name = $title = substr($table, strlen(C('DB_PREFIX')));
+        }
+        $data = array('name'=>$name, 'title'=>$title);
         $data = $this->create($data);
-        $res = $this->add($data);
-        if(!$res){
+        if($data){
+            $res = $this->add($data);
+            if(!$res){
+                return false;
+            }
+        }else{
+            $this->error = $this->getError();
             return false;
         }
 
