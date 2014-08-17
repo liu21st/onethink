@@ -261,6 +261,7 @@ class AuthManagerController extends AdminController{
         $this->assign('nickname',   $nickname);
         $this->assign('auth_groups',$auth_groups);
         $this->assign('user_groups',implode(',',$ids));
+        $this->meta_title = '用户组授权';
         $this->display();
     }
 
