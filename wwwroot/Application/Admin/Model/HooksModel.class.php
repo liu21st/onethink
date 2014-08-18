@@ -64,9 +64,6 @@ class HooksModel extends Model {
                     return false;
                 }
             }
-        } else {
-            $this->error = '插件未实现任何钩子';
-            return false;
         }
         return true;
     }
