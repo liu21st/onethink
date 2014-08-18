@@ -1,5 +1,6 @@
 ALTER TABLE `onethink_category` CHANGE COLUMN `model` `model` varchar(100) NOT NULL DEFAULT '' COMMENT '列表绑定模型';
 UPDATE `onethink_attribute` SET `extra` = '[DOCUMENT_POSITION]' WHERE `id`=10;
+ALTER TABLE `onethink_hooks` ADD COLUMN `status` tinyint(1) unsigned NOT NULL DEFAULT '0';
 ALTER TABLE `onethink_category` ADD COLUMN `model_sub` varchar(100) NOT NULL DEFAULT '' COMMENT '子文档绑定模型' AFTER `model`;
 UPDATE `onethink_category` SET `model` = '2,3', `model_sub` = '2' WHERE `id` = 1;
 UPDATE `onethink_category` SET `model` = '2,3', `model_sub` = '2', `icon` = 0 WHERE `id` = 2;
