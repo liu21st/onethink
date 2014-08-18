@@ -272,13 +272,7 @@ class AdminController extends Controller {
                     if($item['id'] == $nav['id']){
                         $menus['main'][$key]['class']='current';
                         //生成child树
-                        $groups = M('Menu')->where(array('group'=>array('neq',''),'pid' =>$item['id']))->distinct(true)->field("`group`")->select();
-                        if($groups){
-                            $groups =   array_column($groups, 'group');
-                        }else{
-                            $groups =   array();
-                        }
-
+                        $groups = M('Menu')->where(array('group'=>array('neq',''),'pid' =>$item['id']))->distinct(true)->getField("group",true);
                         //获取二级分类的合法url
                         $where          =   array();
                         $where['pid']   =   $item['id'];
