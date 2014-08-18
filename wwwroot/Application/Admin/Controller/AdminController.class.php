@@ -21,6 +21,7 @@ class AdminController extends Controller {
      */
     protected function _initialize(){
         // 获取当前用户ID
+        if(defined('UID')) return ;
         define('UID',is_login());
         if( !UID ){// 还没登录 跳转到登录页面
             $this->redirect('Public/login');
@@ -112,9 +113,9 @@ class AdminController extends Controller {
         if(IS_ROOT){
             return true;//管理员允许访问任何页面
         }
-		$allow = C('ALLOW_VISIT');
-		$deny  = C('DENY_VISIT');
-		$check = strtolower(CONTROLLER_NAME.'/'.ACTION_NAME);
+        $allow = C('ALLOW_VISIT');
+        $deny  = C('DENY_VISIT');
+        $check = strtolower(CONTROLLER_NAME.'/'.ACTION_NAME);
         if ( !empty($deny)  && in_array_case($check,$deny) ) {
             return false;//非超管禁止访问deny中的方法
         }
@@ -141,7 +142,7 @@ class AdminController extends Controller {
         //如存在id字段，则加入该条件
         $fields = M($model)->getDbFields();
         if(in_array('id',$fields) && !empty($id)){
-        	$where = array_merge( array('id' => array('in', $id )) ,(array)$where );
+            $where = array_merge( array('id' => array('in', $id )) ,(array)$where );
         }
 
         $msg   = array_merge( array( 'success'=>'操作成功！', 'error'=>'操作失败！', 'url'=>'' ,'ajax'=>IS_AJAX) , (array)$msg );
@@ -241,7 +242,7 @@ class AdminController extends Controller {
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
     final public function getMenus($controller=CONTROLLER_NAME){
-        // $menus  =   session('ADMIN_MENU_LIST'.$controller);
+        $menus  =   session('ADMIN_MENU_LIST'.$controller);
         if(empty($menus)){
             // 获取主菜单
             $where['pid']   =   0;
@@ -249,14 +250,14 @@ class AdminController extends Controller {
             if(!C('DEVELOP_MODE')){ // 是否开发者模式
                 $where['is_dev']    =   0;
             }
-            $menus['main']  =   M('Menu')->where($where)->order('sort asc')->select();
+            $menus['main']  =   M('Menu')->where($where)->order('sort asc')->field('id,title,url')->select();
             $menus['child'] =   array(); //设置子节点
 
             // 查找当前子菜单
-            $left = M('Menu')->where("pid !=0 AND url like '%{$controller}/".ACTION_NAME."%'")->field('pid')->find();
-            if($left){
+            $pid = M('Menu')->where("pid !=0 AND url like '%{$controller}/".ACTION_NAME."%'")->getField('pid');
+            if($pid){
                 // 查找当前主菜单
-                $nav =  M('Menu')->find($left['pid']);
+                $nav =  M('Menu')->find($pid);
                 if($nav['pid']){
                     $nav    =   M('Menu')->find($nav['pid']);
                 }
@@ -271,7 +272,7 @@ class AdminController extends Controller {
                     if($item['id'] == $nav['id']){
                         $menus['main'][$key]['class']='current';
                         //生成child树
-                        $groups = M('Menu')->where("pid = {$item['id']}")->distinct(true)->field("`group`")->select();
+                        $groups = M('Menu')->where(array('group'=>array('neq',''),'pid' =>$item['id']))->distinct(true)->field("`group`")->select();
                         if($groups){
                             $groups =   array_column($groups, 'group');
                         }else{
@@ -322,7 +323,7 @@ class AdminController extends Controller {
                     }
                 }
             }
-            // session('ADMIN_MENU_LIST'.$controller,$menus);
+            session('ADMIN_MENU_LIST'.$controller,$menus);
         }
         return $menus;
     }
