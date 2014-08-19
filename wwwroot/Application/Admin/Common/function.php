@@ -14,9 +14,9 @@
 
 /* 解析列表定义规则*/
 
-function get_list_field($data, $grid,$model){
+function get_list_field($data, $grid){
 
-	// 获取当前字段数据
+    // 获取当前字段数据
     foreach($grid['field'] as $field){
         $array  =   explode('|',$field);
         $temp  =	$data[$array[0]];
@@ -32,9 +32,9 @@ function get_list_field($data, $grid,$model){
         $value  =   implode(' ',$data2);
     }
 
-	// 链接支持
-	if(!empty($grid['href'])){
-		$links  =   explode(',',$grid['href']);
+    // 链接支持
+    if(!empty($grid['href'])){
+        $links  =   explode(',',$grid['href']);
         foreach($links as $link){
             $array  =   explode('|',$link);
             $href   =   $array[0];
@@ -57,7 +57,7 @@ function get_list_field($data, $grid,$model){
             }
         }
         $value  =   implode(' ',$val);
-	}
+    }
     return $value;
 }
 

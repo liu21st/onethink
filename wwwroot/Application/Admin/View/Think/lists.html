@@ -47,7 +47,7 @@
                         <tr>
                             <td><input class="ids" type="checkbox" value="{$data['id']}" name="ids[]"></td>
                             <volist name="list_grids" id="grid">
-                                <td>{:get_list_field($data,$grid,$model)}</td>
+                                <td>{:get_list_field($data,$grid)}</td>
                             </volist>
                         </tr>
                     </volist>

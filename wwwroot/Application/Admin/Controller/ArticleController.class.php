@@ -38,6 +38,7 @@ class ArticleController extends AdminController {
         $cates = AuthGroupModel::getAuthCategories(UID);
         switch(strtolower(ACTION_NAME)){
             case 'index':   //文档列表
+            case 'add':   // 新增
                 $cate_id =  I('cate_id');
                 break;
             case 'edit':    //编辑
