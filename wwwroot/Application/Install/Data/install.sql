@@ -696,7 +696,7 @@ CREATE TABLE `onethink_hooks` (
   `type` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '类型',
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `addons` varchar(255) NOT NULL DEFAULT '' COMMENT '钩子挂载的插件 ''，''分割',
-  `status` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
