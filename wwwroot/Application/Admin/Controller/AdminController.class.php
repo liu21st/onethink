@@ -252,6 +252,16 @@ class AdminController extends Controller {
             }
             $menus['main']  =   M('Menu')->where($where)->order('sort asc')->field('id,title,url')->select();
             $menus['child'] =   array(); //设置子节点
+            foreach ($menus['main'] as $key => $item) {
+                // 判断主菜单权限
+                if ( !IS_ROOT && !$this->checkRule(strtolower(MODULE_NAME.'/'.$item['url']),AuthRuleModel::RULE_MAIN,null) ) {
+                    unset($menus['main'][$key]);
+                    continue;//继续循环
+                }
+                if(strtolower(CONTROLLER_NAME.'/'.ACTION_NAME)  == strtolower($item['url'])){
+                    $menus['main'][$key]['class']='current';
+                }
+            }
 
             // 查找当前子菜单
             $pid = M('Menu')->where("pid !=0 AND url like '%{$controller}/".ACTION_NAME."%'")->getField('pid');
@@ -262,12 +272,6 @@ class AdminController extends Controller {
                     $nav    =   M('Menu')->find($nav['pid']);
                 }
                 foreach ($menus['main'] as $key => $item) {
-                    // 判断主菜单权限
-                    if ( !IS_ROOT && !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null) ) {
-                        unset($menus['main'][$key]);
-                        continue;//继续循环
-                    }
-
                     // 获取当前主菜单的子菜单项
                     if($item['id'] == $nav['id']){
                         $menus['main'][$key]['class']='current';
