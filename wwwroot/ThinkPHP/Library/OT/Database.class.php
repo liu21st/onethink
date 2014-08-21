@@ -129,7 +129,7 @@ class Database{
             $sql .= "-- Table structure for `{$table}`\n";
             $sql .= "-- -----------------------------\n";
             $sql .= "DROP TABLE IF EXISTS `{$table}`;\n";
-            $sql .= trim($result[0]['Create Table']) . ";\n\n";
+            $sql .= trim($result[0]['create table']) . ";\n\n";
             if(false === $this->write($sql)){
                 return false;
             }
