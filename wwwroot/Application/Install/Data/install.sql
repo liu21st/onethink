@@ -15,8 +15,8 @@ CREATE TABLE `onethink_action` (
   `name` char(30) NOT NULL DEFAULT '' COMMENT '行为唯一标识',
   `title` char(80) NOT NULL DEFAULT '' COMMENT '行为说明',
   `remark` char(140) NOT NULL DEFAULT '' COMMENT '行为描述',
-  `rule` text NOT NULL DEFAULT '' COMMENT '行为规则',
-  `log` text NOT NULL DEFAULT '' COMMENT '日志规则',
+  `rule` text NULL  COMMENT '行为规则',
+  `log` text NULL  COMMENT '日志规则',
   `type` tinyint(2) unsigned NOT NULL DEFAULT '1' COMMENT '类型',
   `status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '状态',
   `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '修改时间',
@@ -496,7 +496,7 @@ CREATE TABLE `onethink_category` (
   `reply` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '是否允许回复',
   `check` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '发布的文章是否需要审核',
   `reply_model` varchar(100) NOT NULL DEFAULT '',
-  `extend` text NOT NULL DEFAULT '' COMMENT '扩展设置',
+  `extend` text NULL  COMMENT '扩展设置',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '数据状态',
@@ -552,7 +552,7 @@ CREATE TABLE `onethink_config` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态',
-  `value` text NOT NULL DEFAULT '' COMMENT '配置值',
+  `value` text NULL  COMMENT '配置值',
   `sort` smallint(3) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_name` (`name`),
@@ -636,7 +636,7 @@ DROP TABLE IF EXISTS `onethink_document_article`;
 CREATE TABLE `onethink_document_article` (
   `id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文档ID',
   `parse` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '内容解析类型',
-  `content` text NOT NULL DEFAULT '' COMMENT '文章内容',
+  `content` text NOT NULL COMMENT '文章内容',
   `template` varchar(100) NOT NULL DEFAULT '' COMMENT '详情页显示模板',
   `bookmark` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '收藏数',
   PRIMARY KEY (`id`)
@@ -654,7 +654,7 @@ DROP TABLE IF EXISTS `onethink_document_download`;
 CREATE TABLE `onethink_document_download` (
   `id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文档ID',
   `parse` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '内容解析类型',
-  `content` text NOT NULL DEFAULT '' COMMENT '下载详细描述',
+  `content` text NOT NULL COMMENT '下载详细描述',
   `template` varchar(100) NOT NULL DEFAULT '' COMMENT '详情页显示模板',
   `file_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文件ID',
   `download` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '下载次数',
@@ -692,7 +692,7 @@ DROP TABLE IF EXISTS `onethink_hooks`;
 CREATE TABLE `onethink_hooks` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `name` varchar(40) NOT NULL DEFAULT '' COMMENT '钩子名称',
-  `description` text NOT NULL DEFAULT '' COMMENT '描述',
+  `description` text NULL  COMMENT '描述',
   `type` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '类型',
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `addons` varchar(255) NOT NULL DEFAULT '' COMMENT '钩子挂载的插件 ''，''分割',
@@ -882,13 +882,13 @@ CREATE TABLE `onethink_model` (
   `extend` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '继承的模型',
   `relation` varchar(30) NOT NULL DEFAULT '' COMMENT '继承与被继承模型的关联字段',
   `need_pk` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '新建表时是否需要主键字段',
-  `field_sort` text NOT NULL DEFAULT '' COMMENT '表单字段排序',
+  `field_sort` text NULL  COMMENT '表单字段排序',
   `field_group` varchar(255) NOT NULL DEFAULT '1:基础' COMMENT '字段分组',
-  `attribute_list` text NOT NULL DEFAULT '' COMMENT '属性列表（表的字段）',
+  `attribute_list` text NULL  COMMENT '属性列表（表的字段）',
   `template_list` varchar(100) NOT NULL DEFAULT '' COMMENT '列表模板',
   `template_add` varchar(100) NOT NULL DEFAULT '' COMMENT '新增模板',
   `template_edit` varchar(100) NOT NULL DEFAULT '' COMMENT '编辑模板',
-  `list_grid` text NOT NULL DEFAULT '' COMMENT '列表定义',
+  `list_grid` text NULL  COMMENT '列表定义',
   `list_row` smallint(2) unsigned NOT NULL DEFAULT '10' COMMENT '列表数据长度',
   `search_key` varchar(50) NOT NULL DEFAULT '' COMMENT '默认搜索字段',
   `search_list` varchar(255) NOT NULL DEFAULT '' COMMENT '高级搜索的字段',
@@ -983,7 +983,7 @@ DROP TABLE IF EXISTS `onethink_ucenter_setting`;
 CREATE TABLE `onethink_ucenter_setting` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '设置ID',
   `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '配置类型（1-用户配置）',
-  `value` text NOT NULL DEFAULT '' COMMENT '配置数据',
+  `value` text NOT NULL COMMENT '配置数据',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='设置表';
 
