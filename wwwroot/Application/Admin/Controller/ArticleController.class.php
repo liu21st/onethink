@@ -272,11 +272,12 @@ class ArticleController extends AdminController {
         if($map['pid']){ // 子文档列表忽略分类
             unset($map['category_id']);
         }
+        $Document->alias('DOCUMENT');
         if(!is_null($model_id)){
             $map['model_id']    =   $model_id;
             if(is_array($field) && array_diff($Document->getDbFields(),$field)){
                 $modelName  =   M('Model')->getFieldById($model_id,'name');
-                $Document->alias('DOCUMENT')->join('__DOCUMENT_'.strtoupper($modelName).'__ '.$modelName.' ON DOCUMENT.id='.$modelName.'.id');
+                $Document->join('__DOCUMENT_'.strtoupper($modelName).'__ '.$modelName.' ON DOCUMENT.id='.$modelName.'.id');
                 $key = array_search('id',$field);
                 if(false  !== $key){
                     unset($field[$key]);
@@ -287,7 +288,7 @@ class ArticleController extends AdminController {
         if(!is_null($position)){
             $map[] = "position & {$position} = {$position}";
         }
-        $list = $this->lists($Document,$map,'level DESC,id DESC',$field);
+        $list = $this->lists($Document,$map,'level DESC,DOCUMENT.id DESC',$field);
 
         if($map['pid']){
             // 获取上级文档
