@@ -27,7 +27,11 @@ class DatabaseController extends AdminController{
             /* 数据还原 */
             case 'import':
                 //列出备份文件列表
-                $path = realpath(C('DATA_BACKUP_PATH'));
+                $path = C('DATA_BACKUP_PATH');
+                if(!is_dir($path)){
+                    mkdir($path, 0755, true);
+                }
+                $path = realpath($path);
                 $flag = \FilesystemIterator::KEY_AS_FILENAME;
                 $glob = new \FilesystemIterator($path,  $flag);
 
@@ -165,9 +169,13 @@ class DatabaseController extends AdminController{
      */
     public function export($tables = null, $id = null, $start = null){
         if(IS_POST && !empty($tables) && is_array($tables)){ //初始化
+            $path = C('DATA_BACKUP_PATH');
+            if(!is_dir($path)){
+                mkdir($path, 0755, true);
+            }
             //读取备份配置
             $config = array(
-                'path'     => realpath(C('DATA_BACKUP_PATH')) . DIRECTORY_SEPARATOR,
+                'path'     => realpath($path) . DIRECTORY_SEPARATOR,
                 'part'     => C('DATA_BACKUP_PART_SIZE'),
                 'compress' => C('DATA_BACKUP_COMPRESS'),
                 'level'    => C('DATA_BACKUP_COMPRESS_LEVEL'),
