@@ -51,7 +51,7 @@
 							<ul class="dragsort">
 								<foreach name="fields" item="field" key="k">
 										<li >
-											<em >{$field['title']} [{$field['name']}]</em>
+											<em ><input class="ids" type="checkbox" name="attribute_list[]" value="{$field['id']}" <if condition="in_array($field['id'],$info['attribute_list'])">checked="checked"</if> /> {$field['title']} [{$field['name']}]</em>
 										</li>
 								</foreach>
 							</ul>
@@ -59,6 +59,14 @@
 
 						</div>
 					</div>
+                    <div class="form-item cf">
+                        <label class="item-label">字段别名定义<span class="check-tips">（用于表单显示的名称）</span></label>
+                        <div class="controls">
+                            <label class="textarea input-large">
+                                <textarea name="attribute_alias">{$info.attribute_alias}</textarea>
+                            </label>
+                        </div>
+                    </div>
 					<div class="form-item cf">
 						<label class="item-label">表单显示分组<span class="check-tips">（用于表单显示的分组，以及设置该模型表单排序的显示）</span></label>
 						<div class="controls">

@@ -809,14 +809,14 @@ function get_model_attribute($model_id, $group = true,$fields=true){
         foreach ($list[$model_id] as $value) {
             $attr[$value['id']] = $value;
         }
-        $sort  = M('Model')->getFieldById($model_id,'field_sort');
+        $model     = M("Model")->field("field_sort,attribute_list,attribute_alias")->find($model_id);
+        $attribute = explode(",", $model['attribute_list']);
+        if (empty($model['field_sort'])) { //未排序
+            $group = array(1 => array_merge($attr));
+        } else {
+            $group = json_decode($model['field_sort'], true);
 
-        if(empty($sort)){	//未排序
-            $group = array(1=>array_merge($attr));
-        }else{
-            $group = json_decode($sort, true);
-
-            $keys  = array_keys($group);
+            $keys = array_keys($group);
             foreach ($group as &$value) {
                 foreach ($value as $key => $val) {
                     $value[$key] = $attr[$val];
@@ -824,8 +824,28 @@ function get_model_attribute($model_id, $group = true,$fields=true){
                 }
             }
 
-            if(!empty($attr)){
+            if (!empty($attr)) {
+                foreach ($attr as $key => $val) {
+                    if (!in_array($val['id'], $attribute)) {
+                        unset($attr[$key]);
+                    }
+                }
                 $group[$keys[0]] = array_merge($group[$keys[0]], $attr);
+            }
+        }
+        if (!empty($model['attribute_alias'])) {
+            $alias  = preg_split('/[;\r\n]+/s', $model['attribute_alias']);
+            $fields = array();
+            foreach ($alias as &$value) {
+                $val             = explode(':', $value);
+                $fields[$val[0]] = $val[1];
+            }
+            foreach ($group as &$value) {
+                foreach ($value as $key => $val) {
+                    if (!empty($fields[$val['name']])) {
+                        $value[$key]['title'] = $fields[$val['name']];
+                    }
+                }
             }
         }
         $attr = $group;
@@ -977,6 +997,7 @@ function get_stemma($pids,Model &$model, $field='id'){
  */
 function check_category($id){
     if (is_array($id)) {
+		$id['type']	=	!empty($id['type'])?$id['type']:2;
         $type = get_category($id['category_id'], 'type');
         $type = explode(",", $type);
         return in_array($id['type'], $type);

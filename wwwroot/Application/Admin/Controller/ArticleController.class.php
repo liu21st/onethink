@@ -187,8 +187,8 @@ class ArticleController extends AdminController {
         }
 
         //解析列表规则
-        $fields = array();
-        $grids  = preg_split('/[;\r\n]+/s', trim($model['list_grid']));
+        $fields =	array();
+        $grids  =	preg_split('/[;\r\n]+/s', trim($model['list_grid']));
         foreach ($grids as &$value) {
             // 字段:标题:链接
             $val      = explode(':', $value);

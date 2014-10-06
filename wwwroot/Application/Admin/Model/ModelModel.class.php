@@ -22,7 +22,7 @@ class ModelModel extends Model{
         array('name', '', '标识已经存在', self::VALUE_VALIDATE, 'unique', self::MODEL_BOTH),
         array('title', 'require', '标题不能为空', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
         array('title', '1,30', '标题长度不能超过30个字符', self::MUST_VALIDATE, 'length', self::MODEL_BOTH),
-        array('list_grid', 'require', '列表定义不能为空', self::MUST_VALIDATE , 'regex', self::MODEL_UPDATE),
+        array('list_grid', 'checkListGrid', '列表定义不能为空', self::MUST_VALIDATE, 'callback', self::MODEL_UPDATE),
     );
 
     /* 自动完成规则 */
@@ -32,7 +32,16 @@ class ModelModel extends Model{
         array('update_time', NOW_TIME, self::MODEL_BOTH),
         array('status', '1', self::MODEL_INSERT, 'string'),
         array('field_sort', 'getFields', self::MODEL_BOTH, 'callback'),
+        array('attribute_list', 'getAttribute', self::MODEL_BOTH, 'callback'),
     );
+
+    /**
+     * 检查列表定义
+     * @param type $data
+     */
+    protected function checkListGrid($data) {
+        return I("post.extend") != 0 || !empty($data);
+    }
 
     /**
      * 新增或更新一个文档
@@ -72,15 +81,17 @@ class ModelModel extends Model{
 
     /**
      * 处理字段排序数据
-     * @author huajie <banhuajie@163.com>
      */
     protected function getFields($fields){
         return empty($fields) ? '' : json_encode($fields);
     }
 
+    protected function getAttribute($fields) {
+        return empty($fields) ? '' : implode(',', $fields);
+    }
+
     /**
      * 获取指定数据库的所有表名
-     * @author huajie <banhuajie@163.com>
      */
     public function getTables(){
         return $this->db->getTables();

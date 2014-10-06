@@ -1,3 +1,4 @@
+ALTER TABLE `onethink_model` ADD COLUMN `attribute_alias` varchar(255) NOT NULL DEFAULT '' COMMENT '属性别名定义' AFTER `attribute_list`;
 ALTER TABLE `onethink_category` CHANGE COLUMN `model` `model` varchar(100) NOT NULL DEFAULT '' COMMENT '列表绑定模型';
 UPDATE `onethink_attribute` SET `extra` = '[DOCUMENT_POSITION]' WHERE `id`=10;
 ALTER TABLE `onethink_hooks` ADD COLUMN `status` tinyint(1) unsigned NOT NULL DEFAULT '1';
@@ -9,5 +10,5 @@ ALTER TABLE `onethink_menu` ADD COLUMN `status` tinyint(1) NOT NULL DEFAULT '0' 
 ALTER TABLE `onethink_menu` ADD INDEX `status` (`status`);
 UPDATE `onethink_menu` SET `status` = '1' ;
 UPDATE `onethink_menu` SET `url` = 'article/index' WHERE `id` =2;
-UPDATE `onethink_model` SET `list_grid` = 'id:编号\r\ntitle:标题:article/edit?cate_id=[category_id]&id=[id]\r\ntype:类型\r\nupdate_time:最后更新\r\nstatus:状态\r\nview:浏览\r\nid:操作:[EDIT]&cate_id=[category_id]|编辑,article/setstatus?status=-1&ids=[id]|删除' WHERE `id` = 1;
+UPDATE `onethink_model` SET `list_grid` = 'id:编号\r\ntitle:标题:[EDIT]\r\ntype:类型\r\nupdate_time:最后更新\r\nstatus:状态\r\nview:浏览\r\nid:操作:[EDIT]|编辑,[DELETE]|删除' WHERE `id` = 1;
 UPDATE `onethink_model` set `list_grid` = '' WHERE `id` > 2;

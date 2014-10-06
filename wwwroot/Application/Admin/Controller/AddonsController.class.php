@@ -281,8 +281,9 @@ str;
 
 
         if(isset($model)){
-            $model = D("Addons://{$name}/{$model}");
+            $model  =   D("Addons://{$name}/{$model}");
             // 条件搜索
+            $map    =   array();
             foreach($_REQUEST as $name=>$val){
                 if($fields == '*'){
                     $fields = $model->getDbFields();
@@ -291,8 +292,7 @@ str;
                     $map[$name] = $val;
                 }
             }
-            if(!isset($order))
-                $order = '';
+            if(!isset($order))  $order = '';
             $list = $this->lists($model->field($fields),$map,$order);
             $fields = array();
             foreach ($list_grid as &$value) {
