@@ -10,7 +10,7 @@
 
 <block name="body">
     <h1>完成</h1>
-    <p>安装/升级完成！</p>
+    <p><eq name="Think.session.update" value="1">升级<else/>安装</eq>完成！</p>
 	<present name="info">
 	{$info}
 	</present>
