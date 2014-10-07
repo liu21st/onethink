@@ -380,7 +380,6 @@ class AdminController extends Controller {
      *                              请求参数中如果指定了_order和_field则据此排序(优先级第二);
      *                              否则使用$order参数(如果$order参数,且模型也没有设定过order,则取主键降序);
      *
-     * @param array        $base    基本的查询条件
      * @param boolean      $field   单表模型用不到该参数,要用在多表join时为field()方法指定参数
      * @author 朱亚杰 <xcoolcc@gmail.com>
      *

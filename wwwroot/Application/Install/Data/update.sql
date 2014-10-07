@@ -1,3 +1,5 @@
+ALTER TABLE `onethink_category` ADD COLUMN `groups` varchar(255) NOT NULL DEFAULT '' COMMENT '分组定义';
+ALTER TABLE `onethink_document` ADD COLUMN `group_id` smallint(3) unsigned NOT NULL COMMENT '所属分组' AFTER `category_id`;
 ALTER TABLE `onethink_model` ADD COLUMN `attribute_alias` varchar(255) NOT NULL DEFAULT '' COMMENT '属性别名定义' AFTER `attribute_list`;
 ALTER TABLE `onethink_category` CHANGE COLUMN `model` `model` varchar(100) NOT NULL DEFAULT '' COMMENT '列表绑定模型';
 UPDATE `onethink_attribute` SET `extra` = '[DOCUMENT_POSITION]' WHERE `id`=10;

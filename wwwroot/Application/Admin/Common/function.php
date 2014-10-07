@@ -65,12 +65,7 @@ function get_list_field($data, $grid){
     return $value;
 }
 
-/**
- * 后台公共文件
- * 主要定义后台公共函数库
- */
-
-/* 解析列表定义规则*/
+/* 解析插件数据列表定义规则*/
 
 function get_addonlist_field($data, $grid,$addon){
     // 获取当前字段数据
