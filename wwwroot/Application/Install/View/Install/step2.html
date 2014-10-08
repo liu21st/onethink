@@ -19,10 +19,9 @@
             <h2>数据库连接信息</h2>
             <div>
                 <select name="db[]">
-                    <option>mysqli</option>
 	                <option>mysql</option>
                 </select>
-                <span>数据库连接类型，服务器支持的情况下建议使用mysqli</span>
+                <span>数据库类型</span>
             </div>
             <div>
                 <input type="text" name="db[]" value="<defined name='SAE_MYSQL_HOST_M'>{$Think.const.SAE_MYSQL_HOST_M}<else/>127.0.0.1</defined>">
@@ -40,7 +39,6 @@
                 <input type="password" name="db[]" value="<defined name='SAE_MYSQL_PASS'>{$Think.const.SAE_MYSQL_PASS}</defined>">
                 <span>数据库密码</span>
             </div>
-
             <div>
                 <input type="text" name="db[]" value="<defined name='SAE_MYSQL_PORT'>{$Think.const.SAE_MYSQL_PORT}<else/>3306</defined>">
                 <span>数据库端口，数据库服务连接端口，一般为3306</span>
