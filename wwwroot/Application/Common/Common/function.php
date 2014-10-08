@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 
 // OneThink常量定义
-const ONETHINK_VERSION    = '1.1.140825';
+const ONETHINK_VERSION    = '1.1.141008';
 const ONETHINK_ADDON_PATH = './Addons/';
 
 /**
@@ -257,7 +257,6 @@ function list_to_tree($list, $pk='id', $pid = 'pid', $child = '_child', $root = 
  */
 function tree_to_list($tree, $child = '_child', $order='id', &$list = array()){
     if(is_array($tree)) {
-        $refer = array();
         foreach ($tree as $key => $value) {
             $reffer = $value;
             if(isset($reffer[$child])){
