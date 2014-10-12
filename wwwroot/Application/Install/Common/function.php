@@ -18,7 +18,6 @@ function check_env(){
     $items = array(
         'os'      => array('操作系统', '不限制', '类Unix', PHP_OS, 'success'),
         'php'     => array('PHP版本', '5.3', '5.3+', PHP_VERSION, 'success'),
-        //'mysql'   => array('MYSQL版本', '5.0', '5.0+', '未知', 'success'), //PHP5.5不支持mysql版本检测
         'upload'  => array('附件上传', '不限制', '2M+', '未知', 'success'),
         'gd'      => array('GD库', '2.0', '2.0+', '未知', 'success'),
         'disk'    => array('磁盘空间', '5M', '不限制', '未知', 'success'),
@@ -29,15 +28,6 @@ function check_env(){
         $items['php'][4] = 'error';
         session('error', true);
     }
-
-    //数据库检测
-    // if(function_exists('mysql_get_server_info')){
-    // 	$items['mysql'][3] = mysql_get_server_info();
-    // 	if($items['mysql'][3] < $items['mysql'][1]){
-    // 		$items['mysql'][4] = 'error';
-    // 		session('error', true);
-    // 	}
-    // }
 
     //附件上传检测
     if(@ini_get('file_uploads'))
@@ -78,9 +68,10 @@ function check_dirfile(){
     );
 
     foreach ($items as &$val) {
+		$item =	INSTALL_APP_PATH . $val[3];
         if('dir' == $val[0]){
-            if(!is_writable(INSTALL_APP_PATH . $val[3])) {
-                if(is_dir($items[1])) {
+            if(!is_writable($item)) {
+                if(is_dir($items)) {
                     $val[1] = '可读';
                     $val[2] = 'error';
                     session('error', true);
@@ -91,14 +82,14 @@ function check_dirfile(){
                 }
             }
         } else {
-            if(file_exists(INSTALL_APP_PATH . $val[3])) {
-                if(!is_writable(INSTALL_APP_PATH . $val[3])) {
+            if(file_exists($item)) {
+                if(!is_writable($item)) {
                     $val[1] = '不可写';
                     $val[2] = 'error';
                     session('error', true);
                 }
             } else {
-                if(!is_writable(dirname(INSTALL_APP_PATH . $val[3]))) {
+                if(!is_writable(dirname($item))) {
                     $val[1] = '不存在';
                     $val[2] = 'error';
                     session('error', true);
