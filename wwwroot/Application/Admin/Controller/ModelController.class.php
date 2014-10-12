@@ -63,6 +63,7 @@ class ModelController extends AdminController {
         }
         $data['attribute_list'] = empty($data['attribute_list']) ? '' : explode(",", $data['attribute_list']);
         $fields = M('Attribute')->where(array('model_id'=>$data['id']))->getField('id,name,title,is_show',true);
+        $fields = empty($fields) ? array() : $fields;
         // 是否继承了其他模型
         if($data['extend'] != 0){
             $extend_fields  = M('Attribute')->where(array('model_id'=>$data['extend']))->getField('id,name,title,is_show',true);
