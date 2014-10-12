@@ -397,6 +397,72 @@ str;
     }
 
     /**
+     * 解析数据库语句函数
+     * @param string $sql  sql语句   带默认前缀的
+     * @param string $tablepre  自己的前缀
+     * @return multitype:string 返回最终需要的sql语句
+     */
+    public function sql_split($sql, $tablepre) {
+        if ($tablepre != "onethink_")
+            $sql = str_replace("onethink_", $tablepre, $sql);
+        $sql = preg_replace("/TYPE=(InnoDB|MyISAM|MEMORY)( DEFAULT CHARSET=[^; ]+)?/", "ENGINE=\\1 DEFAULT CHARSET=utf8", $sql);
+
+        if ($r_tablepre != $s_tablepre)
+            $sql = str_replace($s_tablepre, $r_tablepre, $sql);
+        $sql = str_replace("\r", "\n", $sql);
+        $ret = array();
+        $num = 0;
+        $queriesarray = explode(";\n", trim($sql));
+        unset($sql);
+        foreach ($queriesarray as $query) {
+            $ret[$num] = '';
+            $queries = explode("\n", trim($query));
+            $queries = array_filter($queries);
+            foreach ($queries as $query) {
+                $str1 = substr($query, 0, 1);
+                if ($str1 != '#' && $str1 != '-')
+                    $ret[$num] .= $query;
+            }
+            $num++;
+        }
+        return $ret;
+    }
+
+    /**
+     * 获取插件所需的钩子是否存在，没有则新增
+     * @param string $str  钩子名称
+     * @param string $addons  插件名称
+     * @param string $addons  插件简介
+     */
+    public function existHook($str, $addons, $msg=''){
+        $hook_mod = M('Hooks');
+        $where['name'] = $str;
+        $gethook = $hook_mod->where($where)->find();
+        if(!$gethook || empty($gethook) || !is_array($gethook)){
+            $data['name'] = $str;
+            $data['description'] = $msg;
+            $data['type'] = 1;
+            $data['update_time'] = NOW_TIME;
+            $data['addons'] = $addons;
+            if( false !== $hook_mod->create($data) ){
+                $hook_mod->add();
+            }
+        }
+    }
+
+    /**
+     * 删除钩子
+     * @param string $hook  钩子名称
+     */
+    public function deleteHook($hook){
+        $model = M('hooks');
+        $condition = array(
+            'name' => $hook,
+        );
+        $model->where($condition)->delete();
+        S('hooks', null);
+    }
+    /**
      * 安装插件
      */
     public function install(){
