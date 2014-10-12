@@ -79,9 +79,10 @@ function check_dirfile(){
 
     foreach ($items as &$val) {
         if('dir' == $val[0]){
-            if(!is_writable(INSTALL_APP_PATH . $val[3])) {
-                if(is_dir($items[1])) {
-                    $val[1] = '可读';
+            $dir = INSTALL_APP_PATH . $val[3];
+            if(!is_writable($dir)) {
+                if(is_dir($dir)) {
+                    $val[1] = '不可写';
                     $val[2] = 'error';
                     session('error', true);
                 } else {
