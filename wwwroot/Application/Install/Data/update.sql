@@ -1,3 +1,4 @@
+INSERT INTO `onethink_menu` (`title`,`pid`,`sort`,`url`,`hide`,`tip`,`group`,`is_dev`,`status`) VALUES ('审核列表', '3', '0', 'Article/examine', '1', '', '', '0','1');
 ALTER TABLE `onethink_category` ADD COLUMN `groups` varchar(255) NOT NULL DEFAULT '' COMMENT '分组定义';
 ALTER TABLE `onethink_document` ADD COLUMN `group_id` smallint(3) unsigned NOT NULL COMMENT '所属分组' AFTER `category_id`;
 ALTER TABLE `onethink_model` ADD COLUMN `attribute_alias` varchar(255) NOT NULL DEFAULT '' COMMENT '属性别名定义' AFTER `attribute_list`;

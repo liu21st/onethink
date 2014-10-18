@@ -256,7 +256,7 @@ CREATE TABLE `onethink_auth_rule` (
 -- Records of `onethink_auth_rule`
 -- -----------------------------
 INSERT INTO `onethink_auth_rule` VALUES ('1', 'admin', '2', 'Admin/Index/index', '首页', '1', '');
-INSERT INTO `onethink_auth_rule` VALUES ('2', 'admin', '2', 'Admin/Article/mydocument', '内容', '1', '');
+INSERT INTO `onethink_auth_rule` VALUES ('2', 'admin', '2', 'Admin/Article/index', '内容', '1', '');
 INSERT INTO `onethink_auth_rule` VALUES ('3', 'admin', '2', 'Admin/User/index', '用户', '1', '');
 INSERT INTO `onethink_auth_rule` VALUES ('4', 'admin', '2', 'Admin/Addons/index', '扩展', '1', '');
 INSERT INTO `onethink_auth_rule` VALUES ('5', 'admin', '2', 'Admin/Config/group', '系统', '1', '');
@@ -270,7 +270,7 @@ INSERT INTO `onethink_auth_rule` VALUES ('13', 'admin', '1', 'Admin/article/copy
 INSERT INTO `onethink_auth_rule` VALUES ('14', 'admin', '1', 'Admin/article/paste', '粘贴', '1', '');
 INSERT INTO `onethink_auth_rule` VALUES ('15', 'admin', '1', 'Admin/article/permit', '还原', '1', '');
 INSERT INTO `onethink_auth_rule` VALUES ('16', 'admin', '1', 'Admin/article/clear', '清空', '1', '');
-INSERT INTO `onethink_auth_rule` VALUES ('17', 'admin', '1', 'Admin/article/index', '文档列表', '1', '');
+INSERT INTO `onethink_auth_rule` VALUES ('17', 'admin', '1', 'Admin/article/examine', '审核列表', '1', '');
 INSERT INTO `onethink_auth_rule` VALUES ('18', 'admin', '1', 'Admin/article/recycle', '回收站', '1', '');
 INSERT INTO `onethink_auth_rule` VALUES ('19', 'admin', '1', 'Admin/User/addaction', '新增用户行为', '1', '');
 INSERT INTO `onethink_auth_rule` VALUES ('20', 'admin', '1', 'Admin/User/editaction', '编辑用户行为', '1', '');
@@ -872,6 +872,7 @@ INSERT INTO `onethink_menu` VALUES ('119', '排序', '70', '0', 'Config/sort', '
 INSERT INTO `onethink_menu` VALUES ('120', '排序', '75', '0', 'Menu/sort', '1', '', '', '0','1');
 INSERT INTO `onethink_menu` VALUES ('121', '排序', '76', '0', 'Channel/sort', '1', '', '', '0','1');
 INSERT INTO `onethink_menu` VALUES ('122', '数据列表', '58', '0', 'think/lists', '1', '', '', '0','1');
+INSERT INTO `onethink_menu` VALUES ('123', '审核列表', '3', '0', 'Article/examine', '1', '', '', '0','1');
 
 -- -----------------------------
 -- Table structure for `onethink_model`

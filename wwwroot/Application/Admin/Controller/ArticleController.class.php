@@ -135,10 +135,11 @@ class ArticleController extends AdminController {
         $this->assign('rightNav',   $nav);
 
         //获取回收站权限
-        $show_recycle = $this->checkRule('Admin/article/recycle');
-        $this->assign('show_recycle', IS_ROOT || $show_recycle);
+        $this->assign('show_recycle', IS_ROOT || $this->checkRule('Admin/article/recycle'));
         //获取草稿箱权限
         $this->assign('show_draftbox', C('OPEN_DRAFTBOX'));
+        //获取审核列表权限
+        $this->assign('show_examine', IS_ROOT || $this->checkRule('Admin/article/examine'));
     }
 
     /**
