@@ -42,22 +42,26 @@ class AdminController extends Controller {
                 $this->error('403:禁止访问');
             }
         }
-        // 检测访问权限
-        $access =   $this->accessControl();
-        if ( $access === false ) {
-            $this->error('403:禁止访问');
-        }elseif( $access === null ){
-            $dynamic        =   $this->checkDynamic();//检测分类栏目有关的各项动态权限
-            if( $dynamic === null ){
-                //检测非动态权限
+        // 检测系统权限
+        if(!IS_ROOT){
+            $access =   $this->accessControl();
+            if ( false === $access ) {
+                $this->error('403:禁止访问');
+            }elseif(null === $access ){
+                //检测访问权限
                 $rule  = strtolower(MODULE_NAME.'/'.CONTROLLER_NAME.'/'.ACTION_NAME);
                 if ( !$this->checkRule($rule,array('in','1,2')) ){
                     $this->error('未授权访问!');
+                }else{
+                    // 检测分类及内容有关的各项动态权限
+                    $dynamic    =   $this->checkDynamic();
+                    if( false === $dynamic ){
+                        $this->error('未授权访问!');
+                    }
                 }
-            }elseif( $dynamic === false ){
-                $this->error('未授权访问!');
             }
-        }
+        }        
+
         $this->assign('__MENU__', $this->getMenus());
     }
 
@@ -69,9 +73,6 @@ class AdminController extends Controller {
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
     final protected function checkRule($rule, $type=AuthRuleModel::RULE_URL, $mode='url'){
-        if(IS_ROOT){
-            return true;//管理员允许访问任何页面
-        }
         static $Auth    =   null;
         if (!$Auth) {
             $Auth       =   new \Think\Auth();
@@ -87,16 +88,11 @@ class AdminController extends Controller {
      * @return boolean|null
      *      返回true则表示当前访问有权限
      *      返回false则表示当前访问无权限
-     *      返回null，则会进入checkRule根据节点授权判断权限
+     *      返回null，则表示权限不明
      *
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
-    protected function checkDynamic(){
-        if(IS_ROOT){
-            return true;//管理员允许访问任何页面
-        }
-        return null;//不明,需checkRule
-    }
+    protected function checkDynamic(){}
 
 
     /**
@@ -110,9 +106,6 @@ class AdminController extends Controller {
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
     final protected function accessControl(){
-        if(IS_ROOT){
-            return true;//管理员允许访问任何页面
-        }
         $allow = C('ALLOW_VISIT');
         $deny  = C('DENY_VISIT');
         $check = strtolower(CONTROLLER_NAME.'/'.ACTION_NAME);

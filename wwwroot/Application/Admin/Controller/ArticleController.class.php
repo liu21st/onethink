@@ -32,9 +32,6 @@ class ArticleController extends AdminController {
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
     protected function checkDynamic(){
-        if(IS_ROOT){
-            return true;//管理员允许访问任何页面
-        }
         $cates = AuthGroupModel::getAuthCategories(UID);
         switch(strtolower(ACTION_NAME)){
             case 'index':   //文档列表
@@ -54,7 +51,7 @@ class ArticleController extends AdminController {
                 break;
         }
         if(!$cate_id){
-            return null;//不明,需checkRule
+            return null;//不明
         }elseif( !is_array($cate_id) && in_array($cate_id,$cates) ) {
             return true;//有权限
         }elseif( is_array($cate_id) && $cate_id==array_intersect($cate_id,$cates) ){
@@ -62,7 +59,6 @@ class ArticleController extends AdminController {
         }else{
             return false;//无权限
         }
-        return null;//不明,需checkRule
     }
 
     /**
