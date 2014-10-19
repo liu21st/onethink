@@ -14,9 +14,9 @@
 			<script charset="utf-8" src="__STATIC__/kindeditor/kindeditor-min.js"></script>
 			<script charset="utf-8" src="__STATIC__/kindeditor/zh_CN.js"></script>
 			<script type="text/javascript">
-				var editor;
+				var editor_{$addons_data.name};
 				KindEditor.ready(function(K) {
-					editor = K.create('textarea[name="{$addons_data.name}"]', {
+					editor_{$addons_data.name} = K.create('textarea[name="{$addons_data.name}"]', {
 						allowFileManager : false,
 						themesPath: K.basePath,
 						width: '100%',
@@ -36,11 +36,11 @@
 				$(function(){
 					//传统表单提交同步
 					$('textarea[name="{$addons_data.name}"]').closest('form').submit(function(){
-						editor.sync();
+						editor_{$addons_data.name}.sync();
 					});
 					//ajax提交之前同步
 					$('button[type="submit"],#submit,.ajax-post,#autoSave').click(function(){
-						editor.sync();
+						editor_{$addons_data.name}.sync();
 					});
 				})
 			</script>
