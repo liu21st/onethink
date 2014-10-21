@@ -110,7 +110,7 @@ class BaseLogic extends Model {
                 $auto[]  =  array($attr['name'],$attr['auto_rule'],$attr['auto_time'],$attr['auto_type']);
             }elseif('checkbox'==$attr['type']){ // 多选型
                 $auto[] =   array($attr['name'],'arr2str',3,'function');
-            }elseif('datetime' == $attr['type']){ // 日期型
+            }elseif('datetime' == $attr['type'] || 'date' == $attr['type']){ // 日期型
                 $auto[] =   array($attr['name'],'strtotime',3,'function');
             }
         }
