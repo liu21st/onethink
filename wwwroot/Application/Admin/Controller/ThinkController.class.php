@@ -156,6 +156,14 @@ class ThinkController extends AdminController {
         }
     }
 
+    /**
+     * 设置一条或者多条数据的状态
+     * @author huajie <banhuajie@163.com>
+     */
+    public function setStatus($model='Document'){
+        return parent::setStatus($model);
+    }
+    
     public function edit($model = null, $id = 0){
         //获取模型信息
         $model = M('Model')->find($model);
