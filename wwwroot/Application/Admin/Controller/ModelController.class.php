@@ -76,15 +76,21 @@ class ModelController extends AdminController {
                 $fields[$key]['is_show'] = 0;
             }
         }
+        
         // 获取模型排序字段
         $field_sort = json_decode($data['field_sort'], true);
         if(!empty($field_sort)){
             foreach($field_sort as $group => $ids){
-                foreach($ids as $key){
-                    $fields[$key]['group']  =   $group;
+                foreach($ids as $key => $value){
+                    $fields[$value]['group']  =  $group;
+                    $fields[$value]['sort']   =  $key;
                 }
             }
         }
+        
+        // 模型字段列表排序
+        $fields = list_sort_by($fields,"sort");
+        
         $this->assign('fields', $fields);
         $this->assign('info', $data);
         $this->meta_title = '编辑模型';
