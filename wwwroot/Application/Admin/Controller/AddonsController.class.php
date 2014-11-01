@@ -577,16 +577,20 @@ str;
         if($data){
             if($data['id']){
                 $flag = $hookModel->save($data);
-                if($flag !== false)
+                if($flag !== false){
+                    S('hooks', null);
                     $this->success('更新成功', Cookie('__forward__'));
-                else
+                }else{
                     $this->error('更新失败');
+                }
             }else{
                 $flag = $hookModel->add($data);
-                if($flag)
+                if($flag){
+                    S('hooks', null);
                     $this->success('新增成功', Cookie('__forward__'));
-                else
+                }else{
                     $this->error('新增失败');
+                }
             }
         }else{
             $this->error($hookModel->getError());
