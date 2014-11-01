@@ -62,8 +62,9 @@ function check_dirfile(){
         array('dir',  '可写', 'success', './Uploads/Picture'),
         array('dir',  '可写', 'success', './Uploads/Editor'),
         array('dir',  '可写', 'success', './Runtime'),
+        array('dir',  '可写', 'success', './Data'),
         array('dir', '可写', 'success', './Application/User/Conf'),
-        array('file', '可写', 'success', './Application/Common/Conf/config.php'),
+        array('file', '可写', 'success', './Application/Common/Conf'),
 
     );
 
@@ -107,16 +108,19 @@ function check_dirfile(){
  */
 function check_func(){
     $items = array(
-        array('mysql_connect',     '支持', 'success'),
-        array('file_get_contents', '支持', 'success'),
-        array('mb_strlen',		   '支持', 'success'),
+        array('pdo','支持','success','类'),
+        array('pdo_mysql','支持','success','模块'),
+        array('file_get_contents', '支持', 'success','函数'),
+        array('mb_strlen',		   '支持', 'success','函数'),
     );
 
     foreach ($items as &$val) {
-        if(!function_exists($val[0])){
+        if(('类'==$val[3] && !class_exists($val[0]))
+            || ('模块'==$val[3] && !extension_loaded($val[0]))
+            || ('函数'==$val[3] && !function_exists($val[0]))
+            ){
             $val[1] = '不支持';
             $val[2] = 'error';
-            $val[3] = '开启';
             session('error', true);
         }
     }

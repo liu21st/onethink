@@ -21,7 +21,7 @@ class IndexController extends Controller{
         }else{
             $msg = '已经成功安装了OneThink，请不要重复安装!';
         }
-        if(Storage::has(MODULE_PATH . 'Data/install.lock')){
+        if(Storage::has('./Data/install.lock')){
             $this->error($msg);
         }
         $this->display();
@@ -38,7 +38,7 @@ class IndexController extends Controller{
         }
 
         // 写入安装锁定文件
-        Storage::put(MODULE_PATH . 'Data/install.lock', 'lock');
+        Storage::put('./Data/install.lock', 'lock');
         if(!session('update')){
             //创建配置文件
             $this->assign('info',session('config_file'));
