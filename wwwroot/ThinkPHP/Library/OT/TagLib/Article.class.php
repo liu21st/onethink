@@ -34,9 +34,9 @@ class Article extends TagLib{
         $field  = empty($tag['field']) ? 'true' : $tag['field'];
 
         $parse  = '<?php ';
-        $parse .= '$category=D(\'Category\')->getChildrenId('.$cate.');';
+        $parse .= '$__CATE__ = D(\'Category\')->getChildrenId('.$cate.');';
         $parse .= '$__LIST__ = D(\'Document\')->page(!empty($_GET["p"])?$_GET["p"]:1,'.$row.')->lists(';
-        $parse .= '$category, \'`level` DESC,`id` DESC\', 1,';
+        $parse .= '$__CATE__, \'`level` DESC,`id` DESC\', 1,';
         $parse .= $field . ');';
         $parse .= ' ?>';
         $parse .= '<volist name="__LIST__" id="'. $name .'">';
