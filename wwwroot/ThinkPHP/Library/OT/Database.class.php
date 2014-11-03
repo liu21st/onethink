@@ -153,7 +153,7 @@ class Database{
             $result = $db->query("SELECT * FROM `{$table}` LIMIT {$start}, 1000");
             foreach ($result as $row) {
                 $row = array_map('addslashes', $row);
-                $sql = "INSERT INTO `{$table}` VALUES ('" . implode("', '", $row) . "');\n";
+                $sql = "INSERT INTO `{$table}` VALUES ('" . str_replace(array("\r","\n"),array('\r','\n'),implode("', '", $row)) . "');\n";
                 if(false === $this->write($sql)){
                     return false;
                 }
@@ -189,7 +189,7 @@ class Database{
         for($i = 0; $i < 1000; $i++){
             $sql .= $this->config['compress'] ? gzgets($gz) : fgets($gz); 
             if(preg_match('/.*;$/', trim($sql))){
-                if(false !== $db->query($sql)){
+                if(false !== $db->execute($sql)){
                     $start += strlen($sql);
                 } else {
                     return false;
