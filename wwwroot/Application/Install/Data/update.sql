@@ -1,4 +1,3 @@
-INSERT INTO `onethink_menu` (`title`,`pid`,`sort`,`url`,`hide`,`tip`,`group`,`is_dev`,`status`) VALUES ('审核列表', '3', '0', 'Article/examine', '1', '', '', '0','1');
 ALTER TABLE `onethink_category` ADD COLUMN `groups` varchar(255) NOT NULL DEFAULT '' COMMENT '分组定义';
 ALTER TABLE `onethink_document` ADD COLUMN `group_id` smallint(3) unsigned NOT NULL COMMENT '所属分组' AFTER `category_id`;
 ALTER TABLE `onethink_model` ADD COLUMN `attribute_alias` varchar(255) NOT NULL DEFAULT '' COMMENT '属性别名定义' AFTER `attribute_list`;
@@ -13,5 +12,6 @@ ALTER TABLE `onethink_menu` ADD COLUMN `status` tinyint(1) NOT NULL DEFAULT '0' 
 ALTER TABLE `onethink_menu` ADD INDEX `status` (`status`);
 UPDATE `onethink_menu` SET `status` = '1' ;
 UPDATE `onethink_menu` SET `url` = 'article/index' WHERE `id` =2;
+INSERT INTO `onethink_menu` (`title`,`pid`,`sort`,`url`,`hide`,`tip`,`group`,`is_dev`,`status`) VALUES ('审核列表', '3', '0', 'Article/examine', '1', '', '', '0','1');
 UPDATE `onethink_model` SET `list_grid` = 'id:编号\r\ntitle:标题:[EDIT]\r\ntype:类型\r\nupdate_time:最后更新\r\nstatus:状态\r\nview:浏览\r\nid:操作:[EDIT]|编辑,[DELETE]|删除' WHERE `id` = 1;
 UPDATE `onethink_model` set `list_grid` = '' WHERE `id` > 2;
