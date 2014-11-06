@@ -174,7 +174,7 @@ class UcenterMemberModel extends Model{
 		}
 
 		$user = $this->where($map)->field('id,username,email,mobile,status')->find();
-		if(is_array($user) && $user['status'] = 1){
+		if(is_array($user) && $user['status'] == 1){
 			return array($user['id'], $user['username'], $user['email'], $user['mobile']);
 		} else {
 			return -1; //用户不存在或被禁用
