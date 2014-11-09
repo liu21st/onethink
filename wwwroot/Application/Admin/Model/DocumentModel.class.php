@@ -63,7 +63,7 @@ class DocumentModel extends Model{
         }
 
         /* 获取模型数据 */
-        $logic  = $this->logic($info['model_id']);
+        $logic  = logic($info['model_id']);
         $detail = $logic->detail($id); //获取指定ID的数据
         if(!$detail){
             $this->error = $logic->getError();
@@ -110,7 +110,7 @@ class DocumentModel extends Model{
         }
 
         /* 添加或新增扩展内容 */
-        $logic = $this->logic($data['model_id']);
+        $logic = logic($data['model_id']);
         $logic->checkModelAttr($data['model_id']);
         if(!$logic->update($id)){
             if(isset($id)){ //新增失败，删除基础数据
@@ -173,18 +173,6 @@ class DocumentModel extends Model{
     protected function getCreateTime(){
         $create_time    =   I('post.create_time');
         return $create_time?strtotime($create_time):NOW_TIME;
-    }
-
-    /**
-     * 获取扩展模型对象
-     * @param  integer $model 模型编号
-     * @return object         模型对象
-     */
-    private function logic($model){
-        $name  = parse_name(get_document_model($model, 'name'), 1);
-        $class = is_file(MODULE_PATH . 'Logic/' . $name . 'Logic' . EXT) ? $name : 'Base';
-        $class = MODULE_NAME . '\\Logic\\' . $class . 'Logic';
-        return new $class($name);
     }
 
     /**
@@ -278,7 +266,7 @@ class DocumentModel extends Model{
 
         $all_list  = array_merge( $base_list,$orphan );
         foreach ($all_list as $key=>$value){
-            $logic = $this->logic($value['model_id']);
+            $logic = logic($value['model_id']);
             $logic->delete($value['id']);
         }
 
@@ -372,7 +360,7 @@ class DocumentModel extends Model{
         }
 
         /* 添加或新增扩展内容 */
-        $logic = $this->logic($data['model_id']);
+        $logic = logic($data['model_id']);
         if(!$logic->autoSave($id)){
             if(isset($id)){ //新增失败，删除基础数据
                 $this->delete($id);

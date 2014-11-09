@@ -682,7 +682,7 @@ class ArticleController extends AdminController {
 
                 $result   =  $Model->add($data);
                 if($result){
-                    $logic      =   D(get_document_model($data['model_id'],'name'),'Logic');
+                    $logic      =   logic($data['model_id']);
                     $data       =   $logic->detail($value); //获取指定ID的扩展数据
                     $data['id'] =   $result;
                     $res        =   $logic->add($data);

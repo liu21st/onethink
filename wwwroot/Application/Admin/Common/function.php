@@ -12,6 +12,18 @@
  * 主要定义后台公共函数库
  */
 
+/**
+ * 获取扩展模型对象
+ * @param  integer $model_id 模型编号
+ * @return object         模型对象
+ */
+function logic($model_id){
+    $name  = parse_name(get_document_model($model_id, 'name'), 1);
+    $class = is_file(MODULE_PATH . 'Logic/' . $name . 'Logic' . EXT) ? $name : 'Base';
+    $class = MODULE_NAME . '\\Logic\\' . $class . 'Logic';
+    return new $class($name);
+}
+
 /* 解析列表定义规则*/
 
 function get_list_field($data, $grid){
