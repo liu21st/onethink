@@ -24,6 +24,8 @@ class Model {
 
     // 当前数据库操作对象
     protected $db               =   null;
+	// 数据库对象池
+	private   $_db				=	array();
     // 主键名称
     protected $pk               =   'id';
     // 主键是否自动增长
@@ -421,14 +423,14 @@ class Model {
             } elseif (is_array($pk)) {
                 // 增加复合主键支持
                 foreach ($pk as $field) {
-                    if(isset($data[$pk])) {
+                    if(isset($data[$field])) {
                         $where[$field]      =   $data[$field];
                     } else {
                            // 如果缺少复合主键数据则不执行
                         $this->error        =   L('_OPERATION_WRONG_');
                         return false;
                     }
-                    unset($data[$pk]);
+                    unset($data[$field]);
                 }
             }
             if(!isset($where)){
@@ -1188,7 +1190,7 @@ class Model {
                 // 验证因子定义格式
                 // array(field,rule,message,condition,type,when,params)
                 // 判断是否需要执行验证
-                if(empty($val[5]) || $val[5]== self::MODEL_BOTH || $val[5]== $type ) {
+                if(empty($val[5]) || ( $val[5]== self::MODEL_BOTH && $type < 3 ) || $val[5]== $type ) {
                     if(0==strpos($val[2],'{%') && strpos($val[2],'}'))
                         // 支持提示信息的多语言 使用 {%语言定义} 方式
                         $val[2]  =  L(substr($val[2],2,-1));
@@ -1411,21 +1413,20 @@ class Model {
             return $this->db;
         }
 
-        static $_db = array();
-        if(!isset($_db[$linkNum]) || $force ) {
+        if(!isset($this->_db[$linkNum]) || $force ) {
             // 创建一个新的实例
             if(!empty($config) && is_string($config) && false === strpos($config,'/')) { // 支持读取配置参数
                 $config  =  C($config);
             }
-            $_db[$linkNum]            =    Db::getInstance($config);
+            $this->_db[$linkNum]            =    Db::getInstance($config);
         }elseif(NULL === $config){
-            $_db[$linkNum]->close(); // 关闭数据库连接
-            unset($_db[$linkNum]);
+            $this->_db[$linkNum]->close(); // 关闭数据库连接
+            unset($this->_db[$linkNum]);
             return ;
         }
 
         // 切换数据库连接
-        $this->db   =    $_db[$linkNum];
+        $this->db   =    $this->_db[$linkNum];
         $this->_after_db();
         // 字段检测
         if(!empty($this->name) && $this->autoCheckFields)    $this->_checkTableInfo();

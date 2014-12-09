@@ -1288,6 +1288,7 @@ function cookie($name='', $value='', $option=null) {
         'expire'    =>  C('COOKIE_EXPIRE'), // cookie 保存时间
         'path'      =>  C('COOKIE_PATH'), // cookie 保存路径
         'domain'    =>  C('COOKIE_DOMAIN'), // cookie 有效域名
+        'secure'    =>  C('COOKIE_SECURE'), //  cookie 启用安全传输
         'httponly'  =>  C('COOKIE_HTTPONLY'), // httponly设置
     );
     // 参数设置(会覆盖黙认设置)
@@ -1310,7 +1311,7 @@ function cookie($name='', $value='', $option=null) {
         if (!empty($prefix)) {// 如果前缀为空字符串将不作处理直接返回
             foreach ($_COOKIE as $key => $val) {
                 if (0 === stripos($key, $prefix)) {
-                    setcookie($key, '', time() - 3600, $config['path'], $config['domain']);
+                    setcookie($key, '', time() - 3600, $config['path'], $config['domain'],$config['secure'],$config['httponly']);
                     unset($_COOKIE[$key]);
                 }
             }
@@ -1335,7 +1336,7 @@ function cookie($name='', $value='', $option=null) {
         }
     } else {
         if (is_null($value)) {
-            setcookie($name, '', time() - 3600, $config['path'], $config['domain']);
+            setcookie($name, '', time() - 3600, $config['path'], $config['domain'],$config['secure'],$config['httponly']);
             unset($_COOKIE[$name]); // 删除指定cookie
         } else {
             // 设置cookie
@@ -1343,7 +1344,7 @@ function cookie($name='', $value='', $option=null) {
                 $value  = 'think:'.json_encode(array_map('urlencode',$value));
             }
             $expire = !empty($config['expire']) ? time() + intval($config['expire']) : 0;
-            setcookie($name, $value, $expire, $config['path'], $config['domain']);
+            setcookie($name, $value, $expire, $config['path'], $config['domain'],$config['secure'],$config['httponly']);
             $_COOKIE[$name] = $value;
         }
     }
@@ -1368,7 +1369,7 @@ function load_ext_file($path) {
     if($configs = C('LOAD_EXT_CONFIG')) {
         if(is_string($configs)) $configs =  explode(',',$configs);
         foreach ($configs as $key=>$config){
-            $file   = $path.'Conf/'.$config.CONF_EXT;
+            $file   = is_file($config)? $config : $path.'Conf/'.$config.CONF_EXT;
             if(is_file($file)) {
                 is_numeric($key)?C(load_config($file)):C($key,load_config($file));
             }
