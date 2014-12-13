@@ -4,11 +4,11 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: yangweijie <yangweijiester@gmail.com>
+// | Author: huajie <yangweijiester@gmail.com>
 // +----------------------------------------------------------------------
 
 namespace Admin\Controller;
-use Think\Upload\Driver\Qiniu\QiniuStorage;
+use Think\QiNiuStorage;
 
 /**
  * 七牛扩展类测试控制器
@@ -23,7 +23,7 @@ class QiniuController extends AdminController {
             'bucket'=>'blackwhite',
             'domain'=>'blackwhite.u.qiniudn.com'
         );
-        $this->qiniu = new QiniuStorage($config);
+        $this->qiniu = new QiNiuStorage($config);
         parent:: _initialize();
     }
 

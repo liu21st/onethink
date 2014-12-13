@@ -189,33 +189,7 @@ use Think\Model;
  * {$data['info']['name']}模型
  */
 class {$data['info']['name']}Model extends Model{
-    public \$model = array(
-        'title'=>'',//新增[title]、编辑[title]、删除[title]的提示
-        'template_add'=>'',//自定义新增模板自定义html edit.html 会读取插件根目录的模板
-        'template_edit'=>'',//自定义编辑模板html
-        'search_key'=>'',// 搜索的字段名，默认是title
-        'extend'=>1,
-    );
 
-    public \$_fields = array(
-        'id'=>array(
-            'name'=>'id',//字段名
-            'title'=>'ID',//显示标题
-            'type'=>'num',//字段类型
-            'remark'=>'',// 备注，相当于配置里的tip
-            'is_show'=>3,// 1-始终显示 2-新增显示 3-编辑显示 0-不显示
-            'value'=>0,//默认值
-        ),
-        'title'=>array(
-            'name'=>'title',
-            'title'=>'书名',
-            'type'=>'string',
-            'remark'=>'',
-            'is_show'=>1,
-            'value'=>0,
-            'is_must'=>1,
-        ),
-    );
 }
 
 str;
@@ -254,13 +228,12 @@ str;
     public function adminList($name){
         // 记录当前列表页的cookie
         Cookie('__forward__',$_SERVER['REQUEST_URI']);
-        $this->assign('name', $name);
         $class = get_addon_class($name);
         if(!class_exists($class))
             $this->error('插件不存在');
-        $addon = new $class();
+        $addon  =   new $class();
         $this->assign('addon', $addon);
-        $param = $addon->admin_list;
+        $param  =   $addon->admin_list;
         if(!$param)
             $this->error('插件列表信息不正确');
         $this->meta_title = $addon->info['title'];
@@ -269,60 +242,14 @@ str;
         $this->assign($param);
         if(!isset($fields))
             $fields = '*';
-        if(!isset($search_key))
-            $key = 'title';
-        else
-            $key = $search_key;
-        if(isset($_REQUEST[$key])){
-            $map[$key] = array('like', '%'.$_GET[$key].'%');
-            unset($_REQUEST[$key]);
-        }
-
-
-
-        if(isset($model)){
-            $model  =   D("Addons://{$name}/{$model}");
-            // 条件搜索
-            $map    =   array();
-            foreach($_REQUEST as $name=>$val){
-                if($fields == '*'){
-                    $fields = $model->getDbFields();
-                }
-                if(in_array($name, $fields)){
-                    $map[$name] = $val;
-                }
-            }
-            if(!isset($order))  $order = '';
-            $list = $this->lists($model->field($fields),$map,$order);
-            $fields = array();
-            foreach ($list_grid as &$value) {
-                // 字段:标题:链接
-                $val = explode(':', $value);
-                // 支持多个字段显示
-                $field = explode(',', $val[0]);
-                $value = array('field' => $field, 'title' => $val[1]);
-                if(isset($val[2])){
-                    // 链接信息
-                    $value['href'] = $val[2];
-                    // 搜索链接信息中的字段信息
-                    preg_replace_callback('/\[([a-z_]+)\]/', function($match) use(&$fields){$fields[]=$match[1];}, $value['href']);
-                }
-                if(strpos($val[1],'|')){
-                    // 显示格式定义
-                    list($value['title'],$value['format']) = explode('|',$val[1]);
-                }
-                foreach($field as $val){
-                    $array = explode('|',$val);
-                    $fields[] = $array[0];
-                }
-            }
-            $this->assign('model', $model->model);
-            $this->assign('list_grid', $list_grid);
-        }
+        if(!isset($map))
+            $map = array();
+        if(isset($model))
+            $list = $this->lists(D("Addons://{$model}/{$model}")->field($fields),$map);
         $this->assign('_list', $list);
         if($addon->custom_adminlist)
             $this->assign('custom_adminlist', $this->fetch($addon->addon_path.$addon->custom_adminlist));
-        $this->display('adminlist');
+        $this->display();
     }
 
     /**
@@ -396,72 +323,6 @@ str;
         }
     }
 
-    /**
-     * 解析数据库语句函数
-     * @param string $sql  sql语句   带默认前缀的
-     * @param string $tablepre  自己的前缀
-     * @return multitype:string 返回最终需要的sql语句
-     */
-    public function sql_split($sql, $tablepre) {
-        if ($tablepre != "onethink_")
-            $sql = str_replace("onethink_", $tablepre, $sql);
-        $sql = preg_replace("/TYPE=(InnoDB|MyISAM|MEMORY)( DEFAULT CHARSET=[^; ]+)?/", "ENGINE=\\1 DEFAULT CHARSET=utf8", $sql);
-
-        if ($r_tablepre != $s_tablepre)
-            $sql = str_replace($s_tablepre, $r_tablepre, $sql);
-        $sql = str_replace("\r", "\n", $sql);
-        $ret = array();
-        $num = 0;
-        $queriesarray = explode(";\n", trim($sql));
-        unset($sql);
-        foreach ($queriesarray as $query) {
-            $ret[$num] = '';
-            $queries = explode("\n", trim($query));
-            $queries = array_filter($queries);
-            foreach ($queries as $query) {
-                $str1 = substr($query, 0, 1);
-                if ($str1 != '#' && $str1 != '-')
-                    $ret[$num] .= $query;
-            }
-            $num++;
-        }
-        return $ret;
-    }
-
-    /**
-     * 获取插件所需的钩子是否存在，没有则新增
-     * @param string $str  钩子名称
-     * @param string $addons  插件名称
-     * @param string $addons  插件简介
-     */
-    public function existHook($str, $addons, $msg=''){
-        $hook_mod = M('Hooks');
-        $where['name'] = $str;
-        $gethook = $hook_mod->where($where)->find();
-        if(!$gethook || empty($gethook) || !is_array($gethook)){
-            $data['name'] = $str;
-            $data['description'] = $msg;
-            $data['type'] = 1;
-            $data['update_time'] = NOW_TIME;
-            $data['addons'] = $addons;
-            if( false !== $hook_mod->create($data) ){
-                $hook_mod->add();
-            }
-        }
-    }
-
-    /**
-     * 删除钩子
-     * @param string $hook  钩子名称
-     */
-    public function deleteHook($hook){
-        $model = M('hooks');
-        $condition = array(
-            'name' => $hook,
-        );
-        $model->where($condition)->delete();
-        S('hooks', null);
-    }
     /**
      * 安装插件
      */
@@ -577,20 +438,16 @@ str;
         if($data){
             if($data['id']){
                 $flag = $hookModel->save($data);
-                if($flag !== false){
-                    S('hooks', null);
+                if($flag !== false)
                     $this->success('更新成功', Cookie('__forward__'));
-                }else{
+                else
                     $this->error('更新失败');
-                }
             }else{
                 $flag = $hookModel->add($data);
-                if($flag){
-                    S('hooks', null);
+                if($flag)
                     $this->success('新增成功', Cookie('__forward__'));
-                }else{
+                else
                     $this->error('新增失败');
-                }
             }
         }else{
             $this->error($hookModel->getError());
@@ -603,100 +460,10 @@ str;
             $_controller    =   parse_name($_controller,1);
         }
 
-        $TMPL_PARSE_STRING = C('TMPL_PARSE_STRING');
-        $TMPL_PARSE_STRING['__ADDONROOT__'] = __ROOT__ . "/Addons/{$_addons}";
-        C('TMPL_PARSE_STRING', $TMPL_PARSE_STRING);
-
         if(!empty($_addons) && !empty($_controller) && !empty($_action)){
             $Addons = A("Addons://{$_addons}/{$_controller}")->$_action();
         } else {
             $this->error('没有指定插件名称，控制器或操作！');
-        }
-    }
-
-    public function edit($name, $id = 0){
-        $this->assign('name', $name);
-        $class = get_addon_class($name);
-        if(!class_exists($class))
-            $this->error('插件不存在');
-        $addon = new $class();
-        $this->assign('addon', $addon);
-        $param = $addon->admin_list;
-        if(!$param)
-            $this->error('插件列表信息不正确');
-        extract($param);
-        $this->assign('title', $addon->info['title']);
-        if(isset($model)){
-            $addonModel = D("Addons://{$name}/{$model}");
-            if(!$addonModel)
-                $this->error('模型无法实列化');
-            $model = $addonModel->model;
-            $this->assign('model', $model);
-        }
-        if($id){
-            $data = $addonModel->find($id);
-            $data || $this->error('数据不存在！');
-            $this->assign('data', $data);
-        }
-
-        if(IS_POST){
-            // 获取模型的字段信息
-            if(!$addonModel->create())
-                $this->error($addonModel->getError());
-
-            if($id){
-                $flag = $addonModel->save();
-                if($flag !== false)
-                    $this->success("编辑{$model['title']}成功！", Cookie('__forward__'));
-                else
-                    $this->error($addonModel->getError());
-            }else{
-                $flag = $addonModel->add();
-                if($flag)
-                    $this->success("添加{$model['title']}成功！", Cookie('__forward__'));
-            }
-            $this->error($addonModel->getError());
-        } else {
-            $fields = $addonModel->_fields;
-            $this->assign('fields', $fields);
-            $this->meta_title = $id? '编辑'.$model['title']:'新增'.$model['title'];
-            if($id)
-                $template = $model['template_edit']? $model['template_edit']: '';
-            else
-                $template = $model['template_add']? $model['template_add']: '';
-            if ($template)
-                $this->display($addon->addon_path . $template);
-            else
-                $this->display();
-        }
-    }
-
-    public function del($id = '', $name){
-        $ids = array_unique((array)I('ids',0));
-
-        if ( empty($ids) ) {
-            $this->error('请选择要操作的数据!');
-        }
-
-        $class = get_addon_class($name);
-        if(!class_exists($class))
-            $this->error('插件不存在');
-        $addon = new $class();
-        $param = $addon->admin_list;
-        if(!$param)
-            $this->error('插件列表信息不正确');
-        extract($param);
-        if(isset($model)){
-            $addonModel = D("Addons://{$name}/{$model}");
-            if(!$addonModel)
-                $this->error('模型无法实列化');
-        }
-
-        $map = array('id' => array('in', $ids) );
-        if($addonModel->where($map)->delete()){
-            $this->success('删除成功');
-        } else {
-            $this->error('删除失败！');
         }
     }
 

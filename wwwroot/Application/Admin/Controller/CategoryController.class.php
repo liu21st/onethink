@@ -91,7 +91,6 @@ class CategoryController extends AdminController {
             }
 
             /* 获取分类信息 */
-            $this->assign('info',       null);
             $this->assign('category', $cate);
             $this->meta_title = '新增分类';
             $this->display('edit');
@@ -150,17 +149,7 @@ class CategoryController extends AdminController {
 
         //获取分类
         $map = array('status'=>1, 'id'=>array('neq', $from));
-        $list = M('Category')->where($map)->field('id,pid,title')->select();
-
-
-        //移动分类时增加移至根分类
-        if(strcmp($type, 'move') == 0){
-        	//不允许移动至其子孙分类
-        	$list = tree_to_list(list_to_tree($list));
-
-        	$pid = M('Category')->getFieldById($from, 'pid');
-        	$pid && array_unshift($list, array('id'=>0,'title'=>'根分类'));
-        }
+        $list = M('Category')->where($map)->field('id,title')->select();
 
         $this->assign('type', $type);
         $this->assign('operate', $operate);
@@ -216,7 +205,7 @@ class CategoryController extends AdminController {
         //合并文档
         $res = M('Document')->where(array('category_id'=>$from))->setField('category_id', $to);
 
-        if($res !== false){
+        if($res){
             //删除被合并的分类
             $Model->delete($from);
             $this->success('合并分类成功！', U('index'));

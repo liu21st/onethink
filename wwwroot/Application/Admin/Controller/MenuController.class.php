@@ -59,7 +59,7 @@ class MenuController extends AdminController {
             if($data){
                 $id = $Menu->add();
                 if($id){
-                    session('ADMIN_MENU_LIST',null);
+                    // S('DB_CONFIG_DATA',null);
                     //记录行为
                     action_log('update_menu', 'Menu', $id, UID);
                     $this->success('新增成功', Cookie('__forward__'));
@@ -90,7 +90,7 @@ class MenuController extends AdminController {
             $data = $Menu->create();
             if($data){
                 if($Menu->save()!== false){
-                    session('ADMIN_MENU_LIST',null);
+                    // S('DB_CONFIG_DATA',null);
                     //记录行为
                     action_log('update_menu', 'Menu', $data['id'], UID);
                     $this->success('更新成功', Cookie('__forward__'));
@@ -131,7 +131,7 @@ class MenuController extends AdminController {
 
         $map = array('id' => array('in', $id) );
         if(M('Menu')->where($map)->delete()){
-            session('ADMIN_MENU_LIST',null);
+            // S('DB_CONFIG_DATA',null);
             //记录行为
             action_log('update_menu', 'Menu', $id, UID);
             $this->success('删除成功');
@@ -141,12 +141,10 @@ class MenuController extends AdminController {
     }
 
     public function toogleHide($id,$value = 1){
-        session('ADMIN_MENU_LIST',null);
         $this->editRow('Menu', array('hide'=>$value), array('id'=>$id));
     }
 
     public function toogleDev($id,$value = 1){
-        session('ADMIN_MENU_LIST',null);
         $this->editRow('Menu', array('is_dev'=>$value), array('id'=>$id));
     }
 
@@ -197,7 +195,6 @@ class MenuController extends AdminController {
                         ));
                     }
                 }
-                session('ADMIN_MENU_LIST',null);
                 $this->success('导入成功',U('index?pid='.$pid));
             }
         }else{
@@ -240,10 +237,9 @@ class MenuController extends AdminController {
                 $res = M('Menu')->where(array('id'=>$value))->setField('sort', $key+1);
             }
             if($res !== false){
-                session('ADMIN_MENU_LIST',null);
                 $this->success('排序成功！');
             }else{
-                $this->error('排序失败！');
+                $this->eorror('排序失败！');
             }
         }else{
             $this->error('非法请求！');

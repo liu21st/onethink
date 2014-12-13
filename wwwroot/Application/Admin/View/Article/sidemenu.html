@@ -26,9 +26,7 @@
  		<eq name="show_draftbox" value="1">
  		<li <eq name="Think.ACTION_NAME" value="draftbox">class="current"</eq>><a class="item" href="{:U('article/draftbox')}">草稿箱</a></li>
  		</eq>
-		<eq name="show_examine" value="1">
-		<li <eq name="Think.ACTION_NAME" value="examine">class="examine"</eq>><a class="item" href="{:U('article/examine')}">待审核</a></li>
-		</eq>
+		<li <eq name="Think.ACTION_NAME" value="draftbox">class="examine"</eq>><a class="item" href="{:U('article/examine')}">待审核</a></li>
  	</ul>
 
     <volist name="nodes" id="sub_menu">

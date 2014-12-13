@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2014 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006-2013 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -18,7 +18,7 @@
 defined('THINK_PATH') or exit();
 return  array(
     /* 应用设定 */
-    'APP_USE_NAMESPACE'     =>  true,    // 应用类库是否使用命名空间
+    'APP_FILE_CASE'         =>  false,   // 是否检查文件的大小写 对Windows平台有效
     'APP_SUB_DOMAIN_DEPLOY' =>  false,   // 是否开启子域名部署
     'APP_SUB_DOMAIN_RULES'  =>  array(), // 子域名部署规则
     'APP_DOMAIN_SUFFIX'     =>  '', // 域名后缀 如果是com.cn net.cn 之类的后缀必须设置    
@@ -26,16 +26,12 @@ return  array(
     'MULTI_MODULE'          =>  true, // 是否允许多模块 如果为false 则必须设置 DEFAULT_MODULE
     'MODULE_DENY_LIST'      =>  array('Common','Runtime'),
     'CONTROLLER_LEVEL'      =>  1,
-    'APP_AUTOLOAD_LAYER'    =>  'Controller,Model', // 自动加载的应用类库层 关闭APP_USE_NAMESPACE后有效
-    'APP_AUTOLOAD_PATH'     =>  '', // 自动加载的路径 关闭APP_USE_NAMESPACE后有效
 
     /* Cookie设置 */
-    'COOKIE_EXPIRE'         =>  0,       // Cookie有效期
+    'COOKIE_EXPIRE'         =>  0,    // Cookie有效期
     'COOKIE_DOMAIN'         =>  '',      // Cookie有效域名
     'COOKIE_PATH'           =>  '/',     // Cookie路径
     'COOKIE_PREFIX'         =>  '',      // Cookie前缀 避免冲突
-    'COOKIE_SECURE'         =>  false,   // Cookie安全传输
-    'COOKIE_HTTPONLY'       =>  '',      // Cookie httponly设置
 
     /* 默认设定 */
     'DEFAULT_M_LAYER'       =>  'Model', // 默认的模型层名称
@@ -87,6 +83,7 @@ return  array(
     'ERROR_MESSAGE'         =>  '页面错误！请稍后再试～',//错误显示信息,非调试模式有效
     'ERROR_PAGE'            =>  '',	// 错误定向页面
     'SHOW_ERROR_MSG'        =>  false,    // 显示错误信息
+    'TRACE_EXCEPTION'       =>  false,   // TRACE错误信息是否抛异常 针对trace方法 
     'TRACE_MAX_RECORD'      =>  100,    // 每个级别的错误信息 最大记录数
 
     /* 日志设置 */
@@ -145,21 +142,20 @@ return  array(
     'URL_DENY_SUFFIX'       =>  'ico|png|gif|jpg', // URL禁止访问的后缀设置
     'URL_PARAMS_BIND'       =>  true, // URL变量绑定到Action方法参数
     'URL_PARAMS_BIND_TYPE'  =>  0, // URL变量绑定的类型 0 按变量名绑定 1 按变量顺序绑定
-    'URL_PARAMS_FILTER'     =>  false, // URL变量绑定过滤
-    'URL_PARAMS_FILTER_TYPE'=>  '', // URL变量绑定过滤方法 如果为空 调用DEFAULT_FILTER
+    'URL_404_REDIRECT'      =>  '', // 404 跳转页面 部署模式有效
     'URL_ROUTER_ON'         =>  false,   // 是否开启URL路由
     'URL_ROUTE_RULES'       =>  array(), // 默认路由规则 针对模块
     'URL_MAP_RULES'         =>  array(), // URL映射定义规则
 
     /* 系统变量名称设置 */
     'VAR_MODULE'            =>  'm',     // 默认模块获取变量
-    'VAR_ADDON'             =>  'addon',     // 默认的插件控制器命名空间变量
     'VAR_CONTROLLER'        =>  'c',    // 默认控制器获取变量
     'VAR_ACTION'            =>  'a',    // 默认操作获取变量
     'VAR_AJAX_SUBMIT'       =>  'ajax',  // 默认的AJAX提交变量
     'VAR_JSONP_HANDLER'     =>  'callback',
     'VAR_PATHINFO'          =>  's',    // 兼容模式PATHINFO获取变量例如 ?s=/module/action/id/1 后面的参数取决于URL_PATHINFO_DEPR
     'VAR_TEMPLATE'          =>  't',    // 默认模板切换变量
+    'VAR_FILTERS'           =>  'filter_exp',     // 全局系统变量的默认过滤方法 多个用逗号分割
 
     'HTTP_CACHE_CONTROL'    =>  'private',  // 网页缓存控制
     'CHECK_APP_DIR'         =>  true,       // 是否检查应用目录是否创建

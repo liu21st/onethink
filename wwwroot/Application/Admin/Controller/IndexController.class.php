@@ -21,8 +21,12 @@ class IndexController extends AdminController {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function index(){
-        $this->meta_title = '管理首页';
-        $this->display();
+        if(UID){
+            $this->meta_title = '管理首页';
+            $this->display();
+        } else {
+            $this->redirect('Public/login');
+        }
     }
 
 }

@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2014 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006-2013 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -56,12 +56,12 @@ class Think {
 
           // 加载应用模式配置文件
           foreach ($mode['config'] as $key=>$file){
-              is_numeric($key)?C(load_config($file)):C($key,load_config($file));
+              is_numeric($key)?C(include $file):C($key,include $file);
           }
 
           // 读取当前应用模式对应的配置文件
-          if('common' != APP_MODE && is_file(CONF_PATH.'config_'.APP_MODE.CONF_EXT))
-              C(load_config(CONF_PATH.'config_'.APP_MODE.CONF_EXT));  
+          if('common' != APP_MODE && is_file(CONF_PATH.'config_'.APP_MODE.'.php'))
+              C(include CONF_PATH.'config_'.APP_MODE.'.php');  
 
           // 加载模式别名定义
           if(isset($mode['alias'])){
@@ -93,25 +93,22 @@ class Think {
             // 调试模式加载系统默认的配置文件
             C(include THINK_PATH.'Conf/debug.php');
             // 读取应用调试配置文件
-            if(is_file(CONF_PATH.'debug'.CONF_EXT))
-                C(include CONF_PATH.'debug'.CONF_EXT);           
+            if(is_file(CONF_PATH.'debug.php'))
+                C(include CONF_PATH.'debug.php');           
           }
       }
 
       // 读取当前应用状态对应的配置文件
-      if(APP_STATUS && is_file(CONF_PATH.APP_STATUS.CONF_EXT))
-          C(include CONF_PATH.APP_STATUS.CONF_EXT);   
+      if(APP_STATUS && is_file(CONF_PATH.APP_STATUS.'.php'))
+          C(include CONF_PATH.APP_STATUS.'.php');   
 
       // 设置系统时区
       date_default_timezone_set(C('DEFAULT_TIMEZONE'));
 
       // 检查应用目录结构 如果不存在则自动创建
-      if(C('CHECK_APP_DIR')) {
-          $module     =   defined('BIND_MODULE') ? BIND_MODULE : C('DEFAULT_MODULE');
-          if(!is_dir(APP_PATH.$module) || !is_dir(LOG_PATH)){
-              // 检测应用目录结构
-              Build::checkDir($module);
-          }
+      if(C('CHECK_APP_DIR') && !is_dir(LOG_PATH)) {
+          // 创建应用目录结构
+          require THINK_PATH.'Common/build.php';
       }
 
       // 记录加载文件时间
@@ -129,17 +126,6 @@ class Think {
         }        
     }
 
-    // 获取classmap
-    static public function getMap($class=''){
-        if(''===$class){
-            return self::$_map;
-        }elseif(isset(self::$_map[$class])){
-            return self::$_map[$class];
-        }else{
-            return null;
-        }
-    }
-
     /**
      * 类库自动加载
      * @param string $class 对象类名
@@ -149,7 +135,7 @@ class Think {
         // 检查是否存在映射
         if(isset(self::$_map[$class])) {
             include self::$_map[$class];
-        }elseif(false !== strpos($class,'\\')){
+        }else{
           $name           =   strstr($class, '\\', true);
           if(in_array($name,array('Think','Org','Behavior','Com','Vendor')) || is_dir(LIB_PATH.$name)){ 
               // Library目录下面的命名空间自动定位
@@ -167,21 +153,6 @@ class Think {
               }
               include $filename;
           }
-        }elseif (!C('APP_USE_NAMESPACE')) {
-            // 自动加载的类库层
-            foreach(explode(',',C('APP_AUTOLOAD_LAYER')) as $layer){
-                if(substr($class,-strlen($layer))==$layer){
-                    if(require_cache(MODULE_PATH.$layer.'/'.$class.EXT)) {
-                        return ;
-                    }
-                }            
-            }
-            // 根据自动加载路径设置进行尝试搜索
-            foreach (explode(',',C('APP_AUTOLOAD_PATH')) as $path){
-                if(import($path.'.'.$class))
-                    // 如果加载类成功则返回
-                    return ;
-            }
         }
     }
 
@@ -252,6 +223,9 @@ class Think {
             if(C('LOG_RECORD')) Log::write("[$errno] ".$errorStr,Log::ERR);
             self::halt($errorStr);
             break;
+          case E_STRICT:
+          case E_USER_WARNING:
+          case E_USER_NOTICE:
           default:
             $errorStr = "[$errno] $errstr ".$errfile." 第 $errline 行.";
             self::trace($errorStr,'','NOTIC');
@@ -297,7 +271,7 @@ class Think {
                 $e              = $error;
             }
             if(IS_CLI){
-                exit(iconv('UTF-8','gbk',$e['message']).PHP_EOL.'FILE: '.$e['file'].'('.$e['line'].')'.PHP_EOL.$e['trace']);
+                exit($e['message'].PHP_EOL.'FILE: '.$e['file'].'('.$e['line'].')'.PHP_EOL.$e['trace']);
             }
         } else {
             //否则定向到错误页面
@@ -305,13 +279,19 @@ class Think {
             if (!empty($error_page)) {
                 redirect($error_page);
             } else {
-                $message        = is_array($error) ? $error['message'] : $error;
-                $e['message']   = C('SHOW_ERROR_MSG')? $message : C('ERROR_MESSAGE');
+                if (C('SHOW_ERROR_MSG'))
+                    $e['message'] = is_array($error) ? $error['message'] : $error;
+                else
+                    $e['message'] = C('ERROR_MESSAGE');
             }
         }
         // 包含异常页面模板
-        $exceptionFile =  C('TMPL_EXCEPTION_FILE',null,THINK_PATH.'Tpl/think_exception.tpl');
-        include $exceptionFile;
+        $TMPL_EXCEPTION_FILE=C('TMPL_EXCEPTION_FILE');
+        if(!$TMPL_EXCEPTION_FILE){
+            //显示在加载配置文件之前的程序错误
+            exit('<b>Error:</b>'.$e['message'].' in <b> '.$e['file'].' </b> on line <b>'.$e['line'].'</b>'); 
+        }
+        include $TMPL_EXCEPTION_FILE;
         exit;
     }
 
@@ -321,7 +301,7 @@ class Think {
      * @param string $label 标签
      * @param string $level 日志级别(或者页面Trace的选项卡)
      * @param boolean $record 是否记录日志
-     * @return void|array
+     * @return void
      */
     static public function trace($value='[think]',$label='',$level='DEBUG',$record=false) {
         static $_trace =  array();
@@ -329,15 +309,16 @@ class Think {
             return $_trace;
         }else{
             $info   =   ($label?$label.':':'').print_r($value,true);
+            if('ERR' == $level && C('TRACE_EXCEPTION')) {// 抛出异常
+                E($info);
+            }
             $level  =   strtoupper($level);
-            
+            if(!isset($_trace[$level]) || count($_trace[$level])>C('TRACE_MAX_RECORD')) {
+                $_trace[$level] =   array();
+            }
+            $_trace[$level][]   =   $info;
             if((defined('IS_AJAX') && IS_AJAX) || !C('SHOW_PAGE_TRACE')  || $record) {
                 Log::record($info,$level,$record);
-            }else{
-                if(!isset($_trace[$level]) || count($_trace[$level])>C('TRACE_MAX_RECORD')) {
-                    $_trace[$level] =   array();
-                }
-                $_trace[$level][]   =   $info;
             }
         }
     }

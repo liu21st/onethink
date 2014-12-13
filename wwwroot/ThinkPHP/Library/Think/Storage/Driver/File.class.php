@@ -72,10 +72,10 @@ class File extends Storage{
      * @param array $vars  传入变量
      * @return void        
      */
-    public function load($_filename,$vars=null){
+    public function load($filename,$vars=null){
         if(!is_null($vars))
             extract($vars, EXTR_OVERWRITE);
-        include $_filename;
+        include $filename;
     }
 
     /**

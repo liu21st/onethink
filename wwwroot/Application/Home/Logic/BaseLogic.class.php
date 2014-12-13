@@ -64,32 +64,4 @@ class BaseLogic extends Model{
 		return $list;
 	}
 
-    /**
-     * 新增或添加模型数据
-     * @param  number $id 文章ID
-     * @return boolean    true-操作成功，false-操作失败
-     */
-    public function update($id = 0) {
-        /* 获取数据 */
-        $data = $this->create();
-        if ($data === false) {
-            return false;
-        }
-
-        if (empty($data['id'])) {//新增数据
-            $data['id'] = $id;
-            $id = $this->add($data);
-            if (!$id) {
-                $this->error = '新增数据失败！';
-                return false;
-            }
-        } else { //更新数据
-            $status = $this->save($data);
-            if (false === $status) {
-                $this->error = '更新数据失败！';
-                return false;
-            }
-        }
-        return true;
-    }
 }

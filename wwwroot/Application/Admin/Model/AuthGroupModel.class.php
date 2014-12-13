@@ -12,7 +12,7 @@ use Think\Model;
 
 /**
  * 用户组模型类
- * Class AuthGroupModel
+ * Class AuthGroupModel 
  * @author 朱亚杰 <zhuyajie@topthink.net>
  */
 class AuthGroupModel extends Model {
@@ -48,7 +48,7 @@ class AuthGroupModel extends Model {
     /**
      * 把用户添加到用户组,支持批量添加用户到用户组
      * @author 朱亚杰 <zhuyajie@topthink.net>
-     *
+     * 
      * 示例: 把uid=1的用户添加到group_id为1,2的组 `AuthGroupModel->addToGroup(1,'1,2');`
      */
     public function addToGroup($uid,$gid){
@@ -66,11 +66,6 @@ class AuthGroupModel extends Model {
         $add = array();
         if( $del!==false ){
             foreach ($uid_arr as $u){
-            	//判断用户id是否合法
-            	if(M('Member')->getFieldByUid($u,'uid') == false){
-            		$this->error = "编号为{$u}的用户不存在！";
-            		return false;
-            	}
                 foreach ($gid as $g){
                     if( is_numeric($u) && is_numeric($g) ){
                         $add[] = array('group_id'=>$g,'uid'=>$u);
@@ -95,7 +90,7 @@ class AuthGroupModel extends Model {
      * @param  int    $uid 用户id
      * @return array  用户所属的用户组 array(
      *                                         array('uid'=>'用户id','group_id'=>'用户组id','title'=>'用户组名称','rules'=>'用户组拥有的规则id,多个,号隔开'),
-     *                                         ...)
+     *                                         ...)   
      */
     static public function getUserGroup($uid){
         static $groups = array();
@@ -111,16 +106,16 @@ class AuthGroupModel extends Model {
         $groups[$uid]=$user_groups?$user_groups:array();
         return $groups[$uid];
     }
-
+    
     /**
      * 返回用户拥有管理权限的扩展数据id列表
-     *
+     * 
      * @param int     $uid  用户id
      * @param int     $type 扩展数据标识
      * @param int     $session  结果缓存标识
      * @return array
-     *
-     *  array(2,4,8,13)
+     *  
+     *  array(2,4,8,13) 
      *
      * @author 朱亚杰 <xcoolcc@gmail.com>
      */
@@ -148,11 +143,11 @@ class AuthGroupModel extends Model {
 
     /**
      * 返回用户拥有管理权限的分类id列表
-     *
+     * 
      * @param int     $uid  用户id
      * @return array
-     *
-     *  array(2,4,8,13)
+     *  
+     *  array(2,4,8,13) 
      *
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
@@ -164,11 +159,11 @@ class AuthGroupModel extends Model {
 
     /**
      * 获取用户组授权的扩展信息数据
-     *
+     * 
      * @param int     $gid  用户组id
      * @return array
-     *
-     *  array(2,4,8,13)
+     *  
+     *  array(2,4,8,13) 
      *
      * @author 朱亚杰 <xcoolcc@gmail.com>
      */
@@ -181,25 +176,25 @@ class AuthGroupModel extends Model {
 
     /**
      * 获取用户组授权的分类id列表
-     *
+     * 
      * @param int     $gid  用户组id
      * @return array
-     *
-     *  array(2,4,8,13)
+     *  
+     *  array(2,4,8,13) 
      *
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     static public function getCategoryOfGroup($gid){
         return self::getExtendOfGroup($gid,self::AUTH_EXTEND_CATEGORY_TYPE);
     }
-
+    
 
     /**
      * 批量设置用户组可管理的扩展权限数据
      *
      * @param int|string|array $gid   用户组id
      * @param int|string|array $cid   分类id
-     *
+     * 
      * @author 朱亚杰 <xcoolcc@gmail.com>
      */
     static public function addToExtend($gid,$cid,$type){
@@ -233,7 +228,7 @@ class AuthGroupModel extends Model {
      *
      * @param int|string|array $gid   用户组id
      * @param int|string|array $cid   分类id
-     *
+     * 
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     static public function addToCategory($gid,$cid){
@@ -255,7 +250,7 @@ class AuthGroupModel extends Model {
      * 获取某个用户组的用户列表
      *
      * @param int $group_id   用户组id
-     *
+     * 
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     static public function memberInGroup($group_id){
@@ -305,7 +300,7 @@ class AuthGroupModel extends Model {
     public function checkGroupId($gid){
         return $this->checkId('AuthGroup',$gid, '以下用户组id不存在:');
     }
-
+    
     /**
      * 检查分类是否全部存在
      * @param array|string $cid  栏目分类id列表

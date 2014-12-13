@@ -18,7 +18,7 @@ class InitHookBehavior extends Behavior {
 
     // 行为扩展的执行入口必须是run
     public function run(&$content){
-        if(defined('BIND_MODULE') && BIND_MODULE === 'Install') return;
+        if(isset($_GET['m']) && $_GET['m'] === 'Install') return;
         
         $data = S('hooks');
         if(!$data){
@@ -31,7 +31,7 @@ class InitHookBehavior extends Behavior {
                     $data = M('Addons')->where($map)->getField('id,name');
                     if($data){
                         $addons = array_intersect($names, $data);
-                        Hook::add($key,array_map('get_addon_class',$addons));
+                        Hook::add($key,$addons);
                     }
                 }
             }

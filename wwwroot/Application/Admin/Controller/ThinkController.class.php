@@ -31,11 +31,8 @@ class ThinkController extends AdminController {
 
         //解析列表规则
         $fields = array();
-        $grids  = preg_split('/[;\r\n]+/s', trim($model['list_grid']));
+        $grids  = preg_split('/[;\r\n]+/s', $model['list_grid']);
         foreach ($grids as &$value) {
-        	if(trim($value) === ''){
-        		continue;
-        	}
             // 字段:标题:链接
             $val      = explode(':', $value);
             // 支持多个字段显示
@@ -104,9 +101,7 @@ class ThinkController extends AdminController {
                 ->select();
 
         } else {
-            if($model['need_pk']){
-                in_array('id', $fields) || array_push($fields, 'id');
-            }
+            in_array('id', $fields) || array_push($fields, 'id');
             $name = parse_name(get_table_name($model['id']), true);
             $data = M($name)
                 /* 查询指定字段，不指定则查询所有字段 */
@@ -114,7 +109,7 @@ class ThinkController extends AdminController {
                 // 查询条件
                 ->where($map)
                 /* 默认通过id逆序排列 */
-                ->order($model['need_pk']?'id DESC':'')
+                ->order('id DESC')
                 /* 数据分页 */
                 ->page($page, $row)
                 /* 执行查询 */
@@ -131,7 +126,6 @@ class ThinkController extends AdminController {
             $this->assign('_page', $page->show());
         }
 
-        $data   =   $this->parseDocumentList($data,$model['id']);
         $this->assign('model', $model);
         $this->assign('list_grids', $grids);
         $this->assign('list_data', $data);
@@ -158,14 +152,6 @@ class ThinkController extends AdminController {
         }
     }
 
-    /**
-     * 设置一条或者多条数据的状态
-     * @author huajie <banhuajie@163.com>
-     */
-    public function setStatus($model='Document'){
-        return parent::setStatus($model);
-    }
-    
     public function edit($model = null, $id = 0){
         //获取模型信息
         $model = M('Model')->find($model);
@@ -173,7 +159,7 @@ class ThinkController extends AdminController {
 
         if(IS_POST){
             $Model  =   D(parse_name(get_table_name($model['id']),1));
-            // 获取模型的字段信息
+            // 获取模型的字段信息 
             $Model  =   $this->checkAttr($Model,$model['id']);
             if($Model->create() && $Model->save()){
                 $this->success('保存'.$model['title'].'成功！', U('lists?model='.$model['name']));
@@ -201,7 +187,7 @@ class ThinkController extends AdminController {
         $model || $this->error('模型不存在！');
         if(IS_POST){
             $Model  =   D(parse_name(get_table_name($model['id']),1));
-            // 获取模型的字段信息
+            // 获取模型的字段信息 
             $Model  =   $this->checkAttr($Model,$model['id']);
             if($Model->create() && $Model->add()){
                 $this->success('添加'.$model['title'].'成功！', U('lists?model='.$model['name']));
@@ -220,12 +206,12 @@ class ThinkController extends AdminController {
     }
 
     protected function checkAttr($Model,$model_id){
-        $fields     =   get_model_attribute($model_id,false);
+        $fields     =   get_model_attribute($model_id,false);    
         $validate   =   $auto   =   array();
         foreach($fields as $key=>$attr){
             if($attr['is_must']){// 必填字段
                 $validate[]  =  array($attr['name'],'require',$attr['title'].'必须!');
-            }
+            }            
             // 自动验证规则
             if(!empty($attr['validate_rule'])) {
                 $validate[]  =  array($attr['name'],$attr['validate_rule'],$attr['error_info']?$attr['error_info']:$attr['title'].'验证错误',0,$attr['validate_type'],$attr['validate_time']);
@@ -235,9 +221,7 @@ class ThinkController extends AdminController {
                 $auto[]  =  array($attr['name'],$attr['auto_rule'],$attr['auto_time'],$attr['auto_type']);
             }elseif('checkbox'==$attr['type']){ // 多选型
                 $auto[] =   array($attr['name'],'arr2str',3,'function');
-            }elseif('date' == $attr['type']){ // 日期型
-                $auto[] =   array($attr['name'],'strtotime',3,'function');
-            }elseif('datetime' == $attr['type']){ // 时间型
+            }elseif('datetime' == $attr['type']){ // 日期型
                 $auto[] =   array($attr['name'],'strtotime',3,'function');
             }
         }

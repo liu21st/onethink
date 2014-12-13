@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2014 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006-2013 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -45,11 +45,11 @@ class ShowRuntimeBehavior {
             // 显示详细运行时间
             $showTime .= '( Load:'.G('beginTime','loadTime').'s Init:'.G('loadTime','initTime').'s Exec:'.G('initTime','viewStartTime').'s Template:'.G('viewStartTime','viewEndTime').'s )';
         }
-        if(C('SHOW_DB_TIMES') ) {
+        if(C('SHOW_DB_TIMES') && class_exists('Db',false) ) {
             // 显示数据库操作次数
             $showTime .= ' | DB :'.N('db_query').' queries '.N('db_write').' writes ';
         }
-        if(C('SHOW_CACHE_TIMES') ) {
+        if(C('SHOW_CACHE_TIMES') && class_exists('Cache',false)) {
             // 显示缓存读写次数
             $showTime .= ' | Cache :'.N('cache_read').' gets '.N('cache_write').' writes ';
         }

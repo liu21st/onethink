@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2014 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006-2013 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -16,7 +16,7 @@ return array(
     // 配置文件
     'config'    =>  array(
         THINK_PATH.'Conf/convention.php',   // 系统惯例配置
-        CONF_PATH.'config'.CONF_EXT,      // 应用公共配置
+        CONF_PATH.'config.php',      // 应用公共配置
     ),
 
     // 别名定义

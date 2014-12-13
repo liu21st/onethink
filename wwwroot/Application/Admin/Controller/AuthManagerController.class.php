@@ -214,7 +214,7 @@ class AuthManagerController extends AdminController{
         $r_table  = $prefix.(AuthGroupModel::AUTH_GROUP_ACCESS);
         $model    = M()->table( $l_table.' m' )->join ( $r_table.' a ON m.uid=a.uid' );
         $_REQUEST = array();
-        $list = $this->lists($model,array('a.group_id'=>$group_id,'m.status'=>array('egt',0)),'m.uid asc','m.uid,m.nickname,m.last_login_time,m.last_login_ip,m.status');
+        $list = $this->lists($model,array('a.group_id'=>$group_id,'m.status'=>array('egt',0)),'m.uid asc',null,'m.uid,m.nickname,m.last_login_time,m.last_login_ip,m.status');
         int_to_string($list);
         $this->assign( '_list',     $list );
         $this->assign('auth_group', $auth_group);
@@ -261,7 +261,6 @@ class AuthManagerController extends AdminController{
         $this->assign('nickname',   $nickname);
         $this->assign('auth_groups',$auth_groups);
         $this->assign('user_groups',implode(',',$ids));
-        $this->meta_title = '用户组授权';
         $this->display();
     }
 
@@ -281,7 +280,7 @@ class AuthManagerController extends AdminController{
                 $this->error('该用户为超级管理员');
             }
             if( !M('Member')->where(array('uid'=>$uid))->find() ){
-                $this->error('用户不存在');
+                $this->error('管理员用户不存在');
             }
         }
 

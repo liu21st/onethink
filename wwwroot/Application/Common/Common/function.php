@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 
 // OneThink常量定义
-const ONETHINK_VERSION    = '1.1.141212';
+const ONETHINK_VERSION    = '1.0.131218';
 const ONETHINK_ADDON_PATH = './Addons/';
 
 /**
@@ -257,6 +257,7 @@ function list_to_tree($list, $pk='id', $pid = 'pid', $child = '_child', $root = 
  */
 function tree_to_list($tree, $child = '_child', $order='id', &$list = array()){
     if(is_array($tree)) {
+        $refer = array();
         foreach ($tree as $key => $value) {
             $reffer = $value;
             if(isset($reffer[$child])){
@@ -493,21 +494,6 @@ function get_category_name($id){
 /* 根据ID获取分类名称 */
 function get_category_title($id){
     return get_category($id, 'title');
-}
-
-/**
- * 获取顶级模型信息
- */
-function get_top_model($model_id=null){
-    $map   = array('status' => 1, 'extend' => 0);
-    if(!is_null($model_id)){
-        $map['id']  =   array('neq',$model_id);
-    }
-    $model = M('Model')->where($map)->field(true)->select();
-    foreach ($model as $value) {
-        $list[$value['id']] = $value;
-    }
-    return $list;
 }
 
 /**
@@ -783,12 +769,17 @@ function get_table_name($model_id = null){
  * @param  string  $field 要获取的字段名
  * @return string         属性信息
  */
-function get_model_attribute($model_id, $group = true,$fields=true){
+function get_model_attribute($model_id, $group = true){
     static $list;
 
     /* 非法ID */
     if(empty($model_id) || !is_numeric($model_id)){
         return '';
+    }
+
+    /* 读取缓存数据 */
+    if(empty($list)){
+        $list = S('attribute_list');
     }
 
     /* 获取属性 */
@@ -799,23 +790,25 @@ function get_model_attribute($model_id, $group = true,$fields=true){
         if($extend){
             $map = array('model_id'=> array("in", array($model_id, $extend)));
         }
-        $info = M('Attribute')->where($map)->field($fields)->select();
+        $info = M('Attribute')->where($map)->select();
         $list[$model_id] = $info;
+        //S('attribute_list', $list); //更新缓存
     }
 
     $attr = array();
-    if($group){
-        foreach ($list[$model_id] as $value) {
-            $attr[$value['id']] = $value;
-        }
-        $model     = M("Model")->field("field_sort,attribute_list,attribute_alias")->find($model_id);
-        $attribute = explode(",", $model['attribute_list']);
-        if (empty($model['field_sort'])) { //未排序
-            $group = array(1 => array_merge($attr));
-        } else {
-            $group = json_decode($model['field_sort'], true);
+    foreach ($list[$model_id] as $value) {
+        $attr[$value['id']] = $value;
+    }
 
-            $keys = array_keys($group);
+    if($group){
+        $sort  = M('Model')->getFieldById($model_id,'field_sort');
+
+        if(empty($sort)){	//未排序
+            $group = array(1=>array_merge($attr));
+        }else{
+            $group = json_decode($sort, true);
+
+            $keys  = array_keys($group);
             foreach ($group as &$value) {
                 foreach ($value as $key => $val) {
                     $value[$key] = $attr[$val];
@@ -823,35 +816,11 @@ function get_model_attribute($model_id, $group = true,$fields=true){
                 }
             }
 
-            if (!empty($attr)) {
-                foreach ($attr as $key => $val) {
-                    if (!in_array($val['id'], $attribute)) {
-                        unset($attr[$key]);
-                    }
-                }
+            if(!empty($attr)){
                 $group[$keys[0]] = array_merge($group[$keys[0]], $attr);
             }
         }
-        if (!empty($model['attribute_alias'])) {
-            $alias  = preg_split('/[;\r\n]+/s', $model['attribute_alias']);
-            $fields = array();
-            foreach ($alias as &$value) {
-                $val             = explode(':', $value);
-                $fields[$val[0]] = $val[1];
-            }
-            foreach ($group as &$value) {
-                foreach ($value as $key => $val) {
-                    if (!empty($fields[$val['name']])) {
-                        $value[$key]['title'] = $fields[$val['name']];
-                    }
-                }
-            }
-        }
         $attr = $group;
-    }else{
-        foreach ($list[$model_id] as $value) {
-            $attr[$value['name']] = $value;
-        }
     }
     return $attr;
 }
@@ -931,13 +900,6 @@ function get_cover($cover_id, $field = null){
         return false;
     }
     $picture = M('Picture')->where(array('status'=>1))->getById($cover_id);
-    if($field == 'path'){
-        if(!empty($picture['url'])){
-            $picture['path'] = $picture['url'];
-        }else{
-            $picture['path'] = __ROOT__.$picture['path'];
-        }
-    }
     return empty($field) ? $picture : $picture[$field];
 }
 
@@ -987,32 +949,4 @@ function get_stemma($pids,Model &$model, $field='id'){
         $child_ids  = array_column((array)$result,'id');
     }
     return $collection;
-}
-
-/**
- * 验证分类是否允许发布内容
- * @param  integer $id 分类ID
- * @return boolean     true-允许发布内容，false-不允许发布内容
- */
-function check_category($id){
-    if (is_array($id)) {
-		$id['type']	=	!empty($id['type'])?$id['type']:2;
-        $type = get_category($id['category_id'], 'type');
-        $type = explode(",", $type);
-        return in_array($id['type'], $type);
-    } else {
-        $publish = get_category($id, 'allow_publish');
-        return $publish ? true : false;
-    }
-}
-
-/**
- * 检测分类是否绑定了指定模型
- * @param  array $info 模型ID和分类ID数组
- * @return boolean     true-绑定了模型，false-未绑定模型
- */
-function check_category_model($info){
-    $cate   =   get_category($info['category_id']);
-    $array  =   explode(',', $info['pid'] ? $cate['model_sub'] : $cate['model']);
-    return in_array($info['model_id'], $array);
 }

@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2014 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006-2013 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace Think;
 /**
- * ThinkPHP API模式 应用程序类
+ * ThinkPHP 应用程序类 执行应用过程管理
  */
 class App {
 
@@ -20,6 +20,9 @@ class App {
      * @return void
      */
     static public function init() {
+        // URL调度
+        Dispatcher::dispatch();
+
         // 定义当前请求的系统常量
         define('NOW_TIME',      $_SERVER['REQUEST_TIME']);
         define('REQUEST_METHOD',$_SERVER['REQUEST_METHOD']);
@@ -28,9 +31,6 @@ class App {
         define('IS_PUT',        REQUEST_METHOD =='PUT' ? true : false);
         define('IS_DELETE',     REQUEST_METHOD =='DELETE' ? true : false);
         define('IS_AJAX',       ((isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') || !empty($_POST[C('VAR_AJAX_SUBMIT')]) || !empty($_GET[C('VAR_AJAX_SUBMIT')])) ? true : false);
-
-        // URL调度
-        Dispatcher::dispatch();
 
         // 日志目录转换为绝对路径
         C('LOG_PATH',realpath(LOG_PATH).'/');
@@ -50,7 +50,7 @@ class App {
             $module  =  false;
         }else{
             //创建控制器实例
-            $module  =  A(CONTROLLER_NAME);
+            $module  =  A(CONTROLLER_NAME);                
         }
 
         if(!$module) {
@@ -121,6 +121,7 @@ class App {
      * @return void
      */
     static public function run() {
+
         App::init();
         // Session初始化
         if(!IS_CLI){

@@ -239,14 +239,14 @@ body{
 }
 /* 首页数据 */
 .top-columns {
-    margin: 25px 0 5px;
+    margin: 0 0 5px;
     text-align: center;
 }
 .show-num-mod {
     display: inline-block;
     *display: inline;
     *zoom: 1;
-    margin: 0 10px 15px;
+    margin: 0 15px 15px;
     border: 1px solid #cdcdcd;
     background-color: #fff;
 }

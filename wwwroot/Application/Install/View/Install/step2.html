@@ -4,7 +4,7 @@
     <li class="active"><a href="javascript:;">安装协议</a></li>
     <li class="active"><a href="javascript:;">环境检测</a></li>
     <li class="active"><a href="javascript:;">创建数据库</a></li>
-    <li><a href="javascript:;"><eq name="Think.session.update" value="1">升级<else/>安装</eq></a></li>
+    <li><a href="javascript:;">安装</a></li>
     <li><a href="javascript:;">完成</a></li>
 </block>
 
@@ -16,11 +16,13 @@
     <h1>创建数据库</h1>
     <form action="__SELF__" method="post" target="_self">
         <div class="create-database">
+            <h2>数据库连接信息</h2>
             <div>
                 <select name="db[]">
+                    <option>mysqli</option>
 	                <option>mysql</option>
                 </select>
-                <span>数据库类型</span>
+                <span>数据库连接类型，服务器支持的情况下建议使用mysqli</span>
             </div>
             <div>
                 <input type="text" name="db[]" value="<defined name='SAE_MYSQL_HOST_M'>{$Think.const.SAE_MYSQL_HOST_M}<else/>127.0.0.1</defined>">
@@ -38,6 +40,7 @@
                 <input type="password" name="db[]" value="<defined name='SAE_MYSQL_PASS'>{$Think.const.SAE_MYSQL_PASS}</defined>">
                 <span>数据库密码</span>
             </div>
+
             <div>
                 <input type="text" name="db[]" value="<defined name='SAE_MYSQL_PORT'>{$Think.const.SAE_MYSQL_PORT}<else/>3306</defined>">
                 <span>数据库端口，数据库服务连接端口，一般为3306</span>

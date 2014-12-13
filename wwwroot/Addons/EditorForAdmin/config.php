@@ -14,6 +14,7 @@
 			'options'=>array(
 				'1'=>'普通文本',
 				'2'=>'富文本',
+				'3'=>'UBB解析',
 				'4'=>'Markdown编辑器'
 			),
 			'value'=>'1',
@@ -26,16 +27,6 @@
 				'2'=>'Ueditor(百度编辑器)',
 			),
 			'value'=>1
-		),
-		'editor_markdownpreview'=>array(
-			'title'=>'markdown预览:',
-			'type'=>'radio',
-			'options'=>array(
-				'1'=>'开启',
-				'0'=>'关闭',
-			),
-			'value'=>'1',
-			'tip'=>'启用后，双列同步预览'
 		),
 		'editor_height'=>array(
 			'title'=>'编辑器高度:',

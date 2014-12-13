@@ -27,11 +27,7 @@ class DatabaseController extends AdminController{
             /* 数据还原 */
             case 'import':
                 //列出备份文件列表
-                $path = C('DATA_BACKUP_PATH');
-                if(!is_dir($path)){
-                    mkdir($path, 0755, true);
-                }
-                $path = realpath($path);
+                $path = realpath(C('DATA_BACKUP_PATH'));
                 $flag = \FilesystemIterator::KEY_AS_FILENAME;
                 $glob = new \FilesystemIterator($path,  $flag);
 
@@ -151,7 +147,7 @@ class DatabaseController extends AdminController{
             $path  = realpath(C('DATA_BACKUP_PATH')) . DIRECTORY_SEPARATOR . $name;
             array_map("unlink", glob($path));
             if(count(glob($path))){
-                $this->error('备份文件删除失败，请检查权限！');
+                $this->success('备份文件删除失败，请检查权限！');
             } else {
                 $this->success('备份文件删除成功！');
             }
@@ -169,13 +165,9 @@ class DatabaseController extends AdminController{
      */
     public function export($tables = null, $id = null, $start = null){
         if(IS_POST && !empty($tables) && is_array($tables)){ //初始化
-            $path = C('DATA_BACKUP_PATH');
-            if(!is_dir($path)){
-                mkdir($path, 0755, true);
-            }
             //读取备份配置
             $config = array(
-                'path'     => realpath($path) . DIRECTORY_SEPARATOR,
+                'path'     => realpath(C('DATA_BACKUP_PATH')) . DIRECTORY_SEPARATOR,
                 'part'     => C('DATA_BACKUP_PART_SIZE'),
                 'compress' => C('DATA_BACKUP_COMPRESS'),
                 'level'    => C('DATA_BACKUP_COMPRESS_LEVEL'),

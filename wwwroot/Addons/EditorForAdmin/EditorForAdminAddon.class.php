@@ -23,7 +23,7 @@ use Common\Controller\Addon;
 			'description'=>'用于增强整站长文本的输入和显示',
 			'status'=>1,
 			'author'=>'thinkphp',
-			'version'=>'0.2'
+			'version'=>'0.1'
 		);
 
 		public function install(){

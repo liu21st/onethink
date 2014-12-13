@@ -38,7 +38,7 @@
                     <div class="controls">
                         <switch name="field.type">
                             <case value="num">
-                                <input type="text" class="text input-mid" name="{$field.name}" value="{$field.value}">
+                                <input type="text" class="text input-medium" name="{$field.name}" value="{$field.value}">
                             </case>
                             <case value="string">
                                 <input type="text" class="text input-large" name="{$field.name}" value="{$field.value}">
@@ -48,11 +48,8 @@
                                 <textarea name="{$field.name}">{$field.value}</textarea>
                                 </label>
                             </case>
-                            <case value="date">
-                                <input type="text" name="{$field.name}" class="text date" value="" placeholder="请选择日期" />
-                            </case>
                             <case value="datetime">
-                                <input type="text" name="{$field.name}" class="text time" value="" placeholder="请选择时间" />
+                                <input type="text" name="{$field.name}" class="text input-large time" value="" placeholder="请选择时间" />
                             </case>
                             <case value="bool">
                                 <select name="{$field.name}">
@@ -78,7 +75,7 @@
                             <case value="checkbox">
                                 <volist name=":parse_field_attr($field['extra'])" id="vo">
                                 	<label class="checkbox">
-                                    <input type="checkbox" value="{$key}" name="{$field.name}[]" <eq name="field.value" value="$key">checked</eq>>{$vo}
+                                    <input type="checkbox" value="{$key}" name="{$field.name}" <eq name="field.value" value="$key">checked</eq>>{$vo}
                                 	</label>
                                 </volist>
                             </case>
@@ -122,7 +119,7 @@
 							        	$("#cover_id_{$field.name}").val(data.id);
 							        	src = data.url || '__ROOT__' + data.path
 							        	$("#cover_id_{$field.name}").parent().find('.upload-img-box').html(
-							        		'<div class="upload-pre-item"><img src="' + src + '"/></div>'
+							        		'<div class="upload-pre-item"><img src="__ROOT__' + src + '"/></div>'
 							        	);
 							        } else {
 							        	updateAlert(data.info);
@@ -199,7 +196,6 @@
 			<input type="hidden" name="id" value="{$info.id|default=''}"/>
 			<input type="hidden" name="pid" value="{$info.pid|default=''}"/>
 			<input type="hidden" name="model_id" value="{$info.model_id|default=''}"/>
-			<input type="hidden" name="group_id" value="{$info.group_id|default=''}"/>
 			<input type="hidden" name="category_id" value="{$info.category_id|default=''}">
 		</div>
 	</form>
@@ -220,12 +216,6 @@ $('#submit').click(function(){
 });
 
 $(function(){
-    $('.date').datetimepicker({
-        format: 'yyyy-mm-dd',
-        language:"zh-CN",
-        minView:2,
-        autoclose:true
-    });
     $('.time').datetimepicker({
         format: 'yyyy-mm-dd hh:ii',
         language:"zh-CN",

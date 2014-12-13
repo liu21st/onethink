@@ -10,30 +10,13 @@
 	<div class="main-title">
 		<h2>
 		文档列表({$_total}) [
-		<notempty name="rightNav">
 		<volist name="rightNav" id="nav">
-		<a href="{:U('index','cate_id='.$nav['id'])}">{$nav.title}</a>
+		<a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a>
 			<if condition="count($rightNav) gt $i"><i class="ca"></i></if>
 		</volist>
-		<present name="article">：<a href="{:U('index','cate_id='.$cate_id.'&pid='.$article['id'])}">{$article.title}</a></present>
-		<else/>
-		<empty name="position">全部<else/><a href="{:U('article/index')}">全部</a></empty>
-			<foreach name="Think.config.DOCUMENT_POSITION" item="vo">
-			<neq name="position" value="$key"><a href="{:U('index',array('position'=>$key))}">{$vo}</a><else/>{$vo}</neq>&nbsp;
-			</foreach>
-		</notempty>
+		<present name="article">：<a href="{:U('article/index','cate_id='.$cate_id.'&pid='.$article['id'])}">{$article.title}</a></present>
 		]
 		<eq name="allow" value="0">（该分类不允许发布内容）</eq>
-		<if condition="count($model) gt 1">[ 模型：<empty name="model_id"><strong>全部</strong><else/><a href="{:U('index',array('pid'=>$pid,'cate_id'=>$cate_id))}">全部</a></empty>
-			<volist name="model" id="vo">
-			<neq name="model_id" value="$vo"><a href="{:U('index',array('pid'=>$pid,'cate_id'=>$cate_id,'model_id'=>$vo))}">{$vo|get_document_model='title'}</a><else/><strong>{$vo|get_document_model='title'}</strong></neq>&nbsp;
-			</volist>
-		]</if>
-		<notempty name="groups">[ 分组：<empty name="group_id"><strong>全部</strong><else/><a href="{:U('index',array('pid'=>$pid,'cate_id'=>$cate_id))}">全部</a></empty>
-			<foreach name="groups" item="vo">
-			<neq name="group_id" value="$key"><a href="{:U('index',array('pid'=>$pid,'cate_id'=>$cate_id,'model_id'=>$model_id,'group_id'=>$key))}">{$vo}</a><else/><strong>{$vo}</strong></neq>&nbsp;
-			</foreach>
-		]</notempty>
 		</h2>
 	</div>
 
@@ -42,13 +25,13 @@
 		<div class="fl">
 			<div class="btn-group">
 				<gt name="allow" value="0">
-					<button class="btn document_add" <if condition="count($model) eq 1">url="{:U('article/add',array('cate_id'=>$cate_id,'pid'=>I('pid',0),'model_id'=>$model[0],'group_id'=>$group_id))}"</if>>新 增
+					<button class="btn document_add" <if condition="count($model) eq 1">url="{:U('article/add',array('cate_id'=>$cate_id,'pid'=>I('pid',0),'model_id'=>$model[0]))}"</if>>新 增
 						<if condition="count($model) gt 1"><i class="btn-arrowdown"></i></if>
 					</button>
 					<if condition="count($model) gt 1">
 					<ul class="dropdown nav-list">
 						<volist name="model" id="vo">
-						<li><a href="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$vo,'pid'=>I('pid',0),'group_id'=>$group_id))}">{$vo|get_document_model='title'}</a></li>
+						<li><a href="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$vo,'pid'=>I('pid',0)))}">{$vo|get_document_model='title'}</a></li>
 						</volist>
 					</ul>
 					</if>
@@ -124,7 +107,7 @@
                     <tr>
                         <td><input class="ids" type="checkbox" value="{$data['id']}" name="ids[]"></td>
                         <volist name="list_grids" id="grid">
-                            <td>{:get_list_field($data,$grid)}</td>
+                            <td>{:get_list_field($data,$grid,$model_list)}</td>
                         </volist>
                     </tr>
                 </volist>
@@ -154,7 +137,7 @@ $(function(){
         query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
         query = query.replace(/^&/g,'');
 		if(status != ''){
-			query = 'status=' + status + "&" + query;
+			query += 'status=' + status + "&" + query;
         }
         if( url.indexOf('?')>0 ){
             url += '&' + query;

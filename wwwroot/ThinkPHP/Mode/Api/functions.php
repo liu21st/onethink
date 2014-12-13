@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2014 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006-2013 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -12,72 +12,6 @@
 /**
  * Think API模式函数库
  */
-
-/**
- * 获取和设置配置参数 支持批量定义
- * @param string|array $name 配置变量
- * @param mixed $value 配置值
- * @param mixed $default 默认值
- * @return mixed
- */
-function C($name=null, $value=null,$default=null) {
-    static $_config = array();
-    // 无参数时获取所有
-    if (empty($name)) {
-        return $_config;
-    }
-    // 优先执行设置获取或赋值
-    if (is_string($name)) {
-        if (!strpos($name, '.')) {
-            $name = strtolower($name);
-            if (is_null($value))
-                return isset($_config[$name]) ? $_config[$name] : $default;
-            $_config[$name] = $value;
-            return;
-        }
-        // 二维数组设置和获取支持
-        $name = explode('.', $name);
-        $name[0]   =  strtolower($name[0]);
-        if (is_null($value))
-            return isset($_config[$name[0]][$name[1]]) ? $_config[$name[0]][$name[1]] : $default;
-        $_config[$name[0]][$name[1]] = $value;
-        return;
-    }
-    // 批量设置
-    if (is_array($name)){
-        $_config = array_merge($_config, array_change_key_case($name));
-        return;
-    }
-    return null; // 避免非法参数
-}
-
-/**
- * 加载配置文件 支持格式转换 仅支持一级配置
- * @param string $file 配置文件名
- * @param string $parse 配置解析方法 有些格式需要用户自己解析
- * @return void
- */
-function load_config($file,$parse=CONF_PARSE){
-    $ext  = pathinfo($file,PATHINFO_EXTENSION);
-    switch($ext){
-        case 'php':
-            return include $file;
-        case 'ini':
-            return parse_ini_file($file);
-        case 'yaml':
-            return yaml_parse_file($file);
-        case 'xml': 
-            return (array)simplexml_load_file($file);
-        case 'json':
-            return json_decode(file_get_contents($file), true);
-        default:
-            if(function_exists($parse)){
-                return $parse($file);
-            }else{
-                E(L('_NOT_SUPPORT_').':'.$ext);
-            }
-    }
-}
 
 /**
  * 抛出异常处理
@@ -229,6 +163,7 @@ function I($name,$default='',$filter=null) {
     }
     if(empty($name)) { // 获取全部变量
         $data       =   $input;
+        array_walk_recursive($data,'filter_exp');
         $filters    =   isset($filter)?$filter:C('DEFAULT_FILTER');
         if($filters) {
             $filters    =   explode(',',$filters);
@@ -238,6 +173,7 @@ function I($name,$default='',$filter=null) {
         }
     }elseif(isset($input[$name])) { // 取值操作
         $data       =   $input[$name];
+        is_array($data) && array_walk_recursive($data,'filter_exp');
         $filters    =   isset($filter)?$filter:C('DEFAULT_FILTER');
         if($filters) {
             $filters    =   explode(',',$filters);
@@ -335,7 +271,7 @@ function require_cache($filename) {
  */
 function file_exists_case($filename) {
     if (is_file($filename)) {
-        if (IS_WIN && APP_DEBUG) {
+        if (IS_WIN && C('APP_FILE_CASE')) {
             if (basename(realpath($filename)) != basename($filename))
                 return false;
         }
@@ -427,7 +363,7 @@ function vendor($class, $baseUrl = '', $ext='.php') {
 function D($name='',$layer='') {
     if(empty($name)) return new Think\Model;
     static $_model  =   array();
-    $layer          =   $layer? : C('DEFAULT_M_LAYER');
+    $layer          =   $layer? $layer : C('DEFAULT_M_LAYER');
     if(isset($_model[$name.$layer]))
         return $_model[$name.$layer];
     $class          =   parse_res_name($name,$layer);
@@ -504,8 +440,8 @@ function parse_res_name($name,$layer,$level=1){
  */
 function A($name,$layer='',$level='') {
     static $_action = array();
-    $layer  =   $layer? : C('DEFAULT_C_LAYER');
-    $level  =   $level? : ($layer == C('DEFAULT_C_LAYER')?C('CONTROLLER_LEVEL'):1);
+    $layer  =   $layer? $layer : C('DEFAULT_C_LAYER');
+    $level  =   $level? $level : ($layer == C('DEFAULT_C_LAYER')?C('CONTROLLER_LEVEL'):1);
     if(isset($_action[$name.$layer]))
         return $_action[$name.$layer];
     $class  =   parse_res_name($name,$layer,$level);
@@ -1047,6 +983,13 @@ function send_http_status($code) {
         header('HTTP/1.1 '.$code.' '.$_status[$code]);
         // 确保FastCGI模式下正常
         header('Status:'.$code.' '.$_status[$code]);
+    }
+}
+
+// 过滤表单中的表达式
+function filter_exp(&$value){
+    if (in_array(strtolower($value),array('exp','or'))){
+        $value .= ' ';
     }
 }
 

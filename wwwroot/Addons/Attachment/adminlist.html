@@ -1,8 +1,9 @@
 <table>
 	<thead>
 		<tr>
-			<volist name="list_grid" id="vo">
-				<th>{$vo.title}</th>
+			<th>序号</th>
+			<volist name="listKey" id="vo">
+				<th>{$vo}</th>
 			</volist>
 			<!-- <th>操作</th> -->
 		</tr>
@@ -11,7 +12,7 @@
 		<volist name="_list" id="lv" key="vo">
 		<tr>
 			<td>{$lv.id}</td>
-			<volist name="list_grid" id="lk">
+			<volist name="listKey" id="lk">
 				<td>{$lv.$lk}</td>
 			</volist>
 			<td>

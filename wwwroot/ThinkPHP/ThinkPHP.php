@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2014 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006-2013 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -20,7 +20,7 @@ define('MEMORY_LIMIT_ON',function_exists('memory_get_usage'));
 if(MEMORY_LIMIT_ON) $GLOBALS['_startUseMems'] = memory_get_usage();
 
 // 版本信息
-const THINK_VERSION     =   '3.2.3beta';
+const THINK_VERSION     =   '3.2.0';
 
 // URL 模式定义
 const URL_COMMON        =   0;  //普通模式
@@ -32,10 +32,10 @@ const URL_COMPAT        =   3;  // 兼容模式
 const EXT               =   '.class.php'; 
 
 // 系统常量定义
-defined('THINK_PATH')   or define('THINK_PATH',     __DIR__.'/');
-defined('APP_PATH')     or define('APP_PATH',       dirname($_SERVER['SCRIPT_FILENAME']).'/');
+defined('THINK_PATH') 	or define('THINK_PATH',     __DIR__.'/');
+defined('APP_PATH') 	or define('APP_PATH',       dirname($_SERVER['SCRIPT_FILENAME']).'/');
 defined('APP_STATUS')   or define('APP_STATUS',     ''); // 应用状态 加载对应的配置文件
-defined('APP_DEBUG')    or define('APP_DEBUG',      false); // 是否调试模式
+defined('APP_DEBUG') 	or define('APP_DEBUG',      false); // 是否调试模式
 
 if(function_exists('saeAutoLoader')){// 自动识别SAE环境
     defined('APP_MODE')     or define('APP_MODE',      'sae');
@@ -59,9 +59,6 @@ defined('LOG_PATH')     or define('LOG_PATH',       RUNTIME_PATH.'Logs/'); // �
 defined('TEMP_PATH')    or define('TEMP_PATH',      RUNTIME_PATH.'Temp/'); // 应用缓存目录
 defined('DATA_PATH')    or define('DATA_PATH',      RUNTIME_PATH.'Data/'); // 应用数据目录
 defined('CACHE_PATH')   or define('CACHE_PATH',     RUNTIME_PATH.'Cache/'); // 应用模板缓存目录
-defined('CONF_EXT')     or define('CONF_EXT',       '.php'); // 配置文件后缀
-defined('CONF_PARSE')   or define('CONF_PARSE',     '');    // 配置文件解析方法
-defined('ADDON_PATH')   or define('ADDON_PATH',     APP_PATH.'Addon');
 
 // 系统信息
 if(version_compare(PHP_VERSION,'5.4.0','<')) {
@@ -70,7 +67,7 @@ if(version_compare(PHP_VERSION,'5.4.0','<')) {
 }else{
     define('MAGIC_QUOTES_GPC',false);
 }
-define('IS_CGI',(0 === strpos(PHP_SAPI,'cgi') || false !== strpos(PHP_SAPI,'fcgi')) ? 1 : 0 );
+define('IS_CGI',substr(PHP_SAPI, 0,3)=='cgi' ? 1 : 0 );
 define('IS_WIN',strstr(PHP_OS, 'WIN') ? 1 : 0 );
 define('IS_CLI',PHP_SAPI=='cli'? 1   :   0);
 

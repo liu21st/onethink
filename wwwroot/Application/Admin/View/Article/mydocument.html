@@ -63,8 +63,10 @@
 		<th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
 		<th class="">编号</th>
 		<th class="">标题</th>
+		<th class="">子文档</th>
 		<th class="">类型</th>
 		<th class="">分类</th>
+		<th class="">优先级</th>
 		<th class="">最后更新</th>
 		<th class="">浏览</th>
 		<th class="">状态</th>
@@ -76,12 +78,14 @@
 		<tr>
             <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
 			<td>{$vo.id} </td>
-			<td><a href="{:U('Article/edit?cate_id='.$vo['category_id'].'&id='.$vo['id'])}">{$vo.title}</a></td>
-			<td><span>{$vo['type']}</span></td>
+			<td><a href="{:U('Article/index?cate_id='.$vo['category_id'].'&pid='.$vo['id'])}">{$vo.title}</a></td>
+			<td><span>{:get_subdocument_count($vo['id'])}</span></td>
+			<td><span>{:get_document_type($vo['type'])}</span></td>
 			<td><span>{:get_cate($vo['category_id'])}</span></td>
-			<td><span>{$vo.update_time}</span></td>
+			<td>{$vo.level}</td>
+			<td><span>{$vo.update_time|time_format}</span></td>
 			<td>{$vo.view}</td>
-			<td>{$vo.status}</td>
+			<td>{$vo.status_text}</td>
 			<td><a href="{:U('Article/edit?cate_id='.$vo['category_id'].'&id='.$vo['id'])}">编辑</a>
 				<a href="{:U('Article/setStatus?ids='.$vo['id'].'&status='.abs(1-$vo['status']))}" class="ajax-get">{$vo.status|show_status_op}</a>
 				<a href="{:U('Article/setStatus?status=-1&ids='.$vo['id'])}" class="confirm ajax-get">删除</a>
@@ -117,7 +121,7 @@ $(function(){
         query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
         query = query.replace(/^&/g,'');
 		if(status != ''){
-			query = 'status=' + status + "&" + query;
+			query += 'status=' + status + "&" + query;
         }
         if( url.indexOf('?')>0 ){
             url += '&' + query;

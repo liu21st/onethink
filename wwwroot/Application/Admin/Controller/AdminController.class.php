@@ -21,7 +21,6 @@ class AdminController extends Controller {
      */
     protected function _initialize(){
         // 获取当前用户ID
-        if(defined('UID')) return ;
         define('UID',is_login());
         if( !UID ){// 还没登录 跳转到登录页面
             $this->redirect('Public/login');
@@ -42,26 +41,22 @@ class AdminController extends Controller {
                 $this->error('403:禁止访问');
             }
         }
-        // 检测系统权限
-        if(!IS_ROOT){
-            $access =   $this->accessControl();
-            if ( false === $access ) {
-                $this->error('403:禁止访问');
-            }elseif(null === $access ){
-                //检测访问权限
+        // 检测访问权限
+        $access =   $this->accessControl();
+        if ( $access === false ) {
+            $this->error('403:禁止访问');
+        }elseif( $access === null ){
+            $dynamic        =   $this->checkDynamic();//检测分类栏目有关的各项动态权限
+            if( $dynamic === null ){
+                //检测非动态权限
                 $rule  = strtolower(MODULE_NAME.'/'.CONTROLLER_NAME.'/'.ACTION_NAME);
                 if ( !$this->checkRule($rule,array('in','1,2')) ){
                     $this->error('未授权访问!');
-                }else{
-                    // 检测分类及内容有关的各项动态权限
-                    $dynamic    =   $this->checkDynamic();
-                    if( false === $dynamic ){
-                        $this->error('未授权访问!');
-                    }
                 }
+            }elseif( $dynamic === false ){
+                $this->error('未授权访问!');
             }
-        }        
-
+        }
         $this->assign('__MENU__', $this->getMenus());
     }
 
@@ -73,6 +68,9 @@ class AdminController extends Controller {
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
     final protected function checkRule($rule, $type=AuthRuleModel::RULE_URL, $mode='url'){
+        if(IS_ROOT){
+            return true;//管理员允许访问任何页面
+        }
         static $Auth    =   null;
         if (!$Auth) {
             $Auth       =   new \Think\Auth();
@@ -88,11 +86,16 @@ class AdminController extends Controller {
      * @return boolean|null
      *      返回true则表示当前访问有权限
      *      返回false则表示当前访问无权限
-     *      返回null，则表示权限不明
+     *      返回null，则会进入checkRule根据节点授权判断权限
      *
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
-    protected function checkDynamic(){}
+    protected function checkDynamic(){
+        if(IS_ROOT){
+            return true;//管理员允许访问任何页面
+        }
+        return null;//不明,需checkRule
+    }
 
 
     /**
@@ -106,9 +109,12 @@ class AdminController extends Controller {
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
     final protected function accessControl(){
-        $allow = C('ALLOW_VISIT');
-        $deny  = C('DENY_VISIT');
-        $check = strtolower(CONTROLLER_NAME.'/'.ACTION_NAME);
+        if(IS_ROOT){
+            return true;//管理员允许访问任何页面
+        }
+		$allow = C('ALLOW_VISIT');
+		$deny  = C('DENY_VISIT');
+		$check = strtolower(CONTROLLER_NAME.'/'.ACTION_NAME);
         if ( !empty($deny)  && in_array_case($check,$deny) ) {
             return false;//非超管禁止访问deny中的方法
         }
@@ -132,12 +138,7 @@ class AdminController extends Controller {
     final protected function editRow ( $model ,$data, $where , $msg ){
         $id    = array_unique((array)I('id',0));
         $id    = is_array($id) ? implode(',',$id) : $id;
-        //如存在id字段，则加入该条件
-        $fields = M($model)->getDbFields();
-        if(in_array('id',$fields) && !empty($id)){
-            $where = array_merge( array('id' => array('in', $id )) ,(array)$where );
-        }
-
+        $where = array_merge( array('id' => array('in', $id )) ,(array)$where );
         $msg   = array_merge( array( 'success'=>'操作成功！', 'error'=>'操作失败！', 'url'=>'' ,'ajax'=>IS_AJAX) , (array)$msg );
         if( M($model)->where($where)->save($data)!==false ) {
             $this->success($msg['success'],$msg['url'],$msg['ajax']);
@@ -199,6 +200,7 @@ class AdminController extends Controller {
      */
     protected function delete ( $model , $where = array() , $msg = array( 'success'=>'删除成功！', 'error'=>'删除失败！')) {
         $data['status']         =   -1;
+        $data['update_time']    =   NOW_TIME;
         $this->editRow(   $model , $data, $where, $msg);
     }
 
@@ -235,7 +237,7 @@ class AdminController extends Controller {
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
     final public function getMenus($controller=CONTROLLER_NAME){
-        $menus  =   session('ADMIN_MENU_LIST.'.$controller);
+        // $menus  =   session('ADMIN_MENU_LIST'.$controller);
         if(empty($menus)){
             // 获取主菜单
             $where['pid']   =   0;
@@ -243,33 +245,40 @@ class AdminController extends Controller {
             if(!C('DEVELOP_MODE')){ // 是否开发者模式
                 $where['is_dev']    =   0;
             }
-            $menus['main']  =   M('Menu')->where($where)->order('sort asc')->field('id,title,url')->select();
-            $menus['child'] =   array(); //设置子节点
-            foreach ($menus['main'] as $key => $item) {
-                // 判断主菜单权限
-                if ( !IS_ROOT && !$this->checkRule(strtolower(MODULE_NAME.'/'.$item['url']),AuthRuleModel::RULE_MAIN,null) ) {
-                    unset($menus['main'][$key]);
-                    continue;//继续循环
-                }
-                if(strtolower(CONTROLLER_NAME.'/'.ACTION_NAME)  == strtolower($item['url'])){
-                    $menus['main'][$key]['class']='current';
-                }
-            }
+            $menus['main']  =   M('Menu')->where($where)->order('sort asc')->select();
 
-            // 查找当前子菜单
-            $pid = M('Menu')->where("pid !=0 AND url like '%{$controller}/".ACTION_NAME."%'")->getField('pid');
-            if($pid){
-                // 查找当前主菜单
-                $nav =  M('Menu')->find($pid);
-                if($nav['pid']){
-                    $nav    =   M('Menu')->find($nav['pid']);
-                }
+            $menus['child'] = array(); //设置子节点
+
+            //高亮主菜单
+            $current = M('Menu')->where("url like '%{$controller}/".ACTION_NAME."%'")->field('id')->find();
+            if($current){
+                $nav = D('Menu')->getPath($current['id']);
+                $nav_first_title = $nav[0]['title'];
+
                 foreach ($menus['main'] as $key => $item) {
+                    if (!is_array($item) || empty($item['title']) || empty($item['url']) ) {
+                        $this->error('控制器基类$menus属性元素配置有误');
+                    }
+                    if( stripos($item['url'],MODULE_NAME)!==0 ){
+                        $item['url'] = MODULE_NAME.'/'.$item['url'];
+                    }
+                    // 判断主菜单权限
+                    if ( !IS_ROOT && !$this->checkRule($item['url'],AuthRuleModel::RULE_MAIN,null) ) {
+                        unset($menus['main'][$key]);
+                        continue;//继续循环
+                    }
+
                     // 获取当前主菜单的子菜单项
-                    if($item['id'] == $nav['id']){
+                    if($item['title'] == $nav_first_title){
                         $menus['main'][$key]['class']='current';
                         //生成child树
-                        $groups = M('Menu')->where(array('group'=>array('neq',''),'pid' =>$item['id']))->distinct(true)->getField("group",true);
+                        $groups = M('Menu')->where("pid = {$item['id']}")->distinct(true)->field("`group`")->select();
+                        if($groups){
+                            $groups = array_column($groups, 'group');
+                        }else{
+                            $groups =   array();
+                        }
+
                         //获取二级分类的合法url
                         $where          =   array();
                         $where['pid']   =   $item['id'];
@@ -303,7 +312,7 @@ class AdminController extends Controller {
                                     $map['url'] = array('in', $to_check_urls);
                                 }
                             }
-                            $map['pid']     =   $item['id'];
+                            $map['pid'] =   $item['id'];
                             $map['hide']    =   0;
                             if(!C('DEVELOP_MODE')){ // 是否开发者模式
                                 $map['is_dev']  =   0;
@@ -311,10 +320,13 @@ class AdminController extends Controller {
                             $menuList = M('Menu')->where($map)->field('id,pid,title,url,tip')->order('sort asc')->select();
                             $menus['child'][$g] = list_to_tree($menuList, 'id', 'pid', 'operater', $item['id']);
                         }
+                        if($menus['child'] === array()){
+                            //$this->error('主菜单下缺少子菜单，请去系统=》后台菜单管理里添加');
+                        }
                     }
                 }
             }
-            session('ADMIN_MENU_LIST.'.$controller,$menus);
+            // session('ADMIN_MENU_LIST'.$controller,$menus);
         }
         return $menus;
     }
@@ -373,13 +385,14 @@ class AdminController extends Controller {
      *                              请求参数中如果指定了_order和_field则据此排序(优先级第二);
      *                              否则使用$order参数(如果$order参数,且模型也没有设定过order,则取主键降序);
      *
+     * @param array        $base    基本的查询条件
      * @param boolean      $field   单表模型用不到该参数,要用在多表join时为field()方法指定参数
      * @author 朱亚杰 <xcoolcc@gmail.com>
      *
      * @return array|false
      * 返回数据集
      */
-    protected function lists ($model,$where=array(),$order='',$field=true){
+    protected function lists ($model,$where=array(),$order='',$base = array('status'=>array('egt',0)),$field=true){
         $options    =   array();
         $REQUEST    =   (array)I('request.');
         if(is_string($model)){
@@ -401,11 +414,15 @@ class AdminController extends Controller {
         }
         unset($REQUEST['_order'],$REQUEST['_field']);
 
-        if(empty($where)){
-            $where  =   array('status'=>array('egt',0));
-        }
-        if( !empty($where)){
-            $options['where']   =   $where;
+        $options['where'] = array_filter(array_merge( (array)$base, /*$REQUEST,*/ (array)$where ),function($val){
+            if($val===''||$val===null){
+                return false;
+            }else{
+                return true;
+            }
+        });
+        if( empty($options['where'])){
+            unset($options['where']);
         }
         $options      =   array_merge( (array)$OPT->getValue($model), $options );
         $total        =   $model->where($options['where'])->count();
@@ -429,38 +446,4 @@ class AdminController extends Controller {
         return $model->field($field)->select();
     }
 
-    /**
-     * 处理文档列表显示
-     * @param array $list 列表数据
-     * @param integer $model_id 模型id
-     */
-    protected function parseDocumentList($list,$model_id=null){
-        $model_id = $model_id ? $model_id : 1;
-        $attrList = get_model_attribute($model_id,false,'id,name,type,extra');
-        // 对列表数据进行显示处理
-        if(is_array($list)){
-            foreach ($list as $k=>$data){
-                foreach($data as $key=>$val){
-                    if(isset($attrList[$key])){
-                        $extra      =   $attrList[$key]['extra'];
-                        $type       =   $attrList[$key]['type'];
-                        if('select'== $type || 'checkbox' == $type || 'radio' == $type || 'bool' == $type) {
-                            // 枚举/多选/单选/布尔型
-                            $options    =   parse_field_attr($extra);
-                            if($options && array_key_exists($val,$options)) {
-                                $data[$key]    =   $options[$val];
-                            }
-                        }elseif('date'==$type){ // 日期型
-                            $data[$key]    =   date('Y-m-d',$val);
-                        }elseif('datetime' == $type){ // 时间型
-                            $data[$key]    =   date('Y-m-d H:i',$val);
-                        }
-                    }
-                }
-                $data['model_id'] = $model_id;
-                $list[$k]   =   $data;
-            }
-        }
-        return $list;
-    }
 }

@@ -22,26 +22,17 @@ class ModelModel extends Model{
         array('name', '', '标识已经存在', self::VALUE_VALIDATE, 'unique', self::MODEL_BOTH),
         array('title', 'require', '标题不能为空', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
         array('title', '1,30', '标题长度不能超过30个字符', self::MUST_VALIDATE, 'length', self::MODEL_BOTH),
-        array('list_grid', 'checkListGrid', '列表定义不能为空', self::MUST_VALIDATE, 'callback', self::MODEL_UPDATE),
+    	array('list_grid', 'require', '列表定义不能为空', self::MUST_VALIDATE , 'regex', self::MODEL_UPDATE),
     );
 
     /* 自动完成规则 */
     protected $_auto = array(
-        array('name', 'strtolower', self::MODEL_INSERT, 'function'),
+    	array('name', 'strtolower', self::MODEL_INSERT, 'function'),
         array('create_time', NOW_TIME, self::MODEL_INSERT),
         array('update_time', NOW_TIME, self::MODEL_BOTH),
         array('status', '1', self::MODEL_INSERT, 'string'),
-        array('field_sort', 'getFields', self::MODEL_BOTH, 'callback'),
-        array('attribute_list', 'getAttribute', self::MODEL_BOTH, 'callback'),
+    	array('field_sort', 'getFields', self::MODEL_BOTH, 'callback'),
     );
-
-    /**
-     * 检查列表定义
-     * @param type $data
-     */
-    protected function checkListGrid($data) {
-        return I("post.extend") != 0 || !empty($data);
-    }
 
     /**
      * 新增或更新一个文档
@@ -69,11 +60,11 @@ class ModelModel extends Model{
                 return false;
             }
         }
-        // 清除模型缓存数据
-        S('DOCUMENT_MODEL_LIST', null);
+		// 清除模型缓存数据
+		S('DOCUMENT_MODEL_LIST', null);
 
-        //记录行为
-        action_log('update_model','model',$data['id'] ? $data['id'] : $id,UID);
+		//记录行为
+		action_log('update_model','model',$data['id'] ? $data['id'] : $id,UID);
 
         //内容添加或更新完成
         return $data;
@@ -81,66 +72,60 @@ class ModelModel extends Model{
 
     /**
      * 处理字段排序数据
+     * @author huajie <banhuajie@163.com>
      */
     protected function getFields($fields){
-        return empty($fields) ? '' : json_encode($fields);
-    }
-
-    protected function getAttribute($fields) {
-        return empty($fields) ? '' : implode(',', $fields);
+    	return empty($fields) ? '' : json_encode($fields);
     }
 
     /**
      * 获取指定数据库的所有表名
+     * @author huajie <banhuajie@163.com>
      */
-    public function getTables(){
-        return $this->db->getTables();
+    public function getTables($connection = null){
+    	$tables = M()->query('SHOW TABLES;');
+    	foreach ($tables as $key=>$value){
+    		$tables[$key] = $value['Tables_in_'.C('DB_NAME')];
+    	}
+    	return $tables;
     }
 
     /**
      * 根据数据表生成模型及其属性数据
      * @author huajie <banhuajie@163.com>
      */
-    public function generate($table,$name='',$title=''){
-        //新增模型数据
-        if(empty($name)){
-            $name = $title = substr($table, strlen(C('DB_PREFIX')));
-        }
-        $data = array('name'=>$name, 'title'=>$title);
-        $data = $this->create($data);
-        if($data){
-            $res = $this->add($data);
-            if(!$res){
-                return false;
-            }
-        }else{
-            $this->error = $this->getError();
-            return false;
-        }
+    public function generate($table){
+    	//新增模型数据
+    	$name = substr($table, strlen(C('DB_PREFIX')));
+    	$data = array('name'=>$name, 'title'=>$name);
+    	$data = $this->create($data);
+    	$res = $this->add($data);
+    	if(!$res){
+    		return false;
+    	}
 
-        //新增属性
-        $fields = M()->query('SHOW FULL COLUMNS FROM '.$table);
-        foreach ($fields as $key=>$value){
-            $value  =   array_change_key_case($value);
-            //不新增id字段
-            if(strcmp($value['field'], 'id') == 0){
-                continue;
-            }
+    	//新增属性
+		$fields = M()->query('SHOW FULL COLUMNS FROM '.$table);
+		foreach ($fields as $key=>$value){
+			//不新增id字段
+			if(strcmp($value['Field'], 'id') == 0){
+				continue;
+			}
 
-            //生成属性数据
-            $data = array();
-            $data['name'] = $value['field'];
-            $data['title'] = $value['comment'];
-            $data['type'] = 'string';	//TODO:根据字段定义生成合适的数据类型
-            //获取字段定义
-            $is_null = strcmp($value['null'], 'NO') == 0 ? ' NOT NULL ' : ' NULL ';
-            $data['field'] = $value['type'].$is_null;
-            $data['value'] = $value['default'] == null ? '' : $value['default'];
-            $data['model_id'] = $res;
-            $_POST = $data;		//便于自动验证
-            D('Attribute')->update($data, false);
-        }
-        return $res;
+			//生成属性数据
+			$data = array();
+			$data['name'] = $value['Field'];
+			$data['title'] = $value['Comment'];
+			$data['type'] = 'string';	//TODO:根据字段定义生成合适的数据类型
+			//获取字段定义
+			$is_null = strcmp($value['Null'], 'NO') == 0 ? ' NOT NULL ' : ' NULL ';
+			$data['field'] = $value['Type'].$is_null;
+			$data['value'] = $value['Default'] == null ? '' : $value['Default'];
+			$data['model_id'] = $res;
+			$_POST = $data;		//便于自动验证
+			D('Attribute')->update($data, false);
+		}
+    	return $res;
     }
 
     /**
@@ -149,26 +134,18 @@ class ModelModel extends Model{
      * @author huajie <banhuajie@163.com>
      */
     public function del($id){
-        //获取表名
-        $model = $this->field('name,extend')->find($id);
-        if($model['extend'] == 0){
-            $table_name = C('DB_PREFIX').strtolower($model['name']);
-        }elseif($model['extend'] == 1){
-            $table_name = C('DB_PREFIX').'document_'.strtolower($model['name']);
-        }else{
-            $this->error = '只支持删除文档模型和独立模型';
-            return false;
-        }
-
-        //删除属性数据
-        M('Attribute')->where(array('model_id'=>$id))->delete();
-        //删除模型数据
-        $this->delete($id);
-        //删除该表
-        $sql = <<<sql
-                DROP TABLE {$table_name};
+    	//获取表名
+    	$model = $this->field('name')->find($id);
+    	$table_name = C('DB_PREFIX').strtolower($model['name']);
+    	//删除属性数据
+    	M('Attribute')->where(array('model_id'=>$id))->delete();
+    	//删除模型数据
+    	$this->delete($id);
+    	//删除该表
+    	$sql = <<<sql
+				DROP TABLE {$table_name};
 sql;
-        $res = M()->execute($sql);
-        return $res !== false;
+    	$res = M()->execute($sql);
+    	return $res !== false;
     }
 }

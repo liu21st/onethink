@@ -44,7 +44,7 @@ class UserController extends AdminController {
         $nickname = M('Member')->getFieldByUid(UID, 'nickname');
         $this->assign('nickname', $nickname);
         $this->meta_title = '修改昵称';
-        $this->display('updatenickname');
+        $this->display();
     }
 
     /**
@@ -88,7 +88,7 @@ class UserController extends AdminController {
      */
     public function updatePassword(){
         $this->meta_title = '修改密码';
-        $this->display('updatepassword');
+        $this->display();
     }
 
     /**
@@ -155,7 +155,7 @@ class UserController extends AdminController {
 
         $this->assign('data',$data);
         $this->meta_title = '编辑行为';
-        $this->display('editaction');
+        $this->display();
     }
 
     /**

@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2014 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006-2013 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -22,7 +22,9 @@ class App {
     static public function init() {
         // 加载动态应用公共文件和配置
         load_ext_file(COMMON_PATH);
-        
+        // URL调度
+        Dispatcher::dispatch();
+
         // 定义当前请求的系统常量
         define('NOW_TIME',      $_SERVER['REQUEST_TIME']);
         define('REQUEST_METHOD',$_SERVER['REQUEST_METHOD']);
@@ -30,10 +32,12 @@ class App {
         define('IS_POST',       REQUEST_METHOD =='POST' ? true : false);
         define('IS_PUT',        REQUEST_METHOD =='PUT' ? true : false);
         define('IS_DELETE',     REQUEST_METHOD =='DELETE' ? true : false);
+        define('IS_AJAX',       ((isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') || !empty($_POST[C('VAR_AJAX_SUBMIT')]) || !empty($_GET[C('VAR_AJAX_SUBMIT')])) ? true : false);
 
-        // URL调度
-        Dispatcher::dispatch();
+        // URL调度结束标签
+        Hook::listen('url_dispatch');         
 
+        // 系统变量安全过滤
         if(C('REQUEST_VARS_FILTER')){
             // 全局安全过滤
             array_walk_recursive($_GET,     'think_filter');
@@ -41,13 +45,8 @@ class App {
             array_walk_recursive($_REQUEST, 'think_filter');
         }
 
-        // URL调度结束标签
-        Hook::listen('url_dispatch');         
-
-        define('IS_AJAX',       ((isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') || !empty($_POST[C('VAR_AJAX_SUBMIT')]) || !empty($_GET[C('VAR_AJAX_SUBMIT')])) ? true : false);
-
         // 日志目录转换为绝对路径
-        C('LOG_PATH',   realpath(LOG_PATH).'/'.MODULE_NAME.'/');
+        C('LOG_PATH',realpath(LOG_PATH).'/');
         // TMPL_EXCEPTION_FILE 改为绝对地址
         C('TMPL_EXCEPTION_FILE',realpath(C('TMPL_EXCEPTION_FILE')));
         return ;
@@ -85,7 +84,7 @@ class App {
             $action  =  'run';
         }else{
             //创建控制器实例
-            $module  =  controller(CONTROLLER_NAME,CONTROLLER_PATH);                
+            $module  =  A(CONTROLLER_NAME);                
         }
 
         if(!$module) {
@@ -147,17 +146,7 @@ class App {
                             E(L('_PARAM_ERROR_').':'.$name);
                         }   
                     }
-                    // 开启绑定参数过滤机制
-                    if(C('URL_PARAMS_SAFE')){
-                        $filters     =   C('URL_PARAMS_FILTER')?:C('DEFAULT_FILTER');
-                        if($filters) {
-                            $filters    =   explode(',',$filters);
-                            foreach($filters as $filter){
-                                $args   =   array_map_recursive($filter,$args); // 参数过滤
-                            }
-                        }                        
-                    }
-                    array_walk_recursive($args,'think_filter');
+					array_walk_recursive($args,'think_filter');
                     $method->invokeArgs($module,$args);
                 }else{
                     $method->invoke($module);

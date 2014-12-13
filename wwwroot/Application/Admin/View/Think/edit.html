@@ -25,7 +25,7 @@
                     <div class="controls">
                         <switch name="field.type">
                             <case value="num">
-                                <input type="text" class="text input-mid" name="{$field.name}" value="{$data[$field['name']]}">
+                                <input type="text" class="text input-medium" name="{$field.name}" value="{$data[$field['name']]}">
                             </case>
                             <case value="string">
                                 <input type="text" class="text input-large" name="{$field.name}" value="{$data[$field['name']]}">
@@ -35,11 +35,8 @@
                                 <textarea name="{$field.name}">{$data[$field['name']]}</textarea>
                                 </label>
                             </case>
-                            <case value="date">
-                                <input type="text" name="{$field.name}" class="text input-mid date" value="{$data[$field['name']]|date='Y-m-d',###}" placeholder="请选择日期" />
-                            </case>
                             <case value="datetime">
-                                <input type="text" name="{$field.name}" class="text input-mid time" value="{$data[$field['name']]|date='Y-m-d H:i',###}" placeholder="请选择时间" />
+                                <input type="text" name="{$field.name}" class="text input-large time" value="{$data[$field['name']]|date='Y-m-d H:i',###}" placeholder="请选择时间" />
                             </case>
                             <case value="bool">
                                 <select name="{$field.name}">
@@ -81,7 +78,7 @@
 									<input type="hidden" name="{$field.name}" id="cover_id_{$field.name}" value="{$data[$field['name']]}"/>
 									<div class="upload-img-box">
 									<notempty name="data[$field['name']]">
-										<div class="upload-pre-item"><img src="{$data[$field['name']]|get_cover='path'}"/></div>
+										<div class="upload-pre-item"><img src="__ROOT__{$data[$field['name']]|get_cover='path'}"/></div>
 									</notempty>
 									</div>
 								</div>
@@ -200,12 +197,6 @@ $('#submit').click(function(){
 $(function(){
 	$('.time').datetimepicker({
         format: 'yyyy-mm-dd hh:ii',
-        language:"zh-CN",
-        minView:2,
-        autoclose:true
-    });
-    $('.date').datetimepicker({
-        format: 'yyyy-mm-dd',
         language:"zh-CN",
         minView:2,
         autoclose:true

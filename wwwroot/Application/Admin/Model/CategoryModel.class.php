@@ -28,8 +28,6 @@ class CategoryModel extends Model{
     protected $_auto = array(
         array('model', 'arr2str', self::MODEL_BOTH, 'function'),
         array('model', null, self::MODEL_BOTH, 'ignore'),
-        array('model_sub', 'arr2str', self::MODEL_BOTH, 'function'),
-        array('model_sub', null, self::MODEL_BOTH, 'ignore'),
         array('type', 'arr2str', self::MODEL_BOTH, 'function'),
         array('type', null, self::MODEL_BOTH, 'ignore'),
         array('reply_model', 'arr2str', self::MODEL_BOTH, 'function'),
@@ -90,22 +88,6 @@ class CategoryModel extends Model{
     }
 
     /**
-     * 获取指定分类子分类ID
-     * @param  string $cate 分类ID
-     * @return string       id列表
-     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
-     */
-    public function getChildrenId($cate) {
-        $field    = 'id,name,pid,title,link_id';
-        $category = $this->getTree($cate, $field);
-        $ids[]    = $cate;
-        foreach ($category['_'] as $key => $value) {
-            $ids[] = $value['id'];
-        }
-        return implode(',', $ids);
-    }
-
-    /**
      * 获取指定分类的同级分类
      * @param  integer $id    分类ID
      * @param  boolean $field 查询字段
@@ -154,10 +136,6 @@ class CategoryModel extends Model{
         /* 分割模型 */
         if(!empty($data['model'])){
             $data['model'] = explode(',', $data['model']);
-        }
-
-        if(!empty($data['model_sub'])){
-            $data['model_sub'] = explode(',', $data['model_sub']);
         }
 
         /* 分割文档类型 */

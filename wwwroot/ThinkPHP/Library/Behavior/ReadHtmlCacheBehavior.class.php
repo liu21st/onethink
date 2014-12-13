@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2014 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006-2013 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -99,7 +99,7 @@ class ReadHtmlCacheBehavior {
      * @return boolean
      */
     static public function checkHTMLCache($cacheFile='',$cacheTime='') {
-        if(!is_file($cacheFile) && 'sae' != APP_MODE ){
+        if(!is_file($cacheFile)){
             return false;
         }elseif (filemtime(\Think\Think::instance('Think\View')->parseTemplate()) > Storage::get($cacheFile,'mtime','html')) {
             // 模板文件如果更新静态文件需要更新
