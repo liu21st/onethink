@@ -269,6 +269,9 @@ function T($template='',$layer=''){
  * @return mixed
  */
 function I($name,$default='',$filter=null,$datas=null) {
+	if(strpos($name,'/')){ // 指定修饰符
+		list($name,$type) 	=	explode('/',$name,2);
+	}
     if(strpos($name,'.')) { // 指定参数来源
         list($method,$name) =   explode('.',$name,2);
     }else{ // 默认为自动判断
@@ -329,14 +332,38 @@ function I($name,$default='',$filter=null,$datas=null) {
             
             foreach($filters as $filter){
                 if(function_exists($filter)) {
-                    $data   =   is_array($data)?array_map_recursive($filter,$data):$filter($data); // 参数过滤
+                    $data   =   is_array($data) ? array_map_recursive($filter,$data) : $filter($data); // 参数过滤
+                }elseif(0===strpos($filter,'/')){
+                	// 支持正则验证
+                	if(1 !== preg_match($filter,(string)$data)){
+                		return   isset($default) ? $default : NULL;
+                	}
                 }else{
-                    $data   =   filter_var($data,is_int($filter)?$filter:filter_id($filter));
+                    $data   =   filter_var($data,is_int($filter) ? $filter : filter_id($filter));
                     if(false === $data) {
-                        return   isset($default)?$default:NULL;
+                        return   isset($default) ? $default : NULL;
                     }
                 }
             }
+        }
+        if(!empty($type)){
+        	switch(strtolower($type)){
+        		case 's':   // 字符串
+        			$data 	=	(string)$data;
+        			break;
+        		case 'a':	// 数组
+        			$data 	=	(array)$data;
+        			break;
+        		case 'd':	// 数字
+        			$data 	=	(int)$data;
+        			break;
+        		case 'f':	// 浮点
+        			$data 	=	(float)$data;
+        			break;
+        		case 'b':	// 布尔
+        			$data 	=	(boolean)$data;
+        			break;
+        	}
         }
     }else{ // 变量默认值
         $data       =    isset($default)?$default:NULL;
@@ -1261,14 +1288,20 @@ function session($name='',$value='') {
             }
         }
     }else{ // 设置session
-        if($prefix){
-            if (!isset($_SESSION[$prefix])) {
-                $_SESSION[$prefix] = array();
-            }
-            $_SESSION[$prefix][$name]   =  $value;
-        }else{
-            $_SESSION[$name]  =  $value;
-        }
+		if(strpos($name,'.')){
+			list($name1,$name2) =   explode('.',$name);
+			if($prefix){
+				$_SESSION[$prefix][$name1][$name2]   =  $value;
+			}else{
+				$_SESSION[$name1][$name2]  =  $value;
+			}
+		}else{
+			if($prefix){
+				$_SESSION[$prefix][$name]   =  $value;
+			}else{
+				$_SESSION[$name]  =  $value;
+			}
+		}
     }
     return null;
 }
@@ -1468,16 +1501,16 @@ function send_http_status($code) {
     }
 }
 
+function think_filter(&$value){
+	// TODO 其他安全过滤
+
+	// 过滤查询特殊字符
+    if(preg_match('/^(EXP|NEQ|GT|EGT|LT|ELT|OR|XOR|LIKE|NOTLIKE|NOT BETWEEN|NOTBETWEEN|BETWEEN|NOTIN|NOT IN|IN)$/i',$value)){
+        $value .= ' ';
+    }
+}
+
 // 不区分大小写的in_array实现
 function in_array_case($value,$array){
     return in_array(strtolower($value),array_map('strtolower',$array));
-}
-
-function think_filter(&$value){
-    // TODO 其他安全过滤
-
-    // 过滤查询特殊字符
-    if(preg_match('/^(EXP|NEQ|GT|EGT|LT|ELT|OR|LIKE|NOTLIKE|NOTBETWEEN|BETWEEN|NOTIN|IN)$/i',$value)){
-        $value .= ' ';
-    }
 }
