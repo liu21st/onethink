@@ -49,11 +49,20 @@ class Mysql extends Driver{
     public function getFields($tableName) {
         $this->initConnect(true);
         list($tableName) = explode(' ', $tableName);
-        $sql   = 'SHOW COLUMNS FROM `'.$tableName.'`';
+        if(strpos($tableName,'.')){
+        	list($dbName,$tableName) = explode('.',$tableName);
+			$sql   = 'SHOW COLUMNS FROM `'.$dbName.'`.`'.$tableName.'`';
+        }else{
+        	$sql   = 'SHOW COLUMNS FROM `'.$tableName.'`';
+        }
+        
         $result = $this->query($sql);
         $info   =   array();
         if($result) {
             foreach ($result as $key => $val) {
+				if(\PDO::CASE_LOWER != $this->_linkID->getAttribute(\PDO::ATTR_CASE)){
+					$val = array_change_key_case ( $val ,  CASE_LOWER );
+				}
                 $info[$val['field']] = array(
                     'name'    => $val['field'],
                     'type'    => $val['type'],
@@ -126,8 +135,10 @@ class Mysql extends Driver{
             }
             $values[]    = '('.implode(',', $value).')';
         }
-        $sql   =  ($replace?'REPLACE':'INSERT').' INTO '.$this->parseTable($options['table']).' ('.implode(',', $fields).') VALUES '.implode(',',$values);
-        $sql   .= $this->parseComment(!empty($options['comment'])?$options['comment']:'');
+        // 兼容数字传入方式
+        $replace= (is_numeric($replace) && $replace>0)?true:$replace;
+        $sql    =  (true===$replace?'REPLACE':'INSERT').' INTO '.$this->parseTable($options['table']).' ('.implode(',', $fields).') VALUES '.implode(',',$values).$this->parseDuplicate($replace);
+        $sql    .= $this->parseComment(!empty($options['comment'])?$options['comment']:'');
         return $this->execute($sql,!empty($options['fetch_sql']) ? true : false);
     }
 
@@ -140,10 +151,14 @@ class Mysql extends Driver{
     protected function parseDuplicate($duplicate){
         // 布尔值或空则返回空字符串
         if(is_bool($duplicate) || empty($duplicate)) return '';
-        // field1,field2 转数组
-        if(is_string($duplicate)) $duplicate = explode(',', $duplicate);
-        // 对象转数组
-        if(is_object($duplicate)) $duplicate = get_class_vars($duplicate);
+        
+        if(is_string($duplicate)){
+        	// field1,field2 转数组
+        	$duplicate = explode(',', $duplicate);
+        }elseif(is_object($duplicate)){
+        	// 对象转数组
+        	$duplicate = get_class_vars($duplicate);
+        }
         $updates                    = array();
         foreach((array) $duplicate as $key=>$val){
             if(is_numeric($key)){ // array('field1', 'field2', 'field3') 解析为 ON DUPLICATE KEY UPDATE field1=VALUES(field1), field2=VALUES(field2), field3=VALUES(field3)

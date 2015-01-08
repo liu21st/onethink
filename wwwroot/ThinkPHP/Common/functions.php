@@ -125,9 +125,13 @@ function G($start,$end='',$dec=4) {
     if(is_float($end)) { // 记录时间
         $_info[$start]  =   $end;
     }elseif(!empty($end)){ // 统计时间和内存使用
-        if(!isset($_info[$end])) $_info[$end]       =  microtime(TRUE);
+        if(!isset($_info[$end])) {
+        	$_info[$end]       =  microtime(TRUE);
+        }
         if(MEMORY_LIMIT_ON && $dec=='m'){
-            if(!isset($_mem[$end])) $_mem[$end]     =  memory_get_usage();
+            if(!isset($_mem[$end])) {
+            	$_mem[$end]     =  memory_get_usage();
+            }
             return number_format(($_mem[$end]-$_mem[$start])/1024);
         }else{
             return number_format(($_info[$end]-$_info[$start]),$dec);
@@ -135,7 +139,9 @@ function G($start,$end='',$dec=4) {
 
     }else{ // 记录时间和内存使用
         $_info[$start]  =  microtime(TRUE);
-        if(MEMORY_LIMIT_ON) $_mem[$start]           =  memory_get_usage();
+        if(MEMORY_LIMIT_ON) {
+        	$_mem[$start]           =  memory_get_usage();
+        }
     }
     return null;
 }
@@ -201,8 +207,9 @@ function compile($filename) {
     }else{
         $content    =   'namespace {'.$content;
     }
-    if ('?>' == substr($content, -2))
+    if ('?>' == substr($content, -2)){
         $content    = substr($content, 0, -2);
+    }
     return $content.'}';
 }
 
@@ -271,16 +278,24 @@ function T($template='',$layer=''){
 function I($name,$default='',$filter=null,$datas=null) {
 	if(strpos($name,'/')){ // 指定修饰符
 		list($name,$type) 	=	explode('/',$name,2);
-	}
+	}elseif(C('VAR_AUTO_STRING')){ // 默认强制转换为字符串
+        $type   =   's';
+    }
     if(strpos($name,'.')) { // 指定参数来源
         list($method,$name) =   explode('.',$name,2);
     }else{ // 默认为自动判断
         $method =   'param';
     }
     switch(strtolower($method)) {
-        case 'get'     :   $input =& $_GET;break;
-        case 'post'    :   $input =& $_POST;break;
-        case 'put'     :   parse_str(file_get_contents('php://input'), $input);break;
+        case 'get'     :   
+        	$input =& $_GET;
+        	break;
+        case 'post'    :   
+        	$input =& $_POST;
+        	break;
+        case 'put'     :   
+        	parse_str(file_get_contents('php://input'), $input);
+        	break;
         case 'param'   :
             switch($_SERVER['REQUEST_METHOD']) {
                 case 'POST':
@@ -300,12 +315,24 @@ function I($name,$default='',$filter=null,$datas=null) {
                 $input  =   explode($depr,trim($_SERVER['PATH_INFO'],$depr));            
             }
             break;
-        case 'request' :   $input =& $_REQUEST;   break;
-        case 'session' :   $input =& $_SESSION;   break;
-        case 'cookie'  :   $input =& $_COOKIE;    break;
-        case 'server'  :   $input =& $_SERVER;    break;
-        case 'globals' :   $input =& $GLOBALS;    break;
-        case 'data'    :   $input =& $datas;      break;
+        case 'request' :   
+        	$input =& $_REQUEST;   
+        	break;
+        case 'session' :   
+        	$input =& $_SESSION;   
+        	break;
+        case 'cookie'  :   
+        	$input =& $_COOKIE;    
+        	break;
+        case 'server'  :   
+        	$input =& $_SERVER;    
+        	break;
+        case 'globals' :   
+        	$input =& $GLOBALS;    
+        	break;
+        case 'data'    :   
+        	$input =& $datas;      
+        	break;
         default:
             return NULL;
     }
@@ -348,9 +375,6 @@ function I($name,$default='',$filter=null,$datas=null) {
         }
         if(!empty($type)){
         	switch(strtolower($type)){
-        		case 's':   // 字符串
-        			$data 	=	(string)$data;
-        			break;
         		case 'a':	// 数组
         			$data 	=	(array)$data;
         			break;
@@ -363,6 +387,9 @@ function I($name,$default='',$filter=null,$datas=null) {
         		case 'b':	// 布尔
         			$data 	=	(boolean)$data;
         			break;
+                case 's':   // 字符串
+                default:
+                    $data   =   (string)$data;
         	}
         }
     }else{ // 变量默认值
@@ -471,10 +498,11 @@ function file_exists_case($filename) {
 function import($class, $baseUrl = '', $ext=EXT) {
     static $_file = array();
     $class = str_replace(array('.', '#'), array('/', '.'), $class);
-    if (isset($_file[$class . $baseUrl]))
+    if (isset($_file[$class . $baseUrl])){
         return true;
-    else
+    }else{
         $_file[$class . $baseUrl] = true;
+    }
     $class_strut     = explode('/', $class);
     if (empty($baseUrl)) {
         if ('@' == $class_strut[0] || MODULE_NAME == $class_strut[0]) {
@@ -492,8 +520,9 @@ function import($class, $baseUrl = '', $ext=EXT) {
             $baseUrl = APP_PATH;
         }
     }
-    if (substr($baseUrl, -1) != '/')
+    if (substr($baseUrl, -1) != '/'){
         $baseUrl    .= '/';
+    }
     $classfile       = $baseUrl . $class . $ext;
     if (!class_exists(basename($class),false)) {
         // 如果类不存在 则导入类库文件
@@ -586,8 +615,9 @@ function M($name='', $tablePrefix='',$connection='') {
         $class      =   'Think\\Model';
     }
     $guid           =   (is_array($connection)?implode('',$connection):$connection).$tablePrefix . $name . '_' . $class;
-    if (!isset($_model[$guid]))
+    if (!isset($_model[$guid])){
         $_model[$guid] = new $class($name,$tablePrefix,$connection);
+    }
     return $_model[$guid];
 }
 
@@ -783,10 +813,12 @@ function strip_whitespace($content) {
  */
 function throw_exception($msg, $type='Think\\Exception', $code=0) {
     Think\Log::record('建议使用E方法替代throw_exception',Think\Log::NOTICE);
-    if (class_exists($type, false))
+    if (class_exists($type, false)){
         throw new $type($msg, $code);
-    else
+    }
+    else{
         Think\Think::halt($msg);        // 异常类型不存在则输出错误信息字串
+    }
 }
 
 /**
@@ -818,8 +850,9 @@ function dump($var, $echo=true, $label=null, $strict=true) {
     if ($echo) {
         echo($output);
         return null;
-    }else
+    }else{
         return $output;
+    }
 }
 
 /**
@@ -1044,8 +1077,9 @@ function redirect($url, $time=0, $msg='') {
         exit();
     } else {
         $str    = "<meta http-equiv='Refresh' content='{$time};URL={$url}'>";
-        if ($time != 0)
+        if ($time != 0){
             $str .= $msg;
+        }
         exit($str);
     }
 }
@@ -1059,7 +1093,7 @@ function redirect($url, $time=0, $msg='') {
  */
 function S($name,$value='',$options=null) {
     static $cache   =   '';
-    if(is_array($options) && empty($cache)){
+    if(is_array($options)){
         // 缓存操作的同时初始化
         $type       =   isset($options['type'])?$options['type']:'';
         $cache      =   Think\Cache::getInstance($type,$options);
@@ -1111,8 +1145,9 @@ function F($name, $value='', $path=DATA_PATH) {
         }
     }
     // 获取缓存数据
-    if (isset($_cache[$name]))
+    if (isset($_cache[$name])){
         return $_cache[$name];
+    }
     if (Think\Storage::has($filename,'F')){
         $value      =   unserialize(Think\Storage::read($filename,'F'));
         $_cache[$name]  =   $value;
@@ -1207,7 +1242,10 @@ function session($name='',$value='') {
         if(isset($name['name']))            session_name($name['name']);
         if(isset($name['path']))            session_save_path($name['path']);
         if(isset($name['domain']))          ini_set('session.cookie_domain', $name['domain']);
-        if(isset($name['expire']))          ini_set('session.gc_maxlifetime', $name['expire']);
+        if(isset($name['expire']))          {
+            ini_set('session.gc_maxlifetime',   $name['expire']);
+            ini_set('session.cookie_lifetime',  $name['expire']);
+        }
         if(isset($name['use_trans_sid']))   ini_set('session.use_trans_sid', $name['use_trans_sid']?1:0);
         if(isset($name['use_cookies']))     ini_set('session.use_cookies', $name['use_cookies']?1:0);
         if(isset($name['cache_limiter']))   session_cache_limiter($name['cache_limiter']);
@@ -1325,10 +1363,11 @@ function cookie($name='', $value='', $option=null) {
     );
     // 参数设置(会覆盖黙认设置)
     if (!is_null($option)) {
-        if (is_numeric($option))
+        if (is_numeric($option)){
             $option = array('expire' => $option);
-        elseif (is_string($option))
+        }elseif (is_string($option)){
             parse_str($option, $option);
+        }
         $config     = array_merge($config, array_change_key_case($option));
     }
     if(!empty($config['httponly'])){
