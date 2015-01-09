@@ -58,7 +58,7 @@
 <block name="script">
 <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
 <script type="text/javascript" charset="utf-8">
-	Think.setValue('type',{$type|default=1});
+	Think.setValue('type',{$data.type|default=1});
     //导航高亮
     highlight_subnav('{:U('User/action')}');
 </script>
