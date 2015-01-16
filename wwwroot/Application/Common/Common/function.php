@@ -73,7 +73,7 @@ function arr2str($arr, $glue = ','){
  * @param string $suffix 截断显示字符
  * @return string
  */
-function msubstr($str, $start=0, $length, $charset="utf-8", $suffix=true) {
+function msubstr($str, $start, $length, $charset="utf-8", $suffix=true) {
     if(function_exists("mb_substr"))
         $slice = mb_substr($str, $start, $length, $charset);
     elseif(function_exists('iconv_substr')) {
@@ -644,7 +644,7 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
  * @return boolean|array: false解析出错 ， 成功返回规则数组
  * @author huajie <banhuajie@163.com>
  */
-function parse_action($action = null, $self){
+function parse_action($action , $self){
     if(empty($action)){
         return false;
     }
