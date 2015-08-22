@@ -256,65 +256,78 @@ class AdminController extends Controller {
                 }
             }
 
+            //查找当前菜单
+            $menuModel = M('Menu');
+            $curMenu = $menuModel
+                ->where("url like '%{$controller}/" . ACTION_NAME . "%'")
+                ->find();
+            // 查找当前一级菜单
+            $topMenu = $curMenu;
+            while ($topMenu['pid'] != 0) {
+                $topMenu = $menuModel->find($topMenu['pid']);
+            }
             // 查找当前子菜单
-            $pid = M('Menu')->where("pid !=0 AND url like '%{$controller}/".ACTION_NAME."%'")->getField('pid');
-            if($pid){
-                // 查找当前主菜单
-                $nav =  M('Menu')->find($pid);
-                if($nav['pid']){
-                    $nav    =   M('Menu')->find($nav['pid']);
-                }
-                foreach ($menus['main'] as $key => $item) {
-                    // 获取当前主菜单的子菜单项
-                    if($item['id'] == $nav['id']){
-                        $menus['main'][$key]['class']='current';
-                        //生成child树
-                        $groups = M('Menu')->where(array('group'=>array('neq',''),'pid' =>$item['id']))->distinct(true)->getField("group",true);
-                        //获取二级分类的合法url
-                        $where          =   array();
-                        $where['pid']   =   $item['id'];
-                        $where['hide']  =   0;
-                        if(!C('DEVELOP_MODE')){ // 是否开发者模式
-                            $where['is_dev']    =   0;
-                        }
-                        $second_urls = M('Menu')->where($where)->getField('id,url');
+            foreach ($menus['main'] as $key => $item) {
+                // 获取当前主菜单的子菜单项
+                if ($item['id'] == $topMenu['id']) {
+                    $menus['main'][$key]['class'] = 'current';
+                    //生成child树
+                    $groups = M('Menu')->where(array(
+                        'group' => array(
+                            'neq',
+                            ''
+                        ),
+                        'pid' => $item['id']
+                    ))->distinct(TRUE)->getField("group", TRUE);
+                    //获取二级分类的合法url
+                    $where = array();
+                    $where['pid'] = $item['id'];
+                    $where['hide'] = 0;
+                    if (!C('DEVELOP_MODE')) { // 是否开发者模式
+                        $where['is_dev'] = 0;
+                    }
+                    $second_urls = M('Menu')->where($where)->getField('id,url');
 
-                        if(!IS_ROOT){
-                            // 检测菜单权限
-                            $to_check_urls = array();
-                            foreach ($second_urls as $key=>$to_check_url) {
-                                if( stripos($to_check_url,MODULE_NAME)!==0 ){
-                                    $rule = MODULE_NAME.'/'.$to_check_url;
-                                }else{
-                                    $rule = $to_check_url;
-                                }
-                                if($this->checkRule($rule, AuthRuleModel::RULE_URL,null))
-                                    $to_check_urls[] = $to_check_url;
+                    if (!IS_ROOT) {
+                        // 检测菜单权限
+                        $to_check_urls = array();
+                        foreach ($second_urls as $key => $to_check_url) {
+                            if (stripos($to_check_url, MODULE_NAME) !== 0) {
+                                $rule = MODULE_NAME . '/' . $to_check_url;
+                            } else {
+                                $rule = $to_check_url;
+                            }
+                            if ($this->checkRule($rule, AuthRuleModel::RULE_URL, NULL)) {
+                                $to_check_urls[] = $to_check_url;
                             }
                         }
-                        // 按照分组生成子菜单树
-                        foreach ($groups as $g) {
-                            $map = array('group'=>$g);
-                            if(isset($to_check_urls)){
-                                if(empty($to_check_urls)){
-                                    // 没有任何权限
-                                    continue;
-                                }else{
-                                    $map['url'] = array('in', $to_check_urls);
-                                }
+                    }
+                    // 按照分组生成子菜单树
+                    foreach ($groups as $g) {
+                        $map = array('group' => $g);
+                        if (isset($to_check_urls)) {
+                            if (empty($to_check_urls)) {
+                                // 没有任何权限
+                                continue;
+                            } else {
+                                $map['url'] = array('in', $to_check_urls);
                             }
-                            $map['pid']     =   $item['id'];
-                            $map['hide']    =   0;
-                            if(!C('DEVELOP_MODE')){ // 是否开发者模式
-                                $map['is_dev']  =   0;
-                            }
-                            $menuList = M('Menu')->where($map)->field('id,pid,title,url,tip')->order('sort asc')->select();
-                            $menus['child'][$g] = list_to_tree($menuList, 'id', 'pid', 'operater', $item['id']);
                         }
+                        $map['pid'] = $item['id'];
+                        $map['hide'] = 0;
+                        if (!C('DEVELOP_MODE')) { // 是否开发者模式
+                            $map['is_dev'] = 0;
+                        }
+                        $menuList = M('Menu')
+                            ->where($map)
+                            ->field('id,pid,title,url,tip')
+                            ->order('sort asc')
+                            ->select();
+                        $menus['child'][$g] = list_to_tree($menuList, 'id', 'pid', 'operater', $item['id']);
                     }
                 }
             }
-            session('ADMIN_MENU_LIST.'.$controller,$menus);
+            session('ADMIN_MENU_LIST.' . $controller, $menus);
         }
         return $menus;
     }
