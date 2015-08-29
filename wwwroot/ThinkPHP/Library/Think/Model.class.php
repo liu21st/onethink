@@ -108,7 +108,7 @@ class Model {
         if(empty($this->fields)) {
             // 如果数据表字段没有定义则自动获取
             if(C('DB_FIELDS_CACHE')) {
-                $db   =  $this->dbName ? : C('DB_NAME');
+                $db   =  $this->dbName?:C('DB_NAME');
                 $fields = F('_fields/'.strtolower($db.'.'.$this->tablePrefix.$this->name));
                 if($fields) {
                     $this->fields   =   $fields;
@@ -153,9 +153,7 @@ class Model {
                     $this->pk   =   $key;
                     $this->fields['_pk']   =   $key;
                 }
-                if($val['autoinc']) {
-                    $this->autoinc   =   true;
-                }
+                if($val['autoinc']) $this->autoinc   =   true;
             }
         }
         // 记录字段类型信息
@@ -428,7 +426,7 @@ class Model {
                     if(isset($data[$field])) {
                         $where[$field]      =   $data[$field];
                     } else {
-                        // 如果缺少复合主键数据则不执行
+                           // 如果缺少复合主键数据则不执行
                         $this->error        =   L('_OPERATION_WRONG_');
                         return false;
                     }
@@ -472,11 +470,10 @@ class Model {
         $pk   =  $this->getPk();
         if(empty($options) && empty($this->options['where'])) {
             // 如果删除条件为空 则删除当前数据对象所对应的记录
-            if(!empty($this->data) && isset($this->data[$pk])){
+            if(!empty($this->data) && isset($this->data[$pk]))
                 return $this->delete($this->data[$pk]);
-            }else{
+            else
                 return false;
-            }
         }
         if(is_numeric($options)  || is_string($options)) {
             // 根据主键删除记录
@@ -566,7 +563,7 @@ class Model {
                 return false;
             }
         } elseif(false === $options){ // 用于子查询 不查询只返回SQL
-            return  $this->buildSql();
+        	$options['fetch_sql'] = true;
         }
         // 分析表达式
         $options    =  $this->_parseOptions($options);
@@ -583,28 +580,27 @@ class Model {
         if(false === $resultSet) {
             return false;
         }
-        if(empty($resultSet)) { // 查询结果为空
-            return null;
-        }
-
-        if(is_string($resultSet)){
-            return $resultSet;
-        }
-
-        $resultSet  =   array_map(array($this,'_read_data'),$resultSet);
-        $this->_after_select($resultSet,$options);
-        if(isset($options['index'])){ // 对数据集进行索引
-            $index  =   explode(',',$options['index']);
-            foreach ($resultSet as $result){
-                $_key   =  $result[$index[0]];
-                if(isset($index[1]) && isset($result[$index[1]])){
-                    $cols[$_key] =  $result[$index[1]];
-                }else{
-                    $cols[$_key] =  $result;
-                }
+        if(!empty($resultSet)) { // 有查询结果
+            if(is_string($resultSet)){
+                return $resultSet;
             }
-            $resultSet  =   $cols;
+
+            $resultSet  =   array_map(array($this,'_read_data'),$resultSet);
+            $this->_after_select($resultSet,$options);
+            if(isset($options['index'])){ // 对数据集进行索引
+                $index  =   explode(',',$options['index']);
+                foreach ($resultSet as $result){
+                    $_key   =  $result[$index[0]];
+                    if(isset($index[1]) && isset($result[$index[1]])){
+                        $cols[$_key] =  $result[$index[1]];
+                    }else{
+                        $cols[$_key] =  $result;
+                    }
+                }
+                $resultSet  =   $cols;
+            }
         }
+
         if(isset($cache)){
             S($key,$resultSet,$cache);
         }
@@ -858,9 +854,7 @@ class Model {
             $condition   =  $this->options['where'];
             $guid =  md5($this->name.'_'.$field.'_'.serialize($condition));
             $step = $this->lazyWrite($guid,$step,$lazyTime);
-            if(false === $step ) { // 等待下次写入
-                return true; 
-            }
+            if(false === $step ) return true; // 等待下次写入
         }
         return $this->setField($field,array('exp',$field.'+'.$step));
     }
@@ -878,9 +872,7 @@ class Model {
             $condition   =  $this->options['where'];
             $guid =  md5($this->name.'_'.$field.'_'.serialize($condition));
             $step = $this->lazyWrite($guid,$step,$lazyTime);
-            if(false === $step ) {
-                return true; // 等待下次写入
-            }
+            if(false === $step ) return true; // 等待下次写入
         }
         return $this->setField($field,array('exp',$field.'-'.$step));
     }
@@ -940,6 +932,9 @@ class Model {
             }
             $resultSet          =   $this->db->select($options);
             if(!empty($resultSet)) {
+		        if(is_string($resultSet)){
+		            return $resultSet;
+		        }            	
                 $_field         =   explode(',', $field);
                 $field          =   array_keys($resultSet[0]);
                 $key1           =   array_shift($field);
@@ -966,6 +961,9 @@ class Model {
             }
             $result = $this->db->select($options);
             if(!empty($result)) {
+		        if(is_string($result)){
+		            return $result;
+		        }            	
                 if(true !== $sepa && 1==$options['limit']) {
                     $data   =   reset($result[0]);
                     if(isset($cache)){
@@ -1082,14 +1080,12 @@ class Model {
 
             // 令牌验证
             list($key,$value)  =  explode('_',$data[$name]);
-            if($value && $_SESSION[$name][$key] === $value) { // 防止重复提交
+            if(isset($_SESSION[$name][$key]) && $value && $_SESSION[$name][$key] === $value) { // 防止重复提交
                 unset($_SESSION[$name][$key]); // 验证完成销毁session
                 return true;
             }
             // 开启TOKEN重置
-            if(C('TOKEN_RESET')) {
-                unset($_SESSION[$name][$key]);
-            }
+            if(C('TOKEN_RESET')) unset($_SESSION[$name][$key]);
             return false;
         }
         return true;
@@ -1115,9 +1111,8 @@ class Model {
             'english'   =>  '/^[A-Za-z]+$/',
         );
         // 检查是否有内置的正则表达式
-        if(isset($validate[strtolower($rule)])){
+        if(isset($validate[strtolower($rule)]))
             $rule       =   $validate[strtolower($rule)];
-        }
         return preg_match($rule,$value)===1;
     }
 
@@ -1167,9 +1162,7 @@ class Model {
                         default: // 默认作为字符串填充
                             $data[$auto[0]] = $auto[1];
                     }
-                    if(isset($data[$auto[0]]) && false === $data[$auto[0]] ) {
-                        unset($data[$auto[0]]);
-                    }
+                    if(isset($data[$auto[0]]) && false === $data[$auto[0]] )   unset($data[$auto[0]]);
                 }
             }
         }
@@ -1208,30 +1201,23 @@ class Model {
                     // 判断验证条件
                     switch($val[3]) {
                         case self::MUST_VALIDATE:   // 必须验证 不管表单是否有设置该字段
-                            if(false === $this->_validationField($data,$val)) {
+                            if(false === $this->_validationField($data,$val)) 
                                 return false;
-                            }
                             break;
                         case self::VALUE_VALIDATE:    // 值不为空的时候才验证
-                            if('' != trim($data[$val[0]])){
-                                if(false === $this->_validationField($data,$val)) {
+                            if('' != trim($data[$val[0]]))
+                                if(false === $this->_validationField($data,$val)) 
                                     return false;
-                                }
-                            }
                             break;
                         default:    // 默认表单存在该字段就验证
-                            if(isset($data[$val[0]])){
-                                if(false === $this->_validationField($data,$val)) {
+                            if(isset($data[$val[0]]))
+                                if(false === $this->_validationField($data,$val)) 
                                     return false;
-                                }
-                            }
                     }
                 }
             }
             // 批量验证的时候最后返回错误
-            if(!empty($this->error)) {
-                return false;
-            }
+            if(!empty($this->error)) return false;
         }
         return true;
     }
@@ -1245,9 +1231,8 @@ class Model {
      * @return boolean
      */
     protected function _validationField($data,$val) {
-        if($this->patchValidate && isset($this->error[$val[0]])){
+        if($this->patchValidate && isset($this->error[$val[0]]))
             return ; //当前字段已经有规则验证没有通过
-        }
         if(false === $this->_validationFieldItem($data,$val)){
             if($this->patchValidate) {
                 $this->error[$val[0]]   =   $val[2];
@@ -1271,14 +1256,12 @@ class Model {
             case 'function':// 使用函数进行验证
             case 'callback':// 调用方法进行验证
                 $args = isset($val[6])?(array)$val[6]:array();
-                if(is_string($val[0]) && strpos($val[0], ',')){
+                if(is_string($val[0]) && strpos($val[0], ','))
                     $val[0] = explode(',', $val[0]);
-                }
                 if(is_array($val[0])){
                     // 支持多个字段验证
-                    foreach($val[0] as $field){
+                    foreach($val[0] as $field)
                         $_data[$field] = $data[$field];
-                    }
                     array_unshift($args, $_data);
                 }else{
                     array_unshift($args, $data[$val[0]]);
@@ -1291,9 +1274,8 @@ class Model {
             case 'confirm': // 验证两个字段是否相同
                 return $data[$val[0]] == $data[$val[1]];
             case 'unique': // 验证某个值是否唯一
-                if(is_string($val[0]) && strpos($val[0],',')){
+                if(is_string($val[0]) && strpos($val[0],','))
                     $val[0]  =  explode(',',$val[0]);
-                }
                 $map = array();
                 if(is_array($val[0])) {
                     // 支持多个字段验证
@@ -1306,9 +1288,7 @@ class Model {
                 if(!empty($data[$pk]) && is_string($pk)) { // 完善编辑的时候验证唯一
                     $map[$pk] = array('neq',$data[$pk]);
                 }
-                if($this->where($map)->find())   {
-                    return false;
-                }
+                if($this->where($map)->find())   return false;
                 return true;
             default:  // 检查附加规则
                 return $this->check($data[$val[0]],$val[1],$val[4]);
@@ -1451,9 +1431,7 @@ class Model {
         $this->db   =    $this->_db[$linkNum];
         $this->_after_db();
         // 字段检测
-        if(!empty($this->name) && $this->autoCheckFields) { 
-            $this->_checkTableInfo();
-        }
+        if(!empty($this->name) && $this->autoCheckFields)    $this->_checkTableInfo();
         return $this;
     }
     // 数据库切换后回调方法
@@ -1727,9 +1705,8 @@ class Model {
             $expire = $key;
             $key    = true;
         }
-        if(false !== $key){
+        if(false !== $key)
             $this->options['cache']  =  array('key'=>$key,'expire'=>$expire,'type'=>$type);
-        }
         return $this;
     }
 
@@ -1869,7 +1846,7 @@ class Model {
      * @param boolean $fetch 是否返回sql
      * @return Model
      */
-    public function fetchSql($fetch){
+    public function fetchSql($fetch=true){
         $this->options['fetch_sql'] =   $fetch;
         return $this;
     }
@@ -1905,9 +1882,8 @@ class Model {
      * @return Model
      */
     public function setProperty($name,$value) {
-        if(property_exists($this,$name)){
+        if(property_exists($this,$name))
             $this->$name = $value;
-        }
         return $this;
     }
 
