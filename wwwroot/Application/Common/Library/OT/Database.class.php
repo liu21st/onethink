@@ -9,7 +9,7 @@
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
-namespace OT;
+namespace Common\Library\OT;
 use Think\Db;
 
 //数据导出模型

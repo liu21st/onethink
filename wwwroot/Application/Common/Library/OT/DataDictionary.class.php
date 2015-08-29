@@ -1,6 +1,6 @@
 <?php
 
-namespace OT;
+namespace Common\Library\OT;
 class DataDictionary{
 
     public function __construct($table){

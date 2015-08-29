@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
-namespace OT\TagLib;
+namespace Common\Library\OT\TagLib;
 use Think\Template\TagLib;
 /**
  * OT系统标签库
