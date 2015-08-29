@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 
 namespace Home\Controller;
-use OT\DataDictionary;
+use Common\Library\OT\DataDictionary;
 
 /**
  * 前台首页控制器

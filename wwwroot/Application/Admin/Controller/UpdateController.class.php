@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 
 namespace Admin\Controller;
-use OT\File;
+use Common\Library\OT\File;
 
 /**
  * 在线更新
@@ -66,7 +66,7 @@ class UpdateController extends AdminController{
 	 */
 	private function update($version){
 		//PclZip类库不支持命名空间
-		import('OT/PclZip');
+		import('Common.Library.OT.PclZip');
 
 		$date  = date('YmdHis');
 		$backupFile = I('post.backupfile');

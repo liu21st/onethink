@@ -14,7 +14,7 @@
 return array(
 
     // 预先加载的标签库
-    'TAGLIB_PRE_LOAD'     =>    'OT\\TagLib\\Article,OT\\TagLib\\Think',
+    'TAGLIB_PRE_LOAD'     =>    'Common\\Library\\OT\\TagLib\\Article,Common\\Library\\OT\\TagLib\\Think',
         
     /* 主题设置 */
     'DEFAULT_THEME' =>  'default',  // 默认模板主题名称
