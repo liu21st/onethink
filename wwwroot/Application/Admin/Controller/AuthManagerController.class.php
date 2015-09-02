@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 
 namespace Admin\Controller;
+
 use Admin\Model\AuthRuleModel;
 use Admin\Model\AuthGroupModel;
 
@@ -23,64 +24,68 @@ class AuthManagerController extends AdminController{
      * 执行新节点的插入,已有节点的更新,无效规则的删除三项任务
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function updateRules(){
+    public function updateRules() {
         //需要新增的节点必然位于$nodes
-        $nodes    = $this->returnNodes(false);
+        $nodes = $this->returnNodes(FALSE);
 
         $AuthRule = M('AuthRule');
-        $map      = array('module'=>'admin','type'=>array('in','1,2'));//status全部取出,以进行更新
+        $map = array(
+            'module' => 'admin',
+            'type' => array('in', '1,2')
+        );//status全部取出,以进行更新
         //需要更新和删除的节点必然位于$rules
-        $rules    = $AuthRule->where($map)->order('name')->select();
+        $rules = $AuthRule->where($map)->order('name')->select();
 
         //构建insert数据
-        $data     = array();//保存需要插入和更新的新节点
-        foreach ($nodes as $value){
-            $temp['name']   = $value['url'];
-            $temp['title']  = $value['title'];
+        $data = array();//保存需要插入和更新的新节点
+        foreach ($nodes as $value) {
+            $temp['name'] = $value['url'];
+            $temp['title'] = $value['title'];
             $temp['module'] = 'admin';
-            if($value['pid'] >0){
+            if ($value['pid'] > 0) {
                 $temp['type'] = AuthRuleModel::RULE_URL;
-            }else{
+            } else {
                 $temp['type'] = AuthRuleModel::RULE_MAIN;
             }
-            $temp['status']   = 1;
-            $data[strtolower($temp['name'].$temp['module'].$temp['type'])] = $temp;//去除重复项
+            $temp['status'] = 1;
+            $data[strtolower($temp['name'] . $temp['module'] . $temp['type'])] = $temp;//去除重复项
         }
 
         $update = array();//保存需要更新的节点
-        $ids    = array();//保存需要删除的节点的id
-        foreach ($rules as $index=>$rule){
-            $key = strtolower($rule['name'].$rule['module'].$rule['type']);
-            if ( isset($data[$key]) ) {//如果数据库中的规则与配置的节点匹配,说明是需要更新的节点
+        $ids = array();//保存需要删除的节点的id
+        foreach ($rules as $index => $rule) {
+            $key = strtolower($rule['name'] . $rule['module'] . $rule['type']);
+            if (isset($data[$key])) {//如果数据库中的规则与配置的节点匹配,说明是需要更新的节点
                 $data[$key]['id'] = $rule['id'];//为需要更新的节点补充id值
                 $update[] = $data[$key];
                 unset($data[$key]);
                 unset($rules[$index]);
                 unset($rule['condition']);
-                $diff[$rule['id']]=$rule;
-            }elseif($rule['status']==1){
+                $diff[$rule['id']] = $rule;
+            } elseif ($rule['status'] == 1) {
                 $ids[] = $rule['id'];
             }
         }
-        if ( count($update) ) {
-            foreach ($update as $k=>$row){
-                if ( $row!=$diff[$row['id']] ) {
-                    $AuthRule->where(array('id'=>$row['id']))->save($row);
+        if (count($update)) {
+            foreach ($update as $k => $row) {
+                if ($row != $diff[$row['id']]) {
+                    $AuthRule->where(array('id' => $row['id']))->save($row);
                 }
             }
         }
-        if ( count($ids) ) {
-            $AuthRule->where( array( 'id'=>array('IN',implode(',',$ids)) ) )->save(array('status'=>-1));
+        if (count($ids)) {
+            $AuthRule->where(array('id' => array('IN', implode(',', $ids))))
+                ->save(array('status' => -1));
             //删除规则是否需要从每个用户组的访问授权表中移除该规则?
         }
-        if( count($data) ){
+        if (count($data)) {
             $AuthRule->addAll(array_values($data));
         }
-        if ( $AuthRule->getDbError() ) {
-            trace('['.__METHOD__.']:'.$AuthRule->getDbError());
-            return false;
-        }else{
-            return true;
+        if ($AuthRule->getDbError()) {
+            trace('[' . __METHOD__ . ']:' . $AuthRule->getDbError());
+            return FALSE;
+        } else {
+            return TRUE;
         }
     }
 
@@ -89,11 +94,11 @@ class AuthManagerController extends AdminController{
      * 权限管理首页
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function index(){
-        $list = $this->lists('AuthGroup',array('module'=>'admin'),'id asc');
+    public function index() {
+        $list = $this->lists('AuthGroup', array('module' => 'admin'), 'id asc');
         $list = int_to_string($list);
-        $this->assign( '_list', $list );
-        $this->assign( '_use_tip', true );
+        $this->assign('_list', $list);
+        $this->assign('_use_tip', TRUE);
         $this->meta_title = '权限管理';
         $this->display();
     }
@@ -102,9 +107,14 @@ class AuthManagerController extends AdminController{
      * 创建管理员用户组
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function createGroup(){
-        if ( empty($this->auth_group) ) {
-            $this->assign('auth_group',array('title'=>null,'id'=>null,'description'=>null,'rules'=>null,));//排除notice信息
+    public function createGroup() {
+        if (empty($this->auth_group)) {
+            $this->assign('auth_group', array(
+                'title' => NULL,
+                'id' => NULL,
+                'description' => NULL,
+                'rules' => NULL,
+            ));//排除notice信息
         }
         $this->meta_title = '新增用户组';
         $this->display('editgroup');
@@ -114,10 +124,13 @@ class AuthManagerController extends AdminController{
      * 编辑管理员用户组
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function editGroup(){
-        $auth_group = M('AuthGroup')->where( array('module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
-                                    ->find( (int)$_GET['id'] );
-        $this->assign('auth_group',$auth_group);
+    public function editGroup() {
+        $auth_group = M('AuthGroup')->where(array(
+            'module' => 'admin',
+            'type' => AuthGroupModel::TYPE_ADMIN
+        ))
+            ->find((int) $_GET['id']);
+        $this->assign('auth_group', $auth_group);
         $this->meta_title = '编辑用户组';
         $this->display();
     }
@@ -127,21 +140,33 @@ class AuthManagerController extends AdminController{
      * 访问授权页面
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function access(){
+    public function access() {
         $this->updateRules();
-        $auth_group = M('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
-                                    ->getfield('id,id,title,rules');
-        $node_list   = $this->returnNodes();
-        $map         = array('module'=>'admin','type'=>AuthRuleModel::RULE_MAIN,'status'=>1);
-        $main_rules  = M('AuthRule')->where($map)->getField('name,id');
-        $map         = array('module'=>'admin','type'=>AuthRuleModel::RULE_URL,'status'=>1);
+        $auth_group = M('AuthGroup')->where(array(
+            'status' => array('egt', '0'),
+            'module' => 'admin',
+            'type' => AuthGroupModel::TYPE_ADMIN
+        ))
+            ->getfield('id,id,title,rules');
+        $node_list = $this->returnNodes();
+        $map = array(
+            'module' => 'admin',
+            'type' => AuthRuleModel::RULE_MAIN,
+            'status' => 1
+        );
+        $main_rules = M('AuthRule')->where($map)->getField('name,id');
+        $map = array(
+            'module' => 'admin',
+            'type' => AuthRuleModel::RULE_URL,
+            'status' => 1
+        );
         $child_rules = M('AuthRule')->where($map)->getField('name,id');
 
         $this->assign('main_rules', $main_rules);
         $this->assign('auth_rules', $child_rules);
-        $this->assign('node_list',  $node_list);
+        $this->assign('node_list', $node_list);
         $this->assign('auth_group', $auth_group);
-        $this->assign('this_group', $auth_group[(int)$_GET['group_id']]);
+        $this->assign('this_group', $auth_group[(int) $_GET['group_id']]);
         $this->meta_title = '访问授权';
         $this->display('managergroup');
     }
@@ -150,28 +175,28 @@ class AuthManagerController extends AdminController{
      * 管理员用户组数据写入/更新
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function writeGroup(){
-        if(isset($_POST['rules'])){
+    public function writeGroup() {
+        if (isset($_POST['rules'])) {
             sort($_POST['rules']);
-            $_POST['rules']  = implode( ',' , array_unique($_POST['rules']));
+            $_POST['rules'] = implode(',', array_unique($_POST['rules']));
         }
-        $_POST['module'] =  'admin';
-        $_POST['type']   =  AuthGroupModel::TYPE_ADMIN;
-        $AuthGroup       =  D('AuthGroup');
+        $_POST['module'] = 'admin';
+        $_POST['type'] = AuthGroupModel::TYPE_ADMIN;
+        $AuthGroup = D('AuthGroup');
         $data = $AuthGroup->create();
-        if ( $data ) {
-            if ( empty($data['id']) ) {
+        if ($data) {
+            if (empty($data['id'])) {
                 $r = $AuthGroup->add();
-            }else{
+            } else {
                 $r = $AuthGroup->save();
             }
-            if($r===false){
-                $this->error('操作失败'.$AuthGroup->getError());
-            } else{
-                $this->success('操作成功!',U('index'));
+            if ($r === FALSE) {
+                $this->error('操作失败' . $AuthGroup->getError());
+            } else {
+                $this->success('操作成功!', U('index'));
             }
-        }else{
-            $this->error('操作失败'.$AuthGroup->getError());
+        } else {
+            $this->error('操作失败' . $AuthGroup->getError());
         }
     }
 
@@ -179,11 +204,11 @@ class AuthManagerController extends AdminController{
      * 状态修改
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function changeStatus($method=null){
-        if ( empty($_REQUEST['id']) ) {
+    public function changeStatus($method = NULL) {
+        if (empty($_REQUEST['id'])) {
             $this->error('请选择要操作的数据!');
         }
-        switch ( strtolower($method) ){
+        switch (strtolower($method)) {
             case 'forbidgroup':
                 $this->forbid('AuthGroup');
                 break;
@@ -194,7 +219,7 @@ class AuthManagerController extends AdminController{
                 $this->delete('AuthGroup');
                 break;
             default:
-                $this->error($method.'参数非法');
+                $this->error($method . '参数非法');
         }
     }
 
@@ -202,23 +227,32 @@ class AuthManagerController extends AdminController{
      * 用户组授权用户列表
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function user($group_id){
-        if(empty($group_id)){
+    public function user($group_id) {
+        if (empty($group_id)) {
             $this->error('参数错误');
         }
 
-        $auth_group = M('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
+        $auth_group = M('AuthGroup')->where(array(
+            'status' => array('egt', '0'),
+            'module' => 'admin',
+            'type' => AuthGroupModel::TYPE_ADMIN
+        ))
             ->getfield('id,id,title,rules');
-        $prefix   = C('DB_PREFIX');
-        $l_table  = $prefix.(AuthGroupModel::MEMBER);
-        $r_table  = $prefix.(AuthGroupModel::AUTH_GROUP_ACCESS);
-        $model    = M()->table( $l_table.' m' )->join ( $r_table.' a ON m.uid=a.uid' );
+        $prefix = C('DB_PREFIX');
+        $l_table = $prefix . (AuthGroupModel::MEMBER);
+        $r_table = $prefix . (AuthGroupModel::AUTH_GROUP_ACCESS);
+        $model = M()
+            ->table($l_table . ' m')
+            ->join($r_table . ' a ON m.uid=a.uid');
         $_REQUEST = array();
-        $list = $this->lists($model,array('a.group_id'=>$group_id,'m.status'=>array('egt',0)),'m.uid asc','m.uid,m.nickname,m.last_login_time,m.last_login_ip,m.status');
+        $list = $this->lists($model, array(
+            'a.group_id' => $group_id,
+            'm.status' => array('egt', 0)
+        ), 'm.uid asc', 'm.uid,m.nickname,m.last_login_time,m.last_login_ip,m.status');
         int_to_string($list);
-        $this->assign( '_list',     $list );
+        $this->assign('_list', $list);
         $this->assign('auth_group', $auth_group);
-        $this->assign('this_group', $auth_group[(int)$_GET['group_id']]);
+        $this->assign('this_group', $auth_group[(int) $_GET['group_id']]);
         $this->meta_title = '成员授权';
         $this->display();
     }
@@ -227,20 +261,24 @@ class AuthManagerController extends AdminController{
      * 将分类添加到用户组的编辑页面
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function category(){
-        $auth_group     =   M('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
+    public function category() {
+        $auth_group = M('AuthGroup')->where(array(
+            'status' => array('egt', '0'),
+            'module' => 'admin',
+            'type' => AuthGroupModel::TYPE_ADMIN
+        ))
             ->getfield('id,id,title,rules');
-        $group_list     =   D('Category')->getTree();
-        $authed_group   =   AuthGroupModel::getCategoryOfGroup(I('group_id'));
-        $this->assign('authed_group',   implode(',',(array)$authed_group));
-        $this->assign('group_list',     $group_list);
-        $this->assign('auth_group',     $auth_group);
-        $this->assign('this_group',     $auth_group[(int)$_GET['group_id']]);
+        $group_list = D('Category')->getTree();
+        $authed_group = AuthGroupModel::getCategoryOfGroup(I('group_id'));
+        $this->assign('authed_group', implode(',', (array) $authed_group));
+        $this->assign('group_list', $group_list);
+        $this->assign('auth_group', $auth_group);
+        $this->assign('this_group', $auth_group[(int) $_GET['group_id']]);
         $this->meta_title = '分类授权';
         $this->display();
     }
 
-    public function tree($tree = null){
+    public function tree($tree = NULL) {
         $this->assign('tree', $tree);
         $this->display('tree');
     }
@@ -249,18 +287,18 @@ class AuthManagerController extends AdminController{
      * 将用户添加到用户组的编辑页面
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function group(){
-        $uid            =   I('uid');
-        $auth_groups    =   D('AuthGroup')->getGroups();
-        $user_groups    =   AuthGroupModel::getUserGroup($uid);
+    public function group() {
+        $uid = I('uid');
+        $auth_groups = D('AuthGroup')->getGroups();
+        $user_groups = AuthGroupModel::getUserGroup($uid);
         $ids = array();
-        foreach ($user_groups as $value){
-            $ids[]      =   $value['group_id'];
+        foreach ($user_groups as $value) {
+            $ids[] = $value['group_id'];
         }
-        $nickname       =   D('Member')->getNickName($uid);
-        $this->assign('nickname',   $nickname);
-        $this->assign('auth_groups',$auth_groups);
-        $this->assign('user_groups',implode(',',$ids));
+        $nickname = D('Member')->getFieldByUid($uid, 'nickname');
+        $this->assign('nickname', $nickname);
+        $this->assign('auth_groups', $auth_groups);
+        $this->assign('user_groups', implode(',', $ids));
         $this->meta_title = '用户组授权';
         $this->display();
     }
@@ -269,28 +307,28 @@ class AuthManagerController extends AdminController{
      * 将用户添加到用户组,入参uid,group_id
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function addToGroup(){
+    public function addToGroup() {
         $uid = I('uid');
         $gid = I('group_id');
-        if( empty($uid) ){
+        if (empty($uid)) {
             $this->error('参数有误');
         }
         $AuthGroup = D('AuthGroup');
-        if(is_numeric($uid)){
-            if ( is_administrator($uid) ) {
+        if (is_numeric($uid)) {
+            if (is_administrator($uid)) {
                 $this->error('该用户为超级管理员');
             }
-            if( !M('Member')->where(array('uid'=>$uid))->find() ){
+            if (!M('Member')->where(array('uid' => $uid))->find()) {
                 $this->error('用户不存在');
             }
         }
 
-        if( $gid && !$AuthGroup->checkGroupId($gid)){
+        if ($gid && !$AuthGroup->checkGroupId($gid)) {
             $this->error($AuthGroup->error);
         }
-        if ( $AuthGroup->addToGroup($uid,$gid) ){
+        if ($AuthGroup->addToGroup($uid, $gid)) {
             $this->success('操作成功');
-        }else{
+        } else {
             $this->error($AuthGroup->getError());
         }
     }
@@ -299,22 +337,22 @@ class AuthManagerController extends AdminController{
      * 将用户从用户组中移除  入参:uid,group_id
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function removeFromGroup(){
+    public function removeFromGroup() {
         $uid = I('uid');
         $gid = I('group_id');
-        if( $uid==UID ){
+        if ($uid == UID) {
             $this->error('不允许解除自身授权');
         }
-        if( empty($uid) || empty($gid) ){
+        if (empty($uid) || empty($gid)) {
             $this->error('参数有误');
         }
         $AuthGroup = D('AuthGroup');
-        if( !$AuthGroup->find($gid)){
+        if (!$AuthGroup->find($gid)) {
             $this->error('用户组不存在');
         }
-        if ( $AuthGroup->removeFromGroup($uid,$gid) ){
+        if ($AuthGroup->removeFromGroup($uid, $gid)) {
             $this->success('操作成功');
-        }else{
+        } else {
             $this->error('操作失败');
         }
     }
@@ -323,22 +361,22 @@ class AuthManagerController extends AdminController{
      * 将分类添加到用户组  入参:cid,group_id
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function addToCategory(){
+    public function addToCategory() {
         $cid = I('cid');
         $gid = I('group_id');
-        if( empty($gid) ){
+        if (empty($gid)) {
             $this->error('参数有误');
         }
         $AuthGroup = D('AuthGroup');
-        if( !$AuthGroup->find($gid)){
+        if (!$AuthGroup->find($gid)) {
             $this->error('用户组不存在');
         }
-        if( $cid && !$AuthGroup->checkCategoryId($cid)){
+        if ($cid && !$AuthGroup->checkCategoryId($cid)) {
             $this->error($AuthGroup->error);
         }
-        if ( $AuthGroup->addToCategory($gid,$cid) ){
+        if ($AuthGroup->addToCategory($gid, $cid)) {
             $this->success('操作成功');
-        }else{
+        } else {
             $this->error('操作失败');
         }
     }
@@ -347,22 +385,22 @@ class AuthManagerController extends AdminController{
      * 将模型添加到用户组  入参:mid,group_id
      * @author 朱亚杰 <xcoolcc@gmail.com>
      */
-    public function addToModel(){
+    public function addToModel() {
         $mid = I('id');
         $gid = I('get.group_id');
-        if( empty($gid) ){
+        if (empty($gid)) {
             $this->error('参数有误');
         }
         $AuthGroup = D('AuthGroup');
-        if( !$AuthGroup->find($gid)){
+        if (!$AuthGroup->find($gid)) {
             $this->error('用户组不存在');
         }
-        if( $mid && !$AuthGroup->checkModelId($mid)){
+        if ($mid && !$AuthGroup->checkModelId($mid)) {
             $this->error($AuthGroup->error);
         }
-        if ( $AuthGroup->addToModel($gid,$mid) ){
+        if ($AuthGroup->addToModel($gid, $mid)) {
             $this->success('操作成功');
-        }else{
+        } else {
             $this->error('操作失败');
         }
     }
