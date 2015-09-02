@@ -90,6 +90,54 @@ class UcenterMemberModel extends Model{
 		return true; //TODO: 暂不限制，下一个版本完善
 	}
 
+	 /**
+     * 返回模型的错误信息
+     * @access public
+     * @return string
+     */
+    public function getError() {
+        switch ($this->error) {
+            case -1:
+                $errroMsg = '用户名长度不合法,只能是1-30个字符';
+                break;
+            case -2:
+                $errroMsg = '用户名禁止注册';
+                break;
+            case -3:
+                $errroMsg = '用户名被占用';
+                break;
+            case -4:
+                $errroMsg = '密码长度不合法,只能是6-30个字符';
+                break;
+            case -5:
+                $errroMsg = '邮箱格式不正确';
+                break;
+            case -6:
+                $errroMsg = '邮箱长度不合法,只能是1-32个字符';
+                break;
+            case -7:
+                $errroMsg = '邮箱禁止注册';
+                break;
+            case -8:
+                $errroMsg = '邮箱被占用';
+                break;
+            case -9:
+                $errroMsg = '手机格式不正确';
+                break;
+            case -10:
+                $errroMsg = '手机禁止注册';
+                break;
+            case -11:
+                $errroMsg = '手机号被占用';
+                break;
+            default:
+                $errroMsg = '未知错误';
+                break;
+        }
+
+        return $errroMsg;
+    }
+	
 	/**
 	 * 注册一个新用户
 	 * @param  string $username 用户名
