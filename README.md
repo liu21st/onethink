@@ -7,7 +7,7 @@ OneThinkÊÇÒ»¸ö¿ªÔ´µÄÄÚÈÝ¹ÜÀí¿ò¼Ü£¬»ùÓÚ×îÐÂµÄThinkPHP3.2°æ±¾¿ª·¢£¬Ìá¹©¸ü·½±ã¡¢¸ü°
 
 ### Ö÷ÒªÌØÐÔ£º
 
-1. »ùÓÚThinkPHP×îÐÂ3.2°æ±¾¡£
+1. »ùÓÚThinkPHP×îÐÂ3.2.3°æ±¾¡£
 2. Ä£¿é»¯£ºÈ«ÐÂµÄ¼Ü¹¹ºÍÄ£¿é»¯µÄ¿ª·¢»úÖÆ£¬±ãÓÚÁé»îÀ©Õ¹ºÍ¶þ´Î¿ª·¢¡£ 
 3. ÎÄµµÄ£ÐÍ/·ÖÀàÌåÏµ£ºÍ¨¹ýºÍÎÄµµÄ£ÐÍ°ó¶¨£¬ÒÔ¼°²»Í¬µÄÎÄµµÀàÐÍ£¬²»Í¬·ÖÀà¿ÉÒÔÊµÏÖ²îÒì»¯µÄ¹¦ÄÜ£¬ÇáËÉÊµÏÖÖîÈç×ÊÑ¶¡¢ÏÂÔØ¡¢ÌÖÂÛºÍÍ¼Æ¬µÈ¹¦ÄÜ¡£
 4. ¿ªÔ´Ãâ·Ñ£ºOneThink×ñÑ­Apache2¿ªÔ´Ð­Òé,Ãâ·ÑÌá¹©Ê¹ÓÃ¡£ 
@@ -35,8 +35,8 @@ OneThinkÖ»ÊÇÒ»¸öÄÚÈÝ¹ÜÀí¿ò¼Ü£¬²¢²»ÊÇÒ»¸öÕæÕýÒâÒåµÄCMS£¬ËùÒÔÄã²»»á¿´µ½ºÜ¶àµÄ¹¦ÄÜ£
 
 
 ### [ ×îµÍÏµÍ³ÐèÇó ]
-?PHP 5.3.0 »ò¸ü¸ß°æ±¾¡£
-?MySQL 5.0 »ò¸ü¸ß°æ±¾¡£
+* PHP 5.3.0 »ò¸ü¸ß°æ±¾¡£
+* MySQL 5.0 »ò¸ü¸ß°æ±¾¡£
 
 ### [ °²×° ]
 1. ½«OneThinkÑ¹Ëõ°ü½âÑ¹ÖÁÒ»¸ö¿ÕÎÄ¼þ¼Ð£¬²¢ÉÏ´«Ëü¡£
@@ -60,4 +60,4 @@ OneThink»ùÓÚApacheµÚ¶þ°æ¿ªÔ´Ð­Òé·¢²¼¡£Ïê¼ûlicense.txt¡£
 [  [¿ª·¢ÊÖ²á](http://document.onethink.cn/) ] 
 
 ------------------------------
-OneThink¿ª·¢ÍÅ¶Ó 2013-2014
+OneThink¿ª·¢ÍÅ¶Ó 2013-2016
