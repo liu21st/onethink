@@ -90,7 +90,7 @@ class AuthManagerController extends AdminController{
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     public function index(){
-        $list = $this->lists('AuthGroup',array('module'=>'admin'),'id asc');
+        $list = $this->lists('AuthGroup',array('module'=>'admin', 'status' =>  array('egt', 0)),'id asc');
         $list = int_to_string($list);
         $this->assign( '_list', $list );
         $this->assign( '_use_tip', true );
