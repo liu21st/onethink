@@ -22,12 +22,22 @@ class ChannelController extends AdminController {
      */
     public function index(){
         $pid = I('get.pid', 0);
+		if($pid){
+            $data = M('Channel')->where("id={$pid}")->field(true)->find();
+            $this->assign('data',$data);
+        }
         /* 获取频道列表 */
         $map  = array('status' => array('gt', -1), 'pid'=>$pid);
+		$title =  trim(I('get.title'));
+		if($title)
+            $map['title'] = array('like',"%{$title}%");
         $list = M('Channel')->where($map)->order('sort asc,id asc')->select();
 
         $this->assign('list', $list);
         $this->assign('pid', $pid);
+		// 记录当前列表页的cookie
+        Cookie('__forward__',$_SERVER['REQUEST_URI']);
+
         $this->meta_title = '导航管理';
         $this->display();
     }
@@ -43,7 +53,7 @@ class ChannelController extends AdminController {
             if($data){
                 $id = $Channel->add();
                 if($id){
-                    $this->success('新增成功', U('index'));
+                    $this->success('新增成功', Cookie('__forward__'));
                     //记录行为
                     action_log('update_channel', 'channel', $id, UID);
                 } else {
@@ -79,7 +89,7 @@ class ChannelController extends AdminController {
                 if($Channel->save()){
                     //记录行为
                     action_log('update_channel', 'channel', $data['id'], UID);
-                    $this->success('编辑成功', U('index'));
+                    $this->success('编辑成功',Cookie('__forward__'));
                 } else {
                     $this->error('编辑失败');
                 }
@@ -130,7 +140,43 @@ class ChannelController extends AdminController {
             $this->error('删除失败！');
         }
     }
-
+	
+	public function import(){
+        if(IS_POST){
+            $tree = I('post.tree');
+            $lists = explode(PHP_EOL, $tree);
+            $channelModel = M('Channel');
+            if($lists == array()){
+                $this->error('请按格式填写批量导入的菜单，至少一个菜单');
+            }else{
+                $pid = I('post.pid');
+                foreach ($lists as $key => $value) {
+                    $record = explode('|', $value);
+                    if(count($record) == 2){
+                        $channelModel->add(array(
+                            'title'=>$record[0],
+                            'url'=>$record[1],
+                            'pid'=>$pid,
+                            'sort'=>0,
+							'create_time'=>time(),
+                            'update_time'=>time(),
+                            'status'=>0,
+                            'target'=>0,
+                        ));
+                    }
+                }
+                $this->success('导入成功',U('index?pid='.$pid));
+            }
+        }else{
+            $this->meta_title = '批量导入前台导航';
+            $pid = (int)I('get.pid');
+            $this->assign('pid', $pid);
+            $data = M('Channel')->where("id={$pid}")->field(true)->find();
+            $this->assign('data', $data);
+            $this->display();
+        }
+    }
+	
     /**
      * 导航排序
      * @author huajie <banhuajie@163.com>
