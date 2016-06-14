@@ -144,6 +144,10 @@ function get_attribute_type($type=''){
         'editor'    =>  array('编辑器','text NOT NULL'),
         'picture'   =>  array('上传图片','int(10) UNSIGNED NOT NULL'),
         'file'      =>  array('上传附件','int(10) UNSIGNED NOT NULL'),
+        //foreign_int/foreign_string 2016-06-14 start
+        'foreign_int'     =>  array('int型外键','int(10) UNSIGNED NOT NULL'),
+        'foreign_string'  =>  array('string型下拉列表','varchar(255) UNSIGNED NOT NULL'),
+        //foreign_int/foreign_string 2016-06-14 end
     );
     return $type?$_type[$type][0]:$_type;
 }

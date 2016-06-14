@@ -32,6 +32,7 @@ class ThinkController extends AdminController {
         //解析列表规则
         $fields = array();
         $grids  = preg_split('/[;\r\n]+/s', trim($model['list_grid']));
+        $foreignFields = array();//foreign_int/foreign_string 2016-06-14
         foreach ($grids as &$value) {
         	if(trim($value) === ''){
         		continue;
@@ -40,6 +41,16 @@ class ThinkController extends AdminController {
             $val      = explode(':', $value);
             // 支持多个字段显示
             $field   = explode(',', $val[0]);
+            
+            //foreign_int/foreign_string 2016-06-14 start
+            foreach($field as $onefield) {
+                if (stripos($onefield, '.foreign') !== false) {
+                    $onefield = substr($onefield, 0, stripos($onefield, '.foreign'));
+                    array_push($foreignFields, $onefield);
+                }
+            }
+            //foreign_int/foreign_string 2016-06-14 end
+            
             $value    = array('field' => $field, 'title' => $val[1]);
             if(isset($val[2])){
                 // 链接信息
@@ -53,6 +64,9 @@ class ThinkController extends AdminController {
             }
             foreach($field as $val){
                 $array	=	explode('|',$val);
+                if (stripos($array[0], '.foreign') !== false) {
+                    $array[0] = substr($array[0], 0, stripos($array[0], '.foreign'));
+                }
                 $fields[] = $array[0];
             }
         }
@@ -130,6 +144,57 @@ class ThinkController extends AdminController {
             $page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
             $this->assign('_page', $page->show());
         }
+        
+        //检查field如果是select或foreign_int/foreign_string则显示对应文字 2016-06-14 start
+        if (!empty($fields)) {
+            $fieldCondition = '';
+            foreach ($fields as $key1 => $value1) {
+                $fieldCondition .= '"' . $value1 . '",';
+            }
+            $fieldCondition = substr($fieldCondition, 0, -1);
+            $myattributes = D('attribute')->field(array('name', 'title','type','extra'))->where('model_id=' . $model['id'] . ' and name in (' . $fieldCondition . ') ')->select();
+        
+            if (!empty($myattributes)) {
+                foreach ($myattributes as $i => $attr) {
+                    if ($attr['type'] == 'select') {
+                        $select_extra = parse_field_attr($attr['extra']);
+                        foreach ($data as $key => $dataValue) {
+                            if (array_key_exists($dataValue[$attr['name']], $select_extra)) {
+                                $data[$key][$attr['name']] = $select_extra[$dataValue[$attr['name']]];
+                            }
+                        }
+                    } else if (in_array($attr['name'], $foreignFields)) {
+                        $foreignKeyArray = array();
+                        foreach ($data as $key => $dataValue) {
+                            array_push($foreignKeyArray, $dataValue[$attr['name']]);
+                        }
+                        $foreignKeyString = implode(',', $foreignKeyArray);
+                        $foreign_extra = parse_field_attr($attr['extra']);
+                        $foreignTable = $foreign_extra['table'];
+                        $foreignKeyField = $foreign_extra['key'];
+                        $foreignValueField = $foreign_extra['value'];
+                        if(!empty($foreignTable) && !empty($foreignKeyField) && !empty($foreignValueField)) {
+                            $foreignValueArray = D($foreignTable)->field(array($foreignKeyField, $foreignValueField))
+                                                ->where($foreignKeyField . ' in (' . $foreignKeyString . ')')
+                                                ->select();
+                            if(!empty($foreignValueArray)) {
+                                $foreignMap = array();
+                                foreach($foreignValueArray as $foreignValue) {
+                                    $foreignMap[$foreignValue[$foreignKeyField]] = $foreignValue[$foreignValueField];
+                                }
+                                
+                                foreach ($data as $key => $dataValue) {
+                                    if (array_key_exists($dataValue[$attr['name']], $foreignMap)) {
+                                        $data[$key][$attr['name'] . '.foreign'] = $foreignMap[$dataValue[$attr['name']]];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        //检查field如果是select或foreign_int/foreign_string则显示对应文字 2016-06-14 end
 
         $data   =   $this->parseDocumentList($data,$model['id']);
         $this->assign('model', $model);
@@ -183,6 +248,21 @@ class ThinkController extends AdminController {
         } else {
             $fields     = get_model_attribute($model['id']);
 
+            //foreign_int 和 foreign_string. 2016-06-14 start
+            if(!empty($fields)) {
+                foreach($fields as $key1 => $value1) {
+                    if(!empty($value1)) {
+                        foreach($value1 as $key2 => $value2) {
+                            if($value2['type'] == 'foreign_int' || $value2['type'] == 'foreign_string') {
+                                $foreign_extra = parse_field_attr($value2['extra']);
+                                $fields[$key1][$key2]['foreign'] = $this->getForeignArray($foreign_extra['table'], $foreign_extra['key'], $foreign_extra['value']);
+                            }
+                        }
+                    }
+                }
+            }
+            //foreign_int 和 foreign_string. 2016-06-14 end
+            
             //获取数据
             $data       = M(get_table_name($model['id']))->find($id);
             $data || $this->error('数据不存在！');
@@ -209,8 +289,31 @@ class ThinkController extends AdminController {
                 $this->error($Model->getError());
             }
         } else {
+            
+            //接受初始化参数 2016-06-14 start
+            $data = array();
+            foreach ($_REQUEST as $key => $value) {
+                $data[$key] = $value;
+            }
+            $this->assign('data', $data);
+            //接受初始化参数 2016-06-14 end
 
             $fields = get_model_attribute($model['id']);
+            
+            //foreign_int 和 foreign_string. 2016-06-14 start
+            if(!empty($fields)) {
+                foreach($fields as $key1 => $value1) {
+                    if(!empty($value1)) {
+                        foreach($value1 as $key2 => $value2) {
+                            if($value2['type'] == 'foreign_int' || $value2['type'] == 'foreign_string') {
+                                $foreign_extra = parse_field_attr($value2['extra']);
+                                $fields[$key1][$key2]['foreign'] = $this->getForeignArray($foreign_extra['table'], $foreign_extra['key'], $foreign_extra['value']);
+                            }
+                        }
+                    }
+                }
+            }
+            //foreign_int 和 foreign_string. 2016-06-14 end
 
             $this->assign('model', $model);
             $this->assign('fields', $fields);
@@ -242,5 +345,25 @@ class ThinkController extends AdminController {
             }
         }
         return $Model->validate($validate)->auto($auto);
+    }
+    
+    /**
+     * 读取外键列表
+     * @param string $table
+     * @param string $keyField
+     * @param string $valueField
+     * @return multitype:Ambigous <>
+     * @author 王洋 <wangyangcn@qq.com>
+     */
+    private function getForeignArray($table, $keyField, $valueField) {
+        if(empty($table) || empty($keyField) || empty($valueField)) {
+            return array();
+        }
+        $projectTypes = D($table)->select();
+        $result = array();
+        foreach($projectTypes as $i => $item) {
+            $result[$item[$keyField]] = $item[$valueField];
+        }
+        return $result;
     }
 }
