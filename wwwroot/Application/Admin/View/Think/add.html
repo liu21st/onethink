@@ -55,6 +55,13 @@
                                     </volist>
                                 </select>
                             </case>
+                            <case value="foreign_int|foreign_string">
+                                <select id="{$field.name}" name="{$field.name}">
+                                    <volist name="field['foreign']" id="vo">
+                                        <option value="{$key}" <eq name="data[$field['name']]" value="$key">selected</eq>>{$vo}</option>
+                                    </volist>
+                                </select>
+                            </case>
                             <case value="radio">
                                 <volist name=":parse_field_attr($field['extra'])" id="vo">
                                 	<label class="radio">
