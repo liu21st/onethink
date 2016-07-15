@@ -1,0 +1,42 @@
+<link rel="stylesheet" type="text/css" href="__STATIC__/uploadify/uploadify.css" />
+<div class="cols">
+	<div class="infolabel"><i class="must">*</i>附&#12288;&#12288;件</div>
+	<div class="item">
+		<input id="attachment" type="file">
+		<input name="attachment[type]" type="hidden" value="2">
+		<input name="attachment[info]" type="hidden" value="{$attachment|default=''}">
+	</div>
+</div>
+<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+<script type="text/javascript">
+(function($){
+	//上传URL
+	var url = "{:addons_url('Attachment://Attachment/upload?category='.$category['id'])}";
+
+	/* 初始化上传插件 */
+	$("#attachment").uploadify({
+        "height"          : 30,
+        "swf"             : "__STATIC__/uploadify/uploadify.swf",
+        "fileObjName"     : "attachment",
+        "uploader"        : url,
+        "width"           : 120,
+        'formData'        : {'XDEBUG_SESSION_START':'netbeans-xdebug'},
+        "onUploadSuccess" : uploadSuccess,
+        "successTimeout"  : 36000,
+        'onFallback' : function() {
+            alert('未检测到兼容版本的Flash.');
+        }
+    });
+
+	/* 文件上传成功回调函数 */
+    function uploadSuccess(file, data){
+        alert(data);
+    	var data = $.parseJSON(data);
+        if(data.status){
+        	$("input[name='attachment[info]']").val(data.data);
+        } else {
+        	alert(data.info);
+        }
+    }
+})(jQuery);
+</script>

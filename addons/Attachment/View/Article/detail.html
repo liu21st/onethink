@@ -1,0 +1,13 @@
+<link rel="stylesheet" type="text/css" href="__ADDONS__/attachment/style.css" />
+<div class="attachment-default">
+	<h3>附件列表</h3>
+	<ul class="attachment-list">
+		<volist name="list" id="attach">
+			<li>
+				<i class="icon-attachment-default"></i>
+				<a href="{:addons_url('Attachment://Attachment/download?id='.$attach['id'])}">{$attach.title}</a>
+				<span class="info">( {$attach.size|format_bytes} 下载：{$attach.download}次 )</span>
+			</li>
+		</volist>
+	</ul>
+</div>

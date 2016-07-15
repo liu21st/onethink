@@ -1,0 +1,63 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>行为列表</h2>
+	</div>
+
+    <div>
+        <button class="btn" id="action_add" url="{:U('addaction')}">新 增</button>
+        <button class="btn ajax-post" target-form="ids" url="{:u('setstatus?Model=Action&status=1')}" >启 用</button>
+        <button class="btn ajax-post" target-form="ids" url="{:u('setstatus?Model=Action&status=0')}">禁 用</button>
+        <button class="btn ajax-post confirm" target-form="ids" url="{:U('setStatus?Model=Action&status=-1')}">删 除</button>
+    </div>
+	<!-- 数据列表 -->
+	<div class="data-table">
+<table class="">
+    <thead>
+        <tr>
+		<th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
+		<th class="">编号</th>
+		<th class="">标识</th>
+		<th class="">名称</th>
+		<th class="">类型</th>
+		<th class="">规则</th>
+		<th class="">状态</th>
+		<th class="">操作</th>
+		</tr>
+    </thead>
+    <tbody>
+		<volist name="_list" id="vo">
+		<tr>
+            <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
+			<td>{$vo.id} </td>
+			<td>{$vo.name}</td>
+			<td><a href="{:U('editAction?id='.$vo['id'])}">{$vo.title}</a></td>
+			<td><span>{:get_action_type($vo['type'])}</span></td>
+			<td>{$vo.remark}</td>
+			<td>{$vo.status_text}</td>
+			<td><a href="{:U('User/editAction?id='.$vo['id'])}">编辑</a>
+				<a href="{:U('User/setStatus?Model=action&ids='.$vo['id'].'&status='.abs(1-$vo['status']))}" class="ajax-get">{$vo.status|show_status_op}</a>
+				<a href="{:U('User/setStatus?Model=action&status=-1&ids='.$vo['id'])}" class="confirm ajax-get">删除</a>
+                </td>
+		</tr>
+		</volist>
+	</tbody>
+    </table>
+
+	</div>
+	<!-- 分页 -->
+	<div class="page">{$_page}</div>
+	<!-- /分页 -->
+
+</block>
+<block name="script">
+<script type="text/javascript">
+$(function(){
+	$("#action_add").click(function(){
+		window.location.href = $(this).attr('url');
+	})
+})
+</script>
+</block>

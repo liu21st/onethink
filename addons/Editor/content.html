@@ -1,0 +1,98 @@
+<switch name="addons_config.editor_type">
+	<case value="1">
+		{// 纯文本 }
+		<input type="hidden" name="parse" value="0">
+	</case>
+	<case value="2">
+		{// 富文本 }
+		<input type="hidden" name="parse" value="0">
+		<eq name="addons_config.editor_wysiwyg" value="1">
+			<link rel="stylesheet" href="__STATIC__/kindeditor/default/default.css" />
+			<script charset="utf-8" src="__STATIC__/kindeditor/kindeditor-min.js"></script>
+			<script charset="utf-8" src="__STATIC__/kindeditor/zh_CN.js"></script>
+			<script type="text/javascript">
+				var editor_{$addons_data.name};
+				KindEditor.ready(function(K) {
+					editor_{$addons_data.name} = K.create('textarea[name="{$addons_data.name}"]', {
+						allowFileManager : false,
+						themesPath: K.basePath,
+						width: '100%',
+						height: '{$addons_config.editor_height}',
+						resizeType: <eq name="addons_config.editor_resize_type" value="1">1<else />0</eq>,
+						pasteType : 2,
+						urlType : 'absolute',
+						fileManagerJson : '{:U('fileManagerJson')}',
+						//uploadJson : '{:U('uploadJson')}' }
+						uploadJson : '{:addons_url("Editor://Upload/ke_upimg")}'
+					});
+				});
+
+				$(function(){
+					$('textarea[name="{$addons_data.name}"]').closest('form').submit(function(){
+						editor_{$addons_data.name}.sync();
+					});
+				})
+			</script>
+
+		<else />
+			<script type="text/javascript" charset="utf-8" src="__STATIC__/ueditor/ueditor.config.js"></script>
+			<script type="text/javascript" charset="utf-8" src="__STATIC__/ueditor/ueditor.all.js"></script>
+			<script type="text/javascript" charset="utf-8" src="__STATIC__/ueditor/lang/zh-cn/zh-cn.js"></script>
+			<script type="text/javascript">
+				$('textarea[name="{$addons_data.name}"]').attr('id', 'editor_id_{$addons_data.name}');
+				window.UEDITOR_HOME_URL = "__STATIC__/ueditor";
+				window.UEDITOR_CONFIG.initialFrameHeight = parseInt('{$addons_config.editor_height}');
+				window.UEDITOR_CONFIG.scaleEnabled = <eq name="addons_config.editor_resize_type" value="1">true<else />false</eq>;
+				window.UEDITOR_CONFIG.imageUrl = '{:addons_url("Editor://Upload/ue_upimg")}';
+				window.UEDITOR_CONFIG.imagePath = '';
+				window.UEDITOR_CONFIG.imageFieldName = 'imgFile';
+				UE.getEditor('editor_id_{$addons_data.name}');
+			</script>
+		</eq>
+	</case>
+	<case value="3">
+		{// UBB 官网http://xheditor.com/demos/demo07.html}
+		<script type="text/javascript" src="__STATIC__/jquery-migrate-1.2.1.min.js"></script>
+		<script charset="utf-8" src="__STATIC__/xheditor/xheditor-1.2.1.min.js"></script>
+		<script charset="utf-8" src="__STATIC__/xheditor/xheditor_lang/zh-cn.js"></script>
+		<script type="text/javascript" src="__STATIC__/xheditor/xheditor_plugins/ubb.js"></script>
+		<script type="text/javascript">
+		var submitForm = function (){
+			$('textarea[name="{$addons_data.name}"]').closest('form').submit();
+		}
+		$('textarea[name="{$addons_data.name}"]').attr('id', 'editor_id_{$addons_data.name}')
+		$('#editor_id_{$addons_data.name}').xheditor({
+			tools:'full',
+			showBlocktag:false,
+			forcePtag:false,
+			beforeSetSource:ubb2html,
+			beforeGetSource:html2ubb,
+			shortcuts:{'ctrl+enter':submitForm},
+			'height':'{$addons_config.editor_height}',
+			'width' :'100%'
+		});
+		</script>
+		<input type="hidden" name="parse" value="1">
+	</case>
+	<case value="4">
+		{// markdown }
+		<link rel="stylesheet" href="__STATIC__/thinkeditor/skin/default/style.css">
+		<script type="text/javascript" src="__STATIC__/jquery-migrate-1.2.1.min.js"></script>
+		<script type="text/javascript" src="__STATIC__/thinkeditor/jquery.thinkeditor.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				$('textarea[name="{$addons_data.name}"]').attr('id', 'editor_id_{$addons_data.name}');
+				var options = {
+					"items"  : "h1,h2,h3,h4,h5,h6,-,link,image,-,bold,italic,code,-,ul,ol,blockquote,hr,-,fullscreen",
+			        "width"  : "100%", //宽度
+			        "height" : "{$addons_config.editor_height}", //高度
+			        "lang"   : "zh-cn", //语言
+			        "tab"    : "    ", //Tab键插入的字符， 默认为四个空格
+                    "uploader": "{:addons_url('Editor://Upload/upload')}"
+			    };
+			    $('#editor_id_{$addons_data.name}').thinkeditor(options);
+			})
+		</script>
+		<input type="hidden" name="parse" value="2">
+	</case>
+</switch>

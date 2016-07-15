@@ -1,0 +1,38 @@
+<extend name="Base/common"/>
+
+<block name="header">
+    <header class="jumbotron subhead" id="overview">
+        <div class="container">
+            <h2>源自相同起点，演绎不同精彩！</h2>
+            <p class="lead"></p>
+        </div>
+    </header>
+</block>
+
+<block name="body">
+    <div class="span9">
+        <!-- Contents
+        ================================================== -->
+        <section id="contents">
+            <article:list name="list" category="$category['id']" child="true">
+                <div class="">
+                    <h3><a href="{:U('Article/detail?id='.$list['id'])}">{$list.title}</a></h3>
+                </div>
+                <div>
+                    <p class="lead">{$list.description}</p>
+                </div>
+                <div>
+                    <span><a href="{:U('Article/detail?id='.$list['id'])}">查看全文</a></span>
+                    <span class="pull-right">
+                        <span class="author">{$list.uid|get_username}</span>
+                        <span>于 {$list.create_time|date='Y-m-d H:i',###}</span> 发表在 <span>
+                        <a href="{:U('Article/lists?category='.get_category_name($list['category_id']))}">{$list.category_id|get_category_title}</a></span> 
+                        <span>阅读( {$list.view} )</span>&nbsp;&nbsp;
+                    </span>
+                </div>
+                <hr/>
+            </article:list>
+
+        </section>
+    </div>
+</block>

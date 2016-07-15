@@ -1,0 +1,86 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<div class="main-title">
+		<h2>{$info['id']?'编辑':'新增'}配置</h2>
+	</div>
+	<form action="{:U()}" method="post" class="form-horizontal">
+		<div class="form-item">
+			<label class="item-label">配置标识<span class="check-tips">（用于C函数调用，只能使用英文且不能重复）</span></label>
+			<div class="controls">
+				<input type="text" class="text input-large" name="name" value="{$info.name|default=''}">
+			</div>
+		</div>
+		<div class="form-item">
+			<label class="item-label">配置标题<span class="check-tips">（用于后台显示的配置标题）</span></label>
+			<div class="controls">
+				<input type="text" class="text input-large" name="title" value="{$info.title|default=''}">
+			</div>
+		</div>
+		<div class="form-item">
+			<label class="item-label">排序<span class="check-tips">（用于分组显示的顺序）</span></label>
+			<div class="controls">
+				<input type="text" class="text input-small" name="sort" value="{$info.sort|default=0}">
+			</div>
+		</div>
+		<div class="form-item">
+			<label class="item-label">配置类型<span class="check-tips">（系统会根据不同类型解析配置值）</span></label>
+			<div class="controls">
+				<select name="type">
+					<volist name="Think.config.CONFIG_TYPE_LIST" id="type">
+						<option value="{$key}">{$type}</option>
+					</volist>
+				</select>
+			</div>
+		</div>
+		<div class="form-item">
+			<label class="item-label">配置分组<span class="check-tips">（配置分组 用于批量设置 不分组则不会显示在系统设置中）</span></label>
+			<div class="controls">
+				<select name="group">
+					<option value="0">不分组</option>
+					<volist name="Think.config.CONFIG_GROUP_LIST" id="group">
+						<option value="{$key}">{$group}</option>
+					</volist>
+				</select>
+			</div>
+		</div>
+		<div class="form-item">
+			<label class="item-label">配置值<span class="check-tips">（配置值）</span></label>
+			<div class="controls">
+				<label class="textarea input-large">
+					<textarea name="value">{$info.value|default=''}</textarea>
+				</label>
+			</div>
+		</div>
+		<div class="form-item">
+			<label class="item-label">配置项<span class="check-tips">（如果是枚举型 需要配置该项）</span></label>
+			<div class="controls">
+				<label class="textarea input-large">
+					<textarea name="extra">{$info.extra|default=''}</textarea>
+				</label>
+			</div>
+		</div>
+		<div class="form-item">
+			<label class="item-label">说明<span class="check-tips">（配置详细说明）</span></label>
+			<div class="controls">
+				<label class="textarea input-large">
+					<textarea name="remark">{$info.remark|default=''}</textarea>
+				</label>
+			</div>
+		</div>
+		<div class="form-item">
+			<input type="hidden" name="id" value="{$info.id|default=''}">
+			<button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+			<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+		</div>
+	</form>
+</block>
+
+<block name="script">
+	<script type="text/javascript">
+		Think.setValue("type", {$info.type|default=0});
+		Think.setValue("group", {$info.group|default=0});
+		//导航高亮
+		highlight_subnav('{:U('Config/index')}');
+	</script>
+</block>

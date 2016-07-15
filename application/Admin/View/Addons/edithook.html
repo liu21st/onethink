@@ -1,0 +1,99 @@
+<extend name="Public/base" />
+
+<block name="style">
+	<style>
+		.dragsort {
+		    width:400px;
+		}
+	</style>
+</block>
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title cf">
+		<h2><present name="data">编辑<else />新增</present>钩子</h2>
+	</div>
+
+	<!-- 修改密码表单 -->
+	<form action="{:U('updateHook')}" method="post" class="form-horizontal">
+		<div class="form-item cf">
+			<label class="item-label">钩子名称<span class="check-tips">（需要在程序中先添加钩子，否则无效）</span></label>
+			<div class="controls">
+				<input type="text" value="{$data.name}" name="name" class="text input-large">
+			</div>
+		</div>
+		<div class="form-item cf">
+			<label class="item-label">钩子描述<span class="check-tips">（钩子的描述信息）</span></label>
+			<div class="controls">
+				<label class="textarea input-large"><textarea name="description" >{$data.description}</textarea></label>
+			</div>
+		</div>
+		<div class="form-item cf">
+			<label class="item-label">钩子类型<span class="check-tips">（区分钩子的主要用途）</span></label>
+			<div class="controls">
+				<select name="type">
+					<volist name=":C('HOOKS_TYPE')" id="vo">
+						<option value="{$key}" <eq name="data.type" value="$key"> selected</eq>>{$vo}</option>
+					</volist>
+				</select>
+			</div>
+		</div>
+		<present name="data">
+			<div class="form-item cf">
+				<label class="item-label">钩子挂载的插件排序<span class="check-tips">（拖动后保存顺序，影响同一个钩子挂载的插件执行先后顺序）</span></label>
+				<div class="controls">
+					<input type="hidden" name="addons" value="{$data.addons}" readonly>
+					<empty name="data.addons">
+						暂无插件，无法排序
+					<else />
+					<ul id="sortUl" class="dragsort">
+						<volist name=":explode(',',$data['addons'])" id="addons_vo">
+							<li class="getSort"><b>&times;</b><em>{$addons_vo}</em></li>
+						</volist>
+					</ul>
+					<script type="text/javascript">
+						$(function(){
+							$("#sortUl").dragsort({
+	                            dragSelector:'li',
+	                            placeHolderTemplate: '<li class="draging-place">&nbsp;</li>',
+	                            dragEnd:function(){
+	                            	updateVal();
+	                            }
+	                        });
+
+							$('#sortUl li b').click(function(){
+                            	$(this).parent().remove();
+                            	updateVal();
+                            });
+
+							// 更新排序后的隐藏域的值
+	                        function updateVal() {
+	                        	var sortVal = [];
+                            	$('#sortUl li').each(function(){
+                            		sortVal.push($('em',this).text());
+                            	});
+                                $("input[name='addons']").val(sortVal.join(','));
+	                        }
+						})
+					</script>
+					</empty>
+				</div>
+			</div>
+		</present>
+		<input type="hidden" name="id" value="{$data.id}">
+		<button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button>
+		<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+	</form>
+</block>
+
+<block name="script">
+	<present name="data">
+		<script type="text/javascript" src="__STATIC__/jquery.dragsort-0.5.1.min.js"></script>
+	</present>
+	<script type="text/javascript">
+		$(function(){
+			//导航高亮
+			highlight_subnav('{:U('Addons/hooks')}');
+		})
+	</script>
+</block>

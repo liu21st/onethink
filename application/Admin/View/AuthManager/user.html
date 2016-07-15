@@ -1,0 +1,72 @@
+<!-- 成员授权编辑页面 -->
+<extend name="Public/base" />
+<block name="body">
+<div class="tab-wrap">
+    <ul class="tab-nav nav">
+        <li><a href="{:U('AuthManager/access',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">访问授权</a></li>
+        <li><a href="{:U('AuthManager/category',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">分类授权</a></li>
+		<li class="current"><a href="javascript:;">成员授权</a></li>
+	    <li class="fr">
+		    <select name="group">
+			    <volist name="auth_group" id="vo">
+				    <option value="{:U('AuthManager/user',array('group_id'=>$vo['id'],'group_name'=>$vo['title']))}" <eq name="vo['id']" value="$this_group['id']">selected</eq> >{$vo.title}</option>
+			    </volist>
+		    </select>
+	    </li>
+    </ul>
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+	<table class="">
+    <thead>
+        <tr>
+		<th class="">UID</th>
+		<th class="">昵称</th>
+		<th class="">最后登录时间</th>
+		<th class="">最后登录IP</th>
+		<th class="">状态</th>
+		<th class="">操作</th>
+		</tr>
+    </thead>
+    <tbody>
+		<volist name="_list" id="vo">
+		<tr>
+			<td>{$vo.uid} </td>
+			<td>{$vo.nickname}</td>
+			<td><span>{$vo.last_login_time|time_format}</span></td>
+			<td><span>{$vo.last_login_ip|long2ip}</span></td>
+			<td>{$vo.status_text}</td>
+			<td><a href="{:U('AuthManager/removeFromGroup?uid='.$vo['uid'].'&group_id='.I('group_id'))}" class="ajax-get">解除授权</a>
+
+                </td>
+		</tr>
+		</volist>
+	</tbody>
+    </table>
+
+
+    </div>
+	<div class="main-title">
+		<div class="page_nav fl">
+			{$_page}
+		</div>
+		<div id="add-to-group" class="tools fr">
+			<form class="add-user" action="{:U('addToGroup')}" method="post" enctype="application/x-www-form-urlencoded" >
+				<input class="text input-4x" type="text" name="uid" placeholder="请输入uid,多个用英文逗号分隔">
+				<input type="hidden" name="group_id" value="{:I('group_id')}">
+                <button type="submit" class="btn ajax-post" target-form="add-user">新 增</button>
+			</form>
+		</div>
+	</div>
+
+</div>
+</block>
+
+<block name="script">
+<script type="text/javascript" charset="utf-8">
+	$('select[name=group]').change(function(){
+		location.href = this.value;
+	});
+    //导航高亮
+    highlight_subnav('{:U('AuthManager/index')}');
+</script>
+</block>
