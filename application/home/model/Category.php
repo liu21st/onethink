@@ -116,7 +116,7 @@ class Category  extends Model{
      */
     public function getChildrenId($cate){
         $field = 'id,name,pid,title,link_id';
-        $category = D('Category')->getTree($cate, $field);
+        $category = model('Category')->getTree($cate, $field);
         $ids[]    = $cate;
         foreach ($category['_'] as $key => $value) {
             $ids[] = $value['id'];

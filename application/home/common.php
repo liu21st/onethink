@@ -63,7 +63,7 @@ function get_nav_url($url){
         case '#' === substr($url, 0, 1):
             break;        
         default:
-            $url = U($url);
+            $url = url($url);
             break;
     }
     return $url;

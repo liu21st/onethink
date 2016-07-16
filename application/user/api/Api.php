@@ -7,14 +7,14 @@
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
-namespace User\Api;
+namespace app\user\api;
 define('UC_CLIENT_PATH', dirname(dirname(__FILE__)));
 
 //载入配置文件
-require_cache(UC_CLIENT_PATH . '/Conf/config.php');
+require(UC_CLIENT_PATH . '/config.php');
 
 //载入函数库文件
-require_cache(UC_CLIENT_PATH . '/Common/common.php');
+require(UC_CLIENT_PATH . '/function.php');
 
 /**
  * UC API调用控制器层
@@ -38,7 +38,9 @@ abstract class Api{
 		defined('UC_API_TYPE') || throw_exception('UC配置错误：缺少UC_APP_API_TYPE');
 		defined('UC_AUTH_KEY') || throw_exception('UC配置错误：缺少UC_APP_AUTH_KEY');
 		defined('UC_DB_DSN') || throw_exception('UC配置错误：缺少UC_DB_DSN');
-		defined('UC_TABLE_PREFIX') || throw_exception('UC配置错误：缺少UC_TABLE_PREFIX');
+		//defined('UC_TABLE_PREFIX') || throw_exception('UC配置错误：缺少UC_TABLE_PREFIX');
+
+		defined('UC_TABLE') || throw_exception('UC配置错误：缺少UC_TABLE');
 		if(UC_API_TYPE != 'Model' && UC_API_TYPE != 'Service'){
 			throw_exception('UC配置错误：UC_API_TYPE只能为 Model 或 Service');
 		}

@@ -7,16 +7,15 @@
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
-namespace User\Api;
-use User\Api\Api;
-use User\Model\UcenterMemberModel;
+namespace app\user\api;
 
-class UserApi extends Api{
+use app\user\model\UcenterMember;
+class User  extends Api{
     /**
      * 构造方法，实例化操作模型
      */
     protected function _init(){
-        $this->model = new UcenterMemberModel();
+        $this->model = new UcenterMember();
     }
 
     /**

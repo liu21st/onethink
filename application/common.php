@@ -385,7 +385,7 @@ function get_username($uid = 0){
 
     /* 获取缓存数据 */
     if(empty($list)){
-        $list = S('sys_active_user_list');
+        $list = cache('sys_active_user_list');
     }
 
     /* 查找用户信息 */
@@ -393,7 +393,7 @@ function get_username($uid = 0){
     if(isset($list[$key])){ //已缓存，直接使用
         $name = $list[$key];
     } else { //调用接口获取用户信息
-        $User = new User\Api\UserApi();
+        $User = new \app\user\api\User();
         $info = $User->info($uid);
         if($info && isset($info[1])){
             $name = $list[$key] = $info[1];
@@ -403,7 +403,7 @@ function get_username($uid = 0){
             while ($count-- > $max) {
                 array_shift($list);
             }
-            S('sys_active_user_list', $list);
+            cache('sys_active_user_list', $list);
         } else {
             $name = '';
         }
@@ -424,7 +424,7 @@ function get_nickname($uid = 0){
 
     /* 获取缓存数据 */
     if(empty($list)){
-        $list = S('sys_user_nickname_list');
+        $list = cache('sys_user_nickname_list');
     }
 
     /* 查找用户信息 */
@@ -432,7 +432,7 @@ function get_nickname($uid = 0){
     if(isset($list[$key])){ //已缓存，直接使用
         $name = $list[$key];
     } else { //调用接口获取用户信息
-        $info = M('Member')->field('nickname')->find($uid);
+        $info = db('Member')->field('nickname')->find($uid);
         if($info !== false && $info['nickname'] ){
             $nickname = $info['nickname'];
             $name = $list[$key] = $nickname;
@@ -442,7 +442,7 @@ function get_nickname($uid = 0){
             while ($count-- > $max) {
                 array_shift($list);
             }
-            S('sys_user_nickname_list', $list);
+            cache('sys_user_nickname_list', $list);
         } else {
             $name = '';
         }
@@ -466,17 +466,17 @@ function get_category($id, $field = null){
 
     /* 读取缓存数据 */
     if(empty($list)){
-        $list = S('sys_category_list');
+        $list = cache('sys_category_list');
     }
 
     /* 获取分类名称 */
     if(!isset($list[$id])){
-        $cate = M('Category')->find($id);
+        $cate = db('Category')->find($id);
         if(!$cate || 1 != $cate['status']){ //不存在分类，或分类被禁用
             return '';
         }
         $list[$id] = $cate;
-        S('sys_category_list', $list); //更新缓存
+        cache('sys_category_list', $list); //更新缓存
     }
     return is_null($field) ? $list[$id] : $list[$id][$field];
 }
@@ -499,7 +499,7 @@ function get_top_model($model_id=null){
     if(!is_null($model_id)){
         $map['id']  =   array('neq',$model_id);
     }
-    $model = M('Model')->where($map)->field(true)->select();
+    $model = db('Model')->where($map)->field(true)->select();
     foreach ($model as $value) {
         $list[$value['id']] = $value;
     }
@@ -522,17 +522,17 @@ function get_document_model($id = null, $field = null){
 
     /* 读取缓存数据 */
     if(empty($list)){
-        $list = S('DOCUMENT_MODEL_LIST');
+        $list = cache('DOCUMENT_MODEL_LIST');
     }
 
     /* 获取模型名称 */
     if(empty($list)){
         $map   = array('status' => 1, 'extend' => 1);
-        $model = M('Model')->where($map)->field(true)->select();
+        $model = db('Model')->where($map)->field(true)->select();
         foreach ($model as $value) {
             $list[$value['id']] = $value;
         }
-        S('DOCUMENT_MODEL_LIST', $list); //更新缓存
+        cache('DOCUMENT_MODEL_LIST', $list); //更新缓存
     }
 
     /* 根据条件返回数据 */
@@ -576,7 +576,7 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
     }
 
     //查询行为,判断是否执行
-    $action_info = M('Action')->getByName($action);
+    $action_info = db('Action')->getByName($action);
     if($action_info['status'] != 1){
         return '该行为被禁用或删除';
     }
@@ -614,7 +614,7 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
         $data['remark']     =   '操作url：'.$_SERVER['REQUEST_URI'];
     }
 
-    M('ActionLog')->add($data);
+    db('ActionLog')->add($data);
 
     if(!empty($action_info['rule'])){
         //解析行为
@@ -653,7 +653,7 @@ function parse_action($action , $self){
     }
 
     //查询行为信息
-    $info = M('Action')->where($map)->find();
+    $info = db('Action')->where($map)->find();
     if(!$info || $info['status'] != 1){
         return false;
     }
@@ -699,13 +699,13 @@ function execute_action($rules = false, $action_id = null, $user_id = null){
         //检查执行周期
         $map = array('action_id'=>$action_id, 'user_id'=>$user_id);
         $map['create_time'] = array('gt', NOW_TIME - intval($rule['cycle']) * 3600);
-        $exec_count = M('ActionLog')->where($map)->count();
+        $exec_count = db('ActionLog')->where($map)->count();
         if($exec_count > $rule['max']){
             continue;
         }
 
         //执行数据库操作
-        $Model = M(ucfirst($rule['table']));
+        $Model = db(ucfirst($rule['table']));
         $field = $rule['field'];
         $res = $Model->where($rule['condition'])->setField($field, array('exp', $rule['rule']));
 
@@ -763,7 +763,7 @@ function get_table_name($model_id = null){
     if(empty($model_id)){
         return false;
     }
-    $Model = M('Model');
+    $Model = db('Model');
     $name = '';
     $info = $Model->getById($model_id);
     if($info['extend'] != 0){
@@ -790,12 +790,12 @@ function get_model_attribute($model_id, $group = true,$fields=true){
     /* 获取属性 */
     if(!isset($list[$model_id])){
         $map = array('model_id'=>$model_id);
-        $extend = M('Model')->getFieldById($model_id,'extend');
+        $extend = db('Model')->getFieldById($model_id,'extend');
 
         if($extend){
             $map = array('model_id'=> array("in", array($model_id, $extend)));
         }
-        $info = M('Attribute')->where($map)->field($fields)->select();
+        $info = db('Attribute')->where($map)->field($fields)->select();
         $list[$model_id] = $info;
     }
 
@@ -804,7 +804,7 @@ function get_model_attribute($model_id, $group = true,$fields=true){
         foreach ($list[$model_id] as $value) {
             $attr[$value['id']] = $value;
         }
-        $model     = M("Model")->field("field_sort,attribute_list,attribute_alias")->find($model_id);
+        $model     = db("Model")->field("field_sort,attribute_list,attribute_alias")->find($model_id);
         $attribute = explode(",", $model['attribute_list']);
         if (empty($model['field_sort'])) { //未排序
             $group = array(1 => array_merge($attr));
@@ -886,7 +886,7 @@ function get_table_field($value = null, $condition = 'id', $field = null, $table
 
     //拼接参数
     $map[$condition] = $value;
-    $info = M(ucfirst($table))->where($map);
+    $info = db(ucfirst($table))->where($map);
     if(empty($field)){
         $info = $info->field(true)->find();
     }else{
@@ -907,7 +907,7 @@ function get_link($link_id = null, $field = 'url'){
     if(empty($link_id)){
         return $link;
     }
-    $link = M('Url')->getById($link_id);
+    $link = db('Url')->getById($link_id);
     if(empty($field)){
         return $link;
     }else{
@@ -926,7 +926,7 @@ function get_cover($cover_id, $field = null){
     if(empty($cover_id)){
         return false;
     }
-    $picture = M('Picture')->where(array('status'=>1))->getById($cover_id);
+    $picture = db('Picture')->where(array('status'=>1))->getById($cover_id);
     if($field == 'path'){
         if(!empty($picture['url'])){
             $picture['path'] = $picture['url'];

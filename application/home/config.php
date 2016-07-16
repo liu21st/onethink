@@ -35,7 +35,7 @@ return array(
         // 标签库标签结束标记
         'taglib_end'   => '}',
         // 预先加载的标签库
-//         'taglib_pre_load'     =>    'OT\\TagLib\\Article,OT\\TagLib\\Think',
+        'taglib_pre_load'     =>    'app\common\taglib\Article,app\common\taglib\Think',
         // 替换参数
         'tpl_replace_string' => [
             '__STATIC__' => __ROOT__ . '/public/static',

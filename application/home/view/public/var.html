@@ -1,0 +1,12 @@
+<script type="text/javascript">
+(function(){
+	var ThinkPHP = window.Think = {
+		"ROOT"   : "__ROOT__", //当前网站地址
+		"APP"    : "__APP__", //当前项目地址
+		"PUBLIC" : "__PUBLIC__", //项目公共目录地址
+		"DEEP"   : "{:config('URL_PATHINFO_DEPR')}", //PATHINFO分割符
+		"MODEL"  : ["{:config('URL_MODEL')}", "{:config('URL_CASE_INSENSITIVE')}", "{:config('URL_HTML_SUFFIX')}"],
+		"VAR"    : ["{:config('VAR_MODULE')}", "{:config('VAR_CONTROLLER')}", "{:config('VAR_ACTION')}"]
+	}
+})();
+</script>

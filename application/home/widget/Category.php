@@ -7,7 +7,7 @@
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
-namespace app\home\model;
+namespace app\home\widget;
 
 use think\Controller;
 /**
@@ -21,14 +21,14 @@ class Category  extends Controller{
 	public function lists($cate, $child = false){
 		$field = 'id,name,pid,title,link_id';
 		if($child){
-			$category = D('Category')->getTree($cate, $field);
-			$category = $category['_'];
+			$category = model('Category')->getTree($cate, $field);
+			$category = empty($category['_'])?null:$category['_'];
 		} else {
-			$category = D('Category')->getSameLevel($cate, $field);
+			$category = model('Category')->getSameLevel($cate, $field);
 		}
 		$this->assign('category', $category);
 		$this->assign('current', $cate);
-		$this->display('Category/lists');
+		return $this->fetch('Category/lists');
 	}
 	
 }
