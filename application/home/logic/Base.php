@@ -23,12 +23,16 @@ class Base  extends Model{
      * @param mixed $connection 数据库连接信息
 	 */
 	public function __construct($name = '', $tablePrefix = '', $connection = '') {
+
+	    // 数据表名称
+	    $this->table== config('database.prefix') . 'document'.$name;
 		/* 设置默认的表前缀 */
-		$this->tablePrefix = C('DB_PREFIX') . 'document_'; 
+// 		$this->tablePrefix = config('database.prefix') . 'document_'; 
 		/* 执行构造方法 */
-		parent::__construct($name, $tablePrefix, $connection);
+		parent::__construct();
 	}
 
+	
 	/**
 	 * 获取模型详细信息
 	 * @param  integer $id 文档ID
@@ -69,27 +73,27 @@ class Base  extends Model{
      * @param  number $id 文章ID
      * @return boolean    true-操作成功，false-操作失败
      */
-    public function update($id = 0) {
-        /* 获取数据 */
-        $data = $this->create();
-        if ($data === false) {
-            return false;
-        }
+//     public function update($id = 0) {
+//         /* 获取数据 */
+//         $data = $this->create();
+//         if ($data === false) {
+//             return false;
+//         }
 
-        if (empty($data['id'])) {//新增数据
-            $data['id'] = $id;
-            $id = $this->add($data);
-            if (!$id) {
-                $this->error = '新增数据失败！';
-                return false;
-            }
-        } else { //更新数据
-            $status = $this->save($data);
-            if (false === $status) {
-                $this->error = '更新数据失败！';
-                return false;
-            }
-        }
-        return true;
-    }
+//         if (empty($data['id'])) {//新增数据
+//             $data['id'] = $id;
+//             $id = $this->add($data);
+//             if (!$id) {
+//                 $this->error = '新增数据失败！';
+//                 return false;
+//             }
+//         } else { //更新数据
+//             $status = $this->save($data);
+//             if (false === $status) {
+//                 $this->error = '更新数据失败！';
+//                 return false;
+//             }
+//         }
+//         return true;
+//     }
 }

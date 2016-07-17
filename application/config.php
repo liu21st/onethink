@@ -2,8 +2,8 @@
 
 return [
     /* 模块相关配置 */
-    'AUTOLOAD_NAMESPACE' => array('Addons' => ONETHINK_ADDON_PATH), //扩展模块列表
-    //'MODULE_ALLOW_LIST'  => array('Home','Admin'),
+    'AUTOLOAD_NAMESPACE' => ['Addons' => ONETHINK_ADDON_PATH], //扩展模块列表
+    //'MODULE_ALLOW_LIST'  => ['Home','Admin'],
     
     /* 系统数据加密设置 */
     'DATA_AUTH_KEY' => '!i<4qU@A_=XEk5>6m`o/J1"fWMVNyGg#{w%jQpT)', //默认数据加密KEY
@@ -15,7 +15,7 @@ return [
     
     
     /* 文档模型配置 (文档模型核心配置，请勿更改) */
-    'DOCUMENT_MODEL_TYPE' => array(2 => '主题', 1 => '目录', 3 => '段落'),
+    'DOCUMENT_MODEL_TYPE' => [2 => '主题', 1 => '目录', 3 => '段落'],
     
     // +----------------------------------------------------------------------
     // | 应用设置
@@ -92,7 +92,7 @@ return [
     // URL伪静态后缀
     'url_html_suffix'        => 'html',
     // URL普通方式参数 用于自动生成
-    'url_common_param'       => false,
+    'url_common_param'       => true,
     //url禁止访问的后缀
     'url_deny_suffix'        => 'ico|png|gif|jpg',
     // URL参数方式 0 按名称成对解析 1 按顺序解析
@@ -151,7 +151,7 @@ return [
     // 错误显示信息,非调试模式有效
     'error_message'          => '页面错误！请稍后再试～',
     // 显示错误信息
-    'show_error_msg'         => false,
+    'show_error_msg'         => true,
     // 异常处理handle类 留空使用 \think\exception\Handle
     'exception_handle'       => '',
 

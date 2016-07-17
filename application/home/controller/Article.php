@@ -24,7 +24,7 @@ class Article extends Home {
 
 		/* 模板赋值并渲染模板 */
 		$this->assign('category', $category);
-		$this->display($category['template_index']);
+		return $this->fetch($category['template_index']);
 	}
 
 	/* 文档模型列表页 */
@@ -33,16 +33,17 @@ class Article extends Home {
 		$category = $this->category();
 
 		/* 获取当前分类列表 */
-		$Document = D('Document');
-		$list = $Document->page($p, $category['list_row'])->lists($category['id']);
+		$Document = model('Document');
+// 		$list = $Document->page($p, $category['list_row'])->lists($category['id']);
+        //调整为新版分页
+		$list = $Document->lists($category['id'],1);
 		if(false === $list){
 			$this->error('获取列表数据失败！');
 		}
-
 		/* 模板赋值并渲染模板 */
 		$this->assign('category', $category);
 		$this->assign('list', $list);
-		$this->display($category['template_lists']);
+		return $this->fetch($category['template_lists']);
 	}
 
 	/* 文档模型详情页 */
@@ -57,7 +58,7 @@ class Article extends Home {
 		$p = empty($p) ? 1 : $p;
 
 		/* 获取详细信息 */
-		$Document = D('Document');
+		$Document = model('Document');
 		$info = $Document->detail($id);
 		if(!$info){
 			$this->error($Document->getError());
@@ -72,7 +73,7 @@ class Article extends Home {
 		} elseif (!empty($category['template_detail'])){ //分类已定制模板
 			$tmpl = $category['template_detail'];
 		} else { //使用默认模板
-			$tmpl = 'Article/'. get_document_model($info['model_id'],'name') .'/detail';
+			$tmpl = 'article/'. get_document_model($info['model_id'],'name') .'/detail';
 		}
 
 		/* 更新浏览数 */
@@ -83,19 +84,19 @@ class Article extends Home {
 		$this->assign('category', $category);
 		$this->assign('info', $info);
 		$this->assign('page', $p); //页码
-		$this->display($tmpl);
+		return $this->fetch($tmpl);
 	}
 
 	/* 文档分类检测 */
 	private function category($id = 0){
 		/* 标识正确性检测 */
-		$id = $id ? $id : I('get.category', 0);
+		$id = $id ? $id : input('get.category', 0);
 		if(empty($id)){
 			$this->error('没有指定文档分类！');
 		}
 
 		/* 获取分类信息 */
-		$category = D('Category')->info($id);
+		$category = model('Category')->info($id);
 		if($category && 1 == $category['status']){
 			switch ($category['display']) {
 				case 0:

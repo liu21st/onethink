@@ -1,6 +1,6 @@
-<extend name="Base/common"/>
+{extend name="base/common"/}
 
-<block name="header">
+{block name="header"}
     <header class="jumbotron subhead" id="overview">
 		<div class="container">
 			<h2>{$info.title}</h2>
@@ -10,24 +10,24 @@
 					<span> 发表于 {$info.create_time|date='Y-m-d H:i',###}</span>
 				</span>
 				<span class="pull-right">
-					<article:prev name="prev" info="info">
-                        <a href="{:U('?id='.$prev['id'])}">上一篇</a>
-                    </article:prev>
-                    <article:next name="next" info="info">
-                        <a href="{:U('?id='.$next['id'])}">下一篇</a>
-                    </article:next>
+					{article:prev name="prev" info="info"}
+                        <a href="{:url('?id='.$prev['id'])}">上一篇</a>
+                    {/article:prev}
+                    {article:next name="next" info="info"}
+                        <a href="{:url('?id='.$next['id'])}">下一篇</a>
+                    {/article:next}
 				</span>
 			</p>
 		</div>
 	</header>
-</block>
+{/block}
 
-<block name="body">
+{block name="body"}
     <div class="span9 main-content">
         <!-- Contents
         ================================================== -->
-        <section id="contents">{$info.content}</section>
+        <section id="contents">{$info.article.content}</section>
         <hr/>
         {:hook('documentDetailAfter',$info)}
     </div>
-</block>
+{/block}

@@ -38,11 +38,11 @@ return array(
         'taglib_pre_load'     =>    'app\common\taglib\Article,app\common\taglib\Think',
         // 替换参数
         'tpl_replace_string' => [
-            '__STATIC__' => __ROOT__ . '/public/static',
-            '__ADDONS__' => __ROOT__ . '/public/home/Addons',
-            '__IMG__'    => __ROOT__ . '/public/home/images',
-            '__CSS__'    => __ROOT__ . '/public/home/css',
-            '__JS__'     => __ROOT__ . '/public/home/js',
+            '__STATIC__' => __ROOT__ . 'public/static',
+            '__ADDONS__' => __ROOT__ . 'public/home/Addons',
+            '__IMG__'    => __ROOT__ . 'public/home/images',
+            '__CSS__'    => __ROOT__ . 'public/home/css',
+            '__JS__'     => __ROOT__ . 'public/home/js',
         ]
     ],
     

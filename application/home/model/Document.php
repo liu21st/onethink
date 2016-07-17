@@ -55,9 +55,11 @@ class Document  extends Model{
      * @param  string   $field    字段 true-所有字段
      * @return array              文档列表
      */
-    public function lists($category, $order = '`id` DESC', $status = 1, $field = true){
+    public function lists($category,$list_rows=15,$order = '`id` DESC', $status = 1, $field = true){
         $map = $this->listMap($category, $status);
-        return $this->field($field)->where($map)->order($order)->select();
+        $config=config('paginate');
+        $config['query']=['category'=>input('get.category',$category)];
+        return $this->field($field)->where($map)->order($order)->paginate($list_rows,false,$config);
     }
 
     /**
@@ -82,20 +84,29 @@ class Document  extends Model{
         if ( !$info ) {
             $this->error = '文档不存在';
             return false;
-        }elseif(!(is_array($info)) || 1 != $info['status']){
+        }elseif(!(is_object($info)) || 1 != $info['status']){
             $this->error = '文档被禁用或已删除！';
             return false;
         }
+        return $info;
         /* 获取模型数据 */
-        $logic  = $this->logic($info['model_id']);
-        $detail = $logic->detail($id); //获取指定ID的数据
-        if(!$detail){
-            $this->error = $logic->getError();
-            return false;
-        }
-        return array_merge($info, $detail);
+        //FIXME:经过测试，计划放弃logic，采用一对一方案
+//         $logic  = $this->logic($info['model_id']);
+//         $detail = $logic->detail($id); //获取指定ID的数据
+//         if(!$detail){
+//             $this->error = $logic->getError();
+//             return false;
+//         }
+//         return array_merge($info, $detail);
     }
 
+    //关联模型
+    public function article(){
+        return $this->hasOne('DocumentArticle','id','id');
+    }
+    public function download(){
+        return $this->hasOne('DocumentDownload','id','id');
+    }
     /**
      * 返回前一篇文档信息
      * @param  array $info 当前文档信息
@@ -108,7 +119,7 @@ class Document  extends Model{
             'category_id' => $info['category_id'],
             'status'      => 1,
             'create_time' => array('lt', NOW_TIME),
-            '_string'     => 'deadline = 0 OR deadline > ' . NOW_TIME,  			
+//             '_string'     => 'deadline = 0 OR deadline > ' . NOW_TIME,  			
         );
 
         /* 返回前一条数据 */
@@ -127,7 +138,7 @@ class Document  extends Model{
             'category_id' => $info['category_id'],
             'status'      => 1,
             'create_time' => array('lt', NOW_TIME),
-            '_string'     => 'deadline = 0 OR deadline > ' . NOW_TIME,  			
+//             '_string'     => 'deadline = 0 OR deadline > ' . NOW_TIME,  			
         );
 
         /* 返回下一条数据 */
@@ -284,9 +295,10 @@ class Document  extends Model{
      * @return object         模型对象
      */
     private function logic($model){
-        $name  = parse_name(get_document_model($model, 'name'), 1);
-        $class = is_file(MODULE_PATH . 'Logic/' . $name . 'Logic' . EXT) ? $name : 'Base';
-        $class = MODULE_NAME . '\\Logic\\' . $class . 'Logic';
+        $name  = \think\Loader::parseName(get_document_model($model, 'name'), 1);
+        $class = is_file(MODULE_PATH . 'logic/' . $name  . EXT) ? $name : 'Base';
+        
+        $class = '\\app\\'.MODULE_NAME . '\\logic\\' . $class ;
         return new $class($name);  		
     }
 
