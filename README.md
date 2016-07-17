@@ -5,7 +5,7 @@
 项目地址https://git.oschina.net/lilwil/onethink
 
 参与说明：
-1.下载完毕之后运行  项目地址/wwwroot/install.php进行安装
+1.首先fork一份，然后下载完毕之后运行  项目地址/wwwroot/install.php进行安装
 2.安装完毕之后配置根目录下application内database.php和user/config.php数据库配置及UC_AUTH_KEY
 3.对相关文件修改时，注意及时提交代码，及时说清楚自己要修改的地方。
 4.尽量采用fork一份提交的方式参与
