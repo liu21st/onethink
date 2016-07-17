@@ -6,15 +6,15 @@
 // +----------------------------------------------------------------------
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
-namespace Admin\Controller;
-use Think\Controller;
+namespace app\admin\controller;
 use Admin\Model\AuthRuleModel;
 use Admin\Model\AuthGroupModel;
+use think\Controller;
 /**
  * 后台首页控制器
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
-class AdminController extends Controller {
+class Admin  extends Controller {
 
     /**
      * 后台控制器初始化
@@ -24,7 +24,7 @@ class AdminController extends Controller {
         if(defined('UID')) return ;
         define('UID',is_login());
         if( !UID ){// 还没登录 跳转到登录页面
-            $this->redirect('Public/login');
+            $this->redirect('Foreign/login');
         }
         /* 读取数据库中的配置 */
         $config =   S('DB_CONFIG_DATA');

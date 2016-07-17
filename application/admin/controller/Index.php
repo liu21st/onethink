@@ -7,14 +7,14 @@
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
-namespace Admin\Controller;
+namespace app\admin\controller;
 use User\Api\UserApi as UserApi;
 
 /**
  * 后台首页控制器
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
-class IndexController extends AdminController {
+class Index  extends Admin  {
 
     /**
      * 后台首页
@@ -22,7 +22,7 @@ class IndexController extends AdminController {
      */
     public function index(){
         $this->meta_title = '管理首页';
-        $this->display();
+        return $this->fetch();
     }
 
 }

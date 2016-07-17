@@ -7,32 +7,32 @@
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
-namespace Admin\Controller;
-use User\Api\UserApi;
+namespace app\admin\controller;
+use think\Controller;
+use app\user\api\User;
 
 /**
  * 后台首页控制器
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
-class PublicController extends \Think\Controller {
+class Foreign extends Controller {
 
     /**
      * 后台用户登录
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function login($username = null, $password = null, $verify = null){
-        if(IS_POST){
+        if($this->request->isPost()){
             /* 检测验证码 TODO: */
-            if(!check_verify($verify)){
+            if(!captcha_check($verify)){
                 $this->error('验证码输入错误！');
             }
-
             /* 调用UC登录接口登录 */
-            $User = new UserApi;
+            $User = new User();
             $uid = $User->login($username, $password);
             if(0 < $uid){ //UC登录成功
                 /* 登录用户 */
-                $Member = D('Member');
+                $Member = model('Member');
                 if($Member->login($uid)){ //登录用户
                     //TODO:跳转到登录前页面
                     $this->success('登录成功！', U('Index/index'));
@@ -53,14 +53,14 @@ class PublicController extends \Think\Controller {
                 $this->redirect('Index/index');
             }else{
                 /* 读取数据库中的配置 */
-                $config	=	S('DB_CONFIG_DATA');
+                $config	=	cache('DB_CONFIG_DATA');
                 if(!$config){
-                    $config	=	D('Config')->lists();
-                    S('DB_CONFIG_DATA',$config);
+                    $config	=	model('Config')->lists();
+                    cache('DB_CONFIG_DATA',$config);
                 }
-                C($config); //添加配置
+                config($config); //添加配置
                 
-                $this->display();
+                return $this->fetch();
             }
         }
     }
@@ -74,11 +74,6 @@ class PublicController extends \Think\Controller {
         } else {
             $this->redirect('login');
         }
-    }
-
-    public function verify(){
-        $verify = new \Think\Verify();
-        $verify->entry(1);
     }
 
 }

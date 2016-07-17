@@ -17,19 +17,19 @@ class InitHook  {
 
     // 行为扩展的执行入口必须是run
     public function run(&$content){
-        return true;
         
-        if(defined('BIND_MODULE') && BIND_MODULE === 'Install') return;
+        //FIXME:此处暂时废弃，后期需要对安装情况下的判断
+        //if(defined('BIND_MODULE') && BIND_MODULE === 'Install') return;
         
         $data = cache('hooks');
         if(!$data){
-            $hooks = M('Hooks')->getField('name,addons');
+            $hooks = db('Hooks')->column('name,addons');
             foreach ($hooks as $key => $value) {
                 if($value){
                     $map['status']  =   1;
                     $names          =   explode(',',$value);
                     $map['name']    =   array('IN',$names);
-                    $data = M('Addons')->where($map)->getField('id,name');
+                    $data = db('Addons')->where($map)->column('id,name');
                     if($data){
                         $addons = array_intersect($names, $data);
                         Hook::add($key,array_map('get_addon_class',$addons));
