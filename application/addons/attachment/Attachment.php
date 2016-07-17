@@ -7,14 +7,14 @@
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
-namespace Addons\Attachment;
-use Common\Controller\Addon;
+namespace app\addons\attachment;
 
+use app\common\controller\Addon;
 /**
  * 附件插件
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
-class AttachmentAddon extends Addon{
+class Attachment  extends Addon{
 
 	public $info = array(
 		'name'        => 'Attachment',
@@ -60,7 +60,7 @@ class AttachmentAddon extends Addon{
 		}
 
 		/* 获取当前文档附件 */
-		$Attachment = D('Addons://Attachment/Attachment');
+		$Attachment =new \app\addons\attachment\model\Attachment();
 		$map = array('record_id' => $info['id'], 'status' => 1);
 		$list = $Attachment->field(true)->where($map)->select();
 		if(!$list){ //不存在附件

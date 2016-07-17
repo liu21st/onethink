@@ -7,25 +7,25 @@
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
-namespace Addons\Attachment\Model;
-use Think\Model;
+namespace app\addons\attachment\model;
 
+use think\Model;
 /**
  * 分类模型
  */
-class AttachmentModel extends Model{
+class Attachment  extends Model{
 	/**
 	 * 附件模型自动完成
 	 * @var array
 	 */
-	protected $_auto = array(
-		array('uid', 'session', self::MODEL_INSERT, 'function', 'user_auth.uid'),
-		array('download', 0, self::MODEL_INSERT),
-		array('sort', 0, self::MODEL_INSERT),
-		array('create_time', NOW_TIME, self::MODEL_INSERT),
-		array('update_time', NOW_TIME, self::MODEL_BOTH),
-		array('status', 1, self::MODEL_BOTH),
-	);
+// 	protected $_auto = array(
+// 		array('uid', 'session', self::MODEL_INSERT, 'function', 'user_auth.uid'),
+// 		array('download', 0, self::MODEL_INSERT),
+// 		array('sort', 0, self::MODEL_INSERT),
+// 		array('create_time', NOW_TIME, self::MODEL_INSERT),
+// 		array('update_time', NOW_TIME, self::MODEL_BOTH),
+// 		array('status', 1, self::MODEL_BOTH),
+// 	);
 
 	protected function _after_find(&$result,$options) {
 		$result['update_time_text'] = date('Y-m-d H:i:s', $result['update_time']);

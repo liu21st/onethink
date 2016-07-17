@@ -17,11 +17,10 @@ class InitHook  {
 
     // 行为扩展的执行入口必须是run
     public function run(&$content){
-        return ;
         //FIXME:此处暂时废弃，后期需要对安装情况下的判断
         //if(defined('BIND_MODULE') && BIND_MODULE === 'Install') return;
         
-        $data = cache('hooks');
+        $data = cache('hooks1');
         if(!$data){
             $hooks = db('Hooks')->column('name,addons');
             foreach ($hooks as $key => $value) {
@@ -36,6 +35,7 @@ class InitHook  {
                     }
                 }
             }
+//             dump(Hook::get());
             cache('hooks',Hook::get());
         }else{
             Hook::import($data,false);

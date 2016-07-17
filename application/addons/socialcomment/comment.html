@@ -1,11 +1,11 @@
-<switch name="addons_config.comment_type">
-	<case value="1">
+{switch name="addons_config.comment_type"}
+	{case value="1"}
 		<!-- UY BEGIN -->
 		<div id="uyan_frame"></div>
 		<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid={$addons_config.comment_uid_youyan}"></script>
 		<!-- UY END -->
-	</case>
-	<case value="2">
+	{/case}
+	{case value="2"}
 		<!-- Duoshuo Comment BEGIN -->
 		<div class="ds-thread" data-form-positon="{$addons_config.comment_form_pos_duoshuo}" data-limit="{$addons_config.comment_data_list_duoshuo}" data-order="{$addons_config.comment_data_order_duoshuo}"></div>
 		<script type="text/javascript">
@@ -22,5 +22,5 @@
 			})();
 			</script>
 		<!-- Duoshuo Comment END -->
-	</case>
-</switch>
+	{/case}
+{/switch}

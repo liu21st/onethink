@@ -40,11 +40,8 @@ abstract class Addon{
     public $access_url          =   array();
 
     public function __construct(){
-        $this->view         =   \Think\Think::instance('Think\View');
+        $this->view         =   \think\View::instance(\think\Config::get('template'));
         $this->addon_path   =   ONETHINK_ADDON_PATH.$this->getName().'/';
-        $TMPL_PARSE_STRING = C('TMPL_PARSE_STRING');
-        $TMPL_PARSE_STRING['__ADDONROOT__'] = __ROOT__ . '/Addons/'.$this->getName();
-        C('TMPL_PARSE_STRING', $TMPL_PARSE_STRING);
         if(is_file($this->addon_path.'config.php')){
             $this->config_file = $this->addon_path.'config.php';
         }
@@ -60,7 +57,31 @@ abstract class Addon{
         $this->view->theme($theme);
         return $this;
     }
-
+    /**
+     * 模板变量赋值
+     *
+     * @access protected
+     * @param mixed $name要显示的模板变量
+     * @param mixed $value变量的值
+     * @return Action
+     */
+    final protected function assign($name, $value = '')
+    {
+        $this->view->assign($name, $value);
+        return $this;
+    }
+    //用于显示模板的方法
+    final protected function fetch($templateFile = null){
+        $templateFile=empty($templateFile)?$this->request->controller():$templateFile;
+        if(!is_file($templateFile)){
+            $templateFile = $this->addon_path.$templateFile.'.'.\think\Config::get('template.view_suffix');
+            if(!is_file($templateFile)){
+                throw new \Exception("模板不存在:$templateFile");
+            }
+        }
+        echo  $this->view->fetch($templateFile);
+    }
+    
     //显示方法
     final protected function display($template=''){
         if($template == '')
@@ -68,33 +89,11 @@ abstract class Addon{
         echo ($this->fetch($template));
     }
 
-    /**
-     * 模板变量赋值
-     * @access protected
-     * @param mixed $name 要显示的模板变量
-     * @param mixed $value 变量的值
-     * @return Action
-     */
-    final protected function assign($name,$value='') {
-        $this->view->assign($name,$value);
-        return $this;
-    }
-
-
-    //用于显示模板的方法
-    final protected function fetch($templateFile = CONTROLLER_NAME){
-        if(!is_file($templateFile)){
-            $templateFile = $this->addon_path.$templateFile.C('TMPL_TEMPLATE_SUFFIX');
-            if(!is_file($templateFile)){
-                throw new \Exception("模板不存在:$templateFile");
-            }
-        }
-        return $this->view->fetch($templateFile);
-    }
 
     final public function getName(){
         $class = get_class($this);
-        return substr($class,strrpos($class, '\\')+1, -5);
+        return strtolower(substr($class,strrpos($class, '\\')+1));
+//         return substr($class,strrpos($class, '\\')+1, -5);
     }
 
     final public function checkInfo(){
@@ -120,7 +119,7 @@ abstract class Addon{
         $config =   array();
         $map['name']    =   $name;
         $map['status']  =   1;
-        $config  =   M('Addons')->where($map)->getField('config');
+        $config  =   db('Addons')->where($map)->value('config');
         if($config){
             $config   =   json_decode($config, true);
         }else{

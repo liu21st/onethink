@@ -7,10 +7,10 @@
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
-namespace Addons\Attachment\Controller;
-use Home\Controller\AddonsController; 
+namespace app\addons\attachment\controller;
+use app\home\controller\Addons;
 
-class AttachmentController extends AddonsController{
+class Attachment  extends Addons{
 	
 	/* 附件下载 */
 	public function download(){

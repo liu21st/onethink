@@ -28,7 +28,8 @@ define ( 'RUNTIME_PATH', './runtime/' );
 //兼容配置
 // OneThink常量定义
 const ONETHINK_VERSION    = '1.1.141212';
-const ONETHINK_ADDON_PATH = './Addons/';
+define('ONETHINK_ADDON_PATH', APP_PATH.'addons/');
+//const ONETHINK_ADDON_PATH = APP_PATH.'addons/';
 define ( 'NOW_TIME', time() );
 define ( '__ROOT__', '/onethink/' );
 /**

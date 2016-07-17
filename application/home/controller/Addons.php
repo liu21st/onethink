@@ -18,25 +18,25 @@ class Addons  extends Controller{
 
 	public function _initialize(){
 		/* 读取数据库中的配置 */
-        $config = S('DB_CONFIG_DATA');
+        $config = cache('DB_CONFIG_DATA');
         if(!$config){
             $config = api('Config/lists');
-            S('DB_CONFIG_DATA',$config);
+            cache('DB_CONFIG_DATA',$config);
         }
-        C($config); //添加配置
+        config($config); //添加配置
 	}
 
 	protected $addons = null;
 
 	public function execute($_addons = null, $_controller = null, $_action = null){
-		if(C('URL_CASE_INSENSITIVE')){
+		if(config('URL_CASE_INSENSITIVE')){
 			$_addons = ucfirst(parse_name($_addons, 1));
 			$_controller = parse_name($_controller,1);
 		}
 
-	 	$TMPL_PARSE_STRING = C('TMPL_PARSE_STRING');
+	 	$TMPL_PARSE_STRING = config('TMPL_PARSE_STRING');
         $TMPL_PARSE_STRING['__ADDONROOT__'] = __ROOT__ . "/Addons/{$_addons}";
-        C('TMPL_PARSE_STRING', $TMPL_PARSE_STRING);
+        config('TMPL_PARSE_STRING', $TMPL_PARSE_STRING);
 
 		if(!empty($_addons) && !empty($_controller) && !empty($_action)){
 			$Addons = A("Addons://{$_addons}/{$_controller}")->$_action();

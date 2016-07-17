@@ -308,12 +308,20 @@ function hook($hook,$params=array()){
     \Think\Hook::listen($hook,$params);
 }
 
+// /**
+//  * 获取插件类的类名
+//  * @param strng $name 插件名
+//  */
+// function get_addon_class($name){
+//     $class = "Addons\\{$name}\\{$name}Addon";
+//     return $class;
+// }
 /**
  * 获取插件类的类名
  * @param strng $name 插件名
  */
 function get_addon_class($name){
-    $class = "Addons\\{$name}\\{$name}Addon";
+    $class = \think\App::$namespace.'\\addons\\'.strtolower($name).'\\'.$name;
     return $class;
 }
 
