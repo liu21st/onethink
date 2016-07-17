@@ -215,11 +215,10 @@ class UcenterMember  extends Model{
 	 */
 	protected function updateLogin($uid){
 		$data = array(
-			'id'              => $uid,
 			'last_login_time' => NOW_TIME,
-			'last_login_ip'   => get_client_ip(1),
+			'last_login_ip'   => request()->ip(1),
 		);
-		$this->save($data);
+		$this->save($data,['id'=>$uid]);
 	}
 
 	/**

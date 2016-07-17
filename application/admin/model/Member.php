@@ -16,10 +16,10 @@ use think\Model;
 
 class Member extends Model {
 
-    protected $_validate = array(
-        array('nickname', '1,16', '昵称长度为1-16个字符', self::EXISTS_VALIDATE, 'length'),
-        array('nickname', '', '昵称被占用', self::EXISTS_VALIDATE, 'unique'), //用户名被占用
-    );
+//     protected $_validate = array(
+//         array('nickname', '1,16', '昵称长度为1-16个字符', self::EXISTS_VALIDATE, 'length'),
+//         array('nickname', '', '昵称被占用', self::EXISTS_VALIDATE, 'unique'), //用户名被占用
+//     );
 
     public function lists($status = 1, $order = 'uid DESC', $field = true){
         $map = array('status' => $status);
@@ -39,8 +39,8 @@ class Member extends Model {
             return false;
         }
 
-        //记录行为
-        action_log('user_login', 'member', $uid, $uid);
+        //记录行为TODO:取消行为日志
+      //  action_log('user_login', 'member', $uid, $uid);
 
         /* 登录用户 */
         $this->autoLogin($user);
@@ -66,9 +66,9 @@ class Member extends Model {
             'uid'             => $user['uid'],
             'login'           => array('exp', '`login`+1'),
             'last_login_time' => NOW_TIME,
-            'last_login_ip'   => get_client_ip(1),
+            'last_login_ip'   => request()->ip(1),
         );
-        $this->save($data);
+        $this->save($data,['uid'=> $user['uid']]);
 
         /* 记录登录SESSION和COOKIES */
         $auth = array(

@@ -33,7 +33,7 @@ function is_login(){
  */
 function is_administrator($uid = null){
     $uid = is_null($uid) ? is_login() : $uid;
-    return $uid && (intval($uid) === C('USER_ADMINISTRATOR'));
+    return $uid && (intval($uid) === config('USER_ADMINISTRATOR'));
 }
 
 /**
@@ -97,7 +97,7 @@ function msubstr($str, $start, $length, $charset="utf-8", $suffix=true) {
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 function think_encrypt($data, $key = '', $expire = 0) {
-    $key  = md5(empty($key) ? C('DATA_AUTH_KEY') : $key);
+    $key  = md5(empty($key) ? config('DATA_AUTH_KEY') : $key);
     $data = base64_encode($data);
     $x    = 0;
     $len  = strlen($data);
@@ -126,7 +126,7 @@ function think_encrypt($data, $key = '', $expire = 0) {
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 function think_decrypt($data, $key = ''){
-    $key    = md5(empty($key) ? C('DATA_AUTH_KEY') : $key);
+    $key    = md5(empty($key) ? config('DATA_AUTH_KEY') : $key);
     $data   = str_replace(array('-','_'),array('+','/'),$data);
     $mod4   = strlen($data) % 4;
     if ($mod4) {
@@ -339,7 +339,7 @@ function get_addon_config($name){
  */
 function addons_url($url, $param = array()){
     $url        = parse_url($url);
-    $case       = C('URL_CASE_INSENSITIVE');
+    $case       = config('URL_CASE_INSENSITIVE');
     $addons     = $case ? parse_name($url['scheme']) : $url['scheme'];
     $controller = $case ? parse_name($url['host']) : $url['host'];
     $action     = trim($case ? strtolower($url['path']) : $url['path'], '/');
@@ -399,7 +399,7 @@ function get_username($uid = 0){
             $name = $list[$key] = $info[1];
             /* 缓存用户 */
             $count = count($list);
-            $max   = C('USER_MAX_CACHE');
+            $max   = config('USER_MAX_CACHE');
             while ($count-- > $max) {
                 array_shift($list);
             }
@@ -438,7 +438,7 @@ function get_nickname($uid = 0){
             $name = $list[$key] = $nickname;
             /* 缓存用户 */
             $count = count($list);
-            $max   = C('USER_MAX_CACHE');
+            $max   = config('USER_MAX_CACHE');
             while ($count-- > $max) {
                 array_shift($list);
             }
@@ -584,7 +584,7 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
     //插入行为日志
     $data['action_id']      =   $action_info['id'];
     $data['user_id']        =   $user_id;
-    $data['action_ip']      =   ip2long(get_client_ip());
+    $data['action_ip']      =   request()->ip(1);
     $data['model']          =   $model;
     $data['record_id']      =   $record_id;
     $data['create_time']    =   NOW_TIME;

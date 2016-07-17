@@ -17,14 +17,14 @@ use think\Model;
 class Member  extends Model{
 
     /* 用户模型自动完成 */
-    protected $_auto = array(
-        array('login', 0, self::MODEL_INSERT),
-        array('reg_ip', 'get_client_ip', self::MODEL_INSERT, 'function', 1),
-        array('reg_time', NOW_TIME, self::MODEL_INSERT),
-        array('last_login_ip', 0, self::MODEL_INSERT),
-        array('last_login_time', 0, self::MODEL_INSERT),
-        array('status', 1, self::MODEL_INSERT),
-    );
+//     protected $_auto = array(
+//         array('login', 0, self::MODEL_INSERT),
+//         array('reg_ip', 'get_client_ip', self::MODEL_INSERT, 'function', 1),
+//         array('reg_time', NOW_TIME, self::MODEL_INSERT),
+//         array('last_login_ip', 0, self::MODEL_INSERT),
+//         array('last_login_time', 0, self::MODEL_INSERT),
+//         array('status', 1, self::MODEL_INSERT),
+//     );
 
     /**
      * 登录指定用户
@@ -74,12 +74,11 @@ class Member  extends Model{
     private function autoLogin($user){
         /* 更新登录信息 */
         $data = array(
-            'uid'             => $user['uid'],
             'login'           => array('exp', '`login`+1'),
             'last_login_time' => NOW_TIME,
             'last_login_ip'   => get_client_ip(1),
         );
-        $this->save($data);
+        $this->save($data,['uid'=> $user['uid']]);
 
         /* 记录登录SESSION和COOKIES */
         $auth = array(

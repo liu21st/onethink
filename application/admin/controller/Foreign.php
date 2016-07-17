@@ -35,7 +35,7 @@ class Foreign extends Controller {
                 $Member = model('Member');
                 if($Member->login($uid)){ //登录用户
                     //TODO:跳转到登录前页面
-                    $this->success('登录成功！', U('Index/index'));
+                    $this->success('登录成功！', url('Index/index'));
                 } else {
                     $this->error($Member->getError());
                 }
@@ -70,7 +70,7 @@ class Foreign extends Controller {
         if(is_login()){
             D('Member')->logout();
             session('[destroy]');
-            $this->success('退出成功！', U('login'));
+            $this->success('退出成功！', url('login'));
         } else {
             $this->redirect('login');
         }

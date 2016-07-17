@@ -11,6 +11,7 @@ class ModuleInit  {
         define('MODULE_PATH', APP_PATH . ($request->module() ? $request->module() . DS : ''));
         define('ACTION_NAME', $request->action());
         define('MODULE_NAME', $request->module());
+        define('CONTROLLER_NAME', $request->controller());
         
 //         define('MODULE_PATH', APP_PATH . ($request->module() ? $request->module() . DS : ''));
     }
