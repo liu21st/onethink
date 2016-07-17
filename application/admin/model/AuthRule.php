@@ -4,24 +4,18 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
+// | Author: zhuyajie <xcoolcc@gmail.com>
 // +----------------------------------------------------------------------
 
-namespace app\admin\controller;
-
+namespace app\admin\model;
+use think\Model;
 /**
- * 后台首页控制器
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ * 权限规则模型
+ * @author 朱亚杰 <zhuyajie@topthink.net>
  */
-class Index  extends Admin  {
-
-    /**
-     * 后台首页
-     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
-     */
-    public function index(){
-        $this->meta_title = '管理首页';
-        return $this->fetch();
-    }
+class AuthRule extends Model{
+    
+    const RULE_URL = 1;
+    const RULE_MAIN = 2;
 
 }
