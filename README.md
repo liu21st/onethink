@@ -1,63 +1,6 @@
-OneThinkÊÇÒ»¸ö¿ªÔ´µÄÄÚÈÝ¹ÜÀí¿ò¼Ü£¬»ùÓÚ×îÐÂµÄThinkPHP3.2°æ±¾¿ª·¢£¬Ìá¹©¸ü·½±ã¡¢¸ü°²È«µÄWEBÓ¦ÓÃ¿ª·¢ÌåÑé£¬²ÉÓÃÁËÈ«ÐÂµÄ¼Ü¹¹Éè¼ÆºÍÃüÃû¿Õ¼ä»úÖÆ£¬ÈÚºÏÁËÄ£¿é»¯¡¢Çý¶¯»¯ºÍ²å¼þ»¯µÄÉè¼ÆÀíÄîÓÚÒ»Ìå£¬¿ªÆôÁË¹úÄÚWEBÓ¦ÓÃÉµ¹ÏÊ½¿ª·¢µÄÐÂ³±Á÷¡£ 
-
-### [ Ð´ÔÚÇ°Ãæ ]
-¸ÐÐ»´ó¼ÒÊ¹ÓÃOneThink£¡OneThink¶ÔÎÒÀ´ËµÊÇÒ»¸ö±ÈThinkPHP¸üÓÐÒâÒåµÄ²úÆ·£¬ÒòÎªËýÄÜÈÃ¿ª·¢ÕßºÍ×îÖÕÓÃ»§¶¼ÄÜÊÜÒæ¡£×÷ÎªÒ»¸ö¿ªÔ´²úÆ·£¬Ï£Íû´ó¼Ò¶¼ÄÜ²ÎÓë½øÀ´ÎªOneThinkÌí×©¼ÓÍß£¬OneThinkÍÅ¶ÓÒ»Ö±¶¼ÔÚÖÂÁ¦ÓÚÈÃOneThink¸ü¼ÓÓÅÐã¡£ÏÖÔÚ£¬¸ÐÐ»ÄúÒ²²ÎÓëÆäÖÐ¡£
-
-¡ª ThinkPHP´´Ê¼ÈË Áõ³¿
-
-### Ö÷ÒªÌØÐÔ£º
-
-1. »ùÓÚThinkPHP×îÐÂ3.2.3°æ±¾¡£
-2. Ä£¿é»¯£ºÈ«ÐÂµÄ¼Ü¹¹ºÍÄ£¿é»¯µÄ¿ª·¢»úÖÆ£¬±ãÓÚÁé»îÀ©Õ¹ºÍ¶þ´Î¿ª·¢¡£ 
-3. ÎÄµµÄ£ÐÍ/·ÖÀàÌåÏµ£ºÍ¨¹ýºÍÎÄµµÄ£ÐÍ°ó¶¨£¬ÒÔ¼°²»Í¬µÄÎÄµµÀàÐÍ£¬²»Í¬·ÖÀà¿ÉÒÔÊµÏÖ²îÒì»¯µÄ¹¦ÄÜ£¬ÇáËÉÊµÏÖÖîÈç×ÊÑ¶¡¢ÏÂÔØ¡¢ÌÖÂÛºÍÍ¼Æ¬µÈ¹¦ÄÜ¡£
-4. ¿ªÔ´Ãâ·Ñ£ºOneThink×ñÑ­Apache2¿ªÔ´Ð­Òé,Ãâ·ÑÌá¹©Ê¹ÓÃ¡£ 
-5. ÓÃ»§ÐÐÎª£ºÖ§³Ö×Ô¶¨ÒåÓÃ»§ÐÐÎª£¬¿ÉÒÔ¶Ôµ¥¸öÓÃ»§»òÕßÈºÌåÓÃ»§µÄÐÐÎª½øÐÐ¼ÇÂ¼¼°·ÖÏí£¬ÎªÄúµÄÔËÓª¾ö²ßÌá¹©ÓÐÐ§²Î¿¼Êý¾Ý¡£
-6. ÔÆ¶Ë²¿Êð£ºÍ¨¹ýÇý¶¯µÄ·½Ê½¿ÉÒÔÇáËÉÖ§³ÖÆ½Ì¨µÄ²¿Êð£¬ÈÃÄúµÄÍøÕ¾ÎÞ·ìÇ¨ÒÆ£¬ÄÚÖÃÒÑ¾­Ö§³ÖSAEºÍBAE3.0¡£
-7. ÔÆ·þÎñÖ§³Ö£º¼´½«Æô¶¯Ö§³ÖÔÆ´æ´¢¡¢ÔÆ°²È«¡¢ÔÆ¹ýÂËºÍÔÆÍ³¼ÆµÈ·þÎñ£¬¸ü¶àÌùÐÄµÄ·þÎñÈÃÄúµÄÍøÕ¾¸ü°²ÐÄ¡£
-8. °²È«ÎÈ½¡£ºÌá¹©ÎÈ½¡µÄ°²È«²ßÂÔ£¬°üÀ¨±¸·Ý»Ö¸´¡¢ÈÝ´í¡¢·ÀÖ¹¶ñÒâ¹¥»÷µÇÂ¼£¬ÍøÒ³·À´Û¸ÄµÈ¶àÏî°²È«¹ÜÀí¹¦ÄÜ£¬±£Ö¤ÏµÍ³°²È«£¬¿É¿¿¡¢ÎÈ¶¨µÄÔËÐÐ¡£ 
-9. Ó¦ÓÃ²Ö¿â£º¹Ù·½Ó¦ÓÃ²Ö¿âÓµÓÐ´óÁ¿À´×ÔµÚÈý·½²å¼þºÍÓ¦ÓÃÄ£¿é¡¢Ä£°åÖ÷Ìâ£¬ÓÐÖÚ¶àÀ´×Ô¿ªÔ´ÉçÇøµÄ¹±Ï×£¬ÈÃÄúµÄÍøÕ¾¡°One¡±ÃÀÎÞÈ±¡£ 
-
-OneThinkÖ»ÊÇÒ»¸öÄÚÈÝ¹ÜÀí¿ò¼Ü£¬²¢²»ÊÇÒ»¸öÕæÕýÒâÒåµÄCMS£¬ËùÒÔÄã²»»á¿´µ½ºÜ¶àµÄ¹¦ÄÜ£¬Ò²²»ÒªÒò´Ë¶ø±§Ô¹£¬ÒòÎªÒ»ÇÐ¹¦ÄÜ¶¼À´×ÔÓÚÄúµÄ´´Ôì»òÕß´ó¼ÒµÄ·ÖÏí¡£Õâ²ÅÊÇOneThinkµÄÀíÄîºÍ¶¨Î»¡£OneThink¼¯³ÉÁËÒ»¸öÍêÉÆµÄºóÌ¨¹ÜÀíÌåÏµºÍÇ°Ì¨Ä£°å±êÇ©ÏµÍ³£¬ÈÃÄãÇáËÉ¹ÜÀíÊý¾ÝºÍ½øÐÐÇ°Ì¨ÍøÕ¾µÄ±êÇ©Ê½¿ª·¢¡£ 
-
-### ºóÌ¨Ö÷Òª¹¦ÄÜ£º
-
-1. ÓÃ»§PassportÏµÍ³
-2. ÅäÖÃ¹ÜÀíÏµÍ³ 
-3. È¨ÏÞ¿ØÖÆÏµÍ³
-4. ºóÌ¨½¨Ä£ÏµÍ³ 
-5. ¶à¼¶·ÖÀàÏµÍ³ 
-6. ÓÃ»§ÐÐÎªÏµÍ³ 
-7. ¹³×ÓºÍ²å¼þÏµÍ³
-8. ÏµÍ³ÈÕÖ¾ÏµÍ³ 
-9. Êý¾Ý±¸·ÝºÍ»¹Ô­
-
-**ÀûÓÃOneThinkÏÖÓÐµÄºóÌ¨¹¦ÄÜºÍ±êÇ©¿â»úÖÆ£¬Äã¿ÉÒÔÇáËÉµÄ¶¨ÖÆ»òÕß¿ª·¢»ùÓÚOneThinkµÄÍøÕ¾ºÍÓ¦ÓÃ¡£**
-
-
-### [ ×îµÍÏµÍ³ÐèÇó ]
-* PHP 5.3.0 »ò¸ü¸ß°æ±¾¡£
-* MySQL 5.0 »ò¸ü¸ß°æ±¾¡£
-
-### [ °²×° ]
-1. ½«OneThinkÑ¹Ëõ°ü½âÑ¹ÖÁÒ»¸ö¿ÕÎÄ¼þ¼Ð£¬²¢ÉÏ´«Ëü¡£
-2. Ê×´ÎÔÚä¯ÀÀÆ÷ÖÐ·ÃÎÊindex.php£¬½«»á½øÈë°²×°Ïòµ¼¡£ 
-3. °´ÕÕ°²×°Ïòµ¼Íê³É°²×°¡£ÈôÔÚ°²×°¹ý³ÌÖÐ³öÏÖÎÊÌâ£¬Çë·ÃÎÊ¹ÙÍøÌÖÂÛÇøÑ°Çó°ïÖú¡£
-
-> OneThinkÖ§³ÖÖ±½ÓÔÚSAEÒÔ¼°BAE3.0Æ½Ì¨ÉÏÖ±½Ó°²×°¡£
-
-
-### [ ·ÖÏí¾«Éñ ]
-
-·Ç³£¸ÐÐ»ÄúµÄÖ§³Ö£¡Èç¹ûÄúÏ²»¶OneThink£¬Çë½«Ëü½éÉÜ¸ø×Ô¼ºµÄÅóÓÑ£¬»òÕß°ïÖúËûÈË°²×°Ò»¸öOneThink£¬ÓÖ»òÕßÐ´Ò»ÆªÔÞÑïÎÒÃÇµÄÎÄÕÂ¡£OneThinkÊÇ¶ÔÁõ³¿´´½¨µÄThinkPHPµÄ´«³ÐºÍÐÂµÄ´«Ææ¡£ÓÉOneThink ¿ª·¢ÍÅ¶ÓÍê³É¿ª·¢¡£Èç¹ûÄúÔ¸ÒâÖ§³ÖÎÒÃÇµÄ¹¤×÷£¬»¶Ó­Äú¶ÔOneThink½øÐÐ¾èÔù¡£
-
-Èç¹ûÄú¶ÔOneThinkÓÐÈÎºÎ½¨Òé¡¢Ïë·¨¡¢ÆÀÂÛ»ò·¢ÏÖÁËbug£¬Çëµ½¹ÙÍøÌÖÂÛÇø¡£
-¹ÙÍøµÄÓ¦ÓÃ²Ö¿â°üº¬ÁË¹Ù·½ºÍµÚÈý·½µÄ¸÷Àà²å¼þ£¬Äú¿ÉÒÔÌá½»ÄãµÄ²å¼þ»òÕßÓ¦ÓÃ¡£
-
-### [ Ðí¿ÉÖ¤ ]
-OneThink»ùÓÚApacheµÚ¶þ°æ¿ªÔ´Ð­Òé·¢²¼¡£Ïê¼ûlicense.txt¡£
-
-
-[  [¿ª·¢ÊÖ²á](http://document.onethink.cn/) ] 
-
-------------------------------
-OneThink¿ª·¢ÍÅ¶Ó 2013-2016
+æœ¬æ¬¡é¡¹ç›®éœ€è¦èƒ½åŠ›å¦‚ä¸‹ï¼š1.å¯¹onethinkæœ‰ä¸€å®šçš„äº†è§£
+2.å¯¹thinkphp5æœ‰ä¸€å®šçš„äº†è§£
+3.ä¼šä½¿ç”¨githubè¿›è¡Œforkï¼Œæäº¤ç­‰æ“ä½œ
+å¦‚æžœä¸ç†Ÿæ‚‰æˆ–è€…ä¸ä¼šçš„ï¼Œåœ¨æ­£å¼å¼€å§‹ä¹‹å‰ä¼šç»„ç»‡ä¸€æ¬¡3çš„å­¦ä¹ ï¼Œå‰ä¸¤é¡¹å¾…è®®ã€‚
+é¡¹ç›®åœ°å€https://git.oschina.net/lilwil/onethink
+å…ˆé¢„è§ˆï¼Œç¡®è®¤å¯ç”¨çš„æ—¶å€™æˆ‘ä¼šé€šçŸ¥å¤§å®¶
