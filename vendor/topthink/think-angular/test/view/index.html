@@ -1,0 +1,85 @@
+<div php-extends="base"></div>
+<div php-block="main" class="container">
+    <div class="jumbotron">
+        <h1>Hello Think Angular</h1>
+        <p>
+            此模板引擎针对能够使用angularjs的 php开发者 或 前端开发者 编写, 主要特点是, 不需要额外的标签定义, 全部使用属性定义, 写好的模板文件后, 在开发工具中无需插件即可格式化为很整洁的代码, 因为套完的模板文件还是规范的html.
+        </p>
+        <p>
+            注: 一个标签上可以使用多个模板属性, 属性有前后顺序要求, 所以要注意属性的顺序, 在单标签上使用模板属性时一定要使用<code>/></code>结束, 
+            <br>
+            如: 
+            <br>
+            <code><input php-literal="code" php-if="$is_download" type="button" value="下载" /></code>
+            <br>
+            <code><img php-literal="code" php-if="$article['pic']" src="{&dollar;article.pic}" /></code>
+            <br>
+            具体可参考后面的解析结果.
+        </p>
+        <p>
+            Github项目地址:
+            <a target="_blank" href="https://github.com/top-think/think-angular">https://github.com/top-think/think-angular</a>
+        </p>
+        <p>
+            <a class="btn btn-primary btn-lg" target="_blank" href="https://github.com/top-think/think-angular">Git版本库地址</a>
+            <a class="btn btn-primary btn-lg" target="_blank" href="http://kancloud.cn/shuai/php-angular" />在线文档</a>
+        </p>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <h4>表格和分页实例</h4>
+            <table class="table table-bordered">
+                <tr>
+                    <th>编号</th>
+                    <th>用户名</th>
+                    <th>邮箱</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                <tr php-if="$list" php-repeat="$list as $user">
+                    <td>{$user.id}</td>
+                    <td>{$user.name}</td>
+                    <td>{$user.email}</td>
+                    <td>
+                        <div php-switch="$user['status']">
+                            <span php-case="1">正常</span>
+                            <span php-case="0">已禁用</span>
+                            <span php-case="-1">已删除</span>
+                        </div>
+                    </td>
+                    <td>
+                        <a php-show="$user['status'] === 1" php-after="echo ' '" href="javascript:void(0);" class="btn btn-xs btn-warning">禁用</a>
+                        <a php-show="$user['status'] === 0" php-after="echo ' '" href="javascript:void(0);" class="btn btn-xs btn-primary">启用</a>
+                        <a php-show="$user['status'] >= 0" php-after="echo ' '" href="javascript:void(0);" class="btn btn-xs btn-danger">删除</a>
+                        <a php-show="$user['status'] == -1" php-after="echo ' '" href="javascript:void(0);" class="btn btn-xs btn-primary">恢复</a>
+                    </td>
+                </tr>
+                <tr php-else="不存在list的时候, 输出没有数据">
+                    <td colspan="3" class="text-center">没有数据</td>
+                </tr>
+            </table>
+            <nav php-include="page"></nav>
+            
+            <h4>自定义解析规则</h4>
+            <div php-dump="$navs"></div>
+
+            <div php-init="$i = 0" php-inc="$i" php-inc="$i">{$i}</div>
+            <div php-dec="$i">{$i}</div>
+            
+            <h4>原样输出</h4>
+            <div php-literal="">{$title}</div>
+            <div php-literal="code">{$title}</div>
+            <br />
+            <php php-literal="code">{title} {$content}</php>
+        </div>
+        <div class="col-md-4">
+            <h4>无限级菜单输出</h4>
+            <ul php-init="echo_menu($menus)" php-function="echo_menu($menus)">
+                <li php-repeat="$menus as $menu">
+                    {$menu.title}
+                    <ul php-if="isset($menu['sub'])" php-call="echo_menu($menu['sub'])"></ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

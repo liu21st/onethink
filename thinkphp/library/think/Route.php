@@ -745,7 +745,7 @@ class Route
                     continue;
                 }
                 if ($group) {
-                    $rule = $group . '/' . ltrim($rule, '/');
+                    $rule = $group . ($rule ? '/' . ltrim($rule, '/') : '');
                 }
                 $result = self::checkRule($rule, $route, $url, $pattern, $option);
                 if (false !== $result) {
@@ -916,7 +916,8 @@ class Route
         // 请求类型检测
         if ((isset($option['method']) && false === stripos($option['method'], $request->method()))
             || (isset($option['ext']) && false === stripos($option['ext'], $request->ext())) // 伪静态后缀检测
-             || (isset($option['domain']) && !in_array($option['domain'], [$_SERVER['HTTP_HOST'], self::$subDomain])) // 域名检测
+             || (isset($option['deny_ext']) && false !== stripos($option['deny_ext'], $request->ext()))
+            || (isset($option['domain']) && !in_array($option['domain'], [$_SERVER['HTTP_HOST'], self::$subDomain])) // 域名检测
              || (!empty($option['https']) && !$request->isSsl()) // https检测
              || (!empty($option['before_behavior']) && false === Hook::exec($option['before_behavior'], '', $url)) // 行为检测
              || (!empty($option['callback']) && is_callable($option['callback']) && false === call_user_func($option['callback'])) // 自定义检测

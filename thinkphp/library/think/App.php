@@ -77,6 +77,10 @@ class App
     {
         is_null($request) && $request = Request::instance();
 
+        if ('ico' == $request->ext()) {
+            throw new HttpException(404, 'ico file not exists');
+        }
+
         $config = self::initCommon();
 
         try {
@@ -461,11 +465,6 @@ class App
      */
     public static function routeCheck($request, array $config)
     {
-        // 检测URL禁用后缀
-        if ($config['url_deny_suffix'] && preg_match('/\.(' . $config['url_deny_suffix'] . ')$/i', $request->pathinfo())) {
-            throw new Exception('url suffix deny:' . $request->ext());
-        }
-
         $path   = $request->path();
         $depr   = $config['pathinfo_depr'];
         $result = false;

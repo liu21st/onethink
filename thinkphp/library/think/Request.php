@@ -623,6 +623,12 @@ class Request
             // 当前请求参数和URL地址中的参数合并
             $this->param = array_merge($this->route(false), $this->get(false), $vars);
         }
+        if (true === $name) {
+            // 获取包含文件上传信息的数组
+            $file = $this->file();
+            $data = array_merge($this->param, $file);
+            return $this->input($data, '', $default, $filter);
+        }
         return $this->input($this->param, $name, $default, $filter);
     }
 
@@ -934,6 +940,9 @@ class Request
                     return $default;
                 }
             }
+            if (is_object($data)) {
+                return $data;
+            }
         }
 
         // 解析过滤器
@@ -986,7 +995,7 @@ class Request
             if (is_callable($filter)) {
                 // 调用函数或者方法过滤
                 $value = call_user_func($filter, $value);
-            } else {
+            } elseif (is_scalar($value)) {
                 if (strpos($filter, '/')) {
                     // 正则过滤
                     if (!preg_match($filter, $value)) {
