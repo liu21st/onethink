@@ -1,23 +1,22 @@
-<extend name="Public/base" />
-
-<block name="body">
+{extend name="public/base"/}
+{block name="body"}
 	<!-- 标题栏 -->
 	<div class="main-title">
 		<h2>用户列表</h2>
 	</div>
 	<div class="cf">
 		<div class="fl">
-            <a class="btn" href="{:U('add')}">新 增</a>
-            <button class="btn ajax-post" url="{:U('changeStatus?method=resumeUser')}" target-form="ids">启 用</button>
-            <button class="btn ajax-post" url="{:U('changeStatus?method=forbidUser')}" target-form="ids">禁 用</button>
-            <button class="btn ajax-post confirm" url="{:U('changeStatus?method=deleteUser')}" target-form="ids">删 除</button>
+            <a class="btn" href="{:url('add')}">新 增</a>
+            <button class="btn ajax-post" url="{:url('changeStatus?method=resumeUser')}" target-form="ids">启 用</button>
+            <button class="btn ajax-post" url="{:url('changeStatus?method=forbidUser')}" target-form="ids">禁 用</button>
+            <button class="btn ajax-post confirm" url="{:url('changeStatus?method=deleteUser')}" target-form="ids">删 除</button>
         </div>
 
         <!-- 高级搜索 -->
 		<div class="search-form fr cf">
 			<div class="sleft">
-				<input type="text" name="nickname" class="search-input" value="{:I('nickname')}" placeholder="请输入用户昵称或者ID">
-				<a class="sch-btn" href="javascript:;" id="search" url="{:U('index')}"><i class="btn-search"></i></a>
+				<input type="text" name="nickname" class="search-input" value="{:input('nickname')}" placeholder="请输入用户昵称或者ID">
+				<a class="sch-btn" href="javascript:;" id="search" url="{:url('index')}"><i class="btn-search"></i></a>
 			</div>
 		</div>
     </div>
@@ -38,8 +37,8 @@
 		</tr>
     </thead>
     <tbody>
-		<notempty name="_list">
-		<volist name="_list" id="vo">
+		{notempty name="_list"}
+		{volist name="_list" id="vo"}
 		<tr>
             <td><input class="ids" type="checkbox" name="id[]" value="{$vo.uid}" /></td>
 			<td>{$vo.uid} </td>
@@ -48,29 +47,29 @@
 			<td>{$vo.login}</td>
 			<td><span>{$vo.last_login_time|time_format}</span></td>
 			<td><span>{:long2ip($vo['last_login_ip'])}</span></td>
-			<td>{$vo.status_text}</td>
-			<td><eq name="vo.status" value="1">
-				<a href="{:U('User/changeStatus?method=forbidUser&id='.$vo['uid'])}" class="ajax-get">禁用</a>
-				<else/>
-				<a href="{:U('User/changeStatus?method=resumeUser&id='.$vo['uid'])}" class="ajax-get">启用</a>
-				</eq>
-				<a href="{:U('AuthManager/group?uid='.$vo['uid'])}" class="authorize">授权</a>
-                <a href="{:U('User/changeStatus?method=deleteUser&id='.$vo['uid'])}" class="confirm ajax-get">删除</a>
+			<td>{$vo.status}</td>
+			<td>{eq name="vo.status" value="1"}
+				<a href="{:url('User/changeStatus?method=forbidUser&id='.$vo['uid'])}" class="ajax-get">禁用</a>
+				{else/}
+				<a href="{:url('User/changeStatus?method=resumeUser&id='.$vo['uid'])}" class="ajax-get">启用</a>
+				{/eq}
+				<a href="{:url('AuthManager/group?uid='.$vo['uid'])}" class="authorize">授权</a>
+                <a href="{:url('User/changeStatus?method=deleteUser&id='.$vo['uid'])}" class="confirm ajax-get">删除</a>
                 </td>
 		</tr>
-		</volist>
-		<else/>
+		{/volist}
+		{else/}
 		<td colspan="9" class="text-center"> aOh! 暂时还没有内容! </td>
-		</notempty>
+		{/notempty}
 	</tbody>
     </table>
 	</div>
     <div class="page">
-        {$_page}
+        {$_list->render()}
     </div>
-</block>
+{/block}
 
-<block name="script">
+{block name="script"}
 	<script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
 
 	<script type="text/javascript">
@@ -95,6 +94,6 @@
 		}
 	});
     //导航高亮
-    highlight_subnav('{:U('User/index')}');
+    highlight_subnav('{:url('User/index')}');
 	</script>
-</block>
+{/block}

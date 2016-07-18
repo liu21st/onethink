@@ -29,11 +29,13 @@ class User extends Admin {
             $map['nickname']    =   array('like', '%'.(string)$nickname.'%');
         }
 
-        $list   = $this->lists('Member', $map);
-        int_to_string($list);
+        
+//         $list   = $this->lists('Member', $map);
+        $list   = db('member')->where($map)->paginate();
+//         int_to_string($list);
         $this->assign('_list', $list);
         $this->meta_title = '用户信息';
-        $this->display();
+        return $this->fetch();
     }
 
     /**
