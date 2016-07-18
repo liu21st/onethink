@@ -21,7 +21,7 @@ class User extends Admin {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function index(){
-        $nickname       =   I('nickname');
+        $nickname       =   input('nickname');
         $map['status']  =   array('egt',0);
         if(is_numeric($nickname)){
             $map['uid|nickname']=   array(intval($nickname),array('like','%'.$nickname.'%'),'_multi'=>true);

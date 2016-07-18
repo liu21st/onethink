@@ -269,7 +269,7 @@ class Admin  extends Controller {
                     if($item['id'] == $nav['id']){
                         $menus['main'][$key]['class']='current';
                         //生成child树
-                        $groups = db('Menu')->where(array('group'=>array('neq',''),'pid' =>$item['id']))->distinct(true)->getField("group",true);
+                        $groups = db('Menu')->where(array('group'=>array('neq',''),'pid' =>$item['id']))->distinct(true)->column("group");
                         //获取二级分类的合法url
                         $where          =   array();
                         $where['pid']   =   $item['id'];
@@ -277,7 +277,7 @@ class Admin  extends Controller {
                         if(!config('DEVELOP_MODE')){ // 是否开发者模式
                             $where['is_dev']    =   0;
                         }
-                        $second_urls = db('Menu')->where($where)->getField('id,url');
+                        $second_urls = db('Menu')->where($where)->column('id,url');
 
                         if(!IS_ROOT){
                             // 检测菜单权限
@@ -381,7 +381,7 @@ class Admin  extends Controller {
      */
     protected function lists ($model,$where=array(),$order='',$field=true){
         $options    =   array();
-        $REQUEST    =   (array)I('request.');
+        $REQUEST    =   $_REQUEST;
         if(is_string($model)){
             $model  =   db($model);
         }
