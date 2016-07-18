@@ -31,6 +31,7 @@ class User extends Admin {
 
         
 //         $list   = $this->lists('Member', $map);
+        //TODO:暂时采用这种分页，后期需要优化
         $list   = db('member')->where($map)->paginate();
 //         int_to_string($list);
         $this->assign('_list', $list);

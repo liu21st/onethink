@@ -22,6 +22,7 @@ class Action extends Admin {
         //获取列表数据
         $map['status']    =   array('gt', -1);
 //         $list   =   $this->lists('ActionLog', $map);
+        //TODO:暂时采用这种分页，后期需要优化
         $list   = db('action_log')->where($map)->paginate();
 //         int_to_string($list);
 //         foreach ($list as $key=>$value){
