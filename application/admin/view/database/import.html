@@ -1,6 +1,6 @@
-<extend name="Public/base"/>
+{extend name="public/base"/}
 
-<block name="body">
+{block name="body"}
     <!-- 标题栏 -->
     <div class="main-title">
         <h2>数据备份</h2>
@@ -31,8 +31,8 @@
                         <td>{$key}</td>
                         <td>-</td>
                         <td class="action">
-                            <a class="db-import" href="{:U('import?time='.$data['time'])}">还原</a>&nbsp;
-                            <a class="ajax-get confirm" href="{:U('del?time='.$data['time'])}">删除</a>
+                            <a class="db-import" href="{:url('import?time='.$data['time'])}">还原</a>&nbsp;
+                            <a class="ajax-get confirm" href="{:url('del?time='.$data['time'])}">删除</a>
                         </td>
                     </tr>
                 </volist>
@@ -40,9 +40,9 @@
         </table>
     </div>
     <!-- /应用列表 -->
-</block>
+{/block}
 
-<block name="script">
+{block name="script"}
     <script type="text/javascript">
         $(".db-import").click(function(){
             var self = this, status = ".";
@@ -76,4 +76,4 @@
             }
         });
     </script>
-</block>
+{/block}

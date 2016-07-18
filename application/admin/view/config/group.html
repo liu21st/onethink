@@ -1,6 +1,6 @@
-<extend name="Public/base"/>
+{extend name="public/base"/}
 
-<block name="body">
+{block name="body"}
 	<div class="main-title">
 		<h2>网站设置</h2>
 	</div>
@@ -8,12 +8,12 @@
 		<ul class="tab-nav nav">
 		<volist name="Think.config.CONFIG_GROUP_LIST" id="group">
 
-			<li <eq name="id" value="$key">class="current"</eq>><a href="{:U('?id='.$key)}">{$group}配置</a></li>
+			<li <eq name="id" value="$key">class="current"</eq>><a href="{:url('?id='.$key)}">{$group}配置</a></li>
 
 		</volist>
 		</ul>
 		<div class="tab-content">
-	<form action="{:U('save')}" method="post" class="form-horizontal">
+	<form action="{:url('save')}" method="post" class="form-horizontal">
 	<volist name="list" id="config">
 		<div class="form-item">
 			<label class="item-label">{$config.title}<span class="check-tips">（{$config.remark}）</span> </label>
@@ -58,8 +58,8 @@
 	</form>
 			</div>
 	</div>
-</block>
+{/block}
 
-<block name="script">
+{block name="script"}
 
-</block>
+{/block}

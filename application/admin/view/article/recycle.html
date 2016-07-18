@@ -1,19 +1,19 @@
-<extend name="Public/base" />
+{extend name="public/base"/}
 
 <!-- 子导航 -->
-<block name="sidebar">
+{block name="style"}
     <include file="sidemenu" />
-</block>
+{/block}
 
-<block name="body">
+{block name="body"}
 	<!-- 标题栏 -->
 	<div class="main-title">
 		<h2>回收站({:count($list)})</h2>
 	</div>
 
     <div class="tools auth-botton">
-        <button url="{:U('article/clear')}" class="btn ajax-get">清 空</button>
-        <button url="{:U('article/permit')}" class="btn ajax-post" target-form="ids">还 原</button>
+        <button url="{:url('article/clear')}" class="btn ajax-get">清 空</button>
+        <button url="{:url('article/permit')}" class="btn ajax-post" target-form="ids">还 原</button>
     </div>
 
 	<!-- 数据列表 -->
@@ -41,7 +41,7 @@
 			<td><span>{:get_document_type($vo['type'])}</span></td>
 			<td><span>{:get_cate($vo['category_id'])}</span></td>
 			<td><span>{$vo.update_time|time_format}</span></td>
-			<td><a href="{:U('article/permit?ids='.$vo['id'])}" class="ajax-get">还原</a>
+			<td><a href="{:url('article/permit?ids='.$vo['id'])}" class="ajax-get">还原</a>
                 </td>
 		</tr>
 		</volist>
@@ -52,4 +52,4 @@
     <div class="page">
         {$_page}
     </div>
-</block>
+{/block}

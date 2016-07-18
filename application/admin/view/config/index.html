@@ -1,24 +1,24 @@
-<extend name="Public/base"/>
+{extend name="public/base"/}
 
-<block name="body">
+{block name="body"}
 	<div class="main-title">
 		<h2>配置管理 [ <present name="Think.get.group">
-         <a href="{:U('index')}">全部</a><else/><strong>全部</strong></present>&nbsp;<foreach name="group" item="vo">
+         <a href="{:url('index')}">全部</a><else/><strong>全部</strong></present>&nbsp;<foreach name="group" item="vo">
 		<neq name="group_id" value="$key">
-         <a href="{:U('index?group='.$key)}">{$vo}</a><else/><strong>{$vo}</strong></neq>&nbsp;     
+         <a href="{:url('index?group='.$key)}">{$vo}</a><else/><strong>{$vo}</strong></neq>&nbsp;     
         </foreach> ]</h2>
 	</div>
 
 	<div class="cf">
-		<a class="btn" href="{:U('add')}">新 增</a>
+		<a class="btn" href="{:url('add')}">新 增</a>
 		<a class="btn" href="javascript:;">删 除</a>
-		<button class="btn list_sort" url="{:U('sort?group='.I('group'),'','')}">排序</button>
+		<button class="btn list_sort" url="{:url('sort?group='.I('group'),'','')}">排序</button>
         
 		<!-- 高级搜索 -->
 		<div class="search-form fr cf">
 			<div class="sleft">
 				<input type="text" name="name" class="search-input" value="{:I('name')}" placeholder="请输入配置名称">
-				<a class="sch-btn" href="javascript:;" id="search" url="{:U('config/index')}"><i class="btn-search"></i></a>
+				<a class="sch-btn" href="javascript:;" id="search" url="{:url('config/index')}"><i class="btn-search"></i></a>
 			</div>
 		</div>
 	</div>
@@ -44,13 +44,13 @@
 					<tr>
 						<td><input class="ids row-selected" type="checkbox" name="id[]" value="{$config.id}"></td>
 						<td>{$config.id}</td>
-						<td><a href="{:U('edit?id='.$config['id'])}">{$config.name}</a></td>
+						<td><a href="{:url('edit?id='.$config['id'])}">{$config.name}</a></td>
 						<td>{$config.title}</td>
 						<td>{$config.group|get_config_group}</td>
 						<td>{$config.type|get_config_type}</td>
 						<td>
-							<a title="编辑" href="{:U('edit?id='.$config['id'])}">编辑</a>
-							<a class="confirm ajax-get" title="删除" href="{:U('del?id='.$config['id'])}">删除</a>
+							<a title="编辑" href="{:url('edit?id='.$config['id'])}">编辑</a>
+							<a class="confirm ajax-get" title="删除" href="{:url('del?id='.$config['id'])}">删除</a>
 						</td>
 					</tr>
 				</volist>
@@ -64,9 +64,9 @@
 	        {$_page}
 	    </div>
 	</div>
-</block>
+{/block}
 
-<block name="script">
+{block name="script"}
 <script type="text/javascript">
 $(function(){
 	//搜索功能
@@ -108,4 +108,4 @@ $(function(){
 	});
 });
 </script>
-</block>
+{/block}

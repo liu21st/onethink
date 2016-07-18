@@ -1,22 +1,22 @@
 <!-- 分类授权编辑页面 -->
-<extend name="Public/base" />
-<block name="body">
+{extend name="public/base"/}
+{block name="body"}
 <div class="tab-wrap">
     <ul class="tab-nav nav">
-        <li><a href="{:U('AuthManager/access',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">访问授权</a></li>
+        <li><a href="{:url('AuthManager/access',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">访问授权</a></li>
         <li class="current"><a href="javascript:;">分类授权</a></li>
-		<li><a href="{:U('AuthManager/user',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">成员授权</a></li>
+		<li><a href="{:url('AuthManager/user',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">成员授权</a></li>
 	    <li class="fr">
 		    <select name="group">
 			    <volist name="auth_group" id="vo">
-				    <option value="{:U('AuthManager/category',array('group_id'=>$vo['id'],'group_name'=>$vo['title']))}" <eq name="vo['id']" value="$this_group['id']">selected</eq> >{$vo.title}</option>
+				    <option value="{:url('AuthManager/category',array('group_id'=>$vo['id'],'group_name'=>$vo['title']))}" <eq name="vo['id']" value="$this_group['id']">selected</eq> >{$vo.title}</option>
 			    </volist>
 		    </select>
 	    </li>
     </ul>
     <!-- 表格列表 -->
     <div class="tb-unit posr">
-        <form class="save-category" action="{:U('AuthManager/addToCategory')}" method="post" enctype="application/x-www-form-urlencoded">
+        <form class="save-category" action="{:url('AuthManager/addToCategory')}" method="post" enctype="application/x-www-form-urlencoded">
             <input type="hidden" name="group_id" value="{:I('group_id')}">
             <div class="category auth-category">
                 <div class="hd cf">
@@ -35,8 +35,8 @@
     </div>
 </div>
 <!-- /表格列表 -->
-</block>
-<block name="script">
+{/block}
+{block name="script"}
 <script type="text/javascript">
     +function($){
         /* 分类展开收起 */
@@ -65,6 +65,6 @@
 	    });
     }(jQuery);
     //导航高亮
-    highlight_subnav('{:U('AuthManager/index')}');
+    highlight_subnav('{:url('AuthManager/index')}');
 </script>
-</block>
+{/block}

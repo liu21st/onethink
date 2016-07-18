@@ -1,6 +1,6 @@
-<extend name="Public/base"/>
+{extend name="public/base"/}
 
-<block name="body">
+{block name="body"}
 	<div class="main-title">
 		<h2>分类管理</h2>
 	</div>
@@ -8,7 +8,7 @@
 	<!-- 表格列表 -->
 	<div class="tb-unit posr">
 		<div class="tb-unit-bar">
-			<a class="btn" href="{:U('add')}">新 增</a>
+			<a class="btn" href="{:url('add')}">新 增</a>
 		</div>
 		<div class="category">
 			<div class="hd cf">
@@ -21,9 +21,9 @@
 		</div>
 	</div>
 	<!-- /表格列表 -->
-</block>
+{/block}
 
-<block name="script">
+{block name="script"}
 	<script type="text/javascript">
 		(function($){
 			/* 分类展开收起 */
@@ -77,4 +77,4 @@
                 });
 		})(jQuery);
 	</script>
-</block>
+{/block}

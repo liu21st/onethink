@@ -1,6 +1,6 @@
-<extend name="Public/base"/>
+{extend name="public/base"/}
 
-<block name="body">
+{block name="body"}
     <!-- 标题栏 -->
     <div class="main-title">
         <h2>[{$model['title']}] 列表</h2>
@@ -9,8 +9,8 @@
 		<div class="fl">
 		<empty name="model.extend">
 			<div class="tools">
-				<a class="btn" href="{:U('add?model='.$model['id'])}">新 增</a>
-				<button class="btn ajax-post confirm" target-form="ids" url="{:U('del?model='.$model['id'])}">删 除</button>
+				<a class="btn" href="{:url('add?model='.$model['id'])}">新 增</a>
+				<button class="btn ajax-post confirm" target-form="ids" url="{:url('del?model='.$model['id'])}">删 除</button>
 			</div>
 		</empty>
 		</div>
@@ -18,7 +18,7 @@
 		<div class="search-form fr cf">
 			<div class="sleft">
 				<input type="text" name="{$model['search_key']|default='title'}" class="search-input" value="{:I('title')}" placeholder="请输入关键字">
-				<a class="sch-btn" href="javascript:;" id="search" url="{:U('Think/lists','model='.$model['name'],false)}"><i class="btn-search"></i></a>
+				<a class="sch-btn" href="javascript:;" id="search" url="{:url('Think/lists','model='.$model['name'],false)}"><i class="btn-search"></i></a>
 			</div>
 
 		</div>
@@ -58,9 +58,9 @@
     <div class="page">
         {$_page|default=''}
     </div>
-</block>
+{/block}
 
-<block name="script">
+{block name="script"}
 <script type="text/javascript">
 $(function(){
 	//搜索功能
@@ -86,4 +86,4 @@ $(function(){
 
 })
 </script>
-</block>
+{/block}

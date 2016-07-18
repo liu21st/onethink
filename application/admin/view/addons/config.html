@@ -1,11 +1,11 @@
-<extend name="Public/base" />
+{extend name="public/base"/}
 
-<block name="body">
+{block name="body"}
 	<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
 	<div class="main-title cf">
 		<h2>插件配置 [ {$data.title} ]</h2>
 	</div>
-	<form action="{:U('saveConfig')}" class="form-horizontal" method="post">
+	<form action="{:url('saveConfig')}" class="form-horizontal" method="post">
 		<empty name="custom_config">
 			<foreach name="data['config']" item="form" key="o_key">
 				<div class="form-item cf">
@@ -89,7 +89,7 @@
 										"swf"             : "__STATIC__/uploadify/uploadify.swf",
 										"fileObjName"     : "download",
 										"buttonText"      : "上传图片",
-										"uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+										"uploader"        : "{:url('File/uploadPicture',array('session_id'=>session_id()))}",
 										"width"           : 120,
 										'removeTimeout'   : 1,
 										'fileTypeExts'    : '*.jpg; *.png; *.gif;',
@@ -210,7 +210,7 @@
 															"swf"             : "__STATIC__/uploadify/uploadify.swf",
 															"fileObjName"     : "download",
 															"buttonText"      : "上传图片",
-															"uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+															"uploader"        : "{:url('File/uploadPicture',array('session_id'=>session_id()))}",
 															"width"           : 120,
 															'removeTimeout'   : 1,
 															'fileTypeExts'    : '*.jpg; *.png; *.gif;',
@@ -274,12 +274,12 @@
 		<button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button>
 		<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
 	</form>
-</block>
+{/block}
 
-<block name="script">
+{block name="script"}
 <script type="text/javascript" charset="utf-8">
 	//导航高亮
-	highlight_subnav('{:U('Addons/index')}');
+	highlight_subnav('{:url('Addons/index')}');
 	if($('ul.tab-nav').length){
 		//当有tab时，返回按钮不显示
 		$('.btn-return').hide();
@@ -289,4 +289,4 @@
 		showTab();
 	})
 </script>
-</block>
+{/block}

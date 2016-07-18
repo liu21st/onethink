@@ -1,6 +1,6 @@
-<extend name="Public/base" />
+{extend name="public/base"/}
 
-<block name="body">
+{block name="body"}
 <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
     <div class="main-title cf">
         <h2>新增 [{$model['title']}]</h2>
@@ -14,7 +14,7 @@
     </ul>
     <div class="tab-content">
     <!-- 表单 -->
-    <form id="form" action="{:U('add?model='.$model['id'])}" method="post" class="form-horizontal">
+    <form id="form" action="{:url('add?model='.$model['id'])}" method="post" class="form-horizontal">
         <!-- 基础文档模型 -->
 		<volist name=":parse_config_attr($model['field_group'])" id="group">
         <div id="tab{$key}" class="tab-pane <eq name="key" value="1">in</eq> tab{$key}">
@@ -93,7 +93,7 @@
 							        "swf"             : "__STATIC__/uploadify/uploadify.swf",
 							        "fileObjName"     : "download",
 							        "buttonText"      : "上传图片",
-							        "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+							        "uploader"        : "{:url('File/uploadPicture',array('session_id'=>session_id()))}",
 							        "width"           : 120,
 							        'removeTimeout'	  : 1,
 							        'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
@@ -139,7 +139,7 @@
 							        "swf"             : "__STATIC__/uploadify/uploadify.swf",
 							        "fileObjName"     : "download",
 							        "buttonText"      : "上传附件",
-							        "uploader"        : "{:U('File/upload',array('session_id'=>session_id()))}",
+							        "uploader"        : "{:url('File/upload',array('session_id'=>session_id()))}",
 							        "width"           : 120,
 							        'removeTimeout'	  : 1,
 							        "onUploadSuccess" : uploadFile{$field.name},
@@ -184,9 +184,9 @@
     </form>
     </div>
 </div>
-</block>
+{/block}
 
-<block name="script">
+{block name="script"}
 <link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
 <php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
 <link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
@@ -214,4 +214,4 @@ $(function(){
 
 });
 </script>
-</block>
+{/block}

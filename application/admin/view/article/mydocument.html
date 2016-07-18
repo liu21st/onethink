@@ -1,12 +1,12 @@
-<extend name="Public/base"/>
+{extend name="public/base"/}
 
 <!-- 子导航 -->
-<block name="sidebar">
+{block name="style"}
     <include file="sidemenu" />
-</block>
+{/block}
 
 
-<block name="body">
+{block name="body"}
 	<!-- 标题 -->
 	<div class="main-title">
 		<h2>
@@ -17,9 +17,9 @@
 	<!-- 按钮工具栏 -->
 	<div class="cf">
 		<div class="fl">
-            <button class="btn ajax-post" target-form="ids" url="{:U("Article/setStatus",array("status"=>1))}">启 用</button>
-			<button class="btn ajax-post" target-form="ids" url="{:U("Article/setStatus",array("status"=>0))}">禁 用</button>
-			<button class="btn ajax-post confirm" target-form="ids" url="{:U("Article/setStatus",array("status"=>-1))}">删 除</button>
+            <button class="btn ajax-post" target-form="ids" url="{:url("Article/setStatus",array("status"=>1))}">启 用</button>
+			<button class="btn ajax-post" target-form="ids" url="{:url("Article/setStatus",array("status"=>0))}">禁 用</button>
+			<button class="btn ajax-post confirm" target-form="ids" url="{:url("Article/setStatus",array("status"=>-1))}">删 除</button>
 		</div>
 
 		<!-- 高级搜索 -->
@@ -36,7 +36,7 @@
 					</ul>
 				</div>
 				<input type="text" name="title" class="search-input" value="{:I('title')}" placeholder="请输入标题文档">
-				<a class="sch-btn" href="javascript:;" id="search" url="{:U('article/mydocument','pid='.I('pid',0).'&cate_id='.$cate_id,false)}"><i class="btn-search"></i></a>
+				<a class="sch-btn" href="javascript:;" id="search" url="{:url('article/mydocument','pid='.I('pid',0).'&cate_id='.$cate_id,false)}"><i class="btn-search"></i></a>
 			</div>
             <div class="btn-group-click adv-sch-pannel fl">
                 <button class="btn">高 级<i class="btn-arrowdown"></i></button>
@@ -76,15 +76,15 @@
 		<tr>
             <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
 			<td>{$vo.id} </td>
-			<td><a href="{:U('Article/edit?cate_id='.$vo['category_id'].'&id='.$vo['id'])}">{$vo.title}</a></td>
+			<td><a href="{:url('Article/edit?cate_id='.$vo['category_id'].'&id='.$vo['id'])}">{$vo.title}</a></td>
 			<td><span>{$vo['type']}</span></td>
 			<td><span>{:get_cate($vo['category_id'])}</span></td>
 			<td><span>{$vo.update_time}</span></td>
 			<td>{$vo.view}</td>
 			<td>{$vo.status}</td>
-			<td><a href="{:U('Article/edit?cate_id='.$vo['category_id'].'&id='.$vo['id'])}">编辑</a>
-				<a href="{:U('Article/setStatus?ids='.$vo['id'].'&status='.abs(1-$vo['status']))}" class="ajax-get">{$vo.status|show_status_op}</a>
-				<a href="{:U('Article/setStatus?status=-1&ids='.$vo['id'])}" class="confirm ajax-get">删除</a>
+			<td><a href="{:url('Article/edit?cate_id='.$vo['category_id'].'&id='.$vo['id'])}">编辑</a>
+				<a href="{:url('Article/setStatus?ids='.$vo['id'].'&status='.abs(1-$vo['status']))}" class="ajax-get">{$vo.status|show_status_op}</a>
+				<a href="{:url('Article/setStatus?status=-1&ids='.$vo['id'])}" class="confirm ajax-get">删除</a>
                 </td>
 		</tr>
 		</volist>
@@ -100,8 +100,8 @@
     </div>
 </div>
 
-</block>
-<block name="script">
+{/block}
+{block name="script"}
 <link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
 <php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
 <link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
@@ -165,4 +165,4 @@ $(function(){
     
 })
 </script>
-</block>
+{/block}

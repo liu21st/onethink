@@ -1,15 +1,15 @@
-<extend name="Public/base" />
-<block name="body">
+{extend name="public/base"/}
+{block name="body"}
 	<!-- 标题栏 -->
 	<div class="main-title">
 		<h2>权限管理</h2>
 	</div>
 
     <div class="tools auth-botton">
-        <a id="add-group" class="btn" href="{:U('createGroup')}">新 增</a>
-        <a url="{:U('changestatus?method=resumeGroup')}" class="btn ajax-post" target-form="ids" >启 用</a>
-        <a url="{:U('changestatus?method=forbidGroup')}" class="btn ajax-post" target-form="ids" >禁 用</a>
-        <a url="{:U('changestatus?method=deleteGroup')}" class="btn ajax-post confirm" target-form="ids" >删 除</a>
+        <a id="add-group" class="btn" href="{:url('createGroup')}">新 增</a>
+        <a url="{:url('changestatus?method=resumeGroup')}" class="btn ajax-post" target-form="ids" >启 用</a>
+        <a url="{:url('changestatus?method=forbidGroup')}" class="btn ajax-post" target-form="ids" >禁 用</a>
+        <a url="{:url('changestatus?method=deleteGroup')}" class="btn ajax-post confirm" target-form="ids" >删 除</a>
     </div>
 	<!-- 数据列表 -->
 	<div class="data-table table-striped">
@@ -30,21 +30,21 @@
 		<volist name="_list" id="vo">
 		<tr>
             <td><input class="ids" type="checkbox" name="id[]" value="{$vo.id}" /></td>
-			<td><a href="{:U('AuthManager/editgroup?id='.$vo['id'])}">{$vo.title}</a> </td>
+			<td><a href="{:url('AuthManager/editgroup?id='.$vo['id'])}">{$vo.title}</a> </td>
 			<td><span>{:mb_strimwidth($vo['description'],0,60,"...","utf-8")}</span></td>
 
 
-			<td><a href="{:U('AuthManager/access?group_name='.$vo['title'].'&group_id='.$vo['id'])}" >访问授权</a>
-			<a href="{:U('AuthManager/category?group_name='.$vo['title'].'&group_id='.$vo['id'])}" >分类授权</a>
-			<a href="{:U('AuthManager/user?group_name='.$vo['title'].'&group_id='.$vo['id'])}" >成员授权</a>
+			<td><a href="{:url('AuthManager/access?group_name='.$vo['title'].'&group_id='.$vo['id'])}" >访问授权</a>
+			<a href="{:url('AuthManager/category?group_name='.$vo['title'].'&group_id='.$vo['id'])}" >分类授权</a>
+			<a href="{:url('AuthManager/user?group_name='.$vo['title'].'&group_id='.$vo['id'])}" >成员授权</a>
 			</td>
 			<td>{$vo.status_text}</td>
 			<td><eq name="vo.status" value="1">
-				<a href="{:U('AuthManager/changeStatus?method=forbidGroup&id='.$vo['id'])}" class="ajax-get">禁用</a>
+				<a href="{:url('AuthManager/changeStatus?method=forbidGroup&id='.$vo['id'])}" class="ajax-get">禁用</a>
 				<else/>
-				<a href="{:U('AuthManager/changeStatus?method=resumeGroup&id='.$vo['id'])}" class="ajax-get">启用</a>
+				<a href="{:url('AuthManager/changeStatus?method=resumeGroup&id='.$vo['id'])}" class="ajax-get">启用</a>
 				</eq>
-				<a href="{:U('AuthManager/changeStatus?method=deleteGroup&id='.$vo['id'])}" class="confirm ajax-get">删除</a>
+				<a href="{:url('AuthManager/changeStatus?method=deleteGroup&id='.$vo['id'])}" class="confirm ajax-get">删除</a>
                 </td>
 		</tr>
 		</volist>
@@ -58,11 +58,11 @@
     <div class="page">
         {$_page}
     </div>
-</block>
+{/block}
 
-<block name="script">
+{block name="script"}
 <script type="text/javascript" charset="utf-8">
     //导航高亮
-    highlight_subnav('{:U('AuthManager/index')}');
+    highlight_subnav('{:url('AuthManager/index')}');
 </script>
-</block>
+{/block}

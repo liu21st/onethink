@@ -1,12 +1,12 @@
-<extend name="Public/base" />
+{extend name="public/base"/}
 
-<block name="body">
+{block name="body"}
 	<!-- 标题栏 -->
 	<div class="main-title">
 		<h2>插件列表</h2>
 	</div>
 	<div>
-		<a href="{:U('create')}" class="btn">快速创建</a>
+		<a href="{:url('create')}" class="btn">快速创建</a>
 	</div>
 
 	<!-- 数据列表 -->
@@ -45,20 +45,20 @@
 								}
 							?>
 							<?php if ($has_config): ?>
-								<a href="{:U('config',array('id'=>$vo['id']))}">设置</a>
+								<a href="{:url('config',array('id'=>$vo['id']))}">设置</a>
 							<?php endif ?>
 						<?php if ($vo['status'] >=0): ?>
 							<eq name="vo.status" value="0">
-								<a class="ajax-get" href="{:U('enable',array('id'=>$vo['id']))}">启用</a>
+								<a class="ajax-get" href="{:url('enable',array('id'=>$vo['id']))}">启用</a>
 							<else />
-								<a class="ajax-get" href="{:U('disable',array('id'=>$vo['id']))}">禁用</a>
+								<a class="ajax-get" href="{:url('disable',array('id'=>$vo['id']))}">禁用</a>
 							</eq>
 						<?php endif ?>
 							{// <eq name="vo.author" value="thinkphp">}
-								<a class="ajax-get" href="{:U('uninstall?id='.$vo['id'])}">卸载</a>
+								<a class="ajax-get" href="{:url('uninstall?id='.$vo['id'])}">卸载</a>
 							{// </eq>}
 						<else />
-							<a class="ajax-get" href="{:U('install?addon_name='.$vo['name'])}">安装</a>
+							<a class="ajax-get" href="{:url('install?addon_name='.$vo['name'])}">安装</a>
 						</empty>
 					</td>
 				</tr>
@@ -73,4 +73,4 @@
     <div class="page">
         {$_page}
     </div>
-</block>
+{/block}

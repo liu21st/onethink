@@ -1,6 +1,6 @@
-<extend name="Public/base" />
+{extend name="public/base"/}
 
-<block name="body">
+{block name="body"}
 	<div class="main-title cf">
 		<h2>新增模型</h2>
 	</div>
@@ -9,7 +9,7 @@
 	<div class="tab-wrap">
 		<div class="tab-content">
 			<!-- 表单 -->
-			<form id="form" action="{:U('update')}" method="post" class="form-horizontal doc-modal-form">
+			<form id="form" action="{:url('update')}" method="post" class="form-horizontal doc-modal-form">
 				<!-- 基础 -->
 				<div id="tab1" class="tab-pane in tab1">
 					<div class="form-item cf">
@@ -68,12 +68,12 @@
 			</form>
 		</div>
 	</div>
-</block>
-<block name="script">
+{/block}
+{block name="script"}
 <script type="text/javascript" src="__STATIC__/jquery.dragsort-0.5.1.min.js"></script>
 <script type="text/javascript" charset="utf-8">
     //导航高亮
-    highlight_subnav('{:U('Model/index')}');
+    highlight_subnav('{:url('Model/index')}');
 
     $(function(){
     	showTab();
@@ -116,5 +116,5 @@ $(function(){
 	}
 })
 </script>
-</block>
+{/block}
 

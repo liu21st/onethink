@@ -1,6 +1,6 @@
-<extend name="Public/base" />
+{extend name="public/base"/}
 
-<block name="body">
+{block name="body"}
 	<!-- 标题栏 -->
 	<div class="main-title">
 		<h2>{$title}内容列表</h2>
@@ -10,8 +10,8 @@
 		<div class="fl">
 		<eq name="model.extend" value="1">
 			<div class="tools">
-				<a class="btn" href="{:U('edit',array('name'=>$name))}">新 增</a>
-				<button class="btn ajax-post confirm" target-form="ids" url="{:U('del?name='.$name)}">删 除</button>
+				<a class="btn" href="{:url('edit',array('name'=>$name))}">新 增</a>
+				<button class="btn ajax-post confirm" target-form="ids" url="{:url('del?name='.$name)}">删 除</button>
 			</div>
 		</eq>
 		</div>
@@ -19,7 +19,7 @@
 		<div class="search-form fr cf">
 			<div class="sleft">
 				<input type="text" name="{$model['search_key']|default='title'}" class="search-input" value="{:I('title')}" placeholder="请输入关键字">
-				<a class="sch-btn" href="javascript:;" id="search" url="{:U('adminList','name='.$name,false)}"><i class="btn-search"></i></a>
+				<a class="sch-btn" href="javascript:;" id="search" url="{:url('adminList','name='.$name,false)}"><i class="btn-search"></i></a>
 			</div>
 		</div>
 	</div>
@@ -60,8 +60,8 @@
     <div class="page">
         {$_page}
     </div>
-</block>
-<block name="script">
+{/block}
+{block name="script"}
 	<script type="text/javascript">
 		$(function(){
 
@@ -87,4 +87,4 @@
     		});
 		})
 	</script>
-</block>
+{/block}

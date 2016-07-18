@@ -1,15 +1,15 @@
-<extend name="Public/base"/>
+{extend name="public/base"/}
 
-<block name="body">
+{block name="body"}
     <div class="main-title">
         <h2><present name="data">[ {$data.title} ] 子</present>菜单管理 </h2>
     </div>
 
     <div class="cf">
-        <a class="btn" href="{:U('add',array('pid'=>I('get.pid',0)))}">新 增</a>
-        <button class="btn ajax-post confirm" url="{:U('del')}" target-form="ids">删 除</button>
-        <a class="btn" href="{:U('import',array('pid'=>I('get.pid',0)))}">导 入</a>
-        <button class="btn list_sort" url="{:U('sort',array('pid'=>I('get.pid',0)),'')}">排序</button>
+        <a class="btn" href="{:url('add',array('pid'=>I('get.pid',0)))}">新 增</a>
+        <button class="btn ajax-post confirm" url="{:url('del')}" target-form="ids">删 除</button>
+        <a class="btn" href="{:url('import',array('pid'=>I('get.pid',0)))}">导 入</a>
+        <button class="btn list_sort" url="{:url('sort',array('pid'=>I('get.pid',0)),'')}">排序</button>
         <!-- 高级搜索 -->
         <div class="search-form fr cf">
             <div class="sleft">
@@ -45,25 +45,25 @@
                         <td><input class="ids row-selected" type="checkbox" name="id[]" value="{$menu.id}"></td>
                         <td>{$menu.id}</td>
                         <td>
-                            <a href="{:U('index?pid='.$menu['id'])}">{$menu.title}</a>
+                            <a href="{:url('index?pid='.$menu['id'])}">{$menu.title}</a>
                         </td>
                         <td>{$menu.up_title|default='无'}</td>
                         <td>{$menu.group}</td>
                         <td>{$menu.url}</td>
                         <td>{$menu.sort}</td>
                         <td>
-                            <a href="{:U('toogleDev',array('id'=>$menu['id'],'value'=>abs($menu['is_dev']-1)))}" class="ajax-get">
+                            <a href="{:url('toogleDev',array('id'=>$menu['id'],'value'=>abs($menu['is_dev']-1)))}" class="ajax-get">
                             {$menu.is_dev_text}
                             </a>
                         </td>
                         <td>
-                            <a href="{:U('toogleHide',array('id'=>$menu['id'],'value'=>abs($menu['hide']-1)))}" class="ajax-get">
+                            <a href="{:url('toogleHide',array('id'=>$menu['id'],'value'=>abs($menu['hide']-1)))}" class="ajax-get">
                             {$menu.hide_text}
                             </a>
                         </td>
                         <td>
-                            <a title="编辑" href="{:U('edit?id='.$menu['id'])}">编辑</a>
-                            <a class="confirm ajax-get" title="删除" href="{:U('del?id='.$menu['id'])}">删除</a>
+                            <a title="编辑" href="{:url('edit?id='.$menu['id'])}">编辑</a>
+                            <a class="confirm ajax-get" title="删除" href="{:url('del?id='.$menu['id'])}">删除</a>
                         </td>
                     </tr>
                 </volist>
@@ -78,9 +78,9 @@
 
         </div>
     </div>
-</block>
+{/block}
 
-<block name="script">
+{block name="script"}
     <script type="text/javascript">
         $(function() {
             //搜索功能
@@ -104,7 +104,7 @@
                 }
             });
             //导航高亮
-            highlight_subnav('{:U('index')}');
+            highlight_subnav('{:url('index')}');
             //点击排序
         	$('.list_sort').click(function(){
         		var url = $(this).attr('url');
@@ -124,4 +124,4 @@
         	});
         });
     </script>
-</block>
+{/block}

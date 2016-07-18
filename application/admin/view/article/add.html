@@ -1,20 +1,20 @@
-<extend name="Public/base" />
+{extend name="public/base"/}
 
 <!-- 子导航 -->
-<block name="sidebar">
+{block name="style"}
     <include file="sidemenu" />
-</block>
+{/block}
 
-<block name="body">
+{block name="body"}
 	<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
 	<div class="main-title cf">
 		<h2>
 			新增{$info.model_id|get_document_model='title'} [
 			<volist name="rightNav" id="nav">
-			<a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a>
+			<a href="{:url('article/index','cate_id='.$nav['id'])}">{$nav.title}</a>
 			<if condition="count($rightNav) gt $i"><i class="ca"></i></if>
 			</volist>
-			<present name="article">：<a href="{:U('article/index','cate_id='.$info['category_id'].'&pid='.$article['id'])}">{$article.title}</a></present>
+			<present name="article">：<a href="{:url('article/index','cate_id='.$info['category_id'].'&pid='.$article['id'])}">{$article.title}</a></present>
 			]
 		</h2>
 	</div>
@@ -27,7 +27,7 @@
 	</ul>
 	<div class="tab-content">
 	<!-- 表单 -->
-	<form id="form" action="{:U('update')}" method="post" class="form-horizontal">
+	<form id="form" action="{:url('update')}" method="post" class="form-horizontal">
 		<!-- 基础文档模型 -->
 		<volist name=":parse_config_attr($model['field_group'])" id="group">
         <div id="tab{$key}" class="tab-pane <eq name="key" value="1">in</eq> tab{$key}">
@@ -106,7 +106,7 @@
 							        "swf"             : "__STATIC__/uploadify/uploadify.swf",
 							        "fileObjName"     : "download",
 							        "buttonText"      : "上传图片",
-							        "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+							        "uploader"        : "{:url('File/uploadPicture',array('session_id'=>session_id()))}",
 							        "width"           : 120,
 							        'removeTimeout'	  : 1,
 							        'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
@@ -152,7 +152,7 @@
 							        "swf"             : "__STATIC__/uploadify/uploadify.swf",
 							        "fileObjName"     : "download",
 							        "buttonText"      : "上传附件",
-							        "uploader"        : "{:U('File/upload',array('session_id'=>session_id()))}",
+							        "uploader"        : "{:url('File/upload',array('session_id'=>session_id()))}",
 							        "width"           : 120,
 							        'removeTimeout'	  : 1,
 							        "onUploadSuccess" : uploadFile{$field.name},
@@ -190,9 +190,9 @@
 
 		<div class="form-item cf">
 			<button class="btn submit-btn ajax-post hidden" id="submit" type="submit" target-form="form-horizontal">确 定</button>
-			<a class="btn btn-return" href="{:U('article/index?cate_id='.$cate_id)}">返 回</a>
+			<a class="btn btn-return" href="{:url('article/index?cate_id='.$cate_id)}">返 回</a>
 			<if condition="C('OPEN_DRAFTBOX') and (ACTION_NAME eq 'add' or $info['status'] eq 3)">
-			<button class="btn save-btn" url="{:U('article/autoSave')}" target-form="form-horizontal" id="autoSave">
+			<button class="btn save-btn" url="{:url('article/autoSave')}" target-form="form-horizontal" id="autoSave">
 				存草稿
 			</button>
 			</if>
@@ -205,9 +205,9 @@
 	</form>
 	</div>
 </div>
-</block>
+{/block}
 
-<block name="script">
+{block name="script"}
 <link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
 <php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
 <link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
@@ -290,4 +290,4 @@ $(function(){
 
 });
 </script>
-</block>
+{/block}

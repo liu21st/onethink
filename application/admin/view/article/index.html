@@ -1,37 +1,37 @@
-<extend name="Public/base"/>
+{extend name="public/base"/}
 
 <!-- 子导航 -->
-<block name="sidebar">
+{block name="style"}
     <include file="sidemenu" />
-</block>
+{/block}
 
-<block name="body">
+{block name="body"}
 	<!-- 标题 -->
 	<div class="main-title">
 		<h2>
 		文档列表({$_total}) [
 		<notempty name="rightNav">
 		<volist name="rightNav" id="nav">
-		<a href="{:U('index','cate_id='.$nav['id'])}">{$nav.title}</a>
+		<a href="{:url('index','cate_id='.$nav['id'])}">{$nav.title}</a>
 			<if condition="count($rightNav) gt $i"><i class="ca"></i></if>
 		</volist>
-		<present name="article">：<a href="{:U('index','cate_id='.$cate_id.'&pid='.$article['id'])}">{$article.title}</a></present>
+		<present name="article">：<a href="{:url('index','cate_id='.$cate_id.'&pid='.$article['id'])}">{$article.title}</a></present>
 		<else/>
-		<empty name="position">全部<else/><a href="{:U('article/index')}">全部</a></empty>
+		<empty name="position">全部<else/><a href="{:url('article/index')}">全部</a></empty>
 			<foreach name="Think.config.DOCUMENT_POSITION" item="vo">
-			<neq name="position" value="$key"><a href="{:U('index',array('position'=>$key))}">{$vo}</a><else/>{$vo}</neq>&nbsp;
+			<neq name="position" value="$key"><a href="{:url('index',array('position'=>$key))}">{$vo}</a><else/>{$vo}</neq>&nbsp;
 			</foreach>
 		</notempty>
 		]
 		<eq name="allow" value="0">（该分类不允许发布内容）</eq>
-		<if condition="count($model) gt 1">[ 模型：<empty name="model_id"><strong>全部</strong><else/><a href="{:U('index',array('pid'=>$pid,'cate_id'=>$cate_id))}">全部</a></empty>
+		<if condition="count($model) gt 1">[ 模型：<empty name="model_id"><strong>全部</strong><else/><a href="{:url('index',array('pid'=>$pid,'cate_id'=>$cate_id))}">全部</a></empty>
 			<volist name="model" id="vo">
-			<neq name="model_id" value="$vo"><a href="{:U('index',array('pid'=>$pid,'cate_id'=>$cate_id,'model_id'=>$vo))}">{$vo|get_document_model='title'}</a><else/><strong>{$vo|get_document_model='title'}</strong></neq>&nbsp;
+			<neq name="model_id" value="$vo"><a href="{:url('index',array('pid'=>$pid,'cate_id'=>$cate_id,'model_id'=>$vo))}">{$vo|get_document_model='title'}</a><else/><strong>{$vo|get_document_model='title'}</strong></neq>&nbsp;
 			</volist>
 		]</if>
-		<notempty name="groups">[ 分组：<empty name="group_id"><strong>全部</strong><else/><a href="{:U('index',array('pid'=>$pid,'cate_id'=>$cate_id))}">全部</a></empty>
+		<notempty name="groups">[ 分组：<empty name="group_id"><strong>全部</strong><else/><a href="{:url('index',array('pid'=>$pid,'cate_id'=>$cate_id))}">全部</a></empty>
 			<foreach name="groups" item="vo">
-			<neq name="group_id" value="$key"><a href="{:U('index',array('pid'=>$pid,'cate_id'=>$cate_id,'model_id'=>$model_id,'group_id'=>$key))}">{$vo}</a><else/><strong>{$vo}</strong></neq>&nbsp;
+			<neq name="group_id" value="$key"><a href="{:url('index',array('pid'=>$pid,'cate_id'=>$cate_id,'model_id'=>$model_id,'group_id'=>$key))}">{$vo}</a><else/><strong>{$vo}</strong></neq>&nbsp;
 			</foreach>
 		]</notempty>
 		</h2>
@@ -42,13 +42,13 @@
 		<div class="fl">
 			<div class="btn-group">
 				<gt name="allow" value="0">
-					<button class="btn document_add" <if condition="count($model) eq 1">url="{:U('article/add',array('cate_id'=>$cate_id,'pid'=>I('pid',0),'model_id'=>$model[0],'group_id'=>$group_id))}"</if>>新 增
+					<button class="btn document_add" <if condition="count($model) eq 1">url="{:url('article/add',array('cate_id'=>$cate_id,'pid'=>I('pid',0),'model_id'=>$model[0],'group_id'=>$group_id))}"</if>>新 增
 						<if condition="count($model) gt 1"><i class="btn-arrowdown"></i></if>
 					</button>
 					<if condition="count($model) gt 1">
 					<ul class="dropdown nav-list">
 						<volist name="model" id="vo">
-						<li><a href="{:U('article/add',array('cate_id'=>$cate_id,'model_id'=>$vo,'pid'=>I('pid',0),'group_id'=>$group_id))}">{$vo|get_document_model='title'}</a></li>
+						<li><a href="{:url('article/add',array('cate_id'=>$cate_id,'model_id'=>$vo,'pid'=>I('pid',0),'group_id'=>$group_id))}">{$vo|get_document_model='title'}</a></li>
 						</volist>
 					</ul>
 					</if>
@@ -58,16 +58,16 @@
 					</button>
 				</gt>
 			</div>
-            <button class="btn ajax-post" target-form="ids" url="{:U("Article/setStatus",array("status"=>1))}">启 用</button>
-			<button class="btn ajax-post" target-form="ids" url="{:U("Article/setStatus",array("status"=>0))}">禁 用</button>
-			<button class="btn ajax-post" target-form="ids" url="{:U("Article/move")}">移 动</button>
-			<button class="btn ajax-post" target-form="ids" url="{:U("Article/copy")}">复 制</button>
-			<button class="btn ajax-post" target-form="ids" hide-data="true" url="{:U("Article/paste")}">粘 贴</button>
+            <button class="btn ajax-post" target-form="ids" url="{:url("Article/setStatus",array("status"=>1))}">启 用</button>
+			<button class="btn ajax-post" target-form="ids" url="{:url("Article/setStatus",array("status"=>0))}">禁 用</button>
+			<button class="btn ajax-post" target-form="ids" url="{:url("Article/move")}">移 动</button>
+			<button class="btn ajax-post" target-form="ids" url="{:url("Article/copy")}">复 制</button>
+			<button class="btn ajax-post" target-form="ids" hide-data="true" url="{:url("Article/paste")}">粘 贴</button>
 			<input type="hidden" class="hide-data" name="cate_id" value="{$cate_id}"/>
 			<input type="hidden" class="hide-data" name="pid" value="{$pid}"/>
-			<button class="btn ajax-post confirm" target-form="ids" url="{:U("Article/setStatus",array("status"=>-1))}">删 除</button>
-			<!-- <button class="btn document_add" url="{:U('article/batchOperate',array('cate_id'=>$cate_id,'pid'=>I('pid',0)))}">导入</button> -->
-			<button class="btn list_sort" url="{:U('sort',array('cate_id'=>$cate_id,'pid'=>I('pid',0)),'')}">排序</button>
+			<button class="btn ajax-post confirm" target-form="ids" url="{:url("Article/setStatus",array("status"=>-1))}">删 除</button>
+			<!-- <button class="btn document_add" url="{:url('article/batchOperate',array('cate_id'=>$cate_id,'pid'=>I('pid',0)))}">导入</button> -->
+			<button class="btn list_sort" url="{:url('sort',array('cate_id'=>$cate_id,'pid'=>I('pid',0)),'')}">排序</button>
 		</div>
 
 		<!-- 高级搜索 -->
@@ -84,7 +84,7 @@
 					</ul>
 				</div>
 				<input type="text" name="title" class="search-input" value="{:I('title')}" placeholder="请输入标题文档">
-				<a class="sch-btn" href="javascript:;" id="search" url="{:U('article/index','pid='.I('pid',0).'&cate_id='.$cate_id,false)}"><i class="btn-search"></i></a>
+				<a class="sch-btn" href="javascript:;" id="search" url="{:url('article/index','pid='.I('pid',0).'&cate_id='.$cate_id,false)}"><i class="btn-search"></i></a>
 			</div>
             <div class="btn-group-click adv-sch-pannel fl">
                 <button class="btn">高 级<i class="btn-arrowdown"></i></button>
@@ -137,8 +137,8 @@
     </div>
 </div>
 
-</block>
-<block name="script">
+{/block}
+{block name="script"}
 <link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
 <php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
 <link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
@@ -226,4 +226,4 @@ $(function(){
     });
 })
 </script>
-</block>
+{/block}

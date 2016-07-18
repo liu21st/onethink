@@ -1,6 +1,6 @@
-<extend name="Public/base"/>
+{extend name="public/base"/}
 
-<block name="body">
+{block name="body"}
     <!-- 标题栏 -->
     <div class="main-title">
         <h2>数据备份</h2>
@@ -9,13 +9,13 @@
 
     <div class="cf">
         <a id="export" class="btn" href="javascript:;" autocomplete="off">立即备份</a>
-        <a id="optimize" class="btn" href="{:U('optimize')}">优化表</a>
-        <a id="repair" class="btn" href="{:U('repair')}">修复表</a>
+        <a id="optimize" class="btn" href="{:url('optimize')}">优化表</a>
+        <a id="repair" class="btn" href="{:url('repair')}">修复表</a>
     </div>
 
     <!-- 应用列表 -->
     <div class="data-table table-striped">
-        <form id="export-form" method="post" action="{:U('export')}">
+        <form id="export-form" method="post" action="{:url('export')}">
             <table>
                 <thead>
                     <tr>
@@ -40,8 +40,8 @@
                             <td>{$table.create_time}</td>
                             <td class="info">未备份</td>
                             <td class="action">
-                                <a class="ajax-get no-refresh" href="{:U('optimize?tables='.$table['name'])}">优化表</a>&nbsp;
-                                <a class="ajax-get no-refresh" href="{:U('repair?tables='.$table['name'])}">修复表</a>
+                                <a class="ajax-get no-refresh" href="{:url('optimize?tables='.$table['name'])}">优化表</a>&nbsp;
+                                <a class="ajax-get no-refresh" href="{:url('repair?tables='.$table['name'])}">修复表</a>
                             </td>
                         </tr>
                     </volist>
@@ -50,9 +50,9 @@
         </form>
     </div>
     <!-- /应用列表 -->
-</block>
+{/block}
 
-<block name="script">
+{block name="script"}
     <script type="text/javascript">
     (function($){
         var $form = $("#export-form"), $export = $("#export"), tables
@@ -131,4 +131,4 @@
         }
     })(jQuery);
     </script>
-</block>
+{/block}
