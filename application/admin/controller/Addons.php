@@ -29,7 +29,7 @@ class Addons  extends Admin  {
         $hooks = db('Hooks')->field('name,description')->select();
         $this->assign('Hooks',$hooks);
         $this->meta_title = '创建向导';
-        $this->display('create');
+        return $this->forbid('create');
     }
 
     //预览
@@ -331,7 +331,7 @@ str;
     public function enable(){
         $id     =   I('id');
         $msg    =   array('success'=>'启用成功', 'error'=>'启用失败');
-        S('hooks', null);
+        cache('hooks', null);
         $this->resume('Addons', "id={$id}", $msg);
     }
 
@@ -341,7 +341,7 @@ str;
     public function disable(){
         $id     =   I('id');
         $msg    =   array('success'=>'禁用成功', 'error'=>'禁用失败');
-        S('hooks', null);
+        cache('hooks', null);
         $this->forbid('Addons', "id={$id}", $msg);
     }
 
@@ -460,7 +460,7 @@ str;
             'name' => $hook,
         );
         $model->where($condition)->delete();
-        S('hooks', null);
+        cache('hooks', null);
     }
     /**
      * 安装插件
@@ -493,7 +493,7 @@ str;
             $addonsModel->where("name='{$addon_name}'")->save($config);
             $hooks_update   =   model('Hooks')->updateHooks($addon_name);
             if($hooks_update){
-                S('hooks', null);
+                cache('hooks', null);
                 $this->success('安装成功');
             }else{
                 $addonsModel->where("name='{$addon_name}'")->delete();
@@ -525,7 +525,7 @@ str;
         if($hooks_update === false){
             $this->error('卸载插件所挂载的钩子数据失败');
         }
-        S('hooks', null);
+        cache('hooks', null);
         $delete = $addonsModel->where("name='{$db_addons['name']}'")->delete();
         if($delete === false){
             $this->error('卸载插件失败');
@@ -540,18 +540,19 @@ str;
     public function hooks(){
         $this->meta_title   =   '钩子列表';
         $map    =   $fields =   array();
-        $list   =   $this->lists(model("Hooks")->field($fields),$map);
-        int_to_string($list, array('type'=>config('HOOKS_TYPE')));
+//         $list   =   $this->lists(model("Hooks")->field($fields),$map);
+        $list   =   db('hooks')->where($map)->paginate();
+//         int_to_string($list, array('type'=>config('HOOKS_TYPE')));
         // 记录当前列表页的cookie
         cookie('__forward__',$_SERVER['REQUEST_URI']);
         $this->assign('list', $list );
-        $this->display();
+        return $this->fetch();
     }
 
     public function addhook(){
         $this->assign('data', null);
         $this->meta_title = '新增钩子';
-        $this->display('edithook');
+        return $this->fetch('edithook');
     }
 
     //钩子出编辑挂载插件页面
@@ -559,7 +560,7 @@ str;
         $hook = db('Hooks')->field(true)->find($id);
         $this->assign('data',$hook);
         $this->meta_title = '编辑钩子';
-        $this->display('edithook');
+        return $this->fetch('edithook');
     }
 
     //超级管理员删除钩子
@@ -578,18 +579,18 @@ str;
             if($data['id']){
                 $flag = $hookModel->save($data);
                 if($flag !== false){
-                    S('hooks', null);
-                    $this->success('更新成功', cookie('__forward__'));
+                    cache('hooks', null);
+                    return $this->success('更新成功', cookie('__forward__'));
                 }else{
-                    $this->error('更新失败');
+                    return $this->error('更新失败');
                 }
             }else{
                 $flag = $hookModel->add($data);
                 if($flag){
-                    S('hooks', null);
-                    $this->success('新增成功', cookie('__forward__'));
+                    cache('hooks', null);
+                    return $this->success('新增成功', cookie('__forward__'));
                 }else{
-                    $this->error('新增失败');
+                    return $this->error('新增失败');
                 }
             }
         }else{

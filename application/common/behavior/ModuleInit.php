@@ -12,6 +12,7 @@ class ModuleInit  {
         define('ACTION_NAME', $request->action());
         define('MODULE_NAME', $request->module());
         define('CONTROLLER_NAME', $request->controller());
+        define('IS_POST', $request->isPost());
         
 //         define('MODULE_PATH', APP_PATH . ($request->module() ? $request->module() . DS : ''));
     }
