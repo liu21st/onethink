@@ -7,14 +7,14 @@
 // | Author: huajie <banhuajie@163.com>
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
-use Admin\Model\AuthGroupModel;
-use Think\Page;
+// //use Admin\Model\AuthGroupModel;
+// use Think\Page;
 
 /**
  * 后台内容控制器
  * @author huajie <banhuajie@163.com>
  */
-class ArticleController extends Admin  {
+class Article extends Admin  {
 
     /* 保存允许访问的公共方法 */
     static protected $allow = array( 'draftbox','mydocument');
@@ -32,7 +32,7 @@ class ArticleController extends Admin  {
      * @author 朱亚杰  <xcoolcc@gmail.com>
      */
     protected function checkDynamic(){
-        $cates = AuthGroupModel::getAuthCategories(UID);
+        //$cates = AuthGroupModel::getAuthCategories(UID);
         switch(strtolower(ACTION_NAME)){
             case 'index':   //文档列表
             case 'add':   // 新增
@@ -150,6 +150,9 @@ class ArticleController extends Admin  {
      * @param integer $group_id 分组id
      */
     public function index($cate_id = null, $model_id = null, $position = null,$group_id=null){
+        
+        echo 'content';die;
+
         //获取左边菜单
         $this->getMenu();
 
