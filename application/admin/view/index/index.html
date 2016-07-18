@@ -1,22 +1,22 @@
-<extend name="Public/base"/>
+{extend name="public/base"/}
 
-<block name="sidebar"></block>
+{block name="sidebar"}{/block}
 
-<block name="style">
+{block name="style"}
     <style>
         body{padding: 0}
     </style>
-</block>
+{/block}
 
-<block name="body">
+{block name="body"}
     <!-- 主体 -->
     <div id="indexMain" class="index-main">
        <!-- 插件块 -->
        <div class="container-span">{:hook('AdminIndex')}</div>
     </div>
-</block>
+{/block}
 
-<block name="script">
+{block name="script"}
 <script type="text/javascript">
     /* 插件块关闭操作 */
     $(".title-opt .wm-slide").each(function(){
@@ -31,4 +31,4 @@
         $('.sidebar').remove();
     })
 </script>
-</block>
+{/block}

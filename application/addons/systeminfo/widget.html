@@ -11,14 +11,14 @@
 					<tr>
 						<th>OneThink版本</th>
 						<td>{$Think.ONETHINK_VERSION}&nbsp;&nbsp;&nbsp;
-							<notempty name="addons_config.new_version">
+							{notempty name="addons_config.new_version"}
 								<a href="http://www.onethink.cn" target="_blank">
 									发现新版本[{$addons_config.new_version}]
 								</a>&nbsp;&nbsp;&nbsp;&nbsp;
-								<a href="{:U('/update/index')}" target="_blank">
+								<a href="{:url('/update/index')}" target="_blank">
                                     在线更新
                                 </a>
-							</notempty>
+							{/notempty}
 						</td>
 					</tr>
 					<tr>
@@ -35,9 +35,9 @@
 					</tr>
 					<tr>
 						<th>MYSQL版本</th>
-						<php>
-							$system_info_mysql = M()->query("select version() as v;");
-						</php>
+						{php}
+							$system_info_mysql = db()->query("select version() as v;");
+						{/php}
 						<td>{$system_info_mysql.0.v}</td>
 					</tr>
 					<tr>

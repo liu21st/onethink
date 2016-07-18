@@ -6,14 +6,14 @@
 // +----------------------------------------------------------------------
 // | Author: yangweijie <yangweijiester@gmail.com> <code-tech.diandian.com>
 // +----------------------------------------------------------------------
-namespace Addons\SiteStat;
-use Common\Controller\Addon;
+namespace app\addons\sitestat;
 
+use app\common\controller\Addon;
 /**
  * 系统环境信息插件
  * @author thinkphp
  */
-class SiteStatAddon extends Addon{
+class SiteStat  extends Addon{
 
     public $info = array(
         'name'=>'SiteStat',
@@ -37,11 +37,11 @@ class SiteStatAddon extends Addon{
         $config = $this->getConfig();
         $this->assign('addons_config', $config);
         if($config['display']){
-            $info['user']		=	M('Member')->count();
-            $info['action']		=	M('ActionLog')->count();
-            $info['document']	=	M('Document')->count();
-            $info['category']	=	M('Category')->count();
-            $info['model']		=	M('Model')->count();
+            $info['user']		=	db('Member')->count();
+            $info['action']		=	db('ActionLog')->count();
+            $info['document']	=	db('Document')->count();
+            $info['category']	=	db('Category')->count();
+            $info['model']		=	db('Model')->count();
             $this->assign('info',$info);
             $this->display('info');
         }

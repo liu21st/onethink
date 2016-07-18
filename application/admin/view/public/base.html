@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>{$meta_title}|OneThink管理平台</title>
+    <title>{$meta_title|default='后台'}|OneThink管理平台</title>
     <link href="__ROOT__/Public/favicon.ico" type="image/x-icon" rel="shortcut icon">
     <link rel="stylesheet" type="text/css" href="__CSS__/base.css" media="all">
     <link rel="stylesheet" type="text/css" href="__CSS__/common.css" media="all">
@@ -15,7 +15,7 @@
     <script type="text/javascript" src="__STATIC__/jquery-2.0.3.min.js"></script>
     <script type="text/javascript" src="__JS__/jquery.mousewheel.js"></script>
     <!--<![endif]-->
-    <block name="style"></block>
+    {block name="style"}{/block}
 </head>
 <body>
     <!-- 头部 -->
@@ -26,9 +26,9 @@
 
         <!-- 主导航 -->
         <ul class="main-nav">
-            <volist name="__MENU__.main" id="menu">
-                <li class="{$menu.class|default=''}"><a href="{$menu.url|U}">{$menu.title}</a></li>
-            </volist>
+            {volist name="__MENU__.main" id="menu"}
+                <li class="{$menu.class|default=''}"><a href="{$menu.url|url}">{$menu.title}</a></li>
+            {/volist}
         </ul>
         <!-- /主导航 -->
 
@@ -37,9 +37,9 @@
             <a href="javascript:;" class="user-entrance"><i class="icon-user"></i></a>
             <ul class="nav-list user-menu hidden">
                 <li class="manager">你好，<em title="{:session('user_auth.username')}">{:session('user_auth.username')}</em></li>
-                <li><a href="{:U('User/updatePassword')}">修改密码</a></li>
-                <li><a href="{:U('User/updateNickname')}">修改昵称</a></li>
-                <li><a href="{:U('Public/logout')}">退出</a></li>
+                <li><a href="{:url('User/updatePassword')}">修改密码</a></li>
+                <li><a href="{:url('User/updateNickname')}">修改昵称</a></li>
+                <li><a href="{:url('Public/logout')}">退出</a></li>
             </ul>
         </div>
     </div>
@@ -48,28 +48,28 @@
     <!-- 边栏 -->
     <div class="sidebar">
         <!-- 子导航 -->
-        <block name="sidebar">
+        {block name="sidebar"}
             <div id="subnav" class="subnav">
-                <notempty name="_extra_menu">
+                {notempty name="_extra_menu"}
                     {// 动态扩展菜单 //}
                     {:extra_menu($_extra_menu,$__MENU__)}
-                </notempty>
-                <volist name="__MENU__.child" id="sub_menu">
+                {/notempty}
+                {volist name="__MENU__.child" id="sub_menu"}
                     <!-- 子导航 -->
-                    <notempty name="sub_menu">
-                        <notempty name="key"><h3><i class="icon icon-unfold"></i>{$key}</h3></notempty>
+                    {notempty name="sub_menu"}
+                        {notempty name="key"}<h3><i class="icon icon-unfold"></i>{$key}</h3>{/notempty}
                         <ul class="side-sub-menu">
-                            <volist name="sub_menu" id="menu">
+                            {volist name="sub_menu" id="menu"}
                                 <li>
                                     <a class="item" href="{$menu.url|U}">{$menu.title}</a>
                                 </li>
-                            </volist>
+                            {/volist}
                         </ul>
-                    </notempty>
+                    {/notempty}
                     <!-- /子导航 -->
-                </volist>
+                {/volist}
             </div>
-        </block>
+        {/block}
         <!-- /子导航 -->
     </div>
     <!-- /边栏 -->
@@ -81,26 +81,26 @@
             <div class="alert-content">这是内容</div>
         </div>
         <div id="main" class="main">
-            <block name="nav">
+            {block name="nav"}
             <!-- nav -->
-            <notempty name="_show_nav">
+            {notempty name="_show_nav"}
             <div class="breadcrumb">
                 <span>您的位置:</span>
-                <assign name="i" value="1" />
-                <foreach name="_nav" item="v" key="k">
-                    <if condition="$i eq count($_nav)">
+                {assign name="i" value="1" /}
+                {foreach name="_nav" item="v" key="k"}
+                    {if condition="$i eq count($_nav)"}
                     <span>{$v}</span>
-                    <else />
+                    {else /}
                     <span><a href="{$k}">{$v}</a>&gt;</span>
-                    </if>
-                    <assign name="i" value="$i+1" />
-                </foreach>
+                    {/if}
+                    {assign name="i" value="$i+1" /}
+                {/foreach}
             </div>
-            </notempty>
+            {/notempty}
             <!-- nav -->
-            </block>
+            {/block}
 
-            <block name="body"> </block>
+            {block name="body"} {/block}
         </div>
         <div class="cont-ft">
             <div class="copyright">
@@ -116,9 +116,9 @@
             "ROOT"   : "__ROOT__", //当前网站地址
             "APP"    : "__APP__", //当前项目地址
             "PUBLIC" : "__PUBLIC__", //项目公共目录地址
-            "DEEP"   : "{:C('URL_PATHINFO_DEPR')}", //PATHINFO分割符
-            "MODEL"  : ["{:C('URL_MODEL')}", "{:C('URL_CASE_INSENSITIVE')}", "{:C('URL_HTML_SUFFIX')}"],
-            "VAR"    : ["{:C('VAR_MODULE')}", "{:C('VAR_CONTROLLER')}", "{:C('VAR_ACTION')}"]
+            "DEEP"   : "{:config('URL_PATHINFO_DEPR')}", //PATHINFO分割符
+            "MODEL"  : ["{:config('URL_MODEL')}", "{:config('URL_CASE_INSENSITIVE')}", "{:config('URL_HTML_SUFFIX')}"],
+            "VAR"    : ["{:config('VAR_MODULE')}", "{:config('VAR_CONTROLLER')}", "{:config('VAR_ACTION')}"]
         }
     })();
     </script>
@@ -193,6 +193,6 @@
             }
         }();
     </script>
-    <block name="script"></block>
+    {block name="script"}{/block}
 </body>
 </html>

@@ -257,7 +257,7 @@ class Admin  extends Controller {
             }
 
             // 查找当前子菜单
-            $pid = db('Menu')->where("pid !=0 AND url like '%{$controller}/".ACTION_NAME."%'")->getField('pid');
+            $pid = db('Menu')->where("pid !=0 AND url like '%{$controller}/".ACTION_NAME."%'")->value('pid');
             if($pid){
                 // 查找当前主菜单
                 $nav =  db('Menu')->find($pid);
