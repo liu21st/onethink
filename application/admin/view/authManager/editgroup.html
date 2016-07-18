@@ -1,11 +1,11 @@
-<extend name="Public/base" />
+{extend name="public/base"/}
 <!-- 管理员用户组新增和编辑页面 -->
-<block name="body">
+{block name="body"}
 	<div class="main-title">
 		<h2>{$auth_group['id']?'编辑':'新增'}用户组</h2>
 	</div>
 
-    <form action="{:U('AuthManager/writeGroup')}" enctype="application/x-www-form-urlencoded" method="POST"
+    <form action="{:url('AuthManager/writeGroup')}" enctype="application/x-www-form-urlencoded" method="POST"
             class="form-horizontal">
         <div class="form-item">
             <label for="auth-title" class="item-label">用户组</label>
@@ -25,10 +25,10 @@
             <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
         </div>
     </form>
-</block>
-<block name="script">
+{/block}
+{block name="script"}
 <script type="text/javascript" charset="utf-8">
     //导航高亮
-    highlight_subnav('{:U('AuthManager/index')}');
+    highlight_subnav('{:url('AuthManager/index')}');
 </script>
-</block>
+{/block}

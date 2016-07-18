@@ -1,13 +1,13 @@
-<extend name="Public/base" />
+{extend name="public/base"/}
 
-<block name="body">
+{block name="body"}
 	<div class="main-title cf">
 		<h2>
-			导航排序 [ <a href="{:U('index',array('pid'=>I('pid')))}">返回列表</a> ]
+			导航排序 [ <a href="{:url('index',array('pid'=>I('pid')))}">返回列表</a> ]
 		</h2>
 	</div>
 	<div class="sort">
-		<form action="{:U('sort')}" method="post">
+		<form action="{:url('sort')}" method="post">
 <!-- 			<div class="sort_top">
 				查找：<input type="text"><button class="btn search" type="button">查找</button>
 			</div> -->
@@ -29,16 +29,16 @@
 			<div class="sort_bottom">
 				<input type="hidden" name="ids">
 				<button class="sort_confirm btn submit-btn" type="button">确 定</button>
-				<button class="sort_cancel btn btn-return" type="button" url="{:U('index',array('pid'=>I('pid')))}">返 回</button>
+				<button class="sort_cancel btn btn-return" type="button" url="{:url('index',array('pid'=>I('pid')))}">返 回</button>
 			</div>
 		</form>
 	</div>
-</block>
+{/block}
 
-<block name="script">
+{block name="script"}
 	<script type="text/javascript">
 		//导航高亮
-		highlight_subnav('{:U('Channel/index')}');
+		highlight_subnav('{:url('Channel/index')}');
 		$(function(){
 			sort();
 			$(".top").click(function(){
@@ -110,4 +110,4 @@
 			});
 		})
 	</script>
-</block>
+{/block}

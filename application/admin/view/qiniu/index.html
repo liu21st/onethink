@@ -1,6 +1,6 @@
-<extend name="Public/base" />
+{extend name="public/base"/}
 
-<block name="style">
+{block name="style"}
 	<style>
 		.sidebar .right-cnt{
 			-webkit-border-radius: 6px;
@@ -54,9 +54,9 @@
 		margin-bottom: 8px;
 	}
 </style>
-</block>
+{/block}
 
-<block name="sidebar">
+{block name="style"}
 	<div class="right-cnt">
 		<!-- ko ifnot: certainFile -->
 		<div class="right-head">
@@ -72,8 +72,8 @@
 		<!-- /ko -->
 		<!-- ko with: certainFile --><!-- /ko -->
 	</div>
-</block>
-<block name="body">
+{/block}
+{block name="body"}
 	<!-- 标题栏 -->
 	<div class="main-title">
 		<h2>blackwhite的七牛空间</h2>
@@ -91,7 +91,7 @@
 
 	<!-- 数据列表 -->
 	<div class="data-table table-striped">
-		<form action="{:U('batchDel')}" id="ids">
+		<form action="{:url('batchDel')}" id="ids">
 			<table id="file_list">
 				<thead>
 					<tr>
@@ -112,9 +112,9 @@
 							<td>{$vo.putTime|strval|substr=###,0,11|bcmul="1000000000"|date="Y-m-d H:i:s",###}</td>
 							<td>{$vo.fsize|format_bytes}</td>
 							<td>
-								<a href="javascript:;" data-href="{:U('rename?file='.$vo['key'])}" class="rename" title="{$vo.key}">重命名</a>
+								<a href="javascript:;" data-href="{:url('rename?file='.$vo['key'])}" class="rename" title="{$vo.key}">重命名</a>
 								<a href="{:$qiniu->downLink($vo['key'])}" target="_blank">下载</a>
-								<a href="{:U('del?file='.$vo['key'])}">删除</a>
+								<a href="{:url('del?file='.$vo['key'])}">删除</a>
 								<a href="javascript:adv('{$vo.mimeType}','{$vo.key}')">高级</a>
 							</td>
 						</tr>
@@ -127,9 +127,9 @@
 	<div class="page">
 		{$_page}
 	</div>
-</block>
+{/block}
 
-<block name="script">
+{block name="script"}
 	<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
 	<script type="text/javascript" src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
 
@@ -169,7 +169,7 @@
 							<input type="radio" class="type" name="type" value=2>
 						</td>
 						<td>
-							<form action="{:U('Qiniu/dealImage')}" class="form-horizontal hooktpl" id="resize_form" target="_blank" method="post">
+							<form action="{:url('Qiniu/dealImage')}" class="form-horizontal hooktpl" id="resize_form" target="_blank" method="post">
 								<label class="item-label">缩放类型：</label>
 								<div class="controls">
 									<label class="radio">
@@ -228,7 +228,7 @@
 	</script>
 
 	<script id="mdAdv" type="text/tpl">
-		<form action="{:U('Qiniu/dealDoc')}" class="form-horizontal hooktpl" id="translate_form" target="_blank" method="post">
+		<form action="{:url('Qiniu/dealDoc')}" class="form-horizontal hooktpl" id="translate_form" target="_blank" method="post">
 			<label class="item-label">请输入远程css路径：</label>
 			<div class="controls">
 				<label class="textarea">
@@ -259,7 +259,7 @@
 				"swf"             : "__STATIC__/uploadify/uploadify.swf",
 				"fileObjName"     : "qiniu_file",
 				"buttonText"      : "上传文件",
-				"uploader"        : "{:U('uploadOne',array('session_id'=>session_id(),'ajax'=>1))}",
+				"uploader"        : "{:url('uploadOne',array('session_id'=>session_id(),'ajax'=>1))}",
 				"width"           : 120,
 				'removeTimeout'   : 1,
 				'onInit'		  : init,
@@ -296,7 +296,7 @@
 					$('#file_list :checkbox').removeAttr('checked');
 					$tr.find(':checkbox').prop('checked',true);
 					$.ajax({
-						url : '{:U('detail')}',
+						url : '{:url('detail')}',
 						data : { key : $('td:eq(1)', $tr).text()},
 						success: function(data){
 							if(data.status){
@@ -315,7 +315,7 @@
 				if($checked.length != 0){
 					if(confirm('您确认删除吗？')){
 						$.ajax({
-							url : '{:U('batchDel')}',
+							url : '{:url('batchDel')}',
 							data : { key : $checked.serializeArray()},
 							success: function(data){
 								if(data.status){
@@ -448,4 +448,4 @@
 			$.thinkbox(html,option);
 		}
 	</script>
-</block>
+{/block}

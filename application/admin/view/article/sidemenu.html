@@ -22,12 +22,12 @@
  	个人中心
  </h3>
  	<ul class="side-sub-menu <notin name="Think.ACTION_NAME"  value="mydocument,draftbox,examine">subnav-off</notin>">
- 		<li <eq name="Think.ACTION_NAME" value="mydocument">class="current"</eq>><a class="item" href="{:U('article/mydocument')}">我的文档</a></li>
+ 		<li <eq name="Think.ACTION_NAME" value="mydocument">class="current"</eq>><a class="item" href="{:url('article/mydocument')}">我的文档</a></li>
  		<eq name="show_draftbox" value="1">
- 		<li <eq name="Think.ACTION_NAME" value="draftbox">class="current"</eq>><a class="item" href="{:U('article/draftbox')}">草稿箱</a></li>
+ 		<li <eq name="Think.ACTION_NAME" value="draftbox">class="current"</eq>><a class="item" href="{:url('article/draftbox')}">草稿箱</a></li>
  		</eq>
 		<eq name="show_examine" value="1">
-		<li <eq name="Think.ACTION_NAME" value="examine">class="examine"</eq>><a class="item" href="{:U('article/examine')}">待审核</a></li>
+		<li <eq name="Think.ACTION_NAME" value="examine">class="examine"</eq>><a class="item" href="{:url('article/examine')}">待审核</a></li>
 		</eq>
  	</ul>
 
@@ -54,13 +54,13 @@
                                 <ul class="subitem">
                                 	<foreach name="three_menu['_child']" item="four_menu">
                                     <li>
-                                        <gt name="four_menu['allow_publish']" value="0"><a class="item" href="{:U('index','cate_id='.$four_menu['id'])}">{$four_menu.title}</a><else/><a class="item" href="javascript:void(0);">{$four_menu.title}</a></gt>
+                                        <gt name="four_menu['allow_publish']" value="0"><a class="item" href="{:url('index','cate_id='.$four_menu['id'])}">{$four_menu.title}</a><else/><a class="item" href="javascript:void(0);">{$four_menu.title}</a></gt>
                                         <!-- 三级子菜单 -->
                                         <present name="four_menu['_child']">
                                         <ul class="subitem">
                                         	<volist name="four_menu['_child']" id="five_menu">
                                             <li>
-                                            	<gt name="five_menu['allow_publish']" value="0"><a class="item" href="{:U('index','cate_id='.$five_menu['id'])}">{$five_menu.title}</a><else/><a class="item" href="javascript:void(0);">{$five_menu.title}</a></gt>
+                                            	<gt name="five_menu['allow_publish']" value="0"><a class="item" href="{:url('index','cate_id='.$five_menu['id'])}">{$five_menu.title}</a><else/><a class="item" href="javascript:void(0);">{$five_menu.title}</a></gt>
                                             </li>
                                             </volist>
                                         </ul>
@@ -86,7 +86,7 @@
 	<eq name="show_recycle" value="1">
     <h3>
         <em class="recycle"></em>
-        <a href="{:U('article/recycle')}">回收站</a>
+        <a href="{:url('article/recycle')}">回收站</a>
     </h3>
     </eq>
 </div>

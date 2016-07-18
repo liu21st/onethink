@@ -1,12 +1,12 @@
-<extend name="Public/base"/>
+{extend name="public/base"/}
 
-<block name="body">
+{block name="body"}
 	<div class="main-title">
 		<h2>{$operate}分类</h2>
 	</div>
 	<div class="tab-wrap">
 		<div class="tab-content">
-			<form action="{:U($type)}" method="post" class="form-horizontal">
+			<form action="{:url($type)}" method="post" class="form-horizontal">
 				<div id="tab1" class="tab-pane in tab1">
 					<div class="form-item">
 						<label class="item-label">目标分类<span class="check-tips">（将{$operate}至的分类）</span></label>
@@ -28,5 +28,5 @@
 			</form>
 		</div>
 	</div>
-</block>
+{/block}
 

@@ -1,19 +1,19 @@
-<extend name="Public/base" />
+{extend name="public/base"/}
 
 <!-- 子导航 -->
-<block name="sidebar">
+{block name="style"}
     <include file="sidemenu" />
-</block>
+{/block}
 
-<block name="body">
+{block name="body"}
 	<div class="main-title cf">
 		<h2>
 			批量导入 [
 			<volist name="rightNav" id="nav">
-			<a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a>
+			<a href="{:url('article/index','cate_id='.$nav['id'])}">{$nav.title}</a>
 			<if condition="count($rightNav) gt $i"><i class="ca"></i></if>
 			</volist>
-			<present name="article">：<a href="{:U('article/index','cate_id='.$info['category_id'].'&pid='.$article['id'])}">{$article.title}</a></present>
+			<present name="article">：<a href="{:url('article/index','cate_id='.$info['category_id'].'&pid='.$article['id'])}">{$article.title}</a></present>
 			]
 		</h2>
 	</div>
@@ -21,7 +21,7 @@
 <div class="tab-wrap">
 	<div class="tab-content">
 	<!-- 表单 -->
-	<form id="form" action="{:U('batchoperate')}" method="post" class="form-horizontal">
+	<form id="form" action="{:url('batchoperate')}" method="post" class="form-horizontal">
 		<!-- 基础文档模型 -->
 		<div id="tab1" class="tab-pane in tab1">
 
@@ -57,16 +57,16 @@
 
 		<div class="form-item cf">
 			<button class="btn submit-btn ajax-post hidden" id="submit" type="submit" target-form="form-horizontal">确 定</button>
-			<a class="btn btn-return" href="{:U('article/index?cate_id='.$cate_id)}">返 回</a>
+			<a class="btn btn-return" href="{:url('article/index?cate_id='.$cate_id)}">返 回</a>
 			<input type="hidden" name="pid" value="{$pid}"/>
 			<input type="hidden" name="cate_id" value="{$cate_id}">
 		</div>
 	</form>
 	</div>
 </div>
-</block>
+{/block}
 
-<block name="script">
+{block name="script"}
 <script type="text/javascript">
 
 $('#submit').click(function(){
@@ -79,4 +79,4 @@ $(function(){
 
 });
 </script>
-</block>
+{/block}

@@ -1,5 +1,5 @@
-<extend name="Public/base" />
-<block name="style">
+{extend name="public/base"/}
+{block name="style"}
 	<link rel="stylesheet" href="__JS__/codemirror/codemirror.css">
 	<link rel="stylesheet" href="__JS__/codemirror/theme/{:C('codemirror_theme')}.css">
 	<style>
@@ -15,13 +15,13 @@
 			display: none;
 		}
 	</style>
-</block>
-<block name="body">
+{/block}
+{block name="body"}
 	<div class="main-title cf">
 		<h2>插件快速创建</h2>
 	</div>
 	<!-- 表单 -->
-	<form id="form" action="{:U('build')}" method="post" class="form-horizontal doc-modal-form">
+	<form id="form" action="{:url('build')}" method="post" class="form-horizontal doc-modal-form">
 		<div class="form-item">
 			<label class="item-label"><span class="must">*</span>标识名 <span class="check-tips">（请输入插件标识）</span></label>
 			<div class="controls">
@@ -134,9 +134,9 @@ return array(
 			<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
 		</div>
 	</form>
-</block>
+{/block}
 
-<block name="script">
+{block name="script"}
 	<script type="text/javascript" src="__JS__/codemirror/codemirror.js"></script>
 	<script type="text/javascript" src="__JS__/codemirror/xml.js"></script>
 	<script type="text/javascript" src="__JS__/codemirror/javascript.js"></script>
@@ -157,7 +157,7 @@ return array(
 		bindShow('#has_adminlist','.has_adminlist');
 
 		$('#preview').click(function(){
-			var preview_url = '{:U("preview")}';
+			var preview_url = '{:url("preview")}';
 			console.log($('#form').serialize());
 			$.post(preview_url, $('#form').serialize(),function(data){
 				$.thinkbox('<div id="preview_window" class="loading"><textarea></textarea></div>',{
@@ -195,7 +195,7 @@ return array(
 		$('.ajax-post_custom').click(function(){
 	        var target,query,form;
 	        var target_form = $(this).attr('target-form');
-	        var check_url = '{:U('checkForm')}';
+	        var check_url = '{:url('checkForm')}';
 			$.ajax({
 			   type: "POST",
 			   url: check_url,
@@ -243,6 +243,6 @@ return array(
 	    });
 
 	    //导航高亮
-	    highlight_subnav('{:U('Addons/index')}');
+	    highlight_subnav('{:url('Addons/index')}');
 	</script>
-</block>
+{/block}

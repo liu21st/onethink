@@ -1,8 +1,8 @@
-<extend name="Public/base" />
+{extend name="public/base"/}
 
-<block name="body">
+{block name="body"}
 	<div class="main-title cf">
-		<h2>{$info['id']?'编辑':'新增'} [{:get_model_by_id($info['model_id'])}] 属性 : <a href="{:U('index','model_id='.$info['model_id'])}">返回列表</a></h2>
+		<h2>{$info['id']?'编辑':'新增'} [{:get_model_by_id($info['model_id'])}] 属性 : <a href="{:url('index','model_id='.$info['model_id'])}">返回列表</a></h2>
 	</div>
 
 	<!-- 标签页导航 -->
@@ -13,7 +13,7 @@
 		</ul>
 		<div class="tab-content">
 			<!-- 表单 -->
-			<form id="form" action="{:U('update')}" method="post" class="form-horizontal doc-modal-form">
+			<form id="form" action="{:url('update')}" method="post" class="form-horizontal doc-modal-form">
 				<!-- 基础 -->
 				<div id="tab1" class="tab-pane in tab1">
 					<div class="form-item cf">
@@ -165,11 +165,11 @@
 			</form>
 		</div>
 	</div>
-</block>
-<block name="script">
+{/block}
+{block name="script"}
 <script type="text/javascript" charset="utf-8">
 //导航高亮
-highlight_subnav('{:U('Model/index')}');
+highlight_subnav('{:url('Model/index')}');
 Think.setValue('type', "{$info.type|default=''}");
 Think.setValue('is_show', "{$info.is_show|default=1}");
 Think.setValue('is_must', "{$info.is_must|default=0}");
@@ -188,5 +188,5 @@ $(function(){
 })
 </eq>
 </script>
-</block>
+{/block}
 

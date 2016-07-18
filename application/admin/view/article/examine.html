@@ -1,19 +1,19 @@
-<extend name="Public/base" />
+{extend name="public/base"/}
 
 <!-- 子导航 -->
-<block name="sidebar">
+{block name="style"}
     <include file="sidemenu" />
-</block>
+{/block}
 
-<block name="body">
+{block name="body"}
 	<!-- 标题栏 -->
 	<div class="main-title">
 		<h2>待审核({:count($list)})</h2>
 	</div>
 
     <div class="tools auth-botton">
-        <button class="btn ajax-post confirm" target-form="ids" url="{:U("Article/setStatus",array("status"=>-1))}">删 除</button>
-        <button url="{:U('article/setStatus?status=1')}" class="btn ajax-post" target-form="ids">审 核</button>
+        <button class="btn ajax-post confirm" target-form="ids" url="{:url("Article/setStatus",array("status"=>-1))}">删 除</button>
+        <button url="{:url('article/setStatus?status=1')}" class="btn ajax-post" target-form="ids">审 核</button>
     </div>
 
 	<!-- 数据列表 -->
@@ -36,14 +36,14 @@
 		<tr>
             <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
 			<td>{$vo.id} </td>
-			<td><a href="{:U('Article/edit?cate_id='.$vo['category_id'].'&id='.$vo['id'])}">{$vo.title}</a></td>
+			<td><a href="{:url('Article/edit?cate_id='.$vo['category_id'].'&id='.$vo['id'])}">{$vo.title}</a></td>
 			<td>{$vo.username} </td>
 			<td><span>{:get_document_type($vo['type'])}</span></td>
 			<td><span>{:get_cate($vo['category_id'])}</span></td>
 			<td><span>{$vo.create_time|time_format}</span></td>
-			<td><a href="{:U('Article/edit?cate_id='.$vo['category_id'].'&id='.$vo['id'])}">编辑</a>
-				<a href="{:U('Article/setStatus?ids='.$vo['id'].'&status=1')}" class="ajax-get">审核</a>
-				<a href="{:U('Article/setStatus?status=-1&ids='.$vo['id'])}" class="confirm ajax-get">删除</a>
+			<td><a href="{:url('Article/edit?cate_id='.$vo['category_id'].'&id='.$vo['id'])}">编辑</a>
+				<a href="{:url('Article/setStatus?ids='.$vo['id'].'&status=1')}" class="ajax-get">审核</a>
+				<a href="{:url('Article/setStatus?status=-1&ids='.$vo['id'])}" class="confirm ajax-get">删除</a>
                 </td>
 		</tr>
 		</volist>
@@ -54,4 +54,4 @@
     <div class="page">
         {$_page}
     </div>
-</block>
+{/block}

@@ -1,16 +1,16 @@
-<extend name="Public/base"/>
+{extend name="public/base"/}
 
-<block name="body">
+{block name="body"}
 	<!-- 标题栏 -->
 	<div class="main-title">
 		<h2>模型列表</h2>
 
 	</div>
     <div class="tools">
-        <a class="btn" href="{:U('Model/add')}">新 增</a>
-        <button class="btn ajax-post" target-form="ids" url="{:U('Model/setStatus',array('status'=>1))}">启 用</button>
-        <button class="btn ajax-post" target-form="ids" url="{:U('Model/setStatus',array('status'=>0))}">禁 用</button>
-        <a class="btn" href="{:U('Model/generate')}">生 成</a>
+        <a class="btn" href="{:url('Model/add')}">新 增</a>
+        <button class="btn ajax-post" target-form="ids" url="{:url('Model/setStatus',array('status'=>1))}">启 用</button>
+        <button class="btn ajax-post" target-form="ids" url="{:url('Model/setStatus',array('status'=>0))}">禁 用</button>
+        <a class="btn" href="{:url('Model/generate')}">生 成</a>
     </div>
 
 	<!-- 数据列表 -->
@@ -35,14 +35,14 @@
             <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
 			<td>{$vo.id} </td>
 			<td>{$vo.name}</td>
-			<td><a data-id="{$vo.id}" href="{:U('model/edit?id='.$vo['id'])}">{$vo.title}</a></td>
+			<td><a data-id="{$vo.id}" href="{:url('model/edit?id='.$vo['id'])}">{$vo.title}</a></td>
 			<td><span>{$vo.create_time|time_format}</span></td>
 			<td>{$vo.status_text}</td>
 			<td>
-				<a href="{:U('think/lists?model='.$vo['name'])}">数据</a>
-				<a href="{:U('model/setstatus?ids='.$vo['id'].'&status='.abs(1-$vo['status']))}" class="ajax-get">{$vo.status|show_status_op}</a>
-				<a href="{:U('model/edit?id='.$vo['id'])}">编辑</a>
-				<a href="{:U('model/del?ids='.$vo['id'])}" class="confirm ajax-get">删除</a>
+				<a href="{:url('think/lists?model='.$vo['name'])}">数据</a>
+				<a href="{:url('model/setstatus?ids='.$vo['id'].'&status='.abs(1-$vo['status']))}" class="ajax-get">{$vo.status|show_status_op}</a>
+				<a href="{:url('model/edit?id='.$vo['id'])}">编辑</a>
+				<a href="{:url('model/del?ids='.$vo['id'])}" class="confirm ajax-get">删除</a>
             </td>
 		</tr>
 		</volist>
@@ -57,9 +57,9 @@
     <div class="page">
         {$_page}
     </div>
-</block>
+{/block}
 
-<block name="script">
+{block name="script"}
     <script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
     <script type="text/javascript">
     $(function(){
@@ -77,4 +77,4 @@
     	});
 })
 </script>
-</block>
+{/block}

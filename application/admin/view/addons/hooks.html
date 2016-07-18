@@ -1,13 +1,13 @@
-<extend name="Public/base" />
+{extend name="public/base"/}
 
-<block name="body">
+{block name="body"}
 	<!-- 标题栏 -->
 	<div class="main-title">
 		<h2>钩子列表</h2>
 	</div>
 	<div class="cf">
 		<?php if (IS_ROOT): ?>
-			<a class="btn" href="{:U('addhook')}">新 增</a>
+			<a class="btn" href="{:url('addhook')}">新 增</a>
 		<?php endif ?>
 	</div>
 
@@ -27,12 +27,12 @@
 				<volist name="list" id="vo">
 					<tr>
 						<td>{$vo.id}</td>
-						<td><a href="{:U('edithook?id='.$vo['id'])}">{$vo.name}</a></td>
+						<td><a href="{:url('edithook?id='.$vo['id'])}">{$vo.name}</a></td>
 						<td>{$vo.description}</td>
 						<td>{$vo.type_text}</td>
 						<td>
-							<a title="编辑" href="{:U('edithook?id='.$vo['id'])}">编辑</a>
-							<a class="confirm ajax-get" title="删除" href="{:U('delhook?id='.$vo['id'])}">删除</a>
+							<a title="编辑" href="{:url('edithook?id='.$vo['id'])}">编辑</a>
+							<a class="confirm ajax-get" title="删除" href="{:url('delhook?id='.$vo['id'])}">删除</a>
 						</td>
 					</tr>
 				</volist>
@@ -43,12 +43,12 @@
     <div class="page">
         {$_page}
     </div>
-</block>
+{/block}
 
-<block name="script">
+{block name="script"}
 	<script type="text/javascript">
 		$(function(){
 
 		})
 	</script>
-</block>
+{/block}

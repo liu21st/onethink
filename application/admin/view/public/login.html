@@ -12,7 +12,7 @@
             <!-- 主体 -->
             <div class="login-body">
                 <div class="login-main pr">
-                    <form action="{:U('login')}" method="post" class="login-form">
+                    <form action="{:url('login')}" method="post" class="login-form">
                         <h3 class="welcome"><i class="login-logo"></i>OneThink管理平台</h3>
                         <div id="itemBox" class="item-box">
                             <div class="item">
@@ -32,7 +32,7 @@
                             </div>
                             <span class="placeholder_copy placeholder_check">请填写验证码</span>
                             <div>
-                                <img class="verifyimg reloadverify" alt="点击切换" src="{:U('Public/verify')}">
+                                <img class="verifyimg reloadverify" alt="点击切换" src="{:url('Public/verify')}">
                             </div>
                         </div>
                         <div class="login_btn_panel">

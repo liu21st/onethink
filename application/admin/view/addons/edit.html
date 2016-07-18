@@ -1,6 +1,6 @@
-<extend name="Public/base" />
+{extend name="public/base"/}
 
-<block name="body">
+{block name="body"}
 <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
     <div class="main-title cf">
         <h2>{$meta_title}</h2>
@@ -9,7 +9,7 @@
 <div class="tab-wrap">
     <div class="tab-content">
     <!-- 表单 -->
-    <form id="form" action="{:U('edit?name='.trim($_GET['name']))}" method="POST" class="form-horizontal">
+    <form id="form" action="{:url('edit?name='.trim($_GET['name']))}" method="POST" class="form-horizontal">
         <!-- 基础文档模型 -->
 		<div id="tab" class="tab-pane in tab1">
             <volist name="fields" id="field">
@@ -84,7 +84,7 @@
 							        "swf"             : "__STATIC__/uploadify/uploadify.swf",
 							        "fileObjName"     : "download",
 							        "buttonText"      : "上传图片",
-							        "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+							        "uploader"        : "{:url('File/uploadPicture',array('session_id'=>session_id()))}",
 							        "width"           : 120,
 							        'removeTimeout'	  : 1,
 							        'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
@@ -130,7 +130,7 @@
 							        "swf"             : "__STATIC__/uploadify/uploadify.swf",
 							        "fileObjName"     : "download",
 							        "buttonText"      : "上传附件",
-							        "uploader"        : "{:U('File/upload',array('session_id'=>session_id()))}",
+							        "uploader"        : "{:url('File/upload',array('session_id'=>session_id()))}",
 							        "width"           : 120,
 							        'removeTimeout'	  : 1,
                                     'onFallback' : function() {
@@ -172,9 +172,9 @@
     </form>
     </div>
 </div>
-</block>
+{/block}
 
-<block name="script">
+{block name="script"}
 <link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
 <php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
 <link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
@@ -195,4 +195,4 @@ $(function(){
     showTab();
 });
 </script>
-</block>
+{/block}

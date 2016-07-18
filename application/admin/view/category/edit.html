@@ -1,6 +1,6 @@
-<extend name="Public/base"/>
+{extend name="public/base"/}
 
-<block name="body">
+{block name="body"}
 	<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
 	<div class="main-title">
 		<h2>{:isset($info['id'])?'编辑':'新增'}分类</h2>
@@ -11,7 +11,7 @@
 			<li data-tab="tab2"><a href="javascript:void(0);">高 级</a></li>
 		</ul>
 		<div class="tab-content">
-			<form action="{:U()}" method="post" class="form-horizontal">
+			<form action="{:url()}" method="post" class="form-horizontal">
 				<!-- 基础 -->
 				<div id="tab1" class="tab-pane in tab1">
 					<div class="form-item">
@@ -111,7 +111,7 @@
 				        "swf"             : "__STATIC__/uploadify/uploadify.swf",
 				        "fileObjName"     : "download",
 				        "buttonText"      : "上传图片",
-				        "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+				        "uploader"        : "{:url('File/uploadPicture',array('session_id'=>session_id()))}",
 				        "width"           : 120,
 				        'removeTimeout'	  : 1,
 				        'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
@@ -230,9 +230,9 @@
 			</form>
 		</div>
 	</div>
-</block>
+{/block}
 
-<block name="script">
+{block name="script"}
 	<script type="text/javascript">
 		<present name="info.id">
 		Think.setValue("allow_publish", {$info.allow_publish|default=1});
@@ -252,6 +252,6 @@
 			}).filter(":checked").change();
 		});
 		//导航高亮
-		highlight_subnav('{:U('Category/index')}');
+		highlight_subnav('{:url('Category/index')}');
 	</script>
-</block>
+{/block}

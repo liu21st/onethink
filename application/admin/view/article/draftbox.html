@@ -1,12 +1,12 @@
-<extend name="Public/base"/>
+{extend name="public/base"/}
 
 <!-- 子导航 -->
-<block name="sidebar">
+{block name="style"}
     <include file="sidemenu" />
-</block>
+{/block}
 
 
-<block name="body">
+{block name="body"}
 	<!-- 标题 -->
 	<div class="main-title">
 		<h2>
@@ -17,7 +17,7 @@
 	<!-- 按钮工具栏 -->
 	<div class="cf">
 		<div class="fl">
-			<button class="btn ajax-post confirm" target-form="ids" url="{:U("Article/setStatus",array("status"=>-1))}">删 除</button>
+			<button class="btn ajax-post confirm" target-form="ids" url="{:url("Article/setStatus",array("status"=>-1))}">删 除</button>
 		</div>
 
 		<!-- 高级搜索 -->
@@ -45,13 +45,13 @@
 		<tr>
             <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
 			<td>{$vo.id} </td>
-			<td><a data-id="{$vo.id}" href="{:U('Article/edit?cate_id='.$vo['category_id'].'&id='.$vo['id'])}">{$vo.title}</a></td>
+			<td><a data-id="{$vo.id}" href="{:url('Article/edit?cate_id='.$vo['category_id'].'&id='.$vo['id'])}">{$vo.title}</a></td>
 			<td>{:get_document_type($vo['type'])}</td>
 			<td><span>{:get_cate($vo['category_id'])}</span></td>
 			<td><span>{$vo.update_time|time_format}</span></td>
-			<td><a href="{:U('Article/edit?cate_id='.$vo['category_id'].'&id='.$vo['id'])}">编辑</a>
-				<a href="{:U('Article/setstatus?ids='.$vo['id'].'&status='.abs(1-$vo['status']))}" class="ajax-get">{$vo.status|show_status_op}</a>
-				<a href="{:U('Article/setStatus?status=-1&ids='.$vo['id'])}" class="confirm ajax-get">删除</a>
+			<td><a href="{:url('Article/edit?cate_id='.$vo['category_id'].'&id='.$vo['id'])}">编辑</a>
+				<a href="{:url('Article/setstatus?ids='.$vo['id'].'&status='.abs(1-$vo['status']))}" class="ajax-get">{$vo.status|show_status_op}</a>
+				<a href="{:url('Article/setStatus?status=-1&ids='.$vo['id'])}" class="confirm ajax-get">删除</a>
                 </td>
 		</tr>
 		</volist>
@@ -65,8 +65,8 @@
     </div>
 </div>
 
-</block>
-<block name="script">
+{/block}
+{block name="script"}
 <link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
 <link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
@@ -74,4 +74,4 @@
 <script type="text/javascript">
 
 </script>
-</block>
+{/block}
