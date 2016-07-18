@@ -24,8 +24,8 @@
 				</tr>
 			</thead>
 			<tbody>
-				<notempty name="_list">
-				<volist name="_list" id="vo">
+				{notempty name="_list"}
+				{volist name="_list" id="vo"}
 				<tr>
 					<td>{$vo.title}</td>
 					<td>{$vo.name}</td>
@@ -34,7 +34,7 @@
 					<td><a target="_blank" href="{$vo.url|default='http://www.onethink.cn'}">{$vo.author}</a></td>
 					<td>{$vo.version}</td>
 					<td>
-						<empty name="vo.uninstall">
+						{empty name="vo.uninstall"}
 							<?php
 								$class	= get_addon_class($vo['name']);
 								if(!class_exists($class)){
@@ -44,33 +44,33 @@
 									$has_config = count($addon->getConfig());
 								}
 							?>
-							<?php if ($has_config): ?>
+							{gt name='has_config' value='0'}
 								<a href="{:url('config',array('id'=>$vo['id']))}">设置</a>
-							<?php endif ?>
+							{/gt}
+							
 						<?php if ($vo['status'] >=0): ?>
-							<eq name="vo.status" value="0">
+							{eq name="vo.status" value="0"}
 								<a class="ajax-get" href="{:url('enable',array('id'=>$vo['id']))}">启用</a>
-							<else />
+							{else /}
 								<a class="ajax-get" href="{:url('disable',array('id'=>$vo['id']))}">禁用</a>
-							</eq>
+							{/eq}
 						<?php endif ?>
 							{// <eq name="vo.author" value="thinkphp">}
 								<a class="ajax-get" href="{:url('uninstall?id='.$vo['id'])}">卸载</a>
 							{// </eq>}
-						<else />
+						{else /}
 							<a class="ajax-get" href="{:url('install?addon_name='.$vo['name'])}">安装</a>
-						</empty>
+						{/empty}
 					</td>
 				</tr>
-				</volist>
-				<else/>
+				{/volist}
+				{else/}
 				<td colspan="6" class="text-center"> aOh! 暂时还没有内容! </td>
-				</notempty>
+				{/notempty}
 			</tbody>
 		</table>
 	</div>
 	<!-- 分页 -->
     <div class="page">
-        {$_page}
     </div>
 {/block}

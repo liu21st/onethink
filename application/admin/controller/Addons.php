@@ -16,7 +16,7 @@ class Addons  extends Admin  {
 
     public function _initialize(){
         $this->assign('_extra_menu',array(
-            '已装插件后台'=> D('Addons')->getAdminList(),
+            '已装插件后台'=> model('Addons')->getAdminList(),
         ));
         parent::_initialize();
     }
@@ -26,7 +26,7 @@ class Addons  extends Admin  {
         if(!is_writable(ONETHINK_ADDON_PATH))
             $this->error('您没有创建目录写入权限，无法使用此功能');
 
-        $hooks = M('Hooks')->field('name,description')->select();
+        $hooks = db('Hooks')->field('name,description')->select();
         $this->assign('Hooks',$hooks);
         $this->meta_title = '创建向导';
         $this->display('create');
@@ -232,18 +232,19 @@ str;
      */
     public function index(){
         $this->meta_title = '插件列表';
-        $list       =   D('Addons')->getList();
-        $request    =   (array)I('request.');
-        $total      =   $list? count($list) : 1 ;
-        $listRows   =   C('LIST_ROWS') > 0 ? C('LIST_ROWS') : 10;
-        $page       =   new \Think\Page($total, $listRows, $request);
-        $voList     =   array_slice($list, $page->firstRow, $page->listRows);
-        $p          =   $page->show();
-        $this->assign('_list', $voList);
-        $this->assign('_page', $p? $p: '');
+        $list       =   model('Addons')->getList();
+//         $request    =   input('request./a');
+//         $total      =   $list? count($list) : 1 ;
+//         $listRows   =   config('LIST_ROWS') > 0 ? config('LIST_ROWS') : 10;
+        
+//         $page       =   new \Think\Page($total, $listRows, $request);
+//         $voList     =   array_slice($list, $page->firstRow, $page->listRows);
+//         $p          =   $page->show();
+        $this->assign('_list', $list);
+//         $this->assign('_page', $p? $p: '');
         // 记录当前列表页的cookie
-        Cookie('__forward__',$_SERVER['REQUEST_URI']);
-        $this->display();
+        cookie('__forward__',$_SERVER['REQUEST_URI']);
+        return $this->fetch();
     }
 
     /**
@@ -252,7 +253,7 @@ str;
      */
     public function adminList($name){
         // 记录当前列表页的cookie
-        Cookie('__forward__',$_SERVER['REQUEST_URI']);
+        cookie('__forward__',$_SERVER['REQUEST_URI']);
         $this->assign('name', $name);
         $class = get_addon_class($name);
         if(!class_exists($class))
@@ -280,7 +281,7 @@ str;
 
 
         if(isset($model)){
-            $model  =   D("Addons://{$name}/{$model}");
+            $model  =   model("Addons://{$name}/{$model}");
             // 条件搜索
             $map    =   array();
             foreach($_REQUEST as $name=>$val){
@@ -349,7 +350,7 @@ str;
      */
     public function config(){
         $id     =   (int)I('id');
-        $addon  =   M('Addons')->find($id);
+        $addon  =   db('Addons')->find($id);
         if(!$addon)
             $this->error('插件未安装');
         $addon_class = get_addon_class($addon['name']);
@@ -387,9 +388,9 @@ str;
     public function saveConfig(){
         $id     =   (int)I('id');
         $config =   I('config');
-        $flag = M('Addons')->where("id={$id}")->setField('config',json_encode($config));
+        $flag = db('Addons')->where("id={$id}")->setField('config',json_encode($config));
         if($flag !== false){
-            $this->success('保存成功', Cookie('__forward__'));
+            $this->success('保存成功', cookie('__forward__'));
         }else{
             $this->error('保存失败');
         }
@@ -434,7 +435,7 @@ str;
      * @param string $addons  插件简介
      */
     public function existHook($str, $addons, $msg=''){
-        $hook_mod = M('Hooks');
+        $hook_mod = db('Hooks');
         $where['name'] = $str;
         $gethook = $hook_mod->where($where)->find();
         if(!$gethook || empty($gethook) || !is_array($gethook)){
@@ -454,7 +455,7 @@ str;
      * @param string $hook  钩子名称
      */
     public function deleteHook($hook){
-        $model = M('hooks');
+        $model = db('hooks');
         $condition = array(
             'name' => $hook,
         );
@@ -478,7 +479,7 @@ str;
         if(!$install_flag){
             $this->error('执行插件预安装操作失败'.session('addons_install_error'));
         }
-        $addonsModel    =   D('Addons');
+        $addonsModel    =   model('Addons');
         $data           =   $addonsModel->create($info);
         if(is_array($addons->admin_list) && $addons->admin_list !== array()){
             $data['has_adminlist'] = 1;
@@ -490,7 +491,7 @@ str;
         if($addonsModel->add($data)){
             $config         =   array('config'=>json_encode($addons->getConfig()));
             $addonsModel->where("name='{$addon_name}'")->save($config);
-            $hooks_update   =   D('Hooks')->updateHooks($addon_name);
+            $hooks_update   =   model('Hooks')->updateHooks($addon_name);
             if($hooks_update){
                 S('hooks', null);
                 $this->success('安装成功');
@@ -508,7 +509,7 @@ str;
      * 卸载插件
      */
     public function uninstall(){
-        $addonsModel    =   M('Addons');
+        $addonsModel    =   db('Addons');
         $id             =   trim(I('id'));
         $db_addons      =   $addonsModel->find($id);
         $class          =   get_addon_class($db_addons['name']);
@@ -520,7 +521,7 @@ str;
         $uninstall_flag =   $addons->uninstall();
         if(!$uninstall_flag)
             $this->error('执行插件预卸载操作失败'.session('addons_uninstall_error'));
-        $hooks_update   =   D('Hooks')->removeHooks($db_addons['name']);
+        $hooks_update   =   model('Hooks')->removeHooks($db_addons['name']);
         if($hooks_update === false){
             $this->error('卸载插件所挂载的钩子数据失败');
         }
@@ -539,10 +540,10 @@ str;
     public function hooks(){
         $this->meta_title   =   '钩子列表';
         $map    =   $fields =   array();
-        $list   =   $this->lists(D("Hooks")->field($fields),$map);
-        int_to_string($list, array('type'=>C('HOOKS_TYPE')));
+        $list   =   $this->lists(model("Hooks")->field($fields),$map);
+        int_to_string($list, array('type'=>config('HOOKS_TYPE')));
         // 记录当前列表页的cookie
-        Cookie('__forward__',$_SERVER['REQUEST_URI']);
+        cookie('__forward__',$_SERVER['REQUEST_URI']);
         $this->assign('list', $list );
         $this->display();
     }
@@ -555,7 +556,7 @@ str;
 
     //钩子出编辑挂载插件页面
     public function edithook($id){
-        $hook = M('Hooks')->field(true)->find($id);
+        $hook = db('Hooks')->field(true)->find($id);
         $this->assign('data',$hook);
         $this->meta_title = '编辑钩子';
         $this->display('edithook');
@@ -563,7 +564,7 @@ str;
 
     //超级管理员删除钩子
     public function delhook($id){
-        if(M('Hooks')->delete($id) !== false){
+        if(db('Hooks')->delete($id) !== false){
             $this->success('删除成功');
         }else{
             $this->error('删除失败');
@@ -571,14 +572,14 @@ str;
     }
 
     public function updateHook(){
-        $hookModel  =   D('Hooks');
+        $hookModel  =   model('Hooks');
         $data       =   $hookModel->create();
         if($data){
             if($data['id']){
                 $flag = $hookModel->save($data);
                 if($flag !== false){
                     S('hooks', null);
-                    $this->success('更新成功', Cookie('__forward__'));
+                    $this->success('更新成功', cookie('__forward__'));
                 }else{
                     $this->error('更新失败');
                 }
@@ -586,7 +587,7 @@ str;
                 $flag = $hookModel->add($data);
                 if($flag){
                     S('hooks', null);
-                    $this->success('新增成功', Cookie('__forward__'));
+                    $this->success('新增成功', cookie('__forward__'));
                 }else{
                     $this->error('新增失败');
                 }
@@ -597,14 +598,14 @@ str;
     }
 
     public function execute($_addons = null, $_controller = null, $_action = null){
-        if(C('URL_CASE_INSENSITIVE')){
+        if(config('URL_CASE_INSENSITIVE')){
             $_addons        =   ucfirst(parse_name($_addons, 1));
             $_controller    =   parse_name($_controller,1);
         }
 
-        $TMPL_PARSE_STRING = C('TMPL_PARSE_STRING');
+        $TMPL_PARSE_STRING = config('TMPL_PARSE_STRING');
         $TMPL_PARSE_STRING['__ADDONROOT__'] = __ROOT__ . "/Addons/{$_addons}";
-        C('TMPL_PARSE_STRING', $TMPL_PARSE_STRING);
+        config('TMPL_PARSE_STRING', $TMPL_PARSE_STRING);
 
         if(!empty($_addons) && !empty($_controller) && !empty($_action)){
             $Addons = A("Addons://{$_addons}/{$_controller}")->$_action();
@@ -626,7 +627,7 @@ str;
         extract($param);
         $this->assign('title', $addon->info['title']);
         if(isset($model)){
-            $addonModel = D("Addons://{$name}/{$model}");
+            $addonModel = model("Addons://{$name}/{$model}");
             if(!$addonModel)
                 $this->error('模型无法实列化');
             $model = $addonModel->model;
@@ -646,13 +647,13 @@ str;
             if($id){
                 $flag = $addonModel->save();
                 if($flag !== false)
-                    $this->success("编辑{$model['title']}成功！", Cookie('__forward__'));
+                    $this->success("编辑{$model['title']}成功！", cookie('__forward__'));
                 else
                     $this->error($addonModel->getError());
             }else{
                 $flag = $addonModel->add();
                 if($flag)
-                    $this->success("添加{$model['title']}成功！", Cookie('__forward__'));
+                    $this->success("添加{$model['title']}成功！", cookie('__forward__'));
             }
             $this->error($addonModel->getError());
         } else {
@@ -686,7 +687,7 @@ str;
             $this->error('插件列表信息不正确');
         extract($param);
         if(isset($model)){
-            $addonModel = D("Addons://{$name}/{$model}");
+            $addonModel = model("Addons://{$name}/{$model}");
             if(!$addonModel)
                 $this->error('模型无法实列化');
         }
