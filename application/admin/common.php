@@ -69,7 +69,7 @@ function get_list_field($data, $grid){
                 // 替换数据变量
                 $href   =   preg_replace_callback('/\[([a-z_]+)\]/', function($match) use($data){return $data[$match[1]];}, $href);
 
-                $val[]  =   '<a href="'.U($href).'">'.$show.'</a>';
+                $val[]  =   '<a href="'.url($href).'">'.$show.'</a>';
             }
         }
         $value  =   implode(' ',$val);
@@ -115,7 +115,7 @@ function get_addonlist_field($data, $grid,$addon){
                 // 替换数据变量
                 $href   =   preg_replace_callback('/\[([a-z_]+)\]/', function($match) use($data){return $data[$match[1]];}, $href);
 
-                $val[]  =   '<a href="'.U($href).'">'.$show.'</a>';
+                $val[]  =   '<a href="'.url($href).'">'.$show.'</a>';
             }
         }
         $value  =   implode(' ',$val);
@@ -125,7 +125,7 @@ function get_addonlist_field($data, $grid,$addon){
 
 // 获取模型名称
 function get_model_by_id($id){
-    return $model = M('Model')->getFieldById($id,'title');
+    return $model = db('Model')->getFieldById($id,'title');
 }
 
 // 获取属性类型信息
@@ -201,7 +201,7 @@ function get_document_type($type = null){
  * @return string
  */
 function get_config_type($type=0){
-    $list = C('CONFIG_TYPE_LIST');
+    $list = config('CONFIG_TYPE_LIST');
     return $list[$type];
 }
 
@@ -211,7 +211,7 @@ function get_config_type($type=0){
  * @return string
  */
 function get_config_group($group=0){
-    $list = C('CONFIG_GROUP_LIST');
+    $list = config('CONFIG_GROUP_LIST');
     return $group?$list[$group]:'';
 }
 
@@ -271,7 +271,7 @@ function get_parent_category($cid){
     if(empty($cid)){
         return false;
     }
-    $cates  =   M('Category')->where(array('status'=>1))->field('id,title,pid')->order('sort')->select();
+    $cates  =   db('Category')->where(array('status'=>1))->field('id,title,pid')->order('sort')->select();
     $child  =   get_category($cid); //获取参数分类的信息
     $pid    =   $child['pid'];
     $temp   =   array();
@@ -311,8 +311,8 @@ function get_type_bycate($id = null){
     if(empty($id)){
         return false;
     }
-    $type_list  =   C('DOCUMENT_MODEL_TYPE');
-    $model_type =   M('Category')->getFieldById($id, 'type');
+    $type_list  =   config('DOCUMENT_MODEL_TYPE');
+    $model_type =   db('Category')->getFieldById($id, 'type');
     $model_type =   explode(',', $model_type);
     foreach ($type_list as $key=>$value){
         if(!in_array($key, $model_type)){
@@ -332,7 +332,7 @@ function get_cate($cate_id = null){
     if(empty($cate_id)){
         return false;
     }
-    $cate   =   M('Category')->where('id='.$cate_id)->getField('title');
+    $cate   =   db('Category')->where('id='.$cate_id)->getField('title');
     return $cate;
 }
 
@@ -353,7 +353,7 @@ function parse_config_attr($string) {
 
 // 获取子文档数目
 function get_subdocument_count($id=0){
-    return  M('Document')->where('pid='.$id)->count();
+    return  db('Document')->where('pid='.$id)->count();
 }
 
 
@@ -367,7 +367,7 @@ function parse_field_attr($string) {
         return   eval('return '.substr($string,1).';');
     }elseif(0 === strpos($string,'[')){
         // 支持读取配置参数（必须是数组类型）
-        return C(substr($string,1,-1));
+        return config(substr($string,1,-1));
     }
     
     $array = preg_split('/[,;\r\n]+/', trim($string, ",;\r\n"));
@@ -393,10 +393,10 @@ function get_action($id = null, $field = null){
     if(empty($id) && !is_numeric($id)){
         return false;
     }
-    $list = S('action_list');
+    $list = cache('action_list');
     if(empty($list[$id])){
         $map = array('status'=>array('gt', -1), 'id'=>$id);
-        $list[$id] = M('Action')->where($map)->field(true)->find();
+        $list[$id] = db('Action')->where($map)->field(true)->find();
     }
     return empty($field) ? $list[$id] : $list[$id][$field];
 }
@@ -415,7 +415,7 @@ function get_document_field($value = null, $condition = 'id', $field = null){
 
     //拼接参数
     $map[$condition] = $value;
-    $info = M('Model')->where($map);
+    $info = db('Model')->where($map);
     if(empty($field)){
         $info = $info->field(true)->find();
     }else{

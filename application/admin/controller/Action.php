@@ -21,15 +21,16 @@ class Action extends Admin {
     public function actionLog(){
         //获取列表数据
         $map['status']    =   array('gt', -1);
-        $list   =   $this->lists('ActionLog', $map);
-        int_to_string($list);
-        foreach ($list as $key=>$value){
-            $model_id                  =   get_document_field($value['model'],"name","id");
-            $list[$key]['model_id']    =   $model_id ? $model_id : 0;
-        }
+//         $list   =   $this->lists('ActionLog', $map);
+        $list   = db('action_log')->where($map)->paginate();
+//         int_to_string($list);
+//         foreach ($list as $key=>$value){
+//             $model_id                  =   get_document_field($value['model'],"name","id");
+//             $list[$key]['model_id']    =   $model_id ? $model_id : 0;
+//         }
         $this->assign('_list', $list);
         $this->meta_title = '行为日志';
-        $this->display();
+        return $this->fetch();
     }
 
     /**
