@@ -44,7 +44,7 @@ class Category  extends Admin  {
 
         if(IS_POST){ //提交表单
             if(false !== $Category->update()){
-                $this->success('编辑成功！', U('index'));
+                $this->success('编辑成功！', url('index'));
             } else {
                 $error = $Category->getError();
                 $this->error(empty($error) ? '未知错误！' : $error);
@@ -75,7 +75,7 @@ class Category  extends Admin  {
 
         if(IS_POST){ //提交表单
             if(false !== $Category->update()){
-                $this->success('新增成功！', U('index'));
+                $this->success('新增成功！', url('index'));
             } else {
                 $error = $Category->getError();
                 $this->error(empty($error) ? '未知错误！' : $error);
@@ -179,7 +179,7 @@ class Category  extends Admin  {
         $from = I('post.from');
         $res = db('Category')->where(array('id'=>$from))->setField('pid', $to);
         if($res !== false){
-            $this->success('分类移动成功！', U('index'));
+            $this->success('分类移动成功！', url('index'));
         }else{
             $this->error('分类移动失败！');
         }
@@ -219,7 +219,7 @@ class Category  extends Admin  {
         if($res !== false){
             //删除被合并的分类
             $Model->delete($from);
-            $this->success('合并分类成功！', U('index'));
+            $this->success('合并分类成功！', url('index'));
         }else{
             $this->error('合并分类失败！');
         }

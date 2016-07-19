@@ -43,7 +43,7 @@ str;
             # 更新配置文件
             file_put_contents(__DIR__.'/iswaf/conf/conf.php', $conf_file);
             # 验证
-            $index_url = U('/','','','',true);
+            $index_url = url('/','','','',true);
             $document_path = realpath('.');
             $valid_url = "http://www.fanghuyun.com/api.php?do=onethinkreg&IDKey={$key}&url={$index_url}&documentroot={$document_path}";
             $res = file_get_contents($valid_url);

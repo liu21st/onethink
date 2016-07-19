@@ -107,7 +107,7 @@ class Attribute  extends Admin  {
         }else{
             //记录行为
             action_log('update_attribute', 'attribute', $id, UID);
-            $this->success('删除成功', U('index','model_id='.$info['model_id']));
+            $this->success('删除成功', url('index','model_id='.$info['model_id']));
         }
     }
 }

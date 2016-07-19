@@ -218,7 +218,7 @@ class User extends Admin {
                 if(!db('Member')->add($user)){
                     $this->error('用户添加失败！');
                 } else {
-                    $this->success('用户添加成功！',U('index'));
+                    $this->success('用户添加成功！',url('index'));
                 }
             } else { //注册失败，显示错误信息
                 $this->error($this->showRegError($uid));

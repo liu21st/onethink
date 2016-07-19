@@ -168,7 +168,7 @@ class AuthManager  extends Admin {
             if($r===false){
                 $this->error('操作失败'.$AuthGroup->getError());
             } else{
-                $this->success('操作成功!',U('index'));
+                $this->success('操作成功!',url('index'));
             }
         }else{
             $this->error('操作失败'.$AuthGroup->getError());

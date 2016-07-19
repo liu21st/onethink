@@ -42,7 +42,7 @@ class ChannelController extends Admin  {
             if($data){
                 $id = $Channel->add();
                 if($id){
-                    $this->success('新增成功', U('index'));
+                    $this->success('新增成功', url('index'));
                     //记录行为
                     action_log('update_channel', 'channel', $id, UID);
                 } else {
@@ -78,7 +78,7 @@ class ChannelController extends Admin  {
                 if($Channel->save()){
                     //记录行为
                     action_log('update_channel', 'channel', $data['id'], UID);
-                    $this->success('编辑成功', U('index'));
+                    $this->success('编辑成功', url('index'));
                 } else {
                     $this->error('编辑失败');
                 }

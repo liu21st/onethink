@@ -54,7 +54,7 @@ class Config  extends Admin  {
             if($data){
                 if($Config->add()){
                     S('DB_CONFIG_DATA',null);
-                    $this->success('新增成功', U('index'));
+                    $this->success('新增成功', url('index'));
                 } else {
                     $this->error('新增失败');
                 }

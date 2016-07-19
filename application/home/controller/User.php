@@ -42,7 +42,7 @@ class User  extends Home  {
 			$uid = $User->register($username, $password, $email);
 			if(0 < $uid){ //注册成功
 				//TODO: 发送验证邮件
-				$this->success('注册成功！',U('login'));
+				$this->success('注册成功！',url('login'));
 			} else { //注册失败，显示错误信息
 				$this->error($this->showRegError($uid));
 			}
@@ -68,7 +68,7 @@ class User  extends Home  {
 				$Member = model('Member');
 				if($Member->login($uid)){ //登录用户
 					//TODO:跳转到登录前页面
-					$this->success('登录成功！',U('Home/Index/index'));
+					$this->success('登录成功！',url('Home/Index/index'));
 				} else {
 					$this->error($Member->getError());
 				}
@@ -91,7 +91,7 @@ class User  extends Home  {
 	public function logout(){
 		if(is_login()){
 			model('Member')->logout();
-			$this->success('退出成功！', U('User/login'));
+			$this->success('退出成功！', url('User/login'));
 		} else {
 			$this->redirect('User/login');
 		}
@@ -133,7 +133,7 @@ class User  extends Home  {
      */
     public function profile(){
 		if ( !is_login() ) {
-			$this->error( '您还没有登陆',U('User/login') );
+			$this->error( '您还没有登陆',url('User/login') );
 		}
         if ( IS_POST ) {
             //获取参数

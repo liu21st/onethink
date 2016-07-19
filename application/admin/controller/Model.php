@@ -149,7 +149,7 @@ class Model extends Admin  {
             empty($table) && $this->error('请选择要生成的数据表！');
             $res = model('Model')->generate($table,I('post.name'),I('post.title'));
             if($res){
-                $this->success('生成模型成功！', U('index'));
+                $this->success('生成模型成功！', url('index'));
             }else{
                 $this->error(model('Model')->getError());
             }

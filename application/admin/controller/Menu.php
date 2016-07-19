@@ -198,7 +198,7 @@ class MenuController extends Admin {
                     }
                 }
                 session('ADMIN_MENU_LIST',null);
-                $this->success('导入成功',U('index?pid='.$pid));
+                $this->success('导入成功',url('index?pid='.$pid));
             }
         }else{
             $this->meta_title = '批量导入后台菜单';

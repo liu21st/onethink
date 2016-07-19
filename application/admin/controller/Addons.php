@@ -224,7 +224,7 @@ str;
         if($data['has_config'] == 1)
             file_put_contents("{$addon_dir}config.php", $data['config']);
 
-        $this->success('创建成功',U('index'));
+        $this->success('创建成功',url('index'));
     }
 
     /**
@@ -513,7 +513,7 @@ str;
         $id             =   trim(I('id'));
         $db_addons      =   $addonsModel->find($id);
         $class          =   get_addon_class($db_addons['name']);
-        $this->assign('jumpUrl',U('index'));
+        $this->assign('jumpUrl',url('index'));
         if(!$db_addons || !class_exists($class))
             $this->error('插件不存在');
         session('addons_uninstall_error',null);
