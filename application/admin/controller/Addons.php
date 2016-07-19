@@ -322,7 +322,7 @@ str;
         $this->assign('_list', $list);
         if($addon->custom_adminlist)
             $this->assign('custom_adminlist', $this->fetch($addon->addon_path.$addon->custom_adminlist));
-        $this->display('adminlist');
+        return $this->fetch('adminlist');
     }
 
     /**
@@ -666,7 +666,7 @@ str;
             else
                 $template = $model['template_add']? $model['template_add']: '';
             if ($template)
-                $this->display($addon->addon_path . $template);
+                return $this->fetch($addon->addon_path . $template);
             else
                 return $this->fetch();
         }

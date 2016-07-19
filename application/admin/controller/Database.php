@@ -77,7 +77,7 @@ class Database extends Admin {
         //渲染模板
         $this->assign('meta_title', $title);
         $this->assign('list', $list);
-        $this->display($type);
+        return $this->fetch($type);
     }
 
     /**

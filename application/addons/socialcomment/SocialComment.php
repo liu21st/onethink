@@ -41,6 +41,6 @@ class SocialComment extends Addon
     public function documentDetailAfter($param)
     {
         $this->assign('addons_config', $this->getConfig());
-        $this->display('comment');
+        return $this->fetch('comment');
     }
 }

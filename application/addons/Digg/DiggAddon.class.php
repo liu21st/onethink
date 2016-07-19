@@ -62,6 +62,6 @@ SQL;
             }
             $this->assign('addons_config', $this->getConfig());
             $this->assign('addons_vote_record', $vote);
-            $this->display('vote');
+            return $this->fetch('vote');
         }
     }

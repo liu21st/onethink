@@ -35,7 +35,7 @@ class Category  extends Admin  {
     public function tree($tree = null){
         config('_SYS_GET_CATEGORY_TREE_') || $this->_empty();
         $this->assign('tree', $tree);
-        $this->display('tree');
+        return $this->fetch('tree');
     }
 
     /* 编辑分类 */
@@ -94,7 +94,7 @@ class Category  extends Admin  {
             $this->assign('info',       null);
             $this->assign('category', $cate);
             $this->meta_title = '新增分类';
-            $this->display('edit');
+            return $this->fetch('edit');
         }
     }
 

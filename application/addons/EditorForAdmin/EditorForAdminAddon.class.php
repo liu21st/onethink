@@ -41,6 +41,6 @@ use Common\Controller\Addon;
 		public function adminArticleEdit($data){
 			$this->assign('addons_data', $data);
 			$this->assign('addons_config', $this->getConfig());
-			$this->display('content');
+			return $this->fetch('content');
 		}
 	}

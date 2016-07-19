@@ -136,7 +136,7 @@ class Think  extends Admin  {
         $this->assign('list_grids', $grids);
         $this->assign('list_data', $data);
         $this->meta_title = $model['title'].'列表';
-        $this->display($model['template_list']);
+        return $this->fetch($model['template_list']);
     }
 
     public function del($model = null, $ids=null){
@@ -191,7 +191,7 @@ class Think  extends Admin  {
             $this->assign('fields', $fields);
             $this->assign('data', $data);
             $this->meta_title = '编辑'.$model['title'];
-            $this->display($model['template_edit']?$model['template_edit']:'');
+            return $this->fetch($model['template_edit']?$model['template_edit']:'');
         }
     }
 
@@ -215,7 +215,7 @@ class Think  extends Admin  {
             $this->assign('model', $model);
             $this->assign('fields', $fields);
             $this->meta_title = '新增'.$model['title'];
-            $this->display($model['template_add']?$model['template_add']:'');
+            return $this->fetch($model['template_add']?$model['template_add']:'');
         }
     }
 

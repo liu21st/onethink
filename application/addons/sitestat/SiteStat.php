@@ -43,7 +43,7 @@ class SiteStat  extends Addon{
             $info['category']	=	db('Category')->count();
             $info['model']		=	db('Model')->count();
             $this->assign('info',$info);
-            $this->display('info');
+            return $this->fetch('info');
         }
     }
 }

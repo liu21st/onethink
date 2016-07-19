@@ -107,7 +107,7 @@ class AuthManager  extends Admin {
             $this->assign('auth_group',array('title'=>null,'id'=>null,'description'=>null,'rules'=>null,));//排除notice信息
         }
         $this->meta_title = '新增用户组';
-        $this->display('editgroup');
+        return $this->fetch('editgroup');
     }
 
     /**
@@ -143,7 +143,7 @@ class AuthManager  extends Admin {
         $this->assign('auth_group', $auth_group);
         $this->assign('this_group', $auth_group[(int)$_GET['group_id']]);
         $this->meta_title = '访问授权';
-        $this->display('managergroup');
+        return $this->fetch('managergroup');
     }
 
     /**
@@ -242,7 +242,7 @@ class AuthManager  extends Admin {
 
     public function tree($tree = null){
         $this->assign('tree', $tree);
-        $this->display('tree');
+        return $this->fetch('tree');
     }
 
     /**

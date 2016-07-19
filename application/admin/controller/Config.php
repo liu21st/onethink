@@ -64,7 +64,7 @@ class Config  extends Admin  {
         } else {
             $this->meta_title = '新增配置';
             $this->assign('info',null);
-            $this->display('edit');
+            return $this->fetch('edit');
         }
     }
 

@@ -41,7 +41,7 @@ use Common\Controller\Addon;
 		public function documentEditFormContent($data){
 			$this->assign('addons_data', $data);
 			$this->assign('addons_config', $this->getConfig());
-			$this->display('content');
+			return $this->fetch('content');
 		}
 
 		/**
@@ -51,7 +51,7 @@ use Common\Controller\Addon;
 		public function topicComment ($data){
 			$this->assign('addons_data', $data);
 			$this->assign('addons_config', $this->getConfig());
-			$this->display('content');
+			return $this->fetch('content');
 		}
 
 	}

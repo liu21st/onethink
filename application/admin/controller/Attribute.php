@@ -45,7 +45,7 @@ class Attribute  extends Admin  {
         $this->assign('model',$model);
         $this->assign('info', array('model_id'=>$model_id));
         $this->meta_title = '新增属性';
-        $this->display('edit');
+        return $this->fetch('edit');
     }
 
     /**

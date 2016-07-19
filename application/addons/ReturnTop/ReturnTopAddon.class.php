@@ -46,6 +46,6 @@ use Common\Controller\Addon;
 			if($config['random'])
 				$config['current'] = rand(1,99);
 			$this->assign('addons_config', $config);
-			$this->display('content');
+			return $this->fetch('content');
 		}
 	}

@@ -50,7 +50,7 @@ class Attachment  extends Addon{
 	/* 显示文档模型编辑页插件扩展信息表单 */
 	public function documentEditForm($param = array()){
 		$this->assign($param);
-		$this->display(T('Addons://Attachment@Article/edit'));
+		return $this->fetch(T('Addons://Attachment@Article/edit'));
 	}
 
 	/* 文档末尾显示附件列表 */
@@ -69,7 +69,7 @@ class Attachment  extends Addon{
 
 		/* 模板赋值并渲染模板 */
 		$this->assign('list', $list);
-		$this->display(T('Addons://Attachment@Article/detail'));
+		return $this->fetch(T('Addons://Attachment@Article/detail'));
 	}
 
 	/**

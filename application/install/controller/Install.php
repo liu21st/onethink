@@ -82,7 +82,7 @@ class Install  extends Controller{
         } else {
             if(session('update')){
                 session('step', 2);
-                $this->display('update');
+                return $this->fetch('update');
             }else{
                 session('error') && $this->error('环境检测没有通过，请调整环境后重试！');
 

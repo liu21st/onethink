@@ -47,7 +47,7 @@ class User extends Admin {
         $nickname = db('Member')->getFieldByUid(UID, 'nickname');
         $this->assign('nickname', $nickname);
         $this->meta_title = '修改昵称';
-        $this->display('updatenickname');
+        return $this->fetch('updatenickname');
     }
 
     /**
@@ -91,7 +91,7 @@ class User extends Admin {
      */
     public function updatePassword(){
         $this->meta_title = '修改密码';
-        $this->display('updatepassword');
+        return $this->fetch('updatepassword');
     }
 
     /**
@@ -144,7 +144,7 @@ class User extends Admin {
     public function addAction(){
         $this->meta_title = '新增行为';
         $this->assign('data',null);
-        $this->display('editaction');
+        return $this->fetch('editaction');
     }
 
     /**
@@ -158,7 +158,7 @@ class User extends Admin {
 
         $this->assign('data',$data);
         $this->meta_title = '编辑行为';
-        $this->display('editaction');
+        return $this->fetch('editaction');
     }
 
     /**

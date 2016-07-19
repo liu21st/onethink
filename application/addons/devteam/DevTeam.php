@@ -43,6 +43,6 @@ class DevTeam extends Addon
         $config = $this->getConfig();
         $this->assign('addons_config', $config);
         if ($config['display'])
-            $this->display('widget');
+            return $this->fetch('widget');
     }
 }

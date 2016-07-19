@@ -62,7 +62,7 @@ class ChannelController extends Admin  {
             $this->assign('pid', $pid);
             $this->assign('info',null);
             $this->meta_title = '新增导航';
-            $this->display('edit');
+            return $this->fetch('edit');
         }
     }
 
