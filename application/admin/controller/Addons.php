@@ -29,16 +29,15 @@ class Addons  extends Admin  {
         $hooks = db('Hooks')->field('name,description')->select();
         $this->assign('Hooks',$hooks);
         $this->meta_title = '创建向导';
-        return $this->forbid('create');
+        return $this->fetch('create');
     }
 
     //预览
     public function preview($output = true){
-        $data                   =   $_POST;
-        $data['info']['status'] =   (int)$data['info']['status'];
+        $status =   $this->request->post('info.status/d');//(int)$data['info']['status'];
         $extend                 =   array();
-        $custom_config          =   trim($data['custom_config']);
-        if($data['has_config'] && $custom_config){
+        $custom_config          =   trim($this->request->post('custom_config'));
+        if($this->request->post('has_config') && $custom_config){
             $custom_config = <<<str
 
 
@@ -47,8 +46,8 @@ str;
             $extend[] = $custom_config;
         }
 
-        $admin_list = trim($data['admin_list']);
-        if($data['has_adminlist'] && $admin_list){
+        $admin_list = trim($this->request->post('admin_list'));
+        if($this->request->post('has_adminlist') && $admin_list){
             $admin_list = <<<str
 
 
@@ -59,8 +58,8 @@ str;
            $extend[] = $admin_list;
         }
 
-        $custom_adminlist = trim($data['custom_adminlist']);
-        if($data['has_adminlist'] && $custom_adminlist){
+        $custom_adminlist = trim($this->request->post('custom_adminlist'));
+        if($this->request->post('has_adminlist') && $custom_adminlist){
             $custom_adminlist = <<<str
 
 
@@ -71,7 +70,8 @@ str;
 
         $extend = implode('', $extend);
         $hook = '';
-        foreach ($data['hook'] as $value) {
+        $hooks=$this->request->post('hook/a');
+        foreach ($hooks as $value) {
             $hook .= <<<str
         //实现的{$value}钩子方法
         public function {$value}(\$param){
@@ -84,23 +84,23 @@ str;
         $tpl = <<<str
 <?php
 
-namespace Addons\\{$data['info']['name']};
+namespace Addons\\{$this->request->post('info.name')};
 use Common\Controller\Addon;
 
 /**
- * {$data['info']['title']}插件
- * @author {$data['info']['author']}
+ * {$this->request->post('info.title')}插件
+ * @author {$this->request->post('info.author')}
  */
 
-    class {$data['info']['name']}Addon extends Addon{
+    class {$this->request->post('info.name')}Addon extends Addon{
 
         public \$info = array(
-            'name'=>'{$data['info']['name']}',
-            'title'=>'{$data['info']['title']}',
-            'description'=>'{$data['info']['description']}',
-            'status'=>{$data['info']['status']},
-            'author'=>'{$data['info']['author']}',
-            'version'=>'{$data['info']['version']}'
+            'name'=>'{$this->request->post('info.name')}',
+            'title'=>'{$this->request->post('info.title')}',
+            'description'=>'{$this->request->post('info.description')}',
+            'status'=>{$this->request->post('info.status')},
+            'author'=>'{$this->request->post('info.author')}',
+            'version'=>'{$this->request->post('info.version')}'
         );{$extend}
 
         public function install(){

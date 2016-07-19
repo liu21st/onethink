@@ -130,7 +130,7 @@ class Admin  extends Controller {
      * @author 朱亚杰  <zhuyajie@topthink.net>
      */
     final protected function editRow ( $model ,$data, $where , $msg ){
-        $id    = array_unique((array)I('id',0));
+        $id    = array_unique((array)input('id/a',0));
         $id    = is_array($id) ? implode(',',$id) : $id;
         //如存在id字段，则加入该条件
         $fields = db($model)->getDbFields();

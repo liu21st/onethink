@@ -1,7 +1,7 @@
 {extend name="public/base"/}
 {block name="style"}
 	<link rel="stylesheet" href="__JS__/codemirror/codemirror.css">
-	<link rel="stylesheet" href="__JS__/codemirror/theme/{:C('codemirror_theme')}.css">
+	<link rel="stylesheet" href="__JS__/codemirror/theme/{:config('codemirror_theme')}.css">
 	<style>
 		.CodeMirror,#preview_window{
 			width:700px;
@@ -96,9 +96,9 @@ return array(
 			<label class="item-label">实现的钩子方法</label>
 			<div class="controls">
 				<select class="select" name="hook[]" size="10" multiple required>
-					<volist name="Hooks" id="vo">
+					{volist name="Hooks" id="vo"}
 						<option value="{$vo.name}" title="{$vo.description}">{$vo.name}</option>
-					</volist>
+					{/volist}
 				</select>
 			</div>
 		</div>
@@ -175,7 +175,7 @@ return array(
 							height		  :500,
 							enterMode     :"keep",
 							tabMode       :"shift",
-							theme: "{:C('CODEMIRROR_THEME')}"
+							theme: "{:config('CODEMIRROR_THEME')}"
 						};
 						var preview_window = $("#preview_window").removeClass(".loading").find("textarea");
 						var editor = CodeMirror.fromTextArea(preview_window[0], codemirror_option);
