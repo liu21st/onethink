@@ -16,9 +16,9 @@
 						<label class="item-label">数据表<span class="check-tips">（当前数据库的所有表）</span></label>
 						<div class="controls">
 							<select name="table">
-								<volist name="tables" id="tb">
+								{volist name="tables" id="tb"}
 									<option value="{$tb}">{$tb}</option>
-								</volist>
+								{/volist}
 							</select>
 						</div>
 					</div>

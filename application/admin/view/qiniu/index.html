@@ -104,7 +104,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<volist name="_list" id="vo">
+					{volist name="_list" id="vo"}
 						<tr>
 							<td><input type="checkbox" name="key" value="{$vo.key}"></td>
 							<td>{$vo.key}</td>
@@ -118,7 +118,7 @@
 								<a href="javascript:adv('{$vo.mimeType}','{$vo.key}')">高级</a>
 							</td>
 						</tr>
-					</volist>
+					{/volist}
 				</tbody>
 			</table>
 		</form>
