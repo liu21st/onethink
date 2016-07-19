@@ -4,9 +4,9 @@
 	<div class="main-title">
 		<h2>
 			{$info['id']?'编辑':'新增'}导航
-			<notempty name="pid">
+			{notempty name="pid"}
 				[&nbsp;父导航：<a href="{:url('index','pid='.$pid)}">{$parent.title}</a>&nbsp;]
-			</notempty>
+			{/notempty}
 		</h2>
 	</div>
 	<form action="{:url()}" method="post" class="form-horizontal">
@@ -27,8 +27,8 @@
             <label class="item-label">新窗口打开<span class="check-tips">（是否新窗口打开链接）</span></label>
             <div class="controls">
                 <select name="target">
-				<option value="0" <eq name="info.target" value="0" >selected</eq>>否</option>
-				<option value="1" <eq name="info.target" value="1" >selected</eq>>是</option>
+				<option value="0" {eq name="info.target" value="0"}selected{/eq}>否</option>
+				<option value="1" {eq name="info.target" value="1"}selected{/eq}>是</option>
                 </select>
             </div>
         </div>

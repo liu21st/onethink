@@ -29,7 +29,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <volist name="list" id="table">
+                    {volist name="list" id="table"}
                         <tr>
                             <td class="num">
                                 <input class="ids" checked="chedked" type="checkbox" name="tables[]" value="{$table.name}">
@@ -44,7 +44,7 @@
                                 <a class="ajax-get no-refresh" href="{:url('repair?tables='.$table['name'])}">修复表</a>
                             </td>
                         </tr>
-                    </volist>
+                    {/volist}
                 </tbody>
             </table>
         </form>
