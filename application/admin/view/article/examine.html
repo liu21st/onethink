@@ -2,7 +2,7 @@
 
 <!-- 子导航 -->
 {block name="style"}
-    <include file="sidemenu" />
+    {include file="sidemenu" /}
 {/block}
 
 {block name="body"}
@@ -32,7 +32,7 @@
 		</tr>
     </thead>
     <tbody>
-		<volist name="list" id="vo">
+		{volist name="list" id="vo"}
 		<tr>
             <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
 			<td>{$vo.id} </td>
@@ -46,10 +46,10 @@
 				<a href="{:url('Article/setStatus?status=-1&ids='.$vo['id'])}" class="confirm ajax-get">删除</a>
                 </td>
 		</tr>
-		</volist>
+		{/volist}
 	</tbody>
-    </table> 
-        
+    </table>
+
 	</div>
     <div class="page">
         {$_page}

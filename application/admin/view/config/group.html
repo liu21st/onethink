@@ -19,7 +19,7 @@
 			<label class="item-label">{$config.title}<span class="check-tips">（{$config.remark}）</span> </label>
 			<div class="controls">
 			{switch name="config.type"}
-			{case value="0">
+			{case value="0"}
 			<input type="text" class="text input-small" name="config[{$config.name}]" value="{$config.value}">
 			{/case}
 			{case value="1"}
@@ -43,15 +43,15 @@
 			</select>
 			{/case}
 			{/switch}
-				
+
 			</div>
 		</div>
 		{/volist}
 		<div class="form-item">
 			<label class="item-label"></label>
 			<div class="controls">
-				<empty name="list"><button type="submit" disabled class="btn submit-btn disabled" target-form="form-horizontal">确 定</button><else/><button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button></empty>
-				
+				{empty name="list"}<button type="submit" disabled class="btn submit-btn disabled" target-form="form-horizontal">确 定</button>{else /}<button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button>{/empty}
+
 				<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
 			</div>
 		</div>

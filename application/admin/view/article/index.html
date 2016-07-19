@@ -2,7 +2,7 @@
 
 <!-- 子导航 -->
 {block name="style"}
-    <include file="sidemenu" />
+    {include file="sidemenu" /}
 {/block}
 
 {block name="body"}
@@ -10,30 +10,30 @@
 	<div class="main-title">
 		<h2>
 		文档列表({$_total}) [
-		<notempty name="rightNav">
-		<volist name="rightNav" id="nav">
+		{notempty name="rightNav"}
+		{volist name="rightNav" id="nav"}
 		<a href="{:url('index','cate_id='.$nav['id'])}">{$nav.title}</a>
-			<if condition="count($rightNav) gt $i"><i class="ca"></i></if>
-		</volist>
-		<present name="article">：<a href="{:url('index','cate_id='.$cate_id.'&pid='.$article['id'])}">{$article.title}</a></present>
-		<else/>
-		<empty name="position">全部<else/><a href="{:url('article/index')}">全部</a></empty>
-			<foreach name="Think.config.DOCUMENT_POSITION" item="vo">
-			<neq name="position" value="$key"><a href="{:url('index',array('position'=>$key))}">{$vo}</a><else/>{$vo}</neq>&nbsp;
-			</foreach>
-		</notempty>
+			{if condition="count($rightNav) gt $i"}<i class="ca"></i>{/if}
+		{/volist}
+		{present name="article"}：<a href="{:url('index','cate_id='.$cate_id.'&pid='.$article['id'])}">{$article.title}</a>{/present}
+		{else /}
+		{empty name="position"}全部{else /}<a href="{:url('article/index')}">全部</a>{/empty}
+			{foreach name="Think.config.DOCUMENT_POSITION" item="vo"}
+			<neq name="position" value="$key"><a href="{:url('index',array('position'=>$key))}">{$vo}</a>{else /}{$vo}</neq>&nbsp;
+			{/foreach}
+		{/notempty}
 		]
-		<eq name="allow" value="0">（该分类不允许发布内容）</eq>
-		<if condition="count($model) gt 1">[ 模型：<empty name="model_id"><strong>全部</strong><else/><a href="{:url('index',array('pid'=>$pid,'cate_id'=>$cate_id))}">全部</a></empty>
-			<volist name="model" id="vo">
-			<neq name="model_id" value="$vo"><a href="{:url('index',array('pid'=>$pid,'cate_id'=>$cate_id,'model_id'=>$vo))}">{$vo|get_document_model='title'}</a><else/><strong>{$vo|get_document_model='title'}</strong></neq>&nbsp;
-			</volist>
-		]</if>
-		<notempty name="groups">[ 分组：<empty name="group_id"><strong>全部</strong><else/><a href="{:url('index',array('pid'=>$pid,'cate_id'=>$cate_id))}">全部</a></empty>
-			<foreach name="groups" item="vo">
-			<neq name="group_id" value="$key"><a href="{:url('index',array('pid'=>$pid,'cate_id'=>$cate_id,'model_id'=>$model_id,'group_id'=>$key))}">{$vo}</a><else/><strong>{$vo}</strong></neq>&nbsp;
-			</foreach>
-		]</notempty>
+		{eq name="allow" value="0"}（该分类不允许发布内容）{/eq}
+		{if condition="count($model) gt 1"}[ 模型：{empty name="model_id"}<strong>全部</strong>{else /}<a href="{:url('index',array('pid'=>$pid,'cate_id'=>$cate_id))}">全部</a>{/empty}
+			{volist name="model" id="vo"}
+			{neq name="model_id" value="$vo"}<a href="{:url('index',array('pid'=>$pid,'cate_id'=>$cate_id,'model_id'=>$vo))}">{$vo|get_document_model='title'}</a>{else /}<strong>{$vo|get_document_model='title'}</strong>{/neq}&nbsp;
+			{/volist}
+		]{/if}
+		{notempty name="groups"}[ 分组：{empty name="group_id"}<strong>全部</strong>{else /}<a href="{:url('index',array('pid'=>$pid,'cate_id'=>$cate_id))}">全部</a>{/empty}
+			{foreach name="groups" item="vo"}
+			{neq name="group_id" value="$key"}<a href="{:url('index',array('pid'=>$pid,'cate_id'=>$cate_id,'model_id'=>$model_id,'group_id'=>$key))}">{$vo}</a>{else /}<strong>{$vo}</strong>{/neq}&nbsp;
+			{/foreach}
+		]{/notempty}
 		</h2>
 	</div>
 
@@ -41,22 +41,22 @@
 	<div class="cf">
 		<div class="fl">
 			<div class="btn-group">
-				<gt name="allow" value="0">
-					<button class="btn document_add" <if condition="count($model) eq 1">url="{:url('article/add',array('cate_id'=>$cate_id,'pid'=>I('pid',0),'model_id'=>$model[0],'group_id'=>$group_id))}"</if>>新 增
-						<if condition="count($model) gt 1"><i class="btn-arrowdown"></i></if>
+				{gt name="allow" value="0"}
+					<button class="btn document_add" {if condition="count($model) eq 1"}url="{:url('article/add',array('cate_id'=>$cate_id,'pid'=>I('pid',0),'model_id'=>$model[0],'group_id'=>$group_id))}"{/if}>新 增
+						{if condition="count($model) gt 1"}<i class="btn-arrowdown"></i>{/if}
 					</button>
-					<if condition="count($model) gt 1">
+					{if condition="count($model) gt 1"}
 					<ul class="dropdown nav-list">
-						<volist name="model" id="vo">
+						{volist name="model" id="vo"}
 						<li><a href="{:url('article/add',array('cate_id'=>$cate_id,'model_id'=>$vo,'pid'=>I('pid',0),'group_id'=>$group_id))}">{$vo|get_document_model='title'}</a></li>
-						</volist>
+						{/volist}
 					</ul>
-					</if>
-				<else/>
+					{/if}
+				{else /}
 					<button class="btn disabled" >新 增
-						<if condition="count($model) gt 1"><i class="btn-arrowdown"></i></if>
+						{if condition="count($model) gt 1"}<i class="btn-arrowdown"></i>{/if}
 					</button>
-				</gt>
+				{/gt}
 			</div>
             <button class="btn ajax-post" target-form="ids" url="{:url("Article/setStatus",array("status"=>1))}">启 用</button>
 			<button class="btn ajax-post" target-form="ids" url="{:url("Article/setStatus",array("status"=>0))}">禁 用</button>
@@ -74,7 +74,7 @@
 		<div class="search-form fr cf">
 			<div class="sleft">
 				<div class="drop-down">
-					<span id="sch-sort-txt" class="sort-txt" data="{$status}"><if condition="get_status_title($status) eq ''">所有<else/>{:get_status_title($status)}</if></span>
+					<span id="sch-sort-txt" class="sort-txt" data="{$status}">{if condition="get_status_title($status) eq ''"}所有{else /}{:get_status_title($status)}{/if}</span>
 					<i class="arrow arrow-down"></i>
 					<ul id="sub-sch-menu" class="nav-list hidden">
 						<li><a href="javascript:;" value="">所有</a></li>
@@ -112,22 +112,22 @@
                     <th class="row-selected row-selected">
                         <input class="check-all" type="checkbox">
                     </th>
-                    <volist name="list_grids" id="field">
+                    {volist name="list_grids" id="field"}
                         <th>{$field.title}</th>
-                    </volist>
+                    {/volist}
                 </tr>
             </thead>
 
             <!-- 列表 -->
             <tbody>
-                <volist name="list" id="data">
+                {volist name="list" id="data"}
                     <tr>
                         <td><input class="ids" type="checkbox" value="{$data['id']}" name="ids[]"></td>
-                        <volist name="list_grids" id="grid">
+                        {volist name="list_grids" id="grid"}
                             <td>{:get_list_field($data,$grid)}</td>
-                        </volist>
+                        {/volist}
                     </tr>
-                </volist>
+                {/volist}
             </tbody>
         </table>
 	</div>
@@ -140,7 +140,7 @@
 {/block}
 {block name="script"}
 <link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
-<php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
+{php}if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';{/php}
 <link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>

@@ -7,11 +7,11 @@
     <div id="auth_groups">
         <form class="form-horizontal" action="{:url('addToGroup')}" method="post" enctype="application/x-www-form-urlencoded" >
 			<label class="item-label">{$nickname} 所属的用户组列表</label>
-            <volist name="auth_groups" id="vo">
+            {volist name="auth_groups" id="vo"}
                 <label class="checkbox">
                     <input class="auth_groups" type="checkbox" name="group_id[]" value="{$vo.id}">{$vo.title}
                 </label>
-            </volist>
+            {/volist}
             <input type="hidden" name="uid" value="{:input('uid')}">
             <input type="hidden" name="batch" value="true">
             <div style="margin-top: 10px;">

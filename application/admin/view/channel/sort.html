@@ -14,9 +14,9 @@
 			<div class="sort_center">
 				<div class="sort_option">
 					<select value="" size="8">
-						<volist name="list" id="vo">
+						{volist name="list" id="vo"}
 							<option class="ids" title="{$vo.title}" value="{$vo.id}">{$vo.title}</option>
-						</volist>
+						{/volist}
 					</select>
 				</div>
 				<div class="sort_btn">

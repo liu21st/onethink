@@ -1,4 +1,4 @@
-<volist name="tree" id="list">
+{volist name="tree" id="list"}
 	<dl class="cate-item">
 		<dt class="cf">
 			<form action="{:url('edit')}" method="post">
@@ -23,10 +23,10 @@
 				</div>
 			</form>
 		</dt>
-		<notempty name="list['_']">
+		{notempty name="list['_']"}
 			<dd>
 				{:R('Category/tree', array($list['_']))}
 			</dd>
-		</notempty>
+		{/notempty}
 	</dl>
-</volist>
+{/volist}

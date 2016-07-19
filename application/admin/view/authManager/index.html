@@ -26,8 +26,8 @@
 		</tr>
     </thead>
     <tbody>
-		<notempty name="_list">
-		<volist name="_list" id="vo">
+		{notempty name="_list"}
+		{volist name="_list" id="vo"}
 		<tr>
             <td><input class="ids" type="checkbox" name="id[]" value="{$vo.id}" /></td>
 			<td><a href="{:url('AuthManager/editgroup?id='.$vo['id'])}">{$vo.title}</a> </td>
@@ -39,18 +39,18 @@
 			<a href="{:url('AuthManager/user?group_name='.$vo['title'].'&group_id='.$vo['id'])}" >成员授权</a>
 			</td>
 			<td>{$vo.status_text}</td>
-			<td><eq name="vo.status" value="1">
+			<td>{eq name="vo.status" value="1"}
 				<a href="{:url('AuthManager/changeStatus?method=forbidGroup&id='.$vo['id'])}" class="ajax-get">禁用</a>
-				<else/>
+				{else /}
 				<a href="{:url('AuthManager/changeStatus?method=resumeGroup&id='.$vo['id'])}" class="ajax-get">启用</a>
-				</eq>
+				{/eq}
 				<a href="{:url('AuthManager/changeStatus?method=deleteGroup&id='.$vo['id'])}" class="confirm ajax-get">删除</a>
                 </td>
 		</tr>
-		</volist>
-		<else/>
+		{/volist}
+		{else /}
 		<td colspan="6" class="text-center"> aOh! 暂时还没有内容! </td>
-		</notempty>
+		{/notempty}
 	</tbody>
     </table>
 

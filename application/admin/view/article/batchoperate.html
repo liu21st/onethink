@@ -2,18 +2,18 @@
 
 <!-- 子导航 -->
 {block name="style"}
-    <include file="sidemenu" />
+    {include file="sidemenu" /}
 {/block}
 
 {block name="body"}
 	<div class="main-title cf">
 		<h2>
 			批量导入 [
-			<volist name="rightNav" id="nav">
+			{volist name="rightNav" id="nav"}
 			<a href="{:url('article/index','cate_id='.$nav['id'])}">{$nav.title}</a>
-			<if condition="count($rightNav) gt $i"><i class="ca"></i></if>
-			</volist>
-			<present name="article">：<a href="{:url('article/index','cate_id='.$info['category_id'].'&pid='.$article['id'])}">{$article.title}</a></present>
+			{if condition="count($rightNav) gt $i"}<i class="ca"></i>{/if}
+			{/volist}
+			{present name="article"}：<a href="{:url('article/index','cate_id='.$info['category_id'].'&pid='.$article['id'])}">{$article.title}</a>{/present}
 			]
 		</h2>
 	</div>
@@ -29,9 +29,9 @@
 				<label class="item-label">文档模型<span class="check-tips">（选择要导入的文档模型）</span></label>
 				<div class="controls">
 					<select name="model_id">
-						<volist name=":get_category($cate_id, 'model')" id="vo">
+						{volist name=":get_category($cate_id, 'model')" id="vo"}
 							<option value="{$vo.id}">{:get_document_model($vo['title'],'title')}</option>
-						</volist>
+						{/volist}
 					</select>
 				</div>
 			</div>
