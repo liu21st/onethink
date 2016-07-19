@@ -8,12 +8,12 @@
 
 	<div class="cf">
 		<div class="fl">
-		<eq name="model.extend" value="1">
+		{eq name="model.extend" value="1"}
 			<div class="tools">
 				<a class="btn" href="{:url('edit',array('name'=>$name))}">新 增</a>
 				<button class="btn ajax-post confirm" target-form="ids" url="{:url('del?name='.$name)}">删 除</button>
 			</div>
-		</eq>
+		{/eq}
 		</div>
 		<!-- 高级搜索 -->
 		<div class="search-form fr cf">
@@ -26,7 +26,7 @@
 
 	<!-- 数据列表 -->
 	<div class="data-table table-striped">
-		<empty name="custom_adminlist">
+		{empty name="custom_adminlist"}
 			<!-- 数据列表 -->
 	        <table>
 				<thead>
@@ -50,11 +50,11 @@
 					</volist>
 				</tbody>
 			</table>
-		<else />
-			<present name="custom_adminlist">
+		{else /}
+			{present name="custom_adminlist"}
 				{$custom_adminlist}
-			</present>
-		</empty>
+			{/present}
+		{/empty}
 	</div>
 	<!-- 分页 -->
     <div class="page">
