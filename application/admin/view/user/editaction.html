@@ -2,7 +2,7 @@
 
 {block name="body"}
 	<div class="main-title cf">
-		<h2><if condition="ACTION_NAME eq 'addaction'">新增<else/>编辑</if>行为</h2>
+		<h2>{if condition="ACTION_NAME eq 'addaction'"}新增{else /}编辑{/if}行为</h2>
 	</div>
 	<!-- 表单 -->
 	<form id="form" action="{:url('saveAction')}" method="post" class="form-horizontal">
@@ -22,9 +22,9 @@
 			<label class="item-label">行为类型<span class="check-tips">（选择行为类型）</span></label>
 			<div class="controls">
 				<select name="type">
-					<volist name=":get_action_type(null,true)" id="vo">
+					{volist name=":get_action_type(null,true)" id="vo"}
 						<option value="{$key}">{$vo}</option>
-					</volist>
+					{/volist}
 				</select>
 			</div>
 		</div>

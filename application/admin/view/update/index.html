@@ -1,7 +1,7 @@
 {extend name="public/base"/}
 
 {block name="body"}
-<if condition="IS_GET">
+{if condition="IS_GET"}
     <form method="post" action="{:url()}" class="form-horizontal" style="text-align:center;margin:50px;">
         <div class="form-item">
             <label class="item-label">是否需要备份重要文件<span class="check-tips"></span></label>
@@ -17,7 +17,7 @@
 	        <button class="btn submit-btn" type="submit">开始更新</button>
 	    </div>
     </form>
-</if>
+{/if}
 <div id="show-list" class="update-version">
 
 </div>
