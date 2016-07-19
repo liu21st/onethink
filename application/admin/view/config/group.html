@@ -6,47 +6,47 @@
 	</div>
 		<div class="tab-wrap">
 		<ul class="tab-nav nav">
-		<volist name="Think.config.CONFIG_GROUP_LIST" id="group">
+		{volist name="Think.config.CONFIG_GROUP_LIST" id="group"}
 
-			<li <eq name="id" value="$key">class="current"</eq>><a href="{:url('?id='.$key)}">{$group}配置</a></li>
+			<li {eq name="id" value="$key"}class="current"{/eq}><a href="{:url('?id='.$key)}">{$group}配置</a></li>
 
-		</volist>
+		{/volist}
 		</ul>
 		<div class="tab-content">
 	<form action="{:url('save')}" method="post" class="form-horizontal">
-	<volist name="list" id="config">
+	{volist name="list" id="config"}
 		<div class="form-item">
 			<label class="item-label">{$config.title}<span class="check-tips">（{$config.remark}）</span> </label>
 			<div class="controls">
-			<switch name="config.type">
-			<case value="0">
+			{switch name="config.type"}
+			{case value="0">
 			<input type="text" class="text input-small" name="config[{$config.name}]" value="{$config.value}">
-			</case>
-			<case value="1">
+			{/case}
+			{case value="1"}
 			<input type="text" class="text input-large" name="config[{$config.name}]" value="{$config.value}">
-			</case>
-			<case value="2">
+			{/case}
+			{case value="2"}
 			<label class="textarea input-large">
 				<textarea name="config[{$config.name}]">{$config.value}</textarea>
 			</label>
-			</case>
-			<case value="3">
+			{/case}
+			{case value="3"}
 			<label class="textarea input-large">
 				<textarea name="config[{$config.name}]">{$config.value}</textarea>
 			</label>
-			</case>
-			<case value="4">
+			{/case}
+			{case value="4"}
 			<select name="config[{$config.name}]">
-				<volist name=":parse_config_attr($config['extra'])" id="vo">
-					<option value="{$key}" <eq name="config.value" value="$key">selected</eq>>{$vo}</option>
-				</volist>
+				{volist name=":parse_config_attr($config['extra'])" id="vo"}
+					<option value="{$key}" {eq name="config.value" value="$key"}selected{/eq}>{$vo}</option>
+				{/volist}
 			</select>
-			</case>
-			</switch>
+			{/case}
+			{/switch}
 				
 			</div>
 		</div>
-		</volist>
+		{/volist}
 		<div class="form-item">
 			<label class="item-label"></label>
 			<div class="controls">
