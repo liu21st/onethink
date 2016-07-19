@@ -1,17 +1,17 @@
-<extend name="Base/common" />
-<block name="header">
+{extend name="base/common"/}
+{block name="header"}
 <header class="jumbotron subhead" id="overview">
   <div class="container">
     <h2>用户登录</h2>
-    <p><span><span class="pull-left"><span>还没有账号? <a href="{:U('User/register')}">立即注册</a></span> </span></p>
+    <p><span><span class="pull-left"><span>还没有账号? <a href="{:url('User/register')}">立即注册</a></span> </span></p>
   </div>
 </header>
-</block>
+{/block}
 
-<block name="body">
+{block name="body"}
 <section>
 	<div class="span12">
-        <form class="login-form" action="__SELF__" method="post">
+        <form class="login-form" action="{:request()->url()}" method="post">
           <div class="control-group">
             <label class="control-label" for="inputEmail">用户名</label>
             <div class="controls">
@@ -33,7 +33,7 @@
           <div class="control-group">
             <label class="control-label"></label>
             <div class="controls">
-                <img class="verifyimg reloadverify" alt="点击切换" src="{:U('verify')}" style="cursor:pointer;">
+                <img class="verifyimg reloadverify" alt="点击切换" src="{:captcha_src()}" style="cursor:pointer;">
             </div>
             <div class="controls Validform_checktip text-warning"></div>
           </div>
@@ -48,10 +48,10 @@
         </form>
 	</div>
 </section>
-</block>
+{/block}
 
-<block name="side"> </block>
-<block name="script">
+{block name="side"} {/block}
+{block name="script"}
 	<script type="text/javascript">
 
     	$(document)
@@ -69,10 +69,10 @@
     		return false;
 
     		function success(data){
-    			if(data.status){
+    			if(data.code){
     				window.location.href = data.url;
     			} else {
-    				self.find(".Validform_checktip").text(data.info);
+    				self.find(".Validform_checktip").text(data.msg);
     				//刷新验证码
     				$(".reloadverify").click();
     			}
@@ -90,4 +90,4 @@
             });
 		});
 	</script>
-</block>
+{/block}
