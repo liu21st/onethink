@@ -1,14 +1,14 @@
-<extend name="Public/base"/>
+{extend name="public/base"/}
 
-<block name="header">
+{block name="header"}
     <li class="active"><a href="javascript:;">安装协议</a></li>
     <li class="active"><a href="javascript:;">环境检测</a></li>
     <li><a href="javascript:;">创建数据库</a></li>
     <li><a href="javascript:;"><eq name="Think.session.update" value="1">升级<else/>安装</eq></a></li>
     <li><a href="javascript:;">完成</a></li>
-</block>
+{/block}
 
-<block name="body">
+{block name="body"}
     <h1>环境检测</h1>
     <table class="table">
         <caption><h2>运行环境</h2></caption>
@@ -70,9 +70,9 @@
     </table>
 	</present>
 
-</block>
+{/block}
 
-<block name="footer">
+{block name="footer"}
     <a class="btn btn-success btn-large" href="{:U('Index/index')}">上一步</a>
     <a class="btn btn-primary btn-large" href="{:U('Install/step2')}">下一步</a>
-</block>
+{/block}
