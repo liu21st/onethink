@@ -1,6 +1,6 @@
-<extend name="Base/common"/>
+{extend name="base/common"/}
 
-<block name="header">
+{block name="header"}
     <header class="jumbotron subhead" id="overview">
 		<div class="container">
 			<h2>{$info.title}</h2>
@@ -11,33 +11,33 @@
 				</span>
 				<span class="pull-right">
 					<article:prev name="prev" info="info">
-                        <a href="{:U('?id='.$prev['id'])}">上一篇</a>
+                        <a href="{:url('?id='.$prev['id'])}">上一篇</a>
                     </article:prev>
                     <article:next name="next" info="info">
-                        <a href="{:U('?id='.$next['id'])}">下一篇</a>
+                        <a href="{:url('?id='.$next['id'])}">下一篇</a>
                     </article:next>
 				</span>
 			</p>
 		</div>
 	</header>
-</block>
+{/block}
 
-<block name="side">
+{block name="side"}
 <!-- 左侧 nav
 ================================================== -->
     <div class="span3 bs-docs-sidebar">
         <ul class="nav nav-list bs-docs-sidenav">
             <li>
-                <a href="{:U('File/download?id='.$info['id'])}" class="btn btn-primary btn-block btn-large">立即下载</a>
+                <a href="{:url('File/download?id='.$info['id'])}" class="btn btn-primary btn-block btn-large">立即下载</a>
             </li>
         </ul>
         <ul class="nav nav-list bs-docs-sidenav">
-            {:W('Category/lists', array($category['id'], ACTION_NAME == 'index'))}
+            {:widget('Category/lists', array($category['id'], ACTION_NAME == 'index'))}
         </ul>
     </div>
-</block>
+{/block}
 
-<block name="body">
+{block name="body"}
       <div class="span9 main-content">
         <!-- Contents
         ================================================== -->
@@ -63,4 +63,4 @@
             {:hook('documentDetailAfter')}
         </section>
     </div>
-</block>
+{/block}
