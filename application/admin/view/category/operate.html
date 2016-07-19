@@ -12,9 +12,9 @@
 						<label class="item-label">目标分类<span class="check-tips">（将{$operate}至的分类）</span></label>
 						<div class="controls">
 							<select name="to">
-								<volist name="list" id="vo">
+								{volist name="list" id="vo"}
 									<option value="{$vo.id}">{$vo.title}</option>
-								</volist>
+								{/volist}
 							</select>
 						</div>
 					</div>

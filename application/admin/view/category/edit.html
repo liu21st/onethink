@@ -66,31 +66,31 @@
 					<div class="form-item">
 						<label class="item-label">允许文档类型</label>
 						<div class="controls">
-							<volist name=":config('DOCUMENT_MODEL_TYPE')" id="type">
+							{volist name=":config('DOCUMENT_MODEL_TYPE')" id="type"}
 								<label class="checkbox">
 									<input type="checkbox" name="type[]" value="{$key}">{$type}
 								</label>
-							</volist>
+							{/volist}
 						</div>
 					</div>
 					<div class="form-item">
 						<label class="item-label">列表绑定文档模型<span class="check-tips">（列表支持发布的文档模型）</span></label>
 						<div class="controls">
-							<volist name=":get_document_model()" id="list">
+							{volist name=":get_document_model()" id="list"}
 								<label class="checkbox">
 									<input type="checkbox" name="model[]" value="{$list.id}">{$list.title}
 								</label>
-							</volist>
+							{/volist}
 						</div>
 					</div>
 					<div class="form-item">
 						<label class="item-label">子文档绑定绑定模型<span class="check-tips">（子文档支持发布的文档模型）</span></label>
 						<div class="controls">
-							<volist name=":get_document_model()" id="list">
+							{volist name=":get_document_model()" id="list"}
 								<label class="checkbox">
 									<input type="checkbox" name="model_sub[]" value="{$list.id}">{$list.title}
 								</label>
-							</volist>
+							{/volist}
 						</div>
 					</div>
 					<div class="controls">
@@ -98,9 +98,9 @@
 						<input type="file" id="upload_picture">
 						<input type="hidden" name="icon" id="icon" value="{$info['icon']|default=''}"/>
 						<div class="upload-img-box">
-						<notempty name="info['icon']">
+						{notempty name="info['icon']"}
 							<div class="upload-pre-item"><img src="{$info.icon|get_cover='path'}"/></div>
-						</notempty>
+						{/notempty}
 						</div>
 					</div>
 					<script type="text/javascript">
@@ -234,7 +234,7 @@
 
 {block name="script"}
 	<script type="text/javascript">
-		<present name="info.id">
+		{present name="info.id"}
 		Think.setValue("allow_publish", {$info.allow_publish|default=1});
 		Think.setValue("check", {$info.check|default=0});
 		Think.setValue("model[]", {$info.model|json_encode} || [1]);
@@ -243,7 +243,7 @@
 		Think.setValue("display", {$info.display|default=1});
 		Think.setValue("reply", {$info.reply|default=0});
 		Think.setValue("reply_model[]", {$info.reply_model|json_encode} || [1]);
-		</present>
+		{/present}
 		$(function(){
 			showTab();
 			$("input[name=reply]").change(function(){
