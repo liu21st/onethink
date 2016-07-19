@@ -2,7 +2,7 @@
 
 {block name="body"}
     <div class="main-title">
-        <h2><present name="data">[ {$data.title} ] 子</present>菜单管理 </h2>
+        <h2>{present name="data"}[ {$data.title} ] 子{/present}菜单管理 </h2>
     </div>
 
     <div class="cf">
@@ -39,8 +39,8 @@
                     </tr>
                 </thead>
                 <tbody>
-				<notempty name="list">
-                <volist name="list" id="menu">
+				{notempty name="list"}
+                {volist name="list" id="menu"}
                     <tr>
                         <td><input class="ids row-selected" type="checkbox" name="id[]" value="{$menu.id}"></td>
                         <td>{$menu.id}</td>
@@ -66,10 +66,10 @@
                             <a class="confirm ajax-get" title="删除" href="{:url('del?id='.$menu['id'])}">删除</a>
                         </td>
                     </tr>
-                </volist>
-				<else/>
+                {/volist}
+				{else /}
 				<td colspan="10" class="text-center"> aOh! 暂时还没有内容! </td>
-				</notempty>
+				{/notempty}
                 </tbody>
             </table>
         </form>

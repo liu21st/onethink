@@ -27,9 +27,9 @@
             <label class="item-label">上级菜单<span class="check-tips">（所属的上级菜单）</span></label>
             <div class="controls">
                 <select name="pid">
-                    <volist name="Menus" id="menu">
+                    {volist name="Menus" id="menu"}
                         <option value="{$menu.id}">{$menu.title_show}</option>
-                    </volist>
+                    {/volist}
                 </select>
             </div>
         </div>
