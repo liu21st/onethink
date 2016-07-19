@@ -68,31 +68,34 @@ str;
             $extend[] = $custom_adminlist;
         }
 
+        $name=strtolower($this->request->post('info.name'));
         $extend = implode('', $extend);
         $hook = '';
         $hooks=$this->request->post('hook/a');
-        foreach ($hooks as $value) {
-            $hook .= <<<str
+        if (!empty($hooks)) {
+            foreach ($hooks as $value) {
+                $hook .= <<<str
         //实现的{$value}钩子方法
         public function {$value}(\$param){
-
+            
         }
-
+            
 str;
+            }
         }
-
+        
         $tpl = <<<str
 <?php
 
-namespace Addons\\{$this->request->post('info.name')};
-use Common\Controller\Addon;
+namespace app\addons\\{$name};
+use app\common\controller\Addon;
 
 /**
  * {$this->request->post('info.title')}插件
  * @author {$this->request->post('info.author')}
  */
 
-    class {$this->request->post('info.name')}Addon extends Addon{
+    class {$this->request->post('info.name')} extends Addon{
 
         public \$info = array(
             'name'=>'{$this->request->post('info.name')}',
@@ -124,34 +127,38 @@ str;
         $data                   =   $_POST;
         $data['info']['name']   =   trim($data['info']['name']);
         if(!$data['info']['name'])
-            $this->error('插件标识必须');
+            return json(['info'=>'插件标识必须','status'=>0]);
+//             $this->error('插件标识必须');
         //检测插件名是否合法
         $addons_dir             =   ONETHINK_ADDON_PATH;
         if(file_exists("{$addons_dir}{$data['info']['name']}")){
-            $this->error('插件已经存在了');
+            return json(['info'=>'插件已经存在了','status'=>0]);
+//             $this->error('插件已经存在了');
         }
-        $this->success('可以创建');
+        return json(['info'=>'可以创建','status'=>1]);
+        //$this->success('可以创建');
     }
 
     public function build(){
         $data                   =   $_POST;
         $data['info']['name']   =   trim($data['info']['name']);
+        $name                   =   strtolower($data['info']['name']);
         $addonFile              =   $this->preview(false);
         $addons_dir             =   ONETHINK_ADDON_PATH;
         //创建目录结构
-        $files          =   array();
-        $addon_dir      =   "$addons_dir{$data['info']['name']}/";
+        $files          =   [];
+        $addon_dir      =   "$addons_dir{$name}/";
         $files[]        =   $addon_dir;
-        $addon_name     =   "{$data['info']['name']}Addon.class.php";
+        $addon_name     =   "{$data['info']['name']}.php";
         $files[]        =   "{$addon_dir}{$addon_name}";
-        if($data['has_config'] == 1);//如果有配置文件
+        if(isset($data['has_config'])&&$data['has_config'] == 1);//如果有配置文件
             $files[]    =   $addon_dir.'config.php';
 
-        if($data['has_outurl']){
-            $files[]    =   "{$addon_dir}Controller/";
-            $files[]    =   "{$addon_dir}Controller/{$data['info']['name']}Controller.class.php";
-            $files[]    =   "{$addon_dir}Model/";
-            $files[]    =   "{$addon_dir}Model/{$data['info']['name']}Model.class.php";
+        if(isset($data['has_outurl'])&&$data['has_outurl']){
+            $files[]    =   "{$addon_dir}controller/";
+            $files[]    =   "{$addon_dir}controller/{$data['info']['name']}.php";
+            $files[]    =   "{$addon_dir}model/";
+            $files[]    =   "{$addon_dir}model/{$data['info']['name']}.php";
         }
         $custom_config  =   trim($data['custom_config']);
         if($custom_config)
@@ -165,47 +172,47 @@ str;
 
         //写文件
         file_put_contents("{$addon_dir}{$addon_name}", $addonFile);
-        if($data['has_outurl']){
+        if(isset($data['has_outurl'])&&$data['has_outurl']){
             $addonController = <<<str
 <?php
 
-namespace Addons\\{$data['info']['name']}\Controller;
-use Home\Controller\AddonsController;
+namespace app\addons\\{$data['info']['name']}\controller;
+use app\home\controller\Addons;
 
-class {$data['info']['name']}Controller extends AddonsController{
+class {$data['info']['name']} extends Addons{
 
 }
 
 str;
-            file_put_contents("{$addon_dir}Controller/{$data['info']['name']}Controller.class.php", $addonController);
+            file_put_contents("{$addon_dir}controller/{$data['info']['name']}.php", $addonController);
             $addonModel = <<<str
 <?php
 
-namespace Addons\\{$data['info']['name']}\Model;
-use Think\Model;
+namespace app\addons\\{$data['info']['name']}\model;
+use think\Model;
 
 /**
  * {$data['info']['name']}模型
  */
-class {$data['info']['name']}Model extends Model{
-    public \$model = array(
+class {$data['info']['name']} extends Model{
+    public \$model = [
         'title'=>'',//新增[title]、编辑[title]、删除[title]的提示
         'template_add'=>'',//自定义新增模板自定义html edit.html 会读取插件根目录的模板
         'template_edit'=>'',//自定义编辑模板html
         'search_key'=>'',// 搜索的字段名，默认是title
         'extend'=>1,
-    );
+    ];
 
     public \$_fields = array(
-        'id'=>array(
+        'id'=>[
             'name'=>'id',//字段名
             'title'=>'ID',//显示标题
             'type'=>'num',//字段类型
             'remark'=>'',// 备注，相当于配置里的tip
             'is_show'=>3,// 1-始终显示 2-新增显示 3-编辑显示 0-不显示
             'value'=>0,//默认值
-        ),
-        'title'=>array(
+        ],
+        'title'=>[
             'name'=>'title',
             'title'=>'书名',
             'type'=>'string',
@@ -213,18 +220,19 @@ class {$data['info']['name']}Model extends Model{
             'is_show'=>1,
             'value'=>0,
             'is_must'=>1,
-        ),
+        ],
     );
 }
 
 str;
-            file_put_contents("{$addon_dir}Model/{$data['info']['name']}Model.class.php", $addonModel);
+            file_put_contents("{$addon_dir}model/{$data['info']['name']}.php", $addonModel);
         }
 
-        if($data['has_config'] == 1)
+        if(isset($data['has_config'])&&$data['has_config'] == 1)
             file_put_contents("{$addon_dir}config.php", $data['config']);
 
-        $this->success('创建成功',url('index'));
+        return json(['info'=>'创建成功','status'=>1,'url'=>url('index')]);
+//         $this->success('创建成功',url('index'));
     }
 
     /**
@@ -349,8 +357,7 @@ str;
      * 设置插件页面
      */
     public function config(){
-        $id     =   (int)input('id');
-        $addon  =   db('Addons')->find($id);
+        $addon  =   db('Addons')->find($this->request->get('id'));
         if(!$addon)
             $this->error('插件未安装');
         $addon_class = get_addon_class($addon['name']);
@@ -370,7 +377,11 @@ str;
                 }else{
                     foreach ($value['options'] as $gourp => $options) {
                         foreach ($options['options'] as $gkey => $value) {
-                            $addon['config'][$key]['options'][$gourp]['options'][$gkey]['value'] = $db_config[$gkey];
+                            if (!empty($db_config[$gkey])) {
+                                $addon['config'][$key]['options'][$gourp]['options'][$gkey]['value'] = $db_config[$gkey];
+                            }else {
+                                $addon['config'][$key]['options'][$gourp]['options'][$gkey]['value'] = '';
+                            }
                         }
                     }
                 }
@@ -387,12 +398,13 @@ str;
      */
     public function saveConfig(){
         $id     =   (int)input('id');
-        $config =   input('config');
-        $flag = db('Addons')->where("id={$id}")->setField('config',json_encode($config));
+        $flag = db('Addons')->where("id={$id}")->setField('config',json_encode($this->request->post('config/a')));
         if($flag !== false){
-            $this->success('保存成功', cookie('__forward__'));
+            return json(['status'=>1,'info'=>'保存成功','url'=>cookie('__forward__')]);
+//             $this->success('保存成功', cookie('__forward__'));
         }else{
-            $this->error('保存失败');
+            return json(['status'=>0,'info'=>'保存失败']);
+//             $this->error('保存失败');
         }
     }
 

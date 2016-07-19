@@ -321,7 +321,7 @@ function hook($hook,$params=array()){
  * @param strng $name 插件名
  */
 function get_addon_class($name){
-    $class = \think\App::$namespace.'\\addons\\'.strtolower($name).'\\'.$name;
+    $class = \think\App::$namespace.'\\addons\\'.strtolower($name).'\\'.ucwords($name);
     return $class;
 }
 

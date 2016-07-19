@@ -59,6 +59,7 @@ class Addons extends Model {
 		}
         foreach ($dirs as $value) {
             if(!isset($addons[$value])){
+                //FIXME:此处存在驼峰法命名的情况无法解析，待议
 				$class = get_addon_class($value);
 				if(!class_exists($class)){ // 实例化插件失败忽略执行
 					\think\Log::record('插件'.$value.'的入口文件不存在！');
