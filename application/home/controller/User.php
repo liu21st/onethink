@@ -138,9 +138,9 @@ class User  extends Home  {
         if ( IS_POST ) {
             //获取参数
             $uid        =   is_login();
-            $password   =   I('post.old');
-            $repassword = I('post.repassword');
-            $data['password'] = I('post.password');
+            $password   =   input('post.old');
+            $repassword = input('post.repassword');
+            $data['password'] = input('post.password');
             empty($password) && $this->error('请输入原密码');
             empty($data['password']) && $this->error('请输入新密码');
             empty($repassword) && $this->error('请输入确认密码');

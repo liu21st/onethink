@@ -29,7 +29,7 @@ class Download extends Base{
 			return false;
 		}
 
-		$file = json_decode(think_decrypt(I('post.file')), true);
+		$file = json_decode(think_decrypt(input('post.file')), true);
 		if(!empty($file)){
 			$data['file_id'] = $file['id'];
 			$data['size']    = $file['size'];

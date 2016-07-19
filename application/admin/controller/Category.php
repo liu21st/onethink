@@ -103,7 +103,7 @@ class Category  extends Admin  {
      * @author huajie <banhuajie@163.com>
      */
     public function remove(){
-        $cate_id = I('id');
+        $cate_id = input('id');
         if(empty($cate_id)){
             $this->error('参数错误!');
         }
@@ -145,7 +145,7 @@ class Category  extends Admin  {
         }else{
             $this->error('参数错误！');
         }
-        $from = intval(I('get.from'));
+        $from = intval(input('get.from'));
         empty($from) && $this->error('参数错误！');
 
         //获取分类
@@ -175,8 +175,8 @@ class Category  extends Admin  {
      * @author huajie <banhuajie@163.com>
      */
     public function move(){
-        $to = I('post.to');
-        $from = I('post.from');
+        $to = input('post.to');
+        $from = input('post.from');
         $res = db('Category')->where(array('id'=>$from))->setField('pid', $to);
         if($res !== false){
             $this->success('分类移动成功！', url('index'));
@@ -190,8 +190,8 @@ class Category  extends Admin  {
      * @author huajie <banhuajie@163.com>
      */
     public function merge(){
-        $to = I('post.to');
-        $from = I('post.from');
+        $to = input('post.to');
+        $from = input('post.from');
         $Model = db('Category');
 
         //检查分类绑定的模型

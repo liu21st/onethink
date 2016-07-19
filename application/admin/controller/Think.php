@@ -143,7 +143,7 @@ class Think  extends Admin  {
         $model = db('Model')->find($model);
         $model || $this->error('模型不存在！');
 
-        $ids = array_unique((array)I('ids',0));
+        $ids = array_unique((array)input('ids',0));
 
         if ( empty($ids) ) {
             $this->error('请选择要操作的数据!');

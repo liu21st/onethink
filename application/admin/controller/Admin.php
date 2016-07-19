@@ -207,8 +207,8 @@ class Admin  extends Controller {
      */
     public function setStatus($Model=CONTROLLER_NAME){
 
-        $ids    =   I('request.ids');
-        $status =   I('request.status');
+        $ids    =   input('request.ids');
+        $status =   input('request.status');
         if(empty($ids)){
             $this->error('请选择要操作的数据');
         }

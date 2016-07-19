@@ -36,16 +36,16 @@ class Article extends Admin  {
         switch(strtolower(ACTION_NAME)){
             case 'index':   //文档列表
             case 'add':   // 新增
-                $cate_id =  I('cate_id');
+                $cate_id =  input('cate_id');
                 break;
             case 'edit':    //编辑
             case 'update':  //更新
-                $doc_id  =  I('id');
+                $doc_id  =  input('id');
                 $cate_id =  db('Document')->where(array('id'=>$doc_id))->getField('category_id');
                 break;
             case 'setstatus': //更改状态
             case 'permit':    //回收站
-                $doc_id  =  (array)I('ids');
+                $doc_id  =  (array)input('ids');
                 $cate_id =  db('Document')->where(array('id'=>array('in',$doc_id)))->getField('category_id',true);
                 $cate_id =  array_unique($cate_id);
                 break;
@@ -83,7 +83,7 @@ class Article extends Admin  {
         $cate           =   list_to_tree($cate);    //生成分类树
 
         //获取分类id
-        $cate_id        =   I('param.cate_id');
+        $cate_id        =   input('param.cate_id');
         $this->cate_id  =   $cate_id;
 
         //是否展开分类
@@ -160,7 +160,7 @@ class Article extends Admin  {
             $cate_id = $this->cate_id;
         }
         if(!empty($cate_id)){
-            $pid = I('pid',0);
+            $pid = input('pid',0);
             // 获取列表绑定的模型
             if ($pid == 0) {
                 $models     =   get_category($cate_id, 'model');
@@ -252,23 +252,23 @@ class Article extends Admin  {
         /* 查询条件初始化 */
         $map = array();
         if(isset($_GET['title'])){
-            $map['title']  = array('like', '%'.(string)I('title').'%');
+            $map['title']  = array('like', '%'.(string)input('title').'%');
         }
         if(isset($_GET['status'])){
-            $map['status'] = I('status');
+            $map['status'] = input('status');
             $status = $map['status'];
         }else{
             $status = null;
             $map['status'] = array('in', '0,1,2');
         }
         if ( isset($_GET['time-start']) ) {
-            $map['update_time'][] = array('egt',strtotime(I('time-start')));
+            $map['update_time'][] = array('egt',strtotime(input('time-start')));
         }
         if ( isset($_GET['time-end']) ) {
-            $map['update_time'][] = array('elt',24*60*60 + strtotime(I('time-end')));
+            $map['update_time'][] = array('elt',24*60*60 + strtotime(input('time-end')));
         }
         if ( isset($_GET['nickname']) ) {
-            $map['uid'] = db('Member')->where(array('nickname'=>I('nickname')))->getField('uid');
+            $map['uid'] = db('Member')->where(array('nickname'=>input('nickname')))->getField('uid');
         }
 
         // 构建列表数据
@@ -277,7 +277,7 @@ class Article extends Admin  {
         if($cate_id){
             $map['category_id'] =   $cate_id;
         }
-        $map['pid']         =   I('pid',0);
+        $map['pid']         =   input('pid',0);
         if($map['pid']){ // 子文档列表忽略分类
             unset($map['category_id']);
         }
@@ -334,9 +334,9 @@ class Article extends Admin  {
         //获取左边菜单
         $this->getMenu();
 
-        $cate_id    =   I('get.cate_id',0);
-        $model_id   =   I('get.model_id',0);
-		$group_id	=	I('get.group_id','');
+        $cate_id    =   input('get.cate_id',0);
+        $model_id   =   input('get.model_id',0);
+		$group_id	=	input('get.group_id','');
 
         empty($cate_id) && $this->error('参数不能为空！');
         empty($model_id) && $this->error('该分类未绑定模型！');
@@ -378,7 +378,7 @@ class Article extends Admin  {
         //获取左边菜单
         $this->getMenu();
 
-        $id     =   I('get.id','');
+        $id     =   input('get.id','');
         if(empty($id)){
             $this->error('参数不能为空！');
         }
@@ -543,10 +543,10 @@ class Article extends Admin  {
             $map['status']  =   array('in', '0,1,2');
         }
         if ( isset($_GET['time-start']) ) {
-            $map['update_time'][] = array('egt',strtotime(I('time-start')));
+            $map['update_time'][] = array('egt',strtotime(input('time-start')));
         }
         if ( isset($_GET['time-end']) ) {
-            $map['update_time'][] = array('elt',24*60*60 + strtotime(I('time-end')));
+            $map['update_time'][] = array('elt',24*60*60 + strtotime(input('time-end')));
         }
         //只查询pid为0的文章
         $map['pid'] = 0;
@@ -567,7 +567,7 @@ class Article extends Admin  {
      */
     public function permit(){
         /*参数过滤*/
-        $ids = I('param.ids');
+        $ids = input('param.ids');
         if(empty($ids)){
             $this->error('请选择要操作的数据');
         }
@@ -635,8 +635,8 @@ class Article extends Admin  {
         if(!isset($_POST['cate_id'])) {
             $this->error('请选择要粘贴到的分类！');
         }
-        $cate_id = I('post.cate_id');   //当前分类
-        $pid = I('post.pid', 0);        //当前父类数据id
+        $cate_id = input('post.cate_id');   //当前分类
+        $pid = input('post.pid', 0);        //当前父类数据id
 
         //检查所选择的数据是否符合粘贴要求
         $check = $this->checkPaste(empty($moveList) ? $copyList : $moveList, $cate_id, $pid);
@@ -761,9 +761,9 @@ class Article extends Admin  {
             //获取左边菜单
             $this->getMenu();
 
-            $ids        =   I('get.ids');
-            $cate_id    =   I('get.cate_id');
-            $pid        =   I('get.pid');
+            $ids        =   input('get.ids');
+            $cate_id    =   input('get.cate_id');
+            $pid        =   input('get.pid');
 
             //获取排序的数据
             $map['status'] = array('gt',-1);
@@ -783,7 +783,7 @@ class Article extends Admin  {
             $this->meta_title = '文档排序';
             return $this->fetch();
         }elseif (IS_POST){
-            $ids = I('post.ids');
+            $ids = input('post.ids');
             $ids = array_reverse(explode(',', $ids));
             foreach ($ids as $key=>$value){
                 $res = db('Document')->where(array('id'=>$value))->setField('level', $key+1);

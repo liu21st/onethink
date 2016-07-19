@@ -69,8 +69,8 @@ class Update  extends Admin {
 		import('OT/PclZip');
 
 		$date  = date('YmdHis');
-		$backupFile = I('post.backupfile');
-		$backupDatabase = I('post.backupdatabase');
+		$backupFile = input('post.backupfile');
+		$backupDatabase = input('post.backupdatabase');
 		sleep(1);
 
 		$this->showMsg('系统原始版本:'.ONETHINK_VERSION);

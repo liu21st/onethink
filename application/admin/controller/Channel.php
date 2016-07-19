@@ -20,7 +20,7 @@ class ChannelController extends Admin  {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function index(){
-        $pid = I('get.pid', 0);
+        $pid = input('get.pid', 0);
         /* 获取频道列表 */
         $map  = array('status' => array('gt', -1), 'pid'=>$pid);
         $list = db('Channel')->where($map)->order('sort asc,id asc')->select();
@@ -52,7 +52,7 @@ class ChannelController extends Admin  {
                 $this->error($Channel->getError());
             }
         } else {
-            $pid = I('get.pid', 0);
+            $pid = input('get.pid', 0);
             //获取父导航
             if(!empty($pid)){
                 $parent = db('Channel')->where(array('id'=>$pid))->field('title')->find();
@@ -95,7 +95,7 @@ class ChannelController extends Admin  {
                 $this->error('获取配置信息错误');
             }
 
-            $pid = I('get.pid', 0);
+            $pid = input('get.pid', 0);
             //获取父导航
             if(!empty($pid)){
             	$parent = db('Channel')->where(array('id'=>$pid))->field('title')->find();
@@ -114,7 +114,7 @@ class ChannelController extends Admin  {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function del(){
-        $id = array_unique((array)I('id',0));
+        $id = array_unique((array)input('id',0));
 
         if ( empty($id) ) {
             $this->error('请选择要操作的数据!');
@@ -136,8 +136,8 @@ class ChannelController extends Admin  {
      */
     public function sort(){
         if(IS_GET){
-            $ids = I('get.ids');
-            $pid = I('get.pid');
+            $ids = input('get.ids');
+            $pid = input('get.pid');
 
             //获取排序的数据
             $map = array('status'=>array('gt',-1));
@@ -154,7 +154,7 @@ class ChannelController extends Admin  {
             $this->meta_title = '导航排序';
             return $this->fetch();
         }elseif (IS_POST){
-            $ids = I('post.ids');
+            $ids = input('post.ids');
             $ids = explode(',', $ids);
             foreach ($ids as $key=>$value){
                 $res = db('Channel')->where(array('id'=>$value))->setField('sort', $key+1);

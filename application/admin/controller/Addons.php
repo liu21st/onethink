@@ -329,7 +329,7 @@ str;
      * 启用插件
      */
     public function enable(){
-        $id     =   I('id');
+        $id     =   input('id');
         $msg    =   array('success'=>'启用成功', 'error'=>'启用失败');
         cache('hooks', null);
         $this->resume('Addons', "id={$id}", $msg);
@@ -339,7 +339,7 @@ str;
      * 禁用插件
      */
     public function disable(){
-        $id     =   I('id');
+        $id     =   input('id');
         $msg    =   array('success'=>'禁用成功', 'error'=>'禁用失败');
         cache('hooks', null);
         $this->forbid('Addons', "id={$id}", $msg);
@@ -349,7 +349,7 @@ str;
      * 设置插件页面
      */
     public function config(){
-        $id     =   (int)I('id');
+        $id     =   (int)input('id');
         $addon  =   db('Addons')->find($id);
         if(!$addon)
             $this->error('插件未安装');
@@ -386,8 +386,8 @@ str;
      * 保存插件设置
      */
     public function saveConfig(){
-        $id     =   (int)I('id');
-        $config =   I('config');
+        $id     =   (int)input('id');
+        $config =   input('config');
         $flag = db('Addons')->where("id={$id}")->setField('config',json_encode($config));
         if($flag !== false){
             $this->success('保存成功', cookie('__forward__'));
@@ -466,7 +466,7 @@ str;
      * 安装插件
      */
     public function install(){
-        $addon_name     =   trim(I('addon_name'));
+        $addon_name     =   trim(input('addon_name'));
         $class          =   get_addon_class($addon_name);
         if(!class_exists($class))
             $this->error('插件不存在');
@@ -510,7 +510,7 @@ str;
      */
     public function uninstall(){
         $addonsModel    =   db('Addons');
-        $id             =   trim(I('id'));
+        $id             =   trim(input('id'));
         $db_addons      =   $addonsModel->find($id);
         $class          =   get_addon_class($db_addons['name']);
         $this->assign('jumpUrl',url('index'));
@@ -673,7 +673,7 @@ str;
     }
 
     public function del($id = '', $name){
-        $ids = array_unique((array)I('ids',0));
+        $ids = array_unique((array)input('ids',0));
 
         if ( empty($ids) ) {
             $this->error('请选择要操作的数据!');

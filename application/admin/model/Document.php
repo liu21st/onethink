@@ -82,7 +82,7 @@ class Document extends Model{
      */
     public function update($data = null){
         /* 检查文档类型是否符合要求 */
-        $res = $this->checkDocumentType( I('type',2), I('pid') );
+        $res = $this->checkDocumentType( input('type',2), input('pid') );
         if(!$res['status']){
             $this->error = $res['info'];
             return false;
@@ -136,9 +136,9 @@ class Document extends Model{
      * @return integer 数据状态
      */
     protected function getStatus(){
-        $id = I('post.id');
+        $id = input('post.id');
         if(empty($id)){	//新增
-        	$cate = I('post.category_id');
+        	$cate = input('post.category_id');
         	$check 	=	db('Category')->getFieldById($cate,'check');  	
             $status = 	$check ? 2 : 1;
         }else{				//更新
@@ -157,7 +157,7 @@ class Document extends Model{
      * @author huajie <banhuajie@163.com>
      */
     protected function getRoot(){
-        $pid = I('post.pid');
+        $pid = input('post.pid');
         if($pid == 0){
             return 0;
         }
@@ -171,7 +171,7 @@ class Document extends Model{
      * @author huajie <banhuajie@163.com>
      */
     protected function getCreateTime(){
-        $create_time    =   I('post.create_time');
+        $create_time    =   input('post.create_time');
         return $create_time?strtotime($create_time):NOW_TIME;
     }
 
@@ -182,9 +182,9 @@ class Document extends Model{
      * @author huajie <banhuajie@163.com>
      */
     protected function checkName(){
-        $name        = I('post.name');
-        $category_id = I('post.category_id', 0);
-        $id          = I('post.id', 0);
+        $name        = input('post.name');
+        $category_id = input('post.category_id', 0);
+        $id          = input('post.id', 0);
 
         $map = array('name' => $name, 'id' => array('neq', $id), 'status' => array('neq', -1));
 
@@ -232,7 +232,7 @@ class Document extends Model{
      * @author huajie <banhuajie@163.com>
      */
     protected function getPosition(){
-        $position = I('post.position');
+        $position = input('post.position');
         if(!is_array($position)){
             return 0;
         }else{
@@ -285,7 +285,7 @@ class Document extends Model{
      * @author huajie <banhuajie@163.com>
      */
     protected function getLink(){
-        $link = I('post.link_id');
+        $link = input('post.link_id');
         if(empty($link)){
             return 0;
         } else if(is_numeric($link)){
@@ -301,10 +301,10 @@ class Document extends Model{
      * @author huajie <banhuajie@163.com>
      */
     public function autoSave(){
-        $post = I('post.');
+        $post = input('post.');
 
         /* 检查文档类型是否符合要求 */
-        $res = $this->checkDocumentType( I('type',2), I('pid') );
+        $res = $this->checkDocumentType( input('type',2), input('pid') );
         if(!$res['status']){
             $this->error = $res['info'];
             return false;

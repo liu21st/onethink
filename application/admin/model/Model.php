@@ -40,7 +40,7 @@ class Model extends Model{
      * @param type $data
      */
     protected function checkListGrid($data) {
-        return I("post.extend") != 0 || !empty($data);
+        return input("post.extend") != 0 || !empty($data);
     }
 
     /**

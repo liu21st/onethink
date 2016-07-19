@@ -15,7 +15,7 @@ class Attachment  extends Addons{
 	/* 附件下载 */
 	public function download(){
 		/* 获取附件ID */
-		$id = I('get.id');
+		$id = input('get.id');
 		if(empty($id) || !is_numeric($id)){
 			$this->error('附件ID无效！');
 		}
@@ -35,7 +35,7 @@ class Attachment  extends Addons{
 
 		/* 获取当前分类附件配置信息 */
 		$default  = config('ATTACHMENT_DEFAULT');
-		$category = get_category(I('get.category'));
+		$category = get_category(input('get.category'));
 
 		/* 分类正确性检测 */
 		if(empty($category)){

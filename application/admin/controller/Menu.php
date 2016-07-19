@@ -20,12 +20,12 @@ class MenuController extends Admin {
      * @return none
      */
     public function index(){
-        $pid  = I('get.pid',0);
+        $pid  = input('get.pid',0);
         if($pid){
             $data = db('Menu')->where("id={$pid}")->field(true)->find();
             $this->assign('data',$data);
         }
-        $title      =   trim(I('get.title'));
+        $title      =   trim(input('get.title'));
         $type       =   config('CONFIG_GROUP_LIST');
         $all_menu   =   db('Menu')->getField('id,title');
         $map['pid'] =   $pid;
@@ -70,7 +70,7 @@ class MenuController extends Admin {
                 $this->error($Menu->getError());
             }
         } else {
-            $this->assign('info',array('pid'=>I('pid')));
+            $this->assign('info',array('pid'=>input('pid')));
             $menus = db('Menu')->field(true)->select();
             $menus = model('Common/Tree')->toFormatTree($menus);
             $menus = array_merge(array(0=>array('id'=>0,'title_show'=>'顶级菜单')), $menus);
@@ -123,7 +123,7 @@ class MenuController extends Admin {
      * @author yangweijie <yangweijiester@gmail.com>
      */
     public function del(){
-        $id = array_unique((array)I('id',0));
+        $id = array_unique((array)input('id',0));
 
         if ( empty($id) ) {
             $this->error('请选择要操作的数据!');
@@ -175,13 +175,13 @@ class MenuController extends Admin {
 
     public function import(){
         if(IS_POST){
-            $tree = I('post.tree');
+            $tree = input('post.tree');
             $lists = explode(PHP_EOL, $tree);
             $menuModel = db('Menu');
             if($lists == array()){
                 $this->error('请按格式填写批量导入的菜单，至少一个菜单');
             }else{
-                $pid = I('post.pid');
+                $pid = input('post.pid');
                 foreach ($lists as $key => $value) {
                     $record = explode('|', $value);
                     if(count($record) == 2){
@@ -202,7 +202,7 @@ class MenuController extends Admin {
             }
         }else{
             $this->meta_title = '批量导入后台菜单';
-            $pid = (int)I('get.pid');
+            $pid = (int)input('get.pid');
             $this->assign('pid', $pid);
             $data = db('Menu')->where("id={$pid}")->field(true)->find();
             $this->assign('data', $data);
@@ -216,8 +216,8 @@ class MenuController extends Admin {
      */
     public function sort(){
         if(IS_GET){
-            $ids = I('get.ids');
-            $pid = I('get.pid');
+            $ids = input('get.ids');
+            $pid = input('get.pid');
 
             //获取排序的数据
             $map = array('status'=>array('gt',-1));
@@ -234,7 +234,7 @@ class MenuController extends Admin {
             $this->meta_title = '菜单排序';
             return $this->fetch();
         }elseif (IS_POST){
-            $ids = I('post.ids');
+            $ids = input('post.ids');
             $ids = explode(',', $ids);
             foreach ($ids as $key=>$value){
                 $res = db('Menu')->where(array('id'=>$value))->setField('sort', $key+1);

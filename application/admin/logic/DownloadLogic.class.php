@@ -48,7 +48,7 @@ class DownloadLogic extends BaseLogic{
             return false;
         }
 
-        $file = json_decode(think_decrypt(I('post.file_id')), true);
+        $file = json_decode(think_decrypt(input('post.file_id')), true);
         if(!empty($file)){
             $data['file_id'] = $file['id'];
             $data['size']    = $file['size'];
@@ -117,7 +117,7 @@ class DownloadLogic extends BaseLogic{
             return false;
         }
 
-        $file = json_decode(think_decrypt(I('post.file_id')), true);
+        $file = json_decode(think_decrypt(input('post.file_id')), true);
         if(!empty($file)){
             $data['file_id'] = $file['id'];
             $data['size']    = $file['size'];

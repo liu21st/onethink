@@ -31,7 +31,7 @@ class Qiniu  extends Admin {
     public function index(){
         $this->meta_title = '七牛云存储测试';
         $map = array();
-        $prefix = trim(I('post.prefix'));
+        $prefix = trim(input('post.prefix'));
         if($prefix)
             $map['prefix'] = $prefix;
         $list = $this->qiniu->getList($map);
@@ -43,7 +43,7 @@ class Qiniu  extends Admin {
     }
 
     public function del(){
-        $file = trim(I('file'));
+        $file = trim(input('file'));
         if($file){
             $result = $this->qiniu->del($file);
             if(false === $result){
@@ -67,8 +67,8 @@ class Qiniu  extends Admin {
     }
 
     public function rename(){
-        $key = I('get.file');
-        $new = I('new_name');
+        $key = input('get.file');
+        $new = input('new_name');
         $result = $this->qiniu->rename($key, $new);
         if(false === $result){
             trace($this->qiniu->error);

@@ -26,10 +26,10 @@ class Config  extends Admin  {
         $map = array();
         $map  = array('status' => 1);
         if(isset($_GET['group'])){
-            $map['group']   =   I('group',0);
+            $map['group']   =   input('group',0);
         }
         if(isset($_GET['name'])){
-            $map['name']    =   array('like', '%'.(string)I('name').'%');
+            $map['name']    =   array('like', '%'.(string)input('name').'%');
         }
 
         $list = $this->lists('Config', $map,'sort,id');
@@ -37,7 +37,7 @@ class Config  extends Admin  {
         Cookie('__forward__',$_SERVER['REQUEST_URI']);
 
         $this->assign('group',config('CONFIG_GROUP_LIST'));
-        $this->assign('group_id',I('get.group',0));
+        $this->assign('group_id',input('get.group',0));
         $this->assign('list', $list);
         $this->meta_title = '配置管理';
         return $this->fetch();
@@ -123,7 +123,7 @@ class Config  extends Admin  {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function del(){
-        $id = array_unique((array)I('id',0));
+        $id = array_unique((array)input('id',0));
 
         if ( empty($id) ) {
             $this->error('请选择要操作的数据!');
@@ -159,14 +159,14 @@ class Config  extends Admin  {
      */
     public function sort(){
         if(IS_GET){
-            $ids = I('get.ids');
+            $ids = input('get.ids');
 
             //获取排序的数据
             $map = array('status'=>array('gt',-1));
             if(!empty($ids)){
                 $map['id'] = array('in',$ids);
-            }elseif(I('group')){
-                $map['group']	=	I('group');
+            }elseif(input('group')){
+                $map['group']	=	input('group');
             }
             $list = db('Config')->where($map)->field('id,title')->order('sort asc,id asc')->select();
 
@@ -174,7 +174,7 @@ class Config  extends Admin  {
             $this->meta_title = '配置排序';
             return $this->fetch();
         }elseif (IS_POST){
-            $ids = I('post.ids');
+            $ids = input('post.ids');
             $ids = explode(',', $ids);
             foreach ($ids as $key=>$value){
                 $res = db('Config')->where(array('id'=>$value))->setField('sort', $key+1);

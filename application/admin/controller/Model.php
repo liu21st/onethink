@@ -50,7 +50,7 @@ class Model extends Admin  {
      * @author huajie <banhuajie@163.com>
      */
     public function edit(){
-        $id = I('get.id','');
+        $id = input('get.id','');
         if(empty($id)){
             $this->error('参数不能为空！');
         }
@@ -102,7 +102,7 @@ class Model extends Admin  {
      * @author huajie <banhuajie@163.com>
      */
     public function del(){
-        $ids = I('get.ids');
+        $ids = input('get.ids');
         empty($ids) && $this->error('参数不能为空！');
         $ids = explode(',', $ids);
         foreach ($ids as $value){
@@ -145,9 +145,9 @@ class Model extends Admin  {
             $this->meta_title = '生成模型';
             return $this->fetch();
         }else{
-            $table = I('post.table');
+            $table = input('post.table');
             empty($table) && $this->error('请选择要生成的数据表！');
-            $res = model('Model')->generate($table,I('post.name'),I('post.title'));
+            $res = model('Model')->generate($table,input('post.name'),input('post.title'));
             if($res){
                 $this->success('生成模型成功！', url('index'));
             }else{

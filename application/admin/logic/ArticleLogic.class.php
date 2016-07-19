@@ -23,8 +23,8 @@ class ArticleLogic extends BaseLogic{
      * @author huajie <banhuajie@163.com>
      */
     protected function getContent(){
-        $type = I('post.type');
-        $content = I('post.content');
+        $type = input('post.type');
+        $content = input('post.content');
         if($type > 1){//主题和段落必须有内容
             if(empty($content)){
                 return false;

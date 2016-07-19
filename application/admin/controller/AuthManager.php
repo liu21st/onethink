@@ -231,7 +231,7 @@ class AuthManager  extends Admin {
         $auth_group     =   db('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
             ->getfield('id,id,title,rules');
         $group_list     =   model('Category')->getTree();
-        $authed_group   =   AuthGroupModel::getCategoryOfGroup(I('group_id'));
+        $authed_group   =   AuthGroupModel::getCategoryOfGroup(input('group_id'));
         $this->assign('authed_group',   implode(',',(array)$authed_group));
         $this->assign('group_list',     $group_list);
         $this->assign('auth_group',     $auth_group);
@@ -250,7 +250,7 @@ class AuthManager  extends Admin {
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     public function group(){
-        $uid            =   I('uid');
+        $uid            =   input('uid');
         $auth_groups    =   model('AuthGroup')->getGroups();
         $user_groups    =   AuthGroupModel::getUserGroup($uid);
         $ids = array();
@@ -270,8 +270,8 @@ class AuthManager  extends Admin {
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     public function addToGroup(){
-        $uid = I('uid');
-        $gid = I('group_id');
+        $uid = input('uid');
+        $gid = input('group_id');
         if( empty($uid) ){
             $this->error('参数有误');
         }
@@ -300,8 +300,8 @@ class AuthManager  extends Admin {
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     public function removeFromGroup(){
-        $uid = I('uid');
-        $gid = I('group_id');
+        $uid = input('uid');
+        $gid = input('group_id');
         if( $uid==UID ){
             $this->error('不允许解除自身授权');
         }
@@ -324,8 +324,8 @@ class AuthManager  extends Admin {
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     public function addToCategory(){
-        $cid = I('cid');
-        $gid = I('group_id');
+        $cid = input('cid');
+        $gid = input('group_id');
         if( empty($gid) ){
             $this->error('参数有误');
         }
@@ -348,8 +348,8 @@ class AuthManager  extends Admin {
      * @author 朱亚杰 <xcoolcc@gmail.com>
      */
     public function addToModel(){
-        $mid = I('id');
-        $gid = I('get.group_id');
+        $mid = input('id');
+        $gid = input('get.group_id');
         if( empty($gid) ){
             $this->error('参数有误');
         }

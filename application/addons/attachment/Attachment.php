@@ -86,7 +86,7 @@ class Attachment  extends Addon{
 			/* 合并当前配置 */
 			$config = $category['extend']['attachment'];
 			$config = empty($config) ? $default : array_merge($default, $config);
-			$attach = I('post.attachment');
+			$attach = input('post.attachment');
 
 			/* 该分类不允许上传附件 */
 			if(!$config['is_upload'] || !in_array($attach['type'], str2arr($config['allow_type']))){

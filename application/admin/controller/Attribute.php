@@ -20,7 +20,7 @@ class Attribute  extends Admin  {
      * @author huajie <banhuajie@163.com>
      */
     public function index(){
-        $model_id = I('get.model_id');
+        $model_id = input('get.model_id');
         /* 查询条件初始化 */
         $map['model_id']    =   $model_id;
 
@@ -40,7 +40,7 @@ class Attribute  extends Admin  {
      * @author huajie <banhuajie@163.com>
      */
     public function add(){
-        $model_id   =   I('get.model_id');
+        $model_id   =   input('get.model_id');
         $model      =   db('Model')->field('title,name,field_group')->find($model_id);
         $this->assign('model',$model);
         $this->assign('info', array('model_id'=>$model_id));
@@ -53,7 +53,7 @@ class Attribute  extends Admin  {
      * @author huajie <banhuajie@163.com>
      */
     public function edit(){
-        $id = I('get.id','');
+        $id = input('get.id','');
         if(empty($id)){
             $this->error('参数不能为空！');
         }
@@ -89,7 +89,7 @@ class Attribute  extends Admin  {
      * @author huajie <banhuajie@163.com>
      */
     public function remove(){
-        $id = I('id');
+        $id = input('id');
         empty($id) && $this->error('参数错误！');
 
         $Model = model('Attribute');

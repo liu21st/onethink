@@ -105,9 +105,9 @@ class Attribute extends Model {
      * @author huajie <banhuajie@163.com>
      */
     protected function checkName(){
-        $name = I('post.name');
-        $model_id = I('post.model_id');
-        $id = I('post.id');
+        $name = input('post.name');
+        $model_id = input('post.model_id');
+        $id = input('post.id');
         $map = array('name'=>$name, 'model_id'=>$model_id);
         if(!empty($id)){
             $map['id'] = array('neq', $id);

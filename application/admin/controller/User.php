@@ -56,8 +56,8 @@ class User extends Admin {
      */
     public function submitNickname(){
         //获取参数
-        $nickname = I('post.nickname');
-        $password = I('post.password');
+        $nickname = input('post.nickname');
+        $password = input('post.password');
         empty($nickname) && $this->error('请输入昵称');
         empty($password) && $this->error('请输入密码');
 
@@ -100,11 +100,11 @@ class User extends Admin {
      */
     public function submitPassword(){
         //获取参数
-        $password   =   I('post.old');
+        $password   =   input('post.old');
         empty($password) && $this->error('请输入原密码');
-        $data['password'] = I('post.password');
+        $data['password'] = input('post.password');
         empty($data['password']) && $this->error('请输入新密码');
-        $repassword = I('post.repassword');
+        $repassword = input('post.repassword');
         empty($repassword) && $this->error('请输入确认密码');
 
         if($data['password'] !== $repassword){
@@ -152,7 +152,7 @@ class User extends Admin {
      * @author huajie <banhuajie@163.com>
      */
     public function editAction(){
-        $id = I('get.id');
+        $id = input('get.id');
         empty($id) && $this->error('参数不能为空！');
         $data = db('Action')->field(true)->find($id);
 
@@ -179,7 +179,7 @@ class User extends Admin {
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     public function changeStatus($method=null){
-        $id = array_unique((array)I('id',0));
+        $id = array_unique((array)input('id',0));
         if( in_array(config('USER_ADMINISTRATOR'), $id)){
             $this->error("不允许对超级管理员执行该操作!");
         }

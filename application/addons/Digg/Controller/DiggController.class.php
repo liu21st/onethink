@@ -6,8 +6,8 @@ use Home\Controller\AddonsController;
 class DiggController extends AddonsController{
 	public function vote(){
 		$config = get_addon_config('Digg');
-		$id = intval(I('id'));
-		$type = intval(I('type'));
+		$id = intval(input('id'));
+		$type = intval(input('type'));
 		$uid = is_login();
 		if(!$uid)
 			$this->error('请先登录再投票');
