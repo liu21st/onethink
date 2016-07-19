@@ -2,7 +2,7 @@
 
 {block name="body"}
 	<div class="main-title cf">
-		<h2><if condition="ACTION_NAME eq 'add'">新增<else/>编辑</if>模型</h2>
+		<h2>{if condition="ACTION_NAME eq 'add'"}新增{else /}编辑{/if}模型</h2>
 	</div>
 
 	<!-- 标签页导航 -->
@@ -49,11 +49,11 @@
 							<span>字段列表 		[ <a href="{:url('Attribute/add?model_id='.$info['id'])}" target="_balnk">新增</a>
 							<a href="{:url('Attribute/index?model_id='.$info['id'])}" target="_balnk">管理</a> ] </span>
 							<ul class="dragsort">
-								<foreach name="fields" item="field" key="k">
+								{foreach name="fields" item="field" key="k"}
 										<li >
-											<em ><input class="ids" type="checkbox" name="attribute_list[]" value="{$field['id']}" <if condition="in_array($field['id'],$info['attribute_list'])">checked="checked"</if> /> {$field['title']} [{$field['name']}]</em>
+											<em ><input class="ids" type="checkbox" name="attribute_list[]" value="{$field['id']}" {if condition="in_array($field['id'],$info['attribute_list'])"}checked="checked"{/if} /> {$field['title']} [{$field['name']}]</em>
 										</li>
-								</foreach>
+								{/foreach}
 							</ul>
 						</div>
 
@@ -75,21 +75,21 @@
 					</div>
 					<div class="form-item cf">
 					<label class="item-label">表单显示排序<span class="check-tips">（直接拖动进行排序）</span></label>
-					<volist name=":parse_field_attr($info['field_group'])" id="vo">
+					{volist name=":parse_field_attr($info['field_group'])" id="vo"}
 						<div class="form-item cf edit_sort edit_sort_l form_field_sort">
 							<span>{$vo}</span>
 							<ul class="dragsort needdragsort" data-group="{$key}">
-								<foreach name="fields" item="field" key="k">
-									<if condition="(($field['group'] eq $key) or($i eq 1 and !isset($field['group']))) and ($field['is_show'] eq 1)">
+								{foreach name="fields" item="field" key="k"}
+									{if condition="(($field['group'] eq $key) or($i eq 1 and !isset($field['group']))) and ($field['is_show'] eq 1)"}
 										<li class="getSort">
 											<em data="{$field['id']}">{$field['title']} [{$field['name']}]</em>
 											<input type="hidden" name="field_sort[{$key}][]" value="{$field['id']}"/>
 										</li>
-									</if>
-								</foreach>
+									{/if}
+								{/foreach}
 							</ul>
 						</div>
-					</volist>
+					{/volist}
 					</div>
 
 					<div class="form-item cf">
