@@ -38,7 +38,7 @@ class Model extends Admin  {
      */
     public function add(){
         //获取所有的模型
-        $models = M('Model')->where(array('extend'=>0))->field('id,title')->select();
+        $models = db('Model')->where(array('extend'=>0))->field('id,title')->select();
 
         $this->assign('models', $models);
         $this->meta_title = '新增模型';
@@ -56,17 +56,17 @@ class Model extends Admin  {
         }
 
         /*获取一条记录的详细数据*/
-        $Model = M('Model');
+        $Model = db('Model');
         $data = $Model->field(true)->find($id);
         if(!$data){
             $this->error($Model->getError());
         }
         $data['attribute_list'] = empty($data['attribute_list']) ? '' : explode(",", $data['attribute_list']);
-        $fields = M('Attribute')->where(array('model_id'=>$data['id']))->getField('id,name,title,is_show',true);
+        $fields = db('Attribute')->where(array('model_id'=>$data['id']))->getField('id,name,title,is_show',true);
         $fields = empty($fields) ? array() : $fields;
         // 是否继承了其他模型
         if($data['extend'] != 0){
-            $extend_fields  = M('Attribute')->where(array('model_id'=>$data['extend']))->getField('id,name,title,is_show',true);
+            $extend_fields  = db('Attribute')->where(array('model_id'=>$data['extend']))->getField('id,name,title,is_show',true);
             $fields        += $extend_fields;
         }
         
@@ -106,13 +106,13 @@ class Model extends Admin  {
         empty($ids) && $this->error('参数不能为空！');
         $ids = explode(',', $ids);
         foreach ($ids as $value){
-            $res = D('Model')->del($value);
+            $res = model('Model')->del($value);
             if(!$res){
                 break;
             }
         }
         if(!$res){
-            $this->error(D('Model')->getError());
+            $this->error(model('Model')->getError());
         }else{
             $this->success('删除模型成功！');
         }
@@ -123,10 +123,10 @@ class Model extends Admin  {
      * @author huajie <banhuajie@163.com>
      */
     public function update(){
-        $res = D('Model')->update();
+        $res = model('Model')->update();
 
         if(!$res){
-            $this->error(D('Model')->getError());
+            $this->error(model('Model')->getError());
         }else{
             $this->success($res['id']?'更新成功':'新增成功', Cookie('__forward__'));
         }
@@ -139,7 +139,7 @@ class Model extends Admin  {
     public function generate(){
         if(!IS_POST){
             //获取所有的数据表
-            $tables = D('Model')->getTables();
+            $tables = model('Model')->getTables();
 
             $this->assign('tables', $tables);
             $this->meta_title = '生成模型';
@@ -147,11 +147,11 @@ class Model extends Admin  {
         }else{
             $table = I('post.table');
             empty($table) && $this->error('请选择要生成的数据表！');
-            $res = D('Model')->generate($table,I('post.name'),I('post.title'));
+            $res = model('Model')->generate($table,I('post.name'),I('post.title'));
             if($res){
                 $this->success('生成模型成功！', U('index'));
             }else{
-                $this->error(D('Model')->getError());
+                $this->error(model('Model')->getError());
             }
         }
     }

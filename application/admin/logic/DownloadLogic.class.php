@@ -32,7 +32,7 @@ class DownloadLogic extends BaseLogic{
             $this->error = '获取详细信息出错！';
             return false;
         }
-        $file = D('File')->field(true)->find($data['file_id']);
+        $file = model('File')->field(true)->find($data['file_id']);
         return $data;
     }
 
@@ -87,7 +87,7 @@ class DownloadLogic extends BaseLogic{
             return false;
         }
 
-        $File = D('File');
+        $File = model('File');
         $root = config('DOWNLOAD_UPLOAD.rootPath');
         $call = array($this, 'setDownload');
         if(false === $File->download($root, $info['file_id'], $call, $info['id'])){

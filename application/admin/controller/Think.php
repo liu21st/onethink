@@ -26,7 +26,7 @@ class Think  extends Admin  {
         $page = $page ? $page : 1; //默认显示第一页数据
 
         //获取模型信息
-        $model = M('Model')->getByName($model);
+        $model = db('Model')->getByName($model);
         $model || $this->error('模型不存在！');
 
         //解析列表规则
@@ -87,10 +87,10 @@ class Think  extends Admin  {
             }
 
             /* 查询记录数 */
-            $count = M($parent)->join("INNER JOIN {$fix}{$name} ON {$fix}{$parent}.id = {$fix}{$name}.id")->where($map)->count();
+            $count = db($parent)->join("INNER JOIN {$fix}{$name} ON {$fix}{$parent}.id = {$fix}{$name}.id")->where($map)->count();
 
             // 查询数据
-            $data   = M($parent)
+            $data   = db($parent)
                 ->join("INNER JOIN {$fix}{$name} ON {$fix}{$parent}.id = {$fix}{$name}.id")
                 /* 查询指定字段，不指定则查询所有字段 */
                 ->field(empty($fields) ? true : $fields)
@@ -108,7 +108,7 @@ class Think  extends Admin  {
                 in_array('id', $fields) || array_push($fields, 'id');
             }
             $name = parse_name(get_table_name($model['id']), true);
-            $data = M($name)
+            $data = db($name)
                 /* 查询指定字段，不指定则查询所有字段 */
                 ->field(empty($fields) ? true : $fields)
                 // 查询条件
@@ -121,7 +121,7 @@ class Think  extends Admin  {
                 ->select();
 
             /* 查询记录总数 */
-            $count = M($name)->where($map)->count();
+            $count = db($name)->where($map)->count();
         }
 
         //分页
@@ -140,7 +140,7 @@ class Think  extends Admin  {
     }
 
     public function del($model = null, $ids=null){
-        $model = M('Model')->find($model);
+        $model = db('Model')->find($model);
         $model || $this->error('模型不存在！');
 
         $ids = array_unique((array)I('ids',0));
@@ -149,7 +149,7 @@ class Think  extends Admin  {
             $this->error('请选择要操作的数据!');
         }
 
-        $Model = M(get_table_name($model['id']));
+        $Model = db(get_table_name($model['id']));
         $map = array('id' => array('in', $ids) );
         if($Model->where($map)->delete()){
             $this->success('删除成功');
@@ -168,11 +168,11 @@ class Think  extends Admin  {
     
     public function edit($model = null, $id = 0){
         //获取模型信息
-        $model = M('Model')->find($model);
+        $model = db('Model')->find($model);
         $model || $this->error('模型不存在！');
 
         if(IS_POST){
-            $Model  =   D(parse_name(get_table_name($model['id']),1));
+            $Model  =   model(parse_name(get_table_name($model['id']),1));
             // 获取模型的字段信息
             $Model  =   $this->checkAttr($Model,$model['id']);
             if($Model->create() && $Model->save()){
@@ -184,7 +184,7 @@ class Think  extends Admin  {
             $fields     = get_model_attribute($model['id']);
 
             //获取数据
-            $data       = M(get_table_name($model['id']))->find($id);
+            $data       = db(get_table_name($model['id']))->find($id);
             $data || $this->error('数据不存在！');
 
             $this->assign('model', $model);
@@ -197,10 +197,10 @@ class Think  extends Admin  {
 
     public function add($model = null){
         //获取模型信息
-        $model = M('Model')->where(array('status' => 1))->find($model);
+        $model = db('Model')->where(array('status' => 1))->find($model);
         $model || $this->error('模型不存在！');
         if(IS_POST){
-            $Model  =   D(parse_name(get_table_name($model['id']),1));
+            $Model  =   model(parse_name(get_table_name($model['id']),1));
             // 获取模型的字段信息
             $Model  =   $this->checkAttr($Model,$model['id']);
             if($Model->create() && $Model->add()){

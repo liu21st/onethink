@@ -65,7 +65,7 @@ class User  extends Home  {
 			$uid = $user->login($username, $password);
 			if(0 < $uid){ //UC登录成功
 				/* 登录用户 */
-				$Member = D('Member');
+				$Member = model('Member');
 				if($Member->login($uid)){ //登录用户
 					//TODO:跳转到登录前页面
 					$this->success('登录成功！',U('Home/Index/index'));
@@ -90,7 +90,7 @@ class User  extends Home  {
 	/* 退出登录 */
 	public function logout(){
 		if(is_login()){
-			D('Member')->logout();
+			model('Member')->logout();
 			$this->success('退出成功！', U('User/login'));
 		} else {
 			$this->redirect('User/login');

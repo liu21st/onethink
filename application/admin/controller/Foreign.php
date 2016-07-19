@@ -68,7 +68,7 @@ class Foreign extends Controller {
     /* 退出登录 */
     public function logout(){
         if(is_login()){
-            D('Member')->logout();
+            model('Member')->logout();
             session('[destroy]');
             $this->success('退出成功！', url('login'));
         } else {

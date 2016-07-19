@@ -32,7 +32,7 @@ class Category {
 
         /* 获取分类名称 */
         if(!isset($list[$id])){
-            $cate = M('Category')->find($id);
+            $cate = db('Category')->find($id);
             if(!$cate || 1 != $cate['status']){ //不存在分类，或分类被禁用
                 return '';
             }
@@ -62,7 +62,7 @@ class Category {
         if(empty($cid)){
             return false;
         }
-        $cates  =   M('Category')->where(array('status'=>1))->field('id,title,pid')->order('sort')->select();
+        $cates  =   db('Category')->where(array('status'=>1))->field('id,title,pid')->order('sort')->select();
         $child  =   get_category($cid);	//获取参数分类的信息
         $pid    =   $child['pid'];
         $temp   =   array();

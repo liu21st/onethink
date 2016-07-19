@@ -49,7 +49,7 @@ class Config  extends Admin  {
      */
     public function add(){
         if(IS_POST){
-            $Config = D('Config');
+            $Config = model('Config');
             $data = $Config->create();
             if($data){
                 if($Config->add()){
@@ -74,7 +74,7 @@ class Config  extends Admin  {
      */
     public function edit($id = 0){
         if(IS_POST){
-            $Config = D('Config');
+            $Config = model('Config');
             $data = $Config->create();
             if($data){
                 if($Config->save()){
@@ -91,7 +91,7 @@ class Config  extends Admin  {
         } else {
             $info = array();
             /* 获取数据 */
-            $info = M('Config')->field(true)->find($id);
+            $info = db('Config')->field(true)->find($id);
 
             if(false === $info){
                 $this->error('获取配置信息错误');
@@ -108,7 +108,7 @@ class Config  extends Admin  {
      */
     public function save($config){
         if($config && is_array($config)){
-            $Config = M('Config');
+            $Config = db('Config');
             foreach ($config as $name => $value) {
                 $map = array('name' => $name);
                 $Config->where($map)->setField('value', $value);
@@ -130,7 +130,7 @@ class Config  extends Admin  {
         }
 
         $map = array('id' => array('in', $id) );
-        if(M('Config')->where($map)->delete()){
+        if(db('Config')->where($map)->delete()){
             S('DB_CONFIG_DATA',null);
             //记录行为
             action_log('update_config','config',$id,UID);
@@ -168,7 +168,7 @@ class Config  extends Admin  {
             }elseif(I('group')){
                 $map['group']	=	I('group');
             }
-            $list = M('Config')->where($map)->field('id,title')->order('sort asc,id asc')->select();
+            $list = db('Config')->where($map)->field('id,title')->order('sort asc,id asc')->select();
 
             $this->assign('list', $list);
             $this->meta_title = '配置排序';
@@ -177,7 +177,7 @@ class Config  extends Admin  {
             $ids = I('post.ids');
             $ids = explode(',', $ids);
             foreach ($ids as $key=>$value){
-                $res = M('Config')->where(array('id'=>$value))->setField('sort', $key+1);
+                $res = db('Config')->where(array('id'=>$value))->setField('sort', $key+1);
             }
             if($res !== false){
                 $this->success('排序成功！',Cookie('__forward__'));

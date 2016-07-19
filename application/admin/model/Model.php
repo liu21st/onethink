@@ -119,7 +119,7 @@ class Model extends Model{
         }
 
         //新增属性
-        $fields = M()->query('SHOW FULL COLUMNS FROM '.$table);
+        $fields = db()->query('SHOW FULL COLUMNS FROM '.$table);
         foreach ($fields as $key=>$value){
             $value  =   array_change_key_case($value);
             //不新增id字段
@@ -138,7 +138,7 @@ class Model extends Model{
             $data['value'] = $value['default'] == null ? '' : $value['default'];
             $data['model_id'] = $res;
             $_POST = $data;		//便于自动验证
-            D('Attribute')->update($data, false);
+            model('Attribute')->update($data, false);
         }
         return $res;
     }
@@ -161,14 +161,14 @@ class Model extends Model{
         }
 
         //删除属性数据
-        M('Attribute')->where(array('model_id'=>$id))->delete();
+        db('Attribute')->where(array('model_id'=>$id))->delete();
         //删除模型数据
         $this->delete($id);
         //删除该表
         $sql = <<<sql
                 DROP TABLE {$table_name};
 sql;
-        $res = M()->execute($sql);
+        $res = db()->execute($sql);
         return $res !== false;
     }
 }

@@ -93,7 +93,7 @@ class User {
         if(isset($list[$key])){ //已缓存，直接使用
             $name = $list[$key];
         } else { //调用接口获取用户信息
-            $info = M('Member')->field('nickname')->find($uid);
+            $info = db('Member')->field('nickname')->find($uid);
             if($info !== false && $info['nickname'] ){
                 $nickname = $info['nickname'];
                 $name = $list[$key] = $nickname;

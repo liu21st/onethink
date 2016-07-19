@@ -100,7 +100,7 @@ class Attachment  extends Addon{
 				case 2: //文件
 					$info = json_decode(think_decrypt($attach['info']), true);
 					if(!empty($info)){
-						$Attachment = D('Addons://Attachment/Attachment');
+						$Attachment = model('Addons://Attachment/Attachment');
 						$Attachment->saveFile($info['name'], $info, $data['id']);
 					} else {
 						return; //TODO:非法附件上传，可记录日志

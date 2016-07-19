@@ -22,16 +22,16 @@ class MenuController extends Admin {
     public function index(){
         $pid  = I('get.pid',0);
         if($pid){
-            $data = M('Menu')->where("id={$pid}")->field(true)->find();
+            $data = db('Menu')->where("id={$pid}")->field(true)->find();
             $this->assign('data',$data);
         }
         $title      =   trim(I('get.title'));
         $type       =   config('CONFIG_GROUP_LIST');
-        $all_menu   =   M('Menu')->getField('id,title');
+        $all_menu   =   db('Menu')->getField('id,title');
         $map['pid'] =   $pid;
         if($title)
             $map['title'] = array('like',"%{$title}%");
-        $list       =   M("Menu")->where($map)->field(true)->order('sort asc,id asc')->select();
+        $list       =   db("Menu")->where($map)->field(true)->order('sort asc,id asc')->select();
         int_to_string($list,array('hide'=>array(1=>'是',0=>'否'),'is_dev'=>array(1=>'是',0=>'否')));
         if($list) {
             foreach($list as &$key){
@@ -54,7 +54,7 @@ class MenuController extends Admin {
      */
     public function add(){
         if(IS_POST){
-            $Menu = D('Menu');
+            $Menu = model('Menu');
             $data = $Menu->create();
             if($data){
                 $id = $Menu->add();
@@ -71,8 +71,8 @@ class MenuController extends Admin {
             }
         } else {
             $this->assign('info',array('pid'=>I('pid')));
-            $menus = M('Menu')->field(true)->select();
-            $menus = D('Common/Tree')->toFormatTree($menus);
+            $menus = db('Menu')->field(true)->select();
+            $menus = model('Common/Tree')->toFormatTree($menus);
             $menus = array_merge(array(0=>array('id'=>0,'title_show'=>'顶级菜单')), $menus);
             $this->assign('Menus', $menus);
             $this->meta_title = '新增菜单';
@@ -86,7 +86,7 @@ class MenuController extends Admin {
      */
     public function edit($id = 0){
         if(IS_POST){
-            $Menu = D('Menu');
+            $Menu = model('Menu');
             $data = $Menu->create();
             if($data){
                 if($Menu->save()!== false){
@@ -103,9 +103,9 @@ class MenuController extends Admin {
         } else {
             $info = array();
             /* 获取数据 */
-            $info = M('Menu')->field(true)->find($id);
-            $menus = M('Menu')->field(true)->select();
-            $menus = D('Common/Tree')->toFormatTree($menus);
+            $info = db('Menu')->field(true)->find($id);
+            $menus = db('Menu')->field(true)->select();
+            $menus = model('Common/Tree')->toFormatTree($menus);
 
             $menus = array_merge(array(0=>array('id'=>0,'title_show'=>'顶级菜单')), $menus);
             $this->assign('Menus', $menus);
@@ -130,7 +130,7 @@ class MenuController extends Admin {
         }
 
         $map = array('id' => array('in', $id) );
-        if(M('Menu')->where($map)->delete()){
+        if(db('Menu')->where($map)->delete()){
             session('ADMIN_MENU_LIST',null);
             //记录行为
             action_log('update_menu', 'Menu', $id, UID);
@@ -155,7 +155,7 @@ class MenuController extends Admin {
             $file = APP_PATH."Admin/Conf/Menu.php";
             $tree = require_once($file);
         }
-        $menuModel = D('Menu');
+        $menuModel = model('Menu');
         foreach ($tree as $value) {
             $add_pid = $menuModel->add(
                 array(
@@ -177,7 +177,7 @@ class MenuController extends Admin {
         if(IS_POST){
             $tree = I('post.tree');
             $lists = explode(PHP_EOL, $tree);
-            $menuModel = M('Menu');
+            $menuModel = db('Menu');
             if($lists == array()){
                 $this->error('请按格式填写批量导入的菜单，至少一个菜单');
             }else{
@@ -204,7 +204,7 @@ class MenuController extends Admin {
             $this->meta_title = '批量导入后台菜单';
             $pid = (int)I('get.pid');
             $this->assign('pid', $pid);
-            $data = M('Menu')->where("id={$pid}")->field(true)->find();
+            $data = db('Menu')->where("id={$pid}")->field(true)->find();
             $this->assign('data', $data);
             $this->display();
         }
@@ -228,7 +228,7 @@ class MenuController extends Admin {
                     $map['pid'] = $pid;
                 }
             }
-            $list = M('Menu')->where($map)->field('id,title')->order('sort asc,id asc')->select();
+            $list = db('Menu')->where($map)->field('id,title')->order('sort asc,id asc')->select();
 
             $this->assign('list', $list);
             $this->meta_title = '菜单排序';
@@ -237,7 +237,7 @@ class MenuController extends Admin {
             $ids = I('post.ids');
             $ids = explode(',', $ids);
             foreach ($ids as $key=>$value){
-                $res = M('Menu')->where(array('id'=>$value))->setField('sort', $key+1);
+                $res = db('Menu')->where(array('id'=>$value))->setField('sort', $key+1);
             }
             if($res !== false){
                 session('ADMIN_MENU_LIST',null);

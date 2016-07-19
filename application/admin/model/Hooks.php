@@ -81,10 +81,10 @@ class Hooks extends Model {
         }else{
             $addons = $addons_name;
         }
-        $flag = D('Hooks')->where("name='{$hook_name}'")
+        $flag = model('Hooks')->where("name='{$hook_name}'")
         ->setField('addons',arr2str($addons));
         if(false === $flag)
-            D('Hooks')->where("name='{$hook_name}'")->setField('addons',arr2str($o_addons));
+            model('Hooks')->where("name='{$hook_name}'")->setField('addons',arr2str($o_addons));
         return $flag;
     }
 
@@ -121,10 +121,10 @@ class Hooks extends Model {
         }else{
             return true;
         }
-        $flag = D('Hooks')->where("name='{$hook_name}'")
+        $flag = model('Hooks')->where("name='{$hook_name}'")
                           ->setField('addons',arr2str($addons));
         if(false === $flag)
-            D('Hooks')->where("name='{$hook_name}'")
+            model('Hooks')->where("name='{$hook_name}'")
                       ->setField('addons',arr2str($o_addons));
         return $flag;
     }

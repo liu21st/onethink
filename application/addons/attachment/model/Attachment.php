@@ -29,7 +29,7 @@ class Attachment  extends Model{
 
 	protected function _after_find(&$result,$options) {
 		$result['update_time_text'] = date('Y-m-d H:i:s', $result['update_time']);
-		$result['document_title'] = D('Document')->getFieldById($result['record_id'], 'title');
+		$result['document_title'] = model('Document')->getFieldById($result['record_id'], 'title');
 		$result['size'] = format_bytes($result['size']);
 	}
 
@@ -87,7 +87,7 @@ class Attachment  extends Model{
 					//TODO: 下载外部附件
 					break;
 				case 2:
-					$File = D('File');
+					$File = model('File');
 					$root = config('ATTACHMENT_UPLOAD.rootPath');
 					$call = array($this, 'setDownload');
 					if(false === $File->download($root, $info['source'], $call, $id)){

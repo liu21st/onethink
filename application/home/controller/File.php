@@ -19,7 +19,7 @@ class File  extends Home  {
 	public function upload(){
 		$return  = array('status' => 1, 'info' => '上传成功', 'data' => '');
 		/* 调用文件上传组件上传文件 */
-		$File = D('File');
+		$File = model('File');
 		$file_driver = config('DOWNLOAD_UPLOAD_DRIVER');
 		$info = $File->upload(
 			$_FILES,
@@ -46,7 +46,7 @@ class File  extends Home  {
 			$this->error('参数错误！');
 		}
 
-		$logic = D('Download', 'Logic');
+		$logic = model('Download', 'Logic');
 		if(!$logic->download($id)){
 			$this->error($logic->getError());
 		}

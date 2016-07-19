@@ -23,7 +23,7 @@ class ChannelController extends Admin  {
         $pid = I('get.pid', 0);
         /* 获取频道列表 */
         $map  = array('status' => array('gt', -1), 'pid'=>$pid);
-        $list = M('Channel')->where($map)->order('sort asc,id asc')->select();
+        $list = db('Channel')->where($map)->order('sort asc,id asc')->select();
 
         $this->assign('list', $list);
         $this->assign('pid', $pid);
@@ -37,7 +37,7 @@ class ChannelController extends Admin  {
      */
     public function add(){
         if(IS_POST){
-            $Channel = D('Channel');
+            $Channel = model('Channel');
             $data = $Channel->create();
             if($data){
                 $id = $Channel->add();
@@ -55,7 +55,7 @@ class ChannelController extends Admin  {
             $pid = I('get.pid', 0);
             //获取父导航
             if(!empty($pid)){
-                $parent = M('Channel')->where(array('id'=>$pid))->field('title')->find();
+                $parent = db('Channel')->where(array('id'=>$pid))->field('title')->find();
                 $this->assign('parent', $parent);
             }
 
@@ -72,7 +72,7 @@ class ChannelController extends Admin  {
      */
     public function edit($id = 0){
         if(IS_POST){
-            $Channel = D('Channel');
+            $Channel = model('Channel');
             $data = $Channel->create();
             if($data){
                 if($Channel->save()){
@@ -89,7 +89,7 @@ class ChannelController extends Admin  {
         } else {
             $info = array();
             /* 获取数据 */
-            $info = M('Channel')->find($id);
+            $info = db('Channel')->find($id);
 
             if(false === $info){
                 $this->error('获取配置信息错误');
@@ -98,7 +98,7 @@ class ChannelController extends Admin  {
             $pid = I('get.pid', 0);
             //获取父导航
             if(!empty($pid)){
-            	$parent = M('Channel')->where(array('id'=>$pid))->field('title')->find();
+            	$parent = db('Channel')->where(array('id'=>$pid))->field('title')->find();
             	$this->assign('parent', $parent);
             }
 
@@ -121,7 +121,7 @@ class ChannelController extends Admin  {
         }
 
         $map = array('id' => array('in', $id) );
-        if(M('Channel')->where($map)->delete()){
+        if(db('Channel')->where($map)->delete()){
             //记录行为
             action_log('update_channel', 'channel', $id, UID);
             $this->success('删除成功');
@@ -148,7 +148,7 @@ class ChannelController extends Admin  {
                     $map['pid'] = $pid;
                 }
             }
-            $list = M('Channel')->where($map)->field('id,title')->order('sort asc,id asc')->select();
+            $list = db('Channel')->where($map)->field('id,title')->order('sort asc,id asc')->select();
 
             $this->assign('list', $list);
             $this->meta_title = '导航排序';
@@ -157,7 +157,7 @@ class ChannelController extends Admin  {
             $ids = I('post.ids');
             $ids = explode(',', $ids);
             foreach ($ids as $key=>$value){
-                $res = M('Channel')->where(array('id'=>$value))->setField('sort', $key+1);
+                $res = db('Channel')->where(array('id'=>$value))->setField('sort', $key+1);
             }
             if($res !== false){
                 $this->success('排序成功！');

@@ -33,7 +33,7 @@ class Model  {
         /* 获取模型名称 */
         if(empty($list)){
             $map   = array('status' => 1, 'extend' => 1);
-            $model = M('Model')->where($map)->field(true)->select();
+            $model = db('Model')->where($map)->field(true)->select();
             foreach ($model as $value) {
                 $list[$value['id']] = $value;
             }
@@ -52,7 +52,7 @@ class Model  {
 
     // 获取模型名称
     public static function get_model_by_id($id){
-        return $model = M('Model')->getFieldById($id,'title');
+        return $model = db('Model')->getFieldById($id,'title');
     }
 
     /**
@@ -77,12 +77,12 @@ class Model  {
         /* 获取属性 */
         if(!isset($list[$model_id])){
             $map = array('model_id'=>$model_id);
-            $extend = M('Model')->getFieldById($model_id,'extend');
+            $extend = db('Model')->getFieldById($model_id,'extend');
 
             if($extend){
                 $map = array('model_id'=> array("in", array($model_id, $extend)));
             }
-            $info = M('Attribute')->where($map)->select();
+            $info = db('Attribute')->where($map)->select();
             $list[$model_id] = $info;
             //S('attribute_list', $list); //更新缓存
         }
@@ -93,7 +93,7 @@ class Model  {
         }
 
         if($group){
-            $sort  = M('Model')->getFieldById($model_id,'field_sort');
+            $sort  = db('Model')->getFieldById($model_id,'field_sort');
 
             if(empty($sort)){	//未排序
                 $group = array(1=>array_merge($attr));

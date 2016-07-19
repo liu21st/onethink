@@ -69,7 +69,7 @@ class Download extends Base{
 			return false;
 		}
 
-		$File = D('File');
+		$File = model('File');
 		$root = config('DOWNLOAD_UPLOAD.rootPath');
 		$call = array($this, 'setDownload');
 		if(false === $File->download($root, $info['file_id'], $call, $info['id'])){

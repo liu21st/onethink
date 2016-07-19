@@ -44,7 +44,7 @@ class User extends Admin {
      * @author huajie <banhuajie@163.com>
      */
     public function updateNickname(){
-        $nickname = M('Member')->getFieldByUid(UID, 'nickname');
+        $nickname = db('Member')->getFieldByUid(UID, 'nickname');
         $this->assign('nickname', $nickname);
         $this->meta_title = '修改昵称';
         $this->display('updatenickname');
@@ -66,7 +66,7 @@ class User extends Admin {
         $uid    =   $User->login(UID, $password, 4);
         ($uid == -2) && $this->error('密码不正确');
 
-        $Member =   D('Member');
+        $Member =   model('Member');
         $data   =   $Member->create(array('nickname'=>$nickname));
         if(!$data){
             $this->error($Member->getError());
@@ -126,7 +126,7 @@ class User extends Admin {
      */
     public function action(){
         //获取列表数据
-        $Action =   M('Action')->where(array('status'=>array('gt',-1)));
+        $Action =   db('Action')->where(array('status'=>array('gt',-1)));
         $list   =   $this->lists($Action);
         int_to_string($list);
         // 记录当前列表页的cookie
@@ -154,7 +154,7 @@ class User extends Admin {
     public function editAction(){
         $id = I('get.id');
         empty($id) && $this->error('参数不能为空！');
-        $data = M('Action')->field(true)->find($id);
+        $data = db('Action')->field(true)->find($id);
 
         $this->assign('data',$data);
         $this->meta_title = '编辑行为';
@@ -166,9 +166,9 @@ class User extends Admin {
      * @author huajie <banhuajie@163.com>
      */
     public function saveAction(){
-        $res = D('Action')->update();
+        $res = model('Action')->update();
         if(!$res){
-            $this->error(D('Action')->getError());
+            $this->error(model('Action')->getError());
         }else{
             $this->success($res['id']?'更新成功！':'新增成功！', Cookie('__forward__'));
         }
@@ -215,7 +215,7 @@ class User extends Admin {
             $uid    =   $User->register($username, $password, $email);
             if(0 < $uid){ //注册成功
                 $user = array('uid' => $uid, 'nickname' => $username, 'status' => 1);
-                if(!M('Member')->add($user)){
+                if(!db('Member')->add($user)){
                     $this->error('用户添加失败！');
                 } else {
                     $this->success('用户添加成功！',U('index'));

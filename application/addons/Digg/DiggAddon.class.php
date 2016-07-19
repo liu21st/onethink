@@ -32,8 +32,8 @@ CREATE TABLE IF NOT EXISTS `{$table_name}` (
   PRIMARY KEY (`document_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 SQL;
-            D()->execute($sql);
-            if(count(M()->query("SHOW TABLES LIKE '{$table_name}'")) != 1){
+            model()->execute($sql);
+            if(count(db()->query("SHOW TABLES LIKE '{$table_name}'")) != 1){
                 session('addons_install_error', ',digg表未创建成功，请手动检查插件中的sql，修复后重新安装');
                 return false;
             }
@@ -43,22 +43,22 @@ SQL;
         public function uninstall(){
             $db_prefix = config('DB_PREFIX');
             $sql = "DROP TABLE IF EXISTS `{$db_prefix}digg`;";
-            D()->execute($sql);
+            model()->execute($sql);
             return true;
         }
 
         //实现的documentDetailAfter钩子方法
         public function documentDetailAfter($param){
-            $vote = M('Digg')->find($param['id']);
+            $vote = db('Digg')->find($param['id']);
             if(!$vote){
-                M('Digg')->add(
+                db('Digg')->add(
                     array('document_id'=>$param['id'],
                         'good'=>0,'bad'=>0,
                         'create_time'=>time(),
                         'uids'=>','
                     )
                 );
-                $vote = M('Digg')->find($param['id']);
+                $vote = db('Digg')->find($param['id']);
             }
             $this->assign('addons_config', $this->getConfig());
             $this->assign('addons_vote_record', $vote);

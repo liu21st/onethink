@@ -32,7 +32,7 @@ function check_verify($code, $id = 1){
 function get_list_count($category, $status = 1){
     static $count;
     if(!isset($count[$category])){
-        $count[$category] = D('Document')->listCount($category, $status);
+        $count[$category] = model('Document')->listCount($category, $status);
     }
     return $count[$category];
 }
@@ -46,7 +46,7 @@ function get_list_count($category, $status = 1){
 function get_part_count($id){
     static $count;
     if(!isset($count[$id])){
-        $count[$id] = D('Document')->partCount($id);
+        $count[$id] = model('Document')->partCount($id);
     }
     return $count[$id];
 }

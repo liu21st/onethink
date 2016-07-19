@@ -54,7 +54,7 @@ class AuthGroup extends Model {
         $uid = is_array($uid)?implode(',',$uid):trim($uid,',');
         $gid = is_array($gid)?$gid:explode( ',',trim($gid,',') );
 
-        $Access = M(self::AUTH_GROUP_ACCESS);
+        $Access = db(self::AUTH_GROUP_ACCESS);
         if( isset($_REQUEST['batch']) ){
             //为单个用户批量添加用户组时,先删除旧数据
             $del = $Access->where( array('uid'=>array('in',$uid)) )->delete();
@@ -66,7 +66,7 @@ class AuthGroup extends Model {
         if( $del!==false ){
             foreach ($uid_arr as $u){
             	//判断用户id是否合法
-            	if(M('Member')->getFieldByUid($u,'uid') == false){
+            	if(db('Member')->getFieldByUid($u,'uid') == false){
             		$this->error = "编号为{$u}的用户不存在！";
             		return false;
             	}
@@ -101,7 +101,7 @@ class AuthGroup extends Model {
         if (isset($groups[$uid]))
             return $groups[$uid];
         $prefix = config('DB_PREFIX');
-        $user_groups = M()
+        $user_groups = db()
             ->field('uid,group_id,title,description,rules')
             ->table($prefix.self::AUTH_GROUP_ACCESS.' a')
             ->join ($prefix.self::AUTH_GROUP." g on a.group_id=g.id")
@@ -134,7 +134,7 @@ class AuthGroup extends Model {
             return $result;
         }
         $prefix = config('DB_PREFIX');
-        $result = M()
+        $result = db()
             ->table($prefix.self::AUTH_GROUP_ACCESS.' g')
             ->join($prefix.self::AUTH_EXTEND.' c on g.group_id=c.group_id')
             ->where("g.uid='$uid' and c.type='$type' and !isnull(extend_id)")
@@ -175,7 +175,7 @@ class AuthGroup extends Model {
         if ( !is_numeric($type) ) {
             return false;
         }
-        return M(self::AUTH_EXTEND)->where( array('group_id'=>$gid,'type'=>$type) )->getfield('extend_id',true);
+        return db(self::AUTH_EXTEND)->where( array('group_id'=>$gid,'type'=>$type) )->getfield('extend_id',true);
     }
 
     /**
@@ -205,7 +205,7 @@ class AuthGroup extends Model {
         $gid = is_array($gid)?implode(',',$gid):trim($gid,',');
         $cid = is_array($cid)?$cid:explode( ',',trim($cid,',') );
 
-        $Access = M(self::AUTH_EXTEND);
+        $Access = db(self::AUTH_EXTEND);
         $del = $Access->where( array('group_id'=>array('in',$gid),'type'=>$type) )->delete();
 
         $gid = explode(',',$gid);
@@ -247,7 +247,7 @@ class AuthGroup extends Model {
      * @author 朱亚杰 <xcoolcc@gmail.com>
      */
     public function removeFromGroup($uid,$gid){
-        return M(self::AUTH_GROUP_ACCESS)->where( array( 'uid'=>$uid,'group_id'=>$gid) )->delete();
+        return db(self::AUTH_GROUP_ACCESS)->where( array( 'uid'=>$uid,'group_id'=>$gid) )->delete();
     }
 
     /**
@@ -262,7 +262,7 @@ class AuthGroup extends Model {
         $l_table  = $prefix.self::MEMBER;
         $r_table  = $prefix.self::AUTH_GROUP_ACCESS;
         $r_table2 = $prefix.self::UCENTER_MEMBER;
-        $list     = M() ->field('m.uid,u.username,m.last_login_time,m.last_login_ip,m.status')
+        $list     = db() ->field('m.uid,u.username,m.last_login_time,m.last_login_ip,m.status')
                        ->table($l_table.' m')
                        ->join($r_table.' a ON m.uid=a.uid')
                        ->join($r_table2.' u ON m.uid=u.id')
@@ -286,7 +286,7 @@ class AuthGroup extends Model {
             $ids   = $mid;
         }
 
-        $s = M($modelname)->where(array('id'=>array('IN',$ids)))->getField('id',true);
+        $s = db($modelname)->where(array('id'=>array('IN',$ids)))->getField('id',true);
         if(count($s)===$count){
             return true;
         }else{

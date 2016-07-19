@@ -41,7 +41,7 @@ class Action extends Admin {
     public function edit($id = 0){
         empty($id) && $this->error('参数错误！');
 
-        $info = M('ActionLog')->field(true)->find($id);
+        $info = db('ActionLog')->field(true)->find($id);
 
         $this->assign('info', $info);
         $this->meta_title = '查看行为日志';
@@ -60,7 +60,7 @@ class Action extends Admin {
         }elseif (is_numeric($ids)){
             $map['id'] = $ids;
         }
-        $res = M('ActionLog')->where($map)->delete();
+        $res = db('ActionLog')->where($map)->delete();
         if($res !== false){
             $this->success('删除成功！');
         }else {
@@ -72,7 +72,7 @@ class Action extends Admin {
      * 清空日志
      */
     public function clear(){
-        $res = M('ActionLog')->where('1=1')->delete();
+        $res = db('ActionLog')->where('1=1')->delete();
         if($res !== false){
             $this->success('日志清空成功！');
         }else {

@@ -88,7 +88,7 @@ class Attribute extends Model {
             }
         }
         //删除字段缓存文件
-        $model_name = M('Model')->field('name')->find($data['model_id']);
+        $model_name = db('Model')->field('name')->find($data['model_id']);
         $cache_name = config('DB_NAME').'.'.preg_replace('/\W+|\_+/','',$model_name['name']);
         F($cache_name, null, DATA_PATH.'_fields/');
 
@@ -123,7 +123,7 @@ class Attribute extends Model {
      * @author huajie <banhuajie@163.com>
      */
     protected function checkTableExist($model_id){
-        $Model = M('Model');
+        $Model = db('Model');
         //当前操作的表
         $model = $Model->where(array('id'=>$model_id))->field('name,extend')->find();
 
@@ -136,7 +136,7 @@ class Attribute extends Model {
         $sql = <<<sql
                 SHOW TABLES LIKE '{$table_name}';
 sql;
-        $res = M()->query($sql);
+        $res = db()->query($sql);
         return count($res);
     }
 
@@ -168,7 +168,7 @@ ADD COLUMN `{$field['name']}`  {$field['field']} {$default} COMMENT '{$field['ti
 sql;
         }else{
             //新建表时是否默认新增“id主键”字段
-            $model_info = M('Model')->field('engine_type,need_pk')->getById($field['model_id']);
+            $model_info = db('Model')->field('engine_type,need_pk')->getById($field['model_id']);
             if($model_info['need_pk']){
                 $sql = <<<sql
                 CREATE TABLE IF NOT EXISTS `{$this->table_name}` (
@@ -198,7 +198,7 @@ sql;
             }
 
         }
-        $res = M()->execute($sql);
+        $res = db()->execute($sql);
         return $res !== false;
     }
 
@@ -222,7 +222,7 @@ sql;
             ALTER TABLE `{$this->table_name}`
 CHANGE COLUMN `{$last_field}` `{$field['name']}`  {$field['field']} {$default} COMMENT '{$field['title']}' ;
 sql;
-        $res = M()->execute($sql);
+        $res = db()->execute($sql);
         return $res !== false;
     }
 
@@ -240,7 +240,7 @@ sql;
             ALTER TABLE `{$this->table_name}`
 DROP COLUMN `{$field['name']}`;
 sql;
-        $res = M()->execute($sql);
+        $res = db()->execute($sql);
         return $res !== false;
     }
 

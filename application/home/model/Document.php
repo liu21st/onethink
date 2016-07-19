@@ -266,7 +266,7 @@ class Document  extends Model{
      */
     protected function getStatus(){
         $cate = I('post.category_id');
-        $check = M('Category')->getFieldById($cate, 'check');
+        $check = db('Category')->getFieldById($cate, 'check');
         if($check){
             $status = 2;
         }else{

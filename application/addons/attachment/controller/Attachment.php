@@ -21,7 +21,7 @@ class Attachment  extends Addons{
 		}
 
 		/* 下载附件 */
-		$Attachment = D('Addons://Attachment/Attachment');
+		$Attachment = model('Addons://Attachment/Attachment');
 		if(false === $Attachment->download($id)){
 			$this->error($Attachment->getError());
 		}
@@ -50,7 +50,7 @@ class Attachment  extends Addons{
 				$setting = config('ATTACHMENT_UPLOAD');
 
 				/* 调用文件上传组件上传文件 */
-				$File = D('File');
+				$File = model('File');
 				$info = $File->upload($_FILES, $setting, $config['driver'], $config['driver_config']);
 				/* 记录附件信息 */
 				if($info){

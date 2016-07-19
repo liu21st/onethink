@@ -20,7 +20,7 @@ class Category  extends Admin  {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function index(){
-        $tree = D('Category')->getTree(0,'id,name,title,sort,pid,allow_publish,status');
+        $tree = model('Category')->getTree(0,'id,name,title,sort,pid,allow_publish,status');
         $this->assign('tree', $tree);
         config('_SYS_GET_CATEGORY_TREE_', true); //标记系统获取分类树模板
         $this->meta_title = '分类管理';
@@ -40,7 +40,7 @@ class Category  extends Admin  {
 
     /* 编辑分类 */
     public function edit($id = null, $pid = 0){
-        $Category = D('Category');
+        $Category = model('Category');
 
         if(IS_POST){ //提交表单
             if(false !== $Category->update()){
@@ -71,7 +71,7 @@ class Category  extends Admin  {
 
     /* 新增分类 */
     public function add($pid = 0){
-        $Category = D('Category');
+        $Category = model('Category');
 
         if(IS_POST){ //提交表单
             if(false !== $Category->update()){
@@ -109,19 +109,19 @@ class Category  extends Admin  {
         }
 
         //判断该分类下有没有子分类，有则不允许删除
-        $child = M('Category')->where(array('pid'=>$cate_id))->field('id')->select();
+        $child = db('Category')->where(array('pid'=>$cate_id))->field('id')->select();
         if(!empty($child)){
             $this->error('请先删除该分类下的子分类');
         }
 
         //判断该分类下有没有内容
-        $document_list = M('Document')->where(array('category_id'=>$cate_id))->field('id')->select();
+        $document_list = db('Document')->where(array('category_id'=>$cate_id))->field('id')->select();
         if(!empty($document_list)){
             $this->error('请先删除该分类下的文章（包含回收站）');
         }
 
         //删除该分类信息
-        $res = M('Category')->delete($cate_id);
+        $res = db('Category')->delete($cate_id);
         if($res !== false){
             //记录行为
             action_log('update_category', 'category', $cate_id, UID);
@@ -150,7 +150,7 @@ class Category  extends Admin  {
 
         //获取分类
         $map = array('status'=>1, 'id'=>array('neq', $from));
-        $list = M('Category')->where($map)->field('id,pid,title')->select();
+        $list = db('Category')->where($map)->field('id,pid,title')->select();
 
 
         //移动分类时增加移至根分类
@@ -158,7 +158,7 @@ class Category  extends Admin  {
         	//不允许移动至其子孙分类
         	$list = tree_to_list(list_to_tree($list));
 
-        	$pid = M('Category')->getFieldById($from, 'pid');
+        	$pid = db('Category')->getFieldById($from, 'pid');
         	$pid && array_unshift($list, array('id'=>0,'title'=>'根分类'));
         }
 
@@ -177,7 +177,7 @@ class Category  extends Admin  {
     public function move(){
         $to = I('post.to');
         $from = I('post.from');
-        $res = M('Category')->where(array('id'=>$from))->setField('pid', $to);
+        $res = db('Category')->where(array('id'=>$from))->setField('pid', $to);
         if($res !== false){
             $this->success('分类移动成功！', U('index'));
         }else{
@@ -192,7 +192,7 @@ class Category  extends Admin  {
     public function merge(){
         $to = I('post.to');
         $from = I('post.from');
-        $Model = M('Category');
+        $Model = db('Category');
 
         //检查分类绑定的模型
         $from_models = explode(',', $Model->getFieldById($from, 'model'));
@@ -214,7 +214,7 @@ class Category  extends Admin  {
         }
 
         //合并文档
-        $res = M('Document')->where(array('category_id'=>$from))->setField('category_id', $to);
+        $res = db('Document')->where(array('category_id'=>$from))->setField('category_id', $to);
 
         if($res !== false){
             //删除被合并的分类

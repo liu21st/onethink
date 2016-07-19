@@ -135,7 +135,7 @@ class Update  extends Admin {
 			$this->showMsg('更新数据库开始...');
 			if(file_exists($updatesql))
 			{
-				$Model = M();
+				$Model = db();
 				$sql = File::read_file($updatesql);
 				$sql = str_replace("\r\n", "\n", $sql);
 				foreach(explode(";\n", trim($sql)) as $query)

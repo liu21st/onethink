@@ -41,12 +41,12 @@ class Article extends Admin  {
             case 'edit':    //编辑
             case 'update':  //更新
                 $doc_id  =  I('id');
-                $cate_id =  M('Document')->where(array('id'=>$doc_id))->getField('category_id');
+                $cate_id =  db('Document')->where(array('id'=>$doc_id))->getField('category_id');
                 break;
             case 'setstatus': //更改状态
             case 'permit':    //回收站
                 $doc_id  =  (array)I('ids');
-                $cate_id =  M('Document')->where(array('id'=>array('in',$doc_id)))->getField('category_id',true);
+                $cate_id =  db('Document')->where(array('id'=>array('in',$doc_id)))->getField('category_id',true);
                 $cate_id =  array_unique($cate_id);
                 break;
         }
@@ -69,7 +69,7 @@ class Article extends Admin  {
         //获取动态分类
         $cate_auth  =   AuthGroupModel::getAuthCategories(UID); //获取当前用户所有的内容权限节点
         $cate_auth  =   $cate_auth == null ? array() : $cate_auth;
-        $cate       =   M('Category')->where(array('status'=>1))->field('id,title,pid,allow_publish')->order('pid,sort')->select();
+        $cate       =   db('Category')->where(array('status'=>1))->field('id,title,pid,allow_publish')->order('pid,sort')->select();
 
         //没有权限的分类则不显示
         if(!IS_ROOT){
@@ -174,19 +174,19 @@ class Article extends Admin  {
             }
             if(is_null($model_id) && !is_numeric($models)){
                 // 绑定多个模型 取基础模型的列表定义
-                $model = M('Model')->getByName('document');
+                $model = db('Model')->getByName('document');
             }else{
                 $model_id   =   $model_id ? : $models;
                 //获取模型信息
-                $model = M('Model')->getById($model_id);
+                $model = db('Model')->getById($model_id);
                 if (empty($model['list_grid'])) {
-                    $model['list_grid'] = M('Model')->getFieldByName('document','list_grid');
+                    $model['list_grid'] = db('Model')->getFieldByName('document','list_grid');
                 }                
             }
             $this->assign('model', explode(',', $models));
         }else{
             // 获取基础模型信息
-            $model = M('Model')->getByName('document');
+            $model = db('Model')->getByName('document');
             $model_id   =   null;
             $cate_id    =   0;
             $this->assign('model', null);
@@ -268,11 +268,11 @@ class Article extends Admin  {
             $map['update_time'][] = array('elt',24*60*60 + strtotime(I('time-end')));
         }
         if ( isset($_GET['nickname']) ) {
-            $map['uid'] = M('Member')->where(array('nickname'=>I('nickname')))->getField('uid');
+            $map['uid'] = db('Member')->where(array('nickname'=>I('nickname')))->getField('uid');
         }
 
         // 构建列表数据
-        $Document = M('Document');
+        $Document = db('Document');
 
         if($cate_id){
             $map['category_id'] =   $cate_id;
@@ -285,7 +285,7 @@ class Article extends Admin  {
         if(!is_null($model_id)){
             $map['model_id']    =   $model_id;
             if(is_array($field) && array_diff($Document->getDbFields(),$field)){
-                $modelName  =   M('Model')->getFieldById($model_id,'name');
+                $modelName  =   db('Model')->getFieldById($model_id,'name');
                 $Document->join('__DOCUMENT_'.strtoupper($modelName).'__ '.$modelName.' ON DOCUMENT.id='.$modelName.'.id');
                 $key = array_search('id',$field);
                 if(false  !== $key){
@@ -356,7 +356,7 @@ class Article extends Admin  {
 
         if($info['pid']){
             // 获取上级文档
-            $article            =   M('Document')->field('id,title,type')->find($info['pid']);
+            $article            =   db('Document')->field('id,title,type')->find($info['pid']);
             $this->assign('article',$article);
         }
 
@@ -384,7 +384,7 @@ class Article extends Admin  {
         }
 
         // 获取详细数据 
-        $Document = D('Document');
+        $Document = model('Document');
         $data = $Document->detail($id);
         if(!$data){
             $this->error($Document->getError());
@@ -419,7 +419,7 @@ class Article extends Admin  {
      * @author huajie <banhuajie@163.com>
      */
     public function update(){
-        $document   =   D('Document');
+        $document   =   model('Document');
         $res = $document->update();
         if(!$res){
             $this->error($document->getError());
@@ -444,7 +444,7 @@ class Article extends Admin  {
                 $map['category_id']    =   -1;
             }
         }
-        $list = $this->lists(M('Document'),$map,'update_time desc');
+        $list = $this->lists(db('Document'),$map,'update_time desc');
         //处理列表数据
         if(is_array($list)){
             foreach ($list as $k=>&$v){
@@ -474,7 +474,7 @@ class Article extends Admin  {
                 $map['category_id']    =   -1;
             }
         }
-        $list = $this->lists(M('Document'),$map,'update_time desc');
+        $list = $this->lists(db('Document'),$map,'update_time desc');
 
         //处理列表数据
         if(is_array($list)){
@@ -493,14 +493,14 @@ class Article extends Admin  {
      * @author huajie <banhuajie@163.com>
      */
     public function autoSave(){
-        $res = D('Document')->autoSave();
+        $res = model('Document')->autoSave();
         if($res !== false){
             $return['data']     =   $res;
             $return['info']     =   '保存草稿成功';
             $return['status']   =   1;
             $this->ajaxReturn($return);
         }else{
-            $this->error('保存草稿失败：'.D('Document')->getError());
+            $this->error('保存草稿失败：'.model('Document')->getError());
         }
     }
 
@@ -512,7 +512,7 @@ class Article extends Admin  {
         //获取左边菜单
         $this->getMenu();
 
-        $Document   =   D('Document');
+        $Document   =   model('Document');
         $map        =   array('status'=>3,'uid'=>UID);
         $list       =   $this->lists($Document,$map);
         //获取状态文字
@@ -531,7 +531,7 @@ class Article extends Admin  {
         //获取左边菜单
         $this->getMenu();
 
-        $Document   =   D('Document');
+        $Document   =   model('Document');
         /* 查询条件初始化 */
         $map['uid'] = UID;
         if(isset($title)){
@@ -588,7 +588,7 @@ class Article extends Admin  {
      * @author huajie <banhuajie@163.com>
      */
     public function clear(){
-        $res = D('Document')->remove();
+        $res = model('Document')->remove();
         if($res !== false){
             $this->success('清空回收站成功！');
         }else{
@@ -646,7 +646,7 @@ class Article extends Admin  {
 
         if(!empty($moveList)) {// 移动    TODO:检查name重复
             foreach ($moveList as $key=>$value){
-                $Model              =   M('Document');
+                $Model              =   db('Document');
                 $map['id']          =   $value;
                 $data['category_id']=   $cate_id;
                 $data['pid']        =   $pid;
@@ -667,7 +667,7 @@ class Article extends Admin  {
             }
         }elseif(!empty($copyList)){ // 复制
             foreach ($copyList as $key=>$value){
-                $Model  =   M('Document');
+                $Model  =   db('Document');
                 $data   =   $Model->find($value);
                 unset($data['id']);
                 unset($data['name']);
@@ -706,13 +706,13 @@ class Article extends Admin  {
      */
     protected function checkPaste($list, $cate_id, $pid){
         $return     =   array('status'=>1);
-        $Document   =   D('Document');
+        $Document   =   model('Document');
 
         // 检查支持的文档模型
         if($pid){
-            $modelList =   M('Category')->getFieldById($cate_id,'model_sub');   // 当前分类支持的文档模型
+            $modelList =   db('Category')->getFieldById($cate_id,'model_sub');   // 当前分类支持的文档模型
         }else{
-            $modelList =   M('Category')->getFieldById($cate_id,'model');   // 当前分类支持的文档模型
+            $modelList =   db('Category')->getFieldById($cate_id,'model');   // 当前分类支持的文档模型
         }
         
         foreach ($list as $key => $value){
@@ -732,7 +732,7 @@ class Article extends Admin  {
         }
 
         // 检查支持的文档类型和层级规则
-        $typeList =   M('Category')->getFieldById($cate_id,'type'); // 当前分类支持的文档模型
+        $typeList =   db('Category')->getFieldById($cate_id,'type'); // 当前分类支持的文档模型
         foreach ($list as $key=>$value){
             // 移动文档的所属文档模型
             $modelType  =   $Document->getFieldById($value,'type');
@@ -777,7 +777,7 @@ class Article extends Admin  {
                     $map['pid'] = $pid;
                 }
             }
-            $list = M('Document')->where($map)->field('id,title')->order('level DESC,id DESC')->select();
+            $list = db('Document')->where($map)->field('id,title')->order('level DESC,id DESC')->select();
 
             $this->assign('list', $list);
             $this->meta_title = '文档排序';
@@ -786,7 +786,7 @@ class Article extends Admin  {
             $ids = I('post.ids');
             $ids = array_reverse(explode(',', $ids));
             foreach ($ids as $key=>$value){
-                $res = M('Document')->where(array('id'=>$value))->setField('level', $key+1);
+                $res = db('Document')->where(array('id'=>$value))->setField('level', $key+1);
             }
             if($res !== false){
                 $this->success('排序成功！');

@@ -27,7 +27,7 @@ class AuthManager  extends Admin {
         //需要新增的节点必然位于$nodes
         $nodes    = $this->returnNodes(false);
 
-        $AuthRule = M('AuthRule');
+        $AuthRule = db('AuthRule');
         $map      = array('module'=>'admin','type'=>array('in','1,2'));//status全部取出,以进行更新
         //需要更新和删除的节点必然位于$rules
         $rules    = $AuthRule->where($map)->order('name')->select();
@@ -115,7 +115,7 @@ class AuthManager  extends Admin {
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     public function editGroup(){
-        $auth_group = M('AuthGroup')->where( array('module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
+        $auth_group = db('AuthGroup')->where( array('module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
                                     ->find( (int)$_GET['id'] );
         $this->assign('auth_group',$auth_group);
         $this->meta_title = '编辑用户组';
@@ -129,13 +129,13 @@ class AuthManager  extends Admin {
      */
     public function access(){
         $this->updateRules();
-        $auth_group = M('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
+        $auth_group = db('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
                                     ->getfield('id,id,title,rules');
         $node_list   = $this->returnNodes();
         $map         = array('module'=>'admin','type'=>AuthRuleModel::RULE_MAIN,'status'=>1);
-        $main_rules  = M('AuthRule')->where($map)->getField('name,id');
+        $main_rules  = db('AuthRule')->where($map)->getField('name,id');
         $map         = array('module'=>'admin','type'=>AuthRuleModel::RULE_URL,'status'=>1);
-        $child_rules = M('AuthRule')->where($map)->getField('name,id');
+        $child_rules = db('AuthRule')->where($map)->getField('name,id');
 
         $this->assign('main_rules', $main_rules);
         $this->assign('auth_rules', $child_rules);
@@ -157,7 +157,7 @@ class AuthManager  extends Admin {
         }
         $_POST['module'] =  'admin';
         $_POST['type']   =  AuthGroupModel::TYPE_ADMIN;
-        $AuthGroup       =  D('AuthGroup');
+        $AuthGroup       =  model('AuthGroup');
         $data = $AuthGroup->create();
         if ( $data ) {
             if ( empty($data['id']) ) {
@@ -207,12 +207,12 @@ class AuthManager  extends Admin {
             $this->error('参数错误');
         }
 
-        $auth_group = M('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
+        $auth_group = db('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
             ->getfield('id,id,title,rules');
         $prefix   = config('DB_PREFIX');
         $l_table  = $prefix.(AuthGroupModel::MEMBER);
         $r_table  = $prefix.(AuthGroupModel::AUTH_GROUP_ACCESS);
-        $model    = M()->table( $l_table.' m' )->join ( $r_table.' a ON m.uid=a.uid' );
+        $model    = db()->table( $l_table.' m' )->join ( $r_table.' a ON m.uid=a.uid' );
         $_REQUEST = array();
         $list = $this->lists($model,array('a.group_id'=>$group_id,'m.status'=>array('egt',0)),'m.uid asc','m.uid,m.nickname,m.last_login_time,m.last_login_ip,m.status');
         int_to_string($list);
@@ -228,9 +228,9 @@ class AuthManager  extends Admin {
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     public function category(){
-        $auth_group     =   M('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
+        $auth_group     =   db('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
             ->getfield('id,id,title,rules');
-        $group_list     =   D('Category')->getTree();
+        $group_list     =   model('Category')->getTree();
         $authed_group   =   AuthGroupModel::getCategoryOfGroup(I('group_id'));
         $this->assign('authed_group',   implode(',',(array)$authed_group));
         $this->assign('group_list',     $group_list);
@@ -251,13 +251,13 @@ class AuthManager  extends Admin {
      */
     public function group(){
         $uid            =   I('uid');
-        $auth_groups    =   D('AuthGroup')->getGroups();
+        $auth_groups    =   model('AuthGroup')->getGroups();
         $user_groups    =   AuthGroupModel::getUserGroup($uid);
         $ids = array();
         foreach ($user_groups as $value){
             $ids[]      =   $value['group_id'];
         }
-        $nickname       =   D('Member')->getNickName($uid);
+        $nickname       =   model('Member')->getNickName($uid);
         $this->assign('nickname',   $nickname);
         $this->assign('auth_groups',$auth_groups);
         $this->assign('user_groups',implode(',',$ids));
@@ -275,12 +275,12 @@ class AuthManager  extends Admin {
         if( empty($uid) ){
             $this->error('参数有误');
         }
-        $AuthGroup = D('AuthGroup');
+        $AuthGroup = model('AuthGroup');
         if(is_numeric($uid)){
             if ( is_administrator($uid) ) {
                 $this->error('该用户为超级管理员');
             }
-            if( !M('Member')->where(array('uid'=>$uid))->find() ){
+            if( !db('Member')->where(array('uid'=>$uid))->find() ){
                 $this->error('用户不存在');
             }
         }
@@ -308,7 +308,7 @@ class AuthManager  extends Admin {
         if( empty($uid) || empty($gid) ){
             $this->error('参数有误');
         }
-        $AuthGroup = D('AuthGroup');
+        $AuthGroup = model('AuthGroup');
         if( !$AuthGroup->find($gid)){
             $this->error('用户组不存在');
         }
@@ -329,7 +329,7 @@ class AuthManager  extends Admin {
         if( empty($gid) ){
             $this->error('参数有误');
         }
-        $AuthGroup = D('AuthGroup');
+        $AuthGroup = model('AuthGroup');
         if( !$AuthGroup->find($gid)){
             $this->error('用户组不存在');
         }
@@ -353,7 +353,7 @@ class AuthManager  extends Admin {
         if( empty($gid) ){
             $this->error('参数有误');
         }
-        $AuthGroup = D('AuthGroup');
+        $AuthGroup = model('AuthGroup');
         if( !$AuthGroup->find($gid)){
             $this->error('用户组不存在');
         }

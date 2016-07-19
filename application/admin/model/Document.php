@@ -139,7 +139,7 @@ class Document extends Model{
         $id = I('post.id');
         if(empty($id)){	//新增
         	$cate = I('post.category_id');
-        	$check 	=	M('Category')->getFieldById($cate,'check');  	
+        	$check 	=	db('Category')->getFieldById($cate,'check');  	
             $status = 	$check ? 2 : 1;
         }else{				//更新
             $status = $this->getFieldById($id, 'status');
@@ -194,7 +194,7 @@ class Document extends Model{
         } else {
             $parent             = get_parent_category($category['id']);
             $root               = array_shift($parent);
-            $map['category_id'] = array('in', D("Category")->getChildrenId($root['id']));
+            $map['category_id'] = array('in', model("Category")->getChildrenId($root['id']));
         }
 
         $res = $this->where($map)->getField('id');
@@ -291,7 +291,7 @@ class Document extends Model{
         } else if(is_numeric($link)){
             return $link;
         }
-        $res = D('Url')->update(array('url'=>$link));
+        $res = model('Url')->update(array('url'=>$link));
         return $res['id'];
     }
 
