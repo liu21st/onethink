@@ -19,8 +19,7 @@
         "php": ">=5.4.0",
         "topthink/framework": "*",
         "topthink/think-captcha": "*",
-        "topthink/think-image": "*",
-        "topthink/think-angular": "^1.0"
+        "topthink/think-image": "*"
     },
     "extra": {
         "think-path": "thinkphp"

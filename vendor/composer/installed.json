@@ -170,47 +170,5 @@
             "orm",
             "thinkphp"
         ]
-    },
-    {
-        "name": "topthink/think-angular",
-        "version": "1.0.6",
-        "version_normalized": "1.0.6.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/top-think/think-angular.git",
-            "reference": "ee143a0de73d558e0f3c1eec41e3e19c6e665858"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/top-think/think-angular/zipball/ee143a0de73d558e0f3c1eec41e3e19c6e665858",
-            "reference": "ee143a0de73d558e0f3c1eec41e3e19c6e665858",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.4.0"
-        },
-        "time": "2016-07-18 04:57:19",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "classmap": {
-                "think\\view\\driver\\Angular": "drivers/thinkphp5/Angular.php"
-            },
-            "psr-4": {
-                "think\\angular\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache2"
-        ],
-        "authors": [
-            {
-                "name": "玩具机器人",
-                "email": "zhaishuaigan@qq.com"
-            }
-        ],
-        "description": "think angular view engine",
-        "homepage": "http://kancloud.cn/shuai/php-angular"
     }
 ]

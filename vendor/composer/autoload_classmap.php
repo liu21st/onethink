@@ -6,5 +6,4 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'think\\view\\driver\\Angular' => $vendorDir . '/topthink/think-angular/drivers/thinkphp5/Angular.php',
 );
