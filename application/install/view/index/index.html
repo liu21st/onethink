@@ -1,14 +1,14 @@
-<extend name="Public/base"/>
+{extend name="public/base"/}
 
-<block name="header">
+{block name="header"}
     <li class="active"><a href="javascript:;">安装协议</a></li>
     <li><a href="javascript:;">环境检测</a></li>
     <li><a href="javascript:;">创建数据库</a></li>
     <li><a href="javascript:;"><eq name="Think.session.update" value="1">升级<else/>安装</eq></a></li>
     <li><a href="javascript:;">完成</a></li>
-</block>
+{/block}
 
-<block name="body">
+{block name="body"}
     <h1>OneThink V1.1 安装协议</h1>
     <p>版权所有 (c) 2013~2014，上海顶想信息科技有限公司保留所有权利。</p>
 
@@ -26,9 +26,9 @@
 2． 如果你修改了代码，需要在被修改的文件中说明；<br/>
 3． 在延伸的代码中（修改和有源代码衍生的代码中）需要带有原来代码中的协议，商标，专利声明和其他原来作者规定需要包含的说明；<br/>
 4． 如果再发布的产品中包含一个Notice文件，则在Notice文件中需要带有本协议内容。你可以在Notice中增加自己的许可，但不可以表现为对Apache Licence构成更改。</p>
-</block>
+{/block}
 
-<block name="footer">
-    <a class="btn btn-primary btn-large" href="{:U('Install/step1')}">同意安装协议</a>
+{block name="footer"}
+    <a class="btn btn-primary btn-large" href="{:url('Install/step1')}">同意安装协议</a>
     <a class="btn btn-large" href="http://www.onethink.cn">不同意</a>
-</block>
+{/block}
