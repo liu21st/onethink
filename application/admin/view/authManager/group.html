@@ -12,7 +12,7 @@
                     <input class="auth_groups" type="checkbox" name="group_id[]" value="{$vo.id}">{$vo.title}
                 </label>
             </volist>
-            <input type="hidden" name="uid" value="{:I('uid')}">
+            <input type="hidden" name="uid" value="{:input('uid')}">
             <input type="hidden" name="batch" value="true">
             <div style="margin-top: 10px;">
                 <button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button>

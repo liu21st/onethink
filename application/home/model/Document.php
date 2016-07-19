@@ -148,7 +148,7 @@ class Document  extends Model{
 //     public function update(){
 //         /* 检查文档类型是否符合要求 */
 //         $Model = new \Admin\Model\DocumentModel();
-//         $res = $Model->checkDocumentType( I('type'), I('pid') );
+//         $res = $Model->checkDocumentType( input('type'), input('pid') );
 //         if(!$res['status']){
 //             $this->error = $res['info'];
 //             return false;
@@ -265,7 +265,7 @@ class Document  extends Model{
      * @author huajie <banhuajie@163.com>
      */
     protected function getStatus(){
-        $cate = I('post.category_id');
+        $cate = input('post.category_id');
         $check = db('Category')->getFieldById($cate, 'check');
         if($check){
             $status = 2;
@@ -281,7 +281,7 @@ class Document  extends Model{
      * @author huajie <banhuajie@163.com>
      */
     protected function getRoot(){
-        $pid = I('post.pid');
+        $pid = input('post.pid');
         if($pid == 0){
             return 0;
         }

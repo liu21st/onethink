@@ -52,7 +52,7 @@
 		<div id="add-to-group" class="tools fr">
 			<form class="add-user" action="{:url('addToGroup')}" method="post" enctype="application/x-www-form-urlencoded" >
 				<input class="text input-4x" type="text" name="uid" placeholder="请输入uid,多个用英文逗号分隔">
-				<input type="hidden" name="group_id" value="{:I('group_id')}">
+				<input type="hidden" name="group_id" value="{:input('group_id')}">
                 <button type="submit" class="btn ajax-post" target-form="add-user">新 增</button>
 			</form>
 		</div>
