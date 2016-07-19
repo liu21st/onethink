@@ -25,8 +25,8 @@
 		</tr>
     </thead>
     <tbody>
-		<notempty name="_list">
-		<volist name="_list" id="vo">
+		{notempty name="_list"}
+		{volist name="_list" id="vo"}
 		<tr>
             <td><input class="ids" type="checkbox" name="id[]" value="{$vo.id}" /></td>
 			<td>{$vo.id} </td>
@@ -37,10 +37,10 @@
 				<a class="confirm ajax-get" href="{:url('Attribute/remove?id='.$vo['id'])}">删除</a>
                 </td>
 		</tr>
-		</volist>
-		<else/>
+		{/volist}
+		{else /}
 		<td colspan="6" class="text-center"> aOh! 暂时还没有内容! </td>
-		</notempty>
+		{/notempty}
 	</tbody>
     </table>
         </div>

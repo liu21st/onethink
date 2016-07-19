@@ -8,9 +8,9 @@
 		<li class="current"><a href="javascript:;">成员授权</a></li>
 	    <li class="fr">
 		    <select name="group">
-			    <volist name="auth_group" id="vo">
-				    <option value="{:url('AuthManager/user',array('group_id'=>$vo['id'],'group_name'=>$vo['title']))}" <eq name="vo['id']" value="$this_group['id']">selected</eq> >{$vo.title}</option>
-			    </volist>
+			    {volist name="auth_group" id="vo"}
+				    <option value="{:url('AuthManager/user',array('group_id'=>$vo['id'],'group_name'=>$vo['title']))}" {eq name="vo['id']" value="$this_group['id']"}selected{/eq} >{$vo.title}</option>
+			    {/volist}
 		    </select>
 	    </li>
     </ul>
@@ -28,7 +28,7 @@
 		</tr>
     </thead>
     <tbody>
-		<volist name="_list" id="vo">
+		{volist name="_list" id="vo"}
 		<tr>
 			<td>{$vo.uid} </td>
 			<td>{$vo.nickname}</td>
@@ -39,7 +39,7 @@
 
                 </td>
 		</tr>
-		</volist>
+		{/volist}
 	</tbody>
     </table>
 

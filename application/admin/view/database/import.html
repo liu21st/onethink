@@ -22,7 +22,7 @@
                 </tr>
             </thead>
             <tbody>
-                <volist name="list" id="data">
+                {volist name="list" id="data"}
                     <tr>
                         <td>{$data.time|date='Ymd-His',###}</td>
                         <td>{$data.part}</td>
@@ -35,7 +35,7 @@
                             <a class="ajax-get confirm" href="{:url('del?time='.$data['time'])}">删除</a>
                         </td>
                     </tr>
-                </volist>
+                {/volist}
             </tbody>
         </table>
     </div>

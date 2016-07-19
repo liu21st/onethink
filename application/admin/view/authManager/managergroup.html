@@ -8,9 +8,9 @@
 			<li><a href="{:url('AuthManager/user',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">成员授权</a></li>
 			<li class="fr">
 				<select name="group">
-					<volist name="auth_group" id="vo">
-						<option value="{:url('AuthManager/access',array('group_id'=>$vo['id'],'group_name'=>$vo['title']))}" <eq name="vo['id']" value="$this_group['id']">selected</eq> >{$vo.title}</option>
-					</volist>
+					{volist name="auth_group" id="vo"}
+						<option value="{:url('AuthManager/access',array('group_id'=>$vo['id'],'group_name'=>$vo['title']))}" {eq name="vo['id']" value="$this_group['id']"}selected{/eq} >{$vo.title}</option>
+					{/volist}
 				</select>
 			</li>
 		</ul>
@@ -18,37 +18,37 @@
 			<!-- 访问授权 -->
 			<div class="tab-pane in">
 				<form action="{:url('AuthManager/writeGroup')}" enctype="application/x-www-form-urlencoded" method="POST" class="form-horizontal auth-form">
-					<volist name="node_list" id="node" >
+					{volist name="node_list" id="node"}
 						<dl class="checkmod">
 							<dt class="hd">
 								<label class="checkbox"><input class="auth_rules rules_all" type="checkbox" name="rules[]" value="<?php echo $main_rules[$node['url']] ?>">{$node.title}管理</label>
 							</dt>
 							<dd class="bd">
-								<present name="node['child']">
-								<volist name="node['child']" id="child" >
+								{present name="node['child']"}
+								{volist name="node['child']" id="child"}
                                     <div class="rule_check">
                                         <div>
-                                            <label class="checkbox" <notempty name="child['tip']">title='{$child.tip}'</notempty>>
+                                            <label class="checkbox" {notempty name="child['tip']"}title='{$child.tip}'{/notempty}>
                                            <input class="auth_rules rules_row" type="checkbox" name="rules[]" value="<?php echo $auth_rules[$child['url']] ?>"/>{$child.title}
                                             </label>
                                         </div>
-                                       <notempty name="child['operator']">
+                                       {notempty name="child['operator']"}
                                            <span class="divsion">&nbsp;</span>
                                            <span class="child_row">
-                                               <volist name="child['operator']" id="op">
-                                                   <label class="checkbox" <notempty name="op['tip']">title='{$op.tip}'</notempty>>
+                                               {volist name="child['operator']" id="op"}
+                                                   <label class="checkbox" {notempty name="op['tip']"}title='{$op.tip}'{/notempty}>
                                                        <input class="auth_rules" type="checkbox" name="rules[]"
                                                        value="<?php echo $auth_rules[$op['url']] ?>"/>{$op.title}
                                                    </label>
-                                               </volist>
+                                               {/volist}
                                            </span>
-                                       </notempty>
+                                       {/notempty}
 				                    </div>
-								</volist>
-								</present>
+								{/volist}
+								{/present}
 							</dd>
 						</dl>
-					</volist>
+					{/volist}
 
 			        <input type="hidden" name="id" value="{$this_group.id}" />
                     <button type="submit" class="btn submit-btn ajax-post" target-form="auth-form">确 定</button>

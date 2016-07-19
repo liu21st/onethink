@@ -8,81 +8,81 @@
     <!-- 标签页导航 -->
 <div class="tab-wrap">
     <ul class="tab-nav nav">
-			<volist name=":parse_config_attr($model['field_group'])" id="group">
-			<li data-tab="tab{$key}" <eq name="key" value="1">class="current"</eq>><a href="javascript:void(0);">{$group}</a></li>
-			</volist>
+			{volist name=":parse_config_attr($model['field_group'])" id="group"}
+			<li data-tab="tab{$key}" {eq name="key" value="1"}class="current"{/eq}><a href="javascript:void(0);">{$group}</a></li>
+			{/volist}
     </ul>
     <div class="tab-content">
     <!-- 表单 -->
     <form id="form" action="{:url('add?model='.$model['id'])}" method="post" class="form-horizontal">
         <!-- 基础文档模型 -->
-		<volist name=":parse_config_attr($model['field_group'])" id="group">
-        <div id="tab{$key}" class="tab-pane <eq name="key" value="1">in</eq> tab{$key}">
-            <volist name="fields[$key]" id="field">
-                <if condition="$field['is_show'] == 1 || $field['is_show'] == 2">
+		{volist name=":parse_config_attr($model['field_group'])" id="group"}
+        <div id="tab{$key}" class="tab-pane {eq name="key" value="1"}in{/eq} tab{$key}">
+            {volist name="fields[$key]" id="field"}
+                {if condition="$field['is_show'] == 1 || $field['is_show'] == 2"}
                 <div class="form-item cf">
-                    <label class="item-label">{$field['title']}<span class="check-tips"><notempty name="field['remark']">（{$field['remark']}）</notempty></span></label>
+                    <label class="item-label">{$field['title']}<span class="check-tips">{notempty name="field['remark']"}（{$field['remark']}）{/notempty}</span></label>
                     <div class="controls">
-                        <switch name="field.type">
-                            <case value="num">
+                        {switch name="field.type"}
+                            {case value="num"}
                                 <input type="text" class="text input-mid" name="{$field.name}" value="">
-                            </case>
-                            <case value="string">
+                            {/case}
+                            {case value="string"}
                                 <input type="text" class="text input-large" name="{$field.name}" value="">
-                            </case>
-                            <case value="textarea">
+                            {/case}
+                            {case value="textarea"}
                                 <label class="textarea input-large">
                                 <textarea name="{$field.name}"></textarea>
                                 </label>
-                            </case>
-                            <case value="date">
+                            {/case}
+                            {case value="date"}
                                 <input type="text" name="{$field.name}" class="text input-mid date" value="" placeholder="请选择日期" />
-                            </case>
-                            <case value="datetime">
+                            {/case}
+                            {case value="datetime"}
                                 <input type="text" name="{$field.name}" class="text input-mid time" value="" placeholder="请选择时间" />
-                            </case>
-                            <case value="bool">
+                            {/case}
+                            {case value="bool"}
                                 <select name="{$field.name}">
-                                    <volist name=":parse_field_attr($field['extra'])" id="vo">
-                                        <option value="{$key}" <eq name="field.value" value="$key">selected</eq>>{$vo}</option>
-                                    </volist>
+                                    {volist name=":parse_field_attr($field['extra'])" id="vo"}
+                                        <option value="{$key}" {eq name="field.value" value="$key"}selected{/eq}>{$vo}</option>
+                                    {/volist}
                                 </select>
-                            </case>
-                            <case value="select">
+                            {/case}
+                            {case value="select"}
                                 <select name="{$field.name}">
-                                    <volist name=":parse_field_attr($field['extra'])" id="vo">
-                                        <option value="{$key}" <eq name="field.value" value="$key">selected</eq>>{$vo}</option>
-                                    </volist>
+                                    {volist name=":parse_field_attr($field['extra'])" id="vo"}
+                                        <option value="{$key}" {eq name="field.value" value="$key"}selected{/eq}>{$vo}</option>
+                                    {/volist}
                                 </select>
-                            </case>
-                            <case value="radio">
-                                <volist name=":parse_field_attr($field['extra'])" id="vo">
+                            {/case}
+                            {case value="radio"}
+                                {volist name=":parse_field_attr($field['extra'])" id="vo"}
                                 	<label class="radio">
                                     <input type="radio" value="{$key}" name="{$field.name}">{$vo}
                                 	</label>
-                                </volist>
-                            </case>
-                            <case value="checkbox">
-                                <volist name=":parse_field_attr($field['extra'])" id="vo">
+                                {/volist}
+                            {/case}
+                            {case value="checkbox"}
+                                {volist name=":parse_field_attr($field['extra'])" id="vo"}
                                 	<label class="checkbox">
                                     <input type="checkbox" value="{$key}" name="{$field.name}[]">{$vo}
                                 	</label>
-                                </volist>
-                            </case>
-                            <case value="editor">
+                                {/volist}
+                            {/case}
+                            {case value="editor"}
                                 <label class="textarea">
                                 <textarea name="{$field.name}"></textarea>
                                 {:hook('adminArticleEdit', array('name'=>$field['name'],'value'=>''))}
                                 </label>
-                            </case>
-                            <case value="picture">
+                            {/case}
+                            {case value="picture"}
                                 <div class="controls">
 									<input type="file" id="upload_picture_{$field.name}">
 									<input type="hidden" name="{$field.name}" id="cover_id_{$field.name}"/>
 									<div class="upload-img-box">
-									<notempty name="data[$field['name']]">
+									{notempty name="data[$field['name']]"}
 										<div class="upload-pre-item"><img src="{$data[$field['name']]|get_cover='path'}"/></div>
-									</notempty>
+									{/notempty}
 									</div>
 								</div>
 								<script type="text/javascript">
@@ -120,15 +120,15 @@
 							        }
 							    }
 								</script>
-                            </case>
-                            <case value="file">
+                            {/case}
+                            {case value="file"}
 								<div class="controls">
 									<input type="file" id="upload_file_{$field.name}">
 									<input type="hidden" name="{$field.name}" value="{$data[$field['name']]}"/>
 									<div class="upload-img-box">
-										<present name="data[$field['name']]">
+										{present name="data[$field['name']]"}
 											<div class="upload-pre-file"><span class="upload_icon_all"></span>{$data[$field['name']]}</div>
-										</present>
+										{/present}
 									</div>
 								</div>
 								<script type="text/javascript">
@@ -164,16 +164,16 @@
 							        }
 							    }
 								</script>
-                            </case>
-                            <default/>
+                            {/case}
+                            {default /}
                             <input type="text" class="text input-large" name="{$field.name}" value="">
-                        </switch>
+                        {/switch}
                     </div>
                 </div>
-                </if>
-            </volist>
+                {/if}
+            {/volist}
         </div>
-		</volist>
+		{/volist}
 
 
 
@@ -188,7 +188,7 @@
 
 {block name="script"}
 <link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
-<php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
+{php}if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';{/php}
 <link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>

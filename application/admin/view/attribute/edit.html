@@ -33,9 +33,9 @@
 						<div class="controls">
 							<select name="type" id="data-type">
 								<option value="">----请选择----</option>
-								<volist name=":get_attribute_type()" id="type">
+								{volist name=":get_attribute_type()" id="type"}
 								<option value="{$key}" rule="{$type[1]}">{$type[0]}</option>
-								</volist>
+								{/volist}
 							</select>
 						</div>
 					</div>
@@ -180,13 +180,13 @@ Think.setValue('auto_type', "{$info.auto_type|default='function'}");
 $(function(){
 	showTab();
 })
-<eq name="ACTION_NAME" value="add">
+{eq name="ACTION_NAME" value="add"}
 $(function(){
 	$('#data-type').change(function(){
 		$('#data-field').val($(this).find('option:selected').attr('rule'));
 	});
 })
-</eq>
+{/eq}
 </script>
 {/block}
 

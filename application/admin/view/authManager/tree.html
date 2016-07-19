@@ -1,4 +1,4 @@
-<volist name="tree" id="list">
+{volist name="tree" id="list"}
 <dl class="cate-item">
     <dt class="cf">
     <div class="fold"><i></i></div>
@@ -11,10 +11,10 @@
         </div>
     </label>
     </dt>
-    <notempty name="list['_']">
+    {notempty name="list['_']"}
     <dd>
     {:R('AuthManager/tree', array($list['_']))}
     </dd>
-    </notempty>
+    {/notempty}
 </dl>
-</volist>
+{/volist}
