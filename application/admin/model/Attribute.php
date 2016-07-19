@@ -89,7 +89,7 @@ class Attribute extends Model {
         }
         //删除字段缓存文件
         $model_name = M('Model')->field('name')->find($data['model_id']);
-        $cache_name = C('DB_NAME').'.'.preg_replace('/\W+|\_+/','',$model_name['name']);
+        $cache_name = config('DB_NAME').'.'.preg_replace('/\W+|\_+/','',$model_name['name']);
         F($cache_name, null, DATA_PATH.'_fields/');
 
         //记录行为
@@ -128,10 +128,10 @@ class Attribute extends Model {
         $model = $Model->where(array('id'=>$model_id))->field('name,extend')->find();
 
         if($model['extend'] == 0){	//独立模型表名
-            $table_name = $this->table_name = C('DB_PREFIX').strtolower($model['name']);
+            $table_name = $this->table_name = config('DB_PREFIX').strtolower($model['name']);
         }else{						//继承模型表名
             $extend_model = $Model->where(array('id'=>$model['extend']))->field('name,extend')->find();
-            $table_name = $this->table_name = C('DB_PREFIX').strtolower($extend_model['name']).'_'.strtolower($model['name']);
+            $table_name = $this->table_name = config('DB_PREFIX').strtolower($extend_model['name']).'_'.strtolower($model['name']);
         }
         $sql = <<<sql
                 SHOW TABLES LIKE '{$table_name}';

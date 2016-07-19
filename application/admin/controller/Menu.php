@@ -26,7 +26,7 @@ class MenuController extends Admin {
             $this->assign('data',$data);
         }
         $title      =   trim(I('get.title'));
-        $type       =   C('CONFIG_GROUP_LIST');
+        $type       =   config('CONFIG_GROUP_LIST');
         $all_menu   =   M('Menu')->getField('id,title');
         $map['pid'] =   $pid;
         if($title)

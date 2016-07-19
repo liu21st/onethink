@@ -61,7 +61,7 @@ class AuthGroup extends Model {
         }
 
         $uid_arr = explode(',',$uid);
-		$uid_arr = array_diff($uid_arr,array(C('USER_ADMINISTRATOR')));
+		$uid_arr = array_diff($uid_arr,array(config('USER_ADMINISTRATOR')));
         $add = array();
         if( $del!==false ){
             foreach ($uid_arr as $u){
@@ -100,7 +100,7 @@ class AuthGroup extends Model {
         static $groups = array();
         if (isset($groups[$uid]))
             return $groups[$uid];
-        $prefix = C('DB_PREFIX');
+        $prefix = config('DB_PREFIX');
         $user_groups = M()
             ->field('uid,group_id,title,description,rules')
             ->table($prefix.self::AUTH_GROUP_ACCESS.' a')
@@ -133,7 +133,7 @@ class AuthGroup extends Model {
         if ( $uid == UID && !empty($result) ) {
             return $result;
         }
-        $prefix = C('DB_PREFIX');
+        $prefix = config('DB_PREFIX');
         $result = M()
             ->table($prefix.self::AUTH_GROUP_ACCESS.' g')
             ->join($prefix.self::AUTH_EXTEND.' c on g.group_id=c.group_id')
@@ -258,7 +258,7 @@ class AuthGroup extends Model {
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     static public function memberInGroup($group_id){
-        $prefix   = C('DB_PREFIX');
+        $prefix   = config('DB_PREFIX');
         $l_table  = $prefix.self::MEMBER;
         $r_table  = $prefix.self::AUTH_GROUP_ACCESS;
         $r_table2 = $prefix.self::UCENTER_MEMBER;

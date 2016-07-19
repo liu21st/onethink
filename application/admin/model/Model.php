@@ -104,7 +104,7 @@ class Model extends Model{
     public function generate($table,$name='',$title=''){
         //新增模型数据
         if(empty($name)){
-            $name = $title = substr($table, strlen(C('DB_PREFIX')));
+            $name = $title = substr($table, strlen(config('DB_PREFIX')));
         }
         $data = array('name'=>$name, 'title'=>$title);
         $data = $this->create($data);
@@ -152,9 +152,9 @@ class Model extends Model{
         //获取表名
         $model = $this->field('name,extend')->find($id);
         if($model['extend'] == 0){
-            $table_name = C('DB_PREFIX').strtolower($model['name']);
+            $table_name = config('DB_PREFIX').strtolower($model['name']);
         }elseif($model['extend'] == 1){
-            $table_name = C('DB_PREFIX').'document_'.strtolower($model['name']);
+            $table_name = config('DB_PREFIX').'document_'.strtolower($model['name']);
         }else{
             $this->error = '只支持删除文档模型和独立模型';
             return false;

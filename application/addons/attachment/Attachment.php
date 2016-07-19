@@ -81,7 +81,7 @@ class Attachment  extends Addon{
 		if (MODULE_NAME == 'Home') {
 			list($data, $category) = $param;
 			/* 附件默认配置项 */
-			$default  = C('ATTACHMENT_DEFAULT');
+			$default  = config('ATTACHMENT_DEFAULT');
 
 			/* 合并当前配置 */
 			$config = $category['extend']['attachment'];

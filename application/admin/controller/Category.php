@@ -22,7 +22,7 @@ class Category  extends Admin  {
     public function index(){
         $tree = D('Category')->getTree(0,'id,name,title,sort,pid,allow_publish,status');
         $this->assign('tree', $tree);
-        C('_SYS_GET_CATEGORY_TREE_', true); //标记系统获取分类树模板
+        config('_SYS_GET_CATEGORY_TREE_', true); //标记系统获取分类树模板
         $this->meta_title = '分类管理';
         $this->display();
     }
@@ -33,7 +33,7 @@ class Category  extends Admin  {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function tree($tree = null){
-        C('_SYS_GET_CATEGORY_TREE_') || $this->_empty();
+        config('_SYS_GET_CATEGORY_TREE_') || $this->_empty();
         $this->assign('tree', $tree);
         $this->display('tree');
     }
@@ -208,7 +208,7 @@ class Category  extends Admin  {
         $to_types = explode(',', $Model->getFieldById($to, 'type'));
         foreach ($from_types as $value){
             if(!in_array($value, $to_types)){
-                $types = C('DOCUMENT_MODEL_TYPE');
+                $types = config('DOCUMENT_MODEL_TYPE');
                 $this->error('请给目标分类绑定文档类型：' . $types[$value]);
             }
         }

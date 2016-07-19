@@ -88,7 +88,7 @@ class Attachment  extends Model{
 					break;
 				case 2:
 					$File = D('File');
-					$root = C('ATTACHMENT_UPLOAD.rootPath');
+					$root = config('ATTACHMENT_UPLOAD.rootPath');
 					$call = array($this, 'setDownload');
 					if(false === $File->download($root, $info['source'], $call, $id)){
 						$this->error = $File->getError();

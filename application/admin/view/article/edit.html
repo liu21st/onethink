@@ -191,7 +191,7 @@
 		<div class="form-item cf">
 			<button class="btn submit-btn ajax-post hidden" id="submit" type="submit" target-form="form-horizontal">确 定</button>
 			<a class="btn btn-return" href="{$Think.cookie.__forward__}">返 回</a>
-			<if condition="C('OPEN_DRAFTBOX') and (ACTION_NAME eq 'add' or $data['status'] eq 3)">
+			<if condition="config('OPEN_DRAFTBOX') and (ACTION_NAME eq 'add' or $data['status'] eq 3)">
 			<button class="btn save-btn" url="{:url('article/autoSave')}" target-form="form-horizontal" id="autoSave">
 				存草稿
 			</button>
@@ -209,7 +209,7 @@
 
 {block name="script"}
 <link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
-<php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
+<php>if(config('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
 <link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
@@ -237,7 +237,7 @@ $(function(){
     });
     showTab();
 
-	<if condition="C('OPEN_DRAFTBOX') and (ACTION_NAME eq 'add' or $data['status'] eq 3)">
+	<if condition="config('OPEN_DRAFTBOX') and (ACTION_NAME eq 'add' or $data['status'] eq 3)">
 	//保存草稿
 	var interval;
 	$('#autoSave').click(function(){
@@ -285,7 +285,7 @@ $(function(){
 			if(title != '' || name != '' || des != ''){
 				$('#autoSave').click();
 			}
-		}, 1000*parseInt({:C('DRAFT_AOTOSAVE_INTERVAL')}));
+		}, 1000*parseInt({:config('DRAFT_AOTOSAVE_INTERVAL')}));
 	}
 	autoSaveDraft();
 

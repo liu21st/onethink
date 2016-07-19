@@ -34,7 +34,7 @@ class Attachment  extends Addons{
 		$return  = array('status' => 1, 'info' => '上传成功', 'data' => '');
 
 		/* 获取当前分类附件配置信息 */
-		$default  = C('ATTACHMENT_DEFAULT');
+		$default  = config('ATTACHMENT_DEFAULT');
 		$category = get_category(I('get.category'));
 
 		/* 分类正确性检测 */
@@ -47,7 +47,7 @@ class Attachment  extends Addons{
 
 			/* 检测并上传附件 */
 			if(in_array('2', str2arr($config['allow_type']))){
-				$setting = C('ATTACHMENT_UPLOAD');
+				$setting = config('ATTACHMENT_UPLOAD');
 
 				/* 调用文件上传组件上传文件 */
 				$File = D('File');

@@ -209,7 +209,7 @@ class AuthManager  extends Admin {
 
         $auth_group = M('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
             ->getfield('id,id,title,rules');
-        $prefix   = C('DB_PREFIX');
+        $prefix   = config('DB_PREFIX');
         $l_table  = $prefix.(AuthGroupModel::MEMBER);
         $r_table  = $prefix.(AuthGroupModel::AUTH_GROUP_ACCESS);
         $model    = M()->table( $l_table.' m' )->join ( $r_table.' a ON m.uid=a.uid' );

@@ -183,7 +183,7 @@ function create_tables($db, $prefix = '')
     $sql = explode(";\n", $sql);
 
     //替换表前缀
-    $orginal = C('ORIGINAL_TABLE_PREFIX');
+    $orginal = config('ORIGINAL_TABLE_PREFIX');
     $sql     = str_replace(" `{$orginal}", " `{$prefix}", $sql);
 
     //开始安装

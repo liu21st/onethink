@@ -43,7 +43,7 @@ class Update  extends Admin {
 			$params = array(
 					'version' => ONETHINK_VERSION,
 					'domain'  => $_SERVER['HTTP_HOST'],
-					'auth'    => sha1(C('DATA_AUTH_KEY')),
+					'auth'    => sha1(config('DATA_AUTH_KEY')),
 			);
 			$vars = http_build_query($params);
 			//获取版本数据
@@ -204,7 +204,7 @@ class Update  extends Admin {
 	 * @author huajie <banhuajie@163.com>
 	 */
 	private function getUpdateFolder(){
-		$key = sha1(C('DATA_AUTH_KEY'));
+		$key = sha1(config('DATA_AUTH_KEY'));
 		return 'update_'.$key;
 	}
 }

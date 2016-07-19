@@ -137,7 +137,7 @@ class Article extends Admin  {
         //获取回收站权限
         $this->assign('show_recycle', IS_ROOT || $this->checkRule('Admin/article/recycle'));
         //获取草稿箱权限
-        $this->assign('show_draftbox', C('OPEN_DRAFTBOX'));
+        $this->assign('show_draftbox', config('OPEN_DRAFTBOX'));
         //获取审核列表权限
         $this->assign('show_examine', IS_ROOT || $this->checkRule('Admin/article/examine'));
     }

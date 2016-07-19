@@ -27,7 +27,7 @@ class Database extends Admin {
             /* 数据还原 */
             case 'import':
                 //列出备份文件列表
-                $path = C('DATA_BACKUP_PATH');
+                $path = config('DATA_BACKUP_PATH');
                 if(!is_dir($path)){
                     mkdir($path, 0755, true);
                 }
@@ -148,7 +148,7 @@ class Database extends Admin {
     public function del($time = 0){
         if($time){
             $name  = date('Ymd-His', $time) . '-*.sql*';
-            $path  = realpath(C('DATA_BACKUP_PATH')) . DIRECTORY_SEPARATOR . $name;
+            $path  = realpath(config('DATA_BACKUP_PATH')) . DIRECTORY_SEPARATOR . $name;
             array_map("unlink", glob($path));
             if(count(glob($path))){
                 $this->error('备份文件删除失败，请检查权限！');
@@ -169,16 +169,16 @@ class Database extends Admin {
      */
     public function export($tables = null, $id = null, $start = null){
         if(IS_POST && !empty($tables) && is_array($tables)){ //初始化
-            $path = C('DATA_BACKUP_PATH');
+            $path = config('DATA_BACKUP_PATH');
             if(!is_dir($path)){
                 mkdir($path, 0755, true);
             }
             //读取备份配置
             $config = array(
                 'path'     => realpath($path) . DIRECTORY_SEPARATOR,
-                'part'     => C('DATA_BACKUP_PART_SIZE'),
-                'compress' => C('DATA_BACKUP_COMPRESS'),
-                'level'    => C('DATA_BACKUP_COMPRESS_LEVEL'),
+                'part'     => config('DATA_BACKUP_PART_SIZE'),
+                'compress' => config('DATA_BACKUP_COMPRESS'),
+                'level'    => config('DATA_BACKUP_COMPRESS_LEVEL'),
             );
 
             //检查是否有正在执行的任务
@@ -249,7 +249,7 @@ class Database extends Admin {
         if(is_numeric($time) && is_null($part) && is_null($start)){ //初始化
             //获取备份文件信息
             $name  = date('Ymd-His', $time) . '-*.sql*';
-            $path  = realpath(C('DATA_BACKUP_PATH')) . DIRECTORY_SEPARATOR . $name;
+            $path  = realpath(config('DATA_BACKUP_PATH')) . DIRECTORY_SEPARATOR . $name;
             $files = glob($path);
             $list  = array();
             foreach($files as $name){
@@ -271,7 +271,7 @@ class Database extends Admin {
         } elseif(is_numeric($part) && is_numeric($start)) {
             $list  = session('backup_list');
             $db = new Database($list[$part], array(
-                'path'     => realpath(C('DATA_BACKUP_PATH')) . DIRECTORY_SEPARATOR,
+                'path'     => realpath(config('DATA_BACKUP_PATH')) . DIRECTORY_SEPARATOR,
                 'compress' => $list[$part][2]));
 
             $start = $db->import($start);

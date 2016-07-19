@@ -36,7 +36,7 @@ class Config  extends Admin  {
         // 记录当前列表页的cookie
         Cookie('__forward__',$_SERVER['REQUEST_URI']);
 
-        $this->assign('group',C('CONFIG_GROUP_LIST'));
+        $this->assign('group',config('CONFIG_GROUP_LIST'));
         $this->assign('group_id',I('get.group',0));
         $this->assign('list', $list);
         $this->meta_title = '配置管理';

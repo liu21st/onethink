@@ -70,7 +70,7 @@ class Download extends Base{
 		}
 
 		$File = D('File');
-		$root = C('DOWNLOAD_UPLOAD.rootPath');
+		$root = config('DOWNLOAD_UPLOAD.rootPath');
 		$call = array($this, 'setDownload');
 		if(false === $File->download($root, $info['file_id'], $call, $info['id'])){
 			$this->error = $File->getError();

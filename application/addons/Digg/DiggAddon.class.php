@@ -20,7 +20,7 @@ use Common\Controller\Addon;
         );
 
         public function install(){
-            $db_prefix = C('DB_PREFIX');
+            $db_prefix = config('DB_PREFIX');
             $table_name = "{$db_prefix}digg";
             $sql=<<<SQL
 CREATE TABLE IF NOT EXISTS `{$table_name}` (
@@ -41,7 +41,7 @@ SQL;
         }
 
         public function uninstall(){
-            $db_prefix = C('DB_PREFIX');
+            $db_prefix = config('DB_PREFIX');
             $sql = "DROP TABLE IF EXISTS `{$db_prefix}digg`;";
             D()->execute($sql);
             return true;

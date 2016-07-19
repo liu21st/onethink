@@ -160,13 +160,13 @@ class File extends Model{
 		/* 调用回调函数新增下载数 */
 		is_callable($callback) && call_user_func($callback, $args);
 
-		$host = C('DOWNLOAD_HOST.host');
+		$host = config('DOWNLOAD_HOST.host');
 		$root = explode('/', $file['rootpath']);
 		$file['savepath'] = $root[3].'/'.$file['savepath'];
 
 		$data = array($file['savepath'], $file['savename'], $file['name'], $file['mime']);
 		$data = json_encode($data);
-		$key = think_encrypt($data, C('DATA_AUTH_KEY'), 600);
+		$key = think_encrypt($data, config('DATA_AUTH_KEY'), 600);
 
 		header("Location:http://{$host}/onethink.php?key={$key}");
 	}

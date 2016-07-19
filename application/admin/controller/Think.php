@@ -77,7 +77,7 @@ class Think  extends Admin  {
         if($model['extend']){
             $name   = get_table_name($model['id']);
             $parent = get_table_name($model['extend']);
-            $fix    = C("DB_PREFIX");
+            $fix    = config("DB_PREFIX");
 
             $key = array_search('id', $fields);
             if(false === $key){

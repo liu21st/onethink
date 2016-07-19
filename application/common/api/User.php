@@ -30,7 +30,7 @@ class User {
      */
     public static function is_administrator($uid = null){
         $uid = is_null($uid) ? is_login() : $uid;
-        return $uid && (intval($uid) === C('USER_ADMINISTRATOR'));
+        return $uid && (intval($uid) === config('USER_ADMINISTRATOR'));
     }
 
     /**
@@ -60,7 +60,7 @@ class User {
                 $name = $list[$key] = $info[1];
                 /* 缓存用户 */
                 $count = count($list);
-                $max   = C('USER_MAX_CACHE');
+                $max   = config('USER_MAX_CACHE');
                 while ($count-- > $max) {
                     array_shift($list);
                 }
@@ -99,7 +99,7 @@ class User {
                 $name = $list[$key] = $nickname;
                 /* 缓存用户 */
                 $count = count($list);
-                $max   = C('USER_MAX_CACHE');
+                $max   = config('USER_MAX_CACHE');
                 while ($count-- > $max) {
                     array_shift($list);
                 }

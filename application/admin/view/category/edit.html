@@ -66,7 +66,7 @@
 					<div class="form-item">
 						<label class="item-label">允许文档类型</label>
 						<div class="controls">
-							<volist name=":C('DOCUMENT_MODEL_TYPE')" id="type">
+							<volist name=":configonfig('DOCUMENT_MODEL_TYPE')" id="type">
 								<label class="checkbox">
 									<input type="checkbox" name="type[]" value="{$key}">{$type}
 								</label>
@@ -249,7 +249,7 @@
 			$("input[name=reply]").change(function(){
 				var $reply = $(".form-item.reply");
 				parseInt(this.value) ? $reply.show() : $reply.hide();
-			}).filter(":checked").change();
+			}).filter(":configonfighecked").change();
 		});
 		//导航高亮
 		highlight_subnav('{:url('Category/index')}');

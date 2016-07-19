@@ -20,12 +20,12 @@ class File  extends Home  {
 		$return  = array('status' => 1, 'info' => '上传成功', 'data' => '');
 		/* 调用文件上传组件上传文件 */
 		$File = D('File');
-		$file_driver = C('DOWNLOAD_UPLOAD_DRIVER');
+		$file_driver = config('DOWNLOAD_UPLOAD_DRIVER');
 		$info = $File->upload(
 			$_FILES,
-			C('DOWNLOAD_UPLOAD'),
-			C('DOWNLOAD_UPLOAD_DRIVER'),
-			C("UPLOAD_{$file_driver}_CONFIG")
+			config('DOWNLOAD_UPLOAD'),
+			config('DOWNLOAD_UPLOAD_DRIVER'),
+			config("UPLOAD_{$file_driver}_CONFIG")
 		);
 
 		/* 记录附件信息 */

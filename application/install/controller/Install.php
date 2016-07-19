@@ -108,7 +108,7 @@ class Install  extends Controller{
         if(session('update')){
             $db = Db::getInstance();
             //更新数据表
-            update_tables($db, C('DB_PREFIX'));
+            update_tables($db, config('DB_PREFIX'));
         }else{
             //连接数据库
             $dbconfig = session('db_config');
