@@ -19,7 +19,6 @@ class InitHook  {
     public function run(&$content){
         //FIXME:此处暂时废弃，后期需要对安装情况下的判断
         //if(defined('BIND_MODULE') && BIND_MODULE === 'Install') return;
-        
         $data = cache('hooks');
         if(!$data){
             $hooks = db('Hooks')->column('name,addons');

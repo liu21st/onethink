@@ -43,48 +43,6 @@
         ]
     },
     {
-        "name": "topthink/think-image",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/top-think/think-image.git",
-            "reference": "d126e518f0cddcc4e28b792849cdb7b79eb25171"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/top-think/think-image/zipball/d126e518f0cddcc4e28b792849cdb7b79eb25171",
-            "reference": "d126e518f0cddcc4e28b792849cdb7b79eb25171",
-            "shasum": ""
-        },
-        "require": {
-            "ext-gd": "*"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "4.8.*",
-            "topthink/framework": "dev-master"
-        },
-        "time": "2016-07-14 04:05:05",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "think\\": "src"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache-2.0"
-        ],
-        "authors": [
-            {
-                "name": "yunwuxin",
-                "email": "448901948@qq.com"
-            }
-        ],
-        "description": "The ThinkPHP5 Image Package"
-    },
-    {
         "name": "topthink/think-captcha",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
@@ -123,18 +81,60 @@
         "description": "captcha package for thinkphp5"
     },
     {
+        "name": "topthink/think-image",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/top-think/think-image.git",
+            "reference": "b45055ccd65a967d179d540cd3f3662844a4c8cd"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/top-think/think-image/zipball/b45055ccd65a967d179d540cd3f3662844a4c8cd",
+            "reference": "b45055ccd65a967d179d540cd3f3662844a4c8cd",
+            "shasum": ""
+        },
+        "require": {
+            "ext-gd": "*"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "4.8.*",
+            "topthink/framework": "dev-master"
+        },
+        "time": "2016-07-19 02:55:19",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "think\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "yunwuxin",
+                "email": "448901948@qq.com"
+            }
+        ],
+        "description": "The ThinkPHP5 Image Package"
+    },
+    {
         "name": "topthink/framework",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
         "source": {
             "type": "git",
             "url": "https://github.com/top-think/framework.git",
-            "reference": "746a76360618afb76b90f1bcfa34918afd57f1c7"
+            "reference": "9e4611118b95705d4e180a7db3e441f764f5bd06"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/top-think/framework/zipball/746a76360618afb76b90f1bcfa34918afd57f1c7",
-            "reference": "746a76360618afb76b90f1bcfa34918afd57f1c7",
+            "url": "https://api.github.com/repos/top-think/framework/zipball/9e4611118b95705d4e180a7db3e441f764f5bd06",
+            "reference": "9e4611118b95705d4e180a7db3e441f764f5bd06",
             "shasum": ""
         },
         "require": {
@@ -150,7 +150,7 @@
             "sebastian/phpcpd": "2.*",
             "squizlabs/php_codesniffer": "2.*"
         },
-        "time": "2016-07-18 09:43:14",
+        "time": "2016-07-19 10:14:05",
         "type": "think-framework",
         "installation-source": "dist",
         "notification-url": "https://packagist.org/downloads/",

@@ -111,7 +111,7 @@ class Image
      * @param null|string $type      图像类型
      * @param int         $quality   图像质量
      * @param bool        $interlace 是否对JPEG类型图像设置隔行扫描
-     * @return \SplFileInfo
+     * @return $this
      */
     public function save($pathname, $type = null, $quality = 80, $interlace = true)
     {
@@ -132,7 +132,7 @@ class Image
             //设定保存完整的 alpha 通道信息
             imagesavealpha($this->im, true);
             //ImagePNG生成图像的质量范围从0到9的
-            imagepng($this->im, $pathname, (int)($quality / 10));
+            imagepng($this->im, $pathname, max((int)($quality / 10), 9));
         } else {
             $fun = 'image' . $type;
             $fun($this->im, $pathname);
