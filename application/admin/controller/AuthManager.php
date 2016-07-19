@@ -95,7 +95,7 @@ class AuthManager  extends Admin {
         $this->assign( '_list', $list );
         $this->assign( '_use_tip', true );
         $this->meta_title = '权限管理';
-        $this->display();
+        return $this->fetch();
     }
 
     /**
@@ -119,7 +119,7 @@ class AuthManager  extends Admin {
                                     ->find( (int)$_GET['id'] );
         $this->assign('auth_group',$auth_group);
         $this->meta_title = '编辑用户组';
-        $this->display();
+        return $this->fetch();
     }
 
 
@@ -220,7 +220,7 @@ class AuthManager  extends Admin {
         $this->assign('auth_group', $auth_group);
         $this->assign('this_group', $auth_group[(int)$_GET['group_id']]);
         $this->meta_title = '成员授权';
-        $this->display();
+        return $this->fetch();
     }
 
     /**
@@ -237,7 +237,7 @@ class AuthManager  extends Admin {
         $this->assign('auth_group',     $auth_group);
         $this->assign('this_group',     $auth_group[(int)$_GET['group_id']]);
         $this->meta_title = '分类授权';
-        $this->display();
+        return $this->fetch();
     }
 
     public function tree($tree = null){
@@ -262,7 +262,7 @@ class AuthManager  extends Admin {
         $this->assign('auth_groups',$auth_groups);
         $this->assign('user_groups',implode(',',$ids));
         $this->meta_title = '用户组授权';
-        $this->display();
+        return $this->fetch();
     }
 
     /**

@@ -40,7 +40,7 @@ class Config  extends Admin  {
         $this->assign('group_id',I('get.group',0));
         $this->assign('list', $list);
         $this->meta_title = '配置管理';
-        $this->display();
+        return $this->fetch();
     }
 
     /**
@@ -98,7 +98,7 @@ class Config  extends Admin  {
             }
             $this->assign('info', $info);
             $this->meta_title = '编辑配置';
-            $this->display();
+            return $this->fetch();
         }
     }
 
@@ -172,7 +172,7 @@ class Config  extends Admin  {
 
             $this->assign('list', $list);
             $this->meta_title = '配置排序';
-            $this->display();
+            return $this->fetch();
         }elseif (IS_POST){
             $ids = I('post.ids');
             $ids = explode(',', $ids);

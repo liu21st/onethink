@@ -29,7 +29,7 @@ class Model extends Admin  {
 
         $this->assign('_list', $list);
         $this->meta_title = '模型管理';
-        $this->display();
+        return $this->fetch();
     }
 
     /**
@@ -42,7 +42,7 @@ class Model extends Admin  {
 
         $this->assign('models', $models);
         $this->meta_title = '新增模型';
-        $this->display();
+        return $this->fetch();
     }
 
     /**
@@ -94,7 +94,7 @@ class Model extends Admin  {
         $this->assign('fields', $fields);
         $this->assign('info', $data);
         $this->meta_title = '编辑模型';
-        $this->display();
+        return $this->fetch();
     }
 
     /**
@@ -143,7 +143,7 @@ class Model extends Admin  {
 
             $this->assign('tables', $tables);
             $this->meta_title = '生成模型';
-            $this->display();
+            return $this->fetch();
         }else{
             $table = I('post.table');
             empty($table) && $this->error('请选择要生成的数据表！');

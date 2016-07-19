@@ -24,7 +24,7 @@ class Index  extends Controller{
         if(Storage::has('./Data/install.lock')){
             $this->error($msg);
         }
-        $this->display();
+        return $this->fetch();
     }
 
     //安装完成
@@ -46,6 +46,6 @@ class Index  extends Controller{
         session('step', null);
         session('error', null);
         session('update',null);
-        $this->display();
+        return $this->fetch();
     }
 }

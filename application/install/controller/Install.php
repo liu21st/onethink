@@ -40,7 +40,7 @@ class Install  extends Controller{
 
         $this->assign('env', $env);
         $this->assign('func', $func);
-        $this->display();
+        return $this->fetch();
     }
 
     //安装第二步，创建数据库
@@ -92,7 +92,7 @@ class Install  extends Controller{
                 }
 
                 session('step', 2);
-                $this->display();
+                return $this->fetch();
             }
         }
     }
@@ -103,7 +103,7 @@ class Install  extends Controller{
             $this->redirect('step2');
         }
 
-        $this->display();
+        return $this->fetch();
 
         if(session('update')){
             $db = Db::getInstance();

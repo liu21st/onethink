@@ -23,13 +23,13 @@ class Update  extends Admin {
 	public function index(){
 		$this->meta_title = '在线更新';
 		if(IS_POST){
-			$this->display();
+			return $this->fetch();
 			//检查新版本
 			$version = $this->checkVersion();
 			//在线更新
 			$this->update($version);
 		}else{
-			$this->display();
+			return $this->fetch();
 		}
 	}
 

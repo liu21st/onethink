@@ -48,7 +48,7 @@ class User  extends Home  {
 			}
 
 		} else { //显示注册表单
-			$this->display();
+			return $this->fetch();
 		}
 	}
 
@@ -83,7 +83,7 @@ class User  extends Home  {
 			}
 
 		} else { //显示登录表单
-			$this->display();
+			return $this->fetch();
 		}
 	}
 
@@ -157,7 +157,7 @@ class User  extends Home  {
                 $this->error($res['info']);
             }
         }else{
-            $this->display();
+            return $this->fetch();
         }
     }
 

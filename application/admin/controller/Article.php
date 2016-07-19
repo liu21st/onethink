@@ -237,7 +237,7 @@ class Article extends Admin  {
         $this->assign('model_list', $model);
         // 记录当前列表页的cookie
         Cookie('__forward__',$_SERVER['REQUEST_URI']);
-        $this->display();
+        return $this->fetch();
     }
 
     /**
@@ -367,7 +367,7 @@ class Article extends Admin  {
         $this->assign('type_list',  get_type_bycate($cate_id));
         $this->assign('model',      $model);
         $this->meta_title = '新增'.$model['title'];
-        $this->display();
+        return $this->fetch();
     }
 
     /**
@@ -411,7 +411,7 @@ class Article extends Admin  {
         $this->assign('type_list', get_type_bycate($data['category_id']));
 
         $this->meta_title   =   '编辑文档';
-        $this->display();
+        return $this->fetch();
     }
 
     /**
@@ -454,7 +454,7 @@ class Article extends Admin  {
 
         $this->assign('list', $list);
         $this->meta_title       =   '待审核';
-        $this->display();
+        return $this->fetch();
     }
 
     /**
@@ -485,7 +485,7 @@ class Article extends Admin  {
 
         $this->assign('list', $list);
         $this->meta_title       =   '回收站';
-        $this->display();
+        return $this->fetch();
     }
 
     /**
@@ -520,7 +520,7 @@ class Article extends Admin  {
 
         $this->assign('list', $list);
         $this->meta_title = '草稿箱';
-        $this->display();
+        return $this->fetch();
     }
 
     /**
@@ -558,7 +558,7 @@ class Article extends Admin  {
         $this->assign('status', $status);
         $this->assign('list', $list);
         $this->meta_title = '我的文档';
-        $this->display();
+        return $this->fetch();
     }
 
     /**
@@ -781,7 +781,7 @@ class Article extends Admin  {
 
             $this->assign('list', $list);
             $this->meta_title = '文档排序';
-            $this->display();
+            return $this->fetch();
         }elseif (IS_POST){
             $ids = I('post.ids');
             $ids = array_reverse(explode(',', $ids));

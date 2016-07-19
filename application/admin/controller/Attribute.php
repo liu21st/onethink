@@ -32,7 +32,7 @@ class Attribute  extends Admin  {
         $this->assign('_list',      $list);
         $this->assign('model_id',   $model_id);
         $this->meta_title = '属性列表';
-        $this->display();
+        return $this->fetch();
     }
 
     /**
@@ -68,7 +68,7 @@ class Attribute  extends Admin  {
         $this->assign('model',$model);
         $this->assign('info', $data);
         $this->meta_title = '编辑属性';
-        $this->display();
+        return $this->fetch();
     }
 
     /**

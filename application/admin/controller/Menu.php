@@ -45,7 +45,7 @@ class MenuController extends Admin {
         Cookie('__forward__',$_SERVER['REQUEST_URI']);
 
         $this->meta_title = '菜单列表';
-        $this->display();
+        return $this->fetch();
     }
 
     /**
@@ -114,7 +114,7 @@ class MenuController extends Admin {
             }
             $this->assign('info', $info);
             $this->meta_title = '编辑后台菜单';
-            $this->display();
+            return $this->fetch();
         }
     }
 
@@ -206,7 +206,7 @@ class MenuController extends Admin {
             $this->assign('pid', $pid);
             $data = db('Menu')->where("id={$pid}")->field(true)->find();
             $this->assign('data', $data);
-            $this->display();
+            return $this->fetch();
         }
     }
 
@@ -232,7 +232,7 @@ class MenuController extends Admin {
 
             $this->assign('list', $list);
             $this->meta_title = '菜单排序';
-            $this->display();
+            return $this->fetch();
         }elseif (IS_POST){
             $ids = I('post.ids');
             $ids = explode(',', $ids);

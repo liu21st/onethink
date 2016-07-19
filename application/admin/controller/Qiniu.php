@@ -39,7 +39,7 @@ class Qiniu  extends Admin {
             trace($this->qiniu->error);
         $this->assign('qiniu', $this->qiniu);
         $this->assign('_list', $list['items']);
-        $this->display();
+        return $this->fetch();
     }
 
     public function del(){

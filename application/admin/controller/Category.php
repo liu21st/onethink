@@ -24,7 +24,7 @@ class Category  extends Admin  {
         $this->assign('tree', $tree);
         config('_SYS_GET_CATEGORY_TREE_', true); //标记系统获取分类树模板
         $this->meta_title = '分类管理';
-        $this->display();
+        return $this->fetch();
     }
 
     /**
@@ -65,7 +65,7 @@ class Category  extends Admin  {
             $this->assign('info',       $info);
             $this->assign('category',   $cate);
             $this->meta_title = '编辑分类';
-            $this->display();
+            return $this->fetch();
         }
     }
 
@@ -167,7 +167,7 @@ class Category  extends Admin  {
         $this->assign('from', $from);
         $this->assign('list', $list);
         $this->meta_title = $operate.'分类';
-        $this->display();
+        return $this->fetch();
     }
 
     /**

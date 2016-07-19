@@ -28,7 +28,7 @@ class ChannelController extends Admin  {
         $this->assign('list', $list);
         $this->assign('pid', $pid);
         $this->meta_title = '导航管理';
-        $this->display();
+        return $this->fetch();
     }
 
     /**
@@ -105,7 +105,7 @@ class ChannelController extends Admin  {
             $this->assign('pid', $pid);
             $this->assign('info', $info);
             $this->meta_title = '编辑导航';
-            $this->display();
+            return $this->fetch();
         }
     }
 
@@ -152,7 +152,7 @@ class ChannelController extends Admin  {
 
             $this->assign('list', $list);
             $this->meta_title = '导航排序';
-            $this->display();
+            return $this->fetch();
         }elseif (IS_POST){
             $ids = I('post.ids');
             $ids = explode(',', $ids);

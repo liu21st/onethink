@@ -134,7 +134,7 @@ class User extends Admin {
 
         $this->assign('_list', $list);
         $this->meta_title = '用户行为';
-        $this->display();
+        return $this->fetch();
     }
 
     /**
@@ -225,7 +225,7 @@ class User extends Admin {
             }
         } else {
             $this->meta_title = '新增用户';
-            $this->display();
+            return $this->fetch();
         }
     }
 

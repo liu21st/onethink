@@ -45,7 +45,7 @@ class Action extends Admin {
 
         $this->assign('info', $info);
         $this->meta_title = '查看行为日志';
-        $this->display();
+        return $this->fetch();
     }
 
     /**
