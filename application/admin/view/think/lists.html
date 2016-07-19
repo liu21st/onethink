@@ -7,12 +7,12 @@
     </div>
 	<div class="cf">
 		<div class="fl">
-		<empty name="model.extend">
+		{empty name="model.extend"}
 			<div class="tools">
 				<a class="btn" href="{:url('add?model='.$model['id'])}">新 增</a>
 				<button class="btn ajax-post confirm" target-form="ids" url="{:url('del?model='.$model['id'])}">删 除</button>
 			</div>
-		</empty>
+		{/empty}
 		</div>
 		<!-- 高级搜索 -->
 		<div class="search-form fr cf">
@@ -35,22 +35,22 @@
                         <th class="row-selected row-selected">
                             <input class="check-all" type="checkbox">
                         </th>
-                        <volist name="list_grids" id="field">
+                        {volist name="list_grids" id="field"}
                             <th>{$field.title}</th>
-                        </volist>
+                        {/volist}
                     </tr>
                 </thead>
 
                 <!-- 列表 -->
                 <tbody>
-                    <volist name="list_data" id="data">
+                    {volist name="list_data" id="data"}
                         <tr>
                             <td><input class="ids" type="checkbox" value="{$data['id']}" name="ids[]"></td>
-                            <volist name="list_grids" id="grid">
+                            {volist name="list_grids" id="grid"}
                                 <td>{:get_list_field($data,$grid)}</td>
-                            </volist>
+                            {/volist}
                         </tr>
-                    </volist>
+                    {/volist}
                 </tbody>
             </table>
         </div>
