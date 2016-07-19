@@ -70,7 +70,7 @@ class Model extends Model{
             }
         }
         // 清除模型缓存数据
-        S('DOCUMENT_MODEL_LIST', null);
+        cache('DOCUMENT_MODEL_LIST', null);
 
         //记录行为
         action_log('update_model','model',$data['id'] ? $data['id'] : $id,UID);

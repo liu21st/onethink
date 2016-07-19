@@ -17,7 +17,7 @@ class QiuBaiController extends AddonsController{
         if(!extension_loaded('curl')){
             $this->error('糗事百科插件需要开启PHP的CURL扩展');
         }
-		$lists = S('QiuBai_content');
+		$lists = cache('QiuBai_content');
 		if(!$lists){
 			$config = get_addon_config('QiuBai');
 			$HTTP_Server = "www.qiushibaike.com/8hr";
@@ -41,7 +41,7 @@ class QiuBaiController extends AddonsController{
                 $lists = array_map(function($a, $b) {
                     return array('time' => $a, 'content' => $b);
                 }, $match[1], $match[2]);
-                S('QiuBai_content',$lists,$config['cache_time']);
+                cache('QiuBai_content',$lists,$config['cache_time']);
             }
         }
         

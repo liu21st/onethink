@@ -60,7 +60,7 @@ class Action extends Model {
             }
         }
         //删除缓存
-        S('action_list', null);
+        cache('action_list', null);
 
         //内容添加或更新完成
         return $data;

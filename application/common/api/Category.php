@@ -27,7 +27,7 @@ class Category {
 
         /* 读取缓存数据 */
         if(empty($list)){
-            $list = S('sys_category_list');
+            $list = cache('sys_category_list');
         }
 
         /* 获取分类名称 */
@@ -37,7 +37,7 @@ class Category {
                 return '';
             }
             $list[$id] = $cate;
-            S('sys_category_list', $list); //更新缓存
+            cache('sys_category_list', $list); //更新缓存
         }
         return is_null($field) ? $list[$id] : $list[$id][$field];
     }

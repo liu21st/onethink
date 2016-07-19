@@ -53,7 +53,7 @@ class Config  extends Admin  {
             $data = $Config->create();
             if($data){
                 if($Config->add()){
-                    S('DB_CONFIG_DATA',null);
+                    cache('DB_CONFIG_DATA',null);
                     $this->success('新增成功', url('index'));
                 } else {
                     $this->error('新增失败');
@@ -78,7 +78,7 @@ class Config  extends Admin  {
             $data = $Config->create();
             if($data){
                 if($Config->save()){
-                    S('DB_CONFIG_DATA',null);
+                    cache('DB_CONFIG_DATA',null);
                     //记录行为
                     action_log('update_config','config',$data['id'],UID);
                     $this->success('更新成功', Cookie('__forward__'));
@@ -114,7 +114,7 @@ class Config  extends Admin  {
                 $Config->where($map)->setField('value', $value);
             }
         }
-        S('DB_CONFIG_DATA',null);
+        cache('DB_CONFIG_DATA',null);
         $this->success('保存成功！');
     }
 
@@ -131,7 +131,7 @@ class Config  extends Admin  {
 
         $map = array('id' => array('in', $id) );
         if(db('Config')->where($map)->delete()){
-            S('DB_CONFIG_DATA',null);
+            cache('DB_CONFIG_DATA',null);
             //记录行为
             action_log('update_config','config',$id,UID);
             $this->success('删除成功');

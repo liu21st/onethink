@@ -27,7 +27,7 @@ class Model  {
 
         /* 读取缓存数据 */
         if(empty($list)){
-            $list = S('DOCUMENT_MODEL_LIST');
+            $list = cache('DOCUMENT_MODEL_LIST');
         }
 
         /* 获取模型名称 */
@@ -37,7 +37,7 @@ class Model  {
             foreach ($model as $value) {
                 $list[$value['id']] = $value;
             }
-            S('DOCUMENT_MODEL_LIST', $list); //更新缓存
+            cache('DOCUMENT_MODEL_LIST', $list); //更新缓存
         }
 
         /* 根据条件返回数据 */
@@ -71,7 +71,7 @@ class Model  {
 
         /* 读取缓存数据 */
         if(empty($list)){
-            $list = S('attribute_list');
+            $list = cache('attribute_list');
         }
 
         /* 获取属性 */
@@ -84,7 +84,7 @@ class Model  {
             }
             $info = db('Attribute')->where($map)->select();
             $list[$model_id] = $info;
-            //S('attribute_list', $list); //更新缓存
+            //cache('attribute_list', $list); //更新缓存
         }
 
         $attr = array();

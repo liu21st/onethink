@@ -46,7 +46,7 @@ class User {
 
         /* 获取缓存数据 */
         if(empty($list)){
-            $list = S('sys_active_user_list');
+            $list = cache('sys_active_user_list');
         }
 
         /* 查找用户信息 */
@@ -64,7 +64,7 @@ class User {
                 while ($count-- > $max) {
                     array_shift($list);
                 }
-                S('sys_active_user_list', $list);
+                cache('sys_active_user_list', $list);
             } else {
                 $name = '';
             }
@@ -85,7 +85,7 @@ class User {
 
         /* 获取缓存数据 */
         if(empty($list)){
-            $list = S('sys_user_nickname_list');
+            $list = cache('sys_user_nickname_list');
         }
 
         /* 查找用户信息 */
@@ -103,7 +103,7 @@ class User {
                 while ($count-- > $max) {
                     array_shift($list);
                 }
-                S('sys_user_nickname_list', $list);
+                cache('sys_user_nickname_list', $list);
             } else {
                 $name = '';
             }
