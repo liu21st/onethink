@@ -8,7 +8,9 @@
 // +----------------------------------------------------------------------
 
 namespace app\admin\controller;
-use User\Api\UserApi;
+
+use app\admin\model\Member;
+use app\user\api\User as UserApi;
 
 /**
  * 后台用户控制器
@@ -207,7 +209,7 @@ class User extends Admin {
         if(IS_POST){
             /* 检测密码 */
             if($password != $repassword){
-                $this->error('密码和重复密码不一致！');
+                return $this->error('密码和重复密码不一致！');
             }
 
             /* 调用注册接口注册用户 */
@@ -215,13 +217,13 @@ class User extends Admin {
             $uid    =   $User->register($username, $password, $email);
             if(0 < $uid){ //注册成功
                 $user = array('uid' => $uid, 'nickname' => $username, 'status' => 1);
-                if(!db('Member')->add($user)){
-                    $this->error('用户添加失败！');
+                if(!Member::create($user)){
+                    return $this->error('用户添加失败！');
                 } else {
-                    $this->success('用户添加成功！',url('index'));
+                    return $this->success('用户添加成功！',url('index'));
                 }
             } else { //注册失败，显示错误信息
-                $this->error($this->showRegError($uid));
+                return $this->error($this->showRegError($uid));
             }
         } else {
             $this->meta_title = '新增用户';

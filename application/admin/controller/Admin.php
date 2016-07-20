@@ -7,8 +7,7 @@
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
-use Admin\Model\AuthRuleModel;
-use Admin\Model\AuthGroupModel;
+
 use think\Controller;
 /**
  * 后台首页控制器
