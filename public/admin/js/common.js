@@ -30,9 +30,9 @@
             $.get(target).success(function(data){
                 if (data.status==1) {
                     if (data.url) {
-                        updateAlert(data.info + ' 页面即将自动跳转~','alert-success');
+                        updateAlert(data.msg + ' 页面即将自动跳转~','alert-success');
                     }else{
-                        updateAlert(data.info,'alert-success');
+                        updateAlert(data.msg,'alert-success');
                     }
                     setTimeout(function(){
                         if (data.url) {
@@ -44,7 +44,7 @@
                         }
                     },1500);
                 }else{
-                    updateAlert(data.info);
+                    updateAlert(data.msg);
                     setTimeout(function(){
                         if (data.url) {
                             location.href=data.url;
@@ -109,9 +109,9 @@
             $.post(target,query).success(function(data){
                 if (data.status==1) {
                     if (data.url) {
-                        updateAlert(data.info + ' 页面即将自动跳转~','alert-success');
+                        updateAlert(data.msg + ' 页面即将自动跳转~','alert-success');
                     }else{
-                        updateAlert(data.info ,'alert-success');
+                        updateAlert(data.msg ,'alert-success');
                     }
                     setTimeout(function(){
                     	$(that).removeClass('disabled').prop('disabled',false);
@@ -124,7 +124,7 @@
                         }
                     },1500);
                 }else{
-                    updateAlert(data.info);
+                    updateAlert(data.msg);
                     setTimeout(function(){
                     	$(that).removeClass('disabled').prop('disabled',false);
                         if (data.url) {

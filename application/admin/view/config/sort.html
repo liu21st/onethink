@@ -90,9 +90,9 @@
 					},
 					function(data){
 						if (data.status) {
-	                        updateAlert(data.info + ' 页面即将自动跳转~','alert-success');
+	                        updateAlert(data.msg + ' 页面即将自动跳转~','alert-success');
 	                    }else{
-	                        updateAlert(data.info,'alert-success');
+	                        updateAlert(data.msg,'alert-success');
 	                    }
 	                    setTimeout(function(){
 	                        if (data.status) {
