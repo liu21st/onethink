@@ -19,11 +19,11 @@
 				'type':type
 			},
 			success:function(data){
-				if(data.status){
+				if(data.code){
 					$('#vote_'+type).text(parseInt($('#vote_'+type).text())+1);
 					update_vote();
 				}else{
-					alert(data.info);
+					alert(data.msg);
 				}
 				vote_flag = true;
 			},

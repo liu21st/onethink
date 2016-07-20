@@ -143,11 +143,11 @@
       <dt>指定样式：</dt>
       <dd id="style_list">
       	<div class="themePreview">
-        <php>for( $i=1;$i<=99;$i++ ){</php>
+        <?php for( $i=1;$i<=99;$i++ ){ ?>
           <div class="colorBox <eq name="i" value="$data.config.current.value">current</eq>" onclick="fChange('{$i}',$(this));">
           <a href="javascript:;" class="top_stick0{$i}" onclick="fChange('{$i}',$(this));">&nbsp;</a>
         </div>
-        <php>}</php>
+        <?php } ?>
         </div>
       </dd>
     </dl>

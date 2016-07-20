@@ -1,6 +1,6 @@
-<extend name="Public/base" />
+{extend name="public/base" /}
 
-<block name="body">
+{block name="body"}
 	<div class="main-title"> <h2>保存配置</h2> </div> 
 	<div class="data-table">
 		<form action="{:addons_url('Attachment://Attachment/saveConfig?id='.$_GET['id'])}" class="form-horizontal config-form">
@@ -10,10 +10,10 @@
 					<label class="item-label">是否上传：</label>
 					<div class="controls">
 						<label class="radio">
-							<input type="radio" name="addons[ATTACHMENT_DEFAULT][is_upload]" <eq name="data[ATTACHMENT_DEFAULT][is_upload]" value="1"> checked</eq> value="1">是
+							<input type="radio" name="addons[ATTACHMENT_DEFAULT][is_upload]" {eq name="data[ATTACHMENT_DEFAULT][is_upload]" value="1"} checked{/eq} value="1">是
 						</label>
 						<label class="radio">
-							<input type="radio" name="addons[ATTACHMENT_DEFAULT][is_upload]" <eq name="data[ATTACHMENT_DEFAULT][is_upload]" value="0"> checked</eq>value="0">否
+							<input type="radio" name="addons[ATTACHMENT_DEFAULT][is_upload]" {eq name="data[ATTACHMENT_DEFAULT][is_upload]" value="0"} checked{/eq}value="0">否
 						</label>
 					</div>
 				</div>
@@ -58,10 +58,10 @@
 					<label class="item-label">自动子目录保存文件</label>
 					<div class="controls">
 						<lable class="radio">
-							<input type="radio" name="addons[ATTACHMENT_UPLOAD][autoSub]" <eq name="data[ATTACHMENT_UPLOAD][autoSub]" value="1"> checked</eq> value="1">是
+							<input type="radio" name="addons[ATTACHMENT_UPLOAD][autoSub]" {eq name="data[ATTACHMENT_UPLOAD][autoSub]" value="1"} checked{/eq} value="1">是
 						</lable>
 						<lable class="radio">
-							<input type="radio" name="addons[ATTACHMENT_UPLOAD][autoSub]" <eq name="data[ATTACHMENT_UPLOAD][autoSub]" value="0"> checked</eq>value="0">否
+							<input type="radio" name="addons[ATTACHMENT_UPLOAD][autoSub]" {eq name="data[ATTACHMENT_UPLOAD][autoSub]" value="0"} checked{/eq}value="0">否
 						</lable>
 					</div>
 				</div>
@@ -101,15 +101,15 @@
 				<div class="form-item">
 					<label class="item-label">存在同名是否覆盖</label>
 					<div class="controls">
-						<label class="radio"><input type="radio" name="addons[ATTACHMENT_UPLOAD][replace]" <eq name="data[ATTACHMENT_UPLOAD][replace]" value="1"> checked</eq> value="1">是</label>
-						<label class="radio"><input type="radio" name="addons[ATTACHMENT_UPLOAD][replace]" <eq name="data[ATTACHMENT_UPLOAD][replace]" value="0"> checked</eq>value="0">否</label>
+						<label class="radio"><input type="radio" name="addons[ATTACHMENT_UPLOAD][replace]" {eq name="data[ATTACHMENT_UPLOAD][replace]" value="1"} checked{/eq} value="1">是</label>
+						<label class="radio"><input type="radio" name="addons[ATTACHMENT_UPLOAD][replace]" {eq name="data[ATTACHMENT_UPLOAD][replace]" value="0"} checked{/eq}value="0">否</label>
 					</div>
 				</div>
 				<div class="form-item">
 					<label class="item-label">是否生成hash编码</label>
 					<div class="controls">
-						<label class="radio"><input type="radio" name="addons[ATTACHMENT_UPLOAD][hash]" <eq name="data[ATTACHMENT_UPLOAD][hash]" value="1"> checked</eq> value="1">是</label>
-						<label class="radio"><input type="radio" name="addons[ATTACHMENT_UPLOAD][hash]" <eq name="data[ATTACHMENT_UPLOAD][hash]" value="0"> checked</eq>value="0">否</label>
+						<label class="radio"><input type="radio" name="addons[ATTACHMENT_UPLOAD][hash]" {eq name="data[ATTACHMENT_UPLOAD][hash]" value="1"} checked{/eq} value="1">是</label>
+						<label class="radio"><input type="radio" name="addons[ATTACHMENT_UPLOAD][hash]" {eq name="data[ATTACHMENT_UPLOAD][hash]" value="0"} checked{/eq}value="0">否</label>
 					</div>
 				</div>
 				<div class="form-item">
@@ -125,6 +125,6 @@
 			<button class="btn" onclick="javascript:history.back(-1);"><i class="icon-redo"></i>返回</button>
 		</form>
 	</div>
-</block>
+{/block}
 
-<block name="script"></block>
+{block name="script"}{/block}
