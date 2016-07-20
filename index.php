@@ -18,12 +18,11 @@ define('APP_PATH', __DIR__ . '/application/');
 // 	header('Location: ./install.php');
 // 	exit;
 // }
-/**
- * 缓存目录设置
- * 此目录必须可写，建议移动到非WEB目录
- */
-define ( 'RUNTIME_PATH', './runtime/' );
-
+// /**
+//  * 缓存目录设置
+//  * 此目录必须可写，建议移动到非WEB目录
+//  */
+// define ( 'RUNTIME_PATH', './runtime/' );
 
 //兼容配置
 // OneThink常量定义
