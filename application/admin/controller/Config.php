@@ -142,7 +142,7 @@ class Config  extends Admin  {
 
     // 获取某个标签的配置参数
     public function group() {
-        $id     =   Request::instance()->get('id',1);
+        $id     =   $this->request->get('id',1);
         $type   =   config('CONFIG_GROUP_LIST');
         $list   =   db("Config")->where(array('status'=>1,'group'=>$id))->field('id,name,title,extra,value,remark,type')->order('sort')->select();
         if($list) {
