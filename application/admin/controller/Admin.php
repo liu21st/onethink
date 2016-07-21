@@ -408,22 +408,23 @@ class Admin  extends Controller {
         }
         $options      =   array_merge( (array)$OPT->getValue($model), $options );
         $total        =   $model->where($options['where'])->count();
-
-        if( isset($REQUEST['r']) ){
-            $listRows = (int)$REQUEST['r'];
-        }else{
-            $listRows = config('LIST_ROWS') > 0 ? config('LIST_ROWS') : 10;
-        }
-        $page = new \Think\Page($total, $listRows, $REQUEST);
-        if($total>$listRows){
-            $page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
-        }
-        $p =$page->show();
-        $this->assign('_page', $p? $p: '');
+        //TODO::分页暂时注释不用,后期优化
+//        if( isset($REQUEST['r']) ){
+//            $listRows = (int)$REQUEST['r'];
+//        }else{
+//            $listRows = config('LIST_ROWS') > 0 ? config('LIST_ROWS') : 10;
+//        }
+//        $page = new \Think\Page($total, $listRows, $REQUEST);
+//        if($total>$listRows){
+//            $page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
+//        }
+//        $p =$page->show();
+//        $this->assign('_page', $p? $p: '');
+        $this->assign('_page', '分页');
         $this->assign('_total',$total);
-        $options['limit'] = $page->firstRow.','.$page->listRows;
+//        $options['limit'] = $page->firstRow.','.$page->listRows;
 
-        $model->setProperty('options',$options);
+//        $model->setProperty('options',$options);
 
         return $model->field($field)->select();
     }
