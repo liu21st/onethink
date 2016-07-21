@@ -113,8 +113,7 @@ class UcenterMember  extends Model{
 		if(empty($data['mobile'])) unset($data['mobile']);
 
 		/* 添加用户 */
-		if($this->create($data)){
-			$uid = $this->add();
+		if($uid = $this->save($data)){
 			return $uid ? $uid : 0; //0-未知错误，大于0-注册成功
 		} else {
 			return $this->getError(); //错误详情见自动验证注释
@@ -264,4 +263,13 @@ class UcenterMember  extends Model{
 		return false;
 	}
 
+	/**
+	 * 自动设置密码
+	 * @param $value
+	 * @param $data
+	 * @return string
+	 */
+	public function setPasswordAttr($value, $data){
+		return think_ucenter_md5($value, UC_AUTH_KEY);
+	}
 }
