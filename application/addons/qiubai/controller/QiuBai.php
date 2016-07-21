@@ -7,10 +7,10 @@
 // | Author: huajie <banhuajie@163.com>
 // +----------------------------------------------------------------------
 
-namespace Addons\QiuBai\Controller;
-use Home\Controller\AddonsController;
+namespace app\addons\qiubai\controller;
 
-class QiuBaiController extends AddonsController{
+use app\home\controller\Addons;
+class QiuBai  extends Addons{
 
 	//获取糗事百科列表
 	public function getList(){

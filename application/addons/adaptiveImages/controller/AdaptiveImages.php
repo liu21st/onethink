@@ -7,10 +7,9 @@
 // | Author: yangweijie <yangweijiester@gmail.com> <code-tech.diandian.com>
 // +----------------------------------------------------------------------
 
-namespace Addons\AdaptiveImages\Controller;
-use Home\Controller\AddonsController;
-
-class AdaptiveImagesController extends AddonsController{
+namespace app\addons\adaptiveImages\controller;
+use app\home\controller\Addons;
+class AdaptiveImages  extends Addons{
 
 	public function view(){
 		error_reporting(0);

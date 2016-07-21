@@ -8,15 +8,15 @@
 // | Author: yangweijie <yangweijiester@gmail.com> <code-tech.diandian.com>
 // +----------------------------------------------------------------------
 
-namespace Addons\QiuBai;
+namespace app\addons\qiubai;
 
-use Common\Controller\Addon;
 
+use app\common\controller\Addon;
 /**
  * 系统环境信息插件
  * @author thinkphp
  */
-class QiuBaiAddon extends Addon {
+class QiuBai  extends Addon {
 
     public $info = array(
         'name' => 'QiuBai',

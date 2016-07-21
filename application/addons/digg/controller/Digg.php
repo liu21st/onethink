@@ -1,9 +1,9 @@
 <?php
 
-namespace Addons\Digg\Controller;
-use Home\Controller\AddonsController;
+namespace app\addons\digg\controller;
 
-class DiggController extends AddonsController{
+use app\home\controller\Addons;
+class Digg  extends Addons{
 	public function vote(){
 		$config = get_addon_config('Digg');
 		$id = intval(input('id'));

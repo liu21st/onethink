@@ -7,11 +7,10 @@
 // | Author: huajie <banhuajie@163.com>
 // +----------------------------------------------------------------------
 
-namespace Addons\EditorForAdmin\Controller;
-use Home\Controller\AddonsController;
-use Think\Upload;
+namespace app\addons\editorforadmin\controller;
 
-class UploadController extends AddonsController{
+use app\home\controller\Addons;
+class Upload  extends Addons{
 
 	public $uploader = null;
 
