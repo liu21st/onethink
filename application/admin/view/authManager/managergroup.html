@@ -4,8 +4,8 @@
 	<div class="tab-wrap">
 		<ul class="tab-nav nav">
 			<li class="current"><a href="javascript:;">访问授权</a></li>
-            <li><a href="{:url('AuthManager/category',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">分类授权</a></li>
-			<li><a href="{:url('AuthManager/user',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">成员授权</a></li>
+            <li><a href="{:url('AuthManager/category',array('group_name'=>input('group_name') ,'group_id'=>input('group_id')))}">分类授权</a></li>
+			<li><a href="{:url('AuthManager/user',array('group_name'=>input('group_name') ,'group_id'=>input('group_id')))}">成员授权</a></li>
 			<li class="fr">
 				<select name="group">
 					{volist name="auth_group" id="vo"}

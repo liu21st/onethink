@@ -3,8 +3,8 @@
 {block name="body"}
 <div class="tab-wrap">
     <ul class="tab-nav nav">
-        <li><a href="{:url('AuthManager/access',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">访问授权</a></li>
-        <li><a href="{:url('AuthManager/category',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">分类授权</a></li>
+        <li><a href="{:url('AuthManager/access',array('group_name'=>input('group_name') ,'group_id'=>input('group_id')))}">访问授权</a></li>
+        <li><a href="{:url('AuthManager/category',array('group_name'=>input('group_name') ,'group_id'=>input('group_id')))}">分类授权</a></li>
 		<li class="current"><a href="javascript:;">成员授权</a></li>
 	    <li class="fr">
 		    <select name="group">
@@ -35,7 +35,7 @@
 			<td><span>{$vo.last_login_time|time_format}</span></td>
 			<td><span>{$vo.last_login_ip|long2ip}</span></td>
 			<td>{$vo.status_text}</td>
-			<td><a href="{:url('AuthManager/removeFromGroup?uid='.$vo['uid'].'&group_id='.I('group_id'))}" class="ajax-get">解除授权</a>
+			<td><a href="{:url('AuthManager/removeFromGroup?uid='.$vo['uid'].'&group_id='.input('group_id'))}" class="ajax-get">解除授权</a>
 
                 </td>
 		</tr>
