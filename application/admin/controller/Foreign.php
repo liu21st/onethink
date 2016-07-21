@@ -70,7 +70,7 @@ class Foreign extends Controller {
         if(is_login()){
             model('Member')->logout();
             session('[destroy]');
-            $this->success('退出成功！', url('login'));
+            return $this->success('退出成功！', url('login'));
         } else {
             $this->redirect('login');
         }

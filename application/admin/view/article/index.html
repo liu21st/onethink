@@ -42,13 +42,13 @@
 		<div class="fl">
 			<div class="btn-group">
 				{gt name="allow" value="0"}
-					<button class="btn document_add" {if condition="count($model) eq 1"}url="{:url('article/add',array('cate_id'=>$cate_id,'pid'=>I('pid',0),'model_id'=>$model[0],'group_id'=>$group_id))}"{/if}>新 增
+					<button class="btn document_add" {if condition="count($model) eq 1"}url="{:url('article/add',array('cate_id'=>$cate_id,'pid'=>input('pid',0),'model_id'=>$model[0],'group_id'=>$group_id))}"{/if}>新 增
 						{if condition="count($model) gt 1"}<i class="btn-arrowdown"></i>{/if}
 					</button>
 					{if condition="count($model) gt 1"}
 					<ul class="dropdown nav-list">
 						{volist name="model" id="vo"}
-						<li><a href="{:url('article/add',array('cate_id'=>$cate_id,'model_id'=>$vo,'pid'=>I('pid',0),'group_id'=>$group_id))}">{$vo|get_document_model='title'}</a></li>
+						<li><a href="{:url('article/add',array('cate_id'=>$cate_id,'model_id'=>$vo,'pid'=>input('pid',0),'group_id'=>$group_id))}">{$vo|get_document_model='title'}</a></li>
 						{/volist}
 					</ul>
 					{/if}
@@ -66,8 +66,8 @@
 			<input type="hidden" class="hide-data" name="cate_id" value="{$cate_id}"/>
 			<input type="hidden" class="hide-data" name="pid" value="{$pid}"/>
 			<button class="btn ajax-post confirm" target-form="ids" url="{:url("Article/setStatus",array("status"=>-1))}">删 除</button>
-			<!-- <button class="btn document_add" url="{:url('article/batchOperate',array('cate_id'=>$cate_id,'pid'=>I('pid',0)))}">导入</button> -->
-			<button class="btn list_sort" url="{:url('sort',array('cate_id'=>$cate_id,'pid'=>I('pid',0)),'')}">排序</button>
+			<!-- <button class="btn document_add" url="{:url('article/batchOperate',array('cate_id'=>$cate_id,'pid'=>input('pid',0)))}">导入</button> -->
+			<button class="btn list_sort" url="{:url('sort',array('cate_id'=>$cate_id,'pid'=>input('pid',0)),'')}">排序</button>
 		</div>
 
 		<!-- 高级搜索 -->
@@ -84,7 +84,7 @@
 					</ul>
 				</div>
 				<input type="text" name="title" class="search-input" value="{:input('title')}" placeholder="请输入标题文档">
-				<a class="sch-btn" href="javascript:;" id="search" url="{:url('article/index','pid='.I('pid',0).'&cate_id='.$cate_id,false)}"><i class="btn-search"></i></a>
+				<a class="sch-btn" href="javascript:;" id="search" url="{:url('article/index','pid='.input('pid',0).'&cate_id='.$cate_id,false)}"><i class="btn-search"></i></a>
 			</div>
             <div class="btn-group-click adv-sch-pannel fl">
                 <button class="btn">高 级<i class="btn-arrowdown"></i></button>
