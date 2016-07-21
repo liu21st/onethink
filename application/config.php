@@ -25,13 +25,13 @@ return [
         // 验证码字符集合
         'codeSet'  => '012345678',
         // 验证码字体大小(px)
-        'fontSize' => 12,
+        'fontSize' => 25,
         'useCurve' => true,
         'useNoise' => false,
         // 验证码图片高度
-        'imageH'   => 30,
+        'imageH'   => 50,
         // 验证码图片宽度
-        'imageW'   => 100,
+        'imageW'   => 290,
         // 验证码位数
         'length'   => 5,
         // 验证成功后是否重置
