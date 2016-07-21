@@ -20,9 +20,19 @@ class Category  extends Admin  {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function index(){
-        $tree = model('Category')->getTree(0,'id,name,title,sort,pid,allow_publish,status');
-        $this->assign('tree', $tree);
-        config('_SYS_GET_CATEGORY_TREE_', true); //标记系统获取分类树模板
+       
+        
+        $map  = array('status' => array('gt', -1));
+        $list = db('Category')->where($map)->order('sort asc,id asc')->column('*','id');
+        
+        if (!empty($list)) {
+            $tree = new \app\common\model\Tree ;
+            
+            $list = $tree->toFormatTree($list);
+        }
+        
+        $this->assign('tree',$list);
+        config('_SYS_GET_CATEGORY_TREE_', true);
         $this->meta_title = '分类管理';
         return $this->fetch();
     }
