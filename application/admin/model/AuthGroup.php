@@ -24,12 +24,12 @@ class AuthGroup extends Model {
     const AUTH_EXTEND_CATEGORY_TYPE = 1;              // 分类权限标识
     const AUTH_EXTEND_MODEL_TYPE    = 2; //分类权限标识
 
-    protected $_validate = array(
-        array('title','require', '必须设置用户组标题', Model::MUST_VALIDATE ,'regex',Model::MODEL_INSERT),
-        //array('title','require', '必须设置用户组标题', Model::EXISTS_VALIDATE  ,'regex',Model::MODEL_INSERT),
-        array('description','0,80', '描述最多80字符', Model::VALUE_VALIDATE , 'length'  ,Model::MODEL_BOTH ),
-       // array('rules','/^(\d,?)+(?<!,)$/', '规则数据不合法', Model::VALUE_VALIDATE , 'regex'  ,Model::MODEL_BOTH ),
-    );
+//    protected $_validate = array(
+//        array('title','require', '必须设置用户组标题', Model::MUST_VALIDATE ,'regex',Model::MODEL_INSERT),
+//        //array('title','require', '必须设置用户组标题', Model::EXISTS_VALIDATE  ,'regex',Model::MODEL_INSERT),
+//        array('description','0,80', '描述最多80字符', Model::VALUE_VALIDATE , 'length'  ,Model::MODEL_BOTH ),
+//       // array('rules','/^(\d,?)+(?<!,)$/', '规则数据不合法', Model::VALUE_VALIDATE , 'regex'  ,Model::MODEL_BOTH ),
+//    );
 
     /**
      * 返回用户组列表
@@ -175,7 +175,7 @@ class AuthGroup extends Model {
         if ( !is_numeric($type) ) {
             return false;
         }
-        return db(self::AUTH_EXTEND)->where( array('group_id'=>$gid,'type'=>$type) )->getfield('extend_id',true);
+        return db(self::AUTH_EXTEND)->where( array('group_id'=>$gid,'type'=>$type) )->column(true,'extend_id');
     }
 
     /**
