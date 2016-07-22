@@ -15,30 +15,30 @@ use think\Model;
  */
 class Category extends Model{
 
-    protected $_validate = array(
-        array('name', 'require', '标识不能为空', self::EXISTS_VALIDATE, 'regex', self::MODEL_BOTH),
-        array('name', '', '标识已经存在', self::VALUE_VALIDATE, 'unique', self::MODEL_BOTH),
-        array('title', 'require', '名称不能为空', self::MUST_VALIDATE , 'regex', self::MODEL_BOTH),
-    	array('meta_title', '1,50', '网页标题不能超过50个字符', self::VALUE_VALIDATE , 'length', self::MODEL_BOTH),
-    	array('keywords', '1,255', '网页关键字不能超过255个字符', self::VALUE_VALIDATE , 'length', self::MODEL_BOTH),
-    	array('meta_title', '1,255', '网页描述不能超过255个字符', self::VALUE_VALIDATE , 'length', self::MODEL_BOTH),
-    );
+//    protected $_validate = array(
+//        array('name', 'require', '标识不能为空', self::EXISTS_VALIDATE, 'regex', self::MODEL_BOTH),
+//        array('name', '', '标识已经存在', self::VALUE_VALIDATE, 'unique', self::MODEL_BOTH),
+//        array('title', 'require', '名称不能为空', self::MUST_VALIDATE , 'regex', self::MODEL_BOTH),
+//    	array('meta_title', '1,50', '网页标题不能超过50个字符', self::VALUE_VALIDATE , 'length', self::MODEL_BOTH),
+//    	array('keywords', '1,255', '网页关键字不能超过255个字符', self::VALUE_VALIDATE , 'length', self::MODEL_BOTH),
+//    	array('meta_title', '1,255', '网页描述不能超过255个字符', self::VALUE_VALIDATE , 'length', self::MODEL_BOTH),
+//    );
 
-    protected $_auto = array(
-        array('model', 'arr2str', self::MODEL_BOTH, 'function'),
-        array('model', null, self::MODEL_BOTH, 'ignore'),
-        array('model_sub', 'arr2str', self::MODEL_BOTH, 'function'),
-        array('model_sub', null, self::MODEL_BOTH, 'ignore'),
-        array('type', 'arr2str', self::MODEL_BOTH, 'function'),
-        array('type', null, self::MODEL_BOTH, 'ignore'),
-        array('reply_model', 'arr2str', self::MODEL_BOTH, 'function'),
-        array('reply_model', null, self::MODEL_BOTH, 'ignore'),
-        array('extend', 'json_encode', self::MODEL_BOTH, 'function'),
-        array('extend', null, self::MODEL_BOTH, 'ignore'),
-        array('create_time', NOW_TIME, self::MODEL_INSERT),
-        array('update_time', NOW_TIME, self::MODEL_BOTH),
-        array('status', '1', self::MODEL_BOTH),
-    );
+//    protected $_auto = array(
+//        array('model', 'arr2str', self::MODEL_BOTH, 'function'),
+//        array('model', null, self::MODEL_BOTH, 'ignore'),
+//        array('model_sub', 'arr2str', self::MODEL_BOTH, 'function'),
+//        array('model_sub', null, self::MODEL_BOTH, 'ignore'),
+//        array('type', 'arr2str', self::MODEL_BOTH, 'function'),
+//        array('type', null, self::MODEL_BOTH, 'ignore'),
+//        array('reply_model', 'arr2str', self::MODEL_BOTH, 'function'),
+//        array('reply_model', null, self::MODEL_BOTH, 'ignore'),
+//        array('extend', 'json_encode', self::MODEL_BOTH, 'function'),
+//        array('extend', null, self::MODEL_BOTH, 'ignore'),
+//        array('create_time', NOW_TIME, self::MODEL_INSERT),
+//        array('update_time', NOW_TIME, self::MODEL_BOTH),
+//        array('status', '1', self::MODEL_BOTH),
+//    );
 
 
     /**
@@ -56,7 +56,7 @@ class Category extends Model{
         } else { //通过标识查询
             $map['name'] = $id;
         }
-        return $this->field($field)->where($map)->find();
+        return $this->where($map)->field($field)->find()->toArray();
     }
 
     /**
@@ -75,8 +75,8 @@ class Category extends Model{
 
         /* 获取所有分类 */
         $map  = array('status' => array('gt', -1));
-        $list = $this->field($field)->where($map)->order('sort')->select();
-        $list = list_to_tree($list, $pk = 'id', $pid = 'pid', $child = '_', $root = $id);
+        $list = $this->where($map)->order('sort')->column($field);
+        $list = list_to_tree($list, $pk = 'id', $pid = 'pid', $child = '_child', $root = $id);
 
         /* 获取返回数据 */
         if(isset($info)){ //指定分类则返回当前分类极其子分类
@@ -122,7 +122,9 @@ class Category extends Model{
      * @return boolean 更新状态
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
-    public function update(){
+    //TODO::Cannot make static method think\Model::update() non static in class app\admin\model\Category
+//    public function update(){
+    public function update_bak(){
         $data = $this->create();
         if(!$data){ //数据对象创建错误
             return false;

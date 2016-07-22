@@ -21,7 +21,7 @@
 					{volist name="node_list" id="node"}
 						<dl class="checkmod">
 							<dt class="hd">
-								<label class="checkbox"><input class="auth_rules rules_all" type="checkbox" name="rules[]" value="<?php echo $main_rules[$node['url']] ?>">{$node.title}管理</label>
+								<label class="checkbox"><input class="auth_rules rules_all" type="checkbox" name="rules[]" value="{$main_rules[$node['url']]}">{$node.title}管理</label>
 							</dt>
 							<dd class="bd">
 								{present name="node['child']"}
