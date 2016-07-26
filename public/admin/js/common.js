@@ -28,28 +28,28 @@
         }
         if ( (target = $(this).attr('href')) || (target = $(this).attr('url')) ) {
             $.get(target).success(function(data){
-                if (data.status==1) {
+                if (data.code==1) {
                     if (data.url) {
                         updateAlert(data.msg + ' 页面即将自动跳转~','alert-success');
                     }else{
                         updateAlert(data.msg,'alert-success');
                     }
                     setTimeout(function(){
-                        if (data.url) {
-                            location.href=data.url;
-                        }else if( $(that).hasClass('no-refresh')){
+                        if( $(that).hasClass('no-refresh')){
                             $('#top-alert').find('button').click();
-                        }else{
+                        }else if (data.url == "javascript:history.back(-1);") {
                             location.reload();
+                        }else{
+                            location.href=data.url;
                         }
                     },1500);
                 }else{
                     updateAlert(data.msg);
                     setTimeout(function(){
-                        if (data.url) {
-                            location.href=data.url;
-                        }else{
+                        if (data.url == "javascript:history.back(-1);") {
                             $('#top-alert').find('button').click();
+                        }else{
+                            location.href=data.url;
                         }
                     },1500);
                 }
@@ -107,7 +107,7 @@
             }
             $(that).addClass('disabled').attr('autocomplete','off').prop('disabled',true);
             $.post(target,query).success(function(data){
-                if (data.status==1) {
+                if (data.code==1) {
                     if (data.url) {
                         updateAlert(data.msg + ' 页面即将自动跳转~','alert-success');
                     }else{
@@ -115,22 +115,22 @@
                     }
                     setTimeout(function(){
                     	$(that).removeClass('disabled').prop('disabled',false);
-                        if (data.url) {
-                            location.href=data.url;
+                        if (data.url == "javascript:history.back(-1);") {
+                            location.reload();
                         }else if( $(that).hasClass('no-refresh')){
                             $('#top-alert').find('button').click();
                         }else{
-                            location.reload();
+                            location.href=data.url;
                         }
                     },1500);
                 }else{
                     updateAlert(data.msg);
                     setTimeout(function(){
                     	$(that).removeClass('disabled').prop('disabled',false);
-                        if (data.url) {
-                            location.href=data.url;
-                        }else{
+                        if (data.url == "javascript:history.back(-1);") {
                             $('#top-alert').find('button').click();
+                        }else{
+                            location.href=data.url;
                         }
                     },1500);
                 }

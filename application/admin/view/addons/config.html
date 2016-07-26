@@ -45,7 +45,7 @@
 										{php}
 											is_null($form["value"]) && $form["value"] = array();
 										{/php}
-										<input type="checkbox" name="config[{$o_key}][]" value="{$opt_k}" <in name="opt_k" value="$form.value"> checked</in>>{$opt}
+										<input type="checkbox" name="config[{$o_key}][]" value="{$opt_k}" {in name="opt_k" value="$form.value"} checked{/in}>{$opt}
 									</label>
 								{/foreach}
 							</div>

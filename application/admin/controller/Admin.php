@@ -144,13 +144,12 @@ class Admin extends Controller
         if (in_array('id', $fields) && !empty($id)) {
             $where = array_merge(array('id' => array('in', $id)), (array)$where);
         }
-        $msg = array_merge(array('success' => '操作成功！', 'error' => '操作失败！', 'url' => '', 'ajax' => request()->isAjax()), (array)$msg);
+        //TODO::暂不处理，return $this->success()只是函数返回值，无法返回到前台数据
+        $msg = array_merge(array('success' => '操作成功！', 'error' => '操作失败！', 'url' => null, 'ajax' => request()->isAjax()), (array)$msg);
         if (db($model)->where($where)->update($data) !== false) {
-            return $this->success($msg['success']);
-//            return $this->success($msg['success'], $msg['url'], $msg['ajax']=true);
+            return $this->success($msg['success'], $msg['url'], $msg['ajax']);
         } else {
-            return $this->error($msg['error']);
-//            return $this->error($msg['error'], $msg['url'], $msg['ajax']=true);
+            return $this->error($msg['error'], $msg['url'], $msg['ajax']);
         }
     }
 
