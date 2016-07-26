@@ -438,7 +438,7 @@ class Admin extends Controller
         $this->assign('_page', '分页');
         $this->assign('_total', $total);
 //        $options['limit'] = $page->firstRow.','.$page->listRows;
-    //        $model->setProperty('options',$options);
+//        $model->setProperty('options',$options);
         return $model->field($field)->select();
     }
 

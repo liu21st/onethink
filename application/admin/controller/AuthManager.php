@@ -246,11 +246,16 @@ class AuthManager extends Admin
         $prefix = config('DB_PREFIX');
         $l_table = $prefix . (AuthGroup::MEMBER);
         $r_table = $prefix . (AuthGroup::AUTH_GROUP_ACCESS);
-        $model = Db($l_table)->alias('m')->join($r_table.' a','m.uid=a.uid');
+        $where=array('a.group_id' => $group_id, 'm.status' => array('egt', 0));
+        $order='m.uid asc';
+        $fields='m.uid,m.nickname,m.last_login_time,m.last_login_ip,m.status';
+        $list = Db($l_table)->alias('m')->join($r_table.' a','m.uid=a.uid')->where($where)->order($order)->field($fields)->select();
 //        $model = db()->table($l_table . ' m')->join($r_table . ' a ON m.uid=a.uid');
         $_REQUEST = array();
-        $list = $this->lists($model, array('a.group_id' => $group_id, 'm.status' => array('egt', 0)), 'm.uid asc', 'm.uid,m.nickname,m.last_login_time,m.last_login_ip,m.status');
+//        $list = $this->lists($model, array('a.group_id' => $group_id, 'm.status' => array('egt', 0)), 'm.uid asc', 'm.uid,m.nickname,m.last_login_time,m.last_login_ip,m.status');
         int_to_string($list);
+        $this->assign('_page', '分页');
+        $this->assign('_total', 1);//分页暂时不处理
         $this->assign('_list', $list);
         $this->assign('auth_group', $auth_group);
         $this->assign('this_group', $auth_group[(int)$_GET['group_id']]);
@@ -310,27 +315,27 @@ class AuthManager extends Admin
     public function addToGroup()
     {
         $uid = input('uid');
-        $gid = input('group_id');
+        $gid = input('group_id/a');
         if (empty($uid)) {
-            $this->error('参数有误');
+            return $this->error('参数有误');
         }
         $AuthGroup = model('AuthGroup');
         if (is_numeric($uid)) {
             if (is_administrator($uid)) {
-                $this->error('该用户为超级管理员');
+                return $this->error('该用户为超级管理员');
             }
             if (!db('Member')->where(array('uid' => $uid))->find()) {
-                $this->error('用户不存在');
+                return $this->error('用户不存在');
             }
         }
 
         if ($gid && !$AuthGroup->checkGroupId($gid)) {
-            $this->error($AuthGroup->error);
+            return $this->error($AuthGroup->error);
         }
         if ($AuthGroup->addToGroup($uid, $gid)) {
-            $this->success('操作成功');
+            return $this->success('操作成功');
         } else {
-            $this->error($AuthGroup->getError());
+            return $this->error($AuthGroup->getError());
         }
     }
 
@@ -365,22 +370,22 @@ class AuthManager extends Admin
      */
     public function addToCategory()
     {
-        $cid = input('cid');
+        $cid = input('cid/a');
         $gid = input('group_id');
         if (empty($gid)) {
-            $this->error('参数有误');
+            return $this->error('参数有误');
         }
         $AuthGroup = model('AuthGroup');
         if (!$AuthGroup->find($gid)) {
-            $this->error('用户组不存在');
+            return $this->error('用户组不存在');
         }
         if ($cid && !$AuthGroup->checkCategoryId($cid)) {
-            $this->error($AuthGroup->error);
+            return $this->error($AuthGroup->error);
         }
         if ($AuthGroup->addToCategory($gid, $cid)) {
-            $this->success('操作成功');
+            return $this->success('操作成功');
         } else {
-            $this->error('操作失败');
+            return $this->error('操作失败');
         }
     }
 
