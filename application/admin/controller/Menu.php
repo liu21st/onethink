@@ -13,7 +13,7 @@ namespace app\admin\controller;
  * 后台配置控制器
  * @author yangweijie <yangweijiester@gmail.com>
  */
-class MenuController extends Admin {
+class Menu extends Admin {
 
     /**
      * 后台菜单首页
@@ -22,12 +22,12 @@ class MenuController extends Admin {
     public function index(){
         $pid  = input('get.pid',0);
         if($pid){
-            $data = db('Menu')->where("id={$pid}")->field(true)->find();
+            $data = db('Menu')->where('id',$pid)->field(true)->find();
             $this->assign('data',$data);
         }
         $title      =   trim(input('get.title'));
         $type       =   config('CONFIG_GROUP_LIST');
-        $all_menu   =   db('Menu')->getField('id,title');
+        $all_menu   =   db('Menu')->column('id,title');
         $map['pid'] =   $pid;
         if($title)
             $map['title'] = array('like',"%{$title}%");
@@ -53,21 +53,18 @@ class MenuController extends Admin {
      * @author yangweijie <yangweijiester@gmail.com>
      */
     public function add(){
-        if(IS_POST){
+        if( request()->isPost() ){
             $Menu = model('Menu');
-            $data = $Menu->create();
-            if($data){
-                $id = $Menu->add();
-                if($id){
-                    session('ADMIN_MENU_LIST',null);
-                    //记录行为
-                    action_log('update_menu', 'Menu', $id, UID);
-                    $this->success('新增成功', Cookie('__forward__'));
-                } else {
-                    $this->error('新增失败');
-                }
+            $data = $Menu->isUpdate(false)->save($_POST);
+            if( $data ){
+                session('ADMIN_MENU_LIST',null);
+                //记录行为
+                // action_log('update_menu', 'Menu', $id, UID);
+                return $this->success('新增成功', Cookie('__forward__'));
             } else {
-                $this->error($Menu->getError());
+                $errormsg = $Menu->getError();
+                $errormsg = empty($errormsg)?'新增失败':$errormsg;
+                return $this->error( $errormsg );
             }
         } else {
             $this->assign('info',array('pid'=>input('pid')));
@@ -85,20 +82,18 @@ class MenuController extends Admin {
      * @author yangweijie <yangweijiester@gmail.com>
      */
     public function edit($id = 0){
-        if(IS_POST){
+        if( request()->isPost() ){
             $Menu = model('Menu');
-            $data = $Menu->create();
+            $data = $Menu->isUpdate(true)->save($_POST);
             if($data){
-                if($Menu->save()!== false){
-                    session('ADMIN_MENU_LIST',null);
-                    //记录行为
-                    action_log('update_menu', 'Menu', $data['id'], UID);
-                    $this->success('更新成功', Cookie('__forward__'));
-                } else {
-                    $this->error('更新失败');
-                }
+                session('ADMIN_MENU_LIST',null);
+                //记录行为
+                // action_log('update_menu', 'Menu', $data['id'], UID);
+                return $this->success('更新成功', Cookie('__forward__'));
             } else {
-                $this->error($Menu->getError());
+                $errormsg = $Menu->getError();
+                $errormsg = empty($errormsg)?'更新失败':$errormsg;
+                return $this->error( $errormsg );
             }
         } else {
             $info = array();
@@ -110,7 +105,7 @@ class MenuController extends Admin {
             $menus = array_merge(array(0=>array('id'=>0,'title_show'=>'顶级菜单')), $menus);
             $this->assign('Menus', $menus);
             if(false === $info){
-                $this->error('获取后台菜单信息错误');
+                return $this->error('获取后台菜单信息错误');
             }
             $this->assign('info', $info);
             $this->meta_title = '编辑后台菜单';
@@ -123,31 +118,27 @@ class MenuController extends Admin {
      * @author yangweijie <yangweijiester@gmail.com>
      */
     public function del(){
-        $id = array_unique((array)input('id',0));
-
-        if ( empty($id) ) {
-            $this->error('请选择要操作的数据!');
-        }
+        $id = array_unique((array)input('id/a',0));
 
         $map = array('id' => array('in', $id) );
         if(db('Menu')->where($map)->delete()){
             session('ADMIN_MENU_LIST',null);
             //记录行为
-            action_log('update_menu', 'Menu', $id, UID);
-            $this->success('删除成功');
+            // action_log('update_menu', 'Menu', $id, UID);
+            return $this->success('删除成功');
         } else {
-            $this->error('删除失败！');
+            return $this->error('删除失败！');
         }
     }
 
     public function toogleHide($id,$value = 1){
         session('ADMIN_MENU_LIST',null);
-        $this->editRow('Menu', array('hide'=>$value), array('id'=>$id));
+        return $this->editRow('Menu', array('hide'=>$value), array('id'=>$id), '');
     }
 
     public function toogleDev($id,$value = 1){
         session('ADMIN_MENU_LIST',null);
-        $this->editRow('Menu', array('is_dev'=>$value), array('id'=>$id));
+        return $this->editRow('Menu', array('is_dev'=>$value), array('id'=>$id), '');
     }
 
     public function importFile($tree = null, $pid=0){
@@ -174,7 +165,7 @@ class MenuController extends Admin {
     }
 
     public function import(){
-        if(IS_POST){
+        if( request()->isPost() ){
             $tree = input('post.tree');
             $lists = explode(PHP_EOL, $tree);
             $menuModel = db('Menu');
@@ -215,7 +206,7 @@ class MenuController extends Admin {
      * @author huajie <banhuajie@163.com>
      */
     public function sort(){
-        if(IS_GET){
+        if( request()->isGet() ){
             $ids = input('get.ids');
             $pid = input('get.pid');
 
@@ -233,7 +224,7 @@ class MenuController extends Admin {
             $this->assign('list', $list);
             $this->meta_title = '菜单排序';
             return $this->fetch();
-        }elseif (IS_POST){
+        }elseif ( request()->isPost() ){
             $ids = input('post.ids');
             $ids = explode(',', $ids);
             foreach ($ids as $key=>$value){
@@ -241,12 +232,12 @@ class MenuController extends Admin {
             }
             if($res !== false){
                 session('ADMIN_MENU_LIST',null);
-                $this->success('排序成功！');
+                return $this->success('排序成功！');
             }else{
-                $this->error('排序失败！');
+                return $this->error('排序失败！');
             }
         }else{
-            $this->error('非法请求！');
+            return $this->error('非法请求！');
         }
     }
 }
