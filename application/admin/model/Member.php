@@ -83,7 +83,7 @@ class Member extends Model {
     }
 
     public function getNickName($uid){
-        return $this->where(array('uid'=>(int)$uid))->getField('nickname');
+        return $this->where(array('uid'=>(int)$uid))->value('nickname');
     }
 
 }

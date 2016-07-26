@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
-
+use think\view;
 /**
  * 系统公共库文件
  * 主要定义系统公共函数库
@@ -1019,4 +1019,18 @@ function check_category_model($info){
     $cate   =   get_category($info['category_id']);
     $array  =   explode(',', $info['pid'] ? $cate['model_sub'] : $cate['model']);
     return in_array($info['model_id'], $array);
+}
+
+/**
+ * 递归输出实现
+ * @param array $tree 输出数组
+ * @param string $views 模板文件
+ * @return string
+ */
+function tree_view($tree, $views)
+{
+    $view = new View();
+    $view->assign('tree', $tree);
+    // 渲染模板输出 并赋值模板变量
+    return $view->fetch($views);
 }

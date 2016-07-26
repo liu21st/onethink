@@ -24,7 +24,7 @@
                     <div class="order">选择</div>
                     <div class="name">栏目名称</div>
                 </div>
-                {:R('AuthManager/tree', array($group_list))}
+                {$group_list|tree_view='admin@AuthManager/tree'}
             </div>
 
             <div class="tb-unit-bar">

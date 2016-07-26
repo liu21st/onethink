@@ -9,7 +9,7 @@
 namespace app\admin\controller;
 
 use think\Controller;
-
+use think\Db\Query;
 /**
  * 后台首页控制器
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
@@ -165,7 +165,7 @@ class Admin extends Controller
     protected function forbid($model, $where = array(), $msg = array('success' => '状态禁用成功！', 'error' => '状态禁用失败！'))
     {
         $data = array('status' => 0);
-        return $this->editRow($model, $data, $where, $msg);
+        $this->editRow($model, $data, $where, $msg);
     }
 
     /**
@@ -180,7 +180,7 @@ class Admin extends Controller
     protected function resume($model, $where = array(), $msg = array('success' => '状态恢复成功！', 'error' => '状态恢复失败！'))
     {
         $data = array('status' => 1);
-        return $this->editRow($model, $data, $where, $msg);
+        $this->editRow($model, $data, $where, $msg);
     }
 
     /**
@@ -195,7 +195,7 @@ class Admin extends Controller
     {
         $data = array('status' => 1);
         $where = array_merge(array('status' => -1), $where);
-        return $this->editRow($model, $data, $where, $msg);
+        $this->editRow($model, $data, $where, $msg);
     }
 
     /**
@@ -210,7 +210,7 @@ class Admin extends Controller
     protected function delete($model, $where = array(), $msg = array('success' => '删除成功！', 'error' => '删除失败！'))
     {
         $data['status'] = -1;
-        return $this->editRow($model, $data, $where, $msg);
+        $this->editRow($model, $data, $where, $msg);
     }
 
     /**
@@ -403,7 +403,6 @@ class Admin extends Controller
 
         $OPT = new \ReflectionProperty($model, 'options');
         $OPT->setAccessible(true);
-
         $pk = $model->getPk();
         if ($order === null) {
             //order置空
@@ -439,9 +438,7 @@ class Admin extends Controller
         $this->assign('_page', '分页');
         $this->assign('_total', $total);
 //        $options['limit'] = $page->firstRow.','.$page->listRows;
-
 //        $model->setProperty('options',$options);
-
         return $model->field($field)->select();
     }
 

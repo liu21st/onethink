@@ -53,8 +53,8 @@ class AuthGroup extends Model {
     public function addToGroup($uid,$gid){
         $uid = is_array($uid)?implode(',',$uid):trim($uid,',');
         $gid = is_array($gid)?$gid:explode( ',',trim($gid,',') );
-
-        $Access = db(self::AUTH_GROUP_ACCESS);
+        $Access = model(self::AUTH_GROUP_ACCESS);
+        $del = false;
         if( isset($_REQUEST['batch']) ){
             //为单个用户批量添加用户组时,先删除旧数据
             $del = $Access->where( array('uid'=>array('in',$uid)) )->delete();
@@ -76,9 +76,9 @@ class AuthGroup extends Model {
                     }
                 }
             }
-            $Access->addAll($add);
+            $Access->saveAll($add);
         }
-        if ($Access->getDbError()) {
+        if ($Access->getError()) {
             if( count($uid_arr)==1 && count($gid)==1 ){
                 //单个添加时定制错误提示
                 $this->error = "不能重复添加";
@@ -101,10 +101,11 @@ class AuthGroup extends Model {
         if (isset($groups[$uid]))
             return $groups[$uid];
         $prefix = config('DB_PREFIX');
-        $user_groups = db()
-            ->field('uid,group_id,title,description,rules')
-            ->table($prefix.self::AUTH_GROUP_ACCESS.' a')
-            ->join ($prefix.self::AUTH_GROUP." g on a.group_id=g.id")
+        $user_groups = db(self::AUTH_GROUP_ACCESS)
+            ->alias('a')
+            ->field('a.uid,a.group_id,g.title,g.description,g.rules')
+//            ->table($prefix.self::AUTH_GROUP_ACCESS)
+            ->join ($prefix.self::AUTH_GROUP." g "," a.group_id=g.id")
             ->where("a.uid='$uid' and g.status='1'")
             ->select();
         $groups[$uid]=$user_groups?$user_groups:array();
@@ -175,7 +176,7 @@ class AuthGroup extends Model {
         if ( !is_numeric($type) ) {
             return false;
         }
-        return db(self::AUTH_EXTEND)->where( array('group_id'=>$gid,'type'=>$type) )->column(true,'extend_id');
+        return db(self::AUTH_EXTEND)->where( array('group_id'=>$gid,'type'=>$type) )->column('extend_id');
     }
 
     /**
@@ -205,7 +206,7 @@ class AuthGroup extends Model {
         $gid = is_array($gid)?implode(',',$gid):trim($gid,',');
         $cid = is_array($cid)?$cid:explode( ',',trim($cid,',') );
 
-        $Access = db(self::AUTH_EXTEND);
+        $Access = model(self::AUTH_EXTEND);
         $del = $Access->where( array('group_id'=>array('in',$gid),'type'=>$type) )->delete();
 
         $gid = explode(',',$gid);
@@ -218,9 +219,9 @@ class AuthGroup extends Model {
                     }
                 }
             }
-            $Access->addAll($add);
+            $Access->saveAll($add);
         }
-        if ($Access->getDbError()) {
+        if ($Access->getError()) {
             return false;
         }else{
             return true;
@@ -286,7 +287,7 @@ class AuthGroup extends Model {
             $ids   = $mid;
         }
 
-        $s = db($modelname)->where(array('id'=>array('IN',$ids)))->getField('id',true);
+        $s = db($modelname)->where(array('id'=>array('IN',$ids)))->column('id');
         if(count($s)===$count){
             return true;
         }else{
