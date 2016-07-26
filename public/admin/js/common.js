@@ -37,7 +37,7 @@
                     setTimeout(function(){
                         if( $(that).hasClass('no-refresh')){
                             $('#top-alert').find('button').click();
-                        }else if (data.url="javascript:history.back(-1);") {
+                        }else if (data.url == "javascript:history.back(-1);") {
                             location.reload();
                         }else{
                             location.href=data.url;
@@ -46,7 +46,7 @@
                 }else{
                     updateAlert(data.msg);
                     setTimeout(function(){
-                        if (data.url="javascript:history.back(-1);") {
+                        if (data.url == "javascript:history.back(-1);") {
                             $('#top-alert').find('button').click();
                         }else{
                             location.href=data.url;
@@ -115,7 +115,7 @@
                     }
                     setTimeout(function(){
                     	$(that).removeClass('disabled').prop('disabled',false);
-                        if (data.url="javascript:history.back(-1);") {
+                        if (data.url == "javascript:history.back(-1);") {
                             location.reload();
                         }else if( $(that).hasClass('no-refresh')){
                             $('#top-alert').find('button').click();
@@ -127,7 +127,7 @@
                     updateAlert(data.msg);
                     setTimeout(function(){
                     	$(that).removeClass('disabled').prop('disabled',false);
-                        if (data.url="javascript:history.back(-1);") {
+                        if (data.url == "javascript:history.back(-1);") {
                             $('#top-alert').find('button').click();
                         }else{
                             location.href=data.url;
