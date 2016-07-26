@@ -11,9 +11,9 @@
         </div>
     </label>
     </dt>
-    {notempty name="list['_']"}
+    {notempty name="list['_child']"}
     <dd>
-    {:R('AuthManager/tree', array($list['_']))}
+        {$list['_child']|tree_view='admin@AuthManager/tree'}
     </dd>
     {/notempty}
 </dl>

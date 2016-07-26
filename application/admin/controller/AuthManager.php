@@ -207,15 +207,24 @@ class AuthManager extends Admin
         if (empty($_REQUEST['id'])) {
             return $this->error('请选择要操作的数据!');
         }
+        $where = array();
+        $model = 'AuthGroup';
+        //TODO::删改直接走admin控制器editRow()方法，不再走中间forbid()、resume()、delete()等
         switch (strtolower($method)) {
             case 'forbidgroup':
-                $this->forbid('AuthGroup');
+                $data = array('status' => 0);
+                return $this->editRow($model, $data, $where, $msg = array('success' => '状态禁用成功！', 'error' => '状态禁用失败！'));
+//               return $this->forbid('AuthGroup');
                 break;
             case 'resumegroup':
-                $this->resume('AuthGroup');
+                $data = array('status' => 1);
+                return $this->editRow($model, $data, $where, $msg = array('success' => '状态恢复成功！', 'error' => '状态恢复失败！'));
+//                $this->resume('AuthGroup');
                 break;
             case 'deletegroup':
-                $this->delete('AuthGroup');
+                $data['status'] = -1;
+                return $this->editRow($model, $data, $where,  $msg = array('success' => '删除成功！', 'error' => '删除失败！'));
+//                $this->delete('AuthGroup');
                 break;
             default:
                 return $this->error($method . '参数非法');
@@ -226,18 +235,19 @@ class AuthManager extends Admin
      * 用户组授权用户列表
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
-    public function user($group_id)
+    public function user()
     {
+        $group_id=$this->request->get('group_id','');
         if (empty($group_id)) {
             $this->error('参数错误');
         }
-
         $auth_group = db('AuthGroup')->where(array('status' => array('egt', '0'), 'module' => 'admin', 'type' => AuthGroup::TYPE_ADMIN))
             ->column('id,id,title,rules');
         $prefix = config('DB_PREFIX');
         $l_table = $prefix . (AuthGroup::MEMBER);
         $r_table = $prefix . (AuthGroup::AUTH_GROUP_ACCESS);
-        $model = db()->table($l_table . ' m')->join($r_table . ' a ON m.uid=a.uid');
+        $model = Db($l_table)->alias('m')->join($r_table.' a','m.uid=a.uid');
+//        $model = db()->table($l_table . ' m')->join($r_table . ' a ON m.uid=a.uid');
         $_REQUEST = array();
         $list = $this->lists($model, array('a.group_id' => $group_id, 'm.status' => array('egt', 0)), 'm.uid asc', 'm.uid,m.nickname,m.last_login_time,m.last_login_ip,m.status');
         int_to_string($list);
