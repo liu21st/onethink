@@ -144,12 +144,12 @@ class Admin extends Controller
         if (in_array('id', $fields) && !empty($id)) {
             $where = array_merge(array('id' => array('in', $id)), (array)$where);
         }
-        //TODO::暂不处理，return $this->success()只是函数返回值，无法返回到前台数据
+        //TODO::暂不处理，$this->success()只是函数返回值，无法返回到前台数据
         $msg = array_merge(array('success' => '操作成功！', 'error' => '操作失败！', 'url' => null, 'ajax' => request()->isAjax()), (array)$msg);
         if (db($model)->where($where)->update($data) !== false) {
-            return $this->success($msg['success'], $msg['url'], $msg['ajax']);
+            $this->success($msg['success'], $msg['url'], $msg['ajax']);
         } else {
-            return $this->error($msg['error'], $msg['url'], $msg['ajax']);
+            $this->error($msg['error'], $msg['url'], $msg['ajax']);
         }
     }
 
@@ -222,7 +222,7 @@ class Admin extends Controller
         $ids = input('request.ids');
         $status = input('request.status');
         if (empty($ids)) {
-            return $this->error('请选择要操作的数据');
+            $this->error('请选择要操作的数据');
         }
 
         $map['id'] = array('in', $ids);
@@ -237,7 +237,7 @@ class Admin extends Controller
                 $this->resume($Model, $map, array('success' => '启用成功', 'error' => '启用失败'));
                 break;
             default :
-                return $this->error('参数错误');
+                $this->error('参数错误');
                 break;
         }
     }

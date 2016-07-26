@@ -25,7 +25,7 @@ class Foreign extends Controller {
         if($this->request->isPost()){
             /* 检测验证码 TODO: */
             if(!captcha_check($verify)){
-                return $this->error('验证码输入错误！');
+                $this->error('验证码输入错误！');
             }
             /* 调用UC登录接口登录 */
             $User = new User();
@@ -35,9 +35,9 @@ class Foreign extends Controller {
                 $Member = model('Member');
                 if($Member->login($uid)){ //登录用户
                     //TODO:跳转到登录前页面
-                    return $this->success('登录成功！', url('Index/index'));
+                    $this->success('登录成功！', url('Index/index'));
                 } else {
-                    return $this->error($Member->getError());
+                    $this->error($Member->getError());
                 }
 
             } else { //登录失败
@@ -46,7 +46,7 @@ class Foreign extends Controller {
                     case -2: $error = '密码错误！'; break;
                     default: $error = '未知错误！'; break; // 0-接口参数错误（调试阶段使用）
                 }
-                return $this->error($error);
+                $this->error($error);
             }
         } else {
             if(is_login()){
@@ -70,7 +70,7 @@ class Foreign extends Controller {
         if(is_login()){
             model('Member')->logout();
             session('[destroy]');
-            return $this->success('退出成功！', url('login'));
+            $this->success('退出成功！', url('login'));
         } else {
             $this->redirect('login');
         }

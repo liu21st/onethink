@@ -209,7 +209,7 @@ class User extends Admin {
         if(IS_POST){
             /* 检测密码 */
             if($password != $repassword){
-                return $this->error('密码和重复密码不一致！');
+                $this->error('密码和重复密码不一致！');
             }
 
             /* 调用注册接口注册用户 */
@@ -218,12 +218,12 @@ class User extends Admin {
             if(0 < $uid){ //注册成功
                 $user = array('uid' => $uid, 'nickname' => $username, 'status' => 1);
                 if(!Member::create($user)){
-                    return $this->error('用户添加失败！');
+                    $this->error('用户添加失败！');
                 } else {
-                    return $this->success('用户添加成功！',url('index'));
+                    $this->success('用户添加成功！',url('index'));
                 }
             } else { //注册失败，显示错误信息
-                return $this->error($this->showRegError($uid));
+                $this->error($this->showRegError($uid));
             }
         } else {
             $this->meta_title = '新增用户';

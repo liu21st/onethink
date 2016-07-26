@@ -592,17 +592,17 @@ str;
                 $flag = $hookModel->save($data);
                 if($flag !== false){
                     cache('hooks', null);
-                    return $this->success('更新成功', cookie('__forward__'));
+                    $this->success('更新成功', cookie('__forward__'));
                 }else{
-                    return $this->error('更新失败');
+                    $this->error('更新失败');
                 }
             }else{
                 $flag = $hookModel->add($data);
                 if($flag){
                     cache('hooks', null);
-                    return $this->success('新增成功', cookie('__forward__'));
+                    $this->success('新增成功', cookie('__forward__'));
                 }else{
-                    return $this->error('新增失败');
+                    $this->error('新增失败');
                 }
             }
         }else{
