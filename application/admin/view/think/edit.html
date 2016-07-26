@@ -65,7 +65,7 @@
                             {case value="checkbox"}
                                 {volist name=":parse_field_attr($field['extra'])" id="vo"}
                                 	<label class="checkbox">
-                                    <input type="checkbox" value="{$key}" name="{$field.name}[]" <in name="key" value="$data[$field['name']]" >checked="checked"</in>>{$vo}
+                                    <input type="checkbox" value="{$key}" name="{$field.name}[]" {in name="key" value="$data[$field['name']]"} checked="checked"{/in}>{$vo}
                                 	</label>
                                 {/volist}
                             {/case}
