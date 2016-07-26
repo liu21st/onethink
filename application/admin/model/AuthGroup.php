@@ -105,7 +105,7 @@ class AuthGroup extends Model {
             ->alias('a')
             ->field('a.uid,a.group_id,g.title,g.description,g.rules')
 //            ->table($prefix.self::AUTH_GROUP_ACCESS)
-            ->join ($prefix.self::AUTH_GROUP." g "," a.group_id=g.id")
+            ->join ($prefix.self::AUTH_GROUP." g ","a.group_id=g.id")
             ->where("a.uid='$uid' and g.status='1'")
             ->select();
         $groups[$uid]=$user_groups?$user_groups:array();
@@ -135,11 +135,11 @@ class AuthGroup extends Model {
             return $result;
         }
         $prefix = config('DB_PREFIX');
-        $result = db()
-            ->table($prefix.self::AUTH_GROUP_ACCESS.' g')
-            ->join($prefix.self::AUTH_EXTEND.' c on g.group_id=c.group_id')
+        $result = db(self::AUTH_GROUP_ACCESS)
+            ->alias('g')
+            ->join($prefix.self::AUTH_EXTEND.' c ','g.group_id=c.group_id')
             ->where("g.uid='$uid' and c.type='$type' and !isnull(extend_id)")
-            ->getfield('extend_id',true);
+            ->column('extend_id');
         if ( $uid == UID && $session ) {
             session($session,$result);
         }
@@ -259,16 +259,17 @@ class AuthGroup extends Model {
      * @author 朱亚杰 <zhuyajie@topthink.net>
      */
     static public function memberInGroup($group_id){
-        $prefix   = config('DB_PREFIX');
-        $l_table  = $prefix.self::MEMBER;
-        $r_table  = $prefix.self::AUTH_GROUP_ACCESS;
-        $r_table2 = $prefix.self::UCENTER_MEMBER;
-        $list     = db() ->field('m.uid,u.username,m.last_login_time,m.last_login_ip,m.status')
-                       ->table($l_table.' m')
-                       ->join($r_table.' a ON m.uid=a.uid')
-                       ->join($r_table2.' u ON m.uid=u.id')
-                       ->where(array('a.group_id'=>$group_id))
-                       ->select();
+        $prefix = config('DB_PREFIX');
+        $l_table = $prefix . self::MEMBER;
+        $r_table = $prefix . self::AUTH_GROUP_ACCESS;
+        $r_table2 = $prefix . self::UCENTER_MEMBER;
+        $list = db($l_table)
+            ->alias('m')
+            ->field('m.uid,u.username,m.last_login_time,m.last_login_ip,m.status')
+            ->join($r_table . ' a ', 'm.uid=a.uid')
+            ->join($r_table2 . ' u ', 'm.uid=u.id')
+            ->where(array('a.group_id' => $group_id))
+            ->select();
         return $list;
     }
 
