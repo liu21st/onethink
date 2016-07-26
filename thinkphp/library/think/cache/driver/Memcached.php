@@ -11,8 +11,6 @@
 
 namespace think\cache\driver;
 
-use think\Cache;
-
 class Memcached
 {
     protected $handler;
@@ -63,14 +61,28 @@ class Memcached
     }
 
     /**
+     * 判断缓存
+     * @access public
+     * @param string $name 缓存变量名
+     * @return bool
+     */
+    public function has($name)
+    {
+        $name = $this->options['prefix'] . $name;
+        return $this->handler->get($name) ? true : false;
+    }
+
+    /**
      * 读取缓存
      * @access public
      * @param string $name 缓存变量名
+     * @param mixed  $default 默认值
      * @return mixed
      */
-    public function get($name)
+    public function get($name, $default = false)
     {
-        return $this->handler->get($this->options['prefix'] . $name);
+        $result = $this->handler->get($this->options['prefix'] . $name);
+        return false !== $result ? $result : $default;
     }
 
     /**
@@ -92,6 +104,32 @@ class Memcached
             return true;
         }
         return false;
+    }
+
+    /**
+     * 自增缓存（针对数值缓存）
+     * @access public
+     * @param string    $name 缓存变量名
+     * @param int       $step 步长
+     * @param int       $expire  有效时间 0为永久
+     * @return false|int
+     */
+    public function inc($name, $step = 1, $expire = null)
+    {
+        return $this->handler->increment($name, $step);
+    }
+
+    /**
+     * 自减缓存（针对数值缓存）
+     * @access public
+     * @param string    $name 缓存变量名
+     * @param int       $step 步长
+     * @param int       $expire  有效时间 0为永久
+     * @return false|int
+     */
+    public function dec($name, $step = 1, $expire = null)
+    {
+        return $this->handler->decrement($name, $step);
     }
 
     /**

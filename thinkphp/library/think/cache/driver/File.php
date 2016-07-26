@@ -11,8 +11,6 @@
 
 namespace think\cache\driver;
 
-use think\Cache;
-
 /**
  * 文件类型缓存类
  * @author    liu21st <liu21st@gmail.com>
@@ -87,16 +85,29 @@ class File
     }
 
     /**
+     * 判断缓存是否存在
+     * @access public
+     * @param string $name 缓存变量名
+     * @return bool
+     */
+    public function has($name)
+    {
+        $filename = $this->filename($name);
+        return is_file($filename);
+    }
+
+    /**
      * 读取缓存
      * @access public
      * @param string $name 缓存变量名
+     * @param mixed  $default 默认值
      * @return mixed
      */
-    public function get($name)
+    public function get($name, $default = false)
     {
         $filename = $this->filename($name);
         if (!is_file($filename)) {
-            return false;
+            return $default;
         }
         $content = file_get_contents($filename);
         if (false !== $content) {
@@ -104,7 +115,7 @@ class File
             if (0 != $expire && $_SERVER['REQUEST_TIME'] > filemtime($filename) + $expire) {
                 //缓存过期删除缓存文件
                 $this->unlink($filename);
-                return false;
+                return $default;
             }
             $content = substr($content, 20, -3);
             if ($this->options['data_compress'] && function_exists('gzcompress')) {
@@ -114,7 +125,7 @@ class File
             $content = unserialize($content);
             return $content;
         } else {
-            return false;
+            return $default;
         }
     }
 
@@ -145,6 +156,42 @@ class File
         } else {
             return false;
         }
+    }
+
+    /**
+     * 自增缓存（针对数值缓存）
+     * @access public
+     * @param string    $name 缓存变量名
+     * @param int       $step 步长
+     * @param int       $expire  有效时间 0为永久
+     * @return false|int
+     */
+    public function inc($name, $step = 1, $expire = null)
+    {
+        if ($this->has($name)) {
+            $value = $this->get($name) + $step;
+        } else {
+            $value = $step;
+        }
+        return $this->set($name, $value, $expire) ? $value : false;
+    }
+
+    /**
+     * 自减缓存（针对数值缓存）
+     * @access public
+     * @param string    $name 缓存变量名
+     * @param int       $step 步长
+     * @param int       $expire  有效时间 0为永久
+     * @return false|int
+     */
+    public function dec($name, $step = 1, $expire = null)
+    {
+        if ($this->has($name)) {
+            $value = $this->get($name) - $step;
+        } else {
+            $value = $step;
+        }
+        return $this->set($name, $value, $expire) ? $value : false;
     }
 
     /**

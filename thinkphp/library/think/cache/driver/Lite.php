@@ -11,8 +11,6 @@
 
 namespace think\cache\driver;
 
-use think\Cache;
-
 /**
  * 文件类型缓存类
  * @author    liu21st <liu21st@gmail.com>
@@ -54,12 +52,25 @@ class Lite
     }
 
     /**
-     * 读取缓存
+     * 判断缓存是否存在
      * @access public
      * @param string $name 缓存变量名
      * @return mixed
      */
-    public function get($name)
+    public function has($name)
+    {
+        $filename = $this->filename($name);
+        return is_file($filename);
+    }
+
+    /**
+     * 读取缓存
+     * @access public
+     * @param string $name 缓存变量名
+     * @param mixed  $default 默认值
+     * @return mixed
+     */
+    public function get($name, $default = false)
     {
         $filename = $this->filename($name);
         if (is_file($filename)) {
@@ -68,11 +79,11 @@ class Lite
             if ($mtime < $_SERVER['REQUEST_TIME']) {
                 // 清除已经过期的文件
                 unlink($filename);
-                return false;
+                return $default;
             }
             return include $filename;
         } else {
-            return false;
+            return $default;
         }
     }
 
@@ -100,6 +111,42 @@ class Lite
             touch($filename, $_SERVER['REQUEST_TIME'] + $expire);
         }
         return $ret;
+    }
+
+    /**
+     * 自增缓存（针对数值缓存）
+     * @access public
+     * @param string    $name 缓存变量名
+     * @param int       $step 步长
+     * @param int       $expire  有效时间 0为永久
+     * @return false|int
+     */
+    public function inc($name, $step = 1, $expire = null)
+    {
+        if ($this->has($name)) {
+            $value = $this->get($name) + $step;
+        } else {
+            $value = $step;
+        }
+        return $this->set($name, $value, $expire) ? $value : false;
+    }
+
+    /**
+     * 自减缓存（针对数值缓存）
+     * @access public
+     * @param string    $name 缓存变量名
+     * @param int       $step 步长
+     * @param int       $expire  有效时间 0为永久
+     * @return false|int
+     */
+    public function dec($name, $step = 1, $expire = null)
+    {
+        if ($this->has($name)) {
+            $value = $this->get($name) - $step;
+        } else {
+            $value = $step;
+        }
+        return $this->set($name, $value, $expire) ? $value : false;
     }
 
     /**

@@ -124,7 +124,7 @@ if (!function_exists('input')) {
         if ($pos = strpos($key, '.')) {
             // 指定参数来源
             $method = substr($key, 0, $pos);
-            if (in_array($method, ['get', 'post', 'put', 'delete', 'param', 'request', 'session', 'cookie', 'server', 'env', 'path', 'file'])) {
+            if (in_array($method, ['get', 'post', 'put', 'patch', 'delete', 'param', 'request', 'session', 'cookie', 'server', 'env', 'path', 'file'])) {
                 $key = substr($key, $pos + 1);
             } else {
                 $method = 'param';
@@ -191,7 +191,7 @@ if (!function_exists('db')) {
      */
     function db($name = '', $config = [])
     {
-        return Db::connect($config)->name($name);
+        return Db::connect($config, true)->name($name);
     }
 }
 
@@ -421,12 +421,13 @@ if (!function_exists('view')) {
      * 渲染模板输出
      * @param string    $template 模板文件
      * @param array     $vars 模板变量
+     * @param array     $replace 模板替换
      * @param integer   $code 状态码
      * @return \think\response\View
      */
-    function view($template = '', $vars = [], $code = 200)
+    function view($template = '', $vars = [], $replace = [], $code = 200)
     {
-        return Response::create($template, 'view', $code)->vars($vars);
+        return Response::create($template, 'view', $code)->replace($replace)->assign($vars);
     }
 }
 
