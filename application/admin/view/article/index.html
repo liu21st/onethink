@@ -1,8 +1,8 @@
 {extend name="public/base"/}
 
 <!-- 子导航 -->
-{block name="style"}
-    {include file="sidemenu" /}
+{block name="sidebar"}
+    {include file="article/sidemenu" /}
 {/block}
 
 {block name="body"}
@@ -19,7 +19,7 @@
 		{else /}
 		{empty name="position"}全部{else /}<a href="{:url('article/index')}">全部</a>{/empty}
 			{foreach name="Think.config.DOCUMENT_POSITION" item="vo"}
-			<neq name="position" value="$key"><a href="{:url('index',array('position'=>$key))}">{$vo}</a>{else /}{$vo}</neq>&nbsp;
+			{neq name="position" value="$key"}<a href="{:url('index',array('position'=>$key))}">{$vo}</a>{else /}{$vo}{/neq}&nbsp;
 			{/foreach}
 		{/notempty}
 		]
@@ -140,7 +140,7 @@
 {/block}
 {block name="script"}
 <link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
-{php}if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';{/php}
+{php}if(config('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';{/php}
 <link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
