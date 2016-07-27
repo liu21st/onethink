@@ -60,11 +60,11 @@ class Menu extends Admin {
                 session('ADMIN_MENU_LIST',null);
                 //记录行为
                 // action_log('update_menu', 'Menu', $id, UID);
-                return $this->success('新增成功', Cookie('__forward__'));
+                $this->success('新增成功', Cookie('__forward__'));
             } else {
                 $errormsg = $Menu->getError();
                 $errormsg = empty($errormsg)?'新增失败':$errormsg;
-                return $this->error( $errormsg );
+                $this->error( $errormsg );
             }
         } else {
             $this->assign('info',array('pid'=>input('pid')));
@@ -89,11 +89,11 @@ class Menu extends Admin {
                 session('ADMIN_MENU_LIST',null);
                 //记录行为
                 // action_log('update_menu', 'Menu', $data['id'], UID);
-                return $this->success('更新成功', Cookie('__forward__'));
+                $this->success('更新成功', Cookie('__forward__'));
             } else {
                 $errormsg = $Menu->getError();
                 $errormsg = empty($errormsg)?'更新失败':$errormsg;
-                return $this->error( $errormsg );
+                $this->error( $errormsg );
             }
         } else {
             $info = array();
@@ -105,7 +105,7 @@ class Menu extends Admin {
             $menus = array_merge(array(0=>array('id'=>0,'title_show'=>'顶级菜单')), $menus);
             $this->assign('Menus', $menus);
             if(false === $info){
-                return $this->error('获取后台菜单信息错误');
+                $this->error('获取后台菜单信息错误');
             }
             $this->assign('info', $info);
             $this->meta_title = '编辑后台菜单';
@@ -125,9 +125,9 @@ class Menu extends Admin {
             session('ADMIN_MENU_LIST',null);
             //记录行为
             // action_log('update_menu', 'Menu', $id, UID);
-            return $this->success('删除成功');
+            $this->success('删除成功');
         } else {
-            return $this->error('删除失败！');
+            $this->error('删除失败！');
         }
     }
 
@@ -232,12 +232,12 @@ class Menu extends Admin {
             }
             if($res !== false){
                 session('ADMIN_MENU_LIST',null);
-                return $this->success('排序成功！');
+                $this->success('排序成功！');
             }else{
-                return $this->error('排序失败！');
+                $this->error('排序失败！');
             }
         }else{
-            return $this->error('非法请求！');
+            $this->error('非法请求！');
         }
     }
 }

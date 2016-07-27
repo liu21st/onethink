@@ -132,7 +132,7 @@ class Image
             //设定保存完整的 alpha 通道信息
             imagesavealpha($this->im, true);
             //ImagePNG生成图像的质量范围从0到9的
-            imagepng($this->im, $pathname, max((int)($quality / 10), 9));
+            imagepng($this->im, $pathname, min((int)($quality / 10), 9));
         } else {
             $fun = 'image' . $type;
             $fun($this->im, $pathname);

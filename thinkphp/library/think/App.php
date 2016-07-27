@@ -238,8 +238,9 @@ class App
             foreach ($params as $param) {
                 $name  = $param->getName();
                 $class = $param->getClass();
-                if ($class && 'think\Request' == $class->getName()) {
-                    $args[] = Request::instance();
+                if ($class) {
+                    $className = $class->getName();
+                    $args[]    = method_exists($className, 'instance') ? $className::instance() : new $className();
                 } elseif (1 == $type && !empty($vars)) {
                     $args[] = array_shift($vars);
                 } elseif (0 == $type && isset($vars[$name])) {
@@ -414,6 +415,8 @@ class App
         // 加载初始化文件
         if (is_file(APP_PATH . $module . 'init' . EXT)) {
             include APP_PATH . $module . 'init' . EXT;
+        } elseif (is_file(RUNTIME_PATH . $module . 'init' . EXT)) {
+            include RUNTIME_PATH . $module . 'init' . EXT;
         } else {
             $path = APP_PATH . $module;
             // 加载模块配置

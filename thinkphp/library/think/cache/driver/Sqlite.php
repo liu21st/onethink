@@ -11,7 +11,6 @@
 
 namespace think\cache\driver;
 
-use think\Cache;
 use think\Exception;
 
 /**
@@ -48,12 +47,27 @@ class Sqlite
     }
 
     /**
+     * 判断缓存
+     * @access public
+     * @param string $name 缓存变量名
+     * @return bool
+     */
+    public function has($name)
+    {
+        $name   = $this->options['prefix'] . sqlite_escape_string($name);
+        $sql    = 'SELECT value FROM ' . $this->options['table'] . ' WHERE var=\'' . $name . '\' AND (expire=0 OR expire >' . $_SERVER['REQUEST_TIME'] . ') LIMIT 1';
+        $result = sqlite_query($this->handler, $sql);
+        return sqlite_num_rows($result);
+    }
+
+    /**
      * 读取缓存
      * @access public
      * @param string $name 缓存变量名
+     * @param mixed  $default 默认值
      * @return mixed
      */
-    public function get($name)
+    public function get($name, $default = false)
     {
         $name   = $this->options['prefix'] . sqlite_escape_string($name);
         $sql    = 'SELECT value FROM ' . $this->options['table'] . ' WHERE var=\'' . $name . '\' AND (expire=0 OR expire >' . $_SERVER['REQUEST_TIME'] . ') LIMIT 1';
@@ -66,7 +80,7 @@ class Sqlite
             }
             return unserialize($content);
         }
-        return false;
+        return $default;
     }
 
     /**
@@ -94,6 +108,42 @@ class Sqlite
             return true;
         }
         return false;
+    }
+
+    /**
+     * 自增缓存（针对数值缓存）
+     * @access public
+     * @param string    $name 缓存变量名
+     * @param int       $step 步长
+     * @param int       $expire  有效时间 0为永久
+     * @return false|int
+     */
+    public function inc($name, $step = 1, $expire = null)
+    {
+        if ($this->has($name)) {
+            $value = $this->get($name) + $step;
+        } else {
+            $value = $step;
+        }
+        return $this->set($name, $value, $expire) ? $value : false;
+    }
+
+    /**
+     * 自减缓存（针对数值缓存）
+     * @access public
+     * @param string    $name 缓存变量名
+     * @param int       $step 步长
+     * @param int       $expire  有效时间 0为永久
+     * @return false|int
+     */
+    public function dec($name, $step = 1, $expire = null)
+    {
+        if ($this->has($name)) {
+            $value = $this->get($name) - $step;
+        } else {
+            $value = $step;
+        }
+        return $this->set($name, $value, $expire) ? $value : false;
     }
 
     /**

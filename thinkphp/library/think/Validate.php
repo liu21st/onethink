@@ -68,6 +68,7 @@ class Validate
         'allowIp'     => '不允许的IP访问',
         'denyIp'      => '禁止的IP访问',
         'confirm'     => ':attribute和字段 :rule 不一致',
+        'different'   => ':attribute和字段 :rule 不能相同',
         'egt'         => ':attribute必须大于等于 :rule',
         'gt'          => ':attribute必须大于 :rule',
         'elt'         => ':attribute必须小于等于 :rule',
@@ -401,6 +402,19 @@ class Validate
     }
 
     /**
+     * 验证是否和某个字段的值是否不同
+     * @access protected
+     * @param mixed $value 字段值
+     * @param mixed $rule  验证规则
+     * @param array $data  数据
+     * @return bool
+     */
+    protected function different($value, $rule, $data)
+    {
+        return $this->getDataValue($data, $rule) != $value;
+    }
+
+    /**
      * 验证是否大于等于某个值
      * @access protected
      * @param mixed     $value  字段值
@@ -547,7 +561,7 @@ class Validate
                 $result = $value instanceof \think\File;
                 break;
             case 'image':
-                $result = $value instanceof \think\File && in_array(exif_imagetype($value->getRealPath()), [1, 2, 3, 6]);
+                $result = $value instanceof \think\File && in_array($this->getImageType($value->getRealPath()), [1, 2, 3, 6]);
                 break;
             default:
                 if (isset(self::$type[$rule])) {
@@ -559,6 +573,17 @@ class Validate
                 }
         }
         return $result;
+    }
+
+    // 判断图像类型
+    protected function getImageType($image)
+    {
+        if (function_exists('exif_imagetype')) {
+            return exif_imagetype($image);
+        } else {
+            $info = getimagesize($image);
+            return $info[2];
+        }
     }
 
     /**
@@ -685,7 +710,7 @@ class Validate
             if ('jpeg' == $imageType) {
                 $imageType = 'jpg';
             }
-            if (image_type_to_extension($type) != $imageType) {
+            if (image_type_to_extension($type, false) != $imageType) {
                 return false;
             }
         }

@@ -168,7 +168,7 @@ class AuthManager extends Admin
 
         $validate = validate('AuthGroup');
         if (!$validate->check($_POST)) {
-            return $this->error($validate->getError());
+            $this->error($validate->getError());
         } else {
             if (empty($_POST['id'])) {
                 $r = $AuthGroup->save($_POST);
@@ -176,9 +176,9 @@ class AuthManager extends Admin
                 $r = $AuthGroup->update($_POST);
             }
             if ($r === false) {
-                return $this->error('操作失败' . $AuthGroup->getError());
+                $this->error('操作失败' . $AuthGroup->getError());
             } else {
-                return $this->success('操作成功!', url('index'));
+                $this->success('操作成功!', url('index'));
             }
         }
 //        $data = $AuthGroup->create();
@@ -205,7 +205,7 @@ class AuthManager extends Admin
     public function changeStatus($method = null)
     {
         if (empty($_REQUEST['id'])) {
-            return $this->error('请选择要操作的数据!');
+            $this->error('请选择要操作的数据!');
         }
         $where = array();
         $model = 'AuthGroup';
@@ -227,7 +227,7 @@ class AuthManager extends Admin
 //                $this->delete('AuthGroup');
                 break;
             default:
-                return $this->error($method . '参数非法');
+                $this->error($method . '参数非法');
         }
     }
 
@@ -317,25 +317,25 @@ class AuthManager extends Admin
         $uid = input('uid');
         $gid = input('group_id/a');
         if (empty($uid)) {
-            return $this->error('参数有误');
+            $this->error('参数有误');
         }
         $AuthGroup = model('AuthGroup');
         if (is_numeric($uid)) {
             if (is_administrator($uid)) {
-                return $this->error('该用户为超级管理员');
+                $this->error('该用户为超级管理员');
             }
             if (!db('Member')->where(array('uid' => $uid))->find()) {
-                return $this->error('用户不存在');
+                $this->error('用户不存在');
             }
         }
 
         if ($gid && !$AuthGroup->checkGroupId($gid)) {
-            return $this->error($AuthGroup->error);
+            $this->error($AuthGroup->error);
         }
         if ($AuthGroup->addToGroup($uid, $gid)) {
-            return $this->success('操作成功');
+            $this->success('操作成功');
         } else {
-            return $this->error($AuthGroup->getError());
+            $this->error($AuthGroup->getError());
         }
     }
 
@@ -373,19 +373,19 @@ class AuthManager extends Admin
         $cid = input('cid/a');
         $gid = input('group_id');
         if (empty($gid)) {
-            return $this->error('参数有误');
+            $this->error('参数有误');
         }
         $AuthGroup = model('AuthGroup');
         if (!$AuthGroup->find($gid)) {
-            return $this->error('用户组不存在');
+            $this->error('用户组不存在');
         }
         if ($cid && !$AuthGroup->checkCategoryId($cid)) {
-            return $this->error($AuthGroup->error);
+            $this->error($AuthGroup->error);
         }
         if ($AuthGroup->addToCategory($gid, $cid)) {
-            return $this->success('操作成功');
+            $this->success('操作成功');
         } else {
-            return $this->error('操作失败');
+            $this->error('操作失败');
         }
     }
 
