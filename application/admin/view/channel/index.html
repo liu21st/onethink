@@ -6,9 +6,9 @@
 	</div>
 
 	<div class="cf">
-		<a class="btn" href="{:url('add','pid='.$pid)}">新 增</a>
-		<a class="btn" href="javascript:;">删 除</a>
-		<button class="btn list_sort" url="{:url('sort',array('pid'=>input('get.pid',0)),'')}">排序</button>
+		<a class="btn" href="{:url('add',['pid'=>$pid])}">新 增</a>
+		<button class="btn ajax-post confirm" url="{:url('del')}" target-form="ids">删 除</button>
+		<button class="btn list_sort" url="{:url('sort',['pid'=>$pid])}">排序</button>
 	</div>
 
 	<div class="data-table table-striped">
@@ -29,7 +29,7 @@
 				{notempty name="list"}
 				{volist name="list" id="channel"}
 					<tr>
-						<td><input class="ids row-selected" type="checkbox" name="" id="" value="{$channel['id']}"> </td>
+						<td><input class="ids row-selected" type="checkbox" name="id[]" value="{$channel['id']}"> </td>
 						<td>{$channel.id}</td>
 						<td><a href="{:url('index?pid='.$channel['id'])}">{$channel.title}</a></td>
 						<td>{$channel.url}</td>
@@ -62,11 +62,11 @@
     			ids.each(function(){
     				str.push($(this).val());
     			});
-    			param = str.join(',');
+    			param = '&ids=' + str.join(',');
     		}
 
     		if(url != undefined && url != ''){
-    			window.location.href = url + '/ids/' + param;
+    			window.location.href = url +  param;
     		}
     	});
     });

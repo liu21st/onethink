@@ -3,7 +3,7 @@
 {block name="body"}
 	<div class="main-title cf">
 		<h2>
-			导航排序 [ <a href="{:url('index',array('pid'=>input('pid')))}">返回列表</a> ]
+			导航排序 [ <a href="{:url('index',['pid'=>input('pid')])}">返回列表</a> ]
 		</h2>
 	</div>
 	<div class="sort">
@@ -29,7 +29,7 @@
 			<div class="sort_bottom">
 				<input type="hidden" name="ids">
 				<button class="sort_confirm btn submit-btn" type="button">确 定</button>
-				<button class="sort_cancel btn btn-return" type="button" url="{:url('index',array('pid'=>input('pid')))}">返 回</button>
+				<button class="sort_cancel btn btn-return" type="button" url="{:url('index',['pid'=>input('pid')])}">返 回</button>
 			</div>
 		</form>
 	</div>
@@ -89,13 +89,13 @@
 					'ids' :  arr.join(',')
 					},
 					function(data){
-						if (data.status) {
-	                        updateAlert(data.info + ' 页面即将自动跳转~','alert-success');
+						if (data.code) {
+	                        updateAlert(data.msg + ' 页面即将自动跳转~','alert-success');
 	                    }else{
-	                        updateAlert(data.info,'alert-success');
+	                        updateAlert(data.msg,'alert-success');
 	                    }
 	                    setTimeout(function(){
-	                        if (data.status) {
+	                        if (data.code) {
 	                        	$('.sort_cancel').click();
 	                        }
 	                    },1500);
