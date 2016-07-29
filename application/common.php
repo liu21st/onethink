@@ -622,7 +622,7 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
         $data['remark']     =   '操作url：'.$_SERVER['REQUEST_URI'];
     }
 
-    db('ActionLog')->add($data);
+    db('ActionLog')->insert($data);
 
     if(!empty($action_info['rule'])){
         //解析行为
