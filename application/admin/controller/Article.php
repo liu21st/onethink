@@ -7,7 +7,7 @@
 // | Author: huajie <banhuajie@163.com>
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
-// //use Admin\Model\AuthGroupModel;
+ use app\Admin\Model\AuthGroup;
 // use Think\Page;
 
 /**
@@ -67,7 +67,7 @@ class Article extends Admin  {
      */
     protected function getMenu(){
         //获取动态分类
-        $cate_auth  =   AuthGroupModel::getAuthCategories(UID); //获取当前用户所有的内容权限节点
+        $cate_auth  =   AuthGroup::getAuthCategories(UID); //获取当前用户所有的内容权限节点
         $cate_auth  =   $cate_auth == null ? array() : $cate_auth;
         $cate       =   db('Category')->where(array('status'=>1))->field('id,title,pid,allow_publish')->order('pid,sort')->select();
 
@@ -151,11 +151,11 @@ class Article extends Admin  {
      */
     public function index($cate_id = null, $model_id = null, $position = null,$group_id=null){
         
-        echo 'content';die;
+//        echo 'content';die;
 
         //获取左边菜单
         $this->getMenu();
-
+        $groups=array();
         if($cate_id===null){
             $cate_id = $this->cate_id;
         }
@@ -227,7 +227,7 @@ class Article extends Admin  {
         $list   =   $this->getDocumentList($cate_id,$model_id,$position,$fields,$group_id);
         // 列表显示处理
         $list   =   $this->parseDocumentList($list,$model_id);
-        
+
         $this->assign('model_id',$model_id);
 		$this->assign('group_id',$group_id);
         $this->assign('position',$position);
@@ -530,8 +530,8 @@ class Article extends Admin  {
     public function mydocument($status = null, $title = null){
         //获取左边菜单
         $this->getMenu();
-
         $Document   =   model('Document');
+
         /* 查询条件初始化 */
         $map['uid'] = UID;
         if(isset($title)){
