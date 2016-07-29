@@ -13,7 +13,7 @@ namespace app\admin\controller;
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 
-class ChannelController extends Admin  {
+class Channel extends Admin  {
 
     /**
      * 频道列表
@@ -22,7 +22,7 @@ class ChannelController extends Admin  {
     public function index(){
         $pid = input('get.pid', 0);
         /* 获取频道列表 */
-        $map  = array('status' => array('gt', -1), 'pid'=>$pid);
+        $map  = ['status' => ['gt', -1], 'pid'=>$pid];
         $list = db('Channel')->where($map)->order('sort asc,id asc')->select();
 
         $this->assign('list', $list);
@@ -36,26 +36,23 @@ class ChannelController extends Admin  {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function add(){
-        if(IS_POST){
+        if( request()->isPost() ){
             $Channel = model('Channel');
-            $data = $Channel->create();
+            $data = $Channel->isUpdate(false)->save($_POST);
             if($data){
-                $id = $Channel->add();
-                if($id){
-                    $this->success('新增成功', url('index'));
-                    //记录行为
-                    action_log('update_channel', 'channel', $id, UID);
-                } else {
-                    $this->error('新增失败');
-                }
+                //记录行为
+                // action_log('update_channel', 'channel', $id, UID);
+                $this->success('新增成功', url('index', ['pid'=>input('pid','')]));
             } else {
-                $this->error($Channel->getError());
+                $errormsg = $Channel->getError();
+                $errormsg = empty($errormsg)?'新增失败':$errormsg;
+                $this->error( $errormsg );
             }
         } else {
             $pid = input('get.pid', 0);
             //获取父导航
             if(!empty($pid)){
-                $parent = db('Channel')->where(array('id'=>$pid))->field('title')->find();
+                $parent = db('Channel')->where('id',$pid)->field('title')->find();
                 $this->assign('parent', $parent);
             }
 
@@ -71,23 +68,20 @@ class ChannelController extends Admin  {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function edit($id = 0){
-        if(IS_POST){
+        if( request()->isPost() ){
             $Channel = model('Channel');
-            $data = $Channel->create();
+            $data = $Channel->isUpdate(true)->save($_POST);
             if($data){
-                if($Channel->save()){
-                    //记录行为
-                    action_log('update_channel', 'channel', $data['id'], UID);
-                    $this->success('编辑成功', url('index'));
-                } else {
-                    $this->error('编辑失败');
-                }
-
+                //记录行为
+                // action_log('update_channel', 'channel', $data['id'], UID);
+                $this->success('编辑成功', url('index'));
             } else {
-                $this->error($Channel->getError());
+                $errormsg = $Channel->getError();
+                $errormsg = empty($errormsg)?'编辑失败':$errormsg;
+                $this->error( $errormsg );
             }
         } else {
-            $info = array();
+            $info = [];
             /* 获取数据 */
             $info = db('Channel')->find($id);
 
@@ -98,7 +92,7 @@ class ChannelController extends Admin  {
             $pid = input('get.pid', 0);
             //获取父导航
             if(!empty($pid)){
-            	$parent = db('Channel')->where(array('id'=>$pid))->field('title')->find();
+            	$parent = db('Channel')->where('id',$pid)->field('title')->find();
             	$this->assign('parent', $parent);
             }
 
@@ -114,16 +108,15 @@ class ChannelController extends Admin  {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function del(){
-        $id = array_unique((array)input('id',0));
+        $id = array_unique((array)input('id/a',0));
 
-        if ( empty($id) ) {
+        if( is_array($id) && $id[0]==0 ) {
             $this->error('请选择要操作的数据!');
         }
-
-        $map = array('id' => array('in', $id) );
+        $map = ['id' => ['in', $id] ];
         if(db('Channel')->where($map)->delete()){
             //记录行为
-            action_log('update_channel', 'channel', $id, UID);
+            // action_log('update_channel', 'channel', $id, UID);
             $this->success('删除成功');
         } else {
             $this->error('删除失败！');
@@ -135,14 +128,14 @@ class ChannelController extends Admin  {
      * @author huajie <banhuajie@163.com>
      */
     public function sort(){
-        if(IS_GET){
+        if( request()->isGet() ){
             $ids = input('get.ids');
-            $pid = input('get.pid');
+            $pid = input('get.pid', 0);
 
             //获取排序的数据
-            $map = array('status'=>array('gt',-1));
+            $map = ['status'=>['gt',-1]];
             if(!empty($ids)){
-                $map['id'] = array('in',$ids);
+                $map['id'] = ['in',$ids];
             }else{
                 if($pid !== ''){
                     $map['pid'] = $pid;
@@ -153,11 +146,11 @@ class ChannelController extends Admin  {
             $this->assign('list', $list);
             $this->meta_title = '导航排序';
             return $this->fetch();
-        }elseif (IS_POST){
+        }elseif ( request()->isPost() ){
             $ids = input('post.ids');
             $ids = explode(',', $ids);
             foreach ($ids as $key=>$value){
-                $res = db('Channel')->where(array('id'=>$value))->setField('sort', $key+1);
+                $res = db('Channel')->where('id', $value)->setField('sort', $key+1);
             }
             if($res !== false){
                 $this->success('排序成功！');
