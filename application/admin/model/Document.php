@@ -9,7 +9,7 @@
 
 namespace app\admin\model;
 use think\Model;
-use Admin\Model\AuthGroupModel;
+use app\Admin\Model\AuthGroup;
 
 /**
  * 文档基础模型
@@ -17,37 +17,37 @@ use Admin\Model\AuthGroupModel;
 class Document extends Model{
 
     /* 自动验证规则 */
-    protected $_validate = array(
-        array('name', '/^[a-zA-Z]\w{0,39}$/', '文档标识不合法', self::VALUE_VALIDATE, 'regex', self::MODEL_BOTH),
-        array('name', 'checkName', '标识已经存在', self::VALUE_VALIDATE, 'callback', self::MODEL_BOTH),
-        array('title', 'require', '标题不能为空', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
-        array('title', '1,80', '标题长度不能超过80个字符', self::MUST_VALIDATE, 'length', self::MODEL_BOTH),
-        array('level', '/^[\d]+$/', '优先级只能填正整数', self::VALUE_VALIDATE, 'regex', self::MODEL_BOTH),
-        array('description', '1,140', '简介长度不能超过140个字符', self::VALUE_VALIDATE, 'length', self::MODEL_BOTH),
-        array('category_id', 'require', '分类不能为空', self::MUST_VALIDATE , 'regex', self::MODEL_INSERT),
-        array('category_id', 'require', '分类不能为空', self::EXISTS_VALIDATE , 'regex', self::MODEL_UPDATE),
-        array('category_id', 'check_category', '该分类不允许发布内容', self::EXISTS_VALIDATE , 'function', self::MODEL_UPDATE),
-        array('category_id,type', 'check_category', '内容类型不正确', self::MUST_VALIDATE, 'function', self::MODEL_INSERT),
-        array('model_id,pid,category_id', 'check_category_model', '该分类没有绑定当前模型', self::MUST_VALIDATE , 'function', self::MODEL_INSERT),
-    );
-
-    /* 自动完成规则 */
-    protected $_auto = array(
-        array('uid', 'is_login', self::MODEL_INSERT, 'function'),
-        array('title', 'htmlspecialchars', self::MODEL_BOTH, 'function'),
-        array('description', 'htmlspecialchars', self::MODEL_BOTH, 'function'),
-        array('root', 'getRoot', self::MODEL_BOTH, 'callback'),
-        array('link_id', 'getLink', self::MODEL_BOTH, 'callback'),
-        array('attach', 0, self::MODEL_INSERT),
-        array('view', 0, self::MODEL_INSERT),
-        array('comment', 0, self::MODEL_INSERT),
-        array('extend', 0, self::MODEL_INSERT),
-        array('create_time', 'getCreateTime', self::MODEL_BOTH,'callback'),
-        array('update_time', NOW_TIME, self::MODEL_BOTH),
-        array('status', 'getStatus', self::MODEL_BOTH, 'callback'),
-        array('position', 'getPosition', self::MODEL_BOTH, 'callback'),
-        array('deadline', 'strtotime', self::MODEL_BOTH, 'function'),
-    );
+//    protected $_validate = array(
+//        array('name', '/^[a-zA-Z]\w{0,39}$/', '文档标识不合法', self::VALUE_VALIDATE, 'regex', self::MODEL_BOTH),
+//        array('name', 'checkName', '标识已经存在', self::VALUE_VALIDATE, 'callback', self::MODEL_BOTH),
+//        array('title', 'require', '标题不能为空', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
+//        array('title', '1,80', '标题长度不能超过80个字符', self::MUST_VALIDATE, 'length', self::MODEL_BOTH),
+//        array('level', '/^[\d]+$/', '优先级只能填正整数', self::VALUE_VALIDATE, 'regex', self::MODEL_BOTH),
+//        array('description', '1,140', '简介长度不能超过140个字符', self::VALUE_VALIDATE, 'length', self::MODEL_BOTH),
+//        array('category_id', 'require', '分类不能为空', self::MUST_VALIDATE , 'regex', self::MODEL_INSERT),
+//        array('category_id', 'require', '分类不能为空', self::EXISTS_VALIDATE , 'regex', self::MODEL_UPDATE),
+//        array('category_id', 'check_category', '该分类不允许发布内容', self::EXISTS_VALIDATE , 'function', self::MODEL_UPDATE),
+//        array('category_id,type', 'check_category', '内容类型不正确', self::MUST_VALIDATE, 'function', self::MODEL_INSERT),
+//        array('model_id,pid,category_id', 'check_category_model', '该分类没有绑定当前模型', self::MUST_VALIDATE , 'function', self::MODEL_INSERT),
+//    );
+//
+//    /* 自动完成规则 */
+//    protected $_auto = array(
+//        array('uid', 'is_login', self::MODEL_INSERT, 'function'),
+//        array('title', 'htmlspecialchars', self::MODEL_BOTH, 'function'),
+//        array('description', 'htmlspecialchars', self::MODEL_BOTH, 'function'),
+//        array('root', 'getRoot', self::MODEL_BOTH, 'callback'),
+//        array('link_id', 'getLink', self::MODEL_BOTH, 'callback'),
+//        array('attach', 0, self::MODEL_INSERT),
+//        array('view', 0, self::MODEL_INSERT),
+//        array('comment', 0, self::MODEL_INSERT),
+//        array('extend', 0, self::MODEL_INSERT),
+//        array('create_time', 'getCreateTime', self::MODEL_BOTH,'callback'),
+//        array('update_time', NOW_TIME, self::MODEL_BOTH),
+//        array('status', 'getStatus', self::MODEL_BOTH, 'callback'),
+//        array('position', 'getPosition', self::MODEL_BOTH, 'callback'),
+//        array('deadline', 'strtotime', self::MODEL_BOTH, 'function'),
+//    );
 
     /**
      * 获取详情页数据
@@ -80,7 +80,8 @@ class Document extends Model{
      * @return boolean fasle 失败 ， int  成功 返回完整的数据
      * @author huajie <banhuajie@163.com>
      */
-    public function update($data = null){
+//    public function update($data = null){
+    public function updateData($data = null){
         /* 检查文档类型是否符合要求 */
         $res = $this->checkDocumentType( input('type',2), input('pid') );
         if(!$res['status']){
@@ -255,7 +256,7 @@ class Document extends Model{
         if ( is_administrator() ) {
             $map = array('status'=>-1);
         }else{
-            $cate_ids = AuthGroupModel::getAuthCategories(UID);
+            $cate_ids = AuthGroup::getAuthCategories(UID);
             $map = array('status'=>-1,'category_id'=>array( 'IN',trim(implode(',',$cate_ids),',') ));
         }
         $base_list = $this->where($map)->field('id,model_id')->select();
