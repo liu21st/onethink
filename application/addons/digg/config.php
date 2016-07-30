@@ -1,0 +1,28 @@
+<?php
+return array(
+	'good_tip'=>array(
+		'title'=>'顶提示文字:',
+		'type'=>'text',
+		'value'=>'这文章不错',
+	),
+	'bad_tip'=>array(
+		'title'=>'踩提示文字:',
+		'type'=>'text',
+		'value'=>'这文章很差',
+	),
+	'stop_repeat_tip'=>array(
+		'title'=>'多次点击提示:',
+		'type'=>'text',
+		'value'=>'您已经投过票了，感谢您的参与！',
+	),
+	'post_sucess_tip'=>array(
+		'title'=>'成功提示:',
+		'type'=>'text',
+		'value'=>'投票成功！',
+	),
+	'post_error_tip'=>array(
+		'title'=>'成功提示:',
+		'type'=>'text',
+		'value'=>'嬲你的,囧^__^,不是刚刚顶过吗！！',
+	),
+);

@@ -1,0 +1,477 @@
+/* 锁屏层样式 */ 
+.thinkbox-modal-blackout-default{
+    background-color: #000;
+    opacity: .6;
+    filter:alpha(opacity=60);
+}
+/*弹出层样式*/
+.thinkbox-default table,
+.thinkbox-default table tr,
+.thinkbox-default table td{
+	padding: 0;
+	margin: 0;
+	border: 0;
+	border-collapse: collapse;
+}
+
+/*弹出层边框*/
+.thinkbox-default .thinkbox-top-left,
+.thinkbox-default .thinkbox-top-right,
+.thinkbox-default .thinkbox-left,
+.thinkbox-default .thinkbox-right,
+.thinkbox-default .thinkbox-bottom-left,
+.thinkbox-default .thinkbox-bottom-right{
+	width: 6px;
+}
+.thinkbox-default .thinkbox-top-left,
+.thinkbox-default .thinkbox-top,
+.thinkbox-default .thinkbox-top-right,
+.thinkbox-default .thinkbox-bottom-left,
+.thinkbox-default .thinkbox-bottom,
+.thinkbox-default .thinkbox-bottom-right{
+	height: 6px;
+    padding: 0;
+}
+.thinkbox-default .thinkbox-top-left,
+.thinkbox-default .thinkbox-top-right,
+.thinkbox-default .thinkbox-bottom-left,
+.thinkbox-default .thinkbox-bottom-right{
+	background: none repeat scroll 0 0 #F3F3F3;
+}
+.thinkbox-default .thinkbox-left,
+.thinkbox-default .thinkbox-right{
+	background: none repeat scroll 0 0 #F3F3F3;
+}
+.thinkbox-default .thinkbox-top,
+.thinkbox-default .thinkbox-bottom{
+	background: none repeat scroll 0 0 #F3F3F3;
+}
+.thinkbox-default .thinkbox-top-left{
+	border-top-left-radius: 6px;
+}
+.thinkbox-default .thinkbox-top-right{
+	border-top-right-radius: 6px;
+}
+.thinkbox-default .thinkbox-bottom-left{
+	border-bottom-left-radius: 6px;
+}
+.thinkbox-default .thinkbox-bottom-right{
+	border-bottom-right-radius: 6px;
+}
+.thinkbox-default .thinkbox-left{
+	background-position: left;
+}
+.thinkbox-default .thinkbox-right{
+	background-position: right;
+}
+.thinkbox-default .thinkbox-top{
+	background-position: top;
+}
+.thinkbox-default .thinkbox-bottom{
+	background-position: bottom;
+}
+/*弹出层内部*/
+.thinkbox-default .thinkbox-inner{
+	background-color: #BDD3E5;
+}
+/*弹出层头部*/
+.thinkbox-default .thinkbox-title{
+	background-color: #F3F3F3;
+    border-bottom: 1px solid #E5E5E5;
+    color: #4C4C4C;
+    font-weight: bold;
+    height: 18px;
+    line-height: 18px;
+    padding-bottom: 6px;
+    padding-left: 6px;
+    text-align: left;
+}
+/* 弹出层窗口动作 */
+.thinkbox-default .thinkbox-window-actions{
+	position: absolute;
+	right: 0;
+	top: 0;
+	height: 20px;
+}
+.thinkbox-default .thinkbox-window-actions button{
+	border: 0;
+	margin: 0;
+	padding: 0;
+	outline: 0;
+	height: 20px;
+    font-size: 0;
+    line-height: 0;
+	background: url(bg.png) no-repeat;
+	vertical-align: top;
+}
+.thinkbox-default .thinkbox-window-actions .thinkbox-actions-minimize{
+	width: 29px;
+	background-position: 0 -20px;
+}
+.thinkbox-default .thinkbox-window-actions .thinkbox-actions-maximize{
+	width: 27px;
+	background-position: -29px -20px;
+}
+.thinkbox-default .thinkbox-window-actions .thinkbox-actions-close{
+	width: 49px;
+	background-position: -105px -20px;
+}
+.thinkbox-default .thinkbox-window-actions button + .thinkbox-actions-close{
+    width: 49px;
+    background-position: -56px -20px;
+}
+.thinkbox-default .thinkbox-window-actions .thinkbox-actions-minimize:hover{
+	background-position: 0 -40px;
+}
+.thinkbox-default .thinkbox-window-actions .thinkbox-actions-maximize:hover{
+	background-position: -29px -40px;
+}
+.thinkbox-default .thinkbox-window-actions .thinkbox-actions-close:hover{
+	background-position: -105px -40px;
+}
+.thinkbox-default .thinkbox-window-actions button + .thinkbox-actions-close:hover{
+    background-position: -56px -40px;
+}
+
+/*弹出层内容*/
+.thinkbox-default .thinkbox-body{
+    position: relative;
+	border: 1px solid #ccc;
+	background-color: #FFF;
+	/*margin: 1px;*/
+}
+/*弹出层工具*/
+.thinkbox-default .thinkbox-tools{
+    position: relative;
+	border: 1px solid #1E3E58;
+	border-top: 0;
+	background-color: #F0F0F0;
+	margin: -2px 1px 1px;
+	padding: 10px 30px 10px 6px;
+	text-align: right;
+}
+.thinkbox-default .thinkbox-status{
+	float: left;
+    line-height: 30px;
+}
+.thinkbox-default .thinkbox-tools button {
+    display: inline-block;
+    padding: 4px 20px;
+    margin: 0 0 0 20px;
+    font-size: 13px;
+    line-height: 18px;
+    color: #444;
+    text-align: center;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    vertical-align: middle;
+    cursor: pointer;
+    background-color: #FDFDFE;
+    background-image: -moz-linear-gradient(top, #FFF, #FBFBFB);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#FFF), to(#FBFBFB));
+    background-image: -webkit-linear-gradient(top, #FFF, #FBFBFB);
+    background-image: -o-linear-gradient(top, #FFF, #FBFBFB);
+    background-image: linear-gradient(to bottom, #FFF, #FBFBFB);
+    background-repeat: repeat-x;
+    border: 1px solid #CCC;
+    border-color: #FBFBFB #FBFBFB #bfbfbf;
+    border-color: rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.15);
+    border-bottom-color: #b3b3b3;
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFFFF', endColorstr='#FFFBFBFB', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+    -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.03);
+       -moz-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.03);
+            box-shadow: 0 2px 0 rgba(0, 0, 0, 0.03);
+}
+
+.thinkbox-default .thinkbox-tools button:hover,
+.thinkbox-default .thinkbox-tools button:focus,
+.thinkbox-default .thinkbox-tools button:active,
+.thinkbox-default .thinkbox-tools button.active,
+.thinkbox-default .thinkbox-tools button.disabled,
+.thinkbox-default .thinkbox-tools button[disabled] {
+    color: #444;
+    background-color: #EEEEEF;
+}
+
+.thinkbox-default .thinkbox-tools button:active,
+.thinkbox-default .thinkbox-tools button.active {
+    background-color: #EEEEEF \9;
+}
+.thinkbox-default .thinkbox-tools button.active,
+.thinkbox-default .thinkbox-tools button:active {
+    background-image: none;
+    outline: 0 none;
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) inset;
+       -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) inset;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) inset;
+}
+
+.thinkbox-default .thinkbox-tools button.disabled,
+.thinkbox-default .thinkbox-tools button[disabled] {
+    cursor: default;
+    background-image: none;
+    opacity: 0.65;
+    filter: alpha(opacity=65);
+    -webkit-box-shadow: none;
+       -moz-box-shadow: none;
+            box-shadow: none;
+}
+
+.thinkbox-default .thinkbox-tools .thinkbox-button-blue.active,
+.thinkbox-default .thinkbox-tools .thinkbox-button-warning.active,
+.thinkbox-default .thinkbox-tools .thinkbox-button-error.active,
+.thinkbox-default .thinkbox-tools .thinkbox-button-success.active,
+.thinkbox-default .thinkbox-tools .thinkbox-button-info.active,
+.thinkbox-default .thinkbox-tools .thinkbox-button-black.active {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.thinkbox-default .thinkbox-tools .thinkbox-button-success {
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    background-color: #5bb75b;
+    *background-color: #51a351;
+    background-image: -moz-linear-gradient(top, #62c462, #51a351);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#62c462), to(#51a351));
+    background-image: -webkit-linear-gradient(top, #62c462, #51a351);
+    background-image: -o-linear-gradient(top, #62c462, #51a351);
+    background-image: linear-gradient(to bottom, #62c462, #51a351);
+    background-repeat: repeat-x;
+    border-color: #51a351 #51a351 #387038;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff62c462', endColorstr='#ff51a351', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.thinkbox-default .thinkbox-tools .thinkbox-button-success:hover,
+.thinkbox-default .thinkbox-tools .thinkbox-button-success:focus,
+.thinkbox-default .thinkbox-tools .thinkbox-button-success:active,
+.thinkbox-default .thinkbox-tools .thinkbox-button-success.active,
+.thinkbox-default .thinkbox-tools .thinkbox-button-success.disabled,
+.thinkbox-default .thinkbox-tools .thinkbox-button-success[disabled] {
+    color: #ffffff;
+    background-color: #51a351;
+    *background-color: #499249;
+}
+
+.thinkbox-default .thinkbox-tools .thinkbox-button-success:active,
+.thinkbox-default .thinkbox-tools .thinkbox-button-success.active {
+    background-color: #408140 \9;
+}
+
+.thinkbox-default .thinkbox-tools .thinkbox-button-blue {
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    background-color: #006dcc;
+    *background-color: #0044cc;
+    background-image: -moz-linear-gradient(top, #0088cc, #0044cc);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0044cc));
+    background-image: -webkit-linear-gradient(top, #0088cc, #0044cc);
+    background-image: -o-linear-gradient(top, #0088cc, #0044cc);
+    background-image: linear-gradient(to bottom, #0088cc, #0044cc);
+    background-repeat: repeat-x;
+    border-color: #0044cc #0044cc #002a80;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0044cc', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.thinkbox-default .thinkbox-tools .thinkbox-button-blue:hover,
+.thinkbox-default .thinkbox-tools .thinkbox-button-blue:focus,
+.thinkbox-default .thinkbox-tools .thinkbox-button-blue:active,
+.thinkbox-default .thinkbox-tools .thinkbox-button-blue.active,
+.thinkbox-default .thinkbox-tools .thinkbox-button-blue.disabled,
+.thinkbox-default .thinkbox-tools .thinkbox-button-blue[disabled] {
+    color: #ffffff;
+    background-color: #0044cc;
+    *background-color: #003bb3;
+}
+
+.thinkbox-default .thinkbox-tools .thinkbox-button-blue:active,
+.thinkbox-default .thinkbox-tools .thinkbox-button-blue.active {
+    background-color: #003399 \9;
+}
+
+.thinkbox-default .thinkbox-tools .thinkbox-button-warning {
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    background-color: #faa732;
+    *background-color: #f89406;
+    background-image: -moz-linear-gradient(top, #fbb450, #f89406);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fbb450), to(#f89406));
+    background-image: -webkit-linear-gradient(top, #fbb450, #f89406);
+    background-image: -o-linear-gradient(top, #fbb450, #f89406);
+    background-image: linear-gradient(to bottom, #fbb450, #f89406);
+    background-repeat: repeat-x;
+    border-color: #f89406 #f89406 #ad6704;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffbb450', endColorstr='#fff89406', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.thinkbox-default .thinkbox-tools .thinkbox-button-warning:hover,
+.thinkbox-default .thinkbox-tools .thinkbox-button-warning:focus,
+.thinkbox-default .thinkbox-tools .thinkbox-button-warning:active,
+.thinkbox-default .thinkbox-tools .thinkbox-button-warning.active,
+.thinkbox-default .thinkbox-tools .thinkbox-button-warning.disabled,
+.thinkbox-default .thinkbox-tools .thinkbox-button-warning[disabled] {
+    color: #ffffff;
+    background-color: #f89406;
+    *background-color: #df8505;
+}
+
+.thinkbox-default .thinkbox-tools .thinkbox-button-warning:active,
+.thinkbox-default .thinkbox-tools .thinkbox-button-warning.active {
+    background-color: #c67605 \9;
+}
+
+.thinkbox-default .thinkbox-tools .thinkbox-button-error {
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    background-color: #da4f49;
+    *background-color: #bd362f;
+    background-image: -moz-linear-gradient(top, #ee5f5b, #bd362f);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ee5f5b), to(#bd362f));
+    background-image: -webkit-linear-gradient(top, #ee5f5b, #bd362f);
+    background-image: -o-linear-gradient(top, #ee5f5b, #bd362f);
+    background-image: linear-gradient(to bottom, #ee5f5b, #bd362f);
+    background-repeat: repeat-x;
+    border-color: #bd362f #bd362f #802420;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffee5f5b', endColorstr='#ffbd362f', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.thinkbox-default .thinkbox-tools .thinkbox-button-error:hover,
+.thinkbox-default .thinkbox-tools .thinkbox-button-error:focus,
+.thinkbox-default .thinkbox-tools .thinkbox-button-error:active,
+.thinkbox-default .thinkbox-tools .thinkbox-button-error.active,
+.thinkbox-default .thinkbox-tools .thinkbox-button-error.disabled,
+.thinkbox-default .thinkbox-tools .thinkbox-button-error[disabled] {
+    color: #ffffff;
+    background-color: #bd362f;
+    *background-color: #a9302a;
+}
+
+.thinkbox-default .thinkbox-tools .thinkbox-button-error:active,
+.thinkbox-default .thinkbox-tools .thinkbox-button-error.active {
+    background-color: #942a25 \9;
+}
+.thinkbox-default .thinkbox-tools .thinkbox-button-black {
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    background-color: #363636;
+    *background-color: #222222;
+    background-image: -moz-linear-gradient(top, #444444, #222222);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#444444), to(#222222));
+    background-image: -webkit-linear-gradient(top, #444444, #222222);
+    background-image: -o-linear-gradient(top, #444444, #222222);
+    background-image: linear-gradient(to bottom, #444444, #222222);
+    background-repeat: repeat-x;
+    border-color: #222222 #222222 #000000;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff444444', endColorstr='#ff222222', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.thinkbox-default .thinkbox-tools .thinkbox-button-black:hover,
+.thinkbox-default .thinkbox-tools .thinkbox-button-black:focus,
+.thinkbox-default .thinkbox-tools .thinkbox-button-black:active,
+.thinkbox-default .thinkbox-tools .thinkbox-button-black.active,
+.thinkbox-default .thinkbox-tools .thinkbox-button-black.disabled,
+.thinkbox-default .thinkbox-tools .thinkbox-button-black[disabled] {
+    color: #ffffff;
+    background-color: #222222;
+    *background-color: #151515;
+}
+
+.thinkbox-default .thinkbox-tools .thinkbox-button-black:active,
+.thinkbox-default .thinkbox-tools .thinkbox-button-black.active {
+    background-color: #080808 \9;
+}
+.thinkbox-default .thinkbox-tools .thinkbox-button-link,
+.thinkbox-default .thinkbox-tools .thinkbox-button-link:active,
+.thinkbox-default .thinkbox-tools .thinkbox-button-link[disabled] {
+    background-color: transparent;
+    background-image: none;
+    -webkit-box-shadow: none;
+       -moz-box-shadow: none;
+            box-shadow: none;
+}
+
+.thinkbox-default .thinkbox-tools .thinkbox-button-link {
+    color: #0088cc;
+    cursor: pointer;
+    padding: 4px;
+    border-color: transparent;
+    -webkit-border-radius: 0;
+       -moz-border-radius: 0;
+            border-radius: 0;
+}
+
+.thinkbox-default .thinkbox-tools .thinkbox-button-link:hover,
+.thinkbox-default .thinkbox-tools .thinkbox-button-link:focus {
+    color: #005580;
+    text-decoration: underline;
+    background-color: transparent;
+}
+
+.thinkbox-default .thinkbox-tools .thinkbox-button-link[disabled]:hover,
+.thinkbox-default .thinkbox-tools .thinkbox-button-link[disabled]:focus {
+    color: #333333;
+    text-decoration: none;
+}
+
+
+/**********************************************
+ ************** thinkbox 插件样式 **************
+ **********************************************/
+/* 加载外部内容loading样式 */
+.thinkbox-default .thinkbox-load-loading{
+    line-height: 30px;
+    padding: 20px 10px;
+    text-align: center;
+    width: 220px;
+    border-radius: 5px;
+}
+/* 提示框样式 */
+.thinkbox-default .thinkbox-tips{
+    height: 62px;
+    background-image: url(tips-bg.gif);
+    padding: 0 20px 0 70px;;
+    background-repeat: no-repeat;
+    line-height: 62px;
+    font-size: 14px;
+    font-weight: 700;
+    width: auto;
+    border-radius: 5px;
+}
+/* 弹出成功框样式 */
+.thinkbox-default .thinkbox-tips-success{
+    color: green;
+}
+/* 弹出错误框样式 */
+.thinkbox-default .thinkbox-tips-error{
+    color: red;
+    background-position: 0 -62px;
+}
+/* 弹出加载框样式 */
+.thinkbox-default .thinkbox-tips-loading{
+    color: black;
+    background-image: url(tips_loading.gif);
+    background-position: 20px 15px;
+}
+/*警告提示信息*/
+/*确认提示信息*/
+.thinkbox-default .thinkbox-alert,
+.thinkbox-default .thinkbox-confirm{
+    min-width: 200px;
+    max-width: 500px; 
+    padding: 20px 10px;
+    line-height: 20px;
+    height: auto!important;
+    height: 40px;
+}
