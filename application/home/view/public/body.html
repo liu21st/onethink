@@ -1,0 +1,27 @@
+
+
+//废除
+
+<div id="main-container" class="container">
+    <div class="row">
+        {block name="side"}
+        <!-- 左侧 nav
+        ================================================== -->
+            <div class="span3 bs-docs-sidebar">
+                {block name="publish"}{/block}
+                <ul class="nav nav-list bs-docs-sidenav">
+                    {:widget('Category/lists', array(empty($category['id'])?:$category['id'], ACTION_NAME == 'index'))}
+                </ul>
+            </div>
+        {/block}
+        {block name="body"}{/block}
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        $(window).resize(function(){
+            $("#main-container").css("min-height", $(window).height() - 343);
+        }).resize();
+    })
+</script>

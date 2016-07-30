@@ -1,0 +1,364 @@
+@font-face {
+    font-family: 'thinkeditor';
+    src:url('fonts/thinkeditor.eot');
+    src:url('fonts/thinkeditor.eot?#iefix') format('embedded-opentype'),
+        url('fonts/thinkeditor.woff') format('woff'),
+        url('fonts/thinkeditor.ttf') format('truetype'),
+        url('fonts/thinkeditor.svg#thinkeditor') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* 默认编辑器样式 */
+.thinkeditor-default{
+    position: relative;
+    background-color: #F9F9F9;
+}
+/* 默认编辑预览样式 */
+.thinkeditor-preview{
+    position: relative;
+    overflow-y:scroll;
+    padding-left:5px;
+    margin-top: 11px;
+}
+
+/* 全屏编辑样式 */
+.thinkeditor-default.thinkeditor-fullscreen{
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 201399;
+}
+
+/* 默认工具栏样式 */
+.thinkeditor-default .thinkeditor-tools{
+    border-bottom: 1px solid #DDD;
+    height: 26px;
+    padding: 10px 0;
+    margin: 0 10px;
+}
+.thinkeditor-default .thinkeditor-tools-group{
+    float: left;
+    height: 26px;
+}
+.thinkeditor-default .thinkeditor-tools-group + .thinkeditor-tools-group{
+    margin-left: 10px;
+}
+.thinkeditor-default .thinkeditor-tools-group a{
+    border: 1px solid #CCC;
+    display: inline-block;
+    width: 30px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: none;
+    vertical-align: middle;
+    font-weight: normal;
+    font-size: 13px;
+    font-family: Helvetica,arial,sans-serif,thinkeditor;
+    font-style: normal;
+    font-variant: normal;
+    speak: none;
+    color: #333;
+    background: rgba(250,250,250,1);
+    background: -moz-linear-gradient(top, rgba(250,250,250,1) 0%, rgba(234,234,234,1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(250,250,250,1)), color-stop(100%, rgba(234,234,234,1)));
+    background: -webkit-linear-gradient(top, rgba(250,250,250,1) 0%, rgba(234,234,234,1) 100%);
+    background: -o-linear-gradient(top, rgba(250,250,250,1) 0%, rgba(234,234,234,1) 100%);
+    background: -ms-linear-gradient(top, rgba(250,250,250,1) 0%, rgba(234,234,234,1) 100%);
+    background: linear-gradient(to bottom, rgba(250,250,250,1) 0%, rgba(234,234,234,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FAFAFA', endColorstr='#EAEAEA', GradientType=0 );
+    -webkit-font-smoothing: antialiased;
+}
+.thinkeditor-default .thinkeditor-tools-group a:hover{
+    background: rgba(234,234,234,1);
+    background: -moz-linear-gradient(top, rgba(234,234,234,1) 0%, rgba(218,218,218,1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(234,234,234,1)), color-stop(100%, rgba(218,218,218,1)));
+    background: -webkit-linear-gradient(top, rgba(234,234,234,1) 0%, rgba(218,218,218,1) 100%);
+    background: -o-linear-gradient(top, rgba(234,234,234,1) 0%, rgba(218,218,218,1) 100%);
+    background: -ms-linear-gradient(top, rgba(234,234,234,1) 0%, rgba(218,218,218,1) 100%);
+    background: linear-gradient(to bottom, rgba(234,234,234,1) 0%, rgba(218,218,218,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eaeaea', endColorstr='#dadada', GradientType=0 );
+}
+.thinkeditor-default .thinkeditor-tools-group a:active{
+    background-color: #DADADA;
+    background-image: none;
+    border-color: #B5B5B5;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15) inset;
+}
+.thinkeditor-default .thinkeditor-tools-group a + a{
+    border-left: 0 none;
+}
+.thinkeditor-default .thinkeditor-tools-group a:first-child{
+    -webkit-border-bottom-left-radius: 3px;
+       -webkit-border-top-left-radius: 3px;
+        -moz-border-radius-bottomleft: 3px;
+           -moz-border-radius-topleft: 3px;
+            border-bottom-left-radius: 3px;
+               border-top-left-radius: 3px;
+}
+.thinkeditor-default .thinkeditor-tools-group a:last-child{
+    -webkit-border-bottom-right-radius: 3px;
+       -webkit-border-top-right-radius: 3px;
+        -moz-border-radius-bottomright: 3px;
+           -moz-border-radius-topright: 3px;
+            border-bottom-right-radius: 3px;
+               border-top-right-radius: 3px;
+}
+
+/* 按钮图标 */
+.thinkeditor-default .thinkeditor-tools-h1:before{
+    content: "h1";
+    font-weight: 700;
+}
+.thinkeditor-default .thinkeditor-tools-h2:before{
+    content: "h2";
+    font-weight: 700;
+}
+.thinkeditor-default .thinkeditor-tools-h3:before{
+    content: "h3";
+    font-weight: 700;
+}
+.thinkeditor-default .thinkeditor-tools-h4:before{
+    content: "h4";
+    font-weight: 700;
+}
+.thinkeditor-default .thinkeditor-tools-h5:before{
+    content: "h5";
+    font-weight: 700;
+}
+.thinkeditor-default .thinkeditor-tools-h6:before{
+    content: "h6";
+    font-weight: 700;
+}
+.thinkeditor-default .thinkeditor-tools-link:before{
+    content: "\e004";
+}
+.thinkeditor-default .thinkeditor-tools-image:before{
+    content: "\e005";
+    font-size: 14px;
+}
+.thinkeditor-default .thinkeditor-tools-bold:before{
+    content: "B";
+    font-weight: 700;
+}
+.thinkeditor-default .thinkeditor-tools-italic:before{
+    content: "i";
+    font-weight: 700;
+    font-style: italic;
+}
+.thinkeditor-default .thinkeditor-tools-code:before{
+    content: "\e006";
+    font-size: 16px;
+}
+.thinkeditor-default .thinkeditor-tools-ul:before{
+    content: "\e000";
+}
+.thinkeditor-default .thinkeditor-tools-ol:before{
+    content: "\e001";
+    font-size: 14px;
+}
+.thinkeditor-default .thinkeditor-tools-blockquote:before{
+    content: "\e009";
+}
+.thinkeditor-default .thinkeditor-tools-hr:before{
+    content: "\e007";
+}
+.thinkeditor-default .thinkeditor-tools-fullscreen:before{
+    content: "\e003";
+}
+.thinkeditor-default.thinkeditor-fullscreen .thinkeditor-tools-fullscreen:before{
+    content: "\e002";
+}
+.thinkeditor-default .thinkeditor-tools-save:before{
+    content: "\e008";
+    font-size: 14px;
+}
+
+.thinkeditor-default .thinkeditor-textarea{
+    position: absolute;
+    top: 57px;
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
+}
+.thinkeditor-default .thinkeditor-textarea textarea{
+    width: 100%;
+    height: 100%;
+    border: 1px solid #CCC;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.075) inset;
+    padding: 6px;
+    font-family: Consolas, "Liberation Mono", Courier, "微软雅黑";
+    -webkit-border-radius: 3px;
+       -moz-border-radius: 3px;
+            border-radius: 3px;
+    -webkit-transition: background-color .5s ease-in;
+       -moz-transition: background-color .5s ease-in;
+        -ms-transition: background-color .5s ease-in;
+         -o-transition: background-color .5s ease-in;
+            transition: all 0.15s ease-in;
+    -moz-box-sizing: border-box;
+         box-sizing: border-box;
+}
+.thinkeditor-default .thinkeditor-textarea textarea::-moz-selection{
+    text-shadow:none;
+    background:rgba(65,131,196,0.4);
+}
+.thinkeditor-default .thinkeditor-textarea textarea::selection{
+    text-shadow:none;
+    background:rgba(65,131,196,0.4);
+}
+
+.thinkeditor-default .thinkeditor-textarea textarea:focus{
+    border-color: #51A7E8;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.075) inset, 0 0 5px rgba(81, 167, 232, 0.5);
+}
+
+/* 弹出层基本样式 */
+.thinkeditor-default .thinkeditor-dialog-modal{
+    z-index: 999;
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #000;
+    opacity: .5;
+    filter:alpha(opacity=50);
+}
+.thinkeditor-default .thinkeditor-dialog{
+    z-index: 1000;
+    display: none;
+    position: fixed;
+    padding: 15px;
+    background-clip: padding-box;
+    background-color: #FFF;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;
+    -webkit-box-shadow: 0 0 18px rgba(0, 0, 0, 0.4);
+       -moz-box-shadow: 0 0 18px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 0 18px rgba(0, 0, 0, 0.4);
+}
+.thinkeditor-default .thinkeditor-dialog-header{
+    border-bottom: 1px solid #DDD;
+    margin: 0 0 12px;
+}
+.thinkeditor-default .thinkeditor-dialog-title{
+    color: #333333;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: normal;
+    padding: 0 0 6px;
+    text-shadow: 0 -1px 0 #F7F7F7;
+}
+.thinkeditor-default .thinkeditor-dialog-footer{
+    border-top: 1px solid #DDD;
+    margin: 12px 0 0 0;
+    padding-top: 10px;
+}
+.thinkeditor-default .thinkeditor-dialog-status{
+    float: left;
+    font-size: 12px;
+}
+.thinkeditor-default .thinkeditor-dialog-tools{
+    float: right;
+}
+.thinkeditor-default .thinkeditor-dialog-tools button{
+    display: inline-block;
+    padding: 4px 8px;
+    margin: 0 0 0 8px;
+    font-size: 12px;
+    line-height: 15px;
+    color: #333;
+    text-align: center;
+    text-shadow: 0 1px 0 #FFF;
+    vertical-align: middle;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: Arial,"微软雅黑";
+    background-color: #EAEAEA;
+    background-image: -moz-linear-gradient(top, #FAFAFA, #EAEAEA);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#FAFAFA), to(#EAEAEA));
+    background-image: -webkit-linear-gradient(top, #FAFAFA, #EAEAEA);
+    background-image: -o-linear-gradient(top, #FAFAFA, #EAEAEA);
+    background-image: linear-gradient(to bottom, #FAFAFA, #EAEAEA);
+    background-repeat: repeat-x;
+    border: 1px solid #D4D4D4;
+    -webkit-border-radius: 3px;
+       -moz-border-radius: 3px;
+            border-radius: 3px;
+}
+.thinkeditor-default .thinkeditor-dialog-tools button:hover{
+    background-color: #3072B3;
+    background-image: -moz-linear-gradient(top, #599BDC, #3072B3);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#599BDC), to(#3072B3));
+    background-image: -webkit-linear-gradient(top, #599BDC, #3072B3);
+    background-image: -o-linear-gradient(top, #599BDC, #3072B3);
+    background-image: linear-gradient(#599BDC, #3072B3);
+    background-repeat: repeat-x;
+    border-color: #518CC6 #518CC6 #2A65A0;
+    color: #FFFFFF;
+    text-decoration: none;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+}
+.thinkeditor-default .thinkeditor-dialog-error{
+    color: red;
+}
+.thinkeditor-default .thinkeditor-dialog-success{
+    color: #006000;
+}
+
+/* 上传图片样式 */
+.thinkeditor-default .thinkeditor-plugin-image{
+    width: 326px;
+    height: 102px;
+    padding: 10px;
+    text-align: center;
+    color: #CCC;
+    border: 1px dotted #DDD;
+    -webkit-transition: background-color .5s ease-in;
+       -moz-transition: background-color .5s ease-in;
+        -ms-transition: background-color .5s ease-in;
+         -o-transition: background-color .5s ease-in;
+            transition: all 0.15s ease-in;
+}
+.thinkeditor-default .thinkeditor-image-draghover{
+    border-color: #51A7E8;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.075) inset, 0 0 5px rgba(81, 167, 232, 0.5);
+}
+.thinkeditor-default .thinkeditor-plugin-image > span{
+    display: none;
+    line-height: 100px;
+}
+.thinkeditor-default .thinkeditor-plugin-image > span:only-child{
+    display: block;
+}
+.thinkeditor-default .thinkeditor-plugin-image div{
+    width: 100px;
+    height: 100px;
+    border: 1px dotted #CCC;
+    float: left;
+    display: table-cell;
+    vertical-align: middle;
+}
+.thinkeditor-default .thinkeditor-plugin-image div:nth-of-type(2){
+    margin: 0 10px;
+}
+.thinkeditor-default .thinkeditor-plugin-image div span{
+    display: table-cell;
+    width: 100px;
+    height: 100px;
+    vertical-align: middle;
+    line-height: 0;
+}
+.thinkeditor-default .thinkeditor-plugin-image div img{
+    max-height: 100px;
+    max-width: 100px;
+    border: 0 none;
+}

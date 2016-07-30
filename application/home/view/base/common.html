@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	{include file="public/head"/}
+	{block name="style"}{/block}
+</head>
+<body>
+	<!-- 头部 -->
+	{include file="public/header"/}
+	<!-- /头部 -->
+	
+	<!-- 主体 -->
+	{block name="header"}{/block}
+	<!-- 因新特性关系，body转移到这里 -->
+	<div id="main-container" class="container">
+    <div class="row">
+        {block name="side"}
+        <!-- 左侧 nav
+        ================================================== -->
+            <div class="span3 bs-docs-sidebar">
+                {block name="publish"}{/block}
+                <ul class="nav nav-list bs-docs-sidenav">
+                    {:widget('Category/lists', array(empty($category['id'])?:$category['id'], ACTION_NAME == 'index'))}
+                </ul>
+            </div>
+        {/block}
+        {block name="body"}{/block}
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        $(window).resize(function(){
+            $("#main-container").css("min-height", $(window).height() - 343);
+        }).resize();
+    })
+</script>
+
+
+	<!-- /主体 -->
+
+	<!-- 底部 -->
+	{include file="public/footer"/}
+	<!-- /底部 -->
+	{include file="public/var"/}
+{block name="script"}{/block} <!-- 用于加载js代码 -->
+<!-- 页面footer钩子，一般用于加载插件JS文件和JS代码 -->
+{:hook('pageFooter', 'widget')}
+<div class="hidden"><!-- 用于加载统计代码等隐藏元素 -->
+	{block name="hidden"}{/block}
+</div>
+	
+</body>
+</html>

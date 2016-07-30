@@ -1,0 +1,15 @@
+{volist name="category" id="cate"}
+	{eq name="current" value="$cate['id']"}
+		<li class="active">
+			<a href="{:url('Article/lists?category='.$cate['name'])}">
+				<i class="icon-chevron-right"></i>{$cate.title}
+			</a>
+		</li>
+	{else/}
+		<li>
+			<a href="{:url('Article/lists?category='.$cate['name'])}">
+				<i class="icon-chevron-right"></i>{$cate.title}
+			</a>
+		</li>
+	{/eq}
+{/volist}
